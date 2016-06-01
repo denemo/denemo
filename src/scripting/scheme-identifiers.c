@@ -399,6 +399,11 @@ create_scheme_identfiers (void)
 #define INSTALL_GET(what, field)\
  install_scm_function (1, "Gets the value of the " #field" field (a string) of the " #what" directive with the passed tag.",DENEMO_SCHEME_PREFIX"DirectiveGet" "-" #what "-" #field, scheme_##what##_directive_get_##field);
 
+#define INSTALL_PUT_ALLOW(what)\
+ install_scm_function (2, "Takes a tag and a layout id; if there is a directive of the given tag then the directive will be honored when typesetting that layout other layouts will ignore the directive.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-allow", scheme_##what##_directive_put_allow);
+#define INSTALL_PUT_IGNORE(what)\
+ install_scm_function (2, "Takes a tag and a layout id; if there is a directive of the given tag then the directive will be ignored when typesetting that layout, other layouts will honor the directive.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-ignore", scheme_##what##_directive_put_ignore);
+
   INSTALL_GET (object, minpixels);
   INSTALL_PUT (object, minpixels);
 
@@ -631,31 +636,31 @@ create_scheme_identfiers (void)
 
 
 
-  INSTALL_GET (score, x);
+  //INSTALL_GET (score);
   INSTALL_GET (score, gx);
   INSTALL_GET (score, tx);
-  INSTALL_PUT (score, x);
+  INSTALL_PUT_ALLOW (score);
   INSTALL_PUT (score, gx);
   INSTALL_PUT (score, tx);
 
-  INSTALL_GET (score, y);
+//  INSTALL_GET (score);
   INSTALL_GET (score, gy);
   INSTALL_GET (score, ty);
-  INSTALL_PUT (score, y);
+  INSTALL_PUT_IGNORE (score);
   INSTALL_PUT (score, gy);
   INSTALL_PUT (score, ty);
 
 
 
 
-  INSTALL_PUT (note, x);
-  INSTALL_GET (note, x);
-  INSTALL_PUT (chord, x);
-  INSTALL_GET (chord, x);
-  INSTALL_PUT (note, y);
-  INSTALL_GET (note, y);
-  INSTALL_PUT (chord, y);
-  INSTALL_GET (chord, y);
+  INSTALL_PUT_ALLOW (note);
+  //INSTALL_GET (note);
+  INSTALL_PUT_ALLOW (chord);
+  //INSTALL_GET (chord);
+  INSTALL_PUT_IGNORE (note);
+  //INSTALL_GET (note);
+  INSTALL_PUT_IGNORE (chord);
+  //INSTALL_GET (chord);
 
   INSTALL_PUT (note, tx);
   INSTALL_GET (note, tx);
@@ -678,10 +683,10 @@ create_scheme_identfiers (void)
   INSTALL_GET (chord, gy);
 
 
-  INSTALL_PUT (standalone, x);
-  INSTALL_GET (standalone, x);
-  INSTALL_PUT (standalone, y);
-  INSTALL_GET (standalone, y);
+  INSTALL_PUT_ALLOW (standalone);
+  //INSTALL_GET (standalone);
+  INSTALL_PUT_IGNORE (standalone);
+  //INSTALL_GET (standalone);
 
   INSTALL_PUT (standalone, tx);
   INSTALL_GET (standalone, tx);
@@ -716,15 +721,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (clef, prefix);
   INSTALL_GET (clef, postfix);
 
-  INSTALL_PUT (clef, x);
-  INSTALL_PUT (clef, y);
+  INSTALL_PUT_ALLOW (clef);
+  INSTALL_PUT_IGNORE (clef);
   INSTALL_PUT (clef, tx);
   INSTALL_PUT (clef, ty);
   INSTALL_PUT (clef, gx);
   INSTALL_PUT (clef, gy);
   INSTALL_PUT (clef, override);
-  INSTALL_GET (clef, x);
-  INSTALL_GET (clef, y);
+  //INSTALL_GET (clef);
+  //INSTALL_GET (clef);
   INSTALL_GET (clef, tx);
   INSTALL_GET (clef, ty);
   INSTALL_GET (clef, gx);
@@ -745,15 +750,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (timesig, prefix);
   INSTALL_GET (timesig, postfix);
 
-  INSTALL_PUT (timesig, x);
-  INSTALL_PUT (timesig, y);
+  INSTALL_PUT_ALLOW (timesig);
+  INSTALL_PUT_IGNORE (timesig);
   INSTALL_PUT (timesig, tx);
   INSTALL_PUT (timesig, ty);
   INSTALL_PUT (timesig, gx);
   INSTALL_PUT (timesig, gy);
   INSTALL_PUT (timesig, override);
-  INSTALL_GET (timesig, x);
-  INSTALL_GET (timesig, y);
+  //INSTALL_GET (timesig);
+  //INSTALL_GET (timesig);
   INSTALL_GET (timesig, tx);
   INSTALL_GET (timesig, ty);
   INSTALL_GET (timesig, gx);
@@ -773,15 +778,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (tuplet, prefix);
   INSTALL_GET (tuplet, postfix);
 
-  INSTALL_PUT (tuplet, x);
-  INSTALL_PUT (tuplet, y);
+  INSTALL_PUT_ALLOW (tuplet);
+  INSTALL_PUT_IGNORE (tuplet);
   INSTALL_PUT (tuplet, tx);
   INSTALL_PUT (tuplet, ty);
   INSTALL_PUT (tuplet, gx);
   INSTALL_PUT (tuplet, gy);
   INSTALL_PUT (tuplet, override);
-  INSTALL_GET (tuplet, x);
-  INSTALL_GET (tuplet, y);
+  //INSTALL_GET (tuplet);
+  //INSTALL_GET (tuplet);
   INSTALL_GET (tuplet, tx);
   INSTALL_GET (tuplet, ty);
   INSTALL_GET (tuplet, gx);
@@ -801,15 +806,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (stemdirective, prefix);
   INSTALL_GET (stemdirective, postfix);
 
-  INSTALL_PUT (stemdirective, x);
-  INSTALL_PUT (stemdirective, y);
+  INSTALL_PUT_ALLOW (stemdirective);
+  INSTALL_PUT_IGNORE (stemdirective);
   INSTALL_PUT (stemdirective, tx);
   INSTALL_PUT (stemdirective, ty);
   INSTALL_PUT (stemdirective, gx);
   INSTALL_PUT (stemdirective, gy);
   INSTALL_PUT (stemdirective, override);
-  INSTALL_GET (stemdirective, x);
-  INSTALL_GET (stemdirective, y);
+  //INSTALL_GET (stemdirective);
+  //INSTALL_GET (stemdirective);
   INSTALL_GET (stemdirective, tx);
   INSTALL_GET (stemdirective, ty);
   INSTALL_GET (stemdirective, gx);
@@ -829,15 +834,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (keysig, prefix);
   INSTALL_GET (keysig, postfix);
 
-  INSTALL_PUT (keysig, x);
-  INSTALL_PUT (keysig, y);
+  INSTALL_PUT_ALLOW (keysig);
+  INSTALL_PUT_IGNORE (keysig);
   INSTALL_PUT (keysig, tx);
   INSTALL_PUT (keysig, ty);
   INSTALL_PUT (keysig, gx);
   INSTALL_PUT (keysig, gy);
   INSTALL_PUT (keysig, override);
-  INSTALL_GET (keysig, x);
-  INSTALL_GET (keysig, y);
+  //INSTALL_GET (keysig);
+  //INSTALL_GET (keysig);
   INSTALL_GET (keysig, tx);
   INSTALL_GET (keysig, ty);
   INSTALL_GET (keysig, gx);
@@ -858,15 +863,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (scoreheader, prefix);
   INSTALL_GET (scoreheader, postfix);
 
-  INSTALL_PUT (scoreheader, x);
-  INSTALL_PUT (scoreheader, y);
+  INSTALL_PUT_ALLOW (scoreheader);
+  INSTALL_PUT_IGNORE (scoreheader);
   INSTALL_PUT (scoreheader, tx);
   INSTALL_PUT (scoreheader, ty);
   INSTALL_PUT (scoreheader, gx);
   INSTALL_PUT (scoreheader, gy);
   INSTALL_PUT (scoreheader, override);
-  INSTALL_GET (scoreheader, x);
-  INSTALL_GET (scoreheader, y);
+  //INSTALL_GET (scoreheader);
+  //INSTALL_GET (scoreheader);
   INSTALL_GET (scoreheader, tx);
   INSTALL_GET (scoreheader, ty);
   INSTALL_GET (scoreheader, gx);
@@ -887,15 +892,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (header, prefix);
   INSTALL_GET (header, postfix);
 
-  INSTALL_PUT (header, x);
-  INSTALL_PUT (header, y);
+  INSTALL_PUT_ALLOW (header);
+  INSTALL_PUT_IGNORE (header);
   INSTALL_PUT (header, tx);
   INSTALL_PUT (header, ty);
   INSTALL_PUT (header, gx);
   INSTALL_PUT (header, gy);
   INSTALL_PUT (header, override);
-  INSTALL_GET (header, x);
-  INSTALL_GET (header, y);
+  //INSTALL_GET (header);
+  //INSTALL_GET (header);
   INSTALL_GET (header, tx);
   INSTALL_GET (header, ty);
   INSTALL_GET (header, gx);
@@ -916,15 +921,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (paper, prefix);
   INSTALL_GET (paper, postfix);
 
-  INSTALL_PUT (paper, x);
-  INSTALL_PUT (paper, y);
+  INSTALL_PUT_ALLOW (paper);
+  INSTALL_PUT_IGNORE (paper);
   INSTALL_PUT (paper, tx);
   INSTALL_PUT (paper, ty);
   INSTALL_PUT (paper, gx);
   INSTALL_PUT (paper, gy);
   INSTALL_PUT (paper, override);
-  INSTALL_GET (paper, x);
-  INSTALL_GET (paper, y);
+  //INSTALL_GET (paper);
+  //INSTALL_GET (paper);
   INSTALL_GET (paper, tx);
   INSTALL_GET (paper, ty);
   INSTALL_GET (paper, gx);
@@ -945,15 +950,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (layout, prefix);
   INSTALL_GET (layout, postfix);
 
-  INSTALL_PUT (layout, x);
-  INSTALL_PUT (layout, y);
+  INSTALL_PUT_ALLOW (layout);
+  INSTALL_PUT_IGNORE (layout);
   INSTALL_PUT (layout, tx);
   INSTALL_PUT (layout, ty);
   INSTALL_PUT (layout, gx);
   INSTALL_PUT (layout, gy);
   INSTALL_PUT (layout, override);
-  INSTALL_GET (layout, x);
-  INSTALL_GET (layout, y);
+  //INSTALL_GET (layout);
+  //INSTALL_GET (layout);
   INSTALL_GET (layout, tx);
   INSTALL_GET (layout, ty);
   INSTALL_GET (layout, gx);
@@ -973,15 +978,15 @@ create_scheme_identfiers (void)
   INSTALL_GET (movementcontrol, prefix);
   INSTALL_GET (movementcontrol, postfix);
 
-  INSTALL_PUT (movementcontrol, x);
-  INSTALL_PUT (movementcontrol, y);
+  INSTALL_PUT_ALLOW (movementcontrol);
+  INSTALL_PUT_IGNORE (movementcontrol);
   INSTALL_PUT (movementcontrol, tx);
   INSTALL_PUT (movementcontrol, ty);
   INSTALL_PUT (movementcontrol, gx);
   INSTALL_PUT (movementcontrol, gy);
   INSTALL_PUT (movementcontrol, override);
-  INSTALL_GET (movementcontrol, x);
-  INSTALL_GET (movementcontrol, y);
+  //INSTALL_GET (movementcontrol);
+  //INSTALL_GET (movementcontrol);
   INSTALL_GET (movementcontrol, tx);
   INSTALL_GET (movementcontrol, ty);
   INSTALL_GET (movementcontrol, gx);

@@ -1152,6 +1152,119 @@ what##_directive_put_##field(gchar *tag, gint value) {\
   }\
   return TRUE;\
 }
+static GList *add_layout (GList *layouts, gint id)
+{
+    if (g_list_index (layouts, GINT_TO_POINTER(id))<0)
+        return g_list_append (layouts, GINT_TO_POINTER(id));
+    return layouts;
+}
+static GList *remove_layout (GList *layouts, gint id)
+{
+   return g_list_remove (layouts, GINT_TO_POINTER(id));
+}
+static void action_ignore (DenemoDirective *directive, gint value) {
+  if (value)
+      {
+       if(directive->layouts==NULL) 
+          {
+          directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+          directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the ignored layouts\n", value);
+          } else 
+          {
+                  
+            if (directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
+                {
+                 directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to ignored layouts\n", value);
+                }
+            else {
+                    directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from allowed layouts\n", value);
+                    if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
+                }
+            }
+     } else
+        {
+           g_list_free (directive->layouts);//g_print("Removed conditions\n");
+           directive->layouts = directive->flag = 0;  
+        }
+}
+static void action_allow (DenemoDirective *directive, gint value) {
+  if (value)
+      {
+        if(directive->layouts==NULL) 
+          {
+              directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+              directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the allowed layout\n", value);
+          } else 
+          {
+          if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+            {
+                directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to allowed layouts\n", value);
+            }
+          else {
+            directive->layouts = remove_layout (directive->layouts, value);g_print("Removed %x from ignored layouts\n", value);
+            if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
+            }
+        }
+    } else
+    {
+       g_list_free (directive->layouts);//g_print("Removed conditions\n");
+       directive->layouts = directive->flag = 0;  
+    }
+}
+       
+       
+       
+       
+#define PUT_LAYOUT_IGNORE_FUNC_NAME(what, directives) \
+gboolean \
+what##_directive_put_ignore(gchar *tag, gint value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(Denemo.project->movement->currentobject)\
+  store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+   action_ignore (directive, value);\
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->directives);\
+  }\
+  return TRUE;\
+}
+#define PUT_LAYOUT_ALLOW_FUNC_NAME(what, directives) \
+gboolean \
+what##_directive_put_allow(gchar *tag, gint value) {\
+  what *current = get_##what();\
+  if(current==NULL) return FALSE;\
+  if(Denemo.project->movement->currentobject)\
+  store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
+  if(current->directives==NULL)\
+       create_directives (&current->directives, tag);\
+  DenemoDirective *directive = get_##what##_directive(tag);\
+  if(directive==NULL){\
+    directive=new_directive(tag);\
+    current->directives = g_list_append(current->directives, directive);\
+    }\
+  action_allow (directive, value);\
+  if(!Denemo.non_interactive){\
+    widget_for_directive(directive, (void(*)())what##_directive_put_graphic);\
+    if (directive->widget) g_object_set_data(G_OBJECT(directive->widget), "directives-pointer", &current->directives);\
+  }\
+  return TRUE;\
+}
+
+#define PUT_LAYOUT_IGNORE_FUNC(what) PUT_LAYOUT_IGNORE_FUNC_NAME(what, directives)
+#define PUT_LAYOUT_ALLOW_FUNC(what) PUT_LAYOUT_ALLOW_FUNC_NAME(what, directives)
+#define PUT_LAYOUT_IGNORE_FUNCS(what) PUT_LAYOUT_IGNORE_FUNC_NAME(what, staff_directives)
+#define PUT_LAYOUT_IGNORE_FUNCV(what) PUT_LAYOUT_IGNORE_FUNC_NAME(what, voice_directives)
+#define PUT_LAYOUT_ALLOW_FUNCS(what) PUT_LAYOUT_ALLOW_FUNC_NAME(what, staff_directives)
+#define PUT_LAYOUT_ALLOW_FUNCV(what) PUT_LAYOUT_ALLOW_FUNC_NAME(what, voice_directives)
+
 #define PUT_INT_FIELD_FUNC(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, directives)
 //#define PUT_INT_FIELD_FUNCS(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, staff_directives)
 //#define PUT_INT_FIELD_FUNCV(what, field)  PUT_INT_FIELD_FUNC_NAME(what, field, voice_directives)
@@ -1197,18 +1310,14 @@ GET_INT_FIELD_FUNC (chord, override)
 GET_INT_FIELD_FUNC (staff, override)
 GET_INT_FIELD_FUNC (voice, override)
 GET_INT_FIELD_FUNC (score, override)
-PUT_INT_FIELD_FUNC (note, x)
-PUT_INT_FIELD_FUNC (chord, x)
-GET_INT_FIELD_FUNC (note, x)
-GET_INT_FIELD_FUNC (chord, x)
-GET_INT_FIELD_FUNC (staff, x)
-GET_INT_FIELD_FUNC (voice, x)
-PUT_INT_FIELD_FUNC (note, y)
-PUT_INT_FIELD_FUNC (chord, y)
-GET_INT_FIELD_FUNC (note, y)
-GET_INT_FIELD_FUNC (chord, y)
-GET_INT_FIELD_FUNC (staff, y)
-GET_INT_FIELD_FUNC (voice, y)
+PUT_LAYOUT_ALLOW_FUNC (note)
+PUT_LAYOUT_ALLOW_FUNC (chord)
+PUT_LAYOUT_ALLOW_FUNCS (staff)
+PUT_LAYOUT_ALLOW_FUNCV (voice)
+PUT_LAYOUT_IGNORE_FUNC (note)
+PUT_LAYOUT_IGNORE_FUNC (chord)
+PUT_LAYOUT_IGNORE_FUNCS (staff)
+PUT_LAYOUT_IGNORE_FUNCV (voice)
 PUT_INT_FIELD_FUNC (note, tx)
 PUT_INT_FIELD_FUNC (chord, tx)
 GET_INT_FIELD_FUNC (note, tx)
@@ -1232,7 +1341,18 @@ PUT_INT_FIELD_FUNC (chord, gy)
 GET_INT_FIELD_FUNC (note, gy)
 GET_INT_FIELD_FUNC (chord, gy)
 GET_INT_FIELD_FUNC (staff, gy)
-GET_INT_FIELD_FUNC (voice, gy) GET_INT_FIELD_FUNC (standalone, override) GET_INT_FIELD_FUNC (standalone, x) GET_INT_FIELD_FUNC (standalone, y) GET_INT_FIELD_FUNC (standalone, tx) GET_INT_FIELD_FUNC (standalone, ty) GET_INT_FIELD_FUNC (standalone, gx) GET_INT_FIELD_FUNC (standalone, gy) GET_INT_FIELD_FUNC (score, x) GET_INT_FIELD_FUNC (score, y) GET_INT_FIELD_FUNC (score, tx) GET_INT_FIELD_FUNC (score, ty) GET_INT_FIELD_FUNC (score, gx) GET_INT_FIELD_FUNC (score, gy)
+GET_INT_FIELD_FUNC (voice, gy)
+GET_INT_FIELD_FUNC (standalone, override)
+GET_INT_FIELD_FUNC (standalone, tx)
+GET_INT_FIELD_FUNC (standalone, ty)
+GET_INT_FIELD_FUNC (standalone, gx)
+GET_INT_FIELD_FUNC (standalone, gy)
+PUT_LAYOUT_ALLOW_FUNC (score)
+PUT_LAYOUT_IGNORE_FUNC (score)
+GET_INT_FIELD_FUNC (score, tx)
+GET_INT_FIELD_FUNC (score, ty)
+GET_INT_FIELD_FUNC (score, gx)
+GET_INT_FIELD_FUNC (score, gy)
   /* width and height of graphic (if any), read only */
   GET_INT_GRAPHIC_FIELD_FUNC (note, width)
 GET_INT_GRAPHIC_FIELD_FUNC (chord, width) GET_INT_GRAPHIC_FIELD_FUNC (staff, width) GET_INT_GRAPHIC_FIELD_FUNC (voice, width) GET_INT_GRAPHIC_FIELD_FUNC (standalone, width) GET_INT_GRAPHIC_FIELD_FUNC (score, width) GET_INT_GRAPHIC_FIELD_FUNC (note, height) GET_INT_GRAPHIC_FIELD_FUNC (chord, height) GET_INT_GRAPHIC_FIELD_FUNC (staff, height) GET_INT_GRAPHIC_FIELD_FUNC (voice, height) GET_INT_GRAPHIC_FIELD_FUNC (standalone, height) GET_INT_GRAPHIC_FIELD_FUNC (score, height)
@@ -1644,7 +1764,8 @@ widget_for_layout_directive (DenemoDirective * directive)
 // assigning the string VALUE to the field ##field
 // also create a button or menuitem ( if it does not already exist) as the directive->widget, this will be used to edit/action the directive
 // Compare this with the macros above which create the what##_directive_put_##field() without calling widget_for_directive() and so do not create a widget in the graphic field, except via the user setting graphic_name.
-
+// FIXME this comment above seems out of date. the macros above also call widget_for_directive(), the only difference is that these don't call  store_for_undo_change () for the currentobject.
+// So it seems these should be used for non-object directives and the other for object directives.
 #define PUT_GRAPHIC_WIDGET_STR(field, what, name) \
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
@@ -1762,6 +1883,7 @@ PUT_GRAPHIC_WIDGET_INT (minpixels, layout, directives)
 PUT_GRAPHIC_WIDGET_INT (minpixels, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT (minpixels, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT (minpixels, voice, voice_directives)
+#if 0
 PUT_GRAPHIC_WIDGET_INT (x, score, directives)
 PUT_GRAPHIC_WIDGET_INT (x, scoreheader, directives)
 PUT_GRAPHIC_WIDGET_INT (x, header, directives)
@@ -1778,6 +1900,7 @@ PUT_GRAPHIC_WIDGET_INT (y, layout, directives)
 PUT_GRAPHIC_WIDGET_INT (y, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT (y, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT (y, voice, voice_directives)
+#endif
 PUT_GRAPHIC_WIDGET_INT (tx, score, directives)
 PUT_GRAPHIC_WIDGET_INT (tx, scoreheader, directives)
 PUT_GRAPHIC_WIDGET_INT (tx, header, directives)
@@ -1878,7 +2001,28 @@ STANDALONE_PUT_STR_FIELD_FUNC (grob);
 STANDALONE_PUT_STR_FIELD_FUNC (data);
 
 
-
+gboolean
+standalone_directive_put_allow(gchar *tag, gint id) {
+  DenemoDirective *directive = get_standalone_directive(tag);
+  if(directive) {
+    store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
+    action_allow (directive, id);
+    return TRUE;
+    }
+ return FALSE; //can only make an already existing directive conditional
+}   
+    
+gboolean
+standalone_directive_put_ignore(gchar *tag, gint id) {
+  DenemoDirective *directive = get_standalone_directive(tag);
+  if(directive) {
+    store_for_undo_change (Denemo.project->movement, Denemo.project->movement->currentobject->data);\
+    action_ignore (directive, id);
+    return TRUE;
+    }
+ return FALSE; //can only make an already existing directive conditional
+}     
+    
 
 #define STANDALONE_PUT_INT_FIELD_FUNC(field)\
 gboolean \
@@ -1898,8 +2042,7 @@ standalone_directive_put_##field(gchar *tag, gint value) {\
 }
 
 //STANDALONE_PUT_INT_FIELD_FUNC(minpixels); special case
-STANDALONE_PUT_INT_FIELD_FUNC (x);
-STANDALONE_PUT_INT_FIELD_FUNC (y);
+
 STANDALONE_PUT_INT_FIELD_FUNC (tx);
 STANDALONE_PUT_INT_FIELD_FUNC (ty);
 STANDALONE_PUT_INT_FIELD_FUNC (gx);
@@ -2346,8 +2489,8 @@ if(directive->field)\
        what, #field, directive->field);
   ADD_INTTEXT (minpixels);
   ADD_INTTEXT (override);
-  ADD_INTTEXT (x);
-  ADD_INTTEXT (y);
+//  ADD_INTTEXT (x); FIXME would it be good for the script to make the directive conditional if the original is? ie to install the flag and layouts?
+//  ADD_INTTEXT (y);
   ADD_INTTEXT (tx);
   ADD_INTTEXT (ty);
   ADD_INTTEXT (gx);
@@ -2447,6 +2590,12 @@ activate_directive (DenemoDirective * directive, gchar * what)
   return FALSE;
 }
 
+static void
+help_for_conditional (gchar *help)
+{
+    warningdialog (help);
+    
+}
 /* text_edit_directive
    textually edit the directive via a dialog.
    return FALSE if the user requests deletion of the directive.
@@ -2464,7 +2613,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
                                                    _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
                                                    NULL);
-  gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));
+ // gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));
 
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Delete Directive"), GTK_RESPONSE_REJECT);
   gtk_dialog_add_button (GTK_DIALOG (dialog), _("Create Script"), CREATE_SCRIPT);
@@ -2544,9 +2693,47 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   TEXTENTRY (_("MidiBytes"), midibytes);
   NEWINTENTRY (_("Override Mask"), override);
   NEWINTENTRY (_("Minimum pixel width"), minpixels);
-  NEWUINTENTRY (_("Only Applies to Layout"), y);
-  NEWUINTENTRY (_("Ignored by Layout"), x);
+ // NEWUINTENTRY (_("Only Applies to Layout"), allowed); a new display for allowed and layouts fields needed...
+ // NEWUINTENTRY (_("Ignored by Layout"), layouts);
 #undef TEXTENTRY
+
+  if (directive->layouts == NULL)
+    {
+        button = gtk_button_new_with_label (_("Applies to all layouts"));
+        GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));     
+        GdkRGBA color;
+        get_color (&color, 0.0, 1.0, 0.0, 1.0);
+        gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part."));
+    }
+  else
+    {
+        gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);
+        if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+            { 
+              button = gtk_button_new_with_label (wrong?
+                                _("Applies only to certain layouts, excluding the current one.")
+                                :_("Applies only to certain layouts, including the current one.")); 
+              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));     
+              GdkRGBA color;
+              get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
+              gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));   
+            }
+        else
+            {
+              button = gtk_button_new_with_label (wrong?
+                                _("Excludes the current layout.")
+                                :_("Excludes certain layouts, but applies to the current one."));
+              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));   
+              GdkRGBA color;
+              get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
+              gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
+            } 
+    }
+ gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
+
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), hbox, FALSE, TRUE, 0);
   button = gtk_button_new_with_label (_("Get Edit Script"));
@@ -2774,7 +2961,7 @@ static void
 append_directives (DenemoDirective *direc, gchar *type)
 {
     all_directives = g_list_append (all_directives, direc);
-    directive_types = g_list_append (directive_types, type);g_print("tag %s\n", direc->tag->str);
+    directive_types = g_list_append (directive_types, type);//g_print("tag %s\n", direc->tag->str);
 }
 
 static gint
@@ -3198,25 +3385,26 @@ edit_movement_directive (GtkAction * action, DenemoScriptParam * param)
 
 
 /* block which can be copied for type of directive (minpixels is done as sample for new int fields */
-PUT_INT_FIELD_FUNC (clef, x)
-PUT_INT_FIELD_FUNC (clef, y)
+PUT_LAYOUT_ALLOW_FUNC (clef)
+PUT_LAYOUT_IGNORE_FUNC (clef)
 PUT_INT_FIELD_FUNC (clef, tx)
 PUT_INT_FIELD_FUNC (clef, ty)
 PUT_INT_FIELD_FUNC (clef, gx)
 PUT_INT_FIELD_FUNC (clef, gy)
 PUT_INT_FIELD_FUNC (clef, override)
-GET_INT_FIELD_FUNC (clef, x)
-GET_INT_FIELD_FUNC (clef, y) GET_INT_FIELD_FUNC (clef, tx) GET_INT_FIELD_FUNC (clef, ty) GET_INT_FIELD_FUNC (clef, gx) GET_INT_FIELD_FUNC (clef, gy) GET_INT_FIELD_FUNC (clef, override) GET_INT_GRAPHIC_FIELD_FUNC (clef, width) GET_INT_GRAPHIC_FIELD_FUNC (clef, height) PUT_GRAPHIC (clef) PUT_STR_FIELD_FUNC (clef, prefix) PUT_STR_FIELD_FUNC (clef, postfix) PUT_STR_FIELD_FUNC (clef, display) GET_STR_FIELD_FUNC (clef, prefix) GET_STR_FIELD_FUNC (clef, postfix) GET_STR_FIELD_FUNC (clef, display)
+GET_INT_FIELD_FUNC (clef, tx)
+GET_INT_FIELD_FUNC (clef, ty)
+GET_INT_FIELD_FUNC (clef, gx)
+GET_INT_FIELD_FUNC (clef, gy)
+GET_INT_FIELD_FUNC (clef, override) GET_INT_GRAPHIC_FIELD_FUNC (clef, width) GET_INT_GRAPHIC_FIELD_FUNC (clef, height) PUT_GRAPHIC (clef) PUT_STR_FIELD_FUNC (clef, prefix) PUT_STR_FIELD_FUNC (clef, postfix) PUT_STR_FIELD_FUNC (clef, display) GET_STR_FIELD_FUNC (clef, prefix) GET_STR_FIELD_FUNC (clef, postfix) GET_STR_FIELD_FUNC (clef, display)
 /* end block which can be copied for type of directive */
-  PUT_INT_FIELD_FUNC (keysig, x)
-PUT_INT_FIELD_FUNC (keysig, y)
+PUT_LAYOUT_ALLOW_FUNC (keysig)
+PUT_LAYOUT_IGNORE_FUNC (keysig)
 PUT_INT_FIELD_FUNC (keysig, tx)
 PUT_INT_FIELD_FUNC (keysig, ty)
 PUT_INT_FIELD_FUNC (keysig, gx)
 PUT_INT_FIELD_FUNC (keysig, gy)
 PUT_INT_FIELD_FUNC (keysig, override)
-GET_INT_FIELD_FUNC (keysig, x)
-GET_INT_FIELD_FUNC (keysig, y)
 GET_INT_FIELD_FUNC (keysig, tx)
 GET_INT_FIELD_FUNC (keysig, ty)
 GET_INT_FIELD_FUNC (keysig, gx)
@@ -3230,15 +3418,13 @@ PUT_STR_FIELD_FUNC (keysig, display)
 GET_STR_FIELD_FUNC (keysig, prefix)
 GET_STR_FIELD_FUNC (keysig, postfix)
 GET_STR_FIELD_FUNC (keysig, display)
-PUT_INT_FIELD_FUNC (timesig, x)
-PUT_INT_FIELD_FUNC (timesig, y)
+PUT_LAYOUT_ALLOW_FUNC (timesig)
+PUT_LAYOUT_IGNORE_FUNC (timesig)
 PUT_INT_FIELD_FUNC (timesig, tx)
 PUT_INT_FIELD_FUNC (timesig, ty)
 PUT_INT_FIELD_FUNC (timesig, gx)
 PUT_INT_FIELD_FUNC (timesig, gy)
 PUT_INT_FIELD_FUNC (timesig, override)
-GET_INT_FIELD_FUNC (timesig, x)
-GET_INT_FIELD_FUNC (timesig, y)
 GET_INT_FIELD_FUNC (timesig, tx)
 GET_INT_FIELD_FUNC (timesig, ty)
 GET_INT_FIELD_FUNC (timesig, gx)
@@ -3252,15 +3438,13 @@ PUT_STR_FIELD_FUNC (timesig, display)
 GET_STR_FIELD_FUNC (timesig, prefix)
 GET_STR_FIELD_FUNC (timesig, postfix)
 GET_STR_FIELD_FUNC (timesig, display)
-PUT_INT_FIELD_FUNC (tuplet, x)
-PUT_INT_FIELD_FUNC (tuplet, y)
+PUT_LAYOUT_ALLOW_FUNC (tuplet)
+PUT_LAYOUT_IGNORE_FUNC (tuplet)
 PUT_INT_FIELD_FUNC (tuplet, tx)
 PUT_INT_FIELD_FUNC (tuplet, ty)
 PUT_INT_FIELD_FUNC (tuplet, gx)
 PUT_INT_FIELD_FUNC (tuplet, gy)
 PUT_INT_FIELD_FUNC (tuplet, override)
-GET_INT_FIELD_FUNC (tuplet, x)
-GET_INT_FIELD_FUNC (tuplet, y)
 GET_INT_FIELD_FUNC (tuplet, tx)
 GET_INT_FIELD_FUNC (tuplet, ty)
 GET_INT_FIELD_FUNC (tuplet, gx)
@@ -3274,15 +3458,13 @@ PUT_STR_FIELD_FUNC (tuplet, display)
 GET_STR_FIELD_FUNC (tuplet, prefix)
 GET_STR_FIELD_FUNC (tuplet, postfix)
 GET_STR_FIELD_FUNC (tuplet, display)
-PUT_INT_FIELD_FUNC (stemdirective, x)
-PUT_INT_FIELD_FUNC (stemdirective, y)
+PUT_LAYOUT_ALLOW_FUNC (stemdirective)
+PUT_LAYOUT_IGNORE_FUNC (stemdirective)
 PUT_INT_FIELD_FUNC (stemdirective, tx)
 PUT_INT_FIELD_FUNC (stemdirective, ty)
 PUT_INT_FIELD_FUNC (stemdirective, gx)
 PUT_INT_FIELD_FUNC (stemdirective, gy)
 PUT_INT_FIELD_FUNC (stemdirective, override)
-GET_INT_FIELD_FUNC (stemdirective, x)
-GET_INT_FIELD_FUNC (stemdirective, y)
 GET_INT_FIELD_FUNC (stemdirective, tx)
 GET_INT_FIELD_FUNC (stemdirective, ty)
 GET_INT_FIELD_FUNC (stemdirective, gx)
@@ -3296,8 +3478,8 @@ PUT_STR_FIELD_FUNC (stemdirective, display)
 GET_STR_FIELD_FUNC (stemdirective, prefix)
 GET_STR_FIELD_FUNC (stemdirective, postfix)
 GET_STR_FIELD_FUNC (stemdirective, display)
-GET_INT_FIELD_FUNC (scoreheader, x)
-GET_INT_FIELD_FUNC (scoreheader, y)
+PUT_LAYOUT_ALLOW_FUNC (scoreheader)
+PUT_LAYOUT_IGNORE_FUNC (scoreheader)
 GET_INT_FIELD_FUNC (scoreheader, tx)
 GET_INT_FIELD_FUNC (scoreheader, ty)
 GET_INT_FIELD_FUNC (scoreheader, gx)
@@ -3308,8 +3490,8 @@ GET_INT_GRAPHIC_FIELD_FUNC (scoreheader, height)
 GET_STR_FIELD_FUNC (scoreheader, prefix)
 GET_STR_FIELD_FUNC (scoreheader, postfix)
 GET_STR_FIELD_FUNC (scoreheader, display)
-GET_INT_FIELD_FUNC (header, x)
-GET_INT_FIELD_FUNC (header, y)
+PUT_LAYOUT_ALLOW_FUNC (header)
+PUT_LAYOUT_IGNORE_FUNC (header)
 GET_INT_FIELD_FUNC (header, tx)
 GET_INT_FIELD_FUNC (header, ty)
 GET_INT_FIELD_FUNC (header, gx)
@@ -3320,8 +3502,8 @@ GET_INT_GRAPHIC_FIELD_FUNC (header, height)
 GET_STR_FIELD_FUNC (header, prefix)
 GET_STR_FIELD_FUNC (header, postfix)
 GET_STR_FIELD_FUNC (header, display)
-GET_INT_FIELD_FUNC (paper, x)
-GET_INT_FIELD_FUNC (paper, y)
+PUT_LAYOUT_ALLOW_FUNC (paper)
+PUT_LAYOUT_IGNORE_FUNC (paper)
 GET_INT_FIELD_FUNC (paper, tx)
 GET_INT_FIELD_FUNC (paper, ty)
 GET_INT_FIELD_FUNC (paper, gx)
@@ -3332,8 +3514,8 @@ GET_INT_GRAPHIC_FIELD_FUNC (paper, height)
 GET_STR_FIELD_FUNC (paper, prefix)
 GET_STR_FIELD_FUNC (paper, postfix)
 GET_STR_FIELD_FUNC (paper, display)
-GET_INT_FIELD_FUNC (layout, x)
-GET_INT_FIELD_FUNC (layout, y)
+PUT_LAYOUT_ALLOW_FUNC (layout)
+PUT_LAYOUT_IGNORE_FUNC (layout)
 GET_INT_FIELD_FUNC (layout, tx)
 GET_INT_FIELD_FUNC (layout, ty)
 GET_INT_FIELD_FUNC (layout, gx)
@@ -3344,8 +3526,18 @@ GET_INT_GRAPHIC_FIELD_FUNC (layout, height)
 GET_STR_FIELD_FUNC (layout, prefix)
 GET_STR_FIELD_FUNC (layout, postfix)
 GET_STR_FIELD_FUNC (layout, display)
-GET_INT_FIELD_FUNC (movementcontrol, x)
-GET_INT_FIELD_FUNC (movementcontrol, y) GET_INT_FIELD_FUNC (movementcontrol, tx) GET_INT_FIELD_FUNC (movementcontrol, ty) GET_INT_FIELD_FUNC (movementcontrol, gx) GET_INT_FIELD_FUNC (movementcontrol, gy) GET_INT_FIELD_FUNC (movementcontrol, override) GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, width) GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, height) GET_STR_FIELD_FUNC (movementcontrol, prefix) GET_STR_FIELD_FUNC (movementcontrol, postfix) GET_STR_FIELD_FUNC (movementcontrol, display)
+PUT_LAYOUT_ALLOW_FUNC (movementcontrol)
+PUT_LAYOUT_IGNORE_FUNC (movementcontrol)
+GET_INT_FIELD_FUNC (movementcontrol, tx)
+GET_INT_FIELD_FUNC (movementcontrol, ty)
+GET_INT_FIELD_FUNC (movementcontrol, gx)
+GET_INT_FIELD_FUNC (movementcontrol, gy)
+GET_INT_FIELD_FUNC (movementcontrol, override)
+GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, width)
+GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, height) 
+GET_STR_FIELD_FUNC (movementcontrol, prefix) 
+GET_STR_FIELD_FUNC (movementcontrol, postfix) 
+GET_STR_FIELD_FUNC (movementcontrol, display)
 #undef STANDALONE_PUT_INT_FIELD_FUNC
 #undef PUT_GRAPHIC
 #undef PUT_INT_FIELD_FUNC
@@ -3575,3 +3767,22 @@ REORDER_TAG (paper, directives);
 REORDER_TAG (layout, directives);
 REORDER_TAG (movementcontrol, directives);
 #undef REORDER_TAG
+
+gboolean wrong_layout (DenemoDirective *directive, gint id)
+{
+ if (directive->layouts)
+    {
+      if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+        {
+           if (g_list_index (directive->layouts, GINT_TO_POINTER(id))<0)
+             return TRUE;
+          return FALSE;
+        }
+       if(directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
+        {
+         if (g_list_index (directive->layouts, GINT_TO_POINTER(id))>=0)
+            return TRUE;
+        }
+    }
+ return FALSE;   
+}

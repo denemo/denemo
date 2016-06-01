@@ -18,23 +18,23 @@
 void
 draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObject * theobj, gboolean selected, gboolean at_cursor)
 {
-  DenemoDirective *lily = ((lilydirective *) theobj->object);
-  gchar *first = (lily->postfix && lily->postfix->len) ? lily->postfix->str : " ";
+  DenemoDirective *directive = ((lilydirective *) theobj->object);
+  gchar *first = (directive->postfix && directive->postfix->len) ? directive->postfix->str : " ";
   guint layout = selected_layout_id ();
-  gdouble only = lily->y ? ((lily->y == layout) ? 0.5 : 0.0) : 0.0;
-  gdouble exclude = lily->x ? ((lily->x == layout) ? 0.9 : 0.0) : 0.0;
-  if (lily->y && lily->y != layout)
-    exclude = 0.9;
+  gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+  gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
+  //if (lily->y && lily->y != layout)
+  //  exclude = 0.9;
   cairo_save (cr);
   
-  selected ? cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, at_cursor ? 1.0 : 0.5) : lily->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
-  if (lily->graphic)
+  selected ? cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, at_cursor ? 1.0 : 0.5) : directive->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
+  if (directive->graphic)
     {
       //FIXME there may be scripts expecting a different positioning code
-      gdouble gx = xx + lily->gx - (((DenemoGraphic *) lily->graphic)->width) / 2;
-      gdouble gy = y + MID_STAFF_HEIGHT + lily->gy - (((DenemoGraphic *) lily->graphic)->height) / 2;
+      gdouble gx = xx + directive->gx - (((DenemoGraphic *) directive->graphic)->width) / 2;
+      gdouble gy = y + MID_STAFF_HEIGHT + directive->gy - (((DenemoGraphic *) directive->graphic)->height) / 2;
 
-      drawbitmapinverse_cr (cr, (DenemoGraphic *) lily->graphic, gx, gy, FALSE);
+      drawbitmapinverse_cr (cr, (DenemoGraphic *) directive->graphic, gx, gy, FALSE);
     }
  // else instead always show position of standalone directive
     {
@@ -47,17 +47,17 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
       cairo_arc (cr, xx+10 + 1.5, y - 20, 6, 0.0, 2 * M_PI);
       cairo_fill (cr);
       cairo_move_to (cr, xx+10, y - 20);
-      cairo_line_to (cr, xx+10 + lily->gx, y + MID_STAFF_HEIGHT + lily->gy);
+      cairo_line_to (cr, xx+10 + directive->gx, y + MID_STAFF_HEIGHT + directive->gy);
       cairo_stroke (cr);
     }
-  if (lily->display)
+  if (directive->display)
     {                           //store display position x,y as well
 #define MAXLEN (4)
       gchar c = 0;              //if it is a long string only show it all when cursor is on it, also only display from first line
       gchar *p;
-      for (p = lily->display->str; *p; p = g_utf8_next_char(p))
+      for (p = directive->display->str; *p; p = g_utf8_next_char(p))
         {
-          if (*p == '\n' || (!at_cursor && (p - lily->display->str) > MAXLEN))
+          if (*p == '\n' || (!at_cursor && (p - directive->display->str) > MAXLEN))
             {
               c = *p;
               *p = 0;
@@ -65,9 +65,9 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
             }
         }
         if (at_cursor)
-            cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, lily->display->str, xx + lily->tx, y + lowy + lily->ty - 8);
+            cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, directive->display->str, xx + directive->tx, y + lowy + directive->ty - 8);
         else
-            drawnormaltext_cr (cr, lily->display->str, xx + lily->tx, y + lowy + lily->ty - 8);
+            drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + lowy + directive->ty - 8);
       if (c)
         {
           *p = c;
@@ -75,7 +75,7 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
     }
   else
     //FIXME do this by creating a display field
-  if ((!lily->graphic) && (*first == '%' || *first == '^' || *first == '_'))
+  if ((!directive->graphic) && (*first == '%' || *first == '^' || *first == '_'))
     { //display comments, and markup above and below 
         if (at_cursor)
                 cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);      

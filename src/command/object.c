@@ -140,8 +140,11 @@ append_directives_information (GString * selection, GList * directives)
             g_string_append_printf (selection, _("LilyPond inserted in postfix to this object is <tt>\"%s\"</tt>\n"), lily);
             g_free (lily);
         }
-     if(directive->x || directive->y)
-        g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n</span>"));
+     if(directive->layouts && (directive->flag==DENEMO_IGNORE_FOR_LAYOUTS))
+         g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS IGNORED FOR SOME LAYOUTS\n</span>"));
+     else
+         if(directive->layouts && (directive->flag==DENEMO_ALLOW_FOR_LAYOUTS))
+            g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE ONLY FOR SOME LAYOUTS\n</span>"));  
      if(!directives->next)
         g_string_append (selection, "<span foreground=\"blue\"weight=\"bold\">---------------------------------------------------------</span>");
     
@@ -490,7 +493,8 @@ display_current_object_callback (void)
                     g_free (tooltip_e);
                 }
 
-           g_string_append_printf (selection, _("%s"), directive->x ? _("\nNot all layouts\n") : directive->y ? _("\nOnly for one Layout\n"): "\n");
+           g_string_append_printf (selection, _("%s"), (directive->layouts && (directive->flag==DENEMO_IGNORE_FOR_LAYOUTS)) ? _("\nNot for some layouts\n") :
+                                                        (directive->layouts && (directive->flag==DENEMO_ALLOW_FOR_LAYOUTS)) ? _("\nOnly for some Layout(s)\n"): "\n");
            if(menupath)
                 {
                     gchar *menupath_e = g_markup_escape_text(menupath, -1);
@@ -515,7 +519,7 @@ display_current_object_callback (void)
             else
                 g_string_append_printf (selection, _("This object does not affect the printed output (no LilyPond syntax is generated for the typesetter)\n"));//well this ignores possible effect of whitespace...
             g_free (text);
-            if(directive->x || directive->y)
+            if(directive->layouts)
                 g_string_append (selection, _( "<span foreground=\"red\"weight=\"bold\">THIS DIRECTIVE IS CONDITIONAL ON THE LAYOUT\n</span>"));
             }
            if (gui->movement->currentobject->next == NULL && (gui->movement->currentmeasure->next == NULL))
@@ -892,36 +896,60 @@ static void make_note_directive_conditional (gchar *tag)
         g_free (script);
         recover_object_editor ();
     }
-static void make_movementcontrol_directive_conditional (DenemoDirective *directive)
+static void make_directive_conditional (GtkWidget *button, DenemoDirective *directive)
     {
+        static gboolean notwarned = TRUE;
+        if (Denemo.project->custom_scoreblocks)
+          {
+           warningdialog (_("You have custom score layout(s). Making this directive conditional will not affect them; if that is what you want then edit the layout in the Score Layout view."));
+           notwarned = FALSE;
+          }  
         gtk_widget_destroy (TheEditorWidget);
+        gpointer rerun;
+        const gchar *field;
+        rerun = g_object_get_data (G_OBJECT (button), "rerun");
+        field = (const gchar *)g_object_get_data (G_OBJECT (button), "field");
         if (directive && directive->tag)
             {
-                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"movementcontrol\" \"%s\"))", directive->tag->str); 
+                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str); g_print ("Calling %s\n\n", script);
+                signal_structural_change (Denemo.project); //changing the conditional behavior of non-object directives requires score layouts to be reconstructed
                 call_out_to_guile (script);
                 g_free (script);
                 score_status (Denemo.project, TRUE);
             }
-        edit_movement_properties();
+        G_CALLBACK (rerun)();
     }   
-#if GTK_MAJOR_VERSION == 2
-#define GdkRGBA GdkColor
-#define gtk_widget_override_color gtk_widget_modify_fg
-#define gtk_widget_override_background_color gtk_widget_modify_bg
-#define GTK_STATE_FLAG_NORMAL (0)
-static void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
-    gchar *col = g_strdup_printf ( "#%02x%02x%02x", (gint)(r*254),(gint)(g*254),(gint)(b*254));
-    gdk_color_parse (col, color);
-    g_free(col);
-}
-#else
-static void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a) {
-            color->red = r; color->green = g;
-            color->blue = b; 
-            color->alpha = a;
+ 
+static void install_conditional_button (GtkWidget *hbox, DenemoDirective *directive, gchar *field)
+    {
+        
+        GdkRGBA color;
+        GtkWidget *button = gtk_button_new_with_label (_("Conditional"));
+        get_color (&color, 0.0, 0.0, 0.5, 1.0);
+        gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+       gpointer rerun = NULL;     
+       if(!strcmp (field, "movementcontrol"))
+            rerun = edit_movement_properties; 
+           else if(!strcmp (field, "scoreheader"))  
+            rerun = edit_score_properties;              
+           else  if(!strcmp (field, "lilycontrol"))
+            field="score", rerun = edit_score_properties;              
+           else  if(!strcmp (field, "header"))
+            rerun = edit_score_properties;                 
+           else  if(!strcmp (field, "layout"))
+            rerun = edit_score_properties;                 
+           else  if(!strcmp (field, "paper"))
+            rerun = edit_score_properties;                           
+           else    
+             g_warning ("The field %s should have a conditional button but doesnt.\n\n\n", field);   
+         g_object_set_data (G_OBJECT (button), "rerun", rerun);
+         g_object_set_data (G_OBJECT (button), "field", field);
+        if (rerun) 
+            {
+            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (make_directive_conditional), (gpointer)directive);
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
             }
-#endif 
-
+    }
 
 static void 
 copy_chord_directive_to_clipboard (gchar *tag)
@@ -1710,9 +1738,9 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
              GtkWidget *frame;
              gchar *text;
             if (label == NULL)
-                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s"), (directive->x||directive->y)?_( "(Conditional) "):"", type, name);
+                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s"), (directive->layouts)?_( "(Conditional) "):"", type, name);
             else
-                text = g_strdup_printf (_("%sDenemo %s Directive: %s"), (directive->x||directive->y)?_( "(Conditional) "):"",type, label);
+                text = g_strdup_printf (_("%sDenemo %s Directive: %s"), (directive->layouts)?_( "(Conditional) "):"",type, label);
             frame = gtk_frame_new (text);
             g_free(text);
             //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -1762,23 +1790,17 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
             g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
-            if(!strcmp (field, "movementcontrol"))
+            
+            install_conditional_button (hbox, directive, field);
+          
+            if (tooltip)
                 {
-                    button = gtk_button_new_with_label (_("Conditional"));
-                    get_color (&color, 0.0, 0.0, 0.5, 1.0);
+                    button = gtk_button_new_with_label (_("Help"));
+                    get_color (&color, 0.0, 0.7, 0.3, 1.0);
                     gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                    g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (make_movementcontrol_directive_conditional), (gpointer)directive);
+                    g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
                     gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
                 }
-            
-             if (tooltip)
-            {
-                button = gtk_button_new_with_label (_("Help"));
-                get_color (&color, 0.0, 0.7, 0.3, 1.0);
-                gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-                g_signal_connect_swapped (G_OBJECT(button), "clicked", G_CALLBACK (display_help), (gpointer)tooltip);
-                gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-            }
             
             
             
@@ -2292,6 +2314,11 @@ clone_directive (DenemoDirective * directive)
       ret->widget = NULL;       //FIXME call widget_for_directive here???
       //   widget_for_directive(ret, fn);
     }
+    GList *g;
+    GList *start = directive->layouts;
+    directive->layouts = NULL;
+    for (g=start;g;g=g->next)
+        directive->layouts = g_list_append (directive->layouts, g->data);
   return ret;
 }
 
@@ -2329,9 +2356,7 @@ free_directive_data (DenemoDirective * directive)
         gtk_widget_destroy (texteditor);        //FIXME we may need to destroy its parents
       gtk_widget_destroy ((GtkWidget *) directive->widget);
     }
-
-
-
+    g_list_free (directive->layouts);
 }
 
 void

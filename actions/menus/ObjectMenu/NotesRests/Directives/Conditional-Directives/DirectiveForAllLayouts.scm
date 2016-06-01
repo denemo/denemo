@@ -7,9 +7,9 @@
     (while (d-NextObject)
         (if note
             (if (d-Directive-note? tag)
-                 (begin (d-DirectivePut-note-x tag 0)(d-DirectivePut-note-y tag 0)))
+                 (begin (d-DirectivePut-note-ignore tag 0)(d-DirectivePut-note-allow tag 0)))
             (if (d-Directive-chord? tag)
-                (begin (d-DirectivePut-chord-x tag 0)(d-DirectivePut-chord-y tag 0)))))
+                (begin (d-DirectivePut-chord-ignore tag 0)(d-DirectivePut-chord-allow tag 0)))))
     (d-PopPosition))
   (if tag
      (d-ForAllLayouts #f)
@@ -22,8 +22,8 @@
               (set! note (cdr params))
              
               (if note
-                (begin (d-DirectivePut-note-x tag 0)(d-DirectivePut-note-y tag 0))
-                (begin (d-DirectivePut-chord-x tag 0)(d-DirectivePut-chord-y tag 0)))
+                (begin (d-DirectivePut-note-ignore tag 0)(d-DirectivePut-note-allow tag 0))
+                (begin (d-DirectivePut-chord-ignore tag 0)(d-DirectivePut-chord-allow tag 0)))
                 
               (if  (RadioBoxMenu
                 (cons (_ "Just for this one") #f)

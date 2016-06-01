@@ -951,7 +951,7 @@ brace_count (gchar * str)
   return ret;
 }
 
-// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override are omitted.
+// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override or conditionally out are omitted.
 #define GET_OVERRIDDEN_AFFIX(field)\
 static gchar *get_overridden_##field(GList *g, gboolean override) {\
   if(g==NULL)\
@@ -960,7 +960,9 @@ static gchar *get_overridden_##field(GList *g, gboolean override) {\
   for(;g;g=g->next) {\
     DenemoDirective *d = g->data;\
     if(override == ((d->override&DENEMO_OVERRIDE_AFFIX)==0))\
-      continue;                 \
+      continue;\
+    if (wrong_layout (d, Denemo.project->layout_id))\
+        continue;\
     if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){\
       if(d->field && d->field->len) {\
     if(d->override & DENEMO_OVERRIDE_LILYPOND)\
@@ -988,7 +990,7 @@ GET_AFFIX (postfix);
 
 
 /* insert editable prefix string from passed directives, updating duration and open brace count
- omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set */
+ omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set or conditionally out*/
 
 
 
@@ -1004,7 +1006,7 @@ directives_insert_##field##_editable (GList *directives, gint *popen_braces, gin
       continue;\
     if(directive->override&DENEMO_OVERRIDE_HIDDEN)\
       continue;\
-    if (!(((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid)))))\
+      if (wrong_layout (directive, sbid))\
         continue;\
     if(directive->field && directive->field->len) {\
       if(pprevduration) *pprevduration = -1;            \
@@ -1032,7 +1034,7 @@ directives_insert_affix_postfix_editable (GList * directives, gint * popen_brace
         continue;
       if (directive->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
-      if (!(((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid)))))
+      if (wrong_layout (directive, sbid))
         continue;
       if (directive->postfix && directive->postfix->len)
         {
@@ -1203,7 +1205,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                     for (; g; g = g->next, num++)
                       {
                         DenemoDirective *directive = (DenemoDirective *) g->data;
-                        if (directive->prefix && (!(directive->override & DENEMO_ALT_OVERRIDE)) && ((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid))))
+                        if (directive->prefix && (!(directive->override & DENEMO_ALT_OVERRIDE)) && !wrong_layout(directive, sbid))
                           {
                             prevduration = -1;
                             insert_editable (&directive->prefix, directive->prefix->len ? directive->prefix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
@@ -1261,7 +1263,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         for (num = 0; g; g = g->next, num++)
                           {
                             DenemoDirective *directive = (DenemoDirective *) g->data;
-                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (!(directive->override & DENEMO_ALT_OVERRIDE))&& ((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid))))
+                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (!(directive->override & DENEMO_ALT_OVERRIDE))&& !wrong_layout(directive, sbid))
                               {
                                 insert_editable (&directive->postfix, directive->postfix->len ? directive->postfix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
                                 prevduration = -1;
@@ -1354,7 +1356,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
             for (num = 0; g; g = g->next, num++)
               {
                 DenemoDirective *directive = (DenemoDirective *) g->data;
-                if (directive->postfix && directive->postfix->len && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) && ((directive->x == 0 || (directive->x!=sbid))) && ((directive->y == 0 || (directive->y==sbid))))
+                if (directive->postfix && directive->postfix->len && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) && !wrong_layout (directive, sbid))
       
                   {
                     prevduration = -1;
@@ -1933,7 +1935,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
                     {
                       DenemoDirective *directive = ((lilydirective *) curobj->object);
 #define OUTPUT_LILY(what) \
-  if(directive->what && directive->what->len && ((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id))) \
+  if(directive->what && directive->what->len && !wrong_layout(directive, sb->id) \
      && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) \
      ) {                                \
       gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);\
@@ -2324,9 +2326,8 @@ set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
   for (g = si->movementcontrol.directives; g; g = g->next)
     {
     DenemoDirective *d = (DenemoDirective *) g->data;
-    DenemoScoreblock *sb = selected_scoreblock();
-    if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
-                        continue;
+    if (wrong_layout (d, Denemo.project->layout_id))
+        continue;
     if ((d->override & DENEMO_OVERRIDE_AFFIX) && (d->prefix))
         {
          g_string_append (movement_prolog, d->prefix->str);
@@ -2343,6 +2344,8 @@ static gchar *get_alt_overridden_prefix (GList *g)
     GString *s = g_string_new ("");
     for(;g;g=g->next) {
         DenemoDirective *d = g->data;
+       if (wrong_layout (d, Denemo.project->layout_id))
+            continue;
         if ((d->override & DENEMO_ALT_OVERRIDE) && d->prefix)
             g_string_append (s, d->prefix->str);
         }
@@ -2462,7 +2465,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
 
   DenemoScoreblock *sb = select_layout (all_movements, partname, instrumentation);       //FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
-
+Denemo.project->layout_id = sb->id;
   if (gui->movement->markstaffnum)
     all_movements = FALSE;
 
@@ -2534,6 +2537,8 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
     for (; g; g = g->next)
       {
         DenemoDirective *directive = g->data;
+        if (wrong_layout (directive, Denemo.project->layout_id))
+           continue;
         if (directive->prefix && (directive->override & (DENEMO_OVERRIDE_AFFIX)))       //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
           insert_editable (&directive->prefix, directive->prefix->str, &iter, gui, NULL, TARGET_OBJECT, 0, 0, 0, 0, 0, 0);
         //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);

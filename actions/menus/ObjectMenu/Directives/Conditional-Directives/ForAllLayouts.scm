@@ -6,13 +6,13 @@
     (d-PushPosition)
     (while (d-NextObject)
         (if (d-Directive-standalone? tag)
-             (begin  (d-DirectivePut-standalone-display tag "")(d-DirectivePut-standalone-x tag 0)(d-DirectivePut-standalone-y tag 0))))
+             (begin  (d-DirectivePut-standalone-display tag "")(d-DirectivePut-standalone-ignore tag 0)(d-DirectivePut-standalone-allow tag 0))))
     (d-PopPosition))
   (if tag
     (begin
-        (d-DirectivePut-standalone-display tag "")
-        (d-DirectivePut-standalone-x tag 0)
-        (d-DirectivePut-standalone-y tag 0)
+        ;(d-DirectivePut-standalone-display tag "")
+        (d-DirectivePut-standalone-allow tag 0)
+        (d-DirectivePut-standalone-ignore tag 0)
         (if  (RadioBoxMenu   
                 (cons (_ "Just for this one") #f)
                 (cons (_ "Apply condition to all further cases in this staff")   'yes))

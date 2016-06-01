@@ -190,7 +190,7 @@ free_prefix_and_postfix (GtkWidget * widget)
   g_list_free (g);
   return TRUE;                  //and destroy widget
 }
-
+void break_and_carry_on (void) {}
 // attaches the two lilypond strings to the prefix and postfix lists of widget
 // prefix is created in the reverse order to postfix so they can nest
 // the destroy widget is arranged to free the lists
@@ -199,7 +199,6 @@ add_lilypond (GtkWidget * w, gchar * prefix, gchar * postfix)
 {
   if (g_object_get_data (G_OBJECT (w), "prefix") == NULL && g_object_get_data (G_OBJECT (w), "postfix") == NULL)
     g_signal_connect (G_OBJECT (w), "destroy", G_CALLBACK (free_prefix_and_postfix), NULL);
-
   if (prefix)
     g_object_set_data (G_OBJECT (w), "prefix", (gpointer) g_list_append (g_object_get_data (G_OBJECT (w), "prefix"), prefix));
   if (postfix)
@@ -543,6 +542,12 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       gtk_widget_set_tooltip_text (button, _("Create a layout from this standard layout that you can then modify."));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (customize_standard_scoreblock_callback), sb);
+      
+      button = gtk_button_new_with_label (_("Create Default Score Layout"));
+      gtk_widget_set_tooltip_text (button, _("Creates the Default Score Layout"));
+      gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+      g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);      
+      
       button = gtk_button_new_with_label (_("Delete"));
       gtk_widget_set_tooltip_text (button, _("Discard this standard score layout."));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -1066,7 +1071,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
         continue;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue; 
-      if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+      if (sb && wrong_layout (d, sb->id))
         continue;
       if (d->prefix)
         {
@@ -1094,12 +1099,12 @@ popup_score_titles_menu (GtkWidget * button)
 }
 
 
-/* install widgets for the postfix field of score directives (lilycontrol.directives) which are not hidden and which are not OVERRIDE_AFFIX - 
+/* install widgets for the postfix field of score directives (lilycontrol.directives) which are not hidden and which are not OVERRIDE_AFFIX and not conditionally out - 
  * the prefix is done in create_score_directives.
  * Ones with OVERRIDE_AFFIX are done in set_default_scoreblock()
  */
 static GtkWidget *
-install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovement * si, gboolean last_movement)
+install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovement * si, gboolean last_movement, DenemoScoreblock *sb)
 {
 
   GList *g;
@@ -1110,9 +1115,9 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
         continue;
       if (d->override & DENEMO_OVERRIDE_AFFIX)
         continue;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
-                        continue;        
+      if (wrong_layout (d, sb->id))
+        continue;
+             
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
         {
@@ -1201,9 +1206,9 @@ static void remove_brace_end (GtkWidget *vbox)
   GList *g  = g_object_get_data (G_OBJECT(vbox), "postfix");
   for ( ;g;g=g->next)
         {
-           g_print ("Next postfix %s\n", (char *) g->data);
+           //g_print ("Next postfix %s\n", (char *) g->data);
            delete_brace (g->data);
-           g_print ("transformed to %s\n", (char *) g->data);
+           //g_print ("transformed to %s\n", (char *) g->data);
         }
 }
 static gboolean
@@ -1311,6 +1316,8 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
       DenemoDirective *directive = g->data;
       if (directive->override & DENEMO_OVERRIDE_AFFIX)
         {
+          if (wrong_layout (directive, Denemo.project->layout_id)) 
+            continue;
           if (directive->prefix && (directive->prefix->len > 0))
             {
               GtkWidget *frame = (GtkWidget *) gtk_frame_new (directive->tag->str);
@@ -1360,6 +1367,9 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
   for (g = directives; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
+      if (wrong_layout (directive, Denemo.project->layout_id))
+       continue;
+
       if (directive->override & DENEMO_OVERRIDE_AFFIX)
         {
           if (directive->postfix && (directive->postfix->len > 0))
@@ -1636,7 +1646,7 @@ append_staff (GtkWidget *widget, GList ** pstaffs)
     Denemo.project->lilysync = G_MAXUINT;
 }     
 static GtkWidget *
-get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard)
+get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard, DenemoScoreblock *sb)
 {
   DenemoProject *gui = Denemo.project;
   gint staff_group_nesting = 0; //to check on loose staff group markers
@@ -1650,7 +1660,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (ret), vbox);
 
-  vbox = install_scoreblock_overrides (vbox, gui, si, last_movement);   //things like transpose whole score etc
+  vbox = install_scoreblock_overrides (vbox, gui, si, last_movement, sb);   //things like transpose whole score etc
 
   gchar *label_text = (si->thescore->next == NULL) ? _("The Staff") : _("The Staffs");
   GtkWidget *topexpander = gtk_expander_new (label_text);
@@ -1783,7 +1793,7 @@ create_misc_scorewide (GtkWidget * inner_vbox)
 }
 
 static void
-create_scoreheader_directives (GtkWidget * vbox)
+create_scoreheader_directives (GtkWidget * vbox, DenemoScoreblock *sb)
 {
   DenemoProject *gui = Denemo.project;
   GtkWidget *frame = gtk_frame_new (NULL);
@@ -1809,16 +1819,15 @@ create_scoreheader_directives (GtkWidget * vbox)
         continue;
       if (directive->postfix == NULL)
         continue;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id)))))
-                        continue;  
+      if (wrong_layout (directive, sb->id)) continue;
+
         
       create_element (header_box, gtk_label_new (directive->tag->str), g_strdup (directive->postfix->str));
     }
 }
 
 static void
-create_score_directives (GtkWidget * vbox)
+create_score_directives (GtkWidget * vbox, DenemoScoreblock *sb)
 {
   DenemoProject *gui = Denemo.project;
   if (gui->lilycontrol.directives == NULL)
@@ -1835,9 +1844,8 @@ create_score_directives (GtkWidget * vbox)
   for (; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((directive->x == 0 || (directive->x!=sb->id))) && ((directive->y == 0 || (directive->y==sb->id)))))
-                        continue;               
+      if (wrong_layout (directive, sb->id)) continue;
+            
       if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
         {
           GtkWidget *label = gtk_label_new (directive->tag->str);
@@ -1846,7 +1854,7 @@ create_score_directives (GtkWidget * vbox)
     }
 }
 
-static void fill_scorewide_frame (GtkWidget *frame, GtkWidget *reload_button)
+static void fill_scorewide_frame (GtkWidget *frame, GtkWidget *reload_button, DenemoScoreblock *sb)
 {
 
   GtkWidget *expander = gtk_expander_new (_("Score-wide Settings."));
@@ -1865,8 +1873,8 @@ static void fill_scorewide_frame (GtkWidget *frame, GtkWidget *reload_button)
   gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
 #endif
 
-  create_scoreheader_directives (inner_box);
-  create_score_directives (inner_box);
+  create_scoreheader_directives (inner_box, sb);
+  create_score_directives (inner_box, sb);
   create_misc_scorewide (inner_box);
 }
 
@@ -1885,19 +1893,19 @@ static void reload_scorewide_block (GtkWidget *frame)
   frame = gtk_frame_new (NULL);
   GtkWidget *reload_button = get_reload_button (frame);
   gtk_container_add (GTK_CONTAINER (event_box), frame);
-  fill_scorewide_frame (frame, reload_button);
+  fill_scorewide_frame (frame, reload_button, selected_layout_id ()); //FIXME is selected layout id correct???
   gtk_widget_show_all (vbox);
   Denemo.project->lilysync = G_MAXUINT;
 
 }
 static void
-create_scorewide_block (GtkWidget * vbox)
+create_scorewide_block (GtkWidget * vbox, DenemoScoreblock *sb)
 {
   GtkWidget *frame = gtk_frame_new (NULL);
   GtkWidget *reload_button = get_reload_button (frame);
   GtkWidget *event_box = get_colored_event_box (vbox, "#BBFFCC");// event_box is packed into vbox
   gtk_container_add (GTK_CONTAINER (event_box), frame);
-  fill_scorewide_frame (frame, reload_button);
+  fill_scorewide_frame (frame, reload_button, sb);
   gtk_widget_show_all (vbox);
 }
 
@@ -1905,7 +1913,7 @@ static
 void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
           {
           DenemoProject *gui = Denemo.project;
-          DenemoScoreblock *sb = *psb;if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
+          DenemoScoreblock *sb = *psb;//if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
           gchar *label_text = gui->movements->next ? g_strdup_printf (_("<b>Movement %d</b>"), movement_num) : g_strdup (_("Movement"));
           GtkWidget *movement_frame = gtk_expander_new (label_text);
           gtk_label_set_use_markup (GTK_LABEL (gtk_expander_get_label_widget (GTK_EXPANDER(movement_frame))), TRUE);
@@ -1939,7 +1947,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
           gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
           GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
 
-          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last, standard), FALSE, TRUE, 0);
+          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last, standard, *psb), FALSE, TRUE, 0);
           gtk_box_pack_start (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
           if (si->header.directives)
             {
@@ -1954,7 +1962,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                   DenemoDirective *d = g->data;
                   if (d->override & DENEMO_OVERRIDE_HIDDEN)
                     continue;
-                  if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                  if (sb && wrong_layout (d, sb->id))
                         continue;
                   gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
                   if (lily)
@@ -1976,7 +1984,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                   DenemoDirective *d = g->data;
                   if (d->override & DENEMO_OVERRIDE_HIDDEN)
                     continue;
-                  if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                  if (sb && wrong_layout (d, sb->id))
                         continue;
                   gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
                   if (lily)
@@ -1996,7 +2004,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                   for (g = si->movementcontrol.directives; g; g = g->next)
                     {
                       DenemoDirective *d = (DenemoDirective *) g->data;
-                      if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                      if (sb && wrong_layout (d, sb->id))
                         continue;
                       if (d->override & DENEMO_OVERRIDE_AFFIX && d->postfix)
                         {
@@ -2024,7 +2032,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                     continue;
                   if (d->override & DENEMO_OVERRIDE_HIDDEN)
                     continue;
-                  if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+                  if (sb && wrong_layout (d, sb->id))
                         continue;
                   if (d->postfix)
                     {
@@ -2103,7 +2111,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
   GtkWidget *options = get_options_button (*psb, FALSE);
   gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
   //now create a hierarchy of widgets representing the score
-  create_scorewide_block (vbox);
+  create_scorewide_block (vbox, *psb);
 
   GList *g;
   gint movement_num = 1;
@@ -2119,14 +2127,13 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
   for (g = gui->lilycontrol.directives; g; g = g->next)
     {
-      DenemoDirective *d = g->data;//g_print("def %s %s\n", d->tag->str, d->postfix?d->postfix->str:"No postfix");
+      DenemoDirective *d = g->data;   // g_print("Trying tag %s postfix %s\n", d->tag->str, d->postfix?d->postfix->str:"No postfix");
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
       if (!(d->override & DENEMO_OVERRIDE_AFFIX))
         continue;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
-                        continue;  
+      if (wrong_layout (d, (*psb)->id)) continue;
+ 
       gchar *post = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (post)
         {
@@ -2639,10 +2646,10 @@ selection_layout (void)
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
       if (d->override & DENEMO_OVERRIDE_AFFIX)
+        continue; //g_print ("Trying tag %s with postfix %s at %x\n", d->tag->str, (d->postfix && d->postfix->len) ? d->postfix->str :"", selected_layout_id ());
+      if (wrong_layout(d, sb->id)) 
         continue;
-      DenemoScoreblock *sb = selected_scoreblock();//FIXME should sb be passed in???
-      if (sb && !(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
-                        continue;  
+  
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
         {
@@ -2726,6 +2733,7 @@ GString *voice_tail = g_string_new ("");
       DenemoDirective *d = g->data;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
+      if (wrong_layout(d, sb->id)) continue;
 
       gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (lily)
@@ -2746,7 +2754,7 @@ GString *voice_tail = g_string_new ("");
           DenemoDirective *d = g->data;
           if (d->override & DENEMO_OVERRIDE_HIDDEN)
             continue;
-          if (!(((d->x == 0 || (d->x!=sb->id))) && ((d->y == 0 || (d->y==sb->id)))))
+          if (wrong_layout (d, sb->id))
                         continue;
           gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
           if (lily)
@@ -2813,7 +2821,7 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
   for (g = Denemo.project->standard_scoreblocks; g; g = g->next)
     {
       sb = (DenemoScoreblock *) g->data;
-      if(sb->layout_sync!=Denemo.project->layout_sync) //this conditional was dropped, it will be better to fix the cases where project->layout_sync is not updated as it should, that is places where signal_structural_change() call is missed
+     // if(sb->layout_sync!=Denemo.project->layout_sync) //this conditional was dropped, it will be better to fix the cases where project->layout_sync is not updated as it should, that is places where signal_structural_change() call is missed
         recreate_standard_scoreblock (&sb);
       sb->visible = FALSE;
     }

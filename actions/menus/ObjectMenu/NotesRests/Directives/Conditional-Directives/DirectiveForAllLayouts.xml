@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>DirectiveForAllLayouts</action>
         <after>DirectiveNotForLayout</after>
-        <_label>Reset for All Layours</_label>
+        <_label>Reset for All Layouts</_label>
         <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
       </row>
     </map>

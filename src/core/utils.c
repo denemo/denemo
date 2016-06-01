@@ -580,10 +580,10 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
     {
       DenemoDirective *directive = (DenemoDirective *) directives->data;
       guint layout = selected_layout_id ();
-      gdouble only = directive->y ? ((directive->y == layout) ? 0.5 : 0.0) : 0.0;
-      gdouble exclude = directive->x ? ((directive->x == layout) ? 0.9 : 0.0) : 0.0;
-      if (directive->y && directive->y != layout)
-        exclude = 0.9;
+      gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+      gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
+      //if (directive->y && directive->y != layout)
+      //  exclude = 0.9;
       if (exclude>0.0 || only >0.0)
             {
                 cairo_save (cr);
@@ -1959,7 +1959,7 @@ write_status (DenemoProject * gui)
         case LILYDIRECTIVE:
           {
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
-            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.50s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->x ? _("Not all layouts") : directive->y ? _("Only for one Layout") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
+            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.50s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->layouts ? _("Not all layouts") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
           }
           break;
         default:
@@ -2456,8 +2456,10 @@ get_override (GList * g)
   gint ret = 0;
   for (; g; g = g->next)
     {
-      DenemoDirective *d = g->data;
-      if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
+    DenemoDirective *d = g->data;
+   // if (wrong_layout (d, sb->id))
+   //     continue;
+    if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
         ret |= d->override;
     }
   return ret;
@@ -2950,3 +2952,22 @@ gboolean shift_held_down(void)
 #endif        
         return (mask & GDK_SHIFT_MASK);
     }
+    
+    
+#if GTK_MAJOR_VERSION == 2
+#define GdkRGBA GdkColor
+#define gtk_widget_override_color gtk_widget_modify_fg
+#define gtk_widget_override_background_color gtk_widget_modify_bg
+#define GTK_STATE_FLAG_NORMAL (0)
+void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
+    gchar *col = g_strdup_printf ( "#%02x%02x%02x", (gint)(r*254),(gint)(g*254),(gint)(b*254));
+    gdk_color_parse (col, color);
+    g_free(col);
+}
+#else
+void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a) {
+            color->red = r; color->green = g;
+            color->blue = b; 
+            color->alpha = a;
+            }
+#endif 

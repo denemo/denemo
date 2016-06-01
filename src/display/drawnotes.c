@@ -312,9 +312,9 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
         {
           DenemoDirective *directive = (DenemoDirective *) g->data;
           guint layout = selected_layout_id ();
-          gdouble only = directive->y ? ((directive->y == layout) ? 0.5 : 0.0) : 0.0;
-          gdouble exclude = directive->x ? ((directive->x == layout) ? 0.9 : 0.0) : 0.0;
-          if (directive->y && directive->y != layout)
+          gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+          gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
+          if (wrong_layout (directive, layout))
             exclude = 0.9;
           if (exclude>0.0 || only >0.0)
                 {

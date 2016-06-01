@@ -3,8 +3,8 @@
    (define (d-InfoDialog string)
         (Help::TimedNotice (string-append string "\n") 5000)) 
     (define (put-cond)
-        (d-DirectivePut-standalone-y tag id)
-        (d-DirectivePut-standalone-display tag  (string-append (_ " for ") layout))
+        (d-DirectivePut-standalone-allow tag id)
+        ;(d-DirectivePut-standalone-display tag  (string-append (_ " for ") layout))
         (d-DirectivePut-standalone-ty tag 60)
         (d-DirectivePut-standalone-tx tag -30))
         
@@ -27,8 +27,8 @@
                 (cons (_ "Apply condition to all further cases in this staff")   'yes))
                      (begin
                             (do-rest)
-                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will only be typeset for the layout ") "\"" layout "\"" )))
-                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will only be typeset for the layout ") "\"" layout "\"")))
+                            (d-InfoDialog (string-append (_ "Standalone Directives ") "\"" tag "\"" (_ "  in this staff from the cursor onwards will be typeset for the layout ") "\"" layout "\"" )))
+                     (d-InfoDialog (string-append (_ "This Directive ") "\"" tag "\"" (_ " will be typeset for the layout ") "\"" layout "\"")))
         (d-SetSaved #f)
         (d-RefreshDisplay))
     (begin

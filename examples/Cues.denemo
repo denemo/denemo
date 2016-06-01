@@ -174,9 +174,11 @@ transposedCueDuringWithClef  =
 [
 Denemo 48</graphic_name>
               <minpixels>30</minpixels>
-              <y>590638834</y>
               <tx>-30</tx>
               <ty>60</ty>
+              <allow>
+                <layout>590638834</layout>
+              </allow>
             </lily-directive>
             <rest show="true" id="id4">
               <duration base="whole"></duration>
@@ -224,9 +226,11 @@ Denemo 48</graphic_name>
 ]
 Denemo 48</graphic_name>
               <minpixels>30</minpixels>
-              <y>590638834</y>
               <tx>-30</tx>
               <ty>60</ty>
+              <allow>
+                <layout>590638834</layout>
+              </allow>
             </lily-directive>
           </measure>
           <measure>
