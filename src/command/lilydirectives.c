@@ -1163,29 +1163,52 @@ static GList *remove_layout (GList *layouts, gint id)
    return g_list_remove (layouts, GINT_TO_POINTER(id));
 }
 static void action_ignore (DenemoDirective *directive, gint value) {
-   if(directive->layouts==NULL) {
-      directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
-      directive->layouts = add_layout (directive->layouts, value);
-      } else {
-      if (directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)\
-        directive->layouts = add_layout (directive->layouts, value);
-      else {
-        directive->layouts = remove_layout (directive->layouts, value);
-        if(directive->layouts == NULL) directive->flag = 0;
+  if (value)
+      {
+       if(directive->layouts==NULL) 
+          {
+          directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+          directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the ignored layouts\n", value);
+          } else 
+          {
+                  
+            if (directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
+                {
+                 directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to ignored layouts\n", value);
+                }
+            else {
+                    directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from allowed layouts\n", value);
+                    if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
+                }
+            }
+     } else
+        {
+           g_list_free (directive->layouts);//g_print("Removed conditions\n");
+           directive->layouts = directive->flag = 0;  
         }
-    }
 }
 static void action_allow (DenemoDirective *directive, gint value) {
-  if(directive->layouts==NULL) {
-      directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
-      directive->layouts = add_layout (directive->layouts, value);
-      } else {
-      if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
-        directive->layouts = add_layout (directive->layouts, value);
-      else {
-        directive->layouts = remove_layout (directive->layouts, value);
-        if(directive->layouts == NULL) directive->flag = 0;
+  if (value)
+      {
+        if(directive->layouts==NULL) 
+          {
+              directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+              directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the allowed layout\n", value);
+          } else 
+          {
+          if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+            {
+                directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to allowed layouts\n", value);
+            }
+          else {
+            directive->layouts = remove_layout (directive->layouts, value);g_print("Removed %x from ignored layouts\n", value);
+            if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
+            }
         }
+    } else
+    {
+       g_list_free (directive->layouts);//g_print("Removed conditions\n");
+       directive->layouts = directive->flag = 0;  
     }
 }
        
@@ -2685,7 +2708,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
     }
   else
     {
-        gboolean wrong = not_for_current_layout (directive);
+        gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);
         if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
             { 
               button = gtk_button_new_with_label (wrong?
@@ -2938,7 +2961,7 @@ static void
 append_directives (DenemoDirective *direc, gchar *type)
 {
     all_directives = g_list_append (all_directives, direc);
-    directive_types = g_list_append (directive_types, type);g_print("tag %s\n", direc->tag->str);
+    directive_types = g_list_append (directive_types, type);//g_print("tag %s\n", direc->tag->str);
 }
 
 static gint
@@ -3762,8 +3785,4 @@ gboolean wrong_layout (DenemoDirective *directive, gint id)
         }
     }
  return FALSE;   
-}
-gboolean not_for_current_layout (DenemoDirective *d)
-{
-    wrong_layout (d, selected_layout_id ());
 }

@@ -402,7 +402,7 @@ create_scheme_identfiers (void)
 #define INSTALL_PUT_ALLOW(what)\
  install_scm_function (2, "Takes a tag and a layout id; if there is a directive of the given tag then the directive will be honored when typesetting that layout other layouts will ignore the directive.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-allow", scheme_##what##_directive_put_allow);
 #define INSTALL_PUT_IGNORE(what)\
- install_scm_function (2, "Takes a tag and a layout id; if there is a directive of the given tag then the directive will be ignored when typesetting that layout, other layouts will honor the directive.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-ignore", scheme_##what##_directive_put_allow);
+ install_scm_function (2, "Takes a tag and a layout id; if there is a directive of the given tag then the directive will be ignored when typesetting that layout, other layouts will honor the directive.",DENEMO_SCHEME_PREFIX"DirectivePut" "-" #what "-ignore", scheme_##what##_directive_put_ignore);
 
   INSTALL_GET (object, minpixels);
   INSTALL_PUT (object, minpixels);

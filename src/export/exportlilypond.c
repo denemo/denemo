@@ -951,7 +951,7 @@ brace_count (gchar * str)
   return ret;
 }
 
-// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override are omitted.
+// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override or conditionally out are omitted.
 #define GET_OVERRIDDEN_AFFIX(field)\
 static gchar *get_overridden_##field(GList *g, gboolean override) {\
   if(g==NULL)\
@@ -960,7 +960,9 @@ static gchar *get_overridden_##field(GList *g, gboolean override) {\
   for(;g;g=g->next) {\
     DenemoDirective *d = g->data;\
     if(override == ((d->override&DENEMO_OVERRIDE_AFFIX)==0))\
-      continue;                 \
+      continue;\
+    if (wrong_layout (d, Denemo.project->layout_id))\
+        continue;\
     if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){\
       if(d->field && d->field->len) {\
     if(d->override & DENEMO_OVERRIDE_LILYPOND)\
@@ -988,7 +990,7 @@ GET_AFFIX (postfix);
 
 
 /* insert editable prefix string from passed directives, updating duration and open brace count
- omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set */
+ omit or include those with AFFIX override set. Skip any directive with HIDDEN attribute set or conditionally out*/
 
 
 
@@ -2324,8 +2326,7 @@ set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
   for (g = si->movementcontrol.directives; g; g = g->next)
     {
     DenemoDirective *d = (DenemoDirective *) g->data;
-    DenemoScoreblock *sb = selected_scoreblock();
-    if (sb && wrong_layout (d, sb->id))
+    if (wrong_layout (d, Denemo.project->layout_id))
         continue;
     if ((d->override & DENEMO_OVERRIDE_AFFIX) && (d->prefix))
         {
@@ -2343,6 +2344,8 @@ static gchar *get_alt_overridden_prefix (GList *g)
     GString *s = g_string_new ("");
     for(;g;g=g->next) {
         DenemoDirective *d = g->data;
+       if (wrong_layout (d, Denemo.project->layout_id))
+            continue;
         if ((d->override & DENEMO_ALT_OVERRIDE) && d->prefix)
             g_string_append (s, d->prefix->str);
         }
@@ -2462,7 +2465,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
 
   DenemoScoreblock *sb = select_layout (all_movements, partname, instrumentation);       //FIXME gui->namespec mechanism is probably redundant, and could well cause trouble...
-
+Denemo.project->layout_id = sb->id;
   if (gui->movement->markstaffnum)
     all_movements = FALSE;
 
@@ -2534,6 +2537,8 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
     for (; g; g = g->next)
       {
         DenemoDirective *directive = g->data;
+        if (wrong_layout (directive, Denemo.project->layout_id))
+           continue;
         if (directive->prefix && (directive->override & (DENEMO_OVERRIDE_AFFIX)))       //This used to be (mistakenly) DENEMO_ALT_OVERRIDE
           insert_editable (&directive->prefix, directive->prefix->str, &iter, gui, NULL, TARGET_OBJECT, 0, 0, 0, 0, 0, 0);
         //insert_section(&directive->prefix, directive->tag->str, NULL, &iter, gui);

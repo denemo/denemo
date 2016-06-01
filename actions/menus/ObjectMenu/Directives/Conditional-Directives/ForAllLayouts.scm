@@ -10,7 +10,7 @@
     (d-PopPosition))
   (if tag
     (begin
-        (d-DirectivePut-standalone-display tag "")
+        ;(d-DirectivePut-standalone-display tag "")
         (d-DirectivePut-standalone-allow tag 0)
         (d-DirectivePut-standalone-ignore tag 0)
         (if  (RadioBoxMenu   

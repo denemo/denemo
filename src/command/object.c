@@ -493,8 +493,8 @@ display_current_object_callback (void)
                     g_free (tooltip_e);
                 }
 
-           g_string_append_printf (selection, _("%s"), (directive->layouts && (directive->flag==DENEMO_IGNORE_FOR_LAYOUTS)) ? _("\nNot all layouts\n") :
-                                                        (directive->layouts && (directive->flag==DENEMO_ALLOW_FOR_LAYOUTS)) ? _("\nOnly for one Layout\n"): "\n");
+           g_string_append_printf (selection, _("%s"), (directive->layouts && (directive->flag==DENEMO_IGNORE_FOR_LAYOUTS)) ? _("\nNot for some layouts\n") :
+                                                        (directive->layouts && (directive->flag==DENEMO_ALLOW_FOR_LAYOUTS)) ? _("\nOnly for some Layout(s)\n"): "\n");
            if(menupath)
                 {
                     gchar *menupath_e = g_markup_escape_text(menupath, -1);
@@ -898,6 +898,12 @@ static void make_note_directive_conditional (gchar *tag)
     }
 static void make_directive_conditional (GtkWidget *button, DenemoDirective *directive)
     {
+        static gboolean notwarned = TRUE;
+        if (Denemo.project->custom_scoreblocks)
+          {
+           warningdialog (_("You have custom score layout(s). Making this directive conditional will not affect them; if that is what you want then edit the layout in the Score Layout view."));
+           notwarned = FALSE;
+          }  
         gtk_widget_destroy (TheEditorWidget);
         gpointer rerun;
         const gchar *field;
@@ -905,7 +911,8 @@ static void make_directive_conditional (GtkWidget *button, DenemoDirective *dire
         field = (const gchar *)g_object_get_data (G_OBJECT (button), "field");
         if (directive && directive->tag)
             {
-                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str); 
+                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str); g_print ("Calling %s\n\n", script);
+                signal_structural_change (Denemo.project); //changing the conditional behavior of non-object directives requires score layouts to be reconstructed
                 call_out_to_guile (script);
                 g_free (script);
                 score_status (Denemo.project, TRUE);
@@ -915,6 +922,7 @@ static void make_directive_conditional (GtkWidget *button, DenemoDirective *dire
  
 static void install_conditional_button (GtkWidget *hbox, DenemoDirective *directive, gchar *field)
     {
+        
         GdkRGBA color;
         GtkWidget *button = gtk_button_new_with_label (_("Conditional"));
         get_color (&color, 0.0, 0.0, 0.5, 1.0);

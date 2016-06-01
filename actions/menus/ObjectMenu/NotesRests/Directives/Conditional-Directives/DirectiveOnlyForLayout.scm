@@ -35,8 +35,8 @@
                 (cons (_ "Apply condition to all further cases in this staff")   'yes))
                      (begin
                             (do-rest)
-                            (d-InfoDialog (string-append (_ "Directives ") "\"" tag "\"" (_ " on ") (if note (_ "Notes") (_ "Chords")) (_ "  in this staff from the cursor onwards will not be typeset for the layout ") "\"" (car layout) "\"" )))
-                     (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will not be typeset for the layout ") "\"" (car layout) "\"")))
+                            (d-InfoDialog (string-append (_ "Directives ") "\"" tag "\"" (_ " on ") (if note (_ "Notes") (_ "Chords")) (_ "  in this staff from the cursor onwards will be typeset for the layout ") "\"" (car layout) "\"" )))
+                     (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will be typeset for the layout ") "\"" (car layout) "\"")))
                 
                 
                 

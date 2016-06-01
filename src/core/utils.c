@@ -2456,8 +2456,10 @@ get_override (GList * g)
   gint ret = 0;
   for (; g; g = g->next)
     {
-      DenemoDirective *d = g->data;
-      if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
+    DenemoDirective *d = g->data;
+   // if (wrong_layout (d, sb->id))
+   //     continue;
+    if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
         ret |= d->override;
     }
   return ret;
