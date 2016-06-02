@@ -1,4 +1,4 @@
-dnl Process this file with autoconf to produce a configure script. 
+dnl Process this file with autoconf to produce a configure script.
 AC_INIT([denemo], [2.0.9], [denemo-devel@gnu.org])
 AC_CONFIG_SRCDIR([src/core/main.c])
 AM_INIT_AUTOMAKE([tar-pax foreign dist-xz subdir-objects])
@@ -78,43 +78,9 @@ if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
   fi
 fi
 
-AC_ARG_ENABLE(
-  aubio3,
-  AS_HELP_STRING([--enable-aubio3], [use AUBIO_3 @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      useaubio3=yes
-      PKG_CHECK_MODULES(LIBAUBIO_3, aubio >= 0.3.2)
-      CFLAGS="$CFLAGS $LIBAUBIO_3_CFLAGS -D_WITH_AUBIO_3_"
-      LIBS="$LIBS $LIBAUBIO_3_LIBS"
-    fi
-  ], [ useaubio3=no ])
-
-AC_ARG_ENABLE(
-  aubio4,
-  AS_HELP_STRING([--enable-aubio4], [use AUBIO_4 @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      useaubio4=yes
-      PKG_CHECK_MODULES(LIBAUBIO_4, aubio >= 0.4.0)
-      CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
-      LIBS="$LIBS $LIBAUBIO_4_LIBS"
-    fi
-  ], [ useaubio4=no ])
-
-if [test "x$useaubio3" = "xno"] && [test "x$useaubio4" = "xno"]; then
-  PKG_CHECK_MODULES([LIBAUBIO_4], [aubio >= 0.4.0], useaubio4=yes, useaubio4=no)
-  CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
-  LIBS="$LIBS $LIBAUBIO_4_LIBS"
-  if test "x$useaubio4" = "xno"; then
-    PKG_CHECK_MODULES(LIBAUBIO_3, aubio >= 0.3.2)
-    CFLAGS="$CFLAGS $LIBAUBIO_3_CFLAGS -D_WITH_AUBIO_3_"
-    LIBS="$LIBS $LIBAUBIO_3_LIBS"
-    useaubio3=yes
-  else
-    useaubio4=yes
-  fi
-fi
+PKG_CHECK_MODULES(LIBAUBIO_4, aubio >= 0.4.0)
+CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
+LIBS="$LIBS $LIBAUBIO_4_LIBS"
 
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
@@ -162,12 +128,12 @@ fi
 AC_ARG_ENABLE(
   evince,
   AS_HELP_STRING([--enable-evince], [use EVINCE @<:@default=yes@:>@]),
-  [ 
+  [
     if test "x$enableval" == "xno"; then
       useevince=no
     else
       useevince=yes
-    fi 
+    fi
   ], [ useevince=yes ])
 AM_CONDITIONAL(HAVE_EVINCE, [test x$useevince = xyes])
 
@@ -179,7 +145,7 @@ AC_ARG_ENABLE(
       usegtk2=yes
       PKG_CHECK_MODULES(GTK2, gtk+-2.0 >= 2.0.3)
     fi
-  ], [ usegtk2=no ])  
+  ], [ usegtk2=no ])
 
 AC_ARG_ENABLE(
   gtk3,
@@ -213,7 +179,7 @@ if test "x$usegtk2" = "xyes"; then
     PKG_CHECK_MODULES(EVINCE_2_0, evince-view-2.0 >= 2.0, have_evince2=yes, have_evince2=no)
     CFLAGS="$CFLAGS $EVINCE_2_0_CFLAGS"
     LIBS="$LIBS $EVINCE_2_0_LIBS"
-    
+
     if test "x$have_evince2" = "xno"; then
       PKG_CHECK_MODULES(EVINCE_2_30, evince-view-2.30 >= 2.0, have_evince2_3=yes, have_evince2_3=no)
       CFLAGS="$CFLAGS $EVINCE_2_30_CFLAGS"
@@ -268,10 +234,10 @@ fi
 AC_ARG_ENABLE(
   fluidsynth,
   AS_HELP_STRING([--enable-fluidsynth], [use FLUIDSYNTH @<:@default=yes@:>@]),
-  [ 
+  [
     if test "x$enableval" != "xno"; then
       usefluidsynth=yes
-    fi 
+    fi
   ], [ usefluidsynth=yes ])
 AM_CONDITIONAL(HAVE_FLUIDSYNTH, [test x$usefluidsynth = xyes])
 
@@ -284,10 +250,10 @@ fi
 AC_ARG_ENABLE(
   rubberband,
   AS_HELP_STRING([--enable-rubberband], [use RUBBERBAND @<:@default=yes@:>@]),
-  [ 
+  [
     if test "x$enableval" != "xno"; then
       userubberband=yes
-    fi 
+    fi
   ], [ userubberband=yes ])
 AM_CONDITIONAL(HAVE_RUBBERBAND, [test x$userubberband = xyes])
 
@@ -302,10 +268,10 @@ fi
 AC_ARG_ENABLE(
   portaudio,
   AS_HELP_STRING([--enable-portaudio], [use PORTAUDIO @<:@default=yes@:>@]),
-  [ 
+  [
     if test "x$enableval" != "xno"; then
       useportaudio=yes
-    fi 
+    fi
   ], [ useportaudio=yes ])
 AM_CONDITIONAL(HAVE_PORTAUDIO, [test x$useportaudio = xyes])
 
@@ -469,7 +435,7 @@ pkgdatadir=${datadir}/${PACKAGE}
 PACKAGE_DATA_DIR=${datadir}/${PACKAGE}
 AC_SUBST(pkgdatadir)
 AC_SUBST(PACKAGE_DATA_DIR)
- 
+
 dnl
 dnl Append the package name to sysconfdir.
 dnl
@@ -496,12 +462,12 @@ AC_SUBST(LDFLAGS)
 
 AC_OUTPUT(
 [
-  build/Makefile 
-  Makefile 
+  build/Makefile
+  Makefile
   denemo.spec
   tools/Makefile
-  src/Makefile 
-  pixmaps/Makefile 
+  src/Makefile
+  pixmaps/Makefile
   docs/Makefile
   docs/transformations/Makefile
   docs/images/Makefile
