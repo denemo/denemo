@@ -1461,6 +1461,10 @@ get_temperament_combo (void)
 static void
 create_pitch_recognition_window (DenemoProject * gui)
 {
+#ifdef DISABLE_AUBIO
+return;
+#else
+
   GtkWidget *hbox, *hbox2;
   GtkWidget *button;
   GtkWidget *frame;
@@ -1716,12 +1720,17 @@ create_pitch_recognition_window (DenemoProject * gui)
   // sort out the size of the drawing area
   // sort out how to pass the deviation from in-tune to the draw_indicator function
 
+#endif
 }
 
 
 gint
 setup_pitch_input (void)
 {
+#ifdef DISABLE_AUBIO
+return -1;
+#else
+
   DenemoProject *gui = Denemo.project;
   if (GTK_IS_WINDOW (PR_window))
     {
@@ -1752,6 +1761,8 @@ setup_pitch_input (void)
   create_pitch_recognition_window (gui);
   //read_PRkeymap(gui);
   return 0;
+  
+#endif  
 }
 
 
@@ -1776,6 +1787,9 @@ scorearea_set_inactive (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEvent
 void
 start_pitch_input (void)
 {
+#ifdef DISABLE_AUBIO
+return;
+#else
   DenemoProject *gui = Denemo.project;
   if (PR_timer)
     g_source_remove (PR_timer);
@@ -1793,6 +1807,7 @@ start_pitch_input (void)
   else
     PR_enable = TRUE;           /* for midi input you are unlikely to enter notes by accident */
   PR_gui = gui;
+#endif
 }
 
 gboolean
