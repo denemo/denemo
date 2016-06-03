@@ -1827,7 +1827,7 @@ scheme_staff_master_volume (SCM level)
       return scm_from_double (0.0);
   }    
   if (level == SCM_UNDEFINED)
-      return thestaff->mute?scm_from_double (0.0) : scm_from_double (thestaff->volume / 127.0);
+      return thestaff->mute?scm_from_double (-1.0) : scm_from_double (thestaff->volume / 127.0);
   thestaff->mute = FALSE;  
   return scm_from_double (thestaff->volume / 127.0);
 }

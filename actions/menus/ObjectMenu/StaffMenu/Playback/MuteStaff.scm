@@ -20,7 +20,7 @@
             (if (equal? MuteStaff::params "unmute")
                 (d-StaffMasterVolume #t)) ;;pass #t to force un-mute
             
-            (if (> (d-StaffMasterVolume) 0)
+            (if (zero? (d-StaffMasterVolume))
                 (begin
                     (d-DirectivePut-standalone-graphic tag "Speaker_Icon_Mute")
                     (d-StaffMasterVolume #f))
