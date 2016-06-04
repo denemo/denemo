@@ -1924,6 +1924,8 @@ actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/AddMirrorStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/CouleStaff.xml
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/CreateClickStaff.scm
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/CreateClickStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/DynamicsStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/MarksStaff.scm

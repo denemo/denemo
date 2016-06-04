@@ -7863,6 +7863,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Tongue</_label>
         <_tooltip>Adds a tonguing indication, (a number of staccato dots) to the current note.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CreateClickStaff</action>
+        <after>DynamicsStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <_label>Create Click Staff</_label>
+        <_tooltip>Creates a staff at the top containing beats for the current score. The cursor height determines which drum sound is used.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
