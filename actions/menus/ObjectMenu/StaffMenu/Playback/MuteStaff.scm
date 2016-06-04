@@ -6,8 +6,7 @@
             (set! MuteStaff::params #f)
             (d-DirectiveDelete-standalone tag)
             (d-StaffMasterVolume #t))       
-        (begin
-            
+        (let ((mute (negative? (d-StaffMasterVolume))))
             (d-PushPosition)
             (d-MoveToBeginning)
             (if (not (d-Directive-standalone? tag))
@@ -18,17 +17,18 @@
             (d-DirectivePut-standalone-gx tag 20)
             
             (if (equal? MuteStaff::params "unmute")
-                (d-StaffMasterVolume #t)) ;;pass #t to force un-mute
-            
-            (if (zero? (d-StaffMasterVolume))
-                (begin
-                    (d-DirectivePut-standalone-graphic tag "Speaker_Icon_Mute")
-                    (d-StaffMasterVolume #f))
-                (begin
-                    (d-StaffMasterVolume #t)
-                     (if (< (d-StaffMasterVolume) 0.2)
-                        (d-WarningDialog (_ "The volume set on this staff is very low, you may not hear it.\nSee Staff->Staff Properties->Built-in Staff Properties, MIDI tab.")))
-                    (d-DirectivePut-standalone-graphic tag "Speaker_Icon")))
+                (d-StaffMasterVolume #t) ;;pass #t to force un-mute
+                (if (not mute)
+                    (begin
+                        (d-StaffMasterVolume #f))
+                    (begin
+                        (d-StaffMasterVolume #t)
+                         (if (< (d-StaffMasterVolume) 0.2)
+                            (d-WarningDialog (_ "The volume set on this staff is very low, you may not hear it.\nSee Staff->Staff Properties->Built-in Staff Properties, MIDI tab."))))))
+            (set! mute (negative? (d-StaffMasterVolume)))           
+            (if mute
+                     (d-DirectivePut-standalone-graphic tag "Speaker_Icon_Mute")  
+                     (d-DirectivePut-standalone-graphic tag "Speaker_Icon"))      
             (d-SetSaved #f)
             (d-PopPosition)))
     (if (d-Directive-standalone? tag)
