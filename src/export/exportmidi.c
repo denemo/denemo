@@ -1069,7 +1069,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   //fraction = 1 / g_list_length (si->thescore);
 
   /* iterate over all tracks in file */
-  printf ("\nsi->stafftoplay in exportmidi = %i", si->stafftoplay);
+  //printf ("\nsi->stafftoplay in exportmidi = %i", si->stafftoplay);
   curstaff = si->thescore;
   if (si->stafftoplay > 0)
     {
@@ -1808,6 +1808,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 #if 0
 {
   smf_event_t *event;
+  smf_rewind (smf);
   while ((event=smf_get_next_event (smf)))
     g_print ("generated 0x%hhX 0x%hhX 0x%hhX\n", *(event->midi_buffer+0), *(event->midi_buffer+1), *(event->midi_buffer+2));   
 }
