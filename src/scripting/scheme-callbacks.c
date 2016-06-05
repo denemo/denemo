@@ -2013,6 +2013,22 @@ scheme_restart_play (void)
   restart_play ();
   return SCM_BOOL_T;
 }
+SCM
+scheme_staff_to_play (SCM num)
+{
+    if (scm_is_integer (num)) {
+        gint staffnum = scm_to_int (num);
+        if (staffnum>=0 && staffnum <= g_list_length (Denemo.project->movement->thescore))
+            {
+                Denemo.project->movement->stafftoplay = staffnum;
+                exportmidi (NULL, Denemo.project->movement);
+                return scm_from_int(staffnum);
+            }
+    }
+    Denemo.project->movement->stafftoplay = 0;
+    exportmidi (NULL, Denemo.project->movement);
+    return SCM_BOOL_F;
+}
 
 static double convert_and_adjust (SCM time) {
     return scm_to_double (time) * get_playback_speed();

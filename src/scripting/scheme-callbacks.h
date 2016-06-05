@@ -280,6 +280,7 @@ SCM scheme_get_temperament (void);
 SCM scheme_rewind_midi (SCM);
 SCM scheme_next_midi_notes (SCM);
 SCM scheme_restart_play (void);
+SCM scheme_staff_to_play (SCM);
 SCM scheme_get_midi_on_time (void);
 SCM scheme_get_midi_off_time (void);
 SCM scheme_midi_in_append_edit (void);

@@ -1115,6 +1115,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes an interval, returns a pair, a list of the next note-on events that occur within that interval and the time of these events.", DENEMO_SCHEME_PREFIX "NextMidiNotes", scheme_next_midi_notes);
 
   install_scm_function (0, "Restart midi play, cancelling any pause", DENEMO_SCHEME_PREFIX "RestartPlay", scheme_restart_play);
+  install_scm_function (0, "Sets the passed staff number as the only staff that will play. Pass 0 or no argument for all staffs", DENEMO_SCHEME_PREFIX "StaffToPlay", scheme_staff_to_play);
   install_scm_function (0, "Return a number, the midi time in seconds for the start of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOnTime", scheme_get_midi_on_time);
   install_scm_function (0, "Return a number, the midi time in seconds for the end of the object at the cursor; return #f if none ", DENEMO_SCHEME_PREFIX "GetMidiOffTime", scheme_get_midi_off_time);
   install_scm_function (0, "Set the MIDI in controller to listening mode. All signals are directed straight to the output. ", DENEMO_SCHEME_PREFIX "MidiInListening", scheme_midi_in_listening);
