@@ -174,6 +174,13 @@
     (define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
      (duration::inexact->exact return))
 
+;;returns a string for the shortfall in the current measure.
+(define (duration::shortfall)
+    (duration::ticks->denemo 
+   (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks))
+   (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks)))))
+
+
 ; Ticks->Denemo wants a number but returns a string because of dots
 (define* (duration::ticks->denemo number #:optional (basenumber number))
  (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
