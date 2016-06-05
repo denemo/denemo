@@ -174,7 +174,7 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
 
   while (read_event_from_queue (AUDIO_BACKEND, event_data, &event_length, &event_time, until_time/slowdown))
-    {//g_debug("%d ", event_data[1] );
+    {//g_print("%x %x %x\n", event_data[0], event_data[1], event_data[2] );
       fluidsynth_feed_midi (event_data, event_length);  //in fluid.c note fluidsynth api ues fluid_synth_xxx these naming conventions are a bit too similar
     }
 
