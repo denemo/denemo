@@ -1,8 +1,4 @@
 ;;;;;;;;;;;;;;OpenAudio
-(define DenemoClickTrack "Click")
-
-
-
 (let ((seconds (d-OpenSourceAudioFile)))
     (define old_volume (d-MasterVolume)) 
     (if (and seconds (EmptyMeasure?) (not (d-MoveToMeasureRight)) (not (d-MoveToStaffDown)))

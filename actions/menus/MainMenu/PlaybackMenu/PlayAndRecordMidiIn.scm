@@ -1,6 +1,6 @@
 ;;PlayAndRecordMidiIn
     (define-once PlayAndRecordMidiIn::position #f)
-    (define DenemoClickTrack (_ "Click"))
+   
     (if (d-AudioIsPlaying)
         (d-Stop)
         (begin

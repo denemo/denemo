@@ -540,6 +540,9 @@
     (staffloop)))
   (d-PopPosition)
   offtime)
+  
+(define DenemoClickTrack (_ "Click Track")) 
+
 ;;;
 (define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo
 ; DenemoConvert
