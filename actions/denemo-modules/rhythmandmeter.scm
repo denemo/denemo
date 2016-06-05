@@ -116,7 +116,14 @@
 
 ; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
 (define (duration::inexact->exact return)
-  (inexact->exact (string->number (number->string return))))
+ (inexact->exact (string->number (number->string return))))
+
+;    (define val (string->number (number->string return)))
+;    (if (< return 1)
+;      1  
+;   (if (inexact? val)
+;       (inexact->exact val)
+;       val)))
 
 ;Some functions, like Upbeat, know only a single tick-value. They need to guess the baseNote.
 (define (duration::GuessBaseNoteInTicks ticks)
@@ -174,18 +181,29 @@
     (define return (* (expt 2 (- 8 (/ (log number) (log 2)))) 6))
      (duration::inexact->exact return))
 
-;;returns a string for the shortfall in the current measure.
+;;returns a string for the shortfall in the current measure. has problems with exact/inexact stuff...
 (define (duration::shortfall)
+    (define guess (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks))))
+    (if guess
     (duration::ticks->denemo 
+        (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks)) guess)
+    #f))
+;;;this simple version works for say a crotchet upbeat...
+(define (duration::shortfall)
+  (duration::ticks->denemo 
    (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks))
    (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks)))))
+
+
+
+
 
 
 ; Ticks->Denemo wants a number but returns a string because of dots
 (define* (duration::ticks->denemo number #:optional (basenumber number))
  (define numberOfDots  (duration::CalculateDotsFromTicks number basenumber))
 ;n = -(log(y/3)-9*log(2))/log(2) 
- (define return (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2))))
+ (define return (- (/ (- (log (/ basenumber 3)) (* 9 (log 2))) (log 2)))) 
  (set! return (duration::inexact->exact return))
  (string-append (number->string return) (string-concatenate (make-list numberOfDots "."))))
 
