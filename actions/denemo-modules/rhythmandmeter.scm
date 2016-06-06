@@ -115,15 +115,18 @@
 ;3072 = 0.5  = -1  ; Breve. 0.5 and -1 are not existend.  Lilypond and Denemo use the string breve instead.
 
 ; Guile returns a value with .0, which should be exact but internally it's inexact. So we need this little back and forth conversion hack.
+;(inexact->exact (string->number (number->string return))))
 (define (duration::inexact->exact return)
- (inexact->exact (string->number (number->string return))))
-
-;    (define val (string->number (number->string return)))
-;    (if (< return 1)
-;      1  
-;   (if (inexact? val)
-;       (inexact->exact val)
-;       val)))
+    (define val (if return (string->number (number->string return)) 1))
+   ;(disp "Working with parameter " return " and val has become " val "which is " (exact? val) (inexact? val) "\n\n")
+    (if (inexact? val)
+        (set! val (truncate val)))
+    (if (< return 0)
+        0
+        (if (inexact? val)
+            (begin ;(disp "returning" (inexact->exact val) "\n\n") 
+                (inexact->exact val))
+            val)))
 
 ;Some functions, like Upbeat, know only a single tick-value. They need to guess the baseNote.
 (define (duration::GuessBaseNoteInTicks ticks)
