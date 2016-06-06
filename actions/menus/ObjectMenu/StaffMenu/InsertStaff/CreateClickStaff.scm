@@ -44,7 +44,7 @@
     ;;main procedure     
     (if (equal? DenemoClickTrack (d-StaffProperties "query=denemo_name"))
             (begin
-                (if (EmptyMeasure?)
+                (if (ZeroDurationMeasure?)
                     (populate-measure)
                     (if (FullDurationMeasure?)
                         (let ((choice (RadioBoxMenu (cons (_ "Populate with these clicks") 'populate) (cons (_ "Play clicks again") 'play) (cons (_ "Edit clicks") 'edit))))
