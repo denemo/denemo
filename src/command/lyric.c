@@ -304,7 +304,7 @@ synchronize_cursor(GtkWidget *textview)
 static gboolean 
 keypress (GtkWidget *textview, GdkEventKey *event )
 {
-    guint keyval = event->keyval;//g_print ("press %x", event->keyval);
+    guint keyval = event->keyval;//g_print ("press %x mask %x", event->keyval, event->state);
     if (keyval == 0xFF63)
      return TRUE;// ignore Ins, don't want to have overwrite mode
      
@@ -316,10 +316,10 @@ keypress (GtkWidget *textview, GdkEventKey *event )
             case 0x6C: //Control-l standard prefix for lyrics commands
                 switch_back_to_main_window ();
                 break;//return TRUE;
-            case 0xFF51: //Control-Left
+            case 0xFF55: //Control-PgDn
                 previous_verse ();
                 return TRUE;
-            case 0xFF53: //Control-Right
+            case 0xFF56: //Control-PgUp
                 next_verse ();
                 return TRUE;
             case 0x73: //Control-s save but stay in verse
