@@ -16,7 +16,7 @@
        (GoToMeasureBeginning)
        (StandAloneDirectiveProto (cons upbeat (string-append "\\partial 256*" partialDuration   " "))  #f #f upbeat)
        (d-SetDurationInTicks remainingTicks)
-       (d-DirectivePut-standalone-override upbeat (logior DENEMO_OVERRIDE_DURATION  DENEMO_OVERRIDE_DYNAMIC))
+       (d-DirectivePut-standalone-override upbeat  DENEMO_OVERRIDE_DYNAMIC)
        (d-DirectivePut-standalone-graphic upbeat "\n\nemmentaler\n62")
        (d-DirectivePut-standalone-gx upbeat 20)
        (d-DirectivePut-standalone-gy upbeat 15)
