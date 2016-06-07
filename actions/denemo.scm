@@ -452,34 +452,40 @@
 
     
 (define (DenemoSetPlaybackStart)
-  (begin
     (d-Stop)
-    (if (not (d-GetMidiOnTime))
-        (d-RecreateTimebase))
-    (while (and (not (Music?))
-                (d-NextChord)))
-    (if (d-GetMidiOnTime)
-        (begin
-            (d-SetPlaybackInterval (d-GetMidiOnTime) #t)
-            (d-RefreshDisplay)))))
+    (d-RecreateTimebase)
+    (let ((start (d-GetMidiOnTime)))
+        (if (not start)
+            (begin
+                (d-PushPosition)
+                (while (and (zero? (d-GetDurationInTicks))
+                        (d-NextObject)))
+                (set! start (d-GetMidiOnTime))
+                (d-PopPosition)))
+        (if start
+            (begin
+                (d-SetPlaybackInterval start #t)
+                (d-RefreshDisplay)))
+        start))
 
 (define (DenemoSetPlaybackEnd)
-  (let ((time #f))
-    (d-Stop)
-    (if (not (d-GetMidiOffTime))
-        (d-RecreateTimebase))
-    (d-PushPosition)
-    (if (not (Appending?))
-        (d-PrevChord))
-    (if (not (Music?))
-        (d-NextChord))
-    (set! time (d-GetMidiOffTime))
-    (if (and time (> time 0))
+  (d-Stop)
+  (d-RecreateTimebase)
+  (let ((stop (d-GetMidiOffTime)))
+    (if (not stop)
         (begin
-            (d-SetPlaybackInterval #t time)
+            ;;(if (not (Appending?))
+            (d-PushPosition)
+            (while (and (d-PrevObject)
+                            (zero? (d-GetDurationInTicks))))   ;)
+            (while (and (zero? (d-GetDurationInTicks)) (d-NextObject)))
+            (set! stop (d-GetMidiOffTime))
+            (d-PopPosition)))
+    (if (and stop (> stop 0))
+        (begin
+            (d-SetPlaybackInterval #t stop)
             (d-RefreshDisplay)))
-    (d-PopPosition)
-    time))
+    stop))
     
 (define (DenemoSetPlaybackIntervalToSelection)
   (begin
