@@ -2112,6 +2112,10 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
             curStaff->no_of_lines = 5;
           }
       }
+    else if (ELEM_NAME_EQ (childElem, "staff-hidden"))
+      {
+        curStaff->hidden = getXMLIntChild (childElem);
+      }    
     else if (ELEM_NAME_EQ (childElem, "staff-color"))
       {
         curStaff->color = getXMLIntChild (childElem);

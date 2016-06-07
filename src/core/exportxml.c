@@ -601,6 +601,8 @@ newVoiceProps (xmlNodePtr parentElem, xmlNsPtr ns, DenemoStaff * curStaffStruct)
   newXMLIntChild (curElem, ns, (xmlChar *) "number-of-lines", curStaffStruct->no_of_lines);
   if (curStaffStruct->color)
     newXMLIntChild (curElem, ns, (xmlChar *) "staff-color", curStaffStruct->color);
+  if (curStaffStruct->hidden)
+    newXMLIntChild (curElem, ns, (xmlChar *) "staff-hidden", curStaffStruct->hidden);
   if (curStaffStruct->range)
     newXMLIntChild (curElem, ns, (xmlChar *) "staff-range-lo", curStaffStruct->range_lo);
   if (curStaffStruct->range)
