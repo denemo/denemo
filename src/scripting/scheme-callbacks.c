@@ -1968,8 +1968,8 @@ scheme_get_midi_on_time (void)
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
   GList *curObj = Denemo.project->movement->currentobject;
-  while (curObj && (((DenemoObject *)curObj->data)->type != CHORD))
-        curObj = curObj->next; //find first note/rest after the cursor
+  while (curObj && (((DenemoObject *)curObj->data)->durinticks == 0))
+    curObj = curObj->next; //find first note/rest or duration-full object after the cursor
   if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
     return scm_from_double (((DenemoObject *)curObj->data)->earliest_time);
   return SCM_BOOL_F;
@@ -1981,8 +1981,8 @@ scheme_get_midi_off_time (void)
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
   GList *curObj = Denemo.project->movement->currentobject;
-  while (curObj && (((DenemoObject *)curObj->data)->type != CHORD))
-    curObj = curObj->prev; //find last note/rest before the cursor
+  while (curObj && (((DenemoObject *)curObj->data)->durinticks == 0))
+    curObj = curObj->prev; //find last note/rest or duration-full object before the cursor
   if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
     return scm_from_double (((DenemoObject *)curObj->data)->latest_time);
   return SCM_BOOL_F;
@@ -2590,7 +2590,7 @@ scheme_staff_hidden (SCM set)
   DenemoProject *gui = Denemo.project;
   DenemoStaff *staff = (DenemoStaff *) gui->movement->currentstaff->data;
   if (scm_is_bool (set))
-    staff->hidden = scm_is_true (set); set_staff_transition (40);
+    staff->hidden = scm_is_true (set);
   return SCM_BOOL (staff->hidden);
 }
 
