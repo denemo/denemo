@@ -4051,12 +4051,24 @@ You can switch to the lyrics pane with
 Ctrl-l, Ctrl-l
 \family default
 , and you can switch back from editing the lyrics to editing the music with
- the Esc or Tab keys.
- You can change verse with 
+ the 
 \family typewriter
-Ctrl-left/right 
+Ctrl-l
 \family default
-arrows and change staffs with 
+ (or 
+\family typewriter
+Esc
+\family default
+ or 
+\family typewriter
+Tab
+\family default
+ keys).
+ You can change verses with 
+\family typewriter
+Ctrl-PgUpl/PgDn 
+\family default
+keys and change staffs with 
 \family typewriter
 Ctrl-up/down,
 \family default
@@ -4064,7 +4076,7 @@ Ctrl-up/down,
 \family typewriter
  Ctrl-s
 \family default
-, all other control key sequences switch you to the main Denemo Display.
+.
 \end_layout
 
 \begin_layout Standard
