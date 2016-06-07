@@ -63,6 +63,7 @@
                     (d-MasterVolume 0)
                     (d-NewStructuredStaff 'initial)
                     (while (d-StaffUp))
+                    (d-StaffHidden #t)
                     (d-StaffProperties "midi_channel=9")
                     (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
                     (d-DirectivePut-clef-override "DrumClef" DENEMO_OVERRIDE_GRAPHIC)
