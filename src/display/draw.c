@@ -1791,9 +1791,7 @@ draw_callback (cairo_t * cr)
     gtk_widget_queue_draw (Denemo.playbackview);
   
   /* Clear with an appropriate background color. */
- // if (((DenemoStaff*)Denemo.project->movement->currentstaff->data)->hidden)
- //   cairo_set_source_rgb (cr, 1, 0.8, 0.8);
-  else if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
+  if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
       GdkColor col;
       gdk_color_parse ("lightblue", &col);
