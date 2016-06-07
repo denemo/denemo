@@ -3242,13 +3242,44 @@ Denemo Display
 Here you can choose to hide staffs from the display so that you can see
  distantly placed staffs side by side (e.g.
  in large orchestral scores).
- If you are using this and navigating with the keyboard you will want to
+ The location of such 
+\begin_inset Quotes eld
+\end_inset
+
+hidden
+\begin_inset Quotes erd
+\end_inset
+
+ staffs
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Hidden Staffs
+\end_layout
+
+\end_inset
+
+ is indicated by a colored line between the staffs above and below.
+ The staffs remain hidden until you move the cursor on to them.
+ If you are using this and navigating with the keyboard you may want to
  reset the key shortcuts for staff navigation commands to use variants that
  skip over the hidden staffs.
+ Some staffs (e.g Click Track
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Click Track
+\end_layout
+
+\end_inset
+
+ are hidden by default as you do not normally edit them.
 \end_layout
 
 \begin_layout Standard
-You can also give more/less room in the display to the staffs.
+You can also give more/less room in the display to the staffs via this menu.
 \end_layout
 
 \begin_layout Subsubsection*

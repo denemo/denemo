@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-05-04"/>
+<meta name="create-date" content="2016-06-07"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -1601,10 +1601,10 @@ As with staffs, voices can be created with no music of their own, simply mirrori
 <a class="toc" name="toc-Subsubsection--32"></a>The Display<a class="IndexReference" name="entry-Denemo-Display-4" href="#index-Denemo-Display">↓</a> Effects Submenu
 </h3>
 <div class="Unindented">
-Here you can choose to hide staffs from the display so that you can see distantly placed staffs side by side (e.g. in large orchestral scores). If you are using this and navigating with the keyboard you will want to reset the key shortcuts for staff navigation commands to use variants that skip over the hidden staffs.
+Here you can choose to hide staffs from the display so that you can see distantly placed staffs side by side (e.g. in large orchestral scores). The location of such &ldquo;hidden&rdquo; staffs<a class="IndexReference" name="entry-Hidden-Staffs-0" href="#index-Hidden-Staffs">↓</a> is indicated by a colored line between the staffs above and below. The staffs remain hidden until you move the cursor on to them. If you are using this and navigating with the keyboard you may want to reset the key shortcuts for staff navigation commands to use variants that skip over the hidden staffs. Some staffs (e.g Click Track<a class="IndexReference" name="entry-Click-Track-0" href="#index-Click-Track">↓</a> are hidden by default as you do not normally edit them.
 </div>
 <div class="Indented">
-You can also give more/less room in the display to the staffs.
+You can also give more/less room in the display to the staffs via this menu.
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--33"></a>The Staff Groupings (Braces) Submenu<a class="IndexReference" name="entry-Braces-0" href="#index-Braces">↓</a>
@@ -1736,7 +1736,7 @@ This means that you will see the lyrics for the current staff disappear from the
 The Lyric pane shows only a few lines initially, but you can drag it upwards if you need to see more. Lyrics are entered as a <i>syllables</i> separated by spaces or new lines (which have no other meaning). The full possible syntax is given in the LilyPond documentation, but Denemo provides you with menu items for inserting the most useful extras such as stanza numbers, font selection and skips.
 </div>
 <div class="Indented">
-You can switch to the lyrics pane with <tt>Ctrl-l, Ctrl-l</tt>, and you can switch back from editing the lyrics to editing the music with the Esc or Tab keys. You can change verse with <tt>Ctrl-left/right </tt>arrows and change staffs with <tt>Ctrl-up/down,</tt> and save with<tt> Ctrl-s</tt>, all other control key sequences switch you to the main Denemo Display.
+You can switch to the lyrics pane with <tt>Ctrl-l, Ctrl-l</tt>, and you can switch back from editing the lyrics to editing the music with the <tt>Ctrl-l</tt> (or <tt>Esc</tt> or <tt>Tab</tt> keys). You can change verses with <tt>Ctrl-PgUpl/PgDn </tt>keys and change staffs with <tt>Ctrl-up/down,</tt> and save with<tt> Ctrl-s</tt>.
 </div>
 <div class="Indented">
 Stanza numbers can be entered as well as font-changing commands. Use the <tt>Melismata<a class="IndexReference" name="entry-Melismata-0" href="#index-Melismata">↓</a></tt> command to extend syllables over more notes. A selection of notes that have no lyrics can be skipped using the Skip Syllables in Selection command. The lyrics menu also contains a command &ldquo;Edit Lyric at Cursor&rdquo; (<tt>Ctrl-l, Ctrl-l</tt>) which finds the place in the lyrics corresponding to the cursor position allowing you to edit the syllable that underlies the current note. 
@@ -2865,7 +2865,7 @@ If you have a PDF<a class="IndexReference" name="entry-PDF-2" href="#index-PDF">
 Select the File-&gt;Open menu and the item Open a Source for Transcribing. Select the PDF containing the music to be transcribed from. The PDF is opened in a Source View window. Right-click in this window at the point that your transcription will start. This will create a link - a Denemo Directive Object - in your score at the Denemo cursor position, shown as arrow icon. If you later use a right-click on this Denemo Directive the source file will be re-opened with the blue highlight marker on that point in the score. (Depending on the position of the top of the page you may need to scroll the Source View window up or down to bring it into view).
 </div>
 <div class="Indented">
-When you re-open the score to check or edit at some point you can click on a nearby link and the source file will be opened and the position highlighted once again.
+When you re-open the score to check or edit at some point you can click on a nearby link and the source file will be opened and the position highlighted once again. If you place a link as the very first item on the very first staff of a movement then the link will be automatically opened when the score is opened on that movement.
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 80%;">
@@ -5150,6 +5150,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Clef"></a>Clef: <a class="IndexArrow" href="#entry-Clef-0">↑</a>, <a class="IndexArrow" href="#entry-Clef-1">↑</a>, <a class="IndexArrow" href="#entry-Clef-2">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Click-Track"></a>Click Track: <a class="IndexArrow" href="#entry-Click-Track-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Command-Center"></a>Command Center: <a class="IndexArrow" href="#entry-Command-Center-0">↑</a>
 </p>
 <p class="printindex">
@@ -5202,6 +5205,9 @@ If you are not logged in as root user, for the last step type su and your root p
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Help"></a>Help: <a class="IndexArrow" href="#entry-Help-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-Hidden-Staffs"></a>Hidden Staffs: <a class="IndexArrow" href="#entry-Hidden-Staffs-0">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Indent"></a>Indent: <a class="IndexArrow" href="#entry-Indent-0">↑</a>
@@ -5398,7 +5404,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-05-04T09:22:53.289069</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-06-07T16:40:44.091293</span>
 </div>
 </div>
 </body>
