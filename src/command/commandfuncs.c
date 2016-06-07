@@ -622,6 +622,7 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
   param->status = FALSE;
   if (!gui->movement->currentstaff)
     return param->status = FALSE;//should never happen
+  gboolean was_hidden = ((DenemoStaff *) (gui->movement->currentstaff->data))->hidden;
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
   while ((((DenemoStaff *) (gui->movement->currentstaff->data))->voicecontrol == DENEMO_SECONDARY) &&
@@ -642,9 +643,12 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
       move_viewport_up (gui);
       set_cursor_transition ();
       param->status = TRUE;
+      if (was_hidden != ((DenemoStaff *) (gui->movement->currentstaff->data))->hidden)
+        set_staff_transition (20);
     }
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the first staff"));
+
   write_status(gui);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
@@ -737,6 +741,7 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
 
   if (!gui->movement->currentstaff)
     return param->status = FALSE;
+  gboolean was_hidden = ((DenemoStaff *) (gui->movement->currentstaff->data))->hidden;
   if (extend_selection && !si->markstaffnum)
     set_mark (NULL, NULL);
   while (gui->movement->currentstaff->next && (((DenemoStaff *) (gui->movement->currentstaff->next->data))->voicecontrol == DENEMO_SECONDARY)
@@ -759,9 +764,12 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
       set_cursor_transition ();
     
       param->status = TRUE;
+      if (was_hidden != ((DenemoStaff *) (gui->movement->currentstaff->data))->hidden)
+        set_staff_transition (20);
     }
   else if (param == &dummy)     //is interactive
     warningmessage (_("This is the last staff"));
+
   write_status(gui);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);

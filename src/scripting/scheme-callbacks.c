@@ -2590,7 +2590,7 @@ scheme_staff_hidden (SCM set)
   DenemoProject *gui = Denemo.project;
   DenemoStaff *staff = (DenemoStaff *) gui->movement->currentstaff->data;
   if (scm_is_bool (set))
-    staff->hidden = scm_is_true (set);
+    staff->hidden = scm_is_true (set); set_staff_transition (40);
   return SCM_BOOL (staff->hidden);
 }
 
