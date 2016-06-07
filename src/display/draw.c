@@ -1055,6 +1055,11 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
              }
             if(thestaff->hasfakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
             if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
+            { cairo_save (cr);
+              cairo_set_source_rgb (cr, 1, 0.4, 0.4);
+              if(thestaff->hidden)  drawlargetext_cr (cr, _("Hidden when not the current staff."), gui->leftmargin +55, y - staffname_offset + 5 + 2 * STAFF_HEIGHT);
+              cairo_restore(cr);  
+            }                
         }
       else
         {
@@ -1501,17 +1506,16 @@ draw_score (cairo_t * cr)
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
       g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
       itp.hairpin_stack = NULL;
-      if(cr) if (staff->hidden) 
+      if(cr) if (staff->hidden && (si->currentstaffnum != itp.staffnum)) 
       {
-        gboolean current =  (si->currentstaffnum == itp.staffnum);
+       
 
         cairo_save (cr);
-        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, current?1.0:0.5);
-        cairo_rectangle (cr, 0, itp.staffnum == si->top_staff? 5 : y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom, 1 + 8*current); 
+        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 1.0);
+        cairo_rectangle (cr, 0, itp.staffnum == si->top_staff? 5 : y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom, 3); 
         cairo_fill (cr);
         cairo_restore (cr);  
-        if (current)
-            drawtext_cr (cr, _("Current staff is hidden - do not edit!"), 20.0, 100.0, 48.0);
+      
         continue;
       }
       itp.verse = verse_get_current_view (staff);
@@ -1787,8 +1791,8 @@ draw_callback (cairo_t * cr)
     gtk_widget_queue_draw (Denemo.playbackview);
   
   /* Clear with an appropriate background color. */
-  if (((DenemoStaff*)Denemo.project->movement->currentstaff->data)->hidden)
-    cairo_set_source_rgb (cr, 1, 0.8, 0.8);
+ // if (((DenemoStaff*)Denemo.project->movement->currentstaff->data)->hidden)
+ //   cairo_set_source_rgb (cr, 1, 0.8, 0.8);
   else if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
       GdkColor col;
