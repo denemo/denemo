@@ -139,16 +139,21 @@ AC_ARG_ENABLE(
   [
     if test "x$enableval" == "xno"; then
       useaubio=no
-      CFLAGS="$CFLAGS -DDISABLE_AUBIO"
-      LIBS="$LIBS -DDISABLE_AUBIO"
     else
       useaubio=yes
-      PKG_CHECK_MODULES(LIBAUBIO, aubio >= 0.4.0)
-      CFLAGS="$CFLAGS $LIBAUBIO_CFLAGS -D_WITH_AUBIO_4_"
-      LIBS="$LIBS $LIBAUBIO_LIBS"
     fi
   ], [ useaubio=yes ])
 AM_CONDITIONAL(HAVE_AUBIO, [test x$useaubio = xyes])
+if test "x$useaubio" = "xyes"; then
+      PKG_CHECK_MODULES(LIBAUBIO, aubio >= 0.4.0)
+      CFLAGS="$CFLAGS $LIBAUBIO_CFLAGS -D_WITH_AUBIO_4_"
+      LIBS="$LIBS $LIBAUBIO_LIBS"
+fi
+if test "x$useaubio" = "xno"; then
+      CFLAGS="$CFLAGS -DDISABLE_AUBIO"
+      LIBS="$LIBS -DDISABLE_AUBIO"
+fi
+
 
 AC_ARG_ENABLE(
   gtk2,
