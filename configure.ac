@@ -78,10 +78,6 @@ if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
   fi
 fi
 
-PKG_CHECK_MODULES(LIBAUBIO_4, aubio >= 0.4.0)
-CFLAGS="$CFLAGS $LIBAUBIO_4_CFLAGS -D_WITH_AUBIO_4_"
-LIBS="$LIBS $LIBAUBIO_4_LIBS"
-
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
@@ -136,6 +132,23 @@ AC_ARG_ENABLE(
     fi
   ], [ useevince=yes ])
 AM_CONDITIONAL(HAVE_EVINCE, [test x$useevince = xyes])
+
+AC_ARG_ENABLE(
+  aubio,
+  AS_HELP_STRING([--enable-aubio], [use AUBIO @<:@default=yes@:>@]),
+  [
+    if test "x$enableval" == "xno"; then
+      useaubio=no
+      CFLAGS="$CFLAGS -DDISABLE_AUBIO"
+      LIBS="$LIBS -DDISABLE_AUBIO"
+    else
+      useaubio=yes
+      PKG_CHECK_MODULES(LIBAUBIO, aubio >= 0.4.0)
+      CFLAGS="$CFLAGS $LIBAUBIO_CFLAGS -D_WITH_AUBIO_4_"
+      LIBS="$LIBS $LIBAUBIO_LIBS"
+    fi
+  ], [ useaubio=yes ])
+AM_CONDITIONAL(HAVE_AUBIO, [test x$useaubio = xyes])
 
 AC_ARG_ENABLE(
   gtk2,
