@@ -915,7 +915,7 @@ pastewrapper (GtkAction * action, DenemoScriptParam * param)
 {
   stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
   
-  if (copybuffer == NULL)
+  if ((Denemo.project->movement->directive_on_clipboard) && (copybuffer == NULL))
     call_out_to_guile ("(eval-string CreateScriptForDirective::clipboard)");
   else
     call_out_to_guile ("(DenemoPaste)");
