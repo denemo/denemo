@@ -37,7 +37,8 @@ static gint leadin = 0;         //number of frames of silence before playing aud
 static gboolean playing = FALSE;
 
 
-
+#ifdef DISABLE_AUBIO
+#else
 
 //Creates a list of times which the aubio onset detector thinks are note onset times for the audio Denemo->si->recording
 //Result is placed in Denemo->si->note_onsets
@@ -110,7 +111,6 @@ generate_note_onsets (void)
   progressbar_stop ();
   normal_cursor (Denemo.notebook);
 }
-
 gboolean
 get_audio_sample (float *sample)
 {
@@ -249,15 +249,6 @@ set_lead_in (gdouble secs)
 
 
 
-
-gboolean
-audio_is_playing (void)
-{
-  return playing;
-}
-
-
-
 static gboolean annotating = FALSE;
 static GQueue *timings = NULL;  //list of measure start times in microseconds from start, as indicated by the user.
 static gint
@@ -354,3 +345,12 @@ open_source_audio_file (void)
 
   return ret;
 }
+
+#endif //DISABLE_AUBIO
+
+gboolean
+audio_is_playing (void)
+{
+  return playing;
+}
+

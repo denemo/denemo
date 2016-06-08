@@ -1555,6 +1555,8 @@ scheme_open_proofread_file (SCM optional)
   return SCM_BOOL_F;
 }
 
+#ifdef DISABLE_AUBIO
+#else
 SCM
 scheme_export_recorded_audio (void)
 {
@@ -1628,7 +1630,7 @@ scheme_next_audio_timing (SCM optional)
     }
   return SCM_BOOL_F;
 }
-
+#endif
 SCM
 scheme_take_snapshot (SCM optional)
 {

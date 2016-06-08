@@ -171,7 +171,10 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
   //gui->movements_selector = NULL;
   set_movement_selector (gui);
   goto_movement_staff_obj (NULL, -1, 1, 0, 0, 0);
+#ifdef DISABLE_AUBIO
+#else
   rewind_audio ();
+#endif
   write_status (gui);
 }
 

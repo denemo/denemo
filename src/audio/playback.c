@@ -68,9 +68,11 @@ ext_midi_playback (GtkAction * action, DenemoScriptParam * param)
       return;
     }
   set_tempo ();
-
+#ifdef DISABLE_AUBIO
+#else
   //rewind_audio(); done in start_audio_playing()
   start_audio_playing (FALSE);
+#endif
   midi_play (callback);
 }
 

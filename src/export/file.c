@@ -454,7 +454,10 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
   if(!Denemo.non_interactive){
     if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
       score_status (gui, FALSE);
+#ifdef DISABLE_AUBIO
+#else
     rewind_audio ();
+#endif
     panic_all ();// g_print ("Reset synth in file open\n");
     gui->movement->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   }

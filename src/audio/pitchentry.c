@@ -1157,6 +1157,9 @@ frequency_smoothing (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
 int
 stop_pitch_input (void)
 {
+#ifdef DISABLE_AUBIO
+return -1;
+#else
   DenemoProject *gui = Denemo.project;
   if (PR_timer)
     g_source_remove (PR_timer);
@@ -1180,6 +1183,7 @@ stop_pitch_input (void)
   PR_gui = NULL;
 
   return 0;
+#endif
 }
 
 

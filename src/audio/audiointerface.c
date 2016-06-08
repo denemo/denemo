@@ -485,8 +485,11 @@ queue_thread_func (gpointer data)
         {
           float sample[2];      //two channels assumed FIXME
           //FIXME I think this will drop samples if they can't be put in the queue, should find if there is space for a sample before getting it.
+#ifdef DISABLE_AUBIO
+#else
           while (get_audio_sample (sample) && write_sample_to_mixer_queue (AUDIO_BACKEND, sample))
             ;
+#endif
         }
 
 
@@ -614,7 +617,10 @@ midi_stop (void)
   get_backend (MIDI_BACKEND)->stop_playing ();
 
   stop_playing ();
+#ifdef DISABLE_AUBIO  
+#else
   stop_audio_playing ();
+#endif
   reset_playback_queue (AUDIO_BACKEND);
   reset_playback_queue (MIDI_BACKEND);
   reset_mixer_queue (AUDIO_BACKEND);

@@ -1278,8 +1278,10 @@ leadin_changed (GtkSpinButton * spin)
 {
   if (Denemo.project->movement->recording)
     {
+#ifdef USE_AUBIO
       set_lead_in (gtk_spin_button_get_value (spin));
       //g_debug("%d for %f\n", Denemo.project->movement->recording->leadin, gtk_spin_button_get_value(spin));
+#endif
     }
 }
 

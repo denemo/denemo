@@ -33,6 +33,8 @@
 #include "audio/pitchrecog.h"
 
 typedef int (*aubio_process_func_t) (smpl_t ** input, smpl_t ** output, int nframes);
+#ifdef DISABLE_AUBIO
+#else
 
 
 
@@ -322,3 +324,4 @@ store_pitch (double pitch)
   // return count<MAX_PITCHES; no point in returning the status, look at it outside of interrupts.
 }
 #endif // _HAVE_PORTAUDIO_
+#endif // DISABLE_AUBIO
