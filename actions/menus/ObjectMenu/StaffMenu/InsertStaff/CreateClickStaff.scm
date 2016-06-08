@@ -26,6 +26,7 @@
             
 ;;;procedure adds beats to the bar and plays it the recursively call the procedure to ask if it should be duplicated.               
     (define (populate-measure)
+    	(d-DirectiveDelete-standalone "Blank")
         (let* ((numerator  (duration::GetNumerator))
                 (denominator (duration::lilypond->denemo (duration::GetDenominator)))
                 (put-beat (eval-string (string-append "d-" (number->string denominator)))))
