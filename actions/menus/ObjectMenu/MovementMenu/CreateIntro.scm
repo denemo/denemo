@@ -1,7 +1,7 @@
 ;;;;;;;;;;CreateIntro
 (let ( (position (GetPosition)) (timesig (d-InitialTimeSig "query=timesigname")) (numerator #f)(denominator #f))
   (define (createIntroStaff)
-    (d-AddBefore)
+    (d-NewStructuredStaff 'initial)
     (d-InitialClef "Treble")
     (d-StaffHidden #t)
     (d-StaffProperties "midi_channel=9")
