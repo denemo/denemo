@@ -1427,7 +1427,7 @@ draw_score (cairo_t * cr)
         {
         DenemoStaff* staff = (DenemoStaff*)curstaff->data;
         gchar *context;
-
+        if (staff->hidden  && (si->currentstaffnum != count)) continue;
           for (g = staff->staff_directives; g; g = g->next)
             {
               DenemoDirective *directive = g->data;
@@ -1512,10 +1512,24 @@ draw_score (cairo_t * cr)
 
         cairo_save (cr);
         cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 1.0);
-        cairo_rectangle (cr, 0, itp.staffnum == si->top_staff? 5 : y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom, 3); 
-        cairo_fill (cr);
+       
+        if (itp.staffnum == si->top_staff)
+            {
+                //cairo_rectangle (cr, 0, 5, 50, 3); 
+                cairo_rectangle (cr, 120, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3); 
+                cairo_fill (cr);
+                drawnormaltext_cr (cr, staff->denemo_name->str, 80, 10);
+            }
+        else {
+                cairo_rectangle (cr, 120, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
+                cairo_fill (cr);
+                drawlargetext_cr (cr, staff->denemo_name->str,  80, itp.staffnum == si->top_staff? 15 : y - 35);
+                drawlargetext_cr (cr, _("Hidden"), 80, y - 10);
+            }
+            
+            
+            
         cairo_restore (cr);  
-      
         continue;
       }
       itp.verse = verse_get_current_view (staff);
