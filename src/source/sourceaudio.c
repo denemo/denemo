@@ -21,14 +21,7 @@
 #include <stdio.h>
 #include <sndfile.h>
 #include <fcntl.h>
-#include <aubio/aubio.h>
-#include "core/utils.h"
-#include "core/view.h"
-#include "audio/midi.h"
-#include "export/exportmidi.h"
-#include "source/sourceaudio.h"
-#include "command/keyresponses.h"
-#include "audio/audiointerface.h"
+#include <glib.h>
 #if GTK_MAJOR_VERSION==3
 #include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
 #endif
@@ -39,6 +32,15 @@ static gboolean playing = FALSE;
 
 #ifdef DISABLE_AUBIO
 #else
+
+#include <aubio/aubio.h>
+#include "core/utils.h"
+#include "core/view.h"
+#include "audio/midi.h"
+#include "export/exportmidi.h"
+#include "source/sourceaudio.h"
+#include "command/keyresponses.h"
+#include "audio/audiointerface.h"
 
 //Creates a list of times which the aubio onset detector thinks are note onset times for the audio Denemo->si->recording
 //Result is placed in Denemo->si->note_onsets
