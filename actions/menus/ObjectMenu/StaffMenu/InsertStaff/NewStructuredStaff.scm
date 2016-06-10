@@ -30,5 +30,7 @@
     (while (d-MoveCursorRight)
         (if (or (Timesignature?) (d-Directive-standalone? "Upbeat") (d-Directive-standalone? "Blank") (d-Directive-standalone? "ShortMeasure"))
             (copy-this)))
-    (d-MoveToStaffDown)
+    (if (not params)
+            (d-MoveToStaffDown) 
+            (d-MoveToStaffUp))
     (d-MoveToBeginning))
