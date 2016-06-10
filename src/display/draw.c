@@ -1427,7 +1427,7 @@ draw_score (cairo_t * cr)
         {
         DenemoStaff* staff = (DenemoStaff*)curstaff->data;
         gchar *context;
-
+        if (staff->hidden  && (si->currentstaffnum != count)) continue;
           for (g = staff->staff_directives; g; g = g->next)
             {
               DenemoDirective *directive = g->data;
