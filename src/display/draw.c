@@ -1511,18 +1511,22 @@ draw_score (cairo_t * cr)
        
 
         cairo_save (cr);
-        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 1.0);
+        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 0.6);
        
         if (itp.staffnum == si->top_staff)
             {
                 //cairo_rectangle (cr, 0, 5, 50, 3); 
-                cairo_rectangle (cr, 120, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3); 
+                cairo_rectangle (cr, 200, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3); 
                 cairo_fill (cr);
-                drawnormaltext_cr (cr, staff->denemo_name->str, 80, 10);
+                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
+                gchar *text = g_strdup_printf ("%s (%s)", staff->denemo_name->str, _( "Hidden"));
+                drawnormaltext_cr (cr, text, 80, 10);
+                g_free (text);
             }
         else {
-                cairo_rectangle (cr, 120, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
+                cairo_rectangle (cr, 20, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
                 cairo_fill (cr);
+                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
                 drawlargetext_cr (cr, staff->denemo_name->str,  80, itp.staffnum == si->top_staff? 15 : y - 35);
                 drawlargetext_cr (cr, _("Hidden"), 80, y - 10);
             }
