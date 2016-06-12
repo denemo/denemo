@@ -28,13 +28,14 @@
 #include <unistd.h>
 #include <math.h>
 #define AUBIO_UNSTABLE 1
+#ifdef DISABLE_AUBIO
+#else
 #include <aubio/aubio.h>
 #include <glib.h>
 #include "audio/pitchrecog.h"
 
 typedef int (*aubio_process_func_t) (smpl_t ** input, smpl_t ** output, int nframes);
-#ifdef DISABLE_AUBIO
-#else
+
 
 
 
