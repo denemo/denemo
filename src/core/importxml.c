@@ -167,6 +167,30 @@ getXMLIntChild (xmlNodePtr elem)
     }
   return num;
 }
+/**
+ * Get the text from the child node list of elem, convert it to an integer,
+ * and return it.  If unsuccessful, return G_MAXINT.
+ */
+static guint
+getXMLUIntChild (xmlNodePtr elem)
+{
+  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->xmlChildrenNode, 1);
+  guint num = G_MAXUINT;
+  if (text == NULL)
+    {
+      g_warning ("No child text found");
+    }
+  else
+    {
+      if (sscanf (text, " %u", &num) != 1)
+        {
+          g_warning ("Could not convert child text \"%s\" of <%s> to number", text, elem->name);
+          num = G_MAXUINT;
+        } g_print ("Text %s gives 0x%x\n", text, num);
+      g_free (text);
+    }
+  return num;
+}
 
 
 /**
@@ -260,7 +284,7 @@ static GList *parseLayouts (xmlNodePtr parentElem)
    xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {     
-    g = g_list_append (g,  GINT_TO_POINTER(getXMLIntChild(childElem)));
+    g = g_list_append (g,  GUINT_TO_POINTER(getXMLUIntChild(childElem)));
     }
 return g;
 }
@@ -283,7 +307,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
     if (ELEM_NAME_EQ (childElem, "x"))
          {
              directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
-             directive->layouts = g_list_append (NULL, GINT_TO_POINTER(getXMLIntChild(childElem)));
+             directive->layouts = g_list_append (NULL, GUINT_TO_POINTER(getXMLUIntChild(childElem)));
         }
     
     
@@ -291,7 +315,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
     if (ELEM_NAME_EQ (childElem, "y"))
          {
              directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
-             directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
+             directive->layouts = g_list_append (NULL, GUINT_TO_POINTER(getXMLUIntChild(childElem)));
         }
     DO_INTDIREC (tx);
     DO_INTDIREC (ty);
@@ -341,21 +365,31 @@ parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * dire
     DO_INTDIREC (minpixels);
     //DO_INTDIREC (x);
     //DO_INTDIREC (y);
-        if (ELEM_NAME_EQ (childElem, "x"))
+    if (ELEM_NAME_EQ (childElem, "x"))
          {
              directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
-             directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
+             directive->layouts = g_list_append (NULL, GUINT_TO_POINTER(getXMLUIntChild(childElem)));
         }
     if (ELEM_NAME_EQ (childElem, "y"))
          {
              directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
-             directive->layouts = g_list_append (NULL, getXMLIntChild(childElem));
+             directive->layouts = g_list_append (NULL, GUINT_TO_POINTER(getXMLUIntChild(childElem)));
         }
-
     DO_INTDIREC (tx);
     DO_INTDIREC (ty);
     DO_INTDIREC (gx);
     DO_INTDIREC (gy);
+    
+      if (ELEM_NAME_EQ (childElem, "allow"))
+        {
+            directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+            directive->layouts = parseLayouts (childElem);
+        }
+   if (ELEM_NAME_EQ (childElem, "ignore"))
+        {
+            directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
+            directive->layouts = parseLayouts (childElem);
+        }    
   }
   if (directive->tag == NULL)
     directive->tag = g_string_new ("<Unknown Tag>");
