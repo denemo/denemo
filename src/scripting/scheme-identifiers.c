@@ -661,6 +661,13 @@ create_scheme_identfiers (void)
   //INSTALL_GET (note);
   INSTALL_PUT_IGNORE (chord);
   //INSTALL_GET (chord);
+   
+   INSTALL_PUT_ALLOW (staff);
+   INSTALL_PUT_ALLOW (voice);
+   INSTALL_PUT_IGNORE (staff);
+   INSTALL_PUT_IGNORE (voice);
+   
+  
 
   INSTALL_PUT (note, tx);
   INSTALL_GET (note, tx);

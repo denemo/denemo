@@ -4475,6 +4475,29 @@ SCM scheme_##what##_directive_get_##field(SCM tag) {\
   }\
   return SCM_BOOL(FALSE);\
 }
+
+static void structural_change_note (void) {}
+static void structural_change_chord (void) {}
+static void structural_change_clef (void) {}
+static void structural_change_timesig (void) {}
+static void structural_change_keysig (void) {}
+static void structural_change_stemdirective (void) {}
+static void structural_change_tuplet (void) {}
+static void structural_change_standalone (void) {}
+static void structural_change_score (void) {signal_structural_change (Denemo.project);}
+static void structural_change_scoreheader (void) {signal_structural_change (Denemo.project);}
+static void structural_change_movementcontrol (void) {signal_structural_change (Denemo.project);}
+static void structural_change_paper (void) {signal_structural_change (Denemo.project);}
+static void structural_change_header (void) {signal_structural_change (Denemo.project);}
+static void structural_change_layout (void) {signal_structural_change (Denemo.project);}
+static void structural_change_staff (void) {signal_structural_change (Denemo.project);}
+static void structural_change_voice (void) {signal_structural_change (Denemo.project);}
+
+
+static void structural_change_object (void) {} //not sure what this is - some sort of temporary marker thing Nils devised.
+
+
+
 #define PUTFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_string(value)))\
@@ -4485,6 +4508,7 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   valuename = scm_to_locale_string(value);\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, (gchar*)valuename);\
+  structural_change_##what ();\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -4618,6 +4642,7 @@ SCM scheme_##what##_directive_put_allow(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_allow (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_allow ((gchar*)tagname, valuename);\
+  structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -4631,10 +4656,10 @@ SCM scheme_##what##_directive_put_ignore(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_ignore (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_ignore ((gchar*)tagname, valuename);\
+  structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
-
 
 #define INT_PUTFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
@@ -4646,6 +4671,7 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
+structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -4671,6 +4697,7 @@ SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
   gboolean ret = what##_directive_put_graphic ((gchar*)tagname, (gchar*)valuename);\
+structural_change_##what ();\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -4732,6 +4759,8 @@ INT_GETFUNC_DEF (score, override)
 IGNORE_PUTFUNC_DEF (note)
 IGNORE_PUTFUNC_DEF (chord)
 IGNORE_PUTFUNC_DEF (standalone)
+IGNORE_PUTFUNC_DEF (staff)
+IGNORE_PUTFUNC_DEF (voice)
 //INT_PUTFUNC_DEF (standalone)
 //INT_GETFUNC_DEF (note)
 //INT_GETFUNC_DEF (chord)
@@ -4739,6 +4768,9 @@ IGNORE_PUTFUNC_DEF (standalone)
 ALLOW_PUTFUNC_DEF (note)
 ALLOW_PUTFUNC_DEF (chord)
 ALLOW_PUTFUNC_DEF (standalone)
+ALLOW_PUTFUNC_DEF (staff)
+ALLOW_PUTFUNC_DEF (voice)
+
 //INT_GETFUNC_DEF (note)
 //INT_GETFUNC_DEF (chord)
 //INT_GETFUNC_DEF (standalone)
