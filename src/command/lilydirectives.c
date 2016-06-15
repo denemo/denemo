@@ -1152,17 +1152,17 @@ what##_directive_put_##field(gchar *tag, gint value) {\
   }\
   return TRUE;\
 }
-static GList *add_layout (GList *layouts, gint id)
+static GList *add_layout (GList *layouts, guint id)
 {
-    if (g_list_index (layouts, GINT_TO_POINTER(id))<0)
-        return g_list_append (layouts, GINT_TO_POINTER(id));
+    if (g_list_index (layouts, GUINT_TO_POINTER(id))<0)
+        return g_list_append (layouts, GUINT_TO_POINTER(id));
     return layouts;
 }
-static GList *remove_layout (GList *layouts, gint id)
+static GList *remove_layout (GList *layouts, guint id)
 {
-   return g_list_remove (layouts, GINT_TO_POINTER(id));
+   return g_list_remove (layouts, GUINT_TO_POINTER(id));
 }
-static void action_ignore (DenemoDirective *directive, gint value) {
+static void action_ignore (DenemoDirective *directive, guint value) {
   if (value)
       {
        if(directive->layouts==NULL) 
@@ -1187,7 +1187,7 @@ static void action_ignore (DenemoDirective *directive, gint value) {
            directive->layouts = directive->flag = 0;  
         }
 }
-static void action_allow (DenemoDirective *directive, gint value) {
+static void action_allow (DenemoDirective *directive, guint value) {
   if (value)
       {
         if(directive->layouts==NULL) 
@@ -1201,7 +1201,7 @@ static void action_allow (DenemoDirective *directive, gint value) {
                 directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to allowed layouts\n", value);
             }
           else {
-            directive->layouts = remove_layout (directive->layouts, value);g_print("Removed %x from ignored layouts\n", value);
+            directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from ignored layouts\n", value);
             if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
             }
         }
@@ -1217,7 +1217,7 @@ static void action_allow (DenemoDirective *directive, gint value) {
        
 #define PUT_LAYOUT_IGNORE_FUNC_NAME(what, directives) \
 gboolean \
-what##_directive_put_ignore(gchar *tag, gint value) {\
+what##_directive_put_ignore(gchar *tag, guint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   if(Denemo.project->movement->currentobject)\
@@ -1238,7 +1238,7 @@ what##_directive_put_ignore(gchar *tag, gint value) {\
 }
 #define PUT_LAYOUT_ALLOW_FUNC_NAME(what, directives) \
 gboolean \
-what##_directive_put_allow(gchar *tag, gint value) {\
+what##_directive_put_allow(gchar *tag, guint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   if(Denemo.project->movement->currentobject)\
@@ -2708,7 +2708,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
     }
   else
     {
-        gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);
+        gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);//g_print ("Current layout %x directive->flag %d and directive->layouts->data %x which is wrong = %d\n", Denemo.project->layout_id, directive->flag, directive->layouts->data, wrong);
         if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
             { 
               button = gtk_button_new_with_label (wrong?
@@ -3768,19 +3768,20 @@ REORDER_TAG (layout, directives);
 REORDER_TAG (movementcontrol, directives);
 #undef REORDER_TAG
 
-gboolean wrong_layout (DenemoDirective *directive, gint id)
+gboolean wrong_layout (DenemoDirective *directive, guint id)
 {
+
  if (directive->layouts)
-    {
-      if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+    {    
+     if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
         {
-           if (g_list_index (directive->layouts, GINT_TO_POINTER(id))<0)
+           if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))<0)
              return TRUE;
           return FALSE;
         }
        if(directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
         {
-         if (g_list_index (directive->layouts, GINT_TO_POINTER(id))>=0)
+         if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))>=0)
             return TRUE;
         }
     }

@@ -186,7 +186,7 @@ getXMLUIntChild (xmlNodePtr elem)
         {
           g_warning ("Could not convert child text \"%s\" of <%s> to number", text, elem->name);
           num = G_MAXUINT;
-        } g_print ("Text %s gives 0x%x\n", text, num);
+        }
       g_free (text);
     }
   return num;

@@ -254,6 +254,17 @@ newXMLIntChild (xmlNodePtr parent, xmlNsPtr ns, const xmlChar * name, gint conte
   g_free (integer);
   return child;
 }
+/**
+ * return a child node of parent, holding the passed name and integer.
+ */
+static xmlNodePtr
+newXMLUIntChild (xmlNodePtr parent, xmlNsPtr ns, const xmlChar * name, guint content)
+{
+  gchar *integer = g_strdup_printf ("%u", content);
+  xmlNodePtr child = xmlNewChild (parent, ns, name, (xmlChar *) integer);
+  g_free (integer);
+  return child;
+}
 
 /**
  * 
@@ -358,8 +369,8 @@ static void newLayoutsElem (xmlNodePtr layoutsElem, xmlNsPtr ns, DenemoDirective
    GList *g;
    for (g=directive->layouts;g;g=g->next)
         {
-            newXMLIntChild (layoutsElem, ns, (xmlChar *)"layout",
-                             GPOINTER_TO_INT (g->data));
+            newXMLUIntChild (layoutsElem, ns, (xmlChar *)"layout",
+                             GPOINTER_TO_UINT (g->data));
         }
 }
 
