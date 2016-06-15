@@ -17,6 +17,7 @@
 #include "core/utils.h"
 #include "core/view.h"
 #include "command/lilydirectives.h"
+#include "command/scorelayout.h"
 #include <string.h>
 static void edit_staff_and_voice_properties (gboolean show_staff);
 void initkeyaccs (gint * accs, gint number);
@@ -652,7 +653,7 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
     GString *script = g_string_new (get_script_for_directive (directive, what));
     gchar *name = choose_palette_by_name (TRUE, FALSE);
     DenemoObject *curObj = get_object ();
-    if (curObj && curObj->type == CHORD)
+    if (curObj && curObj->type == CHORD) //there should be a further condition here to test if it is a chord- or note- directive else  the cloning script will arbitrarily chordize whatever is the current note when invoked
         {
             chord *thechord = (chord *) curObj->object;
             if (thechord->chordize)
@@ -678,6 +679,61 @@ static void  create_palette_button_for_directive (GtkWidget *button, gchar *what
     }
     g_string_free (script, TRUE);
 }
+static gpointer get_rerun (gchar *field) {
+            gpointer rerun = NULL;
+            if(!strcmp (field, "movementcontrol"))
+            rerun = edit_movement_properties; 
+           else if(!strcmp (field, "scoreheader"))  
+            rerun = edit_score_properties;              
+           else  if(!strcmp (field, "lilycontrol"))
+            rerun = edit_score_properties;              
+           else  if(!strcmp (field, "header"))
+            rerun = edit_score_properties;                 
+           else  if(!strcmp (field, "layout"))
+            rerun = edit_score_properties;                 
+           else  if(!strcmp (field, "paper"))
+            rerun = edit_score_properties;                           
+           else  if(!strcmp (field, "staff"))
+            rerun = edit_staff_properties;           
+            else  if(!strcmp (field, "voice"))
+            rerun = edit_voice_properties;
+            else      
+             g_warning ("The field %s should have a Advanced button but does not.\n\n\n", field); 
+             return rerun; 
+         }
+static void  create_duplicate_directive (GtkWidget *button, gchar *what)
+{
+    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+    DenemoPalette *pal = NULL;
+    GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
+    gpointer rerun = get_rerun (what);
+    DenemoScoreblock *sb = (DenemoScoreblock *)selected_scoreblock ();
+    if (directive && directives )
+        {
+            gchar *tag_suffix = string_dialog_entry (Denemo.project, _( "Duplicate Directive"), _("Give layout duplicate directive is for: "), (sb && sb->name)?sb->name:_("Score"));
+            if (tag_suffix)
+                {
+                DenemoDirective *newdirective = clone_directive (directive);
+                newdirective->tag = g_string_new (g_strdup_printf ("%s\n%s", directive->tag->str, tag_suffix));
+                *directives = g_list_append (*directives, newdirective);//g_print ("override was %x", newdirective->override);
+                newdirective->override &= ~DENEMO_OVERRIDE_GRAPHIC;//g_print ("override becomes %x", newdirective->override);
+                
+                newdirective->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+                newdirective->layouts = g_list_append (NULL, GUINT_TO_POINTER (get_layout_id_for_name(tag_suffix)));
+                gchar *info = g_strdup_printf ("%s: %c%s%c %s",  _("The duplicate will be typeset only for layout: "), '\"', tag_suffix, '\"', 
+                    _("The original directive should be made to ignore that layout even though later directives generally override earlier ones. The duplicate directive will appear at the end of the directives of its type in the editor, tagged with the name of the layout (you can change the conditional behavior regardless of this name though). ")); 
+                warningdialog (info);
+                g_free (info);
+                gtk_widget_destroy (gtk_widget_get_toplevel (button));
+                signal_structural_change (Denemo.project);
+                score_status(Denemo.project, TRUE); 
+                if (rerun) G_CALLBACK (rerun)();
+            }
+            else 
+                warningdialog (_("Cancelled"));
+        }
+}
+
 static void  create_palette_button_for_command (GtkWidget *button, gchar *tooltip)
 {
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
@@ -703,7 +759,7 @@ static void delete_directive (GtkWidget *button, gpointer fn)
         *directives = g_list_remove (*directives, directive);
     else
         dnm_deleteobject (Denemo.project->movement);
-    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+    gtk_widget_destroy (gtk_widget_get_toplevel (button));
     score_status(Denemo.project, TRUE);    
 }
 typedef enum DIRECTIVE_TYPE {DIRECTIVE_OBJECT = 0,  DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6} DIRECTIVE_TYPE;
@@ -911,7 +967,7 @@ static void make_directive_conditional (GtkWidget *button, DenemoDirective *dire
         field = (const gchar *)g_object_get_data (G_OBJECT (button), "field");
         if (directive && directive->tag)
             {
-                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str); g_print ("Calling %s\n\n", script);
+                gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);// g_print ("Calling %s\n\n", script);
                 signal_structural_change (Denemo.project); //changing the conditional behavior of non-object directives requires score layouts to be reconstructed
                 call_out_to_guile (script);
                 g_free (script);
@@ -933,17 +989,22 @@ static void install_conditional_button (GtkWidget *hbox, DenemoDirective *direct
            else if(!strcmp (field, "scoreheader"))  
             rerun = edit_score_properties;              
            else  if(!strcmp (field, "lilycontrol"))
-            field="score", rerun = edit_score_properties;              
+            rerun = edit_score_properties;              
            else  if(!strcmp (field, "header"))
             rerun = edit_score_properties;                 
            else  if(!strcmp (field, "layout"))
             rerun = edit_score_properties;                 
            else  if(!strcmp (field, "paper"))
             rerun = edit_score_properties;                           
-           else    
-             g_warning ("The field %s should have a conditional button but doesnt.\n\n\n", field);   
+           else  if(!strcmp (field, "staff"))
+            rerun = edit_staff_properties;           
+            else  if(!strcmp (field, "voice"))
+            rerun = edit_voice_properties;
+            else      
+             g_warning ("The field %s should have a conditional button but doesnt.\n\n\n", field); 
+               
          g_object_set_data (G_OBJECT (button), "rerun", rerun);
-         g_object_set_data (G_OBJECT (button), "field", field);
+         g_object_set_data (G_OBJECT (button), "field", (!strcmp (field, "lilycontrol"))? "score":field);
         if (rerun) 
             {
             g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (make_directive_conditional), (gpointer)directive);
@@ -978,12 +1039,17 @@ place_directives (GtkWidget *vbox, GList **pdirectives, EditObjectType type)
             GtkAction *action = lookup_action_from_name (directive->tag->str);
             gchar *name = label?(gchar*)label:directive->tag->str;
             const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
-
+            gchar *display = directive->display?directive->display->str:"";
             gchar *filename = get_editscript_filename (directive->tag->str);
 
             if (!label)
                 label = directive->tag->str;
-            GtkWidget *expander = gtk_expander_new (label);
+            
+            gchar *label_text = g_strdup_printf ("%s %c%s%c", label, '[', display, ']');
+            GtkWidget *expander = gtk_expander_new (label_text);
+            g_free (label_text);
+            
+            
             gtk_expander_set_expanded (GTK_EXPANDER(expander), TRUE);
             gtk_widget_set_sensitive (expander, TRUE);
             gtk_container_set_border_width (GTK_CONTAINER (expander), 0);
@@ -1685,32 +1751,36 @@ if (editwin)
     edit_movement_properties();
     }
 }
-typedef gboolean fn2_type (DenemoDirective*);
-static void low_level_edit_type_directive (GtkWidget *button, gpointer fn)
+
+static void low_level_edit_type_directive (GtkWidget *button, gpointer rerun)
 {
     gtk_widget_hide (gtk_widget_get_toplevel (button));
     DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
     GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
-    if (!( ((fn2_type *)fn) (directive)))
+    signal_structural_change (Denemo.project);// system directive may be edited in the next call
+    if (!low_level_directive_edit (directive))   
         {
+            gtk_widget_destroy (gtk_widget_get_toplevel (button));
             if(directives) 
                 *directives = g_list_remove (*directives, directive);
-            gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
+            if (rerun)
+                G_CALLBACK (rerun)();
             score_status(Denemo.project, TRUE);
         }
     else
         show_window (button);//gtk_widget_show (gtk_widget_get_toplevel (button));
 
 }
-static void delete_score_directive (GtkWidget *button)
-{
-    DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
-    GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
-    *directives = g_list_remove (*directives, directive);
-    gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (button)));
-    score_status(Denemo.project, TRUE);    
-}
-
+static void delete_score_directive (GtkWidget *button, gpointer rerun)
+    {
+        DenemoDirective *directive = (DenemoDirective*) g_object_get_data (G_OBJECT(button), "directive");
+        GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
+        *directives = g_list_remove (*directives, directive);
+        gtk_widget_destroy (gtk_widget_get_toplevel (button));
+        G_CALLBACK (rerun)(); //edit_score_properties ();
+        score_status(Denemo.project, TRUE);    
+    }
+ 
 static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, DIRECTIVE_TYPE score_or_movement, gchar *field)
 {
     GList *g;
@@ -1735,12 +1805,13 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             gchar *name = label?(gchar*)label:directive->tag->str;
             const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
             gchar *filename = get_editscript_filename (directive->tag->str);
+            gchar *display = directive->display?directive->display->str:"";
              GtkWidget *frame;
              gchar *text;
             if (label == NULL)
-                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s"), (directive->layouts)?_( "(Conditional) "):"", type, name);
+                text = g_strdup_printf( _("%sDenemo %s Directive tagged: %s %c%s%c"), (directive->layouts)?_( "(Conditional) "):"", type, name, '[',display,']');
             else
-                text = g_strdup_printf (_("%sDenemo %s Directive: %s"), (directive->layouts)?_( "(Conditional) "):"",type, label);
+                text = g_strdup_printf (_("%sDenemo %s Directive: %s %c%s%c"), (directive->layouts)?_( "(Conditional) "):"",type, label, '[',display,']');
             frame = gtk_frame_new (text);
             g_free(text);
             //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -1788,7 +1859,7 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
             g_object_set_data (G_OBJECT(button), "directives", (gpointer)pdirectives);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
-            g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), NULL);
+            g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), get_rerun(field));
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
             
             install_conditional_button (hbox, directive, field);
@@ -1805,6 +1876,15 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             
             
             if (tooltip == NULL) tooltip = _("No tooltip");
+            
+            button = gtk_button_new_with_label (_("Create Duplicate"));
+            gtk_widget_set_tooltip_text (button, _( "Duplicate this directive with a new name. Usually only makes sense when the two directives are conditional applying to different layouts."));
+            g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive); 
+            g_object_set_data (G_OBJECT(button), "directives", pdirectives);
+            g_signal_connect (button, "clicked", G_CALLBACK (create_duplicate_directive), (gpointer)(field));
+            gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+            
+            
 
             if (action) {
                 button = gtk_button_new_with_label (_("Create Button for Command"));
@@ -1819,17 +1899,12 @@ static void place_buttons_for_directives (GList **pdirectives, GtkWidget *vbox, 
             g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), (gpointer)(field));
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
     
-    
+
             button = gtk_button_new_with_label (_("Advanced"));
             g_object_set_data (G_OBJECT(button), "directives", pdirectives);
             g_object_set_data (G_OBJECT(button), "directive", (gpointer)directive);
-            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (low_level_edit_type_directive), low_level_directive_edit);
+            g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (low_level_edit_type_directive), get_rerun(field));
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-            
-           
-            
-            
-        
     }
 }
 
