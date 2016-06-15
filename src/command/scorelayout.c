@@ -2144,10 +2144,12 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
 }
 
-//recompute a standard scoreblock
+//recompute a standard scoreblock if out of date
 static void
 recreate_standard_scoreblock (DenemoScoreblock ** psb)
 {
+  if ((*psb)->layout_sync == Denemo.project->layout_sync)
+    return;
   gint movement = (*psb)->movement;
   gchar *partname = (*psb)->partname ? g_strdup ((*psb)->partname) : NULL;
   gchar *instrumentation = (*psb)->instrumentation ? g_strdup ((*psb)->instrumentation) : NULL;
@@ -2200,23 +2202,28 @@ static gboolean
 change_tab (GtkNotebook * notebook, GtkWidget * page, gint pagenum)
 {
   //this is getting called with pagenum 0 when clicking on the lilypond text window...
-  Denemo.project->lilysync = G_MAXUINT;
+ // Denemo.project->lilysync = G_MAXUINT; this would trigger off a re-typeset in continuous typesetting. It seems to happen *before the code below is executed.
+ // g_print ("Page num %d widget 0x%x\n", pagenum, page);
   page = gtk_notebook_get_nth_page (notebook, pagenum); // value passed in appears to be something else - it is not documented what.
-
+//g_print ("gtk_notebook_get_nth_page  %d widget 0x%x\n", pagenum, page);
   GList *g;
   for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
-      sb->visible = (sb->widget == page);
+      sb->visible = (sb->widget == page);//g_print ("%s for layout 0x%x\n", sb->visible?"Visible":"Invisible", sb->id);
+      if (sb->visible) Denemo.project->layout_id = sb->id;
     }
   for (g = Denemo.project->standard_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
-      sb->visible = (sb->widget == page);
+      sb->visible = (sb->widget == page);//g_print ("%s for layout 0x%x\n", sb->visible?"Visible":"Invisible", sb->id);
+      if (sb->visible) Denemo.project->layout_id = sb->id;
     }
-  Denemo.project->layout_id = 0;
+ // Denemo.project->layout_id = 0;
+ Denemo.project->lilysync = G_MAXUINT;
   return TRUE;
 }
+
 
 //takes a DenemoScoreblock that has a valid widget field and recomputes the lilypond field of the scoreblock
 //from the widget. It also sets the name field of the scoreblock to the name on the Notebook tab.
@@ -2496,7 +2503,7 @@ create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * part
 
   gchar *label_text = movement_part_name (movement, partname);
   (*psb)->name = g_strdup (label_text);
-  (*psb)->id = crc32 ((guchar*) (*psb)->name);
+  Denemo.project->layout_id = (*psb)->id = crc32 ((guchar*) (*psb)->name);
   set_default_scoreblock (psb, movement, partname);  
   
   GtkWidget *label = gtk_label_new (label_text);
@@ -2513,7 +2520,7 @@ set_notebook_page (GtkWidget * w)
 {
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   GList *g = gtk_container_get_children (GTK_CONTAINER (notebook));
-  gint position = g_list_index (g, w);  //g_debug("pos %d", position);
+  gint position = g_list_index (g, w);
   g_list_free (g);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), position);
 }
@@ -2894,7 +2901,7 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
       create_standard_scoreblock (&sb, movement, partname);
       Denemo.project->standard_scoreblocks = g_list_prepend (Denemo.project->standard_scoreblocks, sb);
       sb->visible = TRUE;
-      sb->instrumentation = g_strdup (instrumentation); g_print ("instrumentation %s\n", sb->instrumentation);
+      sb->instrumentation = g_strdup (instrumentation); //g_print ("instrumentation %s\n", sb->instrumentation);
       refresh_lilypond (sb);
       set_notebook_page (sb->widget);
       return sb;
