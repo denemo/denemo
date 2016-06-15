@@ -2449,7 +2449,7 @@ console_output (gchar * text)
 }
 
 /* returns an override flag ORd from all those in the list of directives, 
-   excluding ones with DENEMO_OVERRIDE_HIDDEN set */
+   excluding ones with DENEMO_OVERRIDE_HIDDEN set and ones not for the current layout */
 gint
 get_override (GList * g)
 {
@@ -2457,8 +2457,8 @@ get_override (GList * g)
   for (; g; g = g->next)
     {
     DenemoDirective *d = g->data;
-   // if (wrong_layout (d, sb->id))
-   //     continue;
+    if (wrong_layout (d, Denemo.project->layout_id))
+        continue;
     if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
         ret |= d->override;
     }
