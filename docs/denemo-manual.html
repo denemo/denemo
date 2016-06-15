@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-06-07"/>
+<meta name="create-date" content="2016-06-15"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -426,7 +426,13 @@ Table of Contents
 <a class="Link" href="#toc-Subsubsection-11.1.1">Subsubsection 11.1.1: Seeking, Editing and Conditionals</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-11.1.2">Subsubsection 11.1.2: Creating Palette Buttons for Objects and Properties.</a>
+<a class="Link" href="#toc-Subsubsection-11.1.2">Subsubsection 11.1.2: Making the Directive Conditional</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-11.1.3">Subsubsection 11.1.3: Making a Copy of the Directive</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-11.1.4">Subsubsection 11.1.4: Creating Palette Buttons for Objects and Properties.</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection--40">Subsubsection: Create Button for Command</a>
@@ -2209,7 +2215,7 @@ Use the window controls on the Object Inspector’s title bar to dismiss the win
 <a class="toc" name="toc-Section-11">11</a> The Object Editor<a class="IndexReference" name="entry-Object-Editor-0" href="#index-Object-Editor">↓</a><a class="Label" name="sec:Object-Editor"> </a>
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/ObjectEditor.png" alt="figure images/ObjectEditor.png" style="width: 492px; max-width: 984px; height: 202px; max-height: 405px;"/>
+<img class="embedded" src="images/ObjectEditor.png" alt="figure images/ObjectEditor.png" style="width: 515px; max-width: 1030px; height: 196px; max-height: 393px;"/>
 
 </div>
 <div class="Indented">
@@ -2225,7 +2231,7 @@ This window is <i>modal, </i>that is you cannot interact with Denemo outside of 
 As with the Object Inspector the Object Editor is sensitive to the cursor height, with the same navigation control (&ldquo;Next note in chord<a class="IndexReference" name="entry-Chord-3" href="#index-Chord">↓</a>&rdquo;) to move through the notes of a chord so as to allow editing the detail of each note. 
 </div>
 <div class="Indented">
-In the example the cursor is on a chord which has a trill on it. Within the chord it is on the note C-natural which has a fingering on it. These are the Denemo Directives attached to the chord and note - there can be even more.
+In the example the cursor is on a chord which has a trill on it. Within the chord it is on the note C-natural which has a fingering on it for finger 3. These are the Denemo Directives attached to the chord and note - there can be even more.
 </div>
 <div class="Indented">
 For each Denemo Directive (either standalone or attached to the chord or note) there is a button &ldquo;Execute command: &lt;<i>name of command</i>&gt;&rdquo;. This button will run the command in edit mode - if it has one - or simply run the command if it doesn’t. 
@@ -2246,7 +2252,19 @@ The &ldquo;Next-&gt;&rdquo; button allows you to search on from the cursor for f
 The &ldquo;Conditional&rdquo; button allows you to say if you want the directive to be ignored for certain <i>score layouts</i> <a class="Reference" href="#sec:The-Score-Layouts">14↓</a>. For example, a cue is usually only wanted when printing the part, not the full score. So clicking on this allows you to specify this. 
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-11.1.2">11.1.2</a> Creating Palette Buttons for Objects and Properties.
+<a class="toc" name="toc-Subsubsection-11.1.2">11.1.2</a> Making the Directive Conditional
+</h3>
+<div class="Unindented">
+The conditional button allows you to designate certain score layouts (e.g. typesetting just one part, or one movement) as ones for which this directive is active or ones which ignore the directive. So if the full score is wanted without fingerings then by clicking this button with the full score as the currently typeset layout the fingering directive can be designated as ignored by that layout. Further examples can be searched and similarly marked in the dialog that follows.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-11.1.3">11.1.3</a> Making a Copy of the Directive
+</h3>
+<div class="Unindented">
+This button copies the directive to the clipboard - it can then be pasted by moving the cursor elsewhere and invoking the paste command.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-11.1.4">11.1.4</a> Creating Palette Buttons for Objects and Properties.
 </h3>
 <div class="Unindented">
 The Object Editor also has buttons for creating Palette Buttons for the Denemo Directive that it edits. There are two of these: one button would run the command that created the attribute/object the other will instantiate a duplicate - a clone - of the attribute/object.
@@ -2276,7 +2294,7 @@ This button is particularly useful for things like your copyright notice which s
 <a class="toc" name="toc-Section-12">12</a> The Score and Movement<a class="IndexReference" name="entry-Movement-1" href="#index-Movement">↓</a> Properties Editor<a class="Label" name="sec:The-Score-and"> </a>
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/ScorePropsEditor.png" alt="figure images/ScorePropsEditor.png" style="width: 478px; max-width: 683px; height: 420px; max-height: 601px;"/>
+<img class="embedded" src="images/ScorePropsEditor.png" alt="figure images/ScorePropsEditor.png" style="width: 678px; max-width: 1044px; height: 340px; max-height: 524px;"/>
 
 </div>
 <div class="Indented">
@@ -2294,11 +2312,17 @@ Some older commands do not have edit facilities.
 <div class="Indented">
 As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal.</i>
 </div>
+<div class="Indented">
+In addition to the buttons described for the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>there is a button to create a duplicate<a class="IndexReference" name="entry-Duplicate-Directives-0" href="#index-Duplicate-Directives">↓</a> of the directive. The purpose of this is to have two versions of some setting (e.g. the indent for the first staff) which are used for different score layouts - a full score may require a larger indent than an individual part. If you make the duplicate conditional<a class="IndexReference" name="entry-Conditional-Directives-0" href="#index-Conditional-Directives">↓</a> on one layout, then it is good practice to make the original conditionally <i>ignored</i> by the same layout, rather than relying on it overriding the earlier directive. <div class="Shadowbox" style="width: 100%;">
+Note that the command that created the directive you have duplicated will only edit the original directive, not the duplicate. So if you want to change it you can either use the Advanced edit button or delete and re-create it with the different value desired. (And then return to the value desired for the original copy of the directive).
+</div>
+
+</div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-13">13</a> The Staff<a class="IndexReference" name="entry-Staff-Properties-Editor-1" href="#index-Staff-Properties-Editor">↓</a> and Voice<a class="IndexReference" name="entry-Voice-7" href="#index-Voice">↓</a> Properties Editor<a class="Label" name="sec:The-Staff-and"> </a><a class="IndexReference" name="entry-Voice-Properties-Editor--seeStaff-Properties-Editor-0" href="#index-Voice-Properties-Editor--seeStaff-Properties-Editor">↓</a>
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/StaffVoicePropsEditor.png" alt="figure images/StaffVoicePropsEditor.png" style="max-width: 833px; max-height: 386px;"/>
+<img class="embedded" src="images/StaffVoicePropsEditor.png" alt="figure images/StaffVoicePropsEditor.png" style="max-width: 1017px; max-height: 496px;"/>
 
 </div>
 <div class="Indented">
@@ -2329,7 +2353,7 @@ Note that if there are additional voices on a staff these are usually displayed 
 
 </div>
 <div class="Indented">
-As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal.</i>
+As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal, </i>and as with the Score/Movements and Staff/Voices editors there are facilities to make duplicate directives for conditional<a class="IndexReference" name="entry-Conditional-Directives-1" href="#index-Conditional-Directives">↓</a> use in the various layouts you may need.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-14">14</a> The Score Layouts<a class="IndexReference" name="entry-Score-Layout-4" href="#index-Score-Layout">↓</a> Window<a class="Label" name="sec:The-Score-Layouts"> </a>
@@ -5159,6 +5183,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Conditional-Directives"></a>Conditional Directives: <a class="IndexArrow" href="#entry-Conditional-Directives-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directives-1">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Copy/Cut-and-Paste"></a>Copy/Cut and Paste: <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-0">↑</a>, <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-1">↑</a>
 </p>
 <p class="printindex">
@@ -5175,6 +5202,9 @@ If you are not logged in as root user, for the last step type su and your root p
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Directives"></a>Directives: <a class="IndexArrow" href="#entry-Directives-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-Duplicate-Directives"></a>Duplicate Directives: <a class="IndexArrow" href="#entry-Duplicate-Directives-0">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Duration"></a>Duration: <a class="IndexArrow" href="#entry-Duration-0">↑</a>, <a class="IndexArrow" href="#entry-Duration-1">↑</a>, <a class="IndexArrow" href="#entry-Duration-2">↑</a>
@@ -5404,7 +5434,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-06-07T16:40:44.091293</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-06-15T22:18:16.912333</span>
 </div>
 </div>
 </body>

@@ -5960,7 +5960,8 @@ Chord
 
 \begin_layout Standard
 In the example the cursor is on a chord which has a trill on it.
- Within the chord it is on the note C-natural which has a fingering on it.
+ Within the chord it is on the note C-natural which has a fingering on it
+ for finger 3.
  These are the Denemo Directives attached to the chord and note - there
  can be even more.
 \end_layout
@@ -6128,6 +6129,30 @@ reference "sec:The-Score-Layouts"
 \end_layout
 
 \begin_layout Subsubsection
+Making the Directive Conditional
+\end_layout
+
+\begin_layout Standard
+The conditional button allows you to designate certain score layouts (e.g.
+ typesetting just one part, or one movement) as ones for which this directive
+ is active or ones which ignore the directive.
+ So if the full score is wanted without fingerings then by clicking this
+ button with the full score as the currently typeset layout the fingering
+ directive can be designated as ignored by that layout.
+ Further examples can be searched and similarly marked in the dialog that
+ follows.
+\end_layout
+
+\begin_layout Subsubsection
+Making a Copy of the Directive
+\end_layout
+
+\begin_layout Standard
+This button copies the directive to the clipboard - it can then be pasted
+ by moving the cursor elsewhere and invoking the paste command.
+\end_layout
+
+\begin_layout Subsubsection
 Creating Palette Buttons for Objects and Properties.
 \end_layout
 
@@ -6216,7 +6241,7 @@ name "sec:The-Score-and"
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/ScorePropsEditor.png
-	scale 70
+	scale 65
 
 \end_inset
 
@@ -6290,6 +6315,71 @@ reference "sec:Object-Editor"
 , this editor is 
 \emph on
 modal.
+\end_layout
+
+\begin_layout Standard
+In addition to the buttons described for the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+there is a button to create a duplicate
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Duplicate Directives
+\end_layout
+
+\end_inset
+
+ of the directive.
+ The purpose of this is to have two versions of some setting (e.g.
+ the indent for the first staff) which are used for different score layouts
+ - a full score may require a larger indent than an individual part.
+ If you make the duplicate conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directives
+\end_layout
+
+\end_inset
+
+ on one layout, then it is good practice to make the original conditionally
+ 
+\emph on
+ignored
+\emph default
+ by the same layout, rather than relying on it overriding the earlier directive.
+ 
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note that the command that created the directive you have duplicated will
+ only edit the original directive, not the duplicate.
+ So if you want to change it you can either use the Advanced edit button
+ or delete and re-create it with the different value desired.
+ (And then return to the value desired for the original copy of the directive).
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -6506,7 +6596,20 @@ reference "sec:Object-Editor"
 
 , this editor is 
 \emph on
-modal.
+modal, 
+\emph default
+and as with the Score/Movements and Staff/Voices editors there are facilities
+ to make duplicate directives for conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directives
+\end_layout
+
+\end_inset
+
+ use in the various layouts you may need.
 \end_layout
 
 \begin_layout Section
