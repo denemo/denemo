@@ -58,7 +58,7 @@
 #define HIGHLIGHT "highlight"
 #define ERRORTEXT "error text"
 
-gchar *get_postfix (GList * g);
+gchar *get_postfix (GList * g);//HIDDEN INSIDE GET_AFFIX macro
 
 static void output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname, gchar *instrumentation);
 static GtkTextTagTable *tagtable;
