@@ -2148,7 +2148,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 static void
 recreate_standard_scoreblock (DenemoScoreblock ** psb)
 {
-  if ((*psb)->layout_sync == Denemo.project->lilysync)
+  if ((*psb)->layout_sync == Denemo.project->layout_sync)
     return;
   gint movement = (*psb)->movement;
   gchar *partname = (*psb)->partname ? g_strdup ((*psb)->partname) : NULL;
