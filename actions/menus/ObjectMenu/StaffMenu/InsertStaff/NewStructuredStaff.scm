@@ -33,4 +33,5 @@
     (if (not params)
             (d-MoveToStaffDown) 
             (d-MoveToStaffUp))
+     (d-SetSaved #f)
     (d-MoveToBeginning))
