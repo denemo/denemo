@@ -29,7 +29,7 @@
 gboolean
 signal_structural_change (DenemoProject * project)
 {
-  project->layout_sync = project->changecount;
+  project->layout_sync = -1;//project->changecount;
   return TRUE;
 }
 
