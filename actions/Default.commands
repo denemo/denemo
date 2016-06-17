@@ -7007,7 +7007,7 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <after>RehearsalMark</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Add Mark (Text/Rehearsal/Book)</_label>
-        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once (above the top part) in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed.</_tooltip>
+        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once (above the top part) in the score (provided they occur at the same moment in each part and are identical). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed. If there is any slight difference in the text of multiple text marks at the same moment a warning will be given on manually typesetting the score, to avoid this copy and paste or clone the mark you want to place in each part.</_tooltip>
       </row>
       <row type="scheme">
         <action>CustomBarline</action>
