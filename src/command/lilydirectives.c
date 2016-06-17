@@ -3011,6 +3011,7 @@ void edit_system_directive (void)
                     else
                             g_warning ("Could not get directives list to delete from");
                 }
+            signal_structural_change (Denemo.project);
         }
     g_list_free (all_directives);
     g_list_free (directive_types);
@@ -3150,6 +3151,7 @@ edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "voice"))
     delete_voice_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
@@ -3168,6 +3170,7 @@ edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "staff"))
     delete_staff_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
@@ -3186,6 +3189,7 @@ edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "clef"))
     delete_clef_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
@@ -3204,6 +3208,7 @@ edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "keysig"))
     delete_keysig_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
@@ -3223,6 +3228,7 @@ edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "timesig"))
     delete_timesig_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
@@ -3268,6 +3274,7 @@ edit_stemdirective_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_score_directive (GtkAction * action, DenemoScriptParam * param)
 {
+  signal_structural_change (Denemo.project);
 #define ScoreDirectives  _("ScoreDirectives")
 #define ScoreHeaderBlockDirectives  _("Score Header Block Directives")
 #define ScorePaperBlockDirectives  _("Score Paper Block Directives")
@@ -3332,6 +3339,8 @@ edit_score_directive (GtkAction * action, DenemoScriptParam * param)
 void
 edit_movement_directive (GtkAction * action, DenemoScriptParam * param)
 {
+  signal_structural_change (Denemo.project);
+
 #define LayoutDirectives  _("Layout Directives")
 #define MovementDirectives  _("Movement Directives")
 #define HeaderBlockDirectives  _("Movement Header Block Directives")

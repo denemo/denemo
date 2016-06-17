@@ -1777,6 +1777,7 @@ static void delete_score_directive (GtkWidget *button, gpointer rerun)
         GList **directives = (GList **)g_object_get_data (G_OBJECT(button), "directives");
         *directives = g_list_remove (*directives, directive);
         gtk_widget_destroy (gtk_widget_get_toplevel (button));
+        signal_structural_change (Denemo.project);
         G_CALLBACK (rerun)(); //edit_score_properties ();
         score_status(Denemo.project, TRUE);    
     }
