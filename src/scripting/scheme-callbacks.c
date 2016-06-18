@@ -142,7 +142,7 @@ static void toggle_value (gboolean *value)
 }
 
 void check_all (GtkWidget *button) {
-    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
+    GList *children = gtk_container_get_children ((GtkContainer *) gtk_widget_get_parent (button));
     for (;children; children=children->next)
         {
             GtkWidget *child = children->data;
@@ -152,7 +152,7 @@ void check_all (GtkWidget *button) {
 }
     
 void uncheck_all (GtkWidget *button) {
-    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
+    GList *children = gtk_container_get_children ((GtkContainer *) gtk_widget_get_parent (button));
     for (;children; children=children->next)
         {
             GtkWidget *child = children->data;
