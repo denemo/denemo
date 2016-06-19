@@ -756,7 +756,7 @@
         <bind>r,e</bind>
       </row>
       <row>
-        <action>AddDuplicateMeasure</action>
+        <action>FillMeasure</action>
         <bind>Enter</bind>
       </row>
       <row>
@@ -1051,7 +1051,7 @@
         <bind>p</bind>
       </row>
       <row>
-        <action>FillMeasure</action>
+        <action>FillUpMeasure</action>
         <bind>KP_8</bind>
       </row>
     </map>
