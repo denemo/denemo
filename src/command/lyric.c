@@ -11,6 +11,7 @@
 #include "command/object.h"
 #include "command/staff.h"
 #include "core/utils.h"
+#include "core/view.h"
 #include "command/score.h"
 #include "display/draw.h"
 #include "command/lilydirectives.h"
@@ -721,4 +722,3 @@ get_lyrics_for_verse_num (gint number)
   }
   return NULL;
 }
-
