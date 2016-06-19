@@ -432,14 +432,16 @@ check_character (GtkWidget * entry, GdkEventKey * event, GtkWidget * dialog)
 static gchar *
 label_entry (gchar * wlabel, gchar * direction)
 {
-
   GtkWidget *dialog;
   GtkWidget *entry;
   GtkWidget *label;
   gchar *entry_string;
   GString *string;
   entry = gtk_entry_new ();
-  dialog = gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), NULL);
+  dialog = gtk_dialog_new ();
+  gtk_window_set_title ((GtkWindow *) dialog, wlabel);
+  gtk_window_set_transient_for ((GtkWindow *) dialog, GTK_WINDOW (Denemo.window));
+  gtk_window_set_destroy_with_parent ((GtkWindow *) dialog, TRUE);
   g_signal_connect (G_OBJECT (entry), "key-press-event", G_CALLBACK (check_character), dialog);
   label = gtk_label_new (direction);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -468,8 +470,6 @@ label_entry (gchar * wlabel, gchar * direction)
       return NULL;
     }
   return NULL;
-
-
 }
 
 SCM
