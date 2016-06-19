@@ -22,6 +22,7 @@
 #include "export/print.h"
 #include "core/kbd-custom.h"
 #include "core/view.h"
+#include "command/lilydirectives.h"
 #include "command/object.h"
 #include "command/scorelayout.h"
 #include <signal.h>             /*for SIGTERM */
