@@ -215,24 +215,9 @@ gboolean CoInitializeExCalled = FALSE;
 gchar *
 make_temp_dir (void)
 {
-  gchar *ret = NULL;
-#ifdef G_OS_WIN32
-  gchar buf[1024] = "C:\\TMP\\\0";
-  gint length = 1024;
-  (void) GetTempPath (length, buf);
-  gint integer = 0;             //Windows does not delete the temp directory, use a constant one. g_rand_int(g_rand_new());
-  ret = g_strdup_printf ("%sDenemo%d", buf, integer);
-
-  gint fail = g_mkdir_with_parents (ret, 0700);
-  if (fail)
-    g_warning ("Could not create temp dir %s", ret);
-  else
-    g_info ("Created temp dir %s\n", ret);
-#else
-  ret = g_strdup ("/tmp/DenemoXXXXXX");
-  mkdtemp ((char *) ret);
-#endif
-  return ret;
+  gchar *tmpdir = g_build_filename (g_get_tmp_dir (), "DenemoXXXXXX", NULL);
+  g_mkdtemp (tmpdir);
+  return tmpdir;
 }
 
 gboolean
