@@ -25,6 +25,7 @@
 #include "command/lyric.h"
 #include "command/processstaffname.h"
 #include "command/commandfuncs.h"
+#include "command/lilydirectives.h"
 #include "command/scorelayout.h"
 #include "command/contexts.h"
 #include "display/draw.h"
