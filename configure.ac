@@ -78,6 +78,10 @@ if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
   fi
 fi
 
+PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.30])
+CFLAGS="$CFLAGS $GLIB_CFLAGS"
+LIBS="$LIBS $GLIB_LIBS"
+
 PKG_CHECK_MODULES(XML2, libxml-2.0 >= 2.3.10)
 CFLAGS="$CFLAGS $XML2_CFLAGS"
 LIBS="$LIBS $XML2_LIBS"
