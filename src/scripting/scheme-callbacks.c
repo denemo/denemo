@@ -745,7 +745,7 @@ interpret_lilypond_notename (gchar * x, gint * mid_c_offset, gint * enshift)
       if (*c == 'i' && *(c + 1) == 's')
         {
           accs++;
-          c++;;
+          c++;
         }
       else if (*c == 'e' && *(c + 1) == 's')
         {
@@ -4270,6 +4270,7 @@ scheme_directive_change_tag (SCM tag)
             }
     return SCM_BOOL_F;
 }
+
 #define GET_NTH_TAG(what)\
  SCM scheme_##what##_directive_get_nth_tag(SCM index) {\
   gint n;\
@@ -4380,6 +4381,7 @@ SCM scheme_directive_get_for_tag_strict_note (SCM tagname)
         ret = scm_from_locale_string (tag);
 return ret;
 }
+
 #define GET_TAG_FN_DEF(what)\
  SCM scheme_##what##_directive_get_tag(SCM tag) {\
   char *tagname;\
@@ -4398,7 +4400,6 @@ return ret;
   if(tagname) free(tagname);\
   return SCM_BOOL(FALSE);\
 }
-
 GET_TAG_FN_DEF (object);
 GET_TAG_FN_DEF (standalone);
 GET_TAG_FN_DEF (chord);
@@ -4417,6 +4418,7 @@ GET_TAG_FN_DEF (paper);
 GET_TAG_FN_DEF (layout);
 GET_TAG_FN_DEF (movementcontrol);
 #undef GET_TAG_FN_DEF
+
 #define ACTIVATE_FN_DEF(what)\
  SCM scheme_activate_##what##_directive(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4442,6 +4444,7 @@ GET_TAG_FN_DEF (movementcontrol);
   if(tagname) g_free(tagname);\
   return SCM_BOOL(ret);\
 }
+
 #define DELETE_FN_DEF(what)\
  SCM scheme_delete_##what##_directive(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4454,12 +4457,19 @@ GET_TAG_FN_DEF (movementcontrol);
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
-#define EDIT_DELETE_FN_DEF(what)\
-EDIT_FN_DEF(what)\
-DELETE_FN_DEF(what)\
+
+#define EDIT_DELETE_FN_DEF(what) \
+EDIT_FN_DEF(what) \
+DELETE_FN_DEF(what) \
 ACTIVATE_FN_DEF(what)
 
-EDIT_FN_DEF (standalone) EDIT_DELETE_FN_DEF (note) EDIT_DELETE_FN_DEF (chord) EDIT_DELETE_FN_DEF (staff) EDIT_DELETE_FN_DEF (voice) EDIT_DELETE_FN_DEF (score)
+EDIT_FN_DEF (standalone);
+EDIT_DELETE_FN_DEF (note);
+EDIT_DELETE_FN_DEF (chord);
+EDIT_DELETE_FN_DEF (staff);
+EDIT_DELETE_FN_DEF (voice);
+EDIT_DELETE_FN_DEF (score);
+
 #define GETFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4513,7 +4523,9 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
 }
-//block to clone for new GString entries in DenemoDirective
+
+// block to clone for new GString entries in DenemoDirective
+
 GETFUNC_DEF (note, display);
 GETFUNC_DEF (chord, display);
 GETFUNC_DEF (standalone, display);
@@ -4528,16 +4540,16 @@ PUTFUNC_DEF (staff, display);
 PUTFUNC_DEF (voice, display);
 PUTFUNC_DEF (score, display);
 PUTFUNC_DEF (movementcontrol, display);
+
 // end of block to clone ??? there are now stem tuplet and keysigs as well - see grob
+
 GETFUNC_DEF (note, grob);
 GETFUNC_DEF (chord, grob);
 GETFUNC_DEF (standalone, grob);
 GETFUNC_DEF (staff, grob);
 GETFUNC_DEF (voice, grob);
 GETFUNC_DEF (score, grob);
-/*UNUSED
-  GETFUNC_DEF (movementcontrol, grob);
-  */
+// UNUSED: GETFUNC_DEF (movementcontrol, grob);
 GETFUNC_DEF (clef, grob);
 GETFUNC_DEF (timesig, grob);
 GETFUNC_DEF (tuplet, grob);
@@ -4546,17 +4558,15 @@ GETFUNC_DEF (keysig, grob);
 PUTFUNC_DEF (note, grob);
 PUTFUNC_DEF (chord, grob);
 PUTFUNC_DEF (standalone, grob);
-//PUTFUNC_DEF(staff, grob)
-//PUTFUNC_DEF(voice, grob)
-PUTFUNC_DEF (score, grob)
-//PUTFUNC_DEF(movementcontrol, grob)
-  PUTFUNC_DEF (clef, grob)
-PUTFUNC_DEF (timesig, grob)
-PUTFUNC_DEF (tuplet, grob)
-PUTFUNC_DEF (stemdirective, grob)
-PUTFUNC_DEF (keysig, grob)
-
-
+// UNUSED: PUTFUNC_DEF(staff, grob)
+// UNUSED: PUTFUNC_DEF(voice, grob)
+PUTFUNC_DEF (score, grob);
+// UNUSED: PUTFUNC_DEF(movementcontrol, grob)
+PUTFUNC_DEF (clef, grob);
+PUTFUNC_DEF (timesig, grob);
+PUTFUNC_DEF (tuplet, grob);
+PUTFUNC_DEF (stemdirective, grob);
+PUTFUNC_DEF (keysig, grob);
 
 GETFUNC_DEF (note, data);
 GETFUNC_DEF (chord, data);
@@ -4577,60 +4587,59 @@ GETFUNC_DEF (keysig, data);
 PUTFUNC_DEF (note, data);
 PUTFUNC_DEF (chord, data);
 PUTFUNC_DEF (standalone, data);
-PUTFUNC_DEF(staff, data)
-PUTFUNC_DEF(voice, data)
-PUTFUNC_DEF (score, data)
-PUTFUNC_DEF (scoreheader, data)
-PUTFUNC_DEF (header, data)
-PUTFUNC_DEF (paper, data)
-PUTFUNC_DEF (layout, data)
-PUTFUNC_DEF(movementcontrol, data)
-PUTFUNC_DEF (clef, data)
-PUTFUNC_DEF (timesig, data)
-PUTFUNC_DEF (tuplet, data)
-PUTFUNC_DEF (stemdirective, data)
-PUTFUNC_DEF (keysig, data)
+PUTFUNC_DEF(staff, data);
+PUTFUNC_DEF(voice, data);
+PUTFUNC_DEF (score, data);
+PUTFUNC_DEF (scoreheader, data);
+PUTFUNC_DEF (header, data);
+PUTFUNC_DEF (paper, data);
+PUTFUNC_DEF (layout, data);
+PUTFUNC_DEF(movementcontrol, data);
+PUTFUNC_DEF (clef, data);
+PUTFUNC_DEF (timesig, data);
+PUTFUNC_DEF (tuplet, data);
+PUTFUNC_DEF (stemdirective, data);
+PUTFUNC_DEF (keysig, data);
 
-
-GETFUNC_DEF (note, midibytes)
-GETFUNC_DEF (chord, midibytes)
-GETFUNC_DEF (standalone, midibytes)
-GETFUNC_DEF (staff, midibytes)
-GETFUNC_DEF (voice, midibytes)
-GETFUNC_DEF (score, midibytes)
-GETFUNC_DEF (movementcontrol, midibytes)
-PUTFUNC_DEF (note, midibytes)
-PUTFUNC_DEF (chord, midibytes)
-PUTFUNC_DEF (standalone, midibytes)
-PUTFUNC_DEF (staff, midibytes)
-PUTFUNC_DEF (voice, midibytes)
-PUTFUNC_DEF (score, midibytes)
-PUTFUNC_DEF (movementcontrol, midibytes)
-GETFUNC_DEF (note, prefix)
-GETFUNC_DEF (note, postfix)
-PUTFUNC_DEF (note, prefix)
-  //PUTFUNC_DEF(clef, prefix)
-  PUTFUNC_DEF (note, postfix)
-GETFUNC_DEF (score, prefix)
-GETFUNC_DEF (score, postfix)
-PUTFUNC_DEF (score, prefix)
-PUTFUNC_DEF (score, postfix)
-PUTFUNC_DEF (staff, prefix)
-PUTFUNC_DEF (voice, prefix)
-GETFUNC_DEF (staff, prefix)
-GETFUNC_DEF (voice, prefix)
-PUTFUNC_DEF (staff, postfix)
-PUTFUNC_DEF (voice, postfix)
-GETFUNC_DEF (staff, postfix)
-GETFUNC_DEF (voice, postfix)
-GETFUNC_DEF (chord, prefix)
-GETFUNC_DEF (chord, postfix)
-PUTFUNC_DEF (chord, prefix)
-PUTFUNC_DEF (chord, postfix)
-GETFUNC_DEF (standalone, prefix)
-GETFUNC_DEF (standalone, postfix)
-PUTFUNC_DEF (standalone, prefix)
-PUTFUNC_DEF (standalone, postfix)
+GETFUNC_DEF (note, midibytes);
+GETFUNC_DEF (chord, midibytes);
+GETFUNC_DEF (standalone, midibytes);
+GETFUNC_DEF (staff, midibytes);
+GETFUNC_DEF (voice, midibytes);
+GETFUNC_DEF (score, midibytes);
+GETFUNC_DEF (movementcontrol, midibytes);
+PUTFUNC_DEF (note, midibytes);
+PUTFUNC_DEF (chord, midibytes);
+PUTFUNC_DEF (standalone, midibytes);
+PUTFUNC_DEF (staff, midibytes);
+PUTFUNC_DEF (voice, midibytes);
+PUTFUNC_DEF (score, midibytes);
+PUTFUNC_DEF (movementcontrol, midibytes);
+GETFUNC_DEF (note, prefix);
+GETFUNC_DEF (note, postfix);
+PUTFUNC_DEF (note, prefix);
+// UNUSED: PUTFUNC_DEF(clef, prefix)
+PUTFUNC_DEF (note, postfix);
+GETFUNC_DEF (score, prefix);
+GETFUNC_DEF (score, postfix);
+PUTFUNC_DEF (score, prefix);
+PUTFUNC_DEF (score, postfix);
+PUTFUNC_DEF (staff, prefix);
+PUTFUNC_DEF (voice, prefix);
+GETFUNC_DEF (staff, prefix);
+GETFUNC_DEF (voice, prefix);
+PUTFUNC_DEF (staff, postfix);
+PUTFUNC_DEF (voice, postfix);
+GETFUNC_DEF (staff, postfix);
+GETFUNC_DEF (voice, postfix);
+GETFUNC_DEF (chord, prefix);
+GETFUNC_DEF (chord, postfix);
+PUTFUNC_DEF (chord, prefix);
+PUTFUNC_DEF (chord, postfix);
+GETFUNC_DEF (standalone, prefix);
+GETFUNC_DEF (standalone, postfix);
+PUTFUNC_DEF (standalone, prefix);
+PUTFUNC_DEF (standalone, postfix);
 
 #define ALLOW_PUTFUNC_DEF(what)\
 SCM scheme_##what##_directive_put_allow(SCM tag, SCM value) {\
@@ -4646,6 +4655,7 @@ SCM scheme_##what##_directive_put_allow(SCM tag, SCM value) {\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
+
 #define IGNORE_PUTFUNC_DEF(what)\
 SCM scheme_##what##_directive_put_ignore(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_integer(value))){\
@@ -4675,6 +4685,7 @@ structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
+
 #define INT_GETFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4687,6 +4698,7 @@ SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(tagname) free(tagname);\
   return scm_from_int(ret);\
 }
+
 #define PUTGRAPHICFUNC_DEF(what)\
 SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_string(value))){\
@@ -4702,321 +4714,308 @@ structural_change_##what ();\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
 }
-  PUTGRAPHICFUNC_DEF (note);
+
+PUTGRAPHICFUNC_DEF (note);
 PUTGRAPHICFUNC_DEF (chord);
 PUTGRAPHICFUNC_DEF (standalone);
 PUTGRAPHICFUNC_DEF (staff);
 PUTGRAPHICFUNC_DEF (voice);
 PUTGRAPHICFUNC_DEF (score);
 
+// block to copy for new int field in directive
 
-     //block to copy for new int field in directive
-INT_PUTFUNC_DEF (note, minpixels)
-INT_PUTFUNC_DEF (chord, minpixels)
-INT_PUTFUNC_DEF (standalone, minpixels)
-INT_PUTFUNC_DEF (staff, minpixels)
-INT_PUTFUNC_DEF (voice, minpixels)
-INT_PUTFUNC_DEF (score, minpixels)
-INT_PUTFUNC_DEF (clef, minpixels)
-INT_PUTFUNC_DEF (timesig, minpixels)
-INT_PUTFUNC_DEF (tuplet, minpixels)
-INT_PUTFUNC_DEF (stemdirective, minpixels)
-INT_PUTFUNC_DEF (keysig, minpixels)
-INT_PUTFUNC_DEF (scoreheader, minpixels)
-INT_PUTFUNC_DEF (header, minpixels)
-INT_PUTFUNC_DEF (paper, minpixels)
-INT_PUTFUNC_DEF (layout, minpixels)
-INT_PUTFUNC_DEF (movementcontrol, minpixels)
-INT_GETFUNC_DEF (note, minpixels)
-INT_GETFUNC_DEF (chord, minpixels)
-INT_GETFUNC_DEF (standalone, minpixels)
-INT_GETFUNC_DEF (staff, minpixels)
-INT_GETFUNC_DEF (voice, minpixels)
-INT_GETFUNC_DEF (score, minpixels)
-INT_GETFUNC_DEF (clef, minpixels)
-INT_GETFUNC_DEF (timesig, minpixels)
-INT_GETFUNC_DEF (tuplet, minpixels)
-INT_GETFUNC_DEF (stemdirective, minpixels)
-INT_GETFUNC_DEF (keysig, minpixels)
-INT_GETFUNC_DEF (scoreheader, minpixels)
-INT_GETFUNC_DEF (header, minpixels)
-INT_GETFUNC_DEF (paper, minpixels)
-INT_GETFUNC_DEF (layout, minpixels)
-INT_GETFUNC_DEF (movementcontrol, minpixels)
-  //end block to ocpy for new int field in directive
-INT_PUTFUNC_DEF (note, override)
-INT_PUTFUNC_DEF (chord, override)
-INT_PUTFUNC_DEF (standalone, override)
-INT_PUTFUNC_DEF (staff, override)
-INT_PUTFUNC_DEF (voice, override)
-INT_PUTFUNC_DEF (score, override)
-INT_GETFUNC_DEF (note, override)
-INT_GETFUNC_DEF (chord, override)
-INT_GETFUNC_DEF (standalone, override)
-INT_GETFUNC_DEF (staff, override)
-INT_GETFUNC_DEF (voice, override)
-INT_GETFUNC_DEF (score, override)
-IGNORE_PUTFUNC_DEF (note)
-IGNORE_PUTFUNC_DEF (chord)
-IGNORE_PUTFUNC_DEF (standalone)
-IGNORE_PUTFUNC_DEF (staff)
-IGNORE_PUTFUNC_DEF (voice)
-//INT_PUTFUNC_DEF (standalone)
-//INT_GETFUNC_DEF (note)
-//INT_GETFUNC_DEF (chord)
-//INT_GETFUNC_DEF (standalone)
-ALLOW_PUTFUNC_DEF (note)
-ALLOW_PUTFUNC_DEF (chord)
-ALLOW_PUTFUNC_DEF (standalone)
-ALLOW_PUTFUNC_DEF (staff)
-ALLOW_PUTFUNC_DEF (voice)
+INT_PUTFUNC_DEF (note, minpixels);
+INT_PUTFUNC_DEF (chord, minpixels);
+INT_PUTFUNC_DEF (standalone, minpixels);
+INT_PUTFUNC_DEF (staff, minpixels);
+INT_PUTFUNC_DEF (voice, minpixels);
+INT_PUTFUNC_DEF (score, minpixels);
+INT_PUTFUNC_DEF (clef, minpixels);
+INT_PUTFUNC_DEF (timesig, minpixels);
+INT_PUTFUNC_DEF (tuplet, minpixels);
+INT_PUTFUNC_DEF (stemdirective, minpixels);
+INT_PUTFUNC_DEF (keysig, minpixels);
+INT_PUTFUNC_DEF (scoreheader, minpixels);
+INT_PUTFUNC_DEF (header, minpixels);
+INT_PUTFUNC_DEF (paper, minpixels);
+INT_PUTFUNC_DEF (layout, minpixels);
+INT_PUTFUNC_DEF (movementcontrol, minpixels);
+INT_GETFUNC_DEF (note, minpixels);
+INT_GETFUNC_DEF (chord, minpixels);
+INT_GETFUNC_DEF (standalone, minpixels);
+INT_GETFUNC_DEF (staff, minpixels);
+INT_GETFUNC_DEF (voice, minpixels);
+INT_GETFUNC_DEF (score, minpixels);
+INT_GETFUNC_DEF (clef, minpixels);
+INT_GETFUNC_DEF (timesig, minpixels);
+INT_GETFUNC_DEF (tuplet, minpixels);
+INT_GETFUNC_DEF (stemdirective, minpixels);
+INT_GETFUNC_DEF (keysig, minpixels);
+INT_GETFUNC_DEF (scoreheader, minpixels);
+INT_GETFUNC_DEF (header, minpixels);
+INT_GETFUNC_DEF (paper, minpixels);
+INT_GETFUNC_DEF (layout, minpixels);
+INT_GETFUNC_DEF (movementcontrol, minpixels);
 
-//INT_GETFUNC_DEF (note)
-//INT_GETFUNC_DEF (chord)
-//INT_GETFUNC_DEF (standalone)
-INT_PUTFUNC_DEF (note, ty)
-INT_PUTFUNC_DEF (chord, ty)
-INT_PUTFUNC_DEF (standalone, ty)
-INT_GETFUNC_DEF (note, ty)
-INT_GETFUNC_DEF (chord, ty)
-INT_GETFUNC_DEF (standalone, ty)
-INT_PUTFUNC_DEF (note, tx)
-INT_PUTFUNC_DEF (chord, tx)
-INT_PUTFUNC_DEF (standalone, tx)
-INT_GETFUNC_DEF (note, tx)
-INT_GETFUNC_DEF (chord, tx)
-INT_GETFUNC_DEF (standalone, tx)
-INT_PUTFUNC_DEF (note, gy)
-INT_PUTFUNC_DEF (chord, gy)
-INT_PUTFUNC_DEF (standalone, gy)
-INT_GETFUNC_DEF (note, gy)
-INT_GETFUNC_DEF (chord, gy)
-INT_GETFUNC_DEF (standalone, gy)
-INT_PUTFUNC_DEF (note, gx)
-INT_PUTFUNC_DEF (chord, gx)
-INT_PUTFUNC_DEF (standalone, gx)
-INT_GETFUNC_DEF (note, gx)
-INT_GETFUNC_DEF (chord, gx)
-INT_GETFUNC_DEF (standalone, gx)
-INT_GETFUNC_DEF (note, width)
-INT_GETFUNC_DEF (chord, width)
-INT_GETFUNC_DEF (standalone, width)
-INT_GETFUNC_DEF (note, height)
-INT_GETFUNC_DEF (chord, height)
-INT_GETFUNC_DEF (standalone, height)
-//INT_GETFUNC_DEF (score)
-//INT_GETFUNC_DEF (score)
-INT_GETFUNC_DEF (score, tx)
-INT_GETFUNC_DEF (score, ty)
-INT_GETFUNC_DEF (score, gx)
-INT_GETFUNC_DEF (score, gy)
-INT_GETFUNC_DEF (score, width)
-INT_GETFUNC_DEF (score, height)
-ALLOW_PUTFUNC_DEF (score)
-IGNORE_PUTFUNC_DEF (score)
-INT_PUTFUNC_DEF (score, tx)
-INT_PUTFUNC_DEF (score, ty)
-INT_PUTFUNC_DEF (score, gx)
-INT_PUTFUNC_DEF (score, gy)
-INT_GETFUNC_DEF (object, minpixels)
-INT_PUTFUNC_DEF (object, minpixels) DELETE_FN_DEF (object)
-  // block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
-  GETFUNC_DEF (clef, prefix) GETFUNC_DEF (clef, postfix) GETFUNC_DEF (clef, display) PUTFUNC_DEF (clef, prefix) PUTFUNC_DEF (clef, postfix) PUTFUNC_DEF (clef, display) PUTGRAPHICFUNC_DEF (clef);
+// end block to ocpy for new int field in directive
 
-ALLOW_PUTFUNC_DEF (clef)
-IGNORE_PUTFUNC_DEF (clef)
-INT_PUTFUNC_DEF (clef, tx)
-INT_PUTFUNC_DEF (clef, ty)
-INT_PUTFUNC_DEF (clef, gx)
-INT_PUTFUNC_DEF (clef, gy)
-INT_PUTFUNC_DEF (clef, override)
-//INT_GETFUNC_DEF (clef)
-//INT_GETFUNC_DEF (clef)
-INT_GETFUNC_DEF (clef, tx)
-INT_GETFUNC_DEF (clef, ty)
-INT_GETFUNC_DEF (clef, gx)
-INT_GETFUNC_DEF (clef, gy)
-INT_GETFUNC_DEF (clef, override)
-INT_GETFUNC_DEF (clef, width)
-INT_GETFUNC_DEF (clef, height) EDIT_DELETE_FN_DEF (clef)
-  // end block
-  GETFUNC_DEF (timesig, prefix) GETFUNC_DEF (timesig, postfix) GETFUNC_DEF (timesig, display) PUTFUNC_DEF (timesig, prefix) PUTFUNC_DEF (timesig, postfix) PUTFUNC_DEF (timesig, display) PUTGRAPHICFUNC_DEF (timesig);
+INT_PUTFUNC_DEF (note, override);
+INT_PUTFUNC_DEF (chord, override);
+INT_PUTFUNC_DEF (standalone, override);
+INT_PUTFUNC_DEF (staff, override);
+INT_PUTFUNC_DEF (voice, override);
+INT_PUTFUNC_DEF (score, override);
+INT_GETFUNC_DEF (note, override);
+INT_GETFUNC_DEF (chord, override);
+INT_GETFUNC_DEF (standalone, override);
+INT_GETFUNC_DEF (staff, override);
+INT_GETFUNC_DEF (voice, override);
+INT_GETFUNC_DEF (score, override);
+IGNORE_PUTFUNC_DEF (note);
+IGNORE_PUTFUNC_DEF (chord);
+IGNORE_PUTFUNC_DEF (standalone);
+IGNORE_PUTFUNC_DEF (staff);
+IGNORE_PUTFUNC_DEF (voice);
+// UNUSED: INT_PUTFUNC_DEF (standalone)
+// UNUSED: INT_GETFUNC_DEF (note)
+// UNUSED: INT_GETFUNC_DEF (chord)
+// UNUSED: INT_GETFUNC_DEF (standalone)
+ALLOW_PUTFUNC_DEF (note);
+ALLOW_PUTFUNC_DEF (chord);
+ALLOW_PUTFUNC_DEF (standalone);
+ALLOW_PUTFUNC_DEF (staff);
+ALLOW_PUTFUNC_DEF (voice);
 
-ALLOW_PUTFUNC_DEF (timesig)
-IGNORE_PUTFUNC_DEF (timesig)
-INT_PUTFUNC_DEF (timesig, tx)
-INT_PUTFUNC_DEF (timesig, ty)
-INT_PUTFUNC_DEF (timesig, gx)
-INT_PUTFUNC_DEF (timesig, gy)
-INT_PUTFUNC_DEF (timesig, override)
-//INT_GETFUNC_DEF (timesig)
-//INT_GETFUNC_DEF (timesig)
-INT_GETFUNC_DEF (timesig, tx)
-INT_GETFUNC_DEF (timesig, ty)
-INT_GETFUNC_DEF (timesig, gx)
-INT_GETFUNC_DEF (timesig, gy)
-INT_GETFUNC_DEF (timesig, override)
-INT_GETFUNC_DEF (timesig, width)
-INT_GETFUNC_DEF (timesig, height) EDIT_DELETE_FN_DEF (timesig) GETFUNC_DEF (tuplet, prefix) GETFUNC_DEF (tuplet, postfix) GETFUNC_DEF (tuplet, display) PUTFUNC_DEF (tuplet, prefix) PUTFUNC_DEF (tuplet, postfix) PUTFUNC_DEF (tuplet, display) PUTGRAPHICFUNC_DEF (tuplet);
+// UNUSED: INT_GETFUNC_DEF (note)
+// UNUSED: INT_GETFUNC_DEF (chord)
+// UNUSED: INT_GETFUNC_DEF (standalone)
+INT_PUTFUNC_DEF (note, ty);
+INT_PUTFUNC_DEF (chord, ty);
+INT_PUTFUNC_DEF (standalone, ty);
+INT_GETFUNC_DEF (note, ty);
+INT_GETFUNC_DEF (chord, ty);
+INT_GETFUNC_DEF (standalone, ty);
+INT_PUTFUNC_DEF (note, tx);
+INT_PUTFUNC_DEF (chord, tx);
+INT_PUTFUNC_DEF (standalone, tx);
+INT_GETFUNC_DEF (note, tx);
+INT_GETFUNC_DEF (chord, tx);
+INT_GETFUNC_DEF (standalone, tx);
+INT_PUTFUNC_DEF (note, gy);
+INT_PUTFUNC_DEF (chord, gy);
+INT_PUTFUNC_DEF (standalone, gy);
+INT_GETFUNC_DEF (note, gy);
+INT_GETFUNC_DEF (chord, gy);
+INT_GETFUNC_DEF (standalone, gy);
+INT_PUTFUNC_DEF (note, gx);
+INT_PUTFUNC_DEF (chord, gx);
+INT_PUTFUNC_DEF (standalone, gx);
+INT_GETFUNC_DEF (note, gx);
+INT_GETFUNC_DEF (chord, gx);
+INT_GETFUNC_DEF (standalone, gx);
+INT_GETFUNC_DEF (note, width);
+INT_GETFUNC_DEF (chord, width);
+INT_GETFUNC_DEF (standalone, width);
+INT_GETFUNC_DEF (note, height);
+INT_GETFUNC_DEF (chord, height);
+INT_GETFUNC_DEF (standalone, height);
+INT_GETFUNC_DEF (score, tx);
+INT_GETFUNC_DEF (score, ty);
+INT_GETFUNC_DEF (score, gx);
+INT_GETFUNC_DEF (score, gy);
+INT_GETFUNC_DEF (score, width);
+INT_GETFUNC_DEF (score, height);
+ALLOW_PUTFUNC_DEF (score);
+IGNORE_PUTFUNC_DEF (score);
+INT_PUTFUNC_DEF (score, tx);
+INT_PUTFUNC_DEF (score, ty);
+INT_PUTFUNC_DEF (score, gx);
+INT_PUTFUNC_DEF (score, gy);
+INT_GETFUNC_DEF (object, minpixels);
+INT_PUTFUNC_DEF (object, minpixels);
+DELETE_FN_DEF (object);
 
-ALLOW_PUTFUNC_DEF (tuplet)
-IGNORE_PUTFUNC_DEF (tuplet)
-INT_PUTFUNC_DEF (tuplet, tx)
-INT_PUTFUNC_DEF (tuplet, ty)
-INT_PUTFUNC_DEF (tuplet, gx)
-INT_PUTFUNC_DEF (tuplet, gy)
-INT_PUTFUNC_DEF (tuplet, override)
-//INT_GETFUNC_DEF (tuplet)
-//INT_GETFUNC_DEF (tuplet)
-INT_GETFUNC_DEF (tuplet, tx)
-INT_GETFUNC_DEF (tuplet, ty)
-INT_GETFUNC_DEF (tuplet, gx)
-INT_GETFUNC_DEF (tuplet, gy)
-INT_GETFUNC_DEF (tuplet, override)
-INT_GETFUNC_DEF (tuplet, width)
-INT_GETFUNC_DEF (tuplet, height) EDIT_DELETE_FN_DEF (tuplet) GETFUNC_DEF (stemdirective, prefix) GETFUNC_DEF (stemdirective, postfix) GETFUNC_DEF (stemdirective, display) PUTFUNC_DEF (stemdirective, prefix) PUTFUNC_DEF (stemdirective, postfix) PUTFUNC_DEF (stemdirective, display) PUTGRAPHICFUNC_DEF (stemdirective);
+// block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
 
-ALLOW_PUTFUNC_DEF (stemdirective)
-IGNORE_PUTFUNC_DEF (stemdirective)
-INT_PUTFUNC_DEF (stemdirective, tx)
-INT_PUTFUNC_DEF (stemdirective, ty)
-INT_PUTFUNC_DEF (stemdirective, gx)
-INT_PUTFUNC_DEF (stemdirective, gy)
-INT_PUTFUNC_DEF (stemdirective, override)
-//INT_GETFUNC_DEF (stemdirective)
-//INT_GETFUNC_DEF (stemdirective)
-INT_GETFUNC_DEF (stemdirective, tx)
-INT_GETFUNC_DEF (stemdirective, ty)
-INT_GETFUNC_DEF (stemdirective, gx)
-INT_GETFUNC_DEF (stemdirective, gy)
-INT_GETFUNC_DEF (stemdirective, override)
-INT_GETFUNC_DEF (stemdirective, width)
-INT_GETFUNC_DEF (stemdirective, height) EDIT_DELETE_FN_DEF (stemdirective) GETFUNC_DEF (keysig, prefix) GETFUNC_DEF (keysig, postfix) GETFUNC_DEF (keysig, display) PUTFUNC_DEF (keysig, prefix) PUTFUNC_DEF (keysig, postfix) PUTFUNC_DEF (keysig, display) PUTGRAPHICFUNC_DEF (keysig);
+GETFUNC_DEF (clef, prefix) GETFUNC_DEF (clef, postfix) GETFUNC_DEF (clef, display) PUTFUNC_DEF (clef, prefix) PUTFUNC_DEF (clef, postfix) PUTFUNC_DEF (clef, display) PUTGRAPHICFUNC_DEF (clef);
 
-ALLOW_PUTFUNC_DEF (keysig)
-IGNORE_PUTFUNC_DEF (keysig)
-INT_PUTFUNC_DEF (keysig, tx)
-INT_PUTFUNC_DEF (keysig, ty)
-INT_PUTFUNC_DEF (keysig, gx)
-INT_PUTFUNC_DEF (keysig, gy)
-INT_PUTFUNC_DEF (keysig, override)
-//INT_GETFUNC_DEF (keysig)
-//INT_GETFUNC_DEF (keysig)
-INT_GETFUNC_DEF (keysig, tx)
-INT_GETFUNC_DEF (keysig, ty)
-INT_GETFUNC_DEF (keysig, gx)
-INT_GETFUNC_DEF (keysig, gy)
-INT_GETFUNC_DEF (keysig, override)
-INT_GETFUNC_DEF (keysig, width)
-INT_GETFUNC_DEF (keysig, height) EDIT_DELETE_FN_DEF (keysig) GETFUNC_DEF (scoreheader, prefix) GETFUNC_DEF (scoreheader, postfix) GETFUNC_DEF (scoreheader, display) PUTFUNC_DEF (scoreheader, prefix) PUTFUNC_DEF (scoreheader, postfix) PUTFUNC_DEF (scoreheader, display) PUTGRAPHICFUNC_DEF (scoreheader);
+ALLOW_PUTFUNC_DEF (clef);
+IGNORE_PUTFUNC_DEF (clef);
+INT_PUTFUNC_DEF (clef, tx);
+INT_PUTFUNC_DEF (clef, ty);
+INT_PUTFUNC_DEF (clef, gx);
+INT_PUTFUNC_DEF (clef, gy);
+INT_PUTFUNC_DEF (clef, override);
+INT_GETFUNC_DEF (clef, tx);
+INT_GETFUNC_DEF (clef, ty);
+INT_GETFUNC_DEF (clef, gx);
+INT_GETFUNC_DEF (clef, gy);
+INT_GETFUNC_DEF (clef, override);
+INT_GETFUNC_DEF (clef, width);
+INT_GETFUNC_DEF (clef, height);
+EDIT_DELETE_FN_DEF (clef);
 
-ALLOW_PUTFUNC_DEF (scoreheader)
-IGNORE_PUTFUNC_DEF (scoreheader)
-INT_PUTFUNC_DEF (scoreheader, tx)
-INT_PUTFUNC_DEF (scoreheader, ty)
-INT_PUTFUNC_DEF (scoreheader, gx)
-INT_PUTFUNC_DEF (scoreheader, gy)
-INT_PUTFUNC_DEF (scoreheader, override)
-//INT_GETFUNC_DEF (scoreheader)
-//INT_GETFUNC_DEF (scoreheader)
-INT_GETFUNC_DEF (scoreheader, tx)
-INT_GETFUNC_DEF (scoreheader, ty)
-INT_GETFUNC_DEF (scoreheader, gx)
-INT_GETFUNC_DEF (scoreheader, gy)
-INT_GETFUNC_DEF (scoreheader, override)
-INT_GETFUNC_DEF (scoreheader, width)
-INT_GETFUNC_DEF (scoreheader, height) EDIT_DELETE_FN_DEF (scoreheader) GETFUNC_DEF (header, prefix) GETFUNC_DEF (header, postfix) GETFUNC_DEF (header, display) PUTFUNC_DEF (header, prefix) PUTFUNC_DEF (header, postfix) PUTFUNC_DEF (header, display) PUTGRAPHICFUNC_DEF (header);
+// end block
 
-ALLOW_PUTFUNC_DEF (header)
-IGNORE_PUTFUNC_DEF (header)
-INT_PUTFUNC_DEF (header, tx)
-INT_PUTFUNC_DEF (header, ty)
-INT_PUTFUNC_DEF (header, gx)
-INT_PUTFUNC_DEF (header, gy)
-INT_PUTFUNC_DEF (header, override)
-//INT_GETFUNC_DEF (header)
-//INT_GETFUNC_DEF (header)
-INT_GETFUNC_DEF (header, tx)
-INT_GETFUNC_DEF (header, ty)
-INT_GETFUNC_DEF (header, gx)
-INT_GETFUNC_DEF (header, gy)
-INT_GETFUNC_DEF (header, override)
-INT_GETFUNC_DEF (header, width)
-INT_GETFUNC_DEF (header, height)
-EDIT_DELETE_FN_DEF (header)
-GETFUNC_DEF (paper, prefix)
-GETFUNC_DEF (paper, postfix)
-GETFUNC_DEF (paper, display)
-PUTFUNC_DEF (paper, prefix)
-PUTFUNC_DEF (paper, postfix)
-PUTFUNC_DEF (paper, display)
+GETFUNC_DEF (timesig, prefix) GETFUNC_DEF (timesig, postfix) GETFUNC_DEF (timesig, display) PUTFUNC_DEF (timesig, prefix) PUTFUNC_DEF (timesig, postfix) PUTFUNC_DEF (timesig, display) PUTGRAPHICFUNC_DEF (timesig);
+
+ALLOW_PUTFUNC_DEF (timesig);
+IGNORE_PUTFUNC_DEF (timesig);
+INT_PUTFUNC_DEF (timesig, tx);
+INT_PUTFUNC_DEF (timesig, ty);
+INT_PUTFUNC_DEF (timesig, gx);
+INT_PUTFUNC_DEF (timesig, gy);
+INT_PUTFUNC_DEF (timesig, override);
+INT_GETFUNC_DEF (timesig, tx);
+INT_GETFUNC_DEF (timesig, ty);
+INT_GETFUNC_DEF (timesig, gx);
+INT_GETFUNC_DEF (timesig, gy);
+INT_GETFUNC_DEF (timesig, override);
+INT_GETFUNC_DEF (timesig, width);
+INT_GETFUNC_DEF (timesig, height); EDIT_DELETE_FN_DEF (timesig); GETFUNC_DEF (tuplet, prefix); GETFUNC_DEF (tuplet, postfix); GETFUNC_DEF (tuplet, display); PUTFUNC_DEF (tuplet, prefix); PUTFUNC_DEF (tuplet, postfix); PUTFUNC_DEF (tuplet, display); PUTGRAPHICFUNC_DEF (tuplet);
+
+ALLOW_PUTFUNC_DEF (tuplet);
+IGNORE_PUTFUNC_DEF (tuplet);
+INT_PUTFUNC_DEF (tuplet, tx);
+INT_PUTFUNC_DEF (tuplet, ty);
+INT_PUTFUNC_DEF (tuplet, gx);
+INT_PUTFUNC_DEF (tuplet, gy);
+INT_PUTFUNC_DEF (tuplet, override);
+INT_GETFUNC_DEF (tuplet, tx);
+INT_GETFUNC_DEF (tuplet, ty);
+INT_GETFUNC_DEF (tuplet, gx);
+INT_GETFUNC_DEF (tuplet, gy);
+INT_GETFUNC_DEF (tuplet, override);
+INT_GETFUNC_DEF (tuplet, width);
+INT_GETFUNC_DEF (tuplet, height); EDIT_DELETE_FN_DEF (tuplet); GETFUNC_DEF (stemdirective, prefix); GETFUNC_DEF (stemdirective, postfix); GETFUNC_DEF (stemdirective, display); PUTFUNC_DEF (stemdirective, prefix); PUTFUNC_DEF (stemdirective, postfix); PUTFUNC_DEF (stemdirective, display); PUTGRAPHICFUNC_DEF (stemdirective);
+
+ALLOW_PUTFUNC_DEF (stemdirective);
+IGNORE_PUTFUNC_DEF (stemdirective);
+INT_PUTFUNC_DEF (stemdirective, tx);
+INT_PUTFUNC_DEF (stemdirective, ty);
+INT_PUTFUNC_DEF (stemdirective, gx);
+INT_PUTFUNC_DEF (stemdirective, gy);
+INT_PUTFUNC_DEF (stemdirective, override);
+INT_GETFUNC_DEF (stemdirective, tx);
+INT_GETFUNC_DEF (stemdirective, ty);
+INT_GETFUNC_DEF (stemdirective, gx);
+INT_GETFUNC_DEF (stemdirective, gy);
+INT_GETFUNC_DEF (stemdirective, override);
+INT_GETFUNC_DEF (stemdirective, width);
+INT_GETFUNC_DEF (stemdirective, height); EDIT_DELETE_FN_DEF (stemdirective); GETFUNC_DEF (keysig, prefix); GETFUNC_DEF (keysig, postfix); GETFUNC_DEF (keysig, display); PUTFUNC_DEF (keysig, prefix); PUTFUNC_DEF (keysig, postfix); PUTFUNC_DEF (keysig, display); PUTGRAPHICFUNC_DEF (keysig);
+
+ALLOW_PUTFUNC_DEF (keysig);
+IGNORE_PUTFUNC_DEF (keysig);
+INT_PUTFUNC_DEF (keysig, tx);
+INT_PUTFUNC_DEF (keysig, ty);
+INT_PUTFUNC_DEF (keysig, gx);
+INT_PUTFUNC_DEF (keysig, gy);
+INT_PUTFUNC_DEF (keysig, override);
+INT_GETFUNC_DEF (keysig, tx);
+INT_GETFUNC_DEF (keysig, ty);
+INT_GETFUNC_DEF (keysig, gx);
+INT_GETFUNC_DEF (keysig, gy);
+INT_GETFUNC_DEF (keysig, override);
+INT_GETFUNC_DEF (keysig, width);
+INT_GETFUNC_DEF (keysig, height); EDIT_DELETE_FN_DEF (keysig); GETFUNC_DEF (scoreheader, prefix); GETFUNC_DEF (scoreheader, postfix); GETFUNC_DEF (scoreheader, display); PUTFUNC_DEF (scoreheader, prefix); PUTFUNC_DEF (scoreheader, postfix); PUTFUNC_DEF (scoreheader, display); PUTGRAPHICFUNC_DEF (scoreheader);
+
+ALLOW_PUTFUNC_DEF (scoreheader);
+IGNORE_PUTFUNC_DEF (scoreheader);
+INT_PUTFUNC_DEF (scoreheader, tx);
+INT_PUTFUNC_DEF (scoreheader, ty);
+INT_PUTFUNC_DEF (scoreheader, gx);
+INT_PUTFUNC_DEF (scoreheader, gy);
+INT_PUTFUNC_DEF (scoreheader, override);
+INT_GETFUNC_DEF (scoreheader, tx);
+INT_GETFUNC_DEF (scoreheader, ty);
+INT_GETFUNC_DEF (scoreheader, gx);
+INT_GETFUNC_DEF (scoreheader, gy);
+INT_GETFUNC_DEF (scoreheader, override);
+INT_GETFUNC_DEF (scoreheader, width);
+INT_GETFUNC_DEF (scoreheader, height); EDIT_DELETE_FN_DEF (scoreheader); GETFUNC_DEF (header, prefix); GETFUNC_DEF (header, postfix); GETFUNC_DEF (header, display); PUTFUNC_DEF (header, prefix); PUTFUNC_DEF (header, postfix); PUTFUNC_DEF (header, display); PUTGRAPHICFUNC_DEF (header);
+
+ALLOW_PUTFUNC_DEF (header);
+IGNORE_PUTFUNC_DEF (header);
+INT_PUTFUNC_DEF (header, tx);
+INT_PUTFUNC_DEF (header, ty);
+INT_PUTFUNC_DEF (header, gx);
+INT_PUTFUNC_DEF (header, gy);
+INT_PUTFUNC_DEF (header, override);
+INT_GETFUNC_DEF (header, tx);
+INT_GETFUNC_DEF (header, ty);
+INT_GETFUNC_DEF (header, gx);
+INT_GETFUNC_DEF (header, gy);
+INT_GETFUNC_DEF (header, override);
+INT_GETFUNC_DEF (header, width);
+INT_GETFUNC_DEF (header, height);
+EDIT_DELETE_FN_DEF (header);
+GETFUNC_DEF (paper, prefix);
+GETFUNC_DEF (paper, postfix);
+GETFUNC_DEF (paper, display);
+PUTFUNC_DEF (paper, prefix);
+PUTFUNC_DEF (paper, postfix);
+PUTFUNC_DEF (paper, display);
 PUTGRAPHICFUNC_DEF (paper);
 
-ALLOW_PUTFUNC_DEF (paper)
-IGNORE_PUTFUNC_DEF (paper)
-INT_PUTFUNC_DEF (paper, tx)
-INT_PUTFUNC_DEF (paper, ty)
-INT_PUTFUNC_DEF (paper, gx)
-INT_PUTFUNC_DEF (paper, gy)
-INT_PUTFUNC_DEF (paper, override)
-//INT_GETFUNC_DEF (paper)
-//INT_GETFUNC_DEF (paper)
-INT_GETFUNC_DEF (paper, tx)
-INT_GETFUNC_DEF (paper, ty)
-INT_GETFUNC_DEF (paper, gx)
-INT_GETFUNC_DEF (paper, gy)
-INT_GETFUNC_DEF (paper, override)
-INT_GETFUNC_DEF (paper, width)
-INT_GETFUNC_DEF (paper, height)
-EDIT_DELETE_FN_DEF (paper)
-GETFUNC_DEF (layout, prefix)
-GETFUNC_DEF (layout, postfix)
-GETFUNC_DEF (layout, display)
-PUTFUNC_DEF (layout, prefix)
-PUTFUNC_DEF (layout, postfix)
-PUTFUNC_DEF (layout, display)
+ALLOW_PUTFUNC_DEF (paper);
+IGNORE_PUTFUNC_DEF (paper);
+INT_PUTFUNC_DEF (paper, tx);
+INT_PUTFUNC_DEF (paper, ty);
+INT_PUTFUNC_DEF (paper, gx);
+INT_PUTFUNC_DEF (paper, gy);
+INT_PUTFUNC_DEF (paper, override);
+INT_GETFUNC_DEF (paper, tx);
+INT_GETFUNC_DEF (paper, ty);
+INT_GETFUNC_DEF (paper, gx);
+INT_GETFUNC_DEF (paper, gy);
+INT_GETFUNC_DEF (paper, override);
+INT_GETFUNC_DEF (paper, width);
+INT_GETFUNC_DEF (paper, height);
+EDIT_DELETE_FN_DEF (paper);
+GETFUNC_DEF (layout, prefix);
+GETFUNC_DEF (layout, postfix);
+GETFUNC_DEF (layout, display);
+PUTFUNC_DEF (layout, prefix);
+PUTFUNC_DEF (layout, postfix);
+PUTFUNC_DEF (layout, display);
 PUTGRAPHICFUNC_DEF (layout);
 
-ALLOW_PUTFUNC_DEF (layout)
-IGNORE_PUTFUNC_DEF (layout)
-INT_PUTFUNC_DEF (layout, tx)
-INT_PUTFUNC_DEF (layout, ty)
-INT_PUTFUNC_DEF (layout, gx)
-INT_PUTFUNC_DEF (layout, gy)
-INT_PUTFUNC_DEF (layout, override)
-//INT_GETFUNC_DEF (layout)
-//INT_GETFUNC_DEF (layout)
-INT_GETFUNC_DEF (layout, tx)
-INT_GETFUNC_DEF (layout, ty)
-INT_GETFUNC_DEF (layout, gx)
-INT_GETFUNC_DEF (layout, gy)
-INT_GETFUNC_DEF (layout, override)
-INT_GETFUNC_DEF (layout, width)
-INT_GETFUNC_DEF (layout, height)
-EDIT_DELETE_FN_DEF (layout)
-GETFUNC_DEF (movementcontrol, prefix)
-GETFUNC_DEF (movementcontrol, postfix)
-PUTFUNC_DEF (movementcontrol, prefix)
-PUTFUNC_DEF (movementcontrol, postfix)
+ALLOW_PUTFUNC_DEF (layout);
+IGNORE_PUTFUNC_DEF (layout);
+INT_PUTFUNC_DEF (layout, tx);
+INT_PUTFUNC_DEF (layout, ty);
+INT_PUTFUNC_DEF (layout, gx);
+INT_PUTFUNC_DEF (layout, gy);
+INT_PUTFUNC_DEF (layout, override);
+INT_GETFUNC_DEF (layout, tx);
+INT_GETFUNC_DEF (layout, ty);
+INT_GETFUNC_DEF (layout, gx);
+INT_GETFUNC_DEF (layout, gy);
+INT_GETFUNC_DEF (layout, override);
+INT_GETFUNC_DEF (layout, width);
+INT_GETFUNC_DEF (layout, height);
+EDIT_DELETE_FN_DEF (layout);
+GETFUNC_DEF (movementcontrol, prefix);
+GETFUNC_DEF (movementcontrol, postfix);
+PUTFUNC_DEF (movementcontrol, prefix);
+PUTFUNC_DEF (movementcontrol, postfix);
 PUTGRAPHICFUNC_DEF (movementcontrol);
 
-ALLOW_PUTFUNC_DEF (movementcontrol)
-IGNORE_PUTFUNC_DEF (movementcontrol)
-INT_PUTFUNC_DEF (movementcontrol, tx)
-INT_PUTFUNC_DEF (movementcontrol, ty)
-INT_PUTFUNC_DEF (movementcontrol, gx)
-INT_PUTFUNC_DEF (movementcontrol, gy)
-INT_PUTFUNC_DEF (movementcontrol, override)
-//INT_GETFUNC_DEF (movementcontrol)
-//INT_GETFUNC_DEF (movementcontrol)
-INT_GETFUNC_DEF (movementcontrol, tx)
-INT_GETFUNC_DEF (movementcontrol, ty)
-INT_GETFUNC_DEF (movementcontrol, gx)
-INT_GETFUNC_DEF (movementcontrol, gy)
-INT_GETFUNC_DEF (movementcontrol, override)
-INT_GETFUNC_DEF (movementcontrol, width)
-INT_GETFUNC_DEF (movementcontrol, height)
-EDIT_DELETE_FN_DEF (movementcontrol)
+ALLOW_PUTFUNC_DEF (movementcontrol);
+IGNORE_PUTFUNC_DEF (movementcontrol);
+INT_PUTFUNC_DEF (movementcontrol, tx);
+INT_PUTFUNC_DEF (movementcontrol, ty);
+INT_PUTFUNC_DEF (movementcontrol, gx);
+INT_PUTFUNC_DEF (movementcontrol, gy);
+INT_PUTFUNC_DEF (movementcontrol, override);
+INT_GETFUNC_DEF (movementcontrol, tx);
+INT_GETFUNC_DEF (movementcontrol, ty);
+INT_GETFUNC_DEF (movementcontrol, gx);
+INT_GETFUNC_DEF (movementcontrol, gy);
+INT_GETFUNC_DEF (movementcontrol, override);
+INT_GETFUNC_DEF (movementcontrol, width);
+INT_GETFUNC_DEF (movementcontrol, height);
+EDIT_DELETE_FN_DEF (movementcontrol);
 
 SCM
 scheme_put_text_clipboard (SCM optional)
@@ -6567,4 +6566,3 @@ SCM scheme_log_error(SCM message){
   }
   return SCM_BOOL_T;
 }
-
