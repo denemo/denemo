@@ -27,7 +27,7 @@
 #include <denemo/denemo.h>
 void create_default_scoreblock (void);
 void free_scoreblocks (DenemoProject * gui);
-DenemoScoreblock *select_layout (gboolean all_movements, gchar * partname, gchar *instrumentation);
+DenemoScoreblock *select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation);
 DenemoScoreblock *get_scoreblock_for_lilypond (gchar * lily);
 GtkWidget *get_score_layout_notebook (DenemoProject * gui);
 DenemoScoreblock *create_custom_scoreblock (gchar * layout_name, gboolean force);
@@ -48,6 +48,5 @@ gboolean select_custom_layout_for_name (gchar * name);
 GtkWidget *GetLayoutMenu (void);
 void refresh_lilypond (DenemoScoreblock * sb);
 gboolean select_layout_id (gint id);
-guint
-get_layout_id_for_name (gchar *name);
+guint get_layout_id_for_name (gchar * name);
 #endif

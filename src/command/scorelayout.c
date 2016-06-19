@@ -38,10 +38,10 @@ static void create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, 
 static void recreate_standard_scoreblock (DenemoScoreblock ** psb);
 static DenemoScoreblock *get_standard_scoreblock (GtkWidget * widget);
 static GtkWidget *get_options_button (DenemoScoreblock * sb, gboolean custom);
-static void install_duplicate_movement_callback (DenemoScoreblock *sb);
+static void install_duplicate_movement_callback (DenemoScoreblock * sb);
 static void reorder_movement_callback (DenemoScoreblock * psb);
 static gboolean edit_lilypond_prefix (GtkWidget * widget, gchar * oldval, gchar * newval);
-static void reload_scorewide_block (GtkWidget *frame);
+static void reload_scorewide_block (GtkWidget * frame);
 static gint layout_sync;
 
 // Reverses (reflects) bits in a 32-bit word.
@@ -190,7 +190,12 @@ free_prefix_and_postfix (GtkWidget * widget)
   g_list_free (g);
   return TRUE;                  //and destroy widget
 }
-void break_and_carry_on (void) {}
+
+void
+break_and_carry_on (void)
+{
+}
+
 // attaches the two lilypond strings to the prefix and postfix lists of widget
 // prefix is created in the reverse order to postfix so they can nest
 // the destroy widget is arranged to free the lists
@@ -325,7 +330,7 @@ delete_custom_scoreblock_callback (GtkWidget * dummy, DenemoScoreblock * sb)
 {
   Denemo.project->custom_scoreblocks = g_list_remove (Denemo.project->custom_scoreblocks, sb);
   gtk_widget_destroy (sb->widget);
-  if(Denemo.project->standard_scoreblocks==NULL && Denemo.project->custom_scoreblocks==NULL)
+  if (Denemo.project->standard_scoreblocks == NULL && Denemo.project->custom_scoreblocks == NULL)
     create_default_scoreblock ();
   score_status (Denemo.project, TRUE);
 }
@@ -335,7 +340,7 @@ delete_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
 {
   Denemo.project->standard_scoreblocks = g_list_remove (Denemo.project->standard_scoreblocks, sb);
   gtk_widget_destroy (sb->widget);
-  if(Denemo.project->standard_scoreblocks==NULL && Denemo.project->custom_scoreblocks==NULL)
+  if (Denemo.project->standard_scoreblocks == NULL && Denemo.project->custom_scoreblocks == NULL)
     create_default_scoreblock ();
   score_status (Denemo.project, TRUE);
 }
@@ -444,13 +449,15 @@ clone_scoreblock (DenemoScoreblock * sb, gchar * name)
 static void
 customize_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * sb)
 {
-    if(confirm (_("Customize Layout"), _("Replace Standard Layout?")))
-    { static gboolean warned;
-        clone_scoreblock (sb, sb->name);
-        if(!warned)
-            infodialog (_("This layout will be used in place of the standard one, unless you delete it.\nAny new staffs added to the score will not appear in it unless you edit it."));
-        warned = TRUE;
-    } else
+  if (confirm (_("Customize Layout"), _("Replace Standard Layout?")))
+    {
+      static gboolean warned;
+      clone_scoreblock (sb, sb->name);
+      if (!warned)
+        infodialog (_("This layout will be used in place of the standard one, unless you delete it.\nAny new staffs added to the score will not appear in it unless you edit it."));
+      warned = TRUE;
+    }
+  else
     clone_scoreblock (sb, NULL);
 }
 
@@ -459,6 +466,7 @@ duplicate_lilypond_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * s
 {
   customize_scoreblock (sb, NULL);
 }
+
 #if 0
 //having buttons that affect the score itself is confusing
 //Mark the passed widget as being for standard layouts only
@@ -518,8 +526,8 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);
 
-    if (!sb->text_only)
-       {
+      if (!sb->text_only)
+        {
           button = gtk_button_new_with_label (_("Append Current Movement"));
           gtk_widget_set_tooltip_text (button, _("Appends the current movement at the end of this layout. Select the movement you wish to append to the layout in the Denemo Display first. The same movement can be placed multiple times in the layout, with individual edits as needed."));
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -671,30 +679,31 @@ remove_lyric_element (GtkWidget * widget, gchar * context_text)
 }
 
 
-static void substitute_voice_name (GtkWidget *button, GtkWidget *frame)
+static void
+substitute_voice_name (GtkWidget * button, GtkWidget * frame)
 {
-    if (!clone_scoreblock_if_needed (frame))
-        return;
-    GList *m;
-    gint mvmnt = 1, staffnum = Denemo.project->movement->currentstaffnum;
-    if (Denemo.project->movements)
-        mvmnt = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
+  if (!clone_scoreblock_if_needed (frame))
+    return;
+  GList *m;
+  gint mvmnt = 1, staffnum = Denemo.project->movement->currentstaffnum;
+  if (Denemo.project->movements)
+    mvmnt = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
 
-    gchar *thename = g_strdup_printf ("\\Mvmnt%dVoice%d", mvmnt, staffnum);
-    GString *initial = g_string_new (thename);
-    g_free (thename);
-    GString *lily = g_string_new ("");
-    set_lily_name (initial, lily);
-    GList *g = g_object_get_data (G_OBJECT (frame), "prefix");
-    if (g)
-        {
-          gchar *oldlily = (gchar *) g->data;
-          edit_lilypond_prefix (frame, oldlily, g_strdup(lily->str));
-          score_status (Denemo.project, TRUE);
-          gchar *text = g_strdup_printf (_("The music for this staff has been replaced by the music from the current staff, i.e. staff where the cursor is, Movement %d, Staff %d."), mvmnt, staffnum);
-          infodialog (text);
-        }
-    g_string_free (lily, TRUE);
+  gchar *thename = g_strdup_printf ("\\Mvmnt%dVoice%d", mvmnt, staffnum);
+  GString *initial = g_string_new (thename);
+  g_free (thename);
+  GString *lily = g_string_new ("");
+  set_lily_name (initial, lily);
+  GList *g = g_object_get_data (G_OBJECT (frame), "prefix");
+  if (g)
+    {
+      gchar *oldlily = (gchar *) g->data;
+      edit_lilypond_prefix (frame, oldlily, g_strdup (lily->str));
+      score_status (Denemo.project, TRUE);
+      gchar *text = g_strdup_printf (_("The music for this staff has been replaced by the music from the current staff, i.e. staff where the cursor is, Movement %d, Staff %d."), mvmnt, staffnum);
+      infodialog (text);
+    }
+  g_string_free (lily, TRUE);
 }
 
 
@@ -759,7 +768,7 @@ create_voice_widget (DenemoStaff * staff, gchar * voicename, guint location)
 
   GtkWidget *button = gtk_button_new_with_label (_("Substitute"));
   gtk_widget_set_tooltip_text (button, _("Substitute the music of this staff/voice with the music of the current staff/voice.\nYou can click the \"Music for ...\" button to move the cursor in the Denemo Display onto the staff/voice whose music you want to use before clicking this button to substitute the music. The editing affects only this layout."));
-  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (substitute_voice_name), w);//prefix_edit_callback), w);
+  g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (substitute_voice_name), w);       //prefix_edit_callback), w);
   gtk_box_pack_start (GTK_BOX (ret), button, FALSE, TRUE, 0);
 
   return ret;
@@ -798,7 +807,7 @@ install_voice (DenemoStaff * staff, gint movementnum, gint voice_count, GtkWidge
   GtkWidget *voice = create_voice_widget (staff, voicename, get_location (movementnum, voice_count));
 
   GString *voicetext = g_string_new ("");
-   //That is \new Voice = name prefix { postfix FIXME is prefix any use here????
+  //That is \new Voice = name prefix { postfix FIXME is prefix any use here????
   set_voice_definition (voicetext, staff, voicetag);
   gchar *text = g_strdup_printf (" %s ", voicetext->str);
   g_string_assign (voicetext, "");
@@ -815,23 +824,23 @@ do_verses (DenemoStaff * staff, GtkWidget * vbox, gint movementnum, gint voice_c
   //FIXME do text of the verses get_text_from_view(GtkWidget *textview) where staff->verse_views->data is textview widget
   GList *g = staff->verse_views;
   gint versenum = 1;
-  if(!staff->hide_lyrics)
-      for (versenum = 1; g; g = g->next, versenum++)
-        {
-          gchar *versename = get_versename (movementnum, voice_count, versenum);
-          gchar *context_text = g_strdup_printf ("\n" TAB "\\%s%s", versename, "Context\n");
-          //gchar *label = g_strconcat("Lyrics:", staff->denemo_name->str, NULL);
-          gchar *label = g_strdup_printf ("Verse %d: %s", versenum, staff->denemo_name->str);
-          GtkWidget *voice = create_lyric_widget (context_text, label);
-          g_free (label);
-          gchar *lyrics = g_strdup_printf ("\n" TAB "\\new Lyrics = %s\n", versename /*e.g. MvmntIVoiceIVerseI */ );
-          add_lilypond (voice, lyrics, NULL);       //FIXME the destroy of these widgets should free the string
-          add_lilypond (voice, NULL, context_text);
+  if (!staff->hide_lyrics)
+    for (versenum = 1; g; g = g->next, versenum++)
+      {
+        gchar *versename = get_versename (movementnum, voice_count, versenum);
+        gchar *context_text = g_strdup_printf ("\n" TAB "\\%s%s", versename, "Context\n");
+        //gchar *label = g_strconcat("Lyrics:", staff->denemo_name->str, NULL);
+        gchar *label = g_strdup_printf ("Verse %d: %s", versenum, staff->denemo_name->str);
+        GtkWidget *voice = create_lyric_widget (context_text, label);
+        g_free (label);
+        gchar *lyrics = g_strdup_printf ("\n" TAB "\\new Lyrics = %s\n", versename /*e.g. MvmntIVoiceIVerseI */ );
+        add_lilypond (voice, lyrics, NULL);     //FIXME the destroy of these widgets should free the string
+        add_lilypond (voice, NULL, context_text);
 
-          gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);       //has to go outside the staff
+        gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);     //has to go outside the staff
 
-          g_free (versename);
-        }
+        g_free (versename);
+      }
 }
 
 
@@ -1032,7 +1041,7 @@ popup_movement_titles_menu (GtkWidget * button)
  *
  */
 static void
-install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean standard, DenemoScoreblock *sb)
+install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean standard, DenemoScoreblock * sb)
 {
   GtkWidget *frame = gtk_frame_new (NULL);
   gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
@@ -1048,7 +1057,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
   GtkWidget *button;
 #if 0
 //having buttons that affect the score itself is confusing
-  if(standard)
+  if (standard)
     {
       button = gtk_button_new_with_label (_("Create Titles for Movement"));
       mark_as_non_custom (button);
@@ -1067,7 +1076,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
   for (g = si->movementcontrol.directives; g; g = g->next)
     {
       DenemoDirective *d = (DenemoDirective *) g->data;
-      if (d->override & DENEMO_OVERRIDE_AFFIX) //see set_initiate_scoreblock() call which outputs the DENEMO_OVERRIDE_AFFIX
+      if (d->override & DENEMO_OVERRIDE_AFFIX)  //see set_initiate_scoreblock() call which outputs the DENEMO_OVERRIDE_AFFIX
         continue;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
@@ -1104,7 +1113,7 @@ popup_score_titles_menu (GtkWidget * button)
  * Ones with OVERRIDE_AFFIX are done in set_default_scoreblock()
  */
 static GtkWidget *
-install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovement * si, gboolean last_movement, DenemoScoreblock *sb)
+install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovement * si, gboolean last_movement, DenemoScoreblock * sb)
 {
 
   GList *g;
@@ -1153,7 +1162,7 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
 
 
 static gboolean
-draw_staff_brace_for_layout (GtkWidget * w, cairo_t *cr, gchar * context)
+draw_staff_brace_for_layout (GtkWidget * w, cairo_t * cr, gchar * context)
 {
   GtkAllocation allocation;
   gtk_widget_get_allocation (w, &allocation);
@@ -1161,9 +1170,10 @@ draw_staff_brace_for_layout (GtkWidget * w, cairo_t *cr, gchar * context)
   cairo_set_source_rgb (cr, 0.9, 0.9, 0.9);
   cairo_paint (cr);
   gboolean curly = !((!strcmp (context, "ChoirStaffStart")) || (!strcmp (context, "GroupStaffStart")));
-  draw_staff_brace (cr, curly, 5, 8, height*0.9 - 15);
+  draw_staff_brace (cr, curly, 5, 8, height * 0.9 - 15);
   return TRUE;
 }
+
 static gboolean
 draw_staff_brace_gtk2 (GtkWidget * w, GdkEventExpose * event, gchar * context)
 {
@@ -1181,42 +1191,49 @@ show_type (GtkWidget * widget, gchar * message)
   g_message ("%s%s", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
 }
 
-static void delete_brace (gchar *postfix)
+static void
+delete_brace (gchar * postfix)
 {
-    gchar *c = g_strrstr (postfix, ">>%");
-    if(c && c>postfix) {
-            *c = 0;
-            return;
-        }
+  gchar *c = g_strrstr (postfix, ">>%");
+  if (c && c > postfix)
+    {
+      *c = 0;
+      return;
+    }
 
 #if 0
-    gchar *c = postfix;
-    while (*(c++));
-        c--;c--;c--;
-        if(c != postfix)
-            while (*(c--) != '\n');
-            c++;
-            if(*c=='\n')
-                *c=0;
+  gchar *c = postfix;
+  while (*(c++));
+  c--;
+  c--;
+  c--;
+  if (c != postfix)
+    while (*(c--) != '\n');
+  c++;
+  if (*c == '\n')
+    *c = 0;
 #endif
 }
-static void remove_brace_end (GtkWidget *vbox)
+
+static void
+remove_brace_end (GtkWidget * vbox)
 {
- show_type (vbox, "new vbox ??? ")  ;
-  GList *g  = g_object_get_data (G_OBJECT(vbox), "postfix");
-  for ( ;g;g=g->next)
-        {
-           //g_print ("Next postfix %s\n", (char *) g->data);
-           delete_brace (g->data);
-           //g_print ("transformed to %s\n", (char *) g->data);
-        }
+  show_type (vbox, "new vbox ??? ");
+  GList *g = g_object_get_data (G_OBJECT (vbox), "postfix");
+  for (; g; g = g->next)
+    {
+      //g_print ("Next postfix %s\n", (char *) g->data);
+      delete_brace (g->data);
+      //g_print ("transformed to %s\n", (char *) g->data);
+    }
 }
+
 static gboolean
 remove_context (GtkWidget * button, GtkWidget * parent)
 {
   if (!clone_scoreblock_if_needed (parent))
     return TRUE;
-     show_type (parent, "parent ");
+  show_type (parent, "parent ");
   GList *children = gtk_container_get_children (GTK_CONTAINER (parent));
   //show_type (g_list_last (children)->data, "vbox type is");
   //show_type (gtk_widget_get_parent (gtk_widget_get_parent (parent)), "Reparenting on ");
@@ -1230,18 +1247,18 @@ remove_context (GtkWidget * button, GtkWidget * parent)
                            gtk_widget_get_parent (gtk_widget_get_parent (parent)));
     }
 
-    GtkWidget *topw = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (parent)));
-    //show_type (topw, "new vbox parent ");g_print ("parent %p, grandparent %p, great-grp %p\n", parent, gtk_widget_get_parent (parent), topw);
+  GtkWidget *topw = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (parent)));
+  //show_type (topw, "new vbox parent ");g_print ("parent %p, grandparent %p, great-grp %p\n", parent, gtk_widget_get_parent (parent), topw);
 
-    if (g_object_get_data (G_OBJECT(parent), "postfix")==NULL)
-       remove_brace_end (gtk_bin_get_child (g_list_last(staff_list)->data));  // without it deleting a top level brace leaving lower ones fails.
-     else
-    for (g=g_object_get_data (G_OBJECT(parent), "postfix");g;g=g->next)
-        {
-         delete_brace (g->data);
-         if (GTK_IS_BOX (topw))
-            add_lilypond (topw, NULL, g_strdup (g->data));
-        }
+  if (g_object_get_data (G_OBJECT (parent), "postfix") == NULL)
+    remove_brace_end (gtk_bin_get_child (g_list_last (staff_list)->data));      // without it deleting a top level brace leaving lower ones fails.
+  else
+    for (g = g_object_get_data (G_OBJECT (parent), "postfix"); g; g = g->next)
+      {
+        delete_brace (g->data);
+        if (GTK_IS_BOX (topw))
+          add_lilypond (topw, NULL, g_strdup (g->data));
+      }
   Denemo.project->lilysync = G_MAXUINT;
   gtk_widget_destroy (gtk_widget_get_parent (parent));
   return TRUE;
@@ -1368,7 +1385,7 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
     {
       DenemoDirective *directive = g->data;
       if (wrong_layout (directive, Denemo.project->layout_id))
-       continue;
+        continue;
 
       if (directive->override & DENEMO_OVERRIDE_AFFIX)
         {
@@ -1376,14 +1393,15 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
             {
               if (*nesting)
                 {
-                    //show_type (gtk_widget_get_parent (vbox), "Adding beam ends to type: "); g_print ("Specifically %s to %p\n", directive->postfix->str, gtk_widget_get_parent (vbox));
+                  //show_type (gtk_widget_get_parent (vbox), "Adding beam ends to type: "); g_print ("Specifically %s to %p\n", directive->postfix->str, gtk_widget_get_parent (vbox));
                   add_lilypond (gtk_widget_get_parent (vbox), NULL, g_strdup (directive->postfix->str));
-                  gint number_of_ends =  1;
-                  if(directive->data)
+                  gint number_of_ends = 1;
+                  if (directive->data)
                     number_of_ends = atoi (directive->data->str);
-                  if (number_of_ends<0 || (number_of_ends>10)) number_of_ends = 1;//sanity check on data in directive
+                  if (number_of_ends < 0 || (number_of_ends > 10))
+                    number_of_ends = 1; //sanity check on data in directive
 
-                  (*nesting) -=  number_of_ends;
+                  (*nesting) -= number_of_ends;
                   vbox = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (vbox)));
                 }
               else
@@ -1492,161 +1510,160 @@ popup_initial_clef_menu (GtkWidget * button)
 */
 
 static void
-install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname, GList **pstafflist,
-    gint *pvoice_count, gint staff_count, gint movementnum, gint *pstaff_group_nesting, gboolean standard, gboolean append_only)
-      {
-        DenemoMovement *si = Denemo.project->movement;
-      GList *g = *pstafflist;
-      GtkWidget *vbox = *pvbox;
-      DenemoStaff *staff = g->data;
-      DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
+install_staff_with_voices (GList ** pstaffs, GtkWidget ** pvbox, gchar * partname, GList ** pstafflist, gint * pvoice_count, gint staff_count, gint movementnum, gint * pstaff_group_nesting, gboolean standard, gboolean append_only)
+{
+  DenemoMovement *si = Denemo.project->movement;
+  GList *g = *pstafflist;
+  GtkWidget *vbox = *pvbox;
+  DenemoStaff *staff = g->data;
+  DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
 
 
-      //if (partname == NULL) Don't omit staff groups start for single part, since parts can be multi-staff e.g. piano, it will be closed at the end if the part doesn't include the close
-      if(!append_only)
-        vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, pstaff_group_nesting);
+  //if (partname == NULL) Don't omit staff groups start for single part, since parts can be multi-staff e.g. piano, it will be closed at the end if the part doesn't include the close
+  if (!append_only)
+    vbox = install_staff_group_start (pstaffs, vbox, staff->staff_directives, pstaff_group_nesting);
 
-      if (staff->hasfakechords)
-        {                       //the reason these are outside the staff frame is it makes them appear above the staff
-          GtkWidget *chords = gtk_label_new (_("Chord Symbols"));
-          gchar *text = g_strdup_printf ("\n" TAB TAB "\\new ChordNames \\chordmode { \\%sChords }\n",
-                                         get_voicename (movementnum, (*pvoice_count)));
-          add_lilypond (chords, text, NULL);
-          gtk_box_pack_start (GTK_BOX (vbox), chords, FALSE, TRUE, 0);
-          *pstaffs = g_list_append (*pstaffs, chords);
-          g_signal_connect (G_OBJECT (chords), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
-        }
+  if (staff->hasfakechords)
+    {                           //the reason these are outside the staff frame is it makes them appear above the staff
+      GtkWidget *chords = gtk_label_new (_("Chord Symbols"));
+      gchar *text = g_strdup_printf ("\n" TAB TAB "\\new ChordNames \\chordmode { \\%sChords }\n",
+                                     get_voicename (movementnum, (*pvoice_count)));
+      add_lilypond (chords, text, NULL);
+      gtk_box_pack_start (GTK_BOX (vbox), chords, FALSE, TRUE, 0);
+      *pstaffs = g_list_append (*pstaffs, chords);
+      g_signal_connect (G_OBJECT (chords), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
+    }
 
-      gchar *label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Menu")) : g_strdup_printf (_("Staff %d Menu"), staff_count);
-      GtkWidget *frame = gtk_frame_new (NULL);
+  gchar *label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Menu")) : g_strdup_printf (_("Staff %d Menu"), staff_count);
+  GtkWidget *frame = gtk_frame_new (NULL);
 
-      GtkWidget *staff_hbox = gtk_hbox_new (FALSE, 8);
-      //gtk_frame_set_label_widget (GTK_FRAME (frame), staff_hbox); !!!!! setting the label widget it's position looks odd because no frame is visible
-      GtkWidget *button = gtk_button_new_with_label (label_text);
-      g_free (label_text);
-      gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-      gtk_widget_set_tooltip_text (button, _("Click for a menu to position the Denemo cursor on this staff\nor to alter this staff for a customized layout"));
-
-
-      GtkWidget *menu = gtk_menu_new ();
-      GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Move Denemo Cursor to this staff"));
-      gtk_widget_set_tooltip_text (menuitem, _("This will move the Denemo Cursor to the start of this staff in this movement"));
-      g_signal_connect (G_OBJECT (menuitem), "activate", G_CALLBACK (navigate_to_location), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+  GtkWidget *staff_hbox = gtk_hbox_new (FALSE, 8);
+  //gtk_frame_set_label_widget (GTK_FRAME (frame), staff_hbox); !!!!! setting the label widget it's position looks odd because no frame is visible
+  GtkWidget *button = gtk_button_new_with_label (label_text);
+  g_free (label_text);
+  gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
+  gtk_widget_set_tooltip_text (button, _("Click for a menu to position the Denemo cursor on this staff\nor to alter this staff for a customized layout"));
 
 
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Move Denemo Cursor to this staff"));
+  gtk_widget_set_tooltip_text (menuitem, _("This will move the Denemo Cursor to the start of this staff in this movement"));
+  g_signal_connect (G_OBJECT (menuitem), "activate", G_CALLBACK (navigate_to_location), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
 
-      menuitem = gtk_menu_item_new_with_label (_("Edit Staff Properties"));
-      gtk_widget_set_tooltip_text (menuitem, _("Edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."));
-      g_signal_connect (menuitem, "activate", G_CALLBACK (prefix_edit_callback), frame);
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
 
-      gtk_widget_show_all (menu);
-      g_signal_connect (button, "clicked", G_CALLBACK (popup), menu);
+
+  menuitem = gtk_menu_item_new_with_label (_("Edit Staff Properties"));
+  gtk_widget_set_tooltip_text (menuitem, _("Edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."));
+  g_signal_connect (menuitem, "activate", G_CALLBACK (prefix_edit_callback), frame);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+  gtk_widget_show_all (menu);
+  g_signal_connect (button, "clicked", G_CALLBACK (popup), menu);
 #if 0
 //having buttons that affect the score itself is confusing
-      if (standard && (si->thescore->next != NULL))
-        {
-          button = gtk_button_new_with_label (_("Set Staff Group Start/End"));
-          mark_as_non_custom (button);
-          gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
-          gtk_widget_set_tooltip_text (button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
-          g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
-        }
+  if (standard && (si->thescore->next != NULL))
+    {
+      button = gtk_button_new_with_label (_("Set Staff Group Start/End"));
+      mark_as_non_custom (button);
+      gtk_box_pack_start (GTK_BOX (staff_hbox), button, FALSE, TRUE, 0);
+      gtk_widget_set_tooltip_text (button, _("The braces { and [ binding staffs together can be set here. Set the start on one staff and the end on a later staff.\nThis is editing the score, not just customizing a layout.\nRefresh the layout view (see under Options for this Layout button at the top) once you have made the changes."));
+      g_signal_connect (button, "button-press-event", G_CALLBACK (staff_groups_menu), GINT_TO_POINTER (get_location (movementnum, (*pvoice_count))));
+    }
 #endif
-      *pstaffs = g_list_append (*pstaffs, frame);
-      g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
+  *pstaffs = g_list_append (*pstaffs, frame);
+  g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
 
-      GString *staffprefix = g_string_new ("");
-      set_staff_definition (staffprefix, staff);
-
-
-     // if (staff->no_of_lines != 5) now done by a directive
-     //   g_string_append_printf (staffprefix, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);     //FIXME create_element
-
-      GString *stafftext = g_string_new ("");
-      g_string_assign (stafftext, "");
-      set_staff_termination (stafftext, staff); // "\n>>\n%End of Staff\n"
+  GString *staffprefix = g_string_new ("");
+  set_staff_definition (staffprefix, staff);
 
 
-      add_lilypond (frame, g_string_free (staffprefix, FALSE), g_string_free (stafftext, FALSE));
+  // if (staff->no_of_lines != 5) now done by a directive
+  //   g_string_append_printf (staffprefix, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);     //FIXME create_element
+
+  GString *stafftext = g_string_new ("");
+  g_string_assign (stafftext, "");
+  set_staff_termination (stafftext, staff);     // "\n>>\n%End of Staff\n"
+
+
+  add_lilypond (frame, g_string_free (staffprefix, FALSE), g_string_free (stafftext, FALSE));
 
 
 
-      gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
 
-      GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
-      gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
+  GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
 
 
-      gtk_box_pack_start (GTK_BOX (outer_vbox), staff_hbox, FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (outer_vbox), staff_hbox, FALSE, TRUE, 0);
 
-      GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
-      gtk_box_pack_end (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
-      //gtk_container_add (GTK_CONTAINER (frame), hbox);
-      add_staff_widget (staff, hbox);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_end (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
+  //gtk_container_add (GTK_CONTAINER (frame), hbox);
+  add_staff_widget (staff, hbox);
 
-      label_text = (nextstaff && nextstaff->voicecontrol & DENEMO_SECONDARY) ? _("Voices") : _("Voice");
-      GtkWidget *expander = gtk_expander_new (label_text);
-      gtk_widget_set_tooltip_text (expander, _("This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"));
-      //gtk_container_add (GTK_CONTAINER (frame), expander);
-      gtk_box_pack_end (GTK_BOX (hbox), expander, FALSE, TRUE, 0);
-      GtkWidget *voices_vbox = gtk_vbox_new (FALSE, 8);
-      gtk_container_add (GTK_CONTAINER (expander), voices_vbox);
+  label_text = (nextstaff && nextstaff->voicecontrol & DENEMO_SECONDARY) ? _("Voices") : _("Voice");
+  GtkWidget *expander = gtk_expander_new (label_text);
+  gtk_widget_set_tooltip_text (expander, _("This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"));
+  //gtk_container_add (GTK_CONTAINER (frame), expander);
+  gtk_box_pack_end (GTK_BOX (hbox), expander, FALSE, TRUE, 0);
+  GtkWidget *voices_vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (expander), voices_vbox);
 
-      if (staff->hasfigures)
+  if (staff->hasfigures)
+    {
+      GtkWidget *voice = gtk_label_new ("Bass figures");
+      gchar *text = g_strdup_printf ("\n" TAB TAB "\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n",
+                                     get_voicename (movementnum, (*pvoice_count)));
+      add_lilypond (voice, text, NULL);
+      gtk_box_pack_start (GTK_BOX (voices_vbox), voice, FALSE, TRUE, 0);
+    }
+
+  install_voice (staff, movementnum, (*pvoice_count), voices_vbox);     //Primary voice
+  do_verses (staff, vbox, movementnum, (*pvoice_count));
+
+  if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
+    {
+      for (g = g->next, (*pvoice_count)++; g && (((DenemoStaff *) g->data)->voicecontrol & DENEMO_SECONDARY); g = g->next, (*pvoice_count)++)
         {
-          GtkWidget *voice = gtk_label_new ("Bass figures");
-          gchar *text = g_strdup_printf ("\n" TAB TAB "\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n",
-                                         get_voicename (movementnum, (*pvoice_count)));
-          add_lilypond (voice, text, NULL);
-          gtk_box_pack_start (GTK_BOX (voices_vbox), voice, FALSE, TRUE, 0);
+
+          DenemoStaff *staff = g->data;
+          install_voice (staff, movementnum, (*pvoice_count), voices_vbox);
+          do_verses (staff, vbox, movementnum, (*pvoice_count));        //!!! these need *pstaffs = g_list_append(*pstaffs, voice); treatment too...
+          if (partname == NULL)
+            vbox = install_staff_group_end (vbox, staff->staff_directives, pstaff_group_nesting);
         }
-
-      install_voice (staff, movementnum, (*pvoice_count), voices_vbox);     //Primary voice
-      do_verses (staff, vbox, movementnum, (*pvoice_count));
-
-      if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
+      if (g != NULL)
         {
-          for (g = g->next, (*pvoice_count)++; g && (((DenemoStaff *) g->data)->voicecontrol & DENEMO_SECONDARY); g = g->next, (*pvoice_count)++)
-            {
-
-              DenemoStaff *staff = g->data;
-              install_voice (staff, movementnum, (*pvoice_count), voices_vbox);
-              do_verses (staff, vbox, movementnum, (*pvoice_count));        //!!! these need *pstaffs = g_list_append(*pstaffs, voice); treatment too...
-              if (partname == NULL)
-                vbox = install_staff_group_end (vbox, staff->staff_directives, pstaff_group_nesting);
-            }
-          if (g != NULL)
-            {
-              g = g->prev;
-              (*pvoice_count)--;
-            }
+          g = g->prev;
+          (*pvoice_count)--;
         }
-      if (partname == NULL) //Have to omit all end braces for part layouts, since the part may not include all the start braces for them.
-        vbox = install_staff_group_end (vbox, staff->staff_directives, pstaff_group_nesting);
-    *pstafflist = g;
-    *pvbox = vbox;
+    }
+  if (partname == NULL)         //Have to omit all end braces for part layouts, since the part may not include all the start braces for them.
+    vbox = install_staff_group_end (vbox, staff->staff_directives, pstaff_group_nesting);
+  *pstafflist = g;
+  *pvbox = vbox;
 }
 
 static void
-append_staff (GtkWidget *widget, GList ** pstaffs)
+append_staff (GtkWidget * widget, GList ** pstaffs)
 {
-    if (!clone_scoreblock_if_needed (widget))
-     return;
-    gint staff_group_nesting = 0;
-    gint voice_count = Denemo.project->movement->currentstaffnum;
-    gint movementnum = 1;
-    if (Denemo.project->movements)
-        movementnum = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
-    GtkWidget *vbox = gtk_widget_get_parent (widget);
-    install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff,
-                    &voice_count, Denemo.project->movement->currentstaffnum, movementnum, &staff_group_nesting, FALSE, TRUE);
-    gtk_widget_show_all (vbox);
-    Denemo.project->lilysync = G_MAXUINT;
+  if (!clone_scoreblock_if_needed (widget))
+    return;
+  gint staff_group_nesting = 0;
+  gint voice_count = Denemo.project->movement->currentstaffnum;
+  gint movementnum = 1;
+  if (Denemo.project->movements)
+    movementnum = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
+  GtkWidget *vbox = gtk_widget_get_parent (widget);
+  install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff, &voice_count, Denemo.project->movement->currentstaffnum, movementnum, &staff_group_nesting, FALSE, TRUE);
+  gtk_widget_show_all (vbox);
+  Denemo.project->lilysync = G_MAXUINT;
 }
+
 static GtkWidget *
-get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard, DenemoScoreblock *sb)
+get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard, DenemoScoreblock * sb)
 {
   DenemoProject *gui = Denemo.project;
   gint staff_group_nesting = 0; //to check on loose staff group markers
@@ -1660,7 +1677,7 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (ret), vbox);
 
-  vbox = install_scoreblock_overrides (vbox, gui, si, last_movement, sb);   //things like transpose whole score etc
+  vbox = install_scoreblock_overrides (vbox, gui, si, last_movement, sb);       //things like transpose whole score etc
 
   gchar *label_text = (si->thescore->next == NULL) ? _("The Staff") : _("The Staffs");
   GtkWidget *topexpander = gtk_expander_new (label_text);
@@ -1669,21 +1686,21 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
   gtk_box_pack_start (GTK_BOX (vbox), topexpander, FALSE, TRUE, 0);
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (topexpander), vbox);
-  GtkWidget *addbutton = gtk_button_new_with_label (_ ("Append Current Staff"));
+  GtkWidget *addbutton = gtk_button_new_with_label (_("Append Current Staff"));
   gtk_widget_set_tooltip_text (addbutton, _("Appends the current staff (the one where the cursor is in the Denemo Display) to this layout. The same staff can be placed at multiple positions in the layout with individual edits in each."));
 
-  gtk_box_pack_start (GTK_BOX(vbox), addbutton, FALSE, TRUE, 0);
-  g_signal_connect (G_OBJECT(addbutton), "clicked", G_CALLBACK (append_staff), pstaffs);
+  gtk_box_pack_start (GTK_BOX (vbox), addbutton, FALSE, TRUE, 0);
+  g_signal_connect (G_OBJECT (addbutton), "clicked", G_CALLBACK (append_staff), pstaffs);
 
   GList *g;
   for (voice_count = 1, staff_count = 1, g = si->thescore; g; g = g->next, voice_count++, staff_count++)
     {
-    DenemoStaff *staff = g->data;
-    if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
+      DenemoStaff *staff = g->data;
+      if ((*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
         continue;
-     install_staff_with_voices (pstaffs, &vbox, partname, &g, &voice_count, staff_count/*sic*/, movementnum, &staff_group_nesting, standard, FALSE);
+      install_staff_with_voices (pstaffs, &vbox, partname, &g, &voice_count, staff_count /*sic */ , movementnum, &staff_group_nesting, standard, FALSE);
 
-     if (g == NULL)
+      if (g == NULL)
         break;
     }                           //for each staff
 
@@ -1696,12 +1713,13 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
       for (; staff_group_nesting; staff_group_nesting--)
         {
-            if (partname == NULL)
-                {
-                    g_warning ("Staff group start without end - terminating it");
-                    add_lilypond (vbox, NULL, g_strdup (" >>%Missing staff group end inserted here\n"));
-                } else
-                    add_lilypond (vbox, NULL, g_strdup (" >>%Closing staff group end for part layout\n"));
+          if (partname == NULL)
+            {
+              g_warning ("Staff group start without end - terminating it");
+              add_lilypond (vbox, NULL, g_strdup (" >>%Missing staff group end inserted here\n"));
+            }
+          else
+            add_lilypond (vbox, NULL, g_strdup (" >>%Closing staff group end for part layout\n"));
 
         }
     }
@@ -1793,7 +1811,7 @@ create_misc_scorewide (GtkWidget * inner_vbox)
 }
 
 static void
-create_scoreheader_directives (GtkWidget * vbox, DenemoScoreblock *sb)
+create_scoreheader_directives (GtkWidget * vbox, DenemoScoreblock * sb)
 {
   DenemoProject *gui = Denemo.project;
   GtkWidget *frame = gtk_frame_new (NULL);
@@ -1819,7 +1837,8 @@ create_scoreheader_directives (GtkWidget * vbox, DenemoScoreblock *sb)
         continue;
       if (directive->postfix == NULL)
         continue;
-      if (wrong_layout (directive, sb->id)) continue;
+      if (wrong_layout (directive, sb->id))
+        continue;
 
 
       create_element (header_box, gtk_label_new (directive->tag->str), g_strdup (directive->postfix->str));
@@ -1827,7 +1846,7 @@ create_scoreheader_directives (GtkWidget * vbox, DenemoScoreblock *sb)
 }
 
 static void
-create_score_directives (GtkWidget * vbox, DenemoScoreblock *sb)
+create_score_directives (GtkWidget * vbox, DenemoScoreblock * sb)
 {
   DenemoProject *gui = Denemo.project;
   if (gui->lilycontrol.directives == NULL)
@@ -1844,7 +1863,8 @@ create_score_directives (GtkWidget * vbox, DenemoScoreblock *sb)
   for (; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
-      if (wrong_layout (directive, sb->id)) continue;
+      if (wrong_layout (directive, sb->id))
+        continue;
 
       if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
         {
@@ -1854,7 +1874,8 @@ create_score_directives (GtkWidget * vbox, DenemoScoreblock *sb)
     }
 }
 
-static void fill_scorewide_frame (GtkWidget *frame, GtkWidget *reload_button, DenemoScoreblock *sb)
+static void
+fill_scorewide_frame (GtkWidget * frame, GtkWidget * reload_button, DenemoScoreblock * sb)
 {
 
   GtkWidget *expander = gtk_expander_new (_("Score-wide Settings."));
@@ -1878,14 +1899,17 @@ static void fill_scorewide_frame (GtkWidget *frame, GtkWidget *reload_button, De
   create_misc_scorewide (inner_box);
 }
 
-static GtkWidget *get_reload_button (GtkWidget *frame)
+static GtkWidget *
+get_reload_button (GtkWidget * frame)
 {
   GtkWidget *reload_button = gtk_button_new_with_label (_("Reload Score-Wide Settings"));
   gtk_widget_set_tooltip_text (reload_button, _("Reload the score wide settings for this layout from the current values in the score.\nDo this if you have made changes to the score titles etc which you wish to be used for this layout."));
   g_signal_connect_swapped (reload_button, "clicked", G_CALLBACK (reload_scorewide_block), frame);
-   return reload_button;
+  return reload_button;
 }
-static void reload_scorewide_block (GtkWidget *frame)
+
+static void
+reload_scorewide_block (GtkWidget * frame)
 {
   GtkWidget *event_box = gtk_widget_get_parent (frame);
   GtkWidget *vbox = gtk_widget_get_parent (event_box);
@@ -1893,198 +1917,205 @@ static void reload_scorewide_block (GtkWidget *frame)
   frame = gtk_frame_new (NULL);
   GtkWidget *reload_button = get_reload_button (frame);
   gtk_container_add (GTK_CONTAINER (event_box), frame);
-  fill_scorewide_frame (frame, reload_button, selected_layout_id ()); //FIXME is selected layout id correct???
+  fill_scorewide_frame (frame, reload_button, selected_layout_id ());   //FIXME is selected layout id correct???
   gtk_widget_show_all (vbox);
   Denemo.project->lilysync = G_MAXUINT;
 
 }
+
 static void
-create_scorewide_block (GtkWidget * vbox, DenemoScoreblock *sb)
+create_scorewide_block (GtkWidget * vbox, DenemoScoreblock * sb)
 {
   GtkWidget *frame = gtk_frame_new (NULL);
   GtkWidget *reload_button = get_reload_button (frame);
-  GtkWidget *event_box = get_colored_event_box (vbox, "#BBFFCC");// event_box is packed into vbox
+  GtkWidget *event_box = get_colored_event_box (vbox, "#BBFFCC");       // event_box is packed into vbox
   gtk_container_add (GTK_CONTAINER (event_box), frame);
   fill_scorewide_frame (frame, reload_button, sb);
   gtk_widget_show_all (vbox);
 }
 
-static
-void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
-          {
-          DenemoProject *gui = Denemo.project;
-          DenemoScoreblock *sb = *psb;//if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
-          gchar *label_text = gui->movements->next ? g_strdup_printf (_("<b>Movement %d</b>"), movement_num) : g_strdup (_("Movement"));
-          GtkWidget *movement_frame = gtk_expander_new (label_text);
-          gtk_label_set_use_markup (GTK_LABEL (gtk_expander_get_label_widget (GTK_EXPANDER(movement_frame))), TRUE);
-          gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
-          gtk_expander_set_expanded (GTK_EXPANDER (movement_frame), si == gui->movement);
-          g_free (label_text);
-          gtk_box_pack_start (GTK_BOX (vbox), movement_frame, FALSE, TRUE, 0);
-
-          GtkWidget *frame_box = gtk_vbox_new (FALSE, 8);
-          gtk_container_add (GTK_CONTAINER (movement_frame), frame_box);
-          GtkWidget *remove_box = gtk_hbox_new (FALSE, 8);
-          gtk_box_pack_start (GTK_BOX (frame_box), remove_box, FALSE, FALSE, 0);
-          GtkWidget *w = gtk_button_new_with_label ("<span foreground=\"red\">Remove Movement</span>");
-          gtk_label_set_use_markup (GTK_LABEL (gtk_bin_get_child (GTK_BIN(w))), TRUE);
-          gtk_widget_set_tooltip_text (w, _("Remove this movement from the score layout"));
-          g_signal_connect_swapped (w, "clicked", G_CALLBACK (remove_element), frame_box); //grandparent
-          gtk_box_pack_start (GTK_BOX (remove_box), w, FALSE, FALSE, 14);
-         // GtkWidget *dummy = gtk_label_new (" dummy ");
-          //gtk_box_pack_start (GTK_BOX (frame_box), dummy, TRUE, TRUE, 0);
-
-          GtkWidget *outer_hbox = gtk_hbox_new (FALSE, 8);
-          gtk_box_pack_start (GTK_BOX (frame_box), outer_hbox, FALSE, TRUE, 0);
-
-          GtkWidget *movement_vbox = gtk_vbox_new (FALSE, 8);
-          gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 10);
-          install_pre_movement_widgets (movement_vbox, si, standard, *psb);
-          GtkWidget *frame = gtk_frame_new (NULL);
-          add_lilypond (frame, g_strdup ("\n\\score { %Start of Movement\n"), g_strdup ("\n       } %End of Movement\n"));
-          gtk_box_pack_start (GTK_BOX (movement_vbox), frame, FALSE, TRUE, 0);
-          GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
-          gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
-          GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
-
-          gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last, standard, *psb), FALSE, TRUE, 0);
-          gtk_box_pack_start (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
-          if (si->header.directives)
-            {
-              GtkWidget *frame = gtk_frame_new (_("Header block"));
-              gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
-              add_lilypond (frame, g_strdup ("\n\\header {\n"), g_strdup ("\n        }\n"));
-              GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
-              gtk_container_add (GTK_CONTAINER (frame), innerbox);
-              GList *g;
-              for (g = si->header.directives; g; g = g->next)
-                {
-                  DenemoDirective *d = g->data;
-                  if (d->override & DENEMO_OVERRIDE_HIDDEN)
-                    continue;
-                  if (sb && wrong_layout (d, sb->id))
-                        continue;
-                  gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
-                  if (lily)
-                    {
-                      create_element (innerbox, gtk_button_new_with_label (d->tag->str), g_strdup (lily));
-                    }
-                }
-            }
-          if (si->layout.directives)
-            {
-              GtkWidget *frame = gtk_frame_new (_("Layout block"));
-              gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
-              add_lilypond (frame, g_strdup ("\n\\layout {\n"), g_strdup ("\n}\n"));
-              GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
-              gtk_container_add (GTK_CONTAINER (frame), innerbox);
-              GList *g;
-              for (g = si->layout.directives; g; g = g->next)
-                {
-                  DenemoDirective *d = g->data;
-                  if (d->override & DENEMO_OVERRIDE_HIDDEN)
-                    continue;
-                  if (sb && wrong_layout (d, sb->id))
-                        continue;
-                  gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
-                  if (lily)
-                    {
-                      create_element (innerbox, gtk_button_new_with_label (d->tag->str), g_strdup (lily));
-                    }
-                }
-            }
-
-            if (si->movementcontrol.directives)
-                {
-                  GtkWidget *frame = gtk_frame_new (_("Movement Block"));
-                  gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
-                  GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
-                  gtk_container_add (GTK_CONTAINER (frame), innerbox);
-                  GList *g;
-                  for (g = si->movementcontrol.directives; g; g = g->next)
-                    {
-                      DenemoDirective *d = (DenemoDirective *) g->data;
-                      if (sb && wrong_layout (d, sb->id))
-                        continue;
-                      if (d->override & DENEMO_OVERRIDE_AFFIX && d->postfix)
-                        {
-                          gchar *text = label_for_directive (d);
-                          GtkWidget *label = gtk_label_new (text);
-                          g_free (text);
-                          create_element (innerbox, label, g_strdup (d->postfix->str));
-                        }
-                    }
-                }
-
-
-
-          if (si->movementcontrol.directives)
-            {
-              GtkWidget *frame = gtk_frame_new (_("Movement Epilog"));
-              gtk_box_pack_start (GTK_BOX (movement_vbox), frame, FALSE, TRUE, 0);
-              GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
-              gtk_container_add (GTK_CONTAINER (frame), innerbox);
-              GList *g;
-              for (g = si->movementcontrol.directives; g; g = g->next)
-                {
-                  DenemoDirective *d = (DenemoDirective *) g->data;
-                  if (d->override & DENEMO_OVERRIDE_AFFIX)
-                    continue;
-                  if (d->override & DENEMO_OVERRIDE_HIDDEN)
-                    continue;
-                  if (sb && wrong_layout (d, sb->id))
-                        continue;
-                  if (d->postfix)
-                    {
-                      gchar *text = label_for_directive (d);
-                      GtkWidget *label = gtk_label_new (text);
-                      g_free (text);
-                      create_element (innerbox, label, g_strdup (d->postfix->str));
-                    }
-                }
-            }
-        }
-static void install_duplicate_movement (DenemoScoreblock ** psb, gint movement)
+static void
+install_movement_widget (DenemoMovement * si, GtkWidget * vbox, DenemoScoreblock ** psb, gchar * partname, gint movement_num, gboolean last, gboolean standard)
 {
-    gchar *partname = NULL;
-    //show_type  (gtk_bin_get_child (gtk_bin_get_child ((*psb)->widget)), "Type of widget ");
-    GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN ((*psb)->widget))));
-    DenemoMovement *si = g_list_nth_data (Denemo.project->movements, movement - 1);
-    if (si)
-        install_movement_widget (si, vbox, psb, partname, movement, TRUE, FALSE);
-}
-static void install_duplicate_movement_callback (DenemoScoreblock *sb)
-{
-    install_duplicate_movement (&sb, Denemo.project->movement->currentmovementnum);
-    score_status (Denemo.project, TRUE);
-    gtk_widget_show_all (sb->widget);
-}
+  DenemoProject *gui = Denemo.project;
+  DenemoScoreblock *sb = *psb;  //if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
+  gchar *label_text = gui->movements->next ? g_strdup_printf (_("<b>Movement %d</b>"), movement_num) : g_strdup (_("Movement"));
+  GtkWidget *movement_frame = gtk_expander_new (label_text);
+  gtk_label_set_use_markup (GTK_LABEL (gtk_expander_get_label_widget (GTK_EXPANDER (movement_frame))), TRUE);
+  gtk_widget_set_tooltip_text (movement_frame, _("This contains the layout of the movement- the movement title, and the actual music itself"));
+  gtk_expander_set_expanded (GTK_EXPANDER (movement_frame), si == gui->movement);
+  g_free (label_text);
+  gtk_box_pack_start (GTK_BOX (vbox), movement_frame, FALSE, TRUE, 0);
 
-static void reorder_movement (DenemoScoreblock * psb)
-{
-    //show_type  (gtk_bin_get_child (gtk_bin_get_child ((*psb)->widget)), "Type of widget ");
-    GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN (psb->widget))));
-    GList *children = gtk_container_get_children (GTK_CONTAINER(vbox));
-    //show_type  ( g_list_nth_data (children, movement)     , "Type of widget ");
-    for ( ;children; children=children->next)
+  GtkWidget *frame_box = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (movement_frame), frame_box);
+  GtkWidget *remove_box = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (frame_box), remove_box, FALSE, FALSE, 0);
+  GtkWidget *w = gtk_button_new_with_label ("<span foreground=\"red\">Remove Movement</span>");
+  gtk_label_set_use_markup (GTK_LABEL (gtk_bin_get_child (GTK_BIN (w))), TRUE);
+  gtk_widget_set_tooltip_text (w, _("Remove this movement from the score layout"));
+  g_signal_connect_swapped (w, "clicked", G_CALLBACK (remove_element), frame_box);      //grandparent
+  gtk_box_pack_start (GTK_BOX (remove_box), w, FALSE, FALSE, 14);
+  // GtkWidget *dummy = gtk_label_new (" dummy ");
+  //gtk_box_pack_start (GTK_BOX (frame_box), dummy, TRUE, TRUE, 0);
+
+  GtkWidget *outer_hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (frame_box), outer_hbox, FALSE, TRUE, 0);
+
+  GtkWidget *movement_vbox = gtk_vbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (outer_hbox), movement_vbox, FALSE, TRUE, 10);
+  install_pre_movement_widgets (movement_vbox, si, standard, *psb);
+  GtkWidget *frame = gtk_frame_new (NULL);
+  add_lilypond (frame, g_strdup ("\n\\score { %Start of Movement\n"), g_strdup ("\n       } %End of Movement\n"));
+  gtk_box_pack_start (GTK_BOX (movement_vbox), frame, FALSE, TRUE, 0);
+  GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
+  GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
+
+  gtk_box_pack_start (GTK_BOX (hbox), get_movement_widget (&(*psb)->staff_list, partname, si, movement_num, last, standard, *psb), FALSE, TRUE, 0);
+  gtk_box_pack_start (GTK_BOX (outer_vbox), hbox, FALSE, TRUE, 0);
+  if (si->header.directives)
+    {
+      GtkWidget *frame = gtk_frame_new (_("Header block"));
+      gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
+      add_lilypond (frame, g_strdup ("\n\\header {\n"), g_strdup ("\n        }\n"));
+      GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
+      gtk_container_add (GTK_CONTAINER (frame), innerbox);
+      GList *g;
+      for (g = si->header.directives; g; g = g->next)
         {
-        if( GTK_IS_EXPANDER (children->data) && gtk_expander_get_expanded (children->data))
+          DenemoDirective *d = g->data;
+          if (d->override & DENEMO_OVERRIDE_HIDDEN)
+            continue;
+          if (sb && wrong_layout (d, sb->id))
+            continue;
+          gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
+          if (lily)
             {
-                if (children->next == NULL)
-                    warningdialog (_( "The currently expanded movement is already at the end"));
-                else
-                    gtk_box_reorder_child (GTK_BOX(vbox), children->data, -1);//-1 = to end
-                g_list_free (children);
-                return;
+              create_element (innerbox, gtk_button_new_with_label (d->tag->str), g_strdup (lily));
             }
         }
-    warningdialog (_("No movement is expanded - don't know which movement to move"));
+    }
+  if (si->layout.directives)
+    {
+      GtkWidget *frame = gtk_frame_new (_("Layout block"));
+      gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
+      add_lilypond (frame, g_strdup ("\n\\layout {\n"), g_strdup ("\n}\n"));
+      GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
+      gtk_container_add (GTK_CONTAINER (frame), innerbox);
+      GList *g;
+      for (g = si->layout.directives; g; g = g->next)
+        {
+          DenemoDirective *d = g->data;
+          if (d->override & DENEMO_OVERRIDE_HIDDEN)
+            continue;
+          if (sb && wrong_layout (d, sb->id))
+            continue;
+          gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
+          if (lily)
+            {
+              create_element (innerbox, gtk_button_new_with_label (d->tag->str), g_strdup (lily));
+            }
+        }
+    }
+
+  if (si->movementcontrol.directives)
+    {
+      GtkWidget *frame = gtk_frame_new (_("Movement Block"));
+      gtk_box_pack_start (GTK_BOX (outer_vbox), frame, FALSE, TRUE, 0);
+      GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
+      gtk_container_add (GTK_CONTAINER (frame), innerbox);
+      GList *g;
+      for (g = si->movementcontrol.directives; g; g = g->next)
+        {
+          DenemoDirective *d = (DenemoDirective *) g->data;
+          if (sb && wrong_layout (d, sb->id))
+            continue;
+          if (d->override & DENEMO_OVERRIDE_AFFIX && d->postfix)
+            {
+              gchar *text = label_for_directive (d);
+              GtkWidget *label = gtk_label_new (text);
+              g_free (text);
+              create_element (innerbox, label, g_strdup (d->postfix->str));
+            }
+        }
+    }
+
+
+
+  if (si->movementcontrol.directives)
+    {
+      GtkWidget *frame = gtk_frame_new (_("Movement Epilog"));
+      gtk_box_pack_start (GTK_BOX (movement_vbox), frame, FALSE, TRUE, 0);
+      GtkWidget *innerbox = gtk_vbox_new (FALSE, 8);
+      gtk_container_add (GTK_CONTAINER (frame), innerbox);
+      GList *g;
+      for (g = si->movementcontrol.directives; g; g = g->next)
+        {
+          DenemoDirective *d = (DenemoDirective *) g->data;
+          if (d->override & DENEMO_OVERRIDE_AFFIX)
+            continue;
+          if (d->override & DENEMO_OVERRIDE_HIDDEN)
+            continue;
+          if (sb && wrong_layout (d, sb->id))
+            continue;
+          if (d->postfix)
+            {
+              gchar *text = label_for_directive (d);
+              GtkWidget *label = gtk_label_new (text);
+              g_free (text);
+              create_element (innerbox, label, g_strdup (d->postfix->str));
+            }
+        }
+    }
 }
 
-static void reorder_movement_callback (DenemoScoreblock * psb)
+static void
+install_duplicate_movement (DenemoScoreblock ** psb, gint movement)
 {
-    reorder_movement (psb);
-    score_status (Denemo.project, TRUE);
+  gchar *partname = NULL;
+  //show_type  (gtk_bin_get_child (gtk_bin_get_child ((*psb)->widget)), "Type of widget ");
+  GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN ((*psb)->widget))));
+  DenemoMovement *si = g_list_nth_data (Denemo.project->movements, movement - 1);
+  if (si)
+    install_movement_widget (si, vbox, psb, partname, movement, TRUE, FALSE);
+}
+
+static void
+install_duplicate_movement_callback (DenemoScoreblock * sb)
+{
+  install_duplicate_movement (&sb, Denemo.project->movement->currentmovementnum);
+  score_status (Denemo.project, TRUE);
+  gtk_widget_show_all (sb->widget);
+}
+
+static void
+reorder_movement (DenemoScoreblock * psb)
+{
+  //show_type  (gtk_bin_get_child (gtk_bin_get_child ((*psb)->widget)), "Type of widget ");
+  GtkWidget *vbox = gtk_bin_get_child (GTK_BIN (gtk_bin_get_child (GTK_BIN (psb->widget))));
+  GList *children = gtk_container_get_children (GTK_CONTAINER (vbox));
+  //show_type  ( g_list_nth_data (children, movement)     , "Type of widget ");
+  for (; children; children = children->next)
+    {
+      if (GTK_IS_EXPANDER (children->data) && gtk_expander_get_expanded (children->data))
+        {
+          if (children->next == NULL)
+            warningdialog (_("The currently expanded movement is already at the end"));
+          else
+            gtk_box_reorder_child (GTK_BOX (vbox), children->data, -1); //-1 = to end
+          g_list_free (children);
+          return;
+        }
+    }
+  warningdialog (_("No movement is expanded - don't know which movement to move"));
+}
+
+static void
+reorder_movement_callback (DenemoScoreblock * psb)
+{
+  reorder_movement (psb);
+  score_status (Denemo.project, TRUE);
 
 }
 
@@ -2127,12 +2158,13 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
   for (g = gui->lilycontrol.directives; g; g = g->next)
     {
-      DenemoDirective *d = g->data;   // g_print("Trying tag %s postfix %s\n", d->tag->str, d->postfix?d->postfix->str:"No postfix");
+      DenemoDirective *d = g->data;     // g_print("Trying tag %s postfix %s\n", d->tag->str, d->postfix?d->postfix->str:"No postfix");
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
       if (!(d->override & DENEMO_OVERRIDE_AFFIX))
         continue;
-      if (wrong_layout (d, (*psb)->id)) continue;
+      if (wrong_layout (d, (*psb)->id))
+        continue;
 
       gchar *post = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (post)
@@ -2155,9 +2187,9 @@ recreate_standard_scoreblock (DenemoScoreblock ** psb)
   gchar *instrumentation = (*psb)->instrumentation ? g_strdup ((*psb)->instrumentation) : NULL;
   gboolean visible = (*psb)->visible;
   GtkNotebook *notebook = GTK_NOTEBOOK (get_score_layout_notebook (Denemo.project));
-  if((*psb)->widget)
-    set_notebook_page((*psb)->widget);
-  gint position = gtk_notebook_get_current_page(notebook);
+  if ((*psb)->widget)
+    set_notebook_page ((*psb)->widget);
+  gint position = gtk_notebook_get_current_page (notebook);
   free_scoreblock ((*psb));     //this changes the page in the notebook if it was selected before. So if sb->visible then re-select this page after reconstruction
   create_standard_scoreblock (psb, movement, partname);
   (*psb)->instrumentation = instrumentation;
@@ -2165,7 +2197,7 @@ recreate_standard_scoreblock (DenemoScoreblock ** psb)
 //alternatively pass in desired position to create_standard_scoreblock....
 
 
- // if (visible)
+  // if (visible)
   //  gtk_notebook_set_current_page (GTK_NOTEBOOK (get_score_layout_notebook (Denemo.project)), 0);
 }
 
@@ -2192,7 +2224,7 @@ check_for_update (void)
         {
           DenemoScoreblock *sb = (DenemoScoreblock *) g->data;
           recreate_standard_scoreblock (&sb);
-      }
+        }
       return TRUE;
     }
   return FALSE;
@@ -2202,25 +2234,27 @@ static gboolean
 change_tab (GtkNotebook * notebook, GtkWidget * page, gint pagenum)
 {
   //this is getting called with pagenum 0 when clicking on the lilypond text window...
- // Denemo.project->lilysync = G_MAXUINT; this would trigger off a re-typeset in continuous typesetting. It seems to happen *before the code below is executed.
- // g_print ("Page num %d widget 0x%x\n", pagenum, page);
+  // Denemo.project->lilysync = G_MAXUINT; this would trigger off a re-typeset in continuous typesetting. It seems to happen *before the code below is executed.
+  // g_print ("Page num %d widget 0x%x\n", pagenum, page);
   page = gtk_notebook_get_nth_page (notebook, pagenum); // value passed in appears to be something else - it is not documented what.
 //g_print ("gtk_notebook_get_nth_page  %d widget 0x%x\n", pagenum, page);
   GList *g;
   for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
-      sb->visible = (sb->widget == page);//g_print ("%s for layout 0x%x\n", sb->visible?"Visible":"Invisible", sb->id);
-      if (sb->visible) Denemo.project->layout_id = sb->id;
+      sb->visible = (sb->widget == page);       //g_print ("%s for layout 0x%x\n", sb->visible?"Visible":"Invisible", sb->id);
+      if (sb->visible)
+        Denemo.project->layout_id = sb->id;
     }
   for (g = Denemo.project->standard_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
-      sb->visible = (sb->widget == page);//g_print ("%s for layout 0x%x\n", sb->visible?"Visible":"Invisible", sb->id);
-      if (sb->visible) Denemo.project->layout_id = sb->id;
+      sb->visible = (sb->widget == page);       //g_print ("%s for layout 0x%x\n", sb->visible?"Visible":"Invisible", sb->id);
+      if (sb->visible)
+        Denemo.project->layout_id = sb->id;
     }
- // Denemo.project->layout_id = 0;
- Denemo.project->lilysync = G_MAXUINT;
+  // Denemo.project->layout_id = 0;
+  Denemo.project->lilysync = G_MAXUINT;
   return TRUE;
 }
 
@@ -2237,26 +2271,19 @@ refresh_lilypond (DenemoScoreblock * sb)
       if ((!is_lilypond_text_layout (sb)))
         {
           gchar *instrumentation = sb->instrumentation;
-          gchar *set_instr = instrumentation? g_strdup (instrumentation):
-                                             ((!strcmp (sb->name, DEFAULT_SCORE_LAYOUT))?g_strdup (_("Full Score")):
-                                             ((g_str_has_prefix (sb->name, _("Movement")))?
-                                                    g_strdup (sb->name):
-                                                    NULL));
+          gchar *set_instr = instrumentation ? g_strdup (instrumentation) : ((!strcmp (sb->name, DEFAULT_SCORE_LAYOUT)) ? g_strdup (_("Full Score")) : ((g_str_has_prefix (sb->name, _("Movement"))) ? g_strdup (sb->name) : NULL));
 
-          instrumentation = set_instr? g_strdup_printf ("        instrumentation = \\markup { \\with-url #'\"scheme:(d-BookInstrumentation)\" \"%s\"}\n", set_instr):
-                                        g_strdup ("");
+          instrumentation = set_instr ? g_strdup_printf ("        instrumentation = \\markup { \\with-url #'\"scheme:(d-BookInstrumentation)\" \"%s\"}\n", set_instr) : g_strdup ("");
           g_free (set_instr);
           set_instr = instrumentation;
 
-          sb->id = crc32 ((guchar*) sb->name);
+          sb->id = crc32 ((guchar *) sb->name);
           if (sb->lilypond == NULL)
             sb->lilypond = g_string_new (sb->name);
           else
             g_string_assign (sb->lilypond, sb->name);
           g_string_prepend (sb->lilypond, "%");
-          g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"\n%s        }\n",
-          sb->name,
-          set_instr);
+          g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"\n%s        }\n", sb->name, set_instr);
           g_free (set_instr);
           lilypond_for_layout (sb->lilypond, sb->widget);
         }
@@ -2264,6 +2291,7 @@ refresh_lilypond (DenemoScoreblock * sb)
   else
     g_warning ("No widget for scoreblock");
 }
+
 gboolean
 current_scoreblock_is_custom (void)
 {
@@ -2275,10 +2303,11 @@ current_scoreblock_is_custom (void)
     {
       DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
       if (sb->widget == page)
-         return TRUE;
-     }
-return FALSE;
+        return TRUE;
+    }
+  return FALSE;
 }
+
 DenemoScoreblock *
 selected_scoreblock (void)
 {
@@ -2360,8 +2389,8 @@ set_current_scoreblock_uri (gchar * uri)
   DenemoScoreblock *sb = selected_scoreblock ();
   if (sb)
     {
-        g_free (sb->uri);
-        sb->uri = uri;
+      g_free (sb->uri);
+      sb->uri = uri;
     }
 }
 
@@ -2447,11 +2476,12 @@ iterate_custom_layout (gboolean init)
     }
   if (sb && sb->widget)
     {
-      if(!Denemo.non_interactive){
-        if (!gtk_widget_get_visible (Denemo.project->score_layout))
-          activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
-        set_notebook_page (sb->widget);
-      }
+      if (!Denemo.non_interactive)
+        {
+          if (!gtk_widget_get_visible (Denemo.project->score_layout))
+            activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
+          set_notebook_page (sb->widget);
+        }
       return TRUE;
     }
   else
@@ -2462,9 +2492,9 @@ iterate_custom_layout (gboolean init)
 }
 
 guint
-get_layout_id_for_name (gchar *name)
+get_layout_id_for_name (gchar * name)
 {
-return crc32(name);
+  return crc32 (name);
 }
 
 guint
@@ -2503,7 +2533,7 @@ create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * part
 
   gchar *label_text = movement_part_name (movement, partname);
   (*psb)->name = g_strdup (label_text);
-  Denemo.project->layout_id = (*psb)->id = crc32 ((guchar*) (*psb)->name);
+  Denemo.project->layout_id = (*psb)->id = crc32 ((guchar *) (*psb)->name);
   set_default_scoreblock (psb, movement, partname);
 
   GtkWidget *label = gtk_label_new (label_text);
@@ -2608,7 +2638,7 @@ selection_install_voice (DenemoStaff * staff, gint movementnum, gint voice_count
   gchar *text = g_strdup_printf (" %s ", voicetext->str);
   g_string_assign (voicetext, "");
 
-  set_voice_termination (voice_tail, staff);     // TAB TAB"} %End of voice" if not overridden
+  set_voice_termination (voice_tail, staff);    // TAB TAB"} %End of voice" if not overridden
 
 
 
@@ -2653,8 +2683,8 @@ selection_layout (void)
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
       if (d->override & DENEMO_OVERRIDE_AFFIX)
-        continue; //g_print ("Trying tag %s with postfix %s at %x\n", d->tag->str, (d->postfix && d->postfix->len) ? d->postfix->str :"", selected_layout_id ());
-      if (wrong_layout(d, sb->id))
+        continue;               //g_print ("Trying tag %s with postfix %s at %x\n", d->tag->str, (d->postfix && d->postfix->len) ? d->postfix->str :"", selected_layout_id ());
+      if (wrong_layout (d, sb->id))
         continue;
 
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
@@ -2665,7 +2695,7 @@ selection_layout (void)
         }
     }
   gint voice_count;
-  for (voice_count = 1, g = gui->movement->thescore; g; g? g = g->next : g, voice_count++)
+  for (voice_count = 1, g = gui->movement->thescore; g; g ? g = g->next : g, voice_count++)
     {
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
@@ -2684,7 +2714,7 @@ selection_layout (void)
       //if (staff->no_of_lines != 5)
       //  g_string_append_printf (sb->lilypond, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);    //FIXME create_element
       GString *tail = g_string_new ("");
-GString *voice_tail = g_string_new ("");
+      GString *voice_tail = g_string_new ("");
       g_string_assign (stafftext, "");
       set_staff_termination (stafftext, staff); // "\n>>\n%End of Staff\n"
 
@@ -2695,14 +2725,14 @@ GString *voice_tail = g_string_new ("");
           g_string_append_printf (sb->lilypond, "\n" TAB TAB "\\context Staff \\with {implicitBassFigures = #'(0) } \\%sBassFiguresLine %%End of bass figures\n", get_voicename (movementnum, voice_count));
         }
 
-      selection_install_voice (staff, movementnum, voice_count, sb->lilypond, tail, voice_tail);    //Primary voice
+      selection_install_voice (staff, movementnum, voice_count, sb->lilypond, tail, voice_tail);        //Primary voice
 
       g_string_append (sb->lilypond, voice_tail->str);
-      g_string_assign(voice_tail, "");
+      g_string_assign (voice_tail, "");
       //selection_do_verses(staff, vbox, movementnum, this is repeated below
-       gboolean voices_intervened;
-       voices_intervened = FALSE;
-       if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
+      gboolean voices_intervened;
+      voices_intervened = FALSE;
+      if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
         {
           for (g = g->next, voice_count++; g && (((DenemoStaff *) g->data)->voicecontrol & DENEMO_SECONDARY); g = g->next, voice_count++)
             {
@@ -2711,7 +2741,7 @@ GString *voice_tail = g_string_new ("");
               selection_install_voice (staff, movementnum, voice_count, sb->lilypond, voicetail, voice_tail);
               g_string_append (sb->lilypond, g_string_free (voicetail, FALSE));
               g_string_append (sb->lilypond, voice_tail->str);
-              g_string_assign(voice_tail, "");
+              g_string_assign (voice_tail, "");
               voices_intervened = TRUE;
               //selection_do_verses(staff, vbox, movementnum, this is repeated above
             }
@@ -2724,11 +2754,11 @@ GString *voice_tail = g_string_new ("");
       else
         g_string_free (tail, FALSE);
 
-     if(g && voices_intervened) // we have added voices to the staff, so the for loop has advanced the iterator over staffs and voice count already, so back up
-     {
-         g = g->prev;
-         voice_count--;
-     }
+      if (g && voices_intervened)       // we have added voices to the staff, so the for loop has advanced the iterator over staffs and voice count already, so back up
+        {
+          g = g->prev;
+          voice_count--;
+        }
     }                           // end of for each staff Now loop back for all the staffs in firststaffnum -  laststaffnum
   g_string_append (sb->lilypond, movement_tail->str);
   g_string_free (movement_tail, TRUE);
@@ -2740,7 +2770,8 @@ GString *voice_tail = g_string_new ("");
       DenemoDirective *d = g->data;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
         continue;
-      if (wrong_layout(d, sb->id)) continue;
+      if (wrong_layout (d, sb->id))
+        continue;
 
       gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (lily)
@@ -2762,7 +2793,7 @@ GString *voice_tail = g_string_new ("");
           if (d->override & DENEMO_OVERRIDE_HIDDEN)
             continue;
           if (wrong_layout (d, sb->id))
-                        continue;
+            continue;
           gchar *lily = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
           if (lily)
             {
@@ -2828,8 +2859,8 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
   for (g = Denemo.project->standard_scoreblocks; g; g = g->next)
     {
       sb = (DenemoScoreblock *) g->data;
-     // if(sb->layout_sync!=Denemo.project->layout_sync) //this conditional was dropped, it will be better to fix the cases where project->layout_sync is not updated as it should, that is places where signal_structural_change() call is missed
-        recreate_standard_scoreblock (&sb);
+      // if(sb->layout_sync!=Denemo.project->layout_sync) //this conditional was dropped, it will be better to fix the cases where project->layout_sync is not updated as it should, that is places where signal_structural_change() call is missed
+      recreate_standard_scoreblock (&sb);
       sb->visible = FALSE;
     }
 
@@ -2880,7 +2911,7 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
     }
   else
     {
-      movement = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;      //current movement
+      movement = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;        //current movement
     }
 
 
@@ -2920,9 +2951,9 @@ select_standard_layout (DenemoScoreblock * sb)
       //creating a scoreblock does *not* include generating the lilypond from its widgets.
       if (Denemo.project->standard_scoreblocks == NULL)
         {
-            DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
-            (void) create_standard_scoreblock (&sb, 0, NULL);
-            Denemo.project->standard_scoreblocks = g_list_prepend (NULL, (gpointer) sb);
+          DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
+          (void) create_standard_scoreblock (&sb, 0, NULL);
+          Denemo.project->standard_scoreblocks = g_list_prepend (NULL, (gpointer) sb);
         }
       sb = (DenemoScoreblock *) (Denemo.project->standard_scoreblocks->data);
     }
@@ -2979,6 +3010,7 @@ select_layout_id (gint id)
     }
   return FALSE;
 }
+
 /* UNUSED
 static void
 text_modified (GtkTextBuffer * textbuffer, DenemoScoreblock * sb)
@@ -3003,36 +3035,37 @@ get_scoreblock_for_lilypond (gchar * lily)
   DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
   sb->text_only = TRUE;
 
-  if(!Denemo.non_interactive){
-    GtkWidget *frame = gtk_frame_new (LILYPOND_TEXT_EDITOR);
-    sb->widget = frame;
-    gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View → LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
-    GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-    gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
-    GtkWidget *options = get_options_button (sb, TRUE);
-    gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
-    GtkWidget *textview = gtk_text_view_new ();
-    gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (textview), TRUE);
-    GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
-    gtk_text_buffer_set_text (textbuffer, text, -1);
+  if (!Denemo.non_interactive)
+    {
+      GtkWidget *frame = gtk_frame_new (LILYPOND_TEXT_EDITOR);
+      sb->widget = frame;
+      gtk_widget_set_tooltip_text (frame, _("This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\nThis is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\nUse the View → LilyPond window to do this.\nOtherwise you can delete it and create a new one from a standard layout."));
+      GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
+      gtk_container_add (GTK_CONTAINER (sb->widget), vbox);
+      GtkWidget *options = get_options_button (sb, TRUE);
+      gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
+      GtkWidget *textview = gtk_text_view_new ();
+      gtk_text_view_set_cursor_visible (GTK_TEXT_VIEW (textview), TRUE);
+      GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+      gtk_text_buffer_set_text (textbuffer, text, -1);
 
-    GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
-    gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
-    gtk_container_add (GTK_CONTAINER (sw), textview);
-    gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
-  }
+      GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+      gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+      gtk_container_add (GTK_CONTAINER (sw), textview);
+      gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
+    }
 
   gchar *newline = g_strstr_len (lily, -1, "\n");
   if (newline)
     {
       name = g_strndup (lily, newline - lily);
       sb->name = g_strdup (name + 1);
-      sb->id = crc32 ((guchar*) sb->name);
+      sb->id = crc32 ((guchar *) sb->name);
       g_free (name);
     }
   else
     sb->name = g_strdup (_("Custom Scoreblock"));
-  sb->id = crc32 ((guchar*) sb->name);
+  sb->id = crc32 ((guchar *) sb->name);
   sb->lilypond = g_string_new (lily);
 
   refresh_lilypond (sb);
@@ -3065,7 +3098,8 @@ create_custom_scoreblock (gchar * layout_name, gboolean force)
 }
 
 
-gboolean delete_custom_scoreblock (gchar * layout_name)
+gboolean
+delete_custom_scoreblock (gchar * layout_name)
 {
   GList *g;
 
@@ -3074,8 +3108,8 @@ gboolean delete_custom_scoreblock (gchar * layout_name)
       DenemoScoreblock *sb = (DenemoScoreblock *) g->data;
       if (!strcmp (layout_name, sb->name))
         {
-            delete_custom_scoreblock_callback (NULL, sb);
-            return TRUE;
+          delete_custom_scoreblock_callback (NULL, sb);
+          return TRUE;
         }
     }
   return FALSE;
@@ -3121,7 +3155,7 @@ static void
 typeset_layout (DenemoScoreblock * sb)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   set_notebook_page (sb->widget);
   g_debug ("Switched to %s\n", sb->name);
