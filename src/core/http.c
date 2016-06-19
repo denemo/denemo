@@ -70,6 +70,7 @@ process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
   ssize_t n;
 
   GString *out = g_string_new ("");
+  /* *INDENT-OFF* */
   g_string_append_printf (out,
                           "POST %s HTTP/1.0\r\n"
                           "Host: %s\r\n%s"
@@ -77,6 +78,7 @@ process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
                           "Content-length: %zu\r\n\r\n"
                           "%s",
                           page, host, other, strlen (poststr), poststr);
+  /* *INDENT-ON* */
 
   //g_debug("about to write %s\n", out->str);
   write (sockfd, out->str, out->len);
