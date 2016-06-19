@@ -1788,6 +1788,8 @@ actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.xml
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.xml
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml
 actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm
