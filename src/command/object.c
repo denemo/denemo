@@ -797,7 +797,7 @@ typedef enum DIRECTIVE_TYPE
 static GList *OldCurrentObject; //current object when object editor was left
 GtkWidget *TheEditorWidget;
 
-static
+static void
 chuck_object_editor (void)
 {
   if (TheEditorWidget)
