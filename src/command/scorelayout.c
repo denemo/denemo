@@ -1918,7 +1918,7 @@ reload_scorewide_block (GtkWidget * frame)
   frame = gtk_frame_new (NULL);
   GtkWidget *reload_button = get_reload_button (frame);
   gtk_container_add (GTK_CONTAINER (event_box), frame);
-  fill_scorewide_frame (frame, reload_button, selected_layout_id ());   //FIXME is selected layout id correct???
+  fill_scorewide_frame (frame, reload_button, selected_scoreblock ());
   gtk_widget_show_all (vbox);
   Denemo.project->lilysync = G_MAXUINT;
 
