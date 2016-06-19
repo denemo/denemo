@@ -1,0 +1,15 @@
+;;;FillUpMeasure
+(let ((appending (Appending?)))
+    (if (FullDurationMeasure?)
+        (d-AddDuplicateMeasure)
+        (if (ZeroDurationMeasure?)
+            (d-PutNote #f)
+            (begin
+               (while (d-PrevChordInMeasure))
+               (d-SetMark)
+               (while (d-NextChordInMeasure))
+               (d-SetPoint)
+               (d-Copy)
+               (d-MoveCursorRight)
+               (while (UnderfullMeasure?)
+                    (d-Paste))))))

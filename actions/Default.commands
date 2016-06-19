@@ -7870,6 +7870,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Create/Populate Click Staff</_label>
         <_tooltip>Creates a staff at the top as a click track. Suggests a pattern of drum beats for the first bar, and offers to copy these to the following bars. The cursor height determines which drum sounds are suggested from the General MIDI set. Invoked in a click track it will copy your own set of drum beats to subsequent (empty) measures.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FillUpMeasure</action>
+        <after>FillMeasure</after>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Duplicate to Fill Measure</_label>
+        <_tooltip>Duplicates the notes in the current measure until the measure is full or over-full. If already full, duplicates the current measure.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
