@@ -91,6 +91,7 @@ void set_movement_selector (DenemoProject *gui)
   gui->movements_selector = (GtkWidget*)gtk_hbox_new(FALSE,1);
   gtk_box_pack_start(GTK_BOX(gui->buttonbox), gui->movements_selector,  FALSE, TRUE, 0);
   gtk_widget_show (gui->movements_selector);
+  if (Denemo.prefs.visible_directive_buttons) gtk_widget_show (gui->buttonbox);
   gint num_movements = 1;
   gint last = 1;
   gint first = 1;
