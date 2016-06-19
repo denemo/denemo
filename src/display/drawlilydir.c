@@ -6,7 +6,8 @@
  * (c) 1999, 2000, 2001, 2002 Adam Tee, 2008, 2009 Richard Shann
  */
 
-#include "core/utils.h"              /* Includes <gdk.h> */
+#include "core/utils.h"         /* Includes <gdk.h> */
+#include "command/lilydirectives.h"
 #include "command/scorelayout.h"
 #include <denemo/denemo.h>
 #include <string.h>
@@ -21,7 +22,7 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   DenemoDirective *directive = ((lilydirective *) theobj->object);
   gchar *first = (directive->postfix && directive->postfix->len) ? directive->postfix->str : " ";
   guint layout = selected_layout_id ();
-  gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+  gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5 : 0.0;
   gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
   //if (lily->y && lily->y != layout)
   //  exclude = 0.9;
@@ -36,26 +37,24 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
 
       drawbitmapinverse_cr (cr, (DenemoGraphic *) directive->graphic, gx, gy, FALSE);
     }
- // else instead always show position of standalone directive
-    {
-        at_cursor?
-      cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5):
-      cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
+  // else instead always show position of standalone directive
+  {
+    at_cursor ? cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
 
 
-      cairo_rectangle (cr, xx+10, y - 20, 2, STAFF_HEIGHT + 26);
-      cairo_arc (cr, xx+10 + 1.5, y - 20, 6, 0.0, 2 * M_PI);
-      cairo_fill (cr);
-      cairo_move_to (cr, xx+10, y - 20);
-      cairo_line_to (cr, xx+10 + directive->gx, y + MID_STAFF_HEIGHT + directive->gy);
-      cairo_stroke (cr);
-    }
+    cairo_rectangle (cr, xx + 10, y - 20, 2, STAFF_HEIGHT + 26);
+    cairo_arc (cr, xx + 10 + 1.5, y - 20, 6, 0.0, 2 * M_PI);
+    cairo_fill (cr);
+    cairo_move_to (cr, xx + 10, y - 20);
+    cairo_line_to (cr, xx + 10 + directive->gx, y + MID_STAFF_HEIGHT + directive->gy);
+    cairo_stroke (cr);
+  }
   if (directive->display)
     {                           //store display position x,y as well
 #define MAXLEN (4)
       gchar c = 0;              //if it is a long string only show it all when cursor is on it, also only display from first line
       gchar *p;
-      for (p = directive->display->str; *p; p = g_utf8_next_char(p))
+      for (p = directive->display->str; *p; p = g_utf8_next_char (p))
         {
           if (*p == '\n' || (!at_cursor && (p - directive->display->str) > MAXLEN))
             {
@@ -64,10 +63,10 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
               break;
             }
         }
-        if (at_cursor)
-            cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, directive->display->str, xx + directive->tx, y + lowy + directive->ty - 8);
-        else
-            drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + lowy + directive->ty - 8);
+      if (at_cursor)
+        cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0), drawlargetext_cr (cr, directive->display->str, xx + directive->tx, y + lowy + directive->ty - 8);
+      else
+        drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + lowy + directive->ty - 8);
       if (c)
         {
           *p = c;
@@ -76,11 +75,11 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   else
     //FIXME do this by creating a display field
   if ((!directive->graphic) && (*first == '%' || *first == '^' || *first == '_'))
-    { //display comments, and markup above and below
-        if (at_cursor)
-                cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
-        else
-            drawnormaltext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
+    {                           //display comments, and markup above and below
+      if (at_cursor)
+        cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0), drawlargetext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
+      else
+        drawnormaltext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
     }
   cairo_restore (cr);
 }

@@ -6,7 +6,8 @@
  * (c) 1999, 2000, 2001, 2002 Matthew Hiller, Adam Tee
  */
 
-#include "core/utils.h"              /* Includes <gdk.h> */
+#include "core/utils.h"         /* Includes <gdk.h> */
+#include "command/lilydirectives.h"
 #include "command/scorelayout.h"
 #include "display/drawingprims.h"
 #include "display/notewidths.h"
@@ -22,16 +23,17 @@ gint headwidths[3] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH, NOTEHEAD_WIDTH
 
 
 
-static void draw_selection_shading (cairo_t *cr, DenemoDirective *directive, gdouble x, gdouble y, gdouble diameter)
+static void
+draw_selection_shading (cairo_t * cr, DenemoDirective * directive, gdouble x, gdouble y, gdouble diameter)
 {
- if (directive == Denemo.project->movement->directive_on_clipboard)
-            {
-                cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
-                cairo_arc (cr,  x, y - 4, 2*diameter, 0.0, 2*M_PI); //FIXME put these adjustments back into the caller code and pass diameter and y as final values
-                cairo_fill (cr);
-                cairo_restore (cr);
-            }
+  if (directive == Denemo.project->movement->directive_on_clipboard)
+    {
+      cairo_save (cr);
+      cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
+      cairo_arc (cr, x, y - 4, 2 * diameter, 0.0, 2 * M_PI);    //FIXME put these adjustments back into the caller code and pass diameter and y as final values
+      cairo_fill (cr);
+      cairo_restore (cr);
+    }
 }
 
 /**
@@ -83,19 +85,7 @@ draw_rest (cairo_t * cr, gint duration, gint numdots, gint xx, gint y, DenemoGra
  *
  */
 static void
-draw_notehead (cairo_t * cr,
-               note * thenote,
-               gint duration,
-               gint numdots,
-               gint xx,
-               gint y,
-               gint * accs,
-               gint is_stemup,
-               DenemoGraphic * override_notehead,
-               gint gx,
-               gint gy,
-               gboolean at_cursor,
-               gboolean percussion)
+draw_notehead (cairo_t * cr, note * thenote, gint duration, gint numdots, gint xx, gint y, gint * accs, gint is_stemup, DenemoGraphic * override_notehead, gint gx, gint gy, gboolean at_cursor, gboolean percussion)
 {
   /* Adam's changed this code; it used to be that these arrays only had
      three elements.  The change has defeated what had been semi-elegance;
@@ -280,7 +270,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
           if (selected)
             cairo_set_source_rgb (cr, 231.0 / 255, 1, 39.0 / 255);
           else if (Denemo.project->movement->recording)
-            cairo_set_source_rgba (cr, 180.0 / 255, 160.0 / 255, 32.0 / 255, 0.4);    // yellow for non printing
+            cairo_set_source_rgba (cr, 180.0 / 255, 160.0 / 255, 32.0 / 255, 0.4);      // yellow for non printing
           else
             cairo_set_source_rgb (cr, 180.0 / 255, 160.0 / 255, 32.0 / 255);    // yellow for non printing
 
@@ -312,16 +302,16 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
         {
           DenemoDirective *directive = (DenemoDirective *) g->data;
           guint layout = selected_layout_id ();
-          gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+          gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5 : 0.0;
           gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
           if (wrong_layout (directive, layout))
             exclude = 0.9;
-          if (exclude>0.0 || only >0.0)
-                {
-                    cairo_save (cr);
-                    cairo_set_source_rgba (cr, 0.4 + exclude -only/2, 0.5 + only, 0.4 -only/2, at_cursor ? 1.0 : 0.7);
-                                        //cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5); green is too pale.
-                }
+          if (exclude > 0.0 || only > 0.0)
+            {
+              cairo_save (cr);
+              cairo_set_source_rgba (cr, 0.4 + exclude - only / 2, 0.5 + only, 0.4 - only / 2, at_cursor ? 1.0 : 0.7);
+              //cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5); green is too pale.
+            }
           if (directive->graphic)
             {
 
@@ -338,7 +328,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     }
                   else
                     {
-                      draw_selection_shading (cr, directive, xx + directive->gx, y + STAFF_HEIGHT + 40 + directive->gy - 4, MAX(directive->graphic->width, 8.0));
+                      draw_selection_shading (cr, directive, xx + directive->gx, y + STAFF_HEIGHT + 40 + directive->gy - 4, MAX (directive->graphic->width, 8.0));
                       drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2, y + STAFF_HEIGHT + 40 + directive->gy - directive->graphic->height / 2, FALSE);
                     }
                 }
@@ -348,8 +338,8 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     {           //ALT_OVERRIDE makes the positioning stem sensitive
                       //FIXME - use count to stack up multiple markings
                       gdouble yval = (thechord.is_stemup ? (y + thechord.lowesty + 8 + count + directive->gy) : (y + thechord.highesty - 8 - count - directive->gy));
-                      draw_selection_shading (cr, directive, xx + directive->gx, yval - 4, MAX(directive->graphic->width, 8.0));
-                      drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2 + 4, yval  - directive->graphic->height / 2, thechord.is_stemup);
+                      draw_selection_shading (cr, directive, xx + directive->gx, yval - 4, MAX (directive->graphic->width, 8.0));
+                      drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2 + 4, yval - directive->graphic->height / 2, thechord.is_stemup);
                       if (!thechord.is_stemup)
                         highest = ((y + thechord.highesty + directive->gy - 16 - 2 * count) - directive->graphic->height / 2);
 
@@ -358,18 +348,19 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     {
                       if (directive->override & DENEMO_OVERRIDE_ABOVE)
                         {
-                          gint posy ;
-                          if(thechord.highesty<0)
-                             posy = y - 14 + thechord.highesty - count + directive->gy;
-                        else
-                             posy = y + 1 - count - STAFF_HEIGHT/2 + directive->gy;
-                          draw_selection_shading (cr, directive, xx + directive->gx, posy -4, MAX(directive->graphic->width, 8.0));
+                          gint posy;
+                          if (thechord.highesty < 0)
+                            posy = y - 14 + thechord.highesty - count + directive->gy;
+                          else
+                            posy = y + 1 - count - STAFF_HEIGHT / 2 + directive->gy;
+                          draw_selection_shading (cr, directive, xx + directive->gx, posy - 4, MAX (directive->graphic->width, 8.0));
                           drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2, posy + directive->graphic->height / 2, FALSE);
                         }
-                      else {
-                            draw_selection_shading (cr, directive, xx + directive->gx, y + STAFF_HEIGHT + 8 + thechord.lowesty + count + directive->gy - 4, MAX(directive->graphic->width, 8.0));
-                            drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2, y + STAFF_HEIGHT + 8 + thechord.lowesty + count + directive->gy - directive->graphic->height / 2, FALSE);
-                           }
+                      else
+                        {
+                          draw_selection_shading (cr, directive, xx + directive->gx, y + STAFF_HEIGHT + 8 + thechord.lowesty + count + directive->gy - 4, MAX (directive->graphic->width, 8.0));
+                          drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx - directive->graphic->width / 2, y + STAFF_HEIGHT + 8 + thechord.lowesty + count + directive->gy - directive->graphic->height / 2, FALSE);
+                        }
                     }
                 }
             }
@@ -388,7 +379,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     }
                 }
 
-              draw_selection_shading (cr, directive, xx + directive->tx + 4, y + ((thechord.highesty > -10) ? -10 : thechord.highesty) - 8 -4 + count + directive->ty, 8);
+              draw_selection_shading (cr, directive, xx + directive->tx + 4, y + ((thechord.highesty > -10) ? -10 : thechord.highesty) - 8 - 4 + count + directive->ty, 8);
               drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + ((thechord.highesty > -10) ? -10 : thechord.highesty) - 8 + count + directive->ty);
 
               highest = y + ((thechord.highesty > -10) ? -10 : thechord.highesty) - 8 + count + directive->ty - 10 /*for height of text */ ;
@@ -398,8 +389,8 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                 }
             }
           count += 16;
-        if (exclude>0.0 || only >0.0)
-           cairo_restore (cr);
+          if (exclude > 0.0 || only > 0.0)
+            cairo_restore (cr);
         }                       //for each chord directive
     }                           //if drawing do chord directives
   if ((!override_chord_graphic) || (override_chord_graphic && override_notehead))
