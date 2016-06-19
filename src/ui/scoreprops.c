@@ -303,7 +303,7 @@ struct callbackdata
   GtkWidget *lilypond_before;
   GtkWidget *lilypond_after;
   // GtkWidget *layout;
-  // GtkWidget *extra;  
+  // GtkWidget *extra;
 };
 
 /**

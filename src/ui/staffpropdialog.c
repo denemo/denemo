@@ -1,7 +1,7 @@
 /* staffpropdialog.c
  * callback that creates a "Staff Properties" dialog box asking
  * the user to change the properties of the current staff
- 
+
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller */
 
@@ -161,7 +161,7 @@ static gchar *GM_Instrument_Names[] = {
 
 /**
  * Callback data used for setting the staffs properties
- * 
+ *
  */
 struct callbackdata
 {
@@ -184,7 +184,7 @@ struct callbackdata
 
 
 /**
- * Set the staffs properties 
+ * Set the staffs properties
  * @param cbdata pointer to the callback data structure containing the preference data to set.
  * @return none
  */
@@ -242,7 +242,7 @@ set_properties (struct callbackdata *cbdata)
 
   /* set MIDI channel/prognum */
   ASSIGNTEXT (midi_instrument);
- 
+
   ASSIGNTEXT (device_port);
   ASSIGNBOOLEAN (override_volume);
   ASSIGNNUMBER (volume);
@@ -297,7 +297,7 @@ set_properties (struct callbackdata *cbdata)
 
 /**
  * Create Dialog to allow the user to set the current staff's parameters
- * 
+ *
  */
 static gboolean
 staff_properties_change (void)
@@ -306,7 +306,7 @@ staff_properties_change (void)
   DenemoMovement *si = gui->movement;
   DenemoStaff *staffstruct = (DenemoStaff *) si->currentstaff->data;
   gboolean result = FALSE;
-  
+
   GtkWidget *dialog;
   GtkWidget *notebook;
   GtkWidget *label;
@@ -339,7 +339,7 @@ staff_properties_change (void)
         }
       for (i = 0; i < 128; i++)
         if(array[i])
-            instrument_list = g_list_append(instrument_list, array[i]); 
+            instrument_list = g_list_append(instrument_list, array[i]);
       g_free (array);
     }
   }
@@ -444,7 +444,7 @@ staff_properties_change (void)
   gtk_widget_set_tooltip_text (hbox, _( "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."));
   TEXTENTRY (_("Sub Part name:"), subpart);
   gtk_widget_set_tooltip_text (hbox, _( "If a single part (e.g. piano) has more than one staff they should be named here."));
-  
+
   /* Display appearance tab */
   NEWPAGE ("Display Appearance");
   //gtk_widget_grab_focus (entrywidget);
@@ -459,7 +459,7 @@ staff_properties_change (void)
   INTENTRY_LIMITS (_("Transposition:"), transposition, -30, 30);
   BOOLEANENTRY (_("Always Full Volume"), override_volume);
   INTENTRY_LIMITS (_("Master Volume:"), volume, 0, 127);
-  // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);  
+  // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);
   INTENTRY_LIMITS_1 (_("Channel:"), midi_channel, 1, 16);
   INTENTRY_LIMITS_1 (_("Program:"), midi_prognum, 1, 128);
  // g_debug ("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum);
@@ -484,7 +484,7 @@ staff_properties_change (void)
      Also set things up so that the callback'll run when you hit enter
      * in the text entries */
 
-/* 
+/*
   gtk_entry_set_activates_default (GTK_ENTRY (denemo_name), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (space_above), TRUE);
   gtk_entry_set_activates_default (GTK_ENTRY (space_below), TRUE);
@@ -517,7 +517,7 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
       if (*query)
         if (!strcmp ("denemo_name", query))
           {
-            g_string_assign (param->string, staff->denemo_name->str);  
+            g_string_assign (param->string, staff->denemo_name->str);
             if (staff->subpart)
                 g_string_append_printf (param->string, "_%s", staff->subpart->str);
             param->status = TRUE;
@@ -565,7 +565,7 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
       param->status = ok;
       return;
     }
- 
+
   if (device_port)
     {
       g_string_assign (staff->device_port, device_port);

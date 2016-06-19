@@ -4,9 +4,9 @@
 
 /**
  * Create a new clef object
- * @param type clef type to create 
+ * @param type clef type to create
  *
- * @return the clef 
+ * @return the clef
  */
 DenemoObject *
 clef_new (enum clefs type)

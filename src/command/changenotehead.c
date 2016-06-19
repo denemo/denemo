@@ -1,6 +1,6 @@
 /* changenotehead.c
  * Changes the type of notehead if required
- * 
+ *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) Adam Tee 2000-2005
  */
@@ -25,7 +25,7 @@ gchar *notehead[4] = { N_("Normal"), N_("Cross"), N_("Diamond"),
 
 
 /**
- * Set the correct enum value for the selected 
+ * Set the correct enum value for the selected
  * notehead
  */
 enum headtype
@@ -45,7 +45,7 @@ texttohead (gchar * text)
 
 
 /**
- * Set current notes notehead to the selected 
+ * Set current notes notehead to the selected
  * value
  */
 void

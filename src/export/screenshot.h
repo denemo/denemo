@@ -1,5 +1,5 @@
 #ifdef _HAVE_X11_
-/* gtk-screenshot.h 
+/* gtk-screenshot.h
  *
  * Copyright (C) 2001-2006  Jonathan Blandford <jrb@alum.mit.edu>
  *

@@ -73,7 +73,7 @@ libevince_print (void)
 {
   GError *err = NULL;
   gchar *filename = Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle];
-  if(filename==NULL) { 
+  if(filename==NULL) {
       g_warning ("Typesetting not done? No output filename set.");
       return -1;
   }
@@ -81,9 +81,9 @@ libevince_print (void)
     infodialog("Direct Printing not available under Windows. Create PDF and print from that");
     return -1;
 #endif
-  
-  
-  
+
+
+
   gchar *uri = g_filename_to_uri (filename, NULL, &err);
 
   if (err)
@@ -174,7 +174,7 @@ get_window_size (gint * w, gint * h)
       gdouble scale = ev_document_model_get_scale (model);
       //      gdouble staffsize = atof(Denemo.project->lilycontrol.staffsize->str);
       //      if(staffsize<1) staffsize = 20.0;
-      //      scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit       
+      //      scale *= (staffsize/4);//Trial and error value scaling evinces pdf display to the LilyPond staff-line-spaces unit
 #if GTK_MAJOR_VERSION==2
       gdk_drawable_get_size (window, w, h);
 #else
@@ -292,16 +292,16 @@ overdraw_print (cairo_t * cr)
       message_height += 30;
       cairo_move_to (cr, 50, message_height);
       cairo_show_text (cr, explanation);
-      
+
       if(error_file)
         {
             message_height += 20;
             cairo_move_to (cr, 50, message_height);
-            cairo_show_text (cr, _("File causing error:")); 
+            cairo_show_text (cr, _("File causing error:"));
             message_height += 20;
             cairo_move_to (cr, 50, message_height);
             cairo_set_source_rgba (cr, 0.0, 0.0, 0.5, 0.4);
-            cairo_show_text (cr, error_file); 
+            cairo_show_text (cr, error_file);
         }
     }
     {
@@ -334,8 +334,8 @@ overdraw_print (cairo_t * cr)
       else if (Denemo.printstatus->typeset_type == TYPESET_EXCERPT)
         cairo_show_text (cr, _("Excerpt Only"));
     }
-    
-    
+
+
 
 
   cairo_restore (cr);
@@ -505,8 +505,8 @@ printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
     GError* err = NULL;
     if(!g_spawn_check_exit_status (status, &err))
         g_warning ("Lilypond did not end successfully: %s", err->message);
-  }                       
-#endif       
+  }
+#endif
   g_spawn_close_pid (Denemo.printstatus->printpid);
   //g_debug("background %d\n", Denemo.printstatus->background);
   if (Denemo.printstatus->background == STATE_NONE)
@@ -562,7 +562,7 @@ typeset (gboolean force)
           return FALSE;
         }
       DenemoProject *gui = Denemo.project;
-      gui->movement->markstaffnum = 0;        //FIXME save and restore selection?    
+      gui->movement->markstaffnum = 0;        //FIXME save and restore selection?
       gui->lilycontrol.excerpt = FALSE;
       create_pdf (FALSE, TRUE);
       changecount = Denemo.project->changecount;
@@ -583,7 +583,7 @@ typeset_movement (gboolean force)
           return FALSE;
         }
       DenemoProject *gui = Denemo.project;
-      gui->movement->markstaffnum = 0;        //FIXME save and restore selection?    
+      gui->movement->markstaffnum = 0;        //FIXME save and restore selection?
       gui->lilycontrol.excerpt = FALSE;
       create_pdf (FALSE, FALSE);
       return TRUE;
@@ -617,7 +617,7 @@ print_from_print_view (gboolean all_movements)
       start_normal_cursor ();
       libevince_print ();       //printview_finished (Denemo.printstatus->printpid, 0, TRUE);
     }
-  if(!all_movements) 
+  if(!all_movements)
     changecount = Denemo.project->changecount;
 }
 
@@ -737,16 +737,16 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
 
   if (!Denemo.project->filename->len)
     return TRUE;
-  
+
   if(thumbnail_path){
     thumbpathN = thumbnail_path;
 
     if(!g_path_is_absolute (thumbnail_path))
       thumbpathN = g_build_path(g_get_current_dir (), thumbnail_path, NULL);
-    
+
     if(!thumbnailsdirN)
       thumbnailsdirN = g_path_get_dirname (thumbpathN);
-    
+
     if(!thumbnailsdirL)
       thumbnailsdirL = g_path_get_dirname (thumbpathN);
 
@@ -778,7 +778,7 @@ create_thumbnail (gboolean async, gchar* thumbnail_path)
   thebuf.st_mtime = 0;
   g_stat (thumbpathN, &thebuf);
   unsigned mtime_thumb = thebuf.st_mtime;
-  
+
   if (mtime_thumb >= mtime){
     g_debug("Do not update thumbnail %s", thumbpathN);
     return FALSE;
@@ -874,7 +874,7 @@ g_info("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
       *offsety -= (nearadjust / scale);
 
 #endif
-      
+
       get_wysiwyg_info()->stage = STAGE_NONE;
       gtk_widget_queue_draw (Denemo.printarea);
       return TRUE;
@@ -884,7 +884,7 @@ g_info("Adjusting %f by %f\n", *offsety, (nearadjust / scale));
 }
 
 
-// start_seeking_end 
+// start_seeking_end
 //if repeatable and grob is slur or beam and request matches gives prompt for slur or beam and goes to Waiting for drag
 //else sets up near point to last button press and goes to selecting far end.
 static void
@@ -939,7 +939,7 @@ get_center_staff_offset (void)
 }
 
 // get_postions gets two y-heights interactively, giving prompts either for slur or beam
-// 
+//
 
 gboolean
 get_positions (gdouble * neary, gdouble * fary, WwGrob grob)
@@ -1124,7 +1124,7 @@ create_full_score_pdf (void)
 static void
 copy_pdf (void)
 {
-  //copy file Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle] to user pdf name 
+  //copy file Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle] to user pdf name
   //use get_output_uri_from_scoreblock() as default name.
   //use a gtk_file_chooser like this:
   gchar *filename;
@@ -1159,13 +1159,13 @@ copy_pdf (void)
     {
       gchar *contents;
       gsize length;
-    
-        
+
+
       if (g_file_get_contents (Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], &contents, &length, NULL))
         {
-            
-            if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "PDF creation"), _( "File Exists, overwrite?")))  
-                {          
+
+            if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "PDF creation"), _( "File Exists, overwrite?")))
+                {
                   if (!g_file_set_contents (filename, contents, length, NULL))
                     {
                       gchar *msg = g_strdup_printf (_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"),
@@ -1181,7 +1181,7 @@ copy_pdf (void)
                       if (strcmp(uri, get_output_uri_from_scoreblock ()))
                         score_status (Denemo.project, TRUE);
                       set_current_scoreblock_uri (uri);
-                     
+
                       //g_print ("I have copied %s to %s (default was %s) uri %s\n", Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], filename, outname, uri);
                     }
                   g_free (contents);
@@ -1237,7 +1237,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
  if (get_wysiwyg_info()->stage == TypesetForPlaybackView)
     {
         warningdialog (_("Use the Playback View or re-typeset"));
-      return TRUE;        
+      return TRUE;
     }
 
   //g_debug("Link action Mark at %f, %f\n", get_wysiwyg_info()->Mark.x, get_wysiwyg_info()->Mark.y);
@@ -1272,7 +1272,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
       if (LeftButtonPressed && (!shift_held_down ()) && (get_wysiwyg_info()->ObjectLocated))
         {
          call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
-         return TRUE;  
+         return TRUE;
         }
 
           if (get_wysiwyg_info()->ObjectLocated)
@@ -1287,7 +1287,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
             }
           else
             get_wysiwyg_info()->repeatable = FALSE;
-          //g_debug("Target type %d\n", Denemo.project->movement->target.type); 
+          //g_debug("Target type %d\n", Denemo.project->movement->target.type);
 
           if ((get_wysiwyg_info()->stage == SelectingNearEnd))
             return TRUE;
@@ -1387,7 +1387,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
                         get_wysiwyg_info()->stage = TargetEstablished;
                         get_wysiwyg_info()->repeatable = FALSE;
                       }
-                    break;                
+                    break;
 
                   default:
                     g_warning ("Target type %d not yet done!!", Denemo.project->movement->target.type);
@@ -1622,9 +1622,9 @@ cancel_tweak (void)
 static void
 repeat_tweak (void)
 {
-  if (get_wysiwyg_info()->grob == Slur)  
+  if (get_wysiwyg_info()->grob == Slur)
     call_out_to_guile ("(EditSlur)");
-  else if (get_wysiwyg_info()->grob == Tie)  
+  else if (get_wysiwyg_info()->grob == Tie)
     call_out_to_guile ("(EditTie)");
   else if (get_wysiwyg_info()->grob == Beam)     //if(get_wysiwyg_info()->repeatable && get_wysiwyg_info()->grob==(slur?Slur:Beam))
     call_out_to_guile ("(GetBeamPositions)");
@@ -1687,7 +1687,7 @@ popup_tweak_menu (void)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (set_score_size), NULL);
 
       if (get_wysiwyg_info()->repeatable)
-        {                       //never true 
+        {                       //never true
           item = gtk_menu_item_new_with_label (_("Repeat"));
           gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
           g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (repeat_tweak), NULL);
@@ -1712,7 +1712,7 @@ printarea_button_press (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * event
   gboolean right = !left;
   LeftButtonPressed = left;
   //g_debug("Button press %d, %d %d\n",(int)event->x , (int)event->y, left);
-  
+
   if (audio_is_playing ())
     {
         call_out_to_guile ("(DenemoStop)");
@@ -1893,7 +1893,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
           get_wysiwyg_info()->stage = STAGE_NONE;
           return TRUE;
         }
-        
+
     }
   if (get_wysiwyg_info()->stage == SelectingNearEnd)
     {
@@ -2047,7 +2047,7 @@ typeset_control (gpointer data)
 
               Denemo.project->movement->selection.firstobjmarked = 0;
               Denemo.project->movement->selection.lastobjmarked = G_MAXINT - 1;   //counts from 0, +1 must be valid
-              create_pdf (FALSE, FALSE);        //this movement only cursor-relative selection of measures     
+              create_pdf (FALSE, FALSE);        //this movement only cursor-relative selection of measures
             }
         }
       else
@@ -2089,7 +2089,7 @@ typeset_control (gpointer data)
     }
   last_data = data;
   Denemo.project->movement->markstaffnum = markstaff;
-  
+
   END:
   //bring view back to show cursor
   if (Denemo.textview)
@@ -2107,7 +2107,7 @@ void
 implement_show_print_view (gboolean refresh_if_needed)
 {
   present_print_view_window();
-#ifndef G_OS_WIN32  
+#ifndef G_OS_WIN32
   if (refresh_if_needed && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {
       if (Denemo.prefs.manualtypeset && (!initialize_typesetting ()))
@@ -2316,7 +2316,7 @@ range_dialog (void)
       GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
       GtkWidget *rangeBox = gtk_vbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (vbox), rangeBox, TRUE, TRUE, 0);
-      
+
       gtk_box_pack_start (GTK_BOX (rangeBox), hbox, TRUE, TRUE, 0);
 
       GtkWidget *label = gtk_label_new (_("Measures before cursor:"));
@@ -2433,7 +2433,7 @@ static void
 popup_layouts_menu (void)
 {
   GtkWidget *menu = GetLayoutMenu ();
-  if(Denemo.project->custom_scoreblocks || (g_list_length(Denemo.project->standard_scoreblocks)>1)) 
+  if(Denemo.project->custom_scoreblocks || (g_list_length(Denemo.project->standard_scoreblocks)>1))
     gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
   else
     typeset_current_layout ();

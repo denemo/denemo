@@ -3,7 +3,7 @@
  * signature contexts for the measures being displayed
  *
  * These functions are also invoked when a staff is created
- * 
+ *
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller, Adam Tee
@@ -17,8 +17,8 @@
 
 /**
  * This function finds the first DenemoObject of type thetype *before* measure
- * curmeasure. It returns NULL if it was unable to find such a DenemoObject 
- * 
+ * curmeasure. It returns NULL if it was unable to find such a DenemoObject
+ *
  * @param curmeasure the current measure to search
  * @param thetype type of DenemoObject to find
  * @return the first DenemoObject of type the type
@@ -53,7 +53,7 @@ find_measure_context (measurenode * curmeasure, DenemoObjType thetype)
 
 /**
  * This function finds the first DenemoObject of type thetype before si->currentobject
- * It returns NULL if it was unable to find such a DenemoObject 
+ * It returns NULL if it was unable to find such a DenemoObject
  * @param si the DenemoMovement with si->currentobject and si->currentmeasure set
  * @param thetype type of DenemoObject to find
  * @return the first DenemoObject of type thetype
@@ -72,7 +72,7 @@ find_context_of_object (DenemoMovement * si, DenemoObjType thetype)
               curobj = measure_last_obj_node (curmeasure);
               if (curobj)
                 break;
-            } 
+            }
 
    if (curobj == NULL || curmeasure == NULL)
     return NULL;
@@ -150,9 +150,9 @@ get_prevailing_context (DenemoObjType type)
 }
 
 /**
- * Finds the first occurrences of the clef, keysig and timesig of the 
+ * Finds the first occurrences of the clef, keysig and timesig of the
  * current staff  inserting them into the passed CURSTAFFSTRUCT
- * 
+ *
  * @param curstaffstruct the current staff
  * @param si the scoreinfo structure
  * @return none
@@ -192,7 +192,7 @@ find_leftmost_staffcontext (DenemoStaff * curstaffstruct, DenemoMovement * si)
 }
 
 /**
- * Finds the first occurrences of the clef, keysig and timesig of the 
+ * Finds the first occurrences of the clef, keysig and timesig of the
  * across the entir score
  * @param si the scoreinfo structure
  * @return none

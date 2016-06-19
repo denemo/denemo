@@ -1,6 +1,6 @@
 /* notewidths.h
  * holds notewidths, which is used both in draw_chord, draw_notehead
- * and setpixelmin 
+ * and setpixelmin
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Matthew Hiller
  */

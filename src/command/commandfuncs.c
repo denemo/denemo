@@ -81,11 +81,11 @@ nextrhythm (GtkAction* action, DenemoScriptParam* param)
 
 
 /**
- * Helper function for calculating the 
+ * Helper function for calculating the
  * beam and stem direction
  * I think it calculates the beam and stem directions for the si->currentmeasure
  * on the assumption that si->curmeasureclef has been set to the appropriate value
- * before the function is called. Likewise for 
+ * before the function is called. Likewise for
  * si->cursortime1/2 and si->curmeasure_stem_directive.
  * the calculated values are stored in the objects in the measure - the fields set are:
  * isstart/end_beamgroup, is_stemup, stemy, is_reversealigned. reversealign, minpixelsalloted, space_before
@@ -130,7 +130,7 @@ setcurrents (DenemoMovement * si)
 }
 
 /**
- * Push the score to the left off the 
+ * Push the score to the left off the
  * displayed portion
  */
 void
@@ -215,7 +215,7 @@ adjustmeasurewidth (DenemoMovement * si, gint amount)
 }
 
 /**
- * Determines whether the closer jump will be up or down 
+ * Determines whether the closer jump will be up or down
  */
 gint
 jumpcursor (gint cursor_y, gint fromnote, gint tonote)
@@ -230,7 +230,7 @@ jumpcursor (gint cursor_y, gint fromnote, gint tonote)
 }
 
 /**
- * Reset the cursor stats: sets currentobject to the si->cursor_x'th object in currentmeasure, if no such object sets cursor_appending. NOTE does not set cursor appending false if there is an object... 
+ * Reset the cursor stats: sets currentobject to the si->cursor_x'th object in currentmeasure, if no such object sets cursor_appending. NOTE does not set cursor appending false if there is an object...
  * @param si pointer to the scoreinfo structure
  * @return none
  */
@@ -274,10 +274,10 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
         mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->clef;
         mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->keysig;
         mudela_obj_new->stemdir = (mudela_obj_new->type == STEMDIRECTIVE)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->stemdir;
-        
+
     } else
     {
-        
+
          mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->clef;
          mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->keysig;
          mudela_obj_new->stemdir = (mudela_obj_new->type == STEMDIRECTIVE)?mudela_obj_new->object:((DenemoMeasure*)curmeasure->data)->stemdir;
@@ -291,9 +291,9 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
   else if (mudela_obj_new->type == KEYSIG)
      update_keysig_cache (si->currentmeasure, obj);
   else if (mudela_obj_new->type == TIMESIG)
-     update_timesig_cache (si->currentmeasure); 
+     update_timesig_cache (si->currentmeasure);
   else if (mudela_obj_new->type == STEMDIRECTIVE)
-     update_stemdir_cache (si->currentmeasure, obj);         
+     update_stemdir_cache (si->currentmeasure, obj);
   if (mudela_obj_new->type == CLEF)
     {
       reset_cursor_stats (si);
@@ -406,7 +406,7 @@ gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
       gui->movement->currentmeasurenum++;
       if (!gui->movement->playingnow) //during playback cursor moves should not affect viewport
         isoffrightside (gui);
-      setcurrents (gui->movement); 
+      setcurrents (gui->movement);
       param->status = TRUE;
       if (extend_selection)
         calcmarkboundaries (gui->movement);
@@ -473,7 +473,7 @@ swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
 }
 
 /**
- * 
+ *
  *
  */
 gboolean
@@ -512,7 +512,7 @@ swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
 }
 
 /**
- * 
+ *
  *
  */
 gboolean
@@ -543,7 +543,7 @@ splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
 
 
 /**
- * 
+ *
  *
  */
 gboolean
@@ -762,7 +762,7 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
       update_drawing_cache ();
       move_viewport_down (gui);
       set_cursor_transition ();
-    
+
       param->status = TRUE;
       if (was_hidden != ((DenemoStaff *) (gui->movement->currentstaff->data))->hidden)
         set_staff_transition (20);
@@ -1141,7 +1141,7 @@ to_standalone_direction_in_measure (gboolean right)
  // there is a significant problem with the concept of next note in a chord of several notes. We have no way of iterating over the notes of a chord
   // since the notes may be altered during the iteration and Denemo does not define a "currentnote"
   //but we can define cursor_to_top_note() and cursor_next_note_down() the latter moving to the next note below the cursor position (if any).
-  
+
 gboolean cursor_to_nth_note_height(gint n) {
     DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
@@ -1177,7 +1177,7 @@ gboolean cursor_to_next_note_height(void) {
   DenemoObject *curObj;
   chord *thechord;
   note *thenote;
-  gint mid_c_offset; 
+  gint mid_c_offset;
   if (!Denemo.project ||
    !(Denemo.project->movement) ||
     !(Denemo.project->movement->currentobject) ||
@@ -1187,21 +1187,21 @@ gboolean cursor_to_next_note_height(void) {
         !(thenotes = thechord->notes) ||
          !(thenote = (note *) thenotes->data))
     return FALSE;
-   
+
     cursorup (NULL, NULL); //seek *above* the current cursor position only
     for(;thenotes;thenotes=thenotes->next)
-        {  
+        {
             thenote = (note *) thenotes->data;
             mid_c_offset = thenote->mid_c_offset;// g_print ("Currently gui->movement->cursor_y = %d considering %d\n", gui->movement->cursor_y, mid_c_offset);
-            while (gui->movement->cursor_y < mid_c_offset)  
+            while (gui->movement->cursor_y < mid_c_offset)
                 cursorup (NULL, NULL);
             if (gui->movement->cursor_y == mid_c_offset)
-                break;     
+                break;
         }
     return (gui->movement->cursor_y == mid_c_offset);
-}  
-  
-  
+}
+
+
 //This next note is next chord that is not a rest in the given direction.
 static gboolean
 to_note_direction (gboolean right, gboolean stopping)
@@ -1243,9 +1243,9 @@ next_insert_or_editable_note (void)
     {
     ret = FALSE;
     }
-  else 
+  else
     {
-  
+
     ret = to_note_direction (TRUE, TRUE);
     if ((!ret) && Denemo.project->movement->currentobject == NULL)
         {
@@ -1350,7 +1350,7 @@ cursor_to_prev_note (void)
 }
 
 /**
- * Move the cursor up one diatonic step 
+ * Move the cursor up one diatonic step
  */
 void
 cursorup (GtkAction* action, DenemoScriptParam * param)
@@ -1370,7 +1370,7 @@ cursorup (GtkAction* action, DenemoScriptParam * param)
 }
 
 /**
- * Move the cursor down one diatonic step 
+ * Move the cursor down one diatonic step
  */
 void
 cursordown (GtkAction* action, DenemoScriptParam * param)
@@ -1411,7 +1411,7 @@ insert_note_following_pattern (DenemoProject * gui)
       gint mode = gui->mode;
       gui->mode = mode & ~INPUTRHYTHM;
 
-      // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard) 
+      // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard)
       if (gui->currhythm && gui->cstep)
         {
           //      g_debug("Have a clip\n");
@@ -1432,7 +1432,7 @@ insert_note_following_pattern (DenemoProject * gui)
                   thechord->lowestpitch = thechord->highestpitch = thechord->sum_mid_c_offset = thenote->mid_c_offset;
                   clipobj->isinvisible = FALSE;
                   note_inserted = TRUE;
-               
+
 
                   gui->rstep = gui->rstep->next;
                }
@@ -1634,9 +1634,9 @@ edit_pitch (gint note_value, gint enshift)
 void
 insert_rhythm_pattern (GtkAction* action, DenemoScriptParam* param)
 {
-    
+
   if (Denemo.project->rhythms==NULL)
-    { 
+    {
         g_warning("No snippets");
         return;
     }
@@ -1676,8 +1676,8 @@ static void set_cursor_offend (void)
  * if the cursor is at the end of a full measure:
  *      creates a new measure and makes it the current one.
  * if the cursor is at the end of a full measure before an empty measure:
- *      it makes that empty measure current. 
- * 
+ *      it makes that empty measure current.
+ *
  */
 void
 insertion_point (DenemoMovement * si)
@@ -1691,20 +1691,20 @@ insertion_point (DenemoMovement * si)
   if(si->cursoroffend && si->cursor_appending) {
      if ( (!si->currentmeasure->next) || (!((DenemoMeasure*)si->currentmeasure->next->data)->objects))
       next_measure = TRUE;
-     else 
+     else
         {
             objnode *objnode = ((DenemoMeasure*)si->currentmeasure->next->data)->objects;
             DenemoObject *obj = objnode?objnode->data:NULL;
-            while (obj && (obj->type != CHORD)) 
-                { 
+            while (obj && (obj->type != CHORD))
+                {
                     objnode=objnode->next;obj = objnode?objnode->data:NULL;
                 }
-                
+
             if ((obj==NULL) || (obj->type != CHORD))
-                next_measure = TRUE;         
+                next_measure = TRUE;
         }
   }
-  
+
   if (next_measure)
     {
       if (!si->currentmeasure->next)
@@ -1719,10 +1719,10 @@ insertion_point (DenemoMovement * si)
         }
       else
         si->currentmeasure = si->currentmeasure->next;
-        
-        
-        
-        
+
+
+
+
       if (Denemo.project->mode & (INPUTRHYTHM))
         signal_measure_end ();
       /* Now the stuff that needs to be done for each case */
@@ -1744,15 +1744,15 @@ insertion_point (DenemoMovement * si)
 static gint get_cursoracc (void)
     {
       DenemoMovement *si = Denemo.project->movement;
-      gint noteheight = si->staffletter_y; 
+      gint noteheight = si->staffletter_y;
       measurenode *meas = si->currentmeasure;
       objnode *obj = si->currentobject;
-      if ((!si->cursor_appending) && obj) 
+      if ((!si->cursor_appending) && obj)
         obj = obj->prev;//want the object before the cursor unless appending
-     
+
       for (;obj;obj = obj->prev)
         {
-          DenemoObject *curobj = (DenemoObject*)obj->data; 
+          DenemoObject *curobj = (DenemoObject*)obj->data;
           if (curobj->type == CHORD)
             {
                 chord *thechord = (chord*) curobj->object;
@@ -1798,27 +1798,27 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
 // is the curObj->starttickofnextnote > tickspermeasure where  tickspermeasure = WHOLE_NUMTICKS * time1 / time2
 
   if(Denemo.prefs.spillover && si->cursor_appending)
-    { 
+    {
      DenemoObject *curObj;
-    
+
         if(duration>= 0 && si->currentobject && (curObj=si->currentobject->data))
         {
         if(curObj->type==CHORD)
             {//g_print("dur %d base %d\n", curObj->durinticks, curObj->basic_durinticks);
-                gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */                  
+                gint ticks  = (curObj->durinticks/ curObj->basic_durinticks) * WHOLE_NUMTICKS / (1 << duration); /* takes into account prevailing tuple */
                 gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
                 if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
-                    { 
-                    dnm_insertchord (gui, duration+1, mode, rest); 
+                    {
+                    dnm_insertchord (gui, duration+1, mode, rest);
                     //set si->cursoroffend if measure is full
-                    curObj = si->currentobject->data;  
+                    curObj = si->currentobject->data;
                     si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
                     toggle_tie (NULL, NULL);
                     dnm_insertchord (gui, duration+1, mode, rest);
                     return;
                     }
             }
-        }   
+        }
     }
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
@@ -1827,19 +1827,19 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
     if (obj && obj->prev) {
         mudela_obj_new->clef = ((DenemoObject*)obj->prev->data)->clef;
         mudela_obj_new->keysig = ((DenemoObject*)obj->prev->data)->keysig;
-        
+
     } else
     {
-        
+
          mudela_obj_new->clef = ((DenemoMeasure*)si->currentmeasure->data)->clef;
          mudela_obj_new->keysig = ((DenemoMeasure*)si->currentmeasure->data)->keysig;
     }
   }
- 
+
   if ((mode & INPUTNORMAL) && (rest != TRUE))
-    { 
+    {
         if(inserting_midi && si->recording && si->marked_onset && si->marked_onset->data)
-        { 
+        {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
             addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             si->marked_onset = si->marked_onset->next;
@@ -1858,7 +1858,7 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
   object_insert (gui, mudela_obj_new);
   if(inserting_midi)
       mudela_obj_new->isinvisible = FALSE;
-      
+
   if (Denemo.project->input_source == INPUTMIDI && (gui->mode & (INPUTRHYTHM)))
     {
       if (Denemo.prefs.immediateplayback)
@@ -1914,11 +1914,11 @@ insert_marked_midi_note (void)
     gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
 
     if(inserting_midi && si->marked_onset && si->marked_onset->data)
-        { 
+        {
             gint dots;
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;//FIXME look at marked_onset->prev to see if we should add to a chord
             dnm_insertchord (Denemo.project, midinote->duration, INPUTNORMAL, FALSE);
-            changenumdots (si->currentobject->data, midinote->dots);            
+            changenumdots (si->currentobject->data, midinote->dots);
             return TRUE;
         }
 return FALSE;
@@ -1994,10 +1994,10 @@ changeduration (DenemoMovement * si, gint duration)
 }
 
 /**
- *  notechange 
+ *  notechange
  * If REMOVE delete the note closest to si->cursor_y in a ~si->currentobject
  * else add a note at si->cursor_y to the ~si->currentobject
- * FIXME ~si->currentobject in this comment means the thing gotten by the macro declaremudelaobj. This macro is a horrible hack induced by trying to be clever with tuplets - enforcing pairing of begin/end. notechange 
+ * FIXME ~si->currentobject in this comment means the thing gotten by the macro declaremudelaobj. This macro is a horrible hack induced by trying to be clever with tuplets - enforcing pairing of begin/end. notechange
  * @param si pointer to the scoreinfo structure
  * @param remove whether to remove note or not
  */
@@ -2014,14 +2014,14 @@ notechange (DenemoMovement * si, gboolean remove)
       if (remove == TRUE)
         ret = removetone (curmudelaobj, si->cursor_y /*mid_c_offset */  );
       else {
-          
+
         if(inserting_midi)
             {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
             ret = (gboolean) (intptr_t) addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             si->marked_onset = si->marked_onset->next;
             }
-        else 
+        else
             ret = (gboolean) (intptr_t) addtone (curmudelaobj, si->cursor_y /* mid_c_offset */ ,
                                              curmudelaobj->keysig->accs[si->staffletter_y] /* enshift */  );
         }
@@ -2056,7 +2056,7 @@ delete_chordnote (DenemoProject * gui)
 }
 
 /**
- * Insert chord note at y cursor position 
+ * Insert chord note at y cursor position
  */
 gboolean
 insert_chordnote (DenemoProject * gui)
@@ -2091,11 +2091,11 @@ insert_or_delete_chordnote (gint enshift)
     }
   else
     insert_note_following_pattern (gui);
-    
+
   return !remove;
 }
 /**
- * Helper function that contains calls to all the display 
+ * Helper function that contains calls to all the display
  * update functions
  *
  * @param gui pointer to the DenemoProject structure
@@ -2137,11 +2137,11 @@ incrementenshift (DenemoProject * gui, gint direction)
       shiftpitch (curmudelaobj, si->cursor_y, direction > 0);
       showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
       find_xes_in_measure (si, si->currentmeasurenum);
-      
-      
+
+
       //if tied ...
             chord *next = curmudelaobj->object;
-            if (next->is_tied) 
+            if (next->is_tied)
                 {
                  objnode *nextobj = gui->movement->currentobject->next;
                   measurenode *current = gui->movement->currentmeasure;
@@ -2156,8 +2156,8 @@ incrementenshift (DenemoProject * gui, gint direction)
                   while (nextobj)
                     {
                       DenemoObject *thenextobj= (DenemoObject *) nextobj->data;
-                          
-                      if (thenextobj->type == CHORD)  
+
+                      if (thenextobj->type == CHORD)
                         {
                             chord *next = thenextobj->object;
                             shiftpitch (thenextobj, si->cursor_y, direction > 0);
@@ -2179,10 +2179,10 @@ incrementenshift (DenemoProject * gui, gint direction)
                             else
                             break;
                         }
-                    
+
                         break;
                     }
-            
+
         }
       if (Denemo.project->last_source == INPUTKEYBOARD)
         {
@@ -2316,7 +2316,7 @@ dnm_insertmeasures (DenemoMovement * si, gint number)
 
 /**
  *  Insert measure into the staff after the current position
- 
+
  */
 void
 insertmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
@@ -2335,7 +2335,7 @@ insertmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 
 /**
  *  Insert measure into the staffs after the current position
- 
+
  */
 void
 addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
@@ -2357,7 +2357,7 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 
 /**
  *  Insert measure into the staff before the current position
- 
+
  */
 void
 insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
@@ -2377,7 +2377,7 @@ insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 
 /**
  * Add measure to the end of the score
- * 
+ *
  * @param si pointer to the scoreinfo structure
  * @param number the number of measures to append
  */
@@ -2413,8 +2413,8 @@ appendmeasurestoentirescore (DenemoMovement * si, gint number)
 
 
 /**
- * Delete staff wrapper to delete the preceding staff 
- * 
+ * Delete staff wrapper to delete the preceding staff
+ *
  * @param action pointer to the GtkAction event
  * @param gui pointer to the DenemoProject structure
  */
@@ -2429,8 +2429,8 @@ delete_staff_before (GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * Delete staff wrapper to delete the next staff 
- * 
+ * Delete staff wrapper to delete the next staff
+ *
  * @param action pointer to the GtkAction event
  * @param gui pointer to the DenemoProject structure
  */
@@ -2446,7 +2446,7 @@ delete_staff_after (GtkAction * action, DenemoScriptParam * param)
 
 /**
  * Delete staff wrapper to delete current staff
- * 
+ *
  * @param action pointer to the GtkAction event
  * @param gui pointer to the DenemoProject structure
  */
@@ -2460,7 +2460,7 @@ delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScri
 
 
 /**
- * Delete mesasure from score 
+ * Delete mesasure from score
  * @param gui pointer to the DenemoProject structure
  * @return none
  *
@@ -2477,7 +2477,7 @@ deletemeasure (GtkAction* action, DenemoScriptParam* param)
 }
 
 /**
- * Delete mesasure from all staffs of score 
+ * Delete mesasure from all staffs of score
  * @param gui pointer to the DenemoProject structure
  * @return none
  *
@@ -2504,7 +2504,7 @@ deletemeasureallstaffs (GtkAction* action, DenemoScriptParam* param)
 /**
  * Delete measure from the score
  *
- * TODO remove measure from current staff 
+ * TODO remove measure from current staff
  * rather than the entire score
  * @param gui pointer to the DenemoProject structure
  * @return none
@@ -2656,7 +2656,7 @@ dnm_deleteobject (DenemoMovement * si)
             {
               DenemoStaff *thestaff = (DenemoStaff *) si->currentstaff->data;
               measure->timesig = &thestaff->timesig;
-            }   
+            }
           update_timesig_cache (si->currentmeasure);
           reset_cursor_stats (si);
           find_xes_in_all_measures (si);
@@ -2689,7 +2689,7 @@ dnm_deleteobject (DenemoMovement * si)
           //    case COMMENT:
         case MEASUREBREAK:
           break;
-          // XXX: unhandled... 
+          // XXX: unhandled...
         case STAFFBREAK:
         case FAKECHORD:
         case PARTIAL:
@@ -2697,7 +2697,7 @@ dnm_deleteobject (DenemoMovement * si)
         }
       si->markstaffnum = 0;
     }
-    
+
   if (!si->undo_guard)
     {
       get_position (si, &undo->position);
@@ -2709,7 +2709,7 @@ dnm_deleteobject (DenemoMovement * si)
 }
 
 /**
- * Insert cloned chordobject into the 
+ * Insert cloned chordobject into the
  * score
  * @param si - pointer to the scoreinfo structure
  * @return none
@@ -2807,9 +2807,9 @@ gotohome (gboolean extend_selection)
 
 
 /**
- * Move the cursor to the beginning of the score, extending the selection if any. 
+ * Move the cursor to the beginning of the score, extending the selection if any.
  * @param action - Gtk Action event
- * @param 
+ * @param
  * @return none
 */
 void
@@ -2820,9 +2820,9 @@ tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * para
 
 
 /**
- * Move the cursor to the end of the score, extending the selection if any. 
+ * Move the cursor to the end of the score, extending the selection if any.
  * @param action - Gtk Action event
- * @param 
+ * @param
  * @return none
 */
 void
@@ -2835,9 +2835,9 @@ toend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 
 
 /**
- * Move the cursor to the beginning of the staff, without extending the selection if any. 
+ * Move the cursor to the beginning of the staff, without extending the selection if any.
  * @param action - Gtk Action event
- * @param 
+ * @param
  * @return none
 */
 void
@@ -2849,9 +2849,9 @@ movetostart (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * Move the cursor to the end of the staff, without extending the selection if any. 
+ * Move the cursor to the end of the staff, without extending the selection if any.
  * @param action - Gtk Action event
- * @param 
+ * @param
  * @return none
 */
 void
@@ -2865,9 +2865,9 @@ movetoend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
 
 
 /**
- * Insert stem directive,  absolute stemdirection for the 
+ * Insert stem directive,  absolute stemdirection for the
  * entire staff or until a new stem directive in added
- * 
+ *
  * @param action Gtk Action event
  * @param gui pointer to the DenemoProject structure
  * @return none
@@ -2887,7 +2887,7 @@ stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScr
 
 /**
  * Toggle start_slur flag for the current chord
- * 
+ *
  * @return none
  */
 void
@@ -3050,7 +3050,7 @@ auto_save_document_timeout (DenemoProject * gui)
   if ((!gui->notsaved) || (gui->changecount == old_changecount))
     return TRUE; // wait until project has been modified.
   DenemoMovement *si = gui->movement;
-  
+
   g_message ("Autosaving");
   if (!gui->autosavename)
     {

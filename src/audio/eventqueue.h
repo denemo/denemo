@@ -46,7 +46,7 @@ typedef struct event_queue_t
 
   /* mixer queue - audio for mixing with playback output */
   jack_ringbuffer_t *mixer;
-  
+
  #ifdef _HAVE_RUBBERBAND_
  /* rubberband queue - for audio stretching */
  jack_ringbuffer_t *rubberband;
@@ -109,7 +109,7 @@ gboolean event_queue_write_playback (event_queue_t * queue, smf_event_t * event)
  *
  * @param data   the event or extended_event to be written to the queue. The event data will be
  *                copied.
- * @param length  length of the event or extended_event to be written to the queue. 
+ * @param length  length of the event or extended_event to be written to the queue.
  *
  * @return        TRUE if the event was successfully written to the queue
  */
@@ -119,7 +119,7 @@ gboolean event_queue_write_immediate (event_queue_t * queue, guchar * data, guin
 /**
  * Writes an audio sample to the mixer queue.
  *
- * @param event   the sample to be written to the queue. 
+ * @param event   the sample to be written to the queue.
  *
  * @return        TRUE if the sample was successfully written to the queue
  */
@@ -129,7 +129,7 @@ gboolean event_queue_write_mixer (event_queue_t * queue, float *sample);
 /**
  * Writes single sample to the rubberband queue.
  *
- * @param event   the sample to be written to the queue. 
+ * @param event   the sample to be written to the queue.
  *
  * @return        TRUE if the sample was successfully written to the queue
  */

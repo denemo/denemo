@@ -1,10 +1,10 @@
-/** 
+/**
  * dialogs.h
  * header files for callbacks that create dialog boxes prompting the
  * user for further action
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Matthew Hiller 
+ * (c) 2000-2005 Matthew Hiller
  */
 
 #include <denemo/denemo.h>

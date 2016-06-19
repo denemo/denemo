@@ -6,7 +6,7 @@
  * 	TODO
  *
  *  multi voice support
- *  lyrics 
+ *  lyrics
  *  triplet support
  *
  */
@@ -182,7 +182,7 @@ ConvertLength (gint ppqn, gint duration, notetype * pnotetype)
 }
 
 /**
- * Insert time signature into current staff 
+ * Insert time signature into current staff
  *
  */
 static void
@@ -325,7 +325,7 @@ insert_note_into_score (gint pitch, notetype length)
   highlight_duration (gui, length.notetype);
   gint mode = gui->mode;
   gui->mode = INPUTINSERT | INPUTNORMAL;
-  
+
   switch (length.notetype)
     {
     case 0:
@@ -357,11 +357,11 @@ insert_note_into_score (gint pitch, notetype length)
       g_warning ("Cannot handle size %d", length.notetype);
       break;
     }
-  
+
   gui->mode = mode;
   score_status (gui, TRUE);
   displayhelper (gui);
-  
+
   g_debug ("DenemoScriptParam = %d", param.status);
   /* get correct note name */
   gint key = curstaffstruct->keysig.number;
@@ -553,8 +553,8 @@ error:
   free (buf);
 }
 
-/** 
- * extremely simple quantizer that rounds 
+/**
+ * extremely simple quantizer that rounds
  * to the closest granule size
  */
 static gint
@@ -581,7 +581,7 @@ donoteoff (const smf_event_t * event)
 }
 
 /**
- * Process note on command 
+ * Process note on command
  */
 void
 donoteon (const smf_event_t * event)

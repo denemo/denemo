@@ -67,7 +67,7 @@ static GtkTextTagTable *tagtable;
 static void
 place_navigation_anchor (GtkTextMark * curmark, gpointer curobjnode, gint movement_count, gint measurenum, gint voice_count, gint objnum, DenemoTargetType type, gint mid_c_offset)
 {
-  //GtkTextIter iter = *piter; 
+  //GtkTextIter iter = *piter;
   //put in an ineditable anchor to mark the start of the object
   GtkTextIter iter;
   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
@@ -124,7 +124,7 @@ highlight_lily_error ()
 }
 
 
-/*  set_lily_error() 
+/*  set_lily_error()
  *  set line, column as the current line and column in Denemo.textbuffer where an error has been found
  *  in the LilyPond interpreter. line starts from 1, column starts from 0
  *  line=0 means no error
@@ -198,7 +198,7 @@ make_scoreblock_editable (void)
 
 /* insert a pair of anchors and a mark to denote a section.
    if str is non-null it is a target for saving edited versions of the section to, in this
-   case the start anchor of the section is prepended to the list gui->anchors 
+   case the start anchor of the section is prepended to the list gui->anchors
    if name is non-null a button is attached to the start anchor.
 */
 static GtkTextChildAnchor *
@@ -212,7 +212,7 @@ insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * it
   if (name == NULL)
     gtk_text_buffer_apply_tag_by_name (Denemo.textbuffer, "system_invisible", &back, iter);
   gtk_text_buffer_insert (Denemo.textbuffer, iter, "\n", -1);//THE NEWLINE is needed to give something for the section to contain to which the attribute is then applied, but it causes problems as well...
-  
+
   GtkTextChildAnchor *endanc = gtk_text_buffer_create_child_anchor (Denemo.textbuffer, iter);
   back = *iter;
   (void) gtk_text_iter_backward_char (&back);
@@ -267,7 +267,7 @@ insert_section (GString ** str, gchar * markname, gchar * name, GtkTextIter * it
 
 
 /**
- * Output the lilypond representation of the given keysignature 
+ * Output the lilypond representation of the given keysignature
  *
  */
 static void
@@ -413,7 +413,7 @@ output_figured_bass_prefix (GString * figures, DenemoDirective * directive)
 }
 
 /**
- * add figures to *pfigures for *pchord  
+ * add figures to *pfigures for *pchord
  */
 static void
 output_figured_bass (GString * figures, chord * pchord)
@@ -427,7 +427,7 @@ output_figured_bass (GString * figures, chord * pchord)
   gint num_groups = 1;          /* number of groups of figures */
   gchar *duration_string = NULL;        //whole measure rests etc
 
-  //First any override (e.g. to tweak position of figures) 
+  //First any override (e.g. to tweak position of figures)
   //This is stored in note-directives with DENEMO_ALT_OVERRIDE set.
   // This does mean that figures on rests can only be tweaked with a postfix on the previous note.
   DenemoDirective *directive;
@@ -529,7 +529,7 @@ output_figured_bass (GString * figures, chord * pchord)
         }
       figures = g_string_append (figures, ">");
       APPEND_DUR (figures, duration, numdots);
- 
+
       break;
       /* Each group of figures is assigned a duration to
          achieve a normal looking output */
@@ -683,7 +683,7 @@ static gint num_fakechords (gchar *thestr)
     return num;
 }
 /**
- * add figures to *pfigures for *pchord  
+ * add figures to *pfigures for *pchord
  */
 static void
 output_fakechord (GString * fakechord, chord * pchord)
@@ -697,7 +697,7 @@ output_fakechord (GString * fakechord, chord * pchord)
   gchar *duration_string = NULL;        //whole measure rests etc
 
   fakechord = g_string_append (fakechord, " ");
-  
+
     if (duration < 0)
     {
       gchar *lily = get_postfix (pchord->directives);
@@ -719,10 +719,10 @@ output_fakechord (GString * fakechord, chord * pchord)
       //g_string_append_printf(fakechord, "%s%s", "s", duration_string);
      // return;
     }
-  
-  
-  
-  
+
+
+
+
   if (pchord->fakechord == NULL || (((GString *) ((chord *) pchord->fakechord))->len) == 0)
     fig_str = g_string_new ("s");       /* the no-fakechord figure */
   else
@@ -780,7 +780,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
-        g_free(thestr); 
+        g_free(thestr);
       }
       break;
     case 3:
@@ -820,7 +820,7 @@ output_fakechord (GString * fakechord, chord * pchord)
         if (extension)
           g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
-        
+
         str = strtok (NULL, FAKECHORD_SEP);g_print("str2 %s ", str);
         extension = parse_extension (str);
         for (c=str;*c && *c!=':';c++)
@@ -869,7 +869,7 @@ output_fakechord (GString * fakechord, chord * pchord)
             g_string_append_c (fakechord, *c);
         APPEND_DUR (fakechord, second_duration, 0);
         if (extension)
-          g_string_append (fakechord, extension); 
+          g_string_append (fakechord, extension);
         fakechord = g_string_append (fakechord, " ");
         str = strtok (NULL, FAKECHORD_SEP);g_print("str4 %s ", str);
         extension = parse_extension (str);
@@ -892,9 +892,9 @@ output_fakechord (GString * fakechord, chord * pchord)
  * DIRECTIVE: pointer to a target GString where changes should be stored,
  *            or NULL if editable text is to be allowed here (an editable space is inserted in this case)
  * ITER: the current iter in Denemo.textbuffer
- 
+
  * GUI: the gui with the textbuffer
- * 
+ *
  */
 static void
 insert_editable (GString ** pdirective, gchar * original, GtkTextIter * iter, DenemoProject * gui, GString * lily_for_obj, DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint directive_index, gint midcoffset)
@@ -1021,7 +1021,7 @@ DIRECTIVES_INSERT_EDITABLE_AFFIX (prefix);
 DIRECTIVES_INSERT_EDITABLE_AFFIX (postfix);
 
 static void
-directives_insert_affix_postfix_editable (GList * directives, gint * popen_braces, gint * pprevduration, GtkTextIter * iter, GString * lily_for_obj, 
+directives_insert_affix_postfix_editable (GList * directives, gint * popen_braces, gint * pprevduration, GtkTextIter * iter, GString * lily_for_obj,
         DenemoTargetType type, gint movement_count, gint measurenum, gint voice_count, gint objnum, gint midcoffset, guint sbid)
 {
   DenemoProject *gui = Denemo.project;
@@ -1064,7 +1064,7 @@ get_lily_override (GList * g)
  * returns the excess of open braces "{" created by this object.
  */
 static gint
-generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * curobj, gint * pprevduration, gint * pprevnumdots, gchar ** pclefname, gchar ** pkeyname, gint * pcur_stime1, 
+generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * curobj, gint * pprevduration, gint * pprevnumdots, gchar ** pclefname, gchar ** pkeyname, gint * pcur_stime1,
     gint * pcur_stime2, gint * pgrace_status, GString * figures, GString * fakechords, GtkTextMark * curmark, gpointer curobjnode, gint movement_count, gint measurenum, gint voice_count, gint objnum, guint sbid)
 {
   GString *lily_for_obj = g_string_new ("");
@@ -1120,7 +1120,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
               if (pchord->is_grace & GRACED_NOTE)
                 g_string_append_printf (ret, "\\grace {");
               else
-                g_string_append_printf (ret, "\\acciaccatura {");             
+                g_string_append_printf (ret, "\\acciaccatura {");
                             }
         /* prefix is before duration unless AFFIX override is set */
         directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, !lily_override, lily_for_obj, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0, sbid);
@@ -1147,7 +1147,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         for (j = 0; j < numdots; j++)
                           g_string_append_printf (ret, ".");
                       }
-                      
+
                    if (pchord->crescendo_begin_p)
                       {
                         NAVANC (TARGET_CRESC, 0);
@@ -1159,15 +1159,15 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         NAVANC (TARGET_DIM, 0);
                         g_string_append_printf (ret, " \\decr");
                         outputret;
-                      }                      
+                      }
                     if (pchord->crescendo_end_p)
                       g_string_append_printf (ret, " \\!");
                     if (pchord->diminuendo_end_p)
                       g_string_append_printf (ret, " \\!");
-                      
-                      
-                      
-                      
+
+
+
+
                   }
                 else
                   {             /* non printing rest */
@@ -1281,7 +1281,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                   {
                     /* only in this case do we explicitly note the duration */
                     outputret;
-                    
+
                     directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0, sbid);
                     if (duration > 0)
                       g_string_append_printf (ret, "%d", duration);
@@ -1337,7 +1337,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                     g_string_append_printf (ret, "(");
                     outputret;
                   }
-                  
+
                 if (pchord->crescendo_end_p)
                   g_string_append_printf (ret, " \\!");
                 if (pchord->diminuendo_end_p)
@@ -1346,7 +1346,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                   g_string_append_printf (ret, ")");
                 outputret;
               }                 /* End of else chord with note(s) */
-            //now output the postfix field of directives that have AFFIX set, which are not emitted 
+            //now output the postfix field of directives that have AFFIX set, which are not emitted
             directives_insert_affix_postfix_editable (pchord->directives, &open_braces, &prevduration, iter, lily_for_obj, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0, sbid);
           }                     /* End of outputting LilyPond for this chord because LILYPOND_OVERRIDE not set in a chord directive, ie !lily_override */
         else
@@ -1357,7 +1357,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
               {
                 DenemoDirective *directive = (DenemoDirective *) g->data;
                 if (directive->postfix && directive->postfix->len && (!(directive->override & DENEMO_OVERRIDE_HIDDEN)) && !wrong_layout (directive, sbid))
-      
+
                   {
                     prevduration = -1;
                     open_braces += brace_count (directive->postfix->str);
@@ -1500,7 +1500,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
       break;
     case STEMDIRECTIVE:
       {
-//no NAVANC 
+//no NAVANC
         gboolean override = FALSE;
         gchar *prestem_string = "";
         gchar *poststem_string = "";
@@ -1615,8 +1615,8 @@ get_text (GtkTextChildAnchor * anchor)
 
 /**
  * Output the header information using Lilypond syntax
- * 
- * 
+ *
+ *
  */
 static void
 outputHeader (GString * str, DenemoProject * gui)
@@ -1779,7 +1779,7 @@ get_lilypond_for_clef (clef * theclef)
  * so that it will be possible to create LilyPond directives from within the buffer (not yet
  * implemented FIXME).
  * Any lyrics, chord symbols and figured basses are put in separate sections.
- * 
+ *
  */
 static void
 outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint end, gchar * movement, gchar * voice, gint movement_count, gint voice_count, DenemoScoreblock * sb)
@@ -2046,9 +2046,9 @@ g_free(curobj->lilypond);
                                 if(curstaffstruct->hasfakechords)
                                     g_string_append (fakechords, directive->postfix->str);
                             }
-                        
+
                     }
-                    
+
                 }               // if object
             }                   //in obj range
           if (curobjnode == NULL || curobjnode->next == NULL)
@@ -2198,7 +2198,7 @@ merge_lily_cb (GtkAction * action, DenemoProject * gui)
 }
 */
 /* if there is not yet a textbuffer for the passed gui, it creates and populates one,
-   if there is it finds the offset of the current point in the buffer, refreshes it from 
+   if there is it finds the offset of the current point in the buffer, refreshes it from
    the Denemo data and then repositions the cursor at that offset. The refresh is subject to
    conditions (see output_score_to_buffer()).
 */
@@ -2349,7 +2349,7 @@ static gchar *get_alt_overridden_prefix (GList *g)
         if ((d->override & DENEMO_ALT_OVERRIDE) && d->prefix)
             g_string_append (s, d->prefix->str);
         }
-    return g_string_free (s, FALSE);  
+    return g_string_free (s, FALSE);
 }
 void
 set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
@@ -2529,7 +2529,7 @@ Denemo.project->layout_id = sb->id;
 //    change this script to have DENEMO_OVERRIDE_AFFIX set and then move all others to the score layout section
 
     //Default value for barline = barline check
-    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, 
+    gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter,
     LILYPOND_SYMBOL_DEFINITIONS,
  -1, INEDITABLE, NULL, NULL);
     GList *g = gui->lilycontrol.directives;
@@ -2553,7 +2553,7 @@ Denemo.project->layout_id = sb->id;
   /* output scoreblock */
   {
     gchar *scoreblock_tag;
-#ifdef USE_EVINCE  
+#ifdef USE_EVINCE
     if (continuous_typesetting ())
       scoreblock_tag = "temporary scoreblock";
     else
@@ -2644,9 +2644,9 @@ Denemo.project->layout_id = sb->id;
 
                         }
                     }
-                    
+
                  //g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_name->str, voice_name->str);
-                    
+
 
                   //g_string_append_printf(staffdefinitions, TAB TAB"%s\n", endofblock);
                 }
@@ -2677,9 +2677,9 @@ Denemo.project->layout_id = sb->id;
                         }
                     }
                 }
-                
-                
-           // g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s Mvmnt %d\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_count, movement_name->str, voice_name->str);    
+
+
+           // g_string_append_printf (staffdefinitions, "\n\\addQuote \"%s Mvmnt %d\" \\%s%s\n", curstaffstruct->denemo_name->str, movement_count, movement_name->str, voice_name->str);
             }
         }                       /*end for staff loop */
 
@@ -2761,7 +2761,7 @@ Denemo.project->layout_id = sb->id;
  * The function works in two passes: the first pass writes out all the
  * LilyPond music blocks defined by identifiers;  the second pass writes out the score blocks (one for
  * each movement) with the
- * identifiers placed suitably. 
+ * identifiers placed suitably.
  */
 static void
 export_lilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements, gchar * partname, gchar *instrumentation)
@@ -2884,7 +2884,7 @@ lily_refresh (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e
 
   if (gui->movement->markstaffnum || (gui->lilysync != gui->changecount))
     {
-      gui->movement->markstaffnum = 0;        //remove selection, else we will only see that bit in LilyText   
+      gui->movement->markstaffnum = 0;        //remove selection, else we will only see that bit in LilyText
       refresh_lily_cb (NULL, gui);
     }
   return FALSE;
@@ -2907,15 +2907,15 @@ static gboolean position_display_cursor (G_GNUC_UNUSED GtkWidget *view, GdkEvent
     if (event->button == 1 && (GDK_SHIFT_MASK & event->state))
     {
     GtkTextIter iter;
-    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_insert (Denemo.textbuffer));  
-    gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);                                                
+    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_insert (Denemo.textbuffer));
+    gtk_text_buffer_place_cursor (Denemo.textbuffer, &iter);
     gint column = gtk_text_iter_get_visible_line_offset (&iter);
     gint line = gtk_text_iter_get_line (&iter);
     goto_lilypond_position (line + 1, column);
     place_cursor_cb ();//this is purely for the side effect of taking off the marking which happens without it.
-    }  
+    }
     return FALSE;
-} 
+}
 
 static gboolean
 populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
@@ -2925,7 +2925,7 @@ populate_called (G_GNUC_UNUSED GtkWidget * view, GtkMenuShell * menu)
   gtk_container_foreach (GTK_CONTAINER (menu), (GtkCallback) (gtk_widget_destroy), NULL);
   prepend_menu_item (menu, gui, _("Find Current Object"), (gpointer) place_cursor_cb, _("Move the text cursor in this window to the object that the Denemo cursor is on"));
   prepend_menu_item (menu, gui, _("Insert LilyPond Text"), (gpointer) insert_lilypond_directive, _("Insert LilyPond text at the cursor position.\nWarning! Shift click to position Denemo cursor first"));
-#ifdef USE_EVINCE  
+#ifdef USE_EVINCE
   prepend_menu_item (menu, gui, _("Typeset this LilyPond text"), (gpointer) typeset_current_layout, _("Typesets the current LilyPond text, which will display in the Print View window. Any errors are shown below in the errors pane."));
 #endif
   //position_display_cursor();
@@ -2954,7 +2954,7 @@ DenemoObject *get_object_at_lilypond (gint line, gint column)
         {
           anchor = gtk_text_iter_get_child_anchor (&iter);
           if (anchor && (g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM) == NULL))
-            anchor = NULL; 
+            anchor = NULL;
         }
       if (anchor)
         {
@@ -2967,7 +2967,7 @@ DenemoObject *get_object_at_lilypond (gint line, gint column)
     }
     return NULL;
 }
-                                                      
+
 // moves cursor to position indicated by anchor found before line and column, and sets si->target to indicate type of construct there.
 gboolean
 goto_lilypond_position (gint line, gint column)
@@ -3005,12 +3005,12 @@ goto_lilypond_position (gint line, gint column)
         {
           anchor = gtk_text_iter_get_child_anchor (&iter);
           if (anchor && (g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM) == NULL))
-                    //g_print("Now At movementless anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE)), 
+                    //g_print("Now At movementless anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE)),
             anchor = NULL;      //ignore anchors without positional info
          // else if(anchor)
-         //   g_print("Now proper anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE)); 
-          
-        
+         //   g_print("Now proper anchor %x <%c> type %d\n", anchor, gtk_text_iter_get_char (&iter),g_object_get_data (G_OBJECT (anchor), TARGETTYPE));
+
+
           //g_debug("#%c#", gtk_text_iter_get_char (&iter));
         }
       if (anchor)
@@ -3021,7 +3021,7 @@ goto_lilypond_position (gint line, gint column)
           gint movementnum = (intptr_t) g_object_get_data (G_OBJECT (anchor), MOVEMENTNUM);
           gint directivenum = (intptr_t) g_object_get_data (G_OBJECT (anchor), DIRECTIVENUM);
           gint mid_c_offset = (intptr_t) g_object_get_data (G_OBJECT (anchor), MIDCOFFSET);
-         
+
           DenemoTargetType type = (intptr_t) g_object_get_data (G_OBJECT (anchor), TARGETTYPE);
           //g_print("location %d %d %d movement %d, type %d at %d %d \n", objnum, measurenum, staffnum, movementnum, type, line, column);
           gui->movement->target.objnum = objnum;
@@ -3048,7 +3048,7 @@ goto_lilypond_position (gint line, gint column)
           if (type == TARGET_NOTE)
             {
               int midcoffset = (intptr_t) g_object_get_data (G_OBJECT (anchor), MIDCOFFSET);
-              //!!!!move cursor to midcoffset  This has been lifted from view.c, but there surely should exist a function to do this 
+              //!!!!move cursor to midcoffset  This has been lifted from view.c, but there surely should exist a function to do this
               {
                 //dclef =  find_prevailing_clef(gui->movement); This should be dropped from scheme_cursor_to_note() as well I guess.
                 gui->movement->cursor_y = mid_c_offset;
@@ -3068,7 +3068,7 @@ goto_lilypond_position (gint line, gint column)
             g_warning ("Anchor not found");
         }
     }                           //if reasonable column and line number
-   
+
   return FALSE;
 }
 
@@ -3076,7 +3076,7 @@ gint get_cursor_offset (void) {
     GtkTextIter cursor;
     gint offset;
     gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
-    offset = gtk_text_iter_get_offset (&cursor);   
+    offset = gtk_text_iter_get_offset (&cursor);
     //g_print("Offset %d\n", offset);
     return offset;
 }
@@ -3122,12 +3122,12 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
       switch (event->keyval) {
           case 'z': g_warning( "Undo is disabled because gtk source view crashes with its use\n");
                 return TRUE; //Do not allow Ctrl-Z undo as it breaks a lot of stuff
-           case 'c': 
-                return FALSE; 
-           case 'v': 
-                return FALSE; 
-           case 'x': 
-                return FALSE;      
+           case 'c':
+                return FALSE;
+           case 'v':
+                return FALSE;
+           case 'x':
+                return FALSE;
         default:
             return TRUE;
         }
@@ -3183,13 +3183,13 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
             case CHORD:
             default:
               {
-                  GString **target = g_object_get_data (G_OBJECT (anchor), GSTRINGP); 
+                  GString **target = g_object_get_data (G_OBJECT (anchor), GSTRINGP);
                   if(target && *target)
                   {
                     //g_print("Target is %s\n", (*target)->str);
                     g_string_prepend (*target, key);
                     g_object_set_data (G_OBJECT (anchor), ORIGINAL, get_text (anchor));
-                    offset = get_cursor_offset ();                     
+                    offset = get_cursor_offset ();
                     score_status (gui, TRUE);
                     refresh_lily_cb (NULL, gui);
                     //g_print("After lily refresh %d", offset);
@@ -3197,10 +3197,10 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
                     gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
                     if (gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
                       gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
-                    offset = get_cursor_offset (); 
+                    offset = get_cursor_offset ();
                    // g_print("resetting lily refresh %d", offset);
-                    
-                  } else 
+
+                  } else
                   {
                     DenemoObject *lilyobj = lily_directive_new (key);
                     ((DenemoDirective*)lilyobj->object)->tag = g_string_new("LilyInsert");
@@ -3209,15 +3209,15 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
                     // g_print("The offset %d at anchor %p\n", offset, anchor);
                     offset = get_cursor_offset ();
                     object_insert (gui, lilyobj);
-                          
+
                     gtk_text_buffer_get_iter_at_offset (Denemo.textbuffer, &cursor, offset);
                     gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
-                    
+
                     displayhelper (gui);
                         //    gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &cursor, gtk_text_buffer_get_insert (Denemo.textbuffer));
-                    
+
                         //   g_print("Before advancing %d\n", gtk_text_iter_get_offset (&cursor));
-                    
+
                     if (gtk_text_iter_forward_char (&cursor) && gtk_text_iter_forward_char (&cursor))
                       gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
                             //  g_print("after advancing %d\n", gtk_text_iter_get_offset (&cursor));
@@ -3228,14 +3228,14 @@ lily_keypress (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, gboolean after)
                         // gtk_text_buffer_place_cursor (Denemo.textbuffer, &cursor);
                  }
                     g_free (key);
-                return TRUE;      
+                return TRUE;
               }
             }                   // switch obj->type
 
         }                       //if useful keypress??
       g_free (key);
     }                           //if cursor is at anchor
-    
+
 
   return FALSE;                 //let the normal handler have the keypress
 }
@@ -3314,7 +3314,7 @@ create_lilywindow (void)
   GtkWidget *top_pane = (GtkWidget*)gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 #endif
   GtkWidget *vbox = (GtkWidget*)gtk_vbox_new (FALSE, 8);
-  
+
   gtk_paned_add2 (GTK_PANED (top_pane), vbox);//gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   gtk_container_add (GTK_CONTAINER (Denemo.textwindow), top_pane);
   create_console (vbox);
@@ -3325,7 +3325,7 @@ create_lilywindow (void)
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_paned_add1 (GTK_PANED (top_pane), sw);
   gtk_container_add (GTK_CONTAINER (sw), view);
-  
+
   gtk_paned_set_position (GTK_PANED (top_pane), 500);
   gtk_widget_show_all (top_pane);
   gtk_source_view_set_show_line_numbers (GTK_SOURCE_VIEW (view), TRUE);

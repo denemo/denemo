@@ -6,7 +6,7 @@
  *  TODO
  *
  *  multi voice support
- *  lyrics 
+ *  lyrics
  *  triplet support
  *
  */
@@ -55,7 +55,7 @@ static gboolean smf_from_file = FALSE;
 
 
 /**
- * Insert time signature into current staff 
+ * Insert time signature into current staff
  *
  */
 static void
@@ -164,7 +164,7 @@ donoteoff (const smf_event_t * event)
 }
 
 /**
- * Process note on command 
+ * Process note on command
  */
 static void
 donoteon (smf_event_t * event)
@@ -190,7 +190,7 @@ decode_midi_event (smf_event_t * event)
   switch (event->midi_buffer[0] & SYS_EXCLUSIVE_MESSAGE1)
     {
     case NOTE_OFF:
-     
+
       donoteoff (event);
       break;
 
@@ -200,7 +200,7 @@ decode_midi_event (smf_event_t * event)
       else
         donoteoff (event);
       break;
-      
+
     default:
       break;
     }
@@ -234,7 +234,7 @@ create_staff (gint track)
  * this happens when the user records MIDI using a MIDI controller, add the track and set user_pointer to -1 to indicate that the smf is for recorded MIDI
  * otherwise add it to smf, or if already present in smf (user_pointer points to track number) re-attach so that smf can be used. */
 static void ensure_smf (void) {
-    if (Denemo.project->movement->recorded_midi_track) 
+    if (Denemo.project->movement->recorded_midi_track)
     {   smf_track_t *track = Denemo.project->movement->recorded_midi_track;
         if(smf==NULL)
         {
@@ -257,8 +257,8 @@ static void ensure_smf (void) {
 }
 static void guess_note_length (gdouble quarternotes, gint *dur, gint *dot)
 {
-    int vals[] = {  
-    7   
+    int vals[] = {
+    7
     ,10
     ,13
     ,19
@@ -307,7 +307,7 @@ gboolean compute_midi_note_durations (void)
     gboolean ret = FALSE;
     DenemoRecording *recording = Denemo.project->movement->recording;
     if (recording)
-    { 
+    {
         GList *g;
         ensure_smf ();
         smf_rewind (smf);
@@ -342,9 +342,9 @@ readtrack (gint track)
 {
   gint ret = 0;
   smf_track_t *selected_track;
-  
+
   //double track_duration = smf_get_length_seconds (smf);
-  
+
   smf_rewind (smf);
   if (track > 0 && track <= smf->number_of_tracks)
     {
@@ -355,14 +355,14 @@ readtrack (gint track)
       if(Denemo.project->movement->recorded_midi_track)
       {
          if(((smf_track_t *)Denemo.project->movement->recorded_midi_track)->user_pointer == NULL)
-            smf_track_delete(Denemo.project->movement->recorded_midi_track);        
+            smf_track_delete(Denemo.project->movement->recorded_midi_track);
          else
             ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = smf;
       }
       selected_track->user_pointer = GINT_TO_POINTER(track);
       Denemo.project->movement->recorded_midi_track = selected_track;
       compute_midi_note_durations (); //fills Denemo.project->movement->recording->notes with the note durations
-      ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.      
+      ((smf_track_t *)Denemo.project->movement->recorded_midi_track)->smf = NULL; // we detach this track from smf, so it can be attached to the playback smf; we cannot use smf while this is done, as it thinks it still owns the track.
       current_track = track;
     }
    else
@@ -385,7 +385,7 @@ gint get_imported_midi_tracks (void) {
     if(smf)
         return smf->number_of_tracks;
     else
-        if(Denemo.project->movement->recorded_midi_track)   
+        if(Denemo.project->movement->recorded_midi_track)
             return 1;
 return 0;
 }
@@ -449,7 +449,7 @@ gdouble get_recorded_midi_duration (void)
         return val;
 #endif
     }
-    else 
+    else
     return 0.0;
 }
 
@@ -459,8 +459,8 @@ gboolean delete_imported_midi (void) {
         stop_playing();
         return FALSE;
     }
-  if (smf) 
-    { 
+  if (smf)
+    {
   //  gint track;
   //  for (track=1; track <= smf->number_of_tracks; track++)
     //        smf_get_track_by_number (smf, track)->smf = smf;
@@ -489,6 +489,6 @@ guidedImportMidi (gchar * filename)
 
 gboolean midi_is_from_file (void)
 {
-    return smf_from_file;   
+    return smf_from_file;
 }
 

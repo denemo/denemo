@@ -1,6 +1,6 @@
 /* displayanimation.h
    header file for functions that animate transitions in the Denemo display,
-  
+
 
    for Denemo, a gtk+ frontend to GNU Lilypond
    (c) 2012 Richard Shann

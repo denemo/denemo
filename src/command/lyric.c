@@ -39,7 +39,7 @@ verse_get_current(DenemoStaff* staff){
 
 static void previous_verse (void)
 {
-    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
+    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
     GtkWidget *w = thestaff->verse_views->data;
     GtkNotebook *notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
     gtk_notebook_prev_page (notebook);
@@ -47,13 +47,13 @@ static void previous_verse (void)
 
 static void next_verse (void)
 {
-    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
+    DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
     GtkWidget *w = thestaff->verse_views->data;
     GtkNotebook *notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
     gtk_notebook_next_page (notebook);
 }
 
-void 
+void
 verse_set_current_text(DenemoStaff* staff, gchar* text)
 {
     if (text) {
@@ -68,7 +68,7 @@ verse_set_current_text(DenemoStaff* staff, gchar* text)
             }
 }
 
-gchar* 
+gchar*
 verse_get_current_text(DenemoStaff* staff){
   gint id = verse_get_current (staff);
   if (id>=0)
@@ -91,7 +91,7 @@ lyric_changed_cb (GtkTextBuffer * buffer)
     GtkTextIter startiter, enditer;
     gtk_text_buffer_get_start_iter (buffer, &startiter);
     gtk_text_buffer_get_end_iter (buffer, &enditer);
-    gtk_text_buffer_apply_tag_by_name (buffer, "highlight", &startiter, &enditer); 
+    gtk_text_buffer_apply_tag_by_name (buffer, "highlight", &startiter, &enditer);
   }
   score_status (Denemo.project, TRUE);
   draw_score_area();
@@ -144,12 +144,12 @@ scan_syllable (gchar ** next, GString * gs)
     {
       SkipCount--;
       g_string_assign (gs, "(skip)");
-      return TRUE;  
+      return TRUE;
     }
   result = pango_scan_string ((const char **) next, gs);
   if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
   {
-    //if it is \repeat unfold n \skip 1 put the number n into SkipCount and return a space indicator  
+    //if it is \repeat unfold n \skip 1 put the number n into SkipCount and return a space indicator
       if (!strcmp(gs->str, "\\repeat"))
         {
             result = pango_scan_string ((const char **) next, gs);
@@ -160,7 +160,7 @@ scan_syllable (gchar ** next, GString * gs)
                         SkipCount = atoi (gs->str);
                         while (**next && **next != '\n')
                                 (*next)++;              //ignore to end of line
-                        return scan_syllable (next, gs); 
+                        return scan_syllable (next, gs);
                 }
         }
     while (**next && **next != '\n')
@@ -178,7 +178,7 @@ static gint get_syllable_count (GtkTextBuffer *buffer)
 {
   GString *gs = g_string_new("");
   GtkTextIter cursor, startiter;
-  gtk_text_buffer_get_iter_at_mark (buffer, &cursor, gtk_text_buffer_get_insert (buffer));   
+  gtk_text_buffer_get_iter_at_mark (buffer, &cursor, gtk_text_buffer_get_insert (buffer));
   gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER (buffer), &startiter);
   gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER (buffer), &startiter, &cursor, FALSE);
   gchar *next = text;
@@ -250,8 +250,8 @@ syllable_count (void)
                 count--;
             }
         }                       //for objs
-        
-       if(thisobj==curobj) break;   
+
+       if(thisobj==curobj) break;
     }                           //for measures
 
   return count;
@@ -273,25 +273,25 @@ static gint get_character_count_at_syllable (gchar *text, gint count)
 }
 gboolean synchronize_lyric_cursor(gint offset)
 {
-  DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data; 
+  DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
   gint count = syllable_count() + 1 + offset;
   GtkTextView* verse_view = (GtkTextView*)verse_get_current_view(thestaff);
   if (verse_view)
     {
       gchar *text = get_text_from_view (GTK_WIDGET(verse_view));
       gint character_count = get_character_count_at_syllable (text, count);
-      GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view); 
-      GtkTextIter where; 
+      GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view);
+      GtkTextIter where;
       gtk_text_buffer_get_iter_at_offset (textbuffer, &where, character_count);
       gtk_text_buffer_place_cursor (textbuffer, &where);
       gtk_widget_grab_focus (GTK_WIDGET(verse_view));
       gtk_text_view_scroll_mark_onscreen (verse_view, gtk_text_buffer_get_insert(textbuffer));
       return TRUE;
-    }   
+    }
     return FALSE;
 }
 
-static void 
+static void
 synchronize_cursor(GtkWidget *textview)
 {
   DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
@@ -301,13 +301,13 @@ synchronize_cursor(GtkWidget *textview)
   get_pos_at_syllable_count (thestaff, count, &pos);
   goto_movement_staff_obj (NULL, 0, Denemo.project->movement->currentstaffnum, pos.measure, pos.object, 0 /* means ignore */);
 }
-static gboolean 
+static gboolean
 keypress (GtkWidget *textview, GdkEventKey *event )
 {
     guint keyval = event->keyval;//g_print ("press %x mask %x", event->keyval, event->state);
     if (keyval == 0xFF63)
      return TRUE;// ignore Ins, don't want to have overwrite mode
-     
+
     if(keyval == 0xFF09) //TAB
       return TRUE;
     if(event->state & GDK_CONTROL_MASK) //allow save etc from lyrics pane
@@ -325,10 +325,10 @@ keypress (GtkWidget *textview, GdkEventKey *event )
             case 0x73: //Control-s save but stay in verse
              call_out_to_guile ("(d-Save)");
               return TRUE;
-            case 0xFF52: //Control-up  
+            case 0xFF52: //Control-up
               call_out_to_guile ("(d-MoveToStaffUp)(d-EditLyricAtCursor)");
               return TRUE;
-            case 0xFF54: //Control-down  
+            case 0xFF54: //Control-down
                 call_out_to_guile ("(d-MoveToStaffDown)(d-EditLyricAtCursor)");
                 return TRUE;
             default:
@@ -337,7 +337,7 @@ keypress (GtkWidget *textview, GdkEventKey *event )
         }
     return FALSE;
 }
-static gboolean 
+static gboolean
 text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
 {
   static gboolean seen_space;
@@ -346,7 +346,7 @@ text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
   if ((keyval==0x20) || (keyval==0xFF0D)|| (keyval==0xFF09)|| (keyval==0xFF8D)) //space return tab Enter
     {
       seen_space = TRUE;
-    } 
+    }
   else if ((keyval==0xFF51) || (keyval==0xFF52) ||(keyval==0xFF53) ||(keyval==0xFF54) || seen_space)//arrows
     {
       seen_space = FALSE;
@@ -363,7 +363,7 @@ text_inserted_cb (GtkWidget *textview, GdkEventKey *event )
   return FALSE;
 }
 
-static gboolean 
+static gboolean
 button_released_cb (GtkWidget *textview)
 {
   synchronize_cursor(textview);
@@ -383,7 +383,7 @@ gboolean insert_text_in_verse (gchar *text)
         GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (verse_view);
         GtkTextMark *cursor = gtk_text_buffer_get_insert (textbuffer);
         gtk_text_buffer_get_iter_at_mark (textbuffer, &iter, cursor);
-        gtk_text_buffer_insert (textbuffer, &iter, text, -1);   
+        gtk_text_buffer_insert (textbuffer, &iter, text, -1);
         return TRUE;
         }
         return FALSE;
@@ -432,7 +432,7 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   staff->verses = g_list_append (staff->verses, NULL);
   if(Denemo.non_interactive)
     return g_list_length (staff->verses) -1;
-    
+
   GtkWidget *notebook, *textview;
   if (staff->verse_views == NULL)
   {
@@ -475,16 +475,16 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 #if GTK_MAJOR_VERSION==2
   GdkColor thecolor;
   //gdk_color_parse ("white", &thecolor);
-  //gtk_widget_modify_bg (verse_view, GTK_STATE_SELECTED, &thecolor);     
+  //gtk_widget_modify_bg (verse_view, GTK_STATE_SELECTED, &thecolor);
   gdk_color_parse ("gray", &thecolor);
-  gtk_widget_modify_bg (verse_view, GTK_STATE_NORMAL, &thecolor);     
+  gtk_widget_modify_bg (verse_view, GTK_STATE_NORMAL, &thecolor);
 #else
   GdkRGBA grayed = {0.5, 0.5, 0.5, 1.0}; //background away from letters, when not receiving input
   GdkRGBA white = {0.7, 0.7, 0.7, 1.0}; //background of letters
   gtk_widget_override_background_color (GTK_WIDGET(verse_view), GTK_STATE_FLAG_FOCUSED, &white);
   gtk_widget_override_background_color (GTK_WIDGET(verse_view), GTK_STATE_FLAG_NORMAL, &grayed);
- #endif 
-  
+ #endif
+
   return pos;
 }
 
@@ -519,7 +519,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
             {
               staff->verse_views = g_list_remove (staff->verse_views, verse_view);
               staff->verses = g_list_remove (staff->verses, verse_text);
-              
+
               if(staff->verse_views == NULL)
                 {
                 verse_set_current (staff, 0);
@@ -527,7 +527,7 @@ delete_verse (GtkAction * action, DenemoScriptParam * param)
                 } else
                 gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET(verse_view)));
                // g_print("Children are %p\n",  gtk_container_get_children (GTK_CONTAINER (gtk_container_get_children (GTK_CONTAINER (si->lyricsbox))->data)));
-                
+
               signal_structural_change (gui);
               score_status (gui, TRUE);
               draw_score_area();
@@ -547,7 +547,7 @@ get_text_from_view (GtkWidget * textview)
 }
 
 
-// For the first call a textview is passed and the count'th syllable in that textview is set to be the next syllable returned. 
+// For the first call a textview is passed and the count'th syllable in that textview is set to be the next syllable returned.
 // Subsequent calls with NULL for textview return the next syllable of the textview that was set up by the above
 static gchar *
 lyric_iterator (GtkWidget * textview, gint count)
@@ -607,7 +607,7 @@ install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
   if(Denemo.non_interactive)
     return;
   GtkWidget *parent = gtk_widget_get_parent(top_vbox);
-      
+
   if (si->lyricsbox == NULL)
     si->lyricsbox = (GtkWidget*)gtk_vbox_new (FALSE, 1);    //box to hold notebook of textview widgets
   if(parent)

@@ -1,5 +1,5 @@
 /* Print.c
- * 
+ *
  * printing support for GNU Denemo
  * outputs to a pdf or png file
  * for Denemo, a gtk+ frontend to GNU Lilypond
@@ -31,7 +31,7 @@
 #include "core/utils.h"
 
 
-  
+
 #if GTK_MAJOR_VERSION==3
 typedef enum
 {
@@ -63,7 +63,7 @@ get_wysiwyg_info(){
 
 void initialize_print_status (void)
 {
-  
+
   Denemo.printstatus = (DenemoPrintInfo*)g_malloc0(sizeof (DenemoPrintInfo));
   Denemo.printstatus->printpid = GPID_NONE;
   Denemo.printstatus->typeset_type = TYPESET_ALL_MOVEMENTS;
@@ -72,7 +72,7 @@ void initialize_print_status (void)
   Denemo.printstatus->printname_pdf[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".pdf", NULL);
   Denemo.printstatus->printname_svg[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".svg", NULL);
 #ifdef G_OS_WIN32
-  Denemo.printstatus->printname_midi[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".mid", NULL);//LilyPond outputs .mid files for midi 
+  Denemo.printstatus->printname_midi[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".mid", NULL);//LilyPond outputs .mid files for midi
 #else
   Denemo.printstatus->printname_midi[0] = g_strconcat (Denemo.printstatus->printbasename[0], ".midi", NULL);
 #endif
@@ -80,29 +80,29 @@ void initialize_print_status (void)
   Denemo.printstatus->printname_pdf[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".pdf", NULL);
   Denemo.printstatus->printname_svg[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".svg", NULL);
 #ifdef G_OS_WIN32
-  Denemo.printstatus->printname_midi[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".mid", NULL);//LilyPond outputs .mid files for midi 
-#else      
+  Denemo.printstatus->printname_midi[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".mid", NULL);//LilyPond outputs .mid files for midi
+#else
   Denemo.printstatus->printname_midi[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".midi", NULL);
 #endif
   Denemo.printstatus->printname_ly[1] = g_strconcat (Denemo.printstatus->printbasename[1], ".ly", NULL);
   Denemo.printstatus->error_file = NULL;
-}   
-    
+}
+
 
 static void
 advance_printname ()
 {
- 
-    
+
+
   Denemo.printstatus->cycle = !Denemo.printstatus->cycle;
   /*gint success =*/ g_unlink (Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle]);
   g_unlink (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle]);
-  
+
   //g_debug("Removed old pdf file %s %d\n",Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], success);
 }
 
 
-/*** 
+/***
  * make sure lilypond is in the path defined in the preferences
  */
 /* UNUSED
@@ -247,7 +247,7 @@ truncate_lines (gchar * epoint)
 }
 
 /***
- * Run the command line convert-ly to get the lilypond output 
+ * Run the command line convert-ly to get the lilypond output
  * current with the version running on the users computer
  *
  */
@@ -271,12 +271,12 @@ convert_ly (gchar * lilyfile)
     NULL
   };
 #endif
-  g_spawn_sync (locateprintdir (),      // dir 
-                conv_argv, NULL,        // env 
-                G_SPAWN_SEARCH_PATH, NULL,      // child setup func 
-                NULL,           // user data 
-                NULL,           // stdout 
-                NULL,           // stderr 
+  g_spawn_sync (locateprintdir (),      // dir
+                conv_argv, NULL,        // env
+                G_SPAWN_SEARCH_PATH, NULL,      // child setup func
+                NULL,           // user data
+                NULL,           // stdout
+                NULL,           // stderr
                 NULL, &err);
 
   if (err != NULL)
@@ -308,7 +308,7 @@ static gchar * get_error_point (gchar *bytes, gint *line, gint *col)
                      }
                  message++;
                  while (*message && g_ascii_isdigit (*message)) message++;
-                 
+
                  if (*message==':')
                     {
                      *col = atoi (message+1);
@@ -317,12 +317,12 @@ static gchar * get_error_point (gchar *bytes, gint *line, gint *col)
                             message++;
                             continue;
                         }
-                        
+
                      message++;
-                     while (*message && g_ascii_isdigit (*message)) message++;  
-                     
-                     
-                     g_print ("%c", *message); 
+                     while (*message && g_ascii_isdigit (*message)) message++;
+
+
+                     g_print ("%c", *message);
                      if (*message==':')
                         {
                             gchar *colon = epoint;
@@ -358,7 +358,7 @@ process_lilypond_errors (gchar * filename)
   g_free (logfile);
   if (bytes)
    numbytes=strlen (bytes);
-  else 
+  else
     return;
   //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
   gint line, column;
@@ -415,14 +415,14 @@ open_viewer (gint status, gchar * filename)
   Denemo.printstatus->printpid = GPID_NONE;
   //normal_cursor();
   process_lilypond_errors (filename);
-#if GLIB_CHECK_VERSION(2,34,0)  
+#if GLIB_CHECK_VERSION(2,34,0)
   {
     GError* err = NULL;
     status = g_spawn_check_exit_status (status, &err);
     if(!status)
         g_warning ("Lilypond did not end successfully: %s", err->message);
-  }         
-#endif  
+  }
+#endif
 
   if (status)
     {
@@ -444,9 +444,9 @@ open_viewer (gint status, gchar * filename)
         NULL
       };
 
- 
+
       arguments = png;
- 
+
       if (Denemo.prefs.imageviewer->len == 0)
         {
           gboolean ok = run_file_association (printfile);
@@ -620,7 +620,7 @@ create_pdf (gboolean part_only, gboolean all_movements)
       else
         {
           warningdialog (_("Cancelled"));
-          
+
           return;
         }
     }
@@ -652,7 +652,7 @@ create_svg (gboolean part_only, gboolean all_movements)
       else
         {
           warningdialog (_("Cancelled"));
-          
+
           return;
         }
     }
@@ -669,7 +669,7 @@ create_svg (gboolean part_only, gboolean all_movements)
 
 void create_pdf_for_lilypond (gchar *lilypond)
 {
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
           g_debug("This feature requires denemo to be built with evince");
 #else
          if (Denemo.printstatus->printpid != GPID_NONE)
@@ -683,7 +683,7 @@ void create_pdf_for_lilypond (gchar *lilypond)
       else
         {
           warningdialog (_("Cancelled"));
-          
+
           return;
         }
     }
@@ -691,16 +691,16 @@ void create_pdf_for_lilypond (gchar *lilypond)
   advance_printname ();
   gchar *filename = Denemo.printstatus->printbasename[Denemo.printstatus->cycle];
   gchar *lilyfile = Denemo.printstatus->printname_ly[Denemo.printstatus->cycle];
-  g_remove (lilyfile); 
+  g_remove (lilyfile);
   g_file_set_contents (lilyfile, lilypond, -1, NULL);
   Denemo.printstatus->invalid = 0;
   g_free (Denemo.printstatus->error_file);Denemo.printstatus->error_file = NULL;
-  run_lilypond_for_pdf (filename, lilyfile);  
+  run_lilypond_for_pdf (filename, lilyfile);
   g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
 #endif
 }
-/** 
- * Dialog function used to select measure range 
+/**
+ * Dialog function used to select measure range
  *
  */
 
@@ -805,7 +805,7 @@ prepare_preview (GPid pid, gint status, GList * filelist)
 
 /**
  * Does all the export pdf work.
- * calls exportmudela and then  
+ * calls exportmudela and then
  * runs lilypond to a create a filename.pdf
  *
  *  @param filename filename to save score to
@@ -881,14 +881,14 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
       GError *err = NULL;
       gint ret = 0;
       gboolean success = g_spawn_sync (locateprintdir (),  /* dir */
-                    arguments, 
+                    arguments,
                     NULL,    /* env */
-                    G_SPAWN_SEARCH_PATH, 
+                    G_SPAWN_SEARCH_PATH,
                     NULL,  /* child setup func */
                     NULL,       /* user data */
                     NULL,       /* stdout */
                     NULL,       /* stderr */
-                    &ret, 
+                    &ret,
                     &err);
       if(!success)
         g_warning ("An error happened during lilypond launching: %s", err->message);
@@ -896,7 +896,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
       if(ret != 0)
         g_warning ("Lilypond did not end successfully");
 
-      //These are in tmpdir and can be used for the .eps file, so don't delete them   
+      //These are in tmpdir and can be used for the .eps file, so don't delete them
       //g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
       g_list_free (filelist);
     }
@@ -905,7 +905,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
 
 /**
  * Does all the export pdf work.
- * calls exportmudela and then  
+ * calls exportmudela and then
  * runs lilypond to a create a filename.pdf
  *
  *  @param filename filename to save score to
@@ -959,7 +959,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
 void
 printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   present_print_view_window();
@@ -980,7 +980,7 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam 
 void
 printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   if (Denemo.project->movement->markstaffnum) {
@@ -997,7 +997,7 @@ void
 printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
   DenemoProject *gui = Denemo.project;
-  if (!gui->movement->markstaffnum)   //If no selection has been made 
+  if (!gui->movement->markstaffnum)   //If no selection has been made
     printrangedialog (gui);     //Launch a dialog to get selection
   if (gui->movement->selection.firstmeasuremarked)
     {
@@ -1011,7 +1011,7 @@ printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoSc
 void
 printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   print_from_print_view (TRUE);
@@ -1022,7 +1022,7 @@ printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
 void
 printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   print_from_print_view (FALSE);
@@ -1031,7 +1031,7 @@ printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPa
 
 void
 show_print_view (GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param){
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   implement_show_print_view(action!=NULL);

@@ -210,7 +210,7 @@ smf_event_new_textual(int type, const char *text)
 		g_critical("Cannot allocate MIDI buffer structure: %s", strerror(errno));
 		smf_event_delete(event);
 
-		return (NULL); 
+		return (NULL);
 	}
 
 	event->midi_buffer[0] = 0xFF;
@@ -546,7 +546,7 @@ smf_validate(smf_t *smf)
 				return (-6);
 			}
 		}
-				
+
 	}
 
 	return (0);

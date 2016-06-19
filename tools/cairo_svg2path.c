@@ -102,7 +102,7 @@ parse_svg_file (const gchar * filename, const gchar * path, gdouble * width, gdo
 }
 
 /*
- * These two data structures are taken from cairo 
+ * These two data structures are taken from cairo
  */
 typedef enum
 {

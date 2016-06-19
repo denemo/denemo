@@ -116,7 +116,7 @@ set_denemo_name (GString * lily_name, GString * denemo_name)
     }
 }
 
-/* This function accepts a gchar *proposal as an argument. If 
+/* This function accepts a gchar *proposal as an argument. If
  * this proposal can be made into a canonical Denemo staff name,
  * it is stored in denemo_name. If not, denemo_name is left
  * unchanged. It returns -1 if the name could not be canonicalized. */

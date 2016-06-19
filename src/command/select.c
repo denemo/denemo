@@ -5,7 +5,7 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller, Adam Tee, 2011 Richard Shann
  *
- * 
+ *
  */
 
 #include <string.h>
@@ -35,7 +35,7 @@
  * unnecessarily.
  *
  * Each item in the copybuffer list corresponds to the stuff in
- * the buffer on each staff.  
+ * the buffer on each staff.
  */
 
 static void undo (DenemoProject * gui);
@@ -103,7 +103,7 @@ pop_clipboard (void)
 }
 
 /* returns the top clipboard popped off the stack.
-   The caller must free the clipboard with 
+   The caller must free the clipboard with
    when done */
 GList *
 pop_off_clipboard (void)
@@ -119,7 +119,7 @@ pop_off_clipboard (void)
 
 /**
  *  sets current object to the given cursor position
- * 
+ *
  */
 void
 setcurrentobject (DenemoMovement * si, gint cursorpos)
@@ -185,9 +185,9 @@ insert_clipboard (GList * clipboard)
 }
 
 /**
- *  saveselection 
+ *  saveselection
  *  Saves the current selection to a given file
- * 
+ *
  *  @param si pointer to the score information structure
  *  @return none
  */
@@ -204,7 +204,7 @@ saveselection (DenemoMovement * si)
   si->savebuffer = copybuffer;
   /* Test code for save selection
      FILE *fp;
-     GString *file = NULL; 
+     GString *file = NULL;
      file = g_string_new(get_user_data_dir());
      g_string_append(file, "/denemoanalysispattern");
 
@@ -217,7 +217,7 @@ saveselection (DenemoMovement * si)
 /**
  *   copytobuffer
  *   Copies selection to the copybuffer
- *   
+ *
  *   @param si pointer to the score information structure
  */
 void
@@ -233,8 +233,8 @@ copytobuffer (DenemoMovement * si)
   if (si->markstaffnum == 0)    /* Indicator that there's no selection.  */
     {
      clearbuffer ();
-     call_out_to_guile ("(CreateScriptForDirective)");   
-     
+     call_out_to_guile ("(CreateScriptForDirective)");
+
     }
   else
     {
@@ -272,7 +272,7 @@ copytobuffer (DenemoMovement * si)
                 {
                   g_debug ("Insert measurebreak obj in copybuffer");
                   /* ???outdated comment??? That is, there's another measure, the cursor is in appending
-                     position, or the selection spans multiple staffs, in which 
+                     position, or the selection spans multiple staffs, in which
                      case another measure boundary should be added.  */
                   theobjs = g_list_append (theobjs, newmeasurebreakobject ());
                   if (i == si->selection.firststaffmarked)
@@ -374,10 +374,10 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
           if (!((DenemoMeasure*)curmeasure->data)->objects && !si->thescore->next)
             removemeasures (si, g_list_position (staff_first_measure_node (si->currentstaff), curmeasure), 1, TRUE);
         }
- 
+
       cache_staff (si->currentstaff);
-      
-      staff_fix_note_heights ((DenemoStaff*)si->currentstaff->data);        
+
+      staff_fix_note_heights ((DenemoStaff*)si->currentstaff->data);
       staff_show_which_accidentals ((DenemoStaff *) si->currentstaff->data);
       staff_beams_and_stems_dirs ((DenemoStaff *) si->currentstaff->data);
     }                           // end of single staff
@@ -391,7 +391,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
 
               removemeasures (si, si->selection.firstmeasuremarked - 1, lmeasurebreaksinbuffer + 1, TRUE);
               staffs_removed_measures = lmeasurebreaksinbuffer;
-              
+
               cache_all ();
             }
           else
@@ -400,7 +400,7 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
                 curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->selection.firstmeasuremarked - 1);
                 freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects);
                  ((DenemoMeasure*)curmeasure->data)->objects = NULL;
-                 
+
                 cache_staff (curstaff);
                 staff_fix_note_heights ((DenemoStaff*)curstaff->data);
                 staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
@@ -420,16 +420,16 @@ cuttobuffer (DenemoMovement * si, gboolean copyfirst)
                   freeobjlist ( ((DenemoMeasure*)curmeasure->data)->objects);
                    ((DenemoMeasure*)curmeasure->data)->objects = NULL;
                 }
-                
+
               cache_staff (curstaff);
-      
+
               staff_show_which_accidentals ((DenemoStaff *) curstaff->data);
               staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
             }
         }
-                
 
-        
+
+
     }
   si->selection.firststaffmarked = si->markstaffnum = 0;        //only the latter is needed, but there was some confusion at one time...
   /* And set some currents. This would probably be better to split off
@@ -562,12 +562,12 @@ get_point_object (void)
 
 /**
  * mark_boundaries_helper
- * Helper function which marks the boundaries of the 
+ * Helper function which marks the boundaries of the
  * mark
  *
- * Inputs 
+ * Inputs
  * @param si pointer to the DenemoMovement structure
- * @param mark_staff  
+ * @param mark_staff
  * @param mark_measure -
  * @param mark_object -
  * @param point_staff -
@@ -764,7 +764,7 @@ restore_selection (DenemoMovement * si)
  * goto_mark
  * goto the current mark without changing the selection
  *
- * 
+ *
  */
 void
 goto_mark (GtkAction * action, DenemoScriptParam * param)
@@ -793,7 +793,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
  * goto_selection_start
  * move cursor the first object in the selection without changing the selection
  *
- * 
+ *
  */
 void
 goto_selection_start (GtkAction * action, DenemoScriptParam * param)
@@ -868,7 +868,7 @@ push_given_position (DenemoPosition * pos)
 /**
  *  copywrapper
  *  Wrapper function for the copy command
- *  
+ *
  * @param action pointer to the GTKAction event
  * @param gui pointer to the DenemoProject structure
  */
@@ -884,7 +884,7 @@ copywrapper (GtkAction * action, DenemoScriptParam * param)
  * Wrapper function for the cut command
  *
  * @param action pointer to the GTKAction event
- * @param gui pointer to the DenemoProject structure 
+ * @param gui pointer to the DenemoProject structure
  */
 void
 cutwrapper (GtkAction * action, DenemoScriptParam * param)
@@ -914,7 +914,7 @@ void
 pastewrapper (GtkAction * action, DenemoScriptParam * param)
 {
   stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
-  
+
   if ((Denemo.project->movement->directive_on_clipboard) && (copybuffer == NULL))
     call_out_to_guile ("(eval-string CreateScriptForDirective::clipboard)");
   else
@@ -930,7 +930,7 @@ pastewrapper (GtkAction * action, DenemoScriptParam * param)
  * saveselwrapper
  * Wrapper function for the Save selection command
  *
- * @param action pointer to the GtkAction event 
+ * @param action pointer to the GtkAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
@@ -946,7 +946,7 @@ saveselwrapper (GtkAction * action, DenemoScriptParam * param)
  * Wrapper function for the mark_boundaries_helper function
  * drag selection type is set to NORMAL_SELECT
  *
- * Inputs 
+ * Inputs
  * scoreinfo - score information
  */
 void
@@ -979,8 +979,8 @@ swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
  * undowrapper
  * Wrapper function for the undo command
  *
- * Inputs 
- * data - pointer to the score 
+ * Inputs
+ * data - pointer to the score
  * callback_action - unused
  * widget - unused
  */
@@ -996,8 +996,8 @@ undowrapper (GtkAction * action, DenemoScriptParam * param)
  * redowrapper
  * Wrapper function for the redo command
  *
- * Inputs 
- * data - pointer to the score 
+ * Inputs
+ * data - pointer to the score
  * callback_action - unused
  * widget - unused
  */
@@ -1064,7 +1064,7 @@ free_chunk (DenemoUndoData * chunk)
       if (chunk->object)
         free_measure (chunk->object);
       g_free (chunk);
-      break;  
+      break;
     case ACTION_SNAPSHOT:
       g_warning ("Snapshot free is not implemented");
       g_free (chunk);
@@ -1283,9 +1283,9 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       {
         //create empty measure in the chunk->position.staff at measure number chunk->position->object
         insertmeasureafter (NULL, NULL);
-        
+
         cache_measure (Denemo.project->movement->currentmeasure);//rather than cache_staff (Denemo.project->movement->currentstaff); //rather than cach_all ();
-        
+
         chunk->action = ACTION_MEASURE_CREATE;
         chunk->position.measure++;
         if (!gui->movement->currentmeasure)
@@ -1312,7 +1312,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         Denemo.project->movement->measurewidths = g_list_insert (Denemo.project->movement->measurewidths, GINT_TO_POINTER (Denemo.project->movement->measurewidth), chunk->position.measure);
          if (chunk->position.measure > 1)
           chunk->position.measure--, g_print ("moving to %d\n", chunk->position.measure);
-        position_for_chunk (gui, chunk); 
+        position_for_chunk (gui, chunk);
         setcurrents (Denemo.project->movement);
       }
       break;
@@ -1517,10 +1517,10 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                   widget_for_layout_directive (directive);
                 }
             }
-            
+
             cache_all ();
-              
-              
+
+
             gui->movement->smf = initial_smf;
             gui->movement->smfsync = -1;      //force recalculation of midi
             gui->movement->redo_invalid = initial_redo_invalid;
@@ -1531,7 +1531,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
             if (!gui->movement->currentmeasure)
               {
                 g_warning (
-                "positioning after snapshot Bug in select.c  movem %d, staff %d, measure %d, obj = %d, appending %d, offend %d, leftmeas %d\n", 
+                "positioning after snapshot Bug in select.c  movem %d, staff %d, measure %d, obj = %d, appending %d, offend %d, leftmeas %d\n",
                       chunk->position.movement,
                       chunk->position.staff,
                       chunk->position.measure,
@@ -1543,7 +1543,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
               }
            //without this currentstaffnum is set wrongly, and moveviewport causes a crash.
            gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
-          
+
           }
         else
           {
@@ -1634,7 +1634,7 @@ undo (DenemoProject * gui)
     }
   else
     warn_no_more_undo (gui);
-  
+
 }
 
 
@@ -1681,7 +1681,7 @@ redo (DenemoProject * gui)
 
 /**
  *  update_undo_info
- *  
+ *
  *  Updates the undo list with current operation.
  *  Is passed score structure and undo_data structure
  *
@@ -1689,7 +1689,7 @@ redo (DenemoProject * gui)
 void
 update_undo_info (DenemoMovement * si, DenemoUndoData * undo)
 {
-  //g_print ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending); 
+  //g_print ("Adding: Action %d at pos %d appending %d\n",  undo->action, undo->position.object, undo->position.appending);
 
   //  if (g_queue_get_length (si->undodata) == MAX_UNDOS)
   //    {
@@ -1705,7 +1705,7 @@ update_undo_info (DenemoMovement * si, DenemoUndoData * undo)
 
 /**
  * update_redo_info
- *  
+ *
  *  Updates the redo list with last undo operation.
  *  Is passed score structure and redo_data structure
  *  @param si pointer to the DenemoMovement structure

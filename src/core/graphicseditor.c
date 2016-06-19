@@ -1,18 +1,18 @@
 /*
  * graphicsedit.c
- * 
+ *
  * Copyright 2014 Richard Shann <rshann@debian-box>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -35,8 +35,8 @@ static gchar *get_extension (gchar *filename) {
         {
           if(*c=='.')
           {
-             return (c+1); 
-          }  
+             return (c+1);
+          }
         }
     return NULL;
 }
@@ -51,8 +51,8 @@ static gchar *choose_graphic_file (void)
   extensions = g_list_append (extensions, (gpointer) "*.EPS");
   extensions = g_list_append (extensions, (gpointer) "*.svg");
   extensions = g_list_append (extensions, (gpointer) "*.SVG");
-  
-  filename = choose_file (title, system_dir, extensions);  
+
+  filename = choose_file (title, system_dir, extensions);
   g_free(system_dir);
   return filename;
 }
@@ -66,11 +66,11 @@ static gchar *create_editable_file (gchar *filename, gchar *newname)
    gchar * current_directory = newname?
         g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "graphics", NULL):
         get_project_dir ();
-        
+
   if (!g_file_test (current_directory, G_FILE_TEST_EXISTS))
     g_mkdir_with_parents (current_directory, 0770);
    outname = g_build_filename (current_directory, temp, NULL);
-   g_free(temp);g_print("outname is %s for %s %s\n", outname, newname, get_user_data_dir (TRUE)); 
+   g_free(temp);g_print("outname is %s for %s %s\n", outname, newname, get_user_data_dir (TRUE));
    if(g_file_get_contents (filename, &contents, &length, NULL))
     {
         if(g_file_set_contents (outname, contents, length, NULL))
@@ -106,7 +106,7 @@ static gboolean try_for_svg (gchar *filename) {
             }
         }
     return TRUE;
-} 
+}
 /* filename is an svg or eps file, if NULL allows the user to choose an svg or eps file from
  * the system files and the file is copied to the project directory (template==FALSE) or
  * to the users actions/graphics directory (template=TRUE)
@@ -126,7 +126,7 @@ gchar *edit_graphics_file (gchar *filename, gchar *newname)
                 choice = create_editable_file (choice, newname);
         } else
         choice = strdup (filename);
-       
+
    if(try_for_svg(choice))
     g_info("Opening SVG for eps");
    if(choice && g_file_test (choice, G_FILE_TEST_EXISTS))
@@ -134,7 +134,7 @@ gchar *edit_graphics_file (gchar *filename, gchar *newname)
         gchar *arguments[] = {
                                 Denemo.prefs.graphicseditor->str,
                                 choice,
-                                NULL};  
+                                NULL};
         g_spawn_async_with_pipes (NULL,  /* dir */
                                     arguments, NULL,    /* env */
                                     G_SPAWN_SEARCH_PATH,        /* search in path for executable */

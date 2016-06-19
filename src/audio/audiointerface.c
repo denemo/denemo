@@ -241,7 +241,7 @@ audio_initialize (DenemoPrefs * config)
 , RUBBERBAND_QUEUE_SIZE
 #endif
 );
-  event_queues[MIDI_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE, 0  
+  event_queues[MIDI_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, INPUT_QUEUE_SIZE, 0
 #ifdef _HAVE_RUBBERBAND_
 , 0
 #endif
@@ -334,7 +334,7 @@ redraw_playhead_callback (gpointer data)
 static gboolean do_handle_midi_event (gchar *data) {
   handle_midi_event (data);
   g_free(data);
-  return FALSE;  
+  return FALSE;
 }
 static gboolean
 handle_midi_event_callback (gpointer data)
@@ -599,7 +599,7 @@ void
 audio_play (void)
 {
   reset_mixer_queue (AUDIO_BACKEND);
-#ifdef _HAVE_RUBBERBAND_  
+#ifdef _HAVE_RUBBERBAND_
   reset_rubberband_queue (AUDIO_BACKEND);
 #endif
   playback_start_time = get_start_time ();
@@ -617,14 +617,14 @@ midi_stop (void)
   get_backend (MIDI_BACKEND)->stop_playing ();
 
   stop_playing ();
-#ifdef DISABLE_AUBIO  
+#ifdef DISABLE_AUBIO
 #else
   stop_audio_playing ();
 #endif
   reset_playback_queue (AUDIO_BACKEND);
   reset_playback_queue (MIDI_BACKEND);
   reset_mixer_queue (AUDIO_BACKEND);
-#ifdef _HAVE_RUBBERBAND_  
+#ifdef _HAVE_RUBBERBAND_
   reset_rubberband_queue (AUDIO_BACKEND);
 #endif
    gtk_widget_queue_draw (Denemo.playbackview);

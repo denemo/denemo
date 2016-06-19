@@ -128,7 +128,7 @@ determineclef (gint type, gchar ** clefname, gint * octaveshift)
     }
 }
 
-/** 
+/**
  * determine the timesig denominator
  *
  */
@@ -186,7 +186,7 @@ determinelength (gint duration, gint numdots, gint defaultlength, struct twoints
 
 
 /**
- * Print out the given length (numerator/denominator), omitting 1's. 
+ * Print out the given length (numerator/denominator), omitting 1's.
  */
 static void
 printlength (FILE * fp, struct twoints *length)
@@ -203,7 +203,7 @@ printlength (FILE * fp, struct twoints *length)
 
 
 /**
- * Print out the given chord, given the current default length. 
+ * Print out the given chord, given the current default length.
  */
 static void
 printchord (FILE * fp, chord * chordptr, gint octaveshift, gint defaultlength)

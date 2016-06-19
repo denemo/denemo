@@ -41,7 +41,7 @@ static guint PR_leave;          // signal id
 //keymap *PR_oldkeymap;// the keymap of PR_gui when PR was started
 //keymap *PR_rhythmkeymap;// special keymap for rhythm work.
 
-static guint PR_time = DEFAULT_TIMER_RATE;      //the period of timer for checking for a new pitch in ms 10 gives quicker response,100 more reliability... 
+static guint PR_time = DEFAULT_TIMER_RATE;      //the period of timer for checking for a new pitch in ms 10 gives quicker response,100 more reliability...
 gboolean PR_enable = TRUE;
 guint greatest_interval;
 static gdouble lowest_pitch = DEFAULT_LOW;
@@ -214,7 +214,7 @@ static temperament Meantone = {
    {496.7, {6, 0, 0}}             /* b */
    }
 };
-  
+
 //261.6 275.0 293.0 312.2 328.1 349.6 367.5 391.6 411.6 438.5 467.2 491.1
 static temperament SilbermannI = {
   "Silbermann I", 8, 3,
@@ -571,7 +571,7 @@ enharmonic_step (gboolean sharp)
   else
     flatten (PR_label);
 
-  if(Denemo.non_interactive) 
+  if(Denemo.non_interactive)
     return;
 
   GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet");
@@ -1302,7 +1302,7 @@ toggle_tuning (GtkToggleButton * button, DenemoProject * gui)
 #else
             g_signal_connect (G_OBJECT (PR_indicator), "expose_event", G_CALLBACK (draw_indicator), NULL);
 #endif
-          
+
           gtk_widget_show_all (widget);
         }
       gtk_window_present (GTK_WINDOW (widget));
@@ -1765,8 +1765,8 @@ return -1;
   create_pitch_recognition_window (gui);
   //read_PRkeymap(gui);
   return 0;
-  
-#endif  
+
+#endif
 }
 
 

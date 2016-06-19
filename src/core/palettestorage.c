@@ -1,18 +1,18 @@
 /*
  * palettestorage.c
- * 
+ *
  * Copyright 2013 Richard Shann <rshann@virgin.net>
- * 
+ *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -36,7 +36,7 @@ static void save_button (xmlNodePtr button, GtkWidget *widget)
     xmlSetProp (button, (xmlChar *) "script", (xmlChar *) g_object_get_data (G_OBJECT(widget), "script"));
 }
 /**
- * 
+ *
 Set a prop of the parent, holding the passed name and integer.
  */
 static void
@@ -64,7 +64,7 @@ save_palette (xmlNodePtr parent, DenemoPalette *pal)
         xmlNodePtr child = xmlNewChild (parent, NULL, (xmlChar *) "button", NULL);
         save_button (child, g->data);
     }
-    
+
 }
 
 
@@ -76,14 +76,14 @@ writePalettes (void)
   xmlDocPtr doc;
   xmlNodePtr parent, child;
   gchar *localpal = NULL;
-  
+
   localpal = g_build_filename (get_user_data_dir (TRUE), "actions", "palettes.xml", NULL);
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
     GList *g;
-    for( g = Denemo.palettes; g; g = g->next) 
-        {   
+    for( g = Denemo.palettes; g; g = g->next)
+        {
         child = xmlNewChild (parent, NULL, (xmlChar *) "palette", NULL);
         save_palette (child, g->data);
         }
@@ -95,15 +95,15 @@ writePalettes (void)
     ret = 0;
     xmlFreeDoc (doc);
     return ret;
-}   
-    
-    
-    
+}
+
+
+
 /**
  * install palettes from file
- 
+
  */
- 
+
 static gint getXMLIntProp (xmlNodePtr child, gchar *name)
  {
   gint val = -1;
@@ -127,45 +127,45 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
  {
     xmlNodePtr childElem;
 
-  FOREACH_CHILD_ELEM (childElem, palette) 
+  FOREACH_CHILD_ELEM (childElem, palette)
   if (ELEM_NAME_EQ (childElem, "button"))
   {
-    gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "label");   
-    gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip");  
-    gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script"); 
+    gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "label");
+    gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip");
+    gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script");
     if(label && tooltip && script)
         palette_add_button (pal, label, tooltip, script);
-    else 
+    else
         g_warning ("Bad value for button in palettes.xml %s %s %s", label, tooltip, script);
   }
-     
-     
+
+
  }
-    
-static void install_palette (xmlNodePtr palette, gboolean hide) 
+
+static void install_palette (xmlNodePtr palette, gboolean hide)
 {
-    gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");  
+    gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");
     gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
     gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
     gboolean dock =  getXMLIntProp (palette, (xmlChar *) "dock");
     gint limit =  getXMLIntProp (palette, (xmlChar *) "limit");
     DenemoPalette *pal = create_palette (name, dock, row_wise);
-    set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack   
+    set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack
     installButtons (palette, pal);
     if (hide) hidden = TRUE;
     if(hidden)
         gtk_widget_hide(pal->docked?pal->box:pal->window);
     else
         gtk_widget_show(pal->docked?pal->box:pal->window);
-        
+
     if (pal->buttons==NULL)
             {
                 delete_palette (pal);
             }
 }
-static gint merge_palette (xmlNodePtr palette, const gchar *sought) 
+static gint merge_palette (xmlNodePtr palette, const gchar *sought)
 {
-    gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");  
+    gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");
     gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
     gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
     gboolean dock =  getXMLIntProp (palette, (xmlChar *) "dock");
@@ -173,7 +173,7 @@ static gint merge_palette (xmlNodePtr palette, const gchar *sought)
     if(!strcmp(name, sought))
     {
         DenemoPalette *pal = create_palette (name, dock, row_wise);
-        set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack   
+        set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack
         installButtons (palette, pal);
         gtk_widget_show(pal->docked?pal->box:pal->window);
         if (pal->buttons==NULL)
@@ -219,7 +219,7 @@ gint installPalettesFile (gchar *filename, gboolean hide)
     {
      //g_debug ("RootElem %s\n", rootElem->name);
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "palette"))
-        {         
+        {
           install_palette (rootElem, hide);
         }
       rootElem = rootElem->next;
@@ -227,7 +227,7 @@ gint installPalettesFile (gchar *filename, gboolean hide)
 
   xmlFreeDoc (doc);
   return 0;
-    
+
 }
 
 gint
@@ -257,7 +257,7 @@ gint ret;
     ret = installPalettesFile (filename, TRUE);//install but hide the new standard palettes
     installPalettesFile (g_build_filename (Denemo.old_user_data_dir, COMMANDS_DIR, "palettes.xml", NULL) , FALSE);//merge users previous custom palettes, showing them
    } else
-   {      
+   {
      ret = installPalettesFile (filename, FALSE);//install and show palettes
     }
   return ret;
@@ -272,7 +272,7 @@ mergePalette (const gchar *name)
   xmlNodePtr rootElem;
 
   gchar *filename = NULL;
-  
+
   if (filename == NULL)
     filename = g_build_filename (get_system_data_dir (), "actions", "palettes.xml", NULL);
 
@@ -303,20 +303,20 @@ mergePalette (const gchar *name)
   while (rootElem != NULL)
         {
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "palette"))
-        {         
+        {
           if( 0 == merge_palette (rootElem, name))
             {
                 ret = 0;
                 break;
-                
+
             }
         }
       rootElem = rootElem->next;
     }
 
   xmlFreeDoc (doc);
-    
-    
+
+
     return ret;
 }
 

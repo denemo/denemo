@@ -45,7 +45,7 @@ static gint rubberband_init(DenemoPrefs *config) {
     rubberband = rubberband_new(sample_rate, 2 /* channels */, RubberBandOptionProcessRealTime | RubberBandOptionStretchPrecise,
     slowdown, 1.0);
     //rubberband_set_debug_level(rubberband, 3);
-    return 0;                               
+    return 0;
 }
 void set_playback_speed (double speed) {
     if(rubberband==NULL)
@@ -68,7 +68,7 @@ void set_playback_speed (double speed) {
 
 gdouble get_playback_speed (void)
 {
-    return slowdown;    
+    return slowdown;
 }
 #endif
 
@@ -168,7 +168,7 @@ stream_callback (const void *input_buffer, void *output_buffer, unsigned long fr
   double event_time;
 
   double until_time = nframes_to_seconds (playback_frame + frames_per_buffer);
-#ifdef _HAVE_RUBBERBAND_  
+#ifdef _HAVE_RUBBERBAND_
   gint available = rubberband_available(rubberband);
 if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
 #endif
@@ -184,7 +184,7 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
   event_length = frames_per_buffer;
   read_event_from_mixer_queue (AUDIO_BACKEND, (void *) buffers[1], &event_length);
 
-#ifdef _HAVE_RUBBERBAND_  
+#ifdef _HAVE_RUBBERBAND_
   }
   //if there is stuff available use it and give buffers[] to rubber band to process
   if(rubberband_active)
@@ -192,16 +192,16 @@ if((!rubberband_active) || (available < (gint)frames_per_buffer)) {
       if(available < (gint)frames_per_buffer)
           rubberband_process(rubberband, (const float * const*)buffers, frames_per_buffer, 0);
       available = rubberband_available(rubberband);
-      if(available >= (gint)frames_per_buffer) 
+      if(available >= (gint)frames_per_buffer)
           {
               rubberband_retrieve(rubberband, buffers, frames_per_buffer);//re-use buffers[] as they are available...
-              write_samples_to_rubberband_queue (AUDIO_BACKEND, buffers[0], frames_per_buffer);   
+              write_samples_to_rubberband_queue (AUDIO_BACKEND, buffers[0], frames_per_buffer);
               write_samples_to_rubberband_queue (AUDIO_BACKEND,  buffers[1], frames_per_buffer);
               available -= frames_per_buffer;
-          }       
+          }
       event_length = frames_per_buffer;
       read_event_from_rubberband_queue (AUDIO_BACKEND, (unsigned char *) buffers[0], &event_length);
-      event_length = frames_per_buffer;   
+      event_length = frames_per_buffer;
       read_event_from_rubberband_queue (AUDIO_BACKEND, (unsigned char *) buffers[1],  &event_length);
       }
 #endif //_HAVE_RUBBERBAND_

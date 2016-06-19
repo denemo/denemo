@@ -253,7 +253,7 @@ _br_find_exe_for_symbol (const void *symbol, GbrInitError * error)
       /* Transform the addresses into a string in the form of 0xdeadbeef,
        * then transform that into a pointer. */
       if (address_string_len < len + 3)
-        {          
+        {
           address_string_len = len + 3;
           address_string = (char *) g_realloc (address_string, address_string_len);
         }

@@ -105,8 +105,8 @@ playback_panic ()
   panic_all ();
 }
 
-/** 
- * Dialog function used to select measure range 
+/**
+ * Dialog function used to select measure range
  * This is similar to printrangedialog in print.c
  */
 

@@ -51,7 +51,7 @@
 #define PA_VERSION_19
 #endif
 
-// #define SAMPLE_RATE  (17932) // Test failure to open with this value. 
+// #define SAMPLE_RATE  (17932) // Test failure to open with this value.
 #define SAMPLE_RATE  DENEMO_SAMPLE_RATE
 #define NUM_SECONDS     (10)
 
@@ -177,7 +177,7 @@ play_pitch (double pitch, double duration, double volume, int channel)
       out_data.frameIndex = 0;
       return;
     }
-  //g_debug("starting stream ..."); 
+  //g_debug("starting stream ...");
 
 #ifdef PA_VERSION_19
   outputParameters.device = Pa_GetDefaultOutputDevice ();       /* default output device */
@@ -533,7 +533,7 @@ determine_frequency (void)
 
       if (db > BACKGROUND_DB + 6)
         {
-          pitch = (int) (Freq2Pitch (bestpeak_freq2) + 0.5);    // note found this time 
+          pitch = (int) (Freq2Pitch (bestpeak_freq2) + 0.5);    // note found this time
         }                       // loud enough
       else
         return -4.0;
@@ -770,7 +770,7 @@ WindowFunc (int whichFunction, int NumSamples, float *in)
 }
 
 
-// This is Audacity's FreqWindow::Recalc(), but shaved down to 
+// This is Audacity's FreqWindow::Recalc(), but shaved down to
 //   1) be enhanced auto-correlation only
 //   2) take parameters, and return values.
 static bool

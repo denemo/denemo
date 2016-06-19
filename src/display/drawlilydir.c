@@ -26,7 +26,7 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   //if (lily->y && lily->y != layout)
   //  exclude = 0.9;
   cairo_save (cr);
-  
+
   selected ? cairo_set_source_rgba (cr, 0.0, 0.0, 1.0, at_cursor ? 1.0 : 0.5) : directive->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5);
   if (directive->graphic)
     {
@@ -41,8 +41,8 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
         at_cursor?
       cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5):
       cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
-      
-      
+
+
       cairo_rectangle (cr, xx+10, y - 20, 2, STAFF_HEIGHT + 26);
       cairo_arc (cr, xx+10 + 1.5, y - 20, 6, 0.0, 2 * M_PI);
       cairo_fill (cr);
@@ -76,9 +76,9 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
   else
     //FIXME do this by creating a display field
   if ((!directive->graphic) && (*first == '%' || *first == '^' || *first == '_'))
-    { //display comments, and markup above and below 
+    { //display comments, and markup above and below
         if (at_cursor)
-                cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);      
+                cairo_set_source_rgba (cr, exclude, only, 0.0, 1.0),drawlargetext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
         else
             drawnormaltext_cr (cr, first + 1, xx, *first == '_' ? y + lowy + 20 : y - highy - 20);
     }

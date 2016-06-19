@@ -2,7 +2,7 @@
  * Prompts the user to change the key signature
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Matthew Hiller 
+ * (c) 2000-2005 Matthew Hiller
  */
 
 #include <stdio.h>
@@ -60,7 +60,7 @@ typedef struct keysig_data
 /**
  * Finds key name and returns its numeric value
  *
- * Returns G_MININT if keyname cannot be found 
+ * Returns G_MININT if keyname cannot be found
  */
 
 gint
@@ -81,7 +81,7 @@ findkey (GtkWidget * combobox, GList * list)
 }
 
 /**
- * Sets the initial key signature on either the current staff or 
+ * Sets the initial key signature on either the current staff or
  * across the entire score.
  */
 static void
@@ -149,7 +149,7 @@ insert_keysig (keysig_data * kdata)
               curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->currentmeasurenum - 1);
               if (curmeasure)
                 {
-                    if (curmeasure == si->currentmeasure) 
+                    if (curmeasure == si->currentmeasure)
                         ((DenemoMeasure*)curmeasure->data)->objects = g_list_insert ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
                     else
                     {
@@ -179,14 +179,14 @@ insert_keysig (keysig_data * kdata)
       if (newkey)
         {
             adjust_tonal_center (((keysig *) (newkey->object))->accs);
-        }   
+        }
     }                           /* End if valid key*/
 }
 //static void sensitize_ok_button (keysig_data *data) {
   //   gtk_widget_set_sensitive (data->okbutton, TRUE);
 //}
 /**
- * Update the keysig dialogs combobox with the 
+ * Update the keysig dialogs combobox with the
  * major keys
  */
 void
@@ -198,7 +198,7 @@ majorcallback (GtkWidget * widget, struct keysig_data *data)
 }
 
 /**
- * Update the keysig dialogs combobox with the 
+ * Update the keysig dialogs combobox with the
  * minor keys
  */
 void
@@ -292,7 +292,7 @@ key_change_insert (GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * callback for changing the initial keysig 
+ * callback for changing the initial keysig
  *  calls key_change with the CHANGEINITIAL argument
  */
 void

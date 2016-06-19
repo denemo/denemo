@@ -1,6 +1,6 @@
 /* lyric.h
- *  
- * (c)  2002-2005 Adam Tee, 2009 Richard Shann 
+ *
+ * (c)  2002-2005 Adam Tee, 2009 Richard Shann
  */
 
 #ifndef LYRIC_H

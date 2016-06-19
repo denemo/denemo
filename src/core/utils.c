@@ -138,7 +138,7 @@ static cairo_path_data_t piano_brace_data[] = {
 static cairo_path_t piano_brace_path = { 0, piano_brace_data, 92 };
 /**
  * This checks to see if there's a .denemo/ directory in the user's
- * home directory, 
+ * home directory,
  * if create tries to create one if there isn't, and returns the
  * path to it
  * else returns NULL
@@ -324,7 +324,7 @@ infodialog (gchar * msg)
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
 #ifdef G_OS_WIN32
-  gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen. 
+  gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen.
 #endif
   g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_hide), dialog);
   gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
@@ -333,7 +333,7 @@ infodialog (gchar * msg)
   return dialog;
 }
 
-/* data stucture to contain Progressbar 
+/* data stucture to contain Progressbar
  * data
  */
 typedef struct _ProgressData
@@ -437,9 +437,9 @@ normal_cursor (GtkWidget *area)
 
 
 /**
- *  Draws the given bitmap mask on to the pixmap using the given 
+ *  Draws the given bitmap mask on to the pixmap using the given
  *  grahpics context.
- * 
+ *
  * @param pixmap pixmap be drawn on.
  * @param gc graphics context to use
  * @param mask  bitmap to be drawn
@@ -447,7 +447,7 @@ normal_cursor (GtkWidget *area)
  * @param y y position on the pixmap
  * @param width width of the bitmap mask
  * @param height height of the bitmap mask
- * 
+ *
  * @return none
  */
 
@@ -471,7 +471,7 @@ windows_draw_text (cairo_t *cr, const char *font, const char *text, double x, do
   pango_font_description_free (desc);
   pango_cairo_update_layout (cr, layout);
 
-     
+
   cairo_move_to (cr, x, y);
   if (invert)
           cairo_scale (cr, 1, -1);
@@ -549,7 +549,7 @@ drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size)
       return windows_draw_text (cr, "Denemo", text, x, y, size, FALSE); //these values arrived at by trial and error, to match the previously used code below
 #else
       //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
-      cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL); 
+      cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
       cairo_set_font_size (cr, size);
       cairo_move_to (cr, x, y);
       cairo_show_text (cr, text);
@@ -588,7 +588,7 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
             {
                 cairo_save (cr);
                 cairo_set_source_rgba (cr, 0.4 + exclude -only/2, 0.5 + only, 0.4 -only/2, at_cursor ? 1.0 : 0.7);
-            }   
+            }
       if (directive->graphic)
         {
           gint gwidth, gheight;
@@ -598,7 +598,7 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
           maxwidth = MAX (gwidth, maxwidth);
          // g_print("%p %p drawing a graphic at %d %d\n",directive,Denemo.project->movement->directive_on_clipboard,   x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2);
           drawbitmapinverse_cr (cr, directive->graphic, x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2, FALSE);
-          
+
           if (directive == Denemo.project->movement->directive_on_clipboard)
             {
                 cairo_save (cr);
@@ -607,8 +607,8 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
                 cairo_fill (cr);
                 cairo_restore (cr);
             }
-          
-          
+
+
 
         }
       if (directive->display)
@@ -633,11 +633,11 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
                 cairo_fill (cr);
                 cairo_restore (cr);
             }
-          
-          
-          
-          
-          
+
+
+
+
+
           if (c)
             {
               *p = c;
@@ -671,7 +671,7 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
       cairo_append_path (cr, &piano_brace_path);
       cairo_fill (cr);
     }
-  return;  
+  return;
 }
 
 gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
@@ -706,16 +706,16 @@ gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
                     answer = double_flat;
                 else
                     answer = flat;
-            }   
+            }
   *answer =  toupper(*lilynote);
-  return answer;  
+  return answer;
 }
 
 
 /**
  * Utility function to set the number of ticks used by the given object
  * if it is within a given tuplet
- * 
+ *
  * @param theobj DenemoObject to set the number of ticks
  * @param numerator numerator of the current tuplet
  * @param denominator denominator of the current tuplet
@@ -750,7 +750,7 @@ set_grace_numticks (DenemoObject * theobj, gint multiplier)
 
 /**
  * Sets the number of ticks taken by the given DenemoObject.
- * 
+ *
  * @param theobj the mudela object to set the number of ticks on
  * @return none
  */
@@ -787,9 +787,9 @@ set_basic_numticks (DenemoObject * theobj)
     }
 }
 
-/** 
+/**
  * Returns the amount of space to be left after a note or rest, only
- * taking the width of the measure into consideration 
+ * taking the width of the measure into consideration
  *
  * @param numticks the number of ticks taken so far
  * @param wholenotewidth the number of ticks taken be a whole note
@@ -852,7 +852,7 @@ setpixelmin (DenemoObject * theobj)
       else                      /* a rest */
         theobj->minpixelsalloted = restwidths[baseduration];
 
-      // Allow extra space specified by attached LilyPond directives - example:     
+      // Allow extra space specified by attached LilyPond directives - example:
       theobj->minpixelsalloted += directive_pixels;
 
 
@@ -938,11 +938,11 @@ setpixelmin (DenemoObject * theobj)
 }
 
 /**
- * 
+ *
  * @param mid_c_offset the mid_c_offset of the the tone
  * @param dclef the clef of the current tone
- * 
- * @return the height of a tone based on its mid_c_offset and the clef that it's in 
+ *
+ * @return the height of a tone based on its mid_c_offset and the clef that it's in
  */
 gint
 calculateheight (gint mid_c_offset, gint dclef)
@@ -980,7 +980,7 @@ calculateheight (gint mid_c_offset, gint dclef)
 
 /**
  * Converts the given offset to a number
- * 
+ *
  * @param n the offset to convert
  * @return the result of the offset conversion
  */
@@ -996,10 +996,10 @@ offsettonumber (gint n)
 }
 
 /**
- * converts the int mid_c_offset to the lilypond name 
+ * converts the int mid_c_offset to the lilypond name
  * returns a gchar * so it will have to be freed
  * 0 returns "c", 1 returns "cis"
- * The octave ",,, or '''" is also appended" 
+ * The octave ",,, or '''" is also appended"
  */
 
 gchar *
@@ -1266,7 +1266,7 @@ initdir ()
 }
 
 extern gchar *gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name);
-  
+
 static gchar *DENEMO_datadir = NULL;
 const gchar *
 get_system_data_dir ()
@@ -1346,7 +1346,7 @@ static gchar *DENEMO_bindir = NULL;
 const gchar *
 get_system_bin_dir (void)
 {
-  
+
   if (DENEMO_bindir == NULL)
     {
 #ifdef G_OS_WIN32
@@ -1399,7 +1399,7 @@ get_system_conf_dir ()
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
       confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
       g_free (rootdir);
-#else // not G_OS_WIN32 
+#else // not G_OS_WIN32
 #ifdef _MACH_O_
 
       {
@@ -1675,14 +1675,14 @@ set_title_bar (DenemoProject * gui)
     {
        g_critical ("project is %p is not in list of projects, first tab is  %p\n", gui, Denemo.projects->data);
        return;
-        
+
     }
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), index);
   if (page==NULL)
     {
        g_critical ("Bad page, passed project is %p, first tab is  %p\n", gui, Denemo.projects->data);
        return;
-        
+
     }
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (Denemo.notebook), page, base);
 
@@ -1717,9 +1717,9 @@ gint64 thetime;
 
 static void start_editing_timer (void)
 {
-   
+
     thetime = g_get_monotonic_time ();
-    
+
 }
 static void stop_editing_timer (void)
 {
@@ -1783,7 +1783,7 @@ score_status (DenemoProject * gui, gboolean change)
 
 /**
  * If the curObj is a chord with a note(s)
- * return the first note at or below cursory, or the last note 
+ * return the first note at or below cursory, or the last note
  * else return NULL
  */
 note *
@@ -1842,7 +1842,7 @@ DenemoProject *gui = Denemo.project;
         {
               gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new FretBoards {%s}\n\\layout{indent=0.0}\n}",  curObj->lilypond);
               return text;
-        }  
+        }
     return NULL;
 }
 
@@ -1855,13 +1855,13 @@ DenemoProject *gui = Denemo.project;
         return NULL;
       if((curObj->type != CHORD) && Denemo.project->movement->currentobject->next)
         curObj = Denemo.project->movement->currentobject->next->data;
-      if (gui->lilysync != gui->changecount)        
+      if (gui->lilysync != gui->changecount)
         refresh_lily_cb (NULL, Denemo.project);
       if (curObj->lilypond)
         {
             gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, curObj->lilypond);
             return text;
-        }  
+        }
     return NULL;
 }
 
@@ -1884,7 +1884,7 @@ write_status (DenemoProject * gui)
     return;
 
   static GList *last_object;
-   
+
   if (gui->movement->currentobject)
        {
            if (last_object != gui->movement->currentobject)
@@ -1896,7 +1896,7 @@ write_status (DenemoProject * gui)
                 }
         last_object = gui->movement->currentobject;
         }
- 
+
   if (gui->movement->currentobject && gui->movement->currentobject->data)
     {
       DenemoObject *curObj = gui->movement->currentobject->data;
@@ -1965,11 +1965,11 @@ write_status (DenemoProject * gui)
         default:
           selection = g_strdup_printf (_("Cursor on an unknown object"));
         }
-        
+
         //DenemoMeasure *measure = gui->movement->currentmeasure->data;
         //selection = g_strdup_printf ("%s %s %d/%d %d", selection, curObj->clef?get_clef_name (curObj->clef->type):"NULL", measure->timesig?measure->timesig->time1:0, measure->timesig?measure->timesig->time2:0, curObj->keysig?curObj->keysig->number:0xFFFF);
-        
-        
+
+
     }
   else
     selection = g_strdup_printf (_("Cursor not on any object"));
@@ -1997,13 +1997,13 @@ write_status (DenemoProject * gui)
       break;
       case 8: dur = NOTE8;
       break;
-     
-      
+
+
   }
   g_string_printf (status, "%s%s %d: %s: ", enshift_string (gui->movement->pending_enshift), dur, index + 1, selection);
-  
 
-  
+
+
   if (gui->movement->smf && (gui->movement->smfsync == gui->movement->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf (status, _("start %.2f end %.2f"), early, late);
   else
@@ -2060,7 +2060,7 @@ choose_option (gchar *title, gchar * primary, gchar * secondary)
 {
   GtkWidget *dialog;
   gboolean r;
-  dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), 
+  dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
                                                       primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL);
   //g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
   gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
@@ -2068,7 +2068,7 @@ choose_option (gchar *title, gchar * primary, gchar * secondary)
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT);
   gtk_widget_destroy (dialog);
-  return r; 
+  return r;
 }
 
 
@@ -2082,7 +2082,7 @@ nullify_gstring (GString ** s)
 }
 
 /* dialog to get a filename from the user
- */ 
+ */
 gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
 {
   GtkWidget *dialog;
@@ -2103,19 +2103,19 @@ gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
   gtk_file_filter_set_name (filter, filter_description->str);
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(dialog), startdir);
-  
+
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
       {
         filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
       }
 
-  gtk_widget_destroy (dialog);  
-  return filename;  
+  gtk_widget_destroy (dialog);
+  return filename;
 }
 
 
-static void 
-hide_windows (void) 
+static void
+hide_windows (void)
 {
     if (Denemo.prefs.hide_windows)
         {
@@ -2125,7 +2125,7 @@ hide_windows (void)
                 gtk_widget_hide (gtk_widget_get_toplevel(Denemo.printarea));
         }
 }
-static void 
+static void
 show_windows (void)
 {
    if (Denemo.prefs.hide_windows)
@@ -2188,7 +2188,7 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
- 
+
   if (modal)
     {
       gtk_widget_grab_focus (entry);
@@ -2210,9 +2210,9 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
         {
           if (GTK_DIALOG (dialog))
             gtk_widget_destroy (dialog);
-        
+
         }
-     show_windows();  
+     show_windows();
      return NULL;
     }
   else
@@ -2250,14 +2250,14 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
   t = gtk_text_tag_new ("code");
   g_object_set (G_OBJECT (t), "weight", PANGO_WEIGHT_BOLD, "family", "monospace", NULL);
   gtk_text_tag_table_add (tagtable, t);
-  
-  
+
+
   GtkTextBuffer  *textbuffer = gtk_text_buffer_new (tagtable);
   GtkWidget *textview = gtk_text_view_new_with_buffer (textbuffer);
- 
+
   gtk_text_buffer_set_text (textbuffer, PreValue ? PreValue : "", -1);
   GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
-  
+
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   dialog = modal ? gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL) : gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, NULL);
@@ -2382,14 +2382,14 @@ get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
       g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
       gtk_container_add (GTK_CONTAINER (vbox), widget);
     }
-    
+
    if(more)
-        { 
+        {
             opt = _("More...");
             widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget1), opt);
             g_object_set_data (G_OBJECT (widget), "choice", (gpointer) opt);
             g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
-            gtk_container_add (GTK_CONTAINER (vbox), widget);   
+            gtk_container_add (GTK_CONTAINER (vbox), widget);
         }
   gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
@@ -2418,7 +2418,7 @@ gchar *get_option (gchar *title, gchar * str, gint length)
             {
                 gchar *response = get_option_recursive (title, str, opt-str, TRUE);
                 if(response && (!strcmp (response, _("More..."))))
-                    { 
+                    {
                         length -= (opt - str);
                         str = opt;
                         i = 0;
@@ -2448,7 +2448,7 @@ console_output (gchar * text)
     gtk_text_buffer_set_text (buffer, "", -1);
 }
 
-/* returns an override flag ORd from all those in the list of directives, 
+/* returns an override flag ORd from all those in the list of directives,
    excluding ones with DENEMO_OVERRIDE_HIDDEN set and ones not for the current layout */
 gint
 get_override (GList * g)
@@ -2574,7 +2574,7 @@ static gboolean no_longer_wanted (GtkWidget *w)
    if(Denemo.prefs.newbie)
     not_wanted_in_this_session = FALSE;
    TooltipDialog = NULL;
-   return FALSE; 
+   return FALSE;
 }
 gboolean show_tooltip (GtkWidget *w, GdkEvent *ev, gchar *text)
 {
@@ -2585,7 +2585,7 @@ gboolean show_tooltip (GtkWidget *w, GdkEvent *ev, gchar *text)
     return FALSE;
   if (not_wanted_in_this_session)
     return FALSE;
-  
+
   if (text && (*text) && (last_tooltip != text))
        {
            if (TooltipDialog)
@@ -2600,14 +2600,14 @@ gboolean show_tooltip (GtkWidget *w, GdkEvent *ev, gchar *text)
                 }
         }
     last_tooltip = text;
-        
+
     return FALSE;//allow normal response
 }
 void free_tooltip (GtkWidget *w, gchar *tooltip)
 {
   //g_print ("Freeing tooltip\n");
-   g_free (tooltip); 
-}  
+   g_free (tooltip);
+}
 #endif
 // Help for beginners using keyboard shortcuts
 static GtkWidget *KeyStrokes;
@@ -2637,7 +2637,7 @@ void KeyPlusMouseGestureShow(gchar *str, gint command_idx)
   const gchar *label = lookup_label_from_idx (Denemo.map, command_idx);
   const gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, command_idx);
   gchar *text = g_strdup_printf (_("Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
-            
+
   gtk_window_set_title (GTK_WINDOW (KeyStrokes),  _("Mouse Shortcut"));
   gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
   gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), tooltip);
@@ -2929,19 +2929,19 @@ gchar *escape_scheme (gchar *input)
        for(c=input; c && *c; c++)
         {
             if(*c=='"')
-                g_string_append (out, "\\\\\\\""); 
+                g_string_append (out, "\\\\\\\"");
             else
                 if(*c=='\\')
                     g_string_append(out, "\\\\");
-                else 
+                else
                 {
                     g_string_append_printf (out, "%c", *c);
                 }
         }
-    return g_string_free(out, FALSE); 
+    return g_string_free(out, FALSE);
 }
 
-gboolean shift_held_down(void) 
+gboolean shift_held_down(void)
     {
         GdkModifierType mask;
         GdkWindow *win = gtk_widget_get_window (Denemo.window);
@@ -2949,11 +2949,11 @@ gboolean shift_held_down(void)
         gdk_window_get_pointer (win, NULL, NULL, &mask);
 #else
         gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager(gdk_display_get_default())) ,NULL, NULL, &mask);
-#endif        
+#endif
         return (mask & GDK_SHIFT_MASK);
     }
-    
-    
+
+
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
@@ -2967,7 +2967,7 @@ void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
 #else
 void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a) {
             color->red = r; color->green = g;
-            color->blue = b; 
+            color->blue = b;
             color->alpha = a;
             }
-#endif 
+#endif

@@ -3,12 +3,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Library General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
@@ -34,13 +34,13 @@
 
 
 typedef void (*GActionCallback) (GtkAction *action, gpointer data);
-#define G_ACTIONCALLBACK(f) ((GActionCallback)(f)) 
+#define G_ACTIONCALLBACK(f) ((GActionCallback)(f))
  /* and the following typedefs are basically here for so that it's
  * possible to understand what my code is doing -- just as much for
  * my sake as yours!
  *
  * What can I say; I've done a lot of programming in Java and
- * SML/NJ; 
+ * SML/NJ;
  * I like my type names to convey information. */
 
 /* The ->data part of each objnode presently points to a DenemoObject */
@@ -48,14 +48,14 @@ typedef void (*GActionCallback) (GtkAction *action, gpointer data);
 typedef GList objnode;
 
 
-typedef enum 
+typedef enum
   {
     NOT_UNDO_REDO = 0,
     UNDO,
     REDO
   }unre_mode;
 
-typedef enum 
+typedef enum
   {
     SAVE_NORMAL=0,
     SAVE_TEMPLATE,
@@ -157,7 +157,7 @@ extern gchar *DenemoObjTypeNames[18];
 
 /**
  * Enumeration for Tuplets type
- * 
+ *
  */
 typedef enum tuplet_type{
     DUPLET,
@@ -165,7 +165,7 @@ typedef enum tuplet_type{
     QUADTUPLET,
     QUINTUPLET,
     SEXTUPLET,
-    SEPTUPLET   
+    SEPTUPLET
 }tuplet_type;
 
 /**
@@ -186,8 +186,8 @@ typedef enum input_mode {
 }input_mode;
 
 /**
- * Denemo Action type currently used for undo/redo 
- * 
+ * Denemo Action type currently used for undo/redo
+ *
  */
 typedef enum  action_type {
   ACTION_INSERT,//0
@@ -208,13 +208,13 @@ typedef enum  action_type {
  * Contains all the top-level information of an musical object
  * the object pointer contains the actual object
  */
-typedef struct 
+typedef struct
 {
   DenemoObjType type; /**< The type of object pointed to by the gpointer object field below */
   gchar *lilypond;/**< Holds lilypond generated to represent this object, empty until typesetting is called and out of date if the object has been modified since typesetting */
   gint basic_durinticks; /**< Duration of object including dotting but not tuplet/grace note effects. */
   gint durinticks; /**< Duration of object where 384 (PPQN) is a quarter note, includes any tuplet/grace note effects */
-  gint starttick; /**< When the object occurs */ 
+  gint starttick; /**< When the object occurs */
   gint starttickofnextnote; /**< When the next object occurs */
   gdouble earliest_time;/**< time in seconds from start of movement for the start of the note/rest   */
   gdouble latest_time;/**< time in seconds from start of movement for the end of the note/rest */
@@ -239,7 +239,7 @@ typedef struct
  * Control of LilyPond context
  * Allows for e.g.  Piano context within staff group context by using bit fields
  */
-typedef enum 
+typedef enum
 {
   DENEMO_NONE = 0,
   DENEMO_PIANO_START =  1<<0,
@@ -252,26 +252,26 @@ typedef enum
 
 /**
  * Control of Voices
- * 
+ *
  */
-typedef enum 
+typedef enum
 {
   DENEMO_PRIMARY = 1<<0, /**< If set this voice should have its own staff for display*/
-  DENEMO_SECONDARY = 1<<1 /**< If set this is a secondary voice, but may still have PRIMARY set for display */  
+  DENEMO_SECONDARY = 1<<1 /**< If set this is a secondary voice, but may still have PRIMARY set for display */
 } DenemoVoice;
 
 /**
  * The ->data part of each measurenode points to an objlist, which is
- * a list of the musical objects in that measure. 
+ * a list of the musical objects in that measure.
  */
 typedef GList measurenode;
 
 
 /**
  * DenemoStaff contains all the information relating to a musical staff
- * 
+ *
  */
-typedef struct 
+typedef struct
 {
   GtkMenu *staffmenu; /**< a menu to popup up with the staff directives attached */
   GtkMenu *voicemenu; /**< a menu to popup up with the voice directives attached */
@@ -282,7 +282,7 @@ typedef struct
   timesig timesig;
   keysig *leftmost_keysig;
   timesig *leftmost_timesig;
- 
+
   /* we make leftmost_clefcontext a reference to a clef (a pointer) & re-validate leftmost clefcontext in the delete of CLEF object. */
   clef* leftmost_clefcontext; /**< The clef for the leftmost measure visible in the window*/
 
@@ -290,7 +290,7 @@ typedef struct
   DenemoContext context;   /**< The Lilypond context in which this staff appears */
   /*
    * Staff Parameters
-   * Added Adam Tee 27/1/2000, 2001 
+   * Added Adam Tee 27/1/2000, 2001
    */
   gint no_of_lines; /**< Number of lines on the staff */
   gint transposition; /**< Determines if the notes are to be played back at pitch or not */
@@ -306,10 +306,10 @@ typedef struct
   GString *subpart; /**< distinguishes staffs belonging to one part */
   GString *lily_name; /**< this is the name of the staff that is exported to lilypond */
   GString *midi_instrument; /**< midi instrument name used for the staff when exported via midi */
-  GString *device_port; /**< Device name and Port name concatenated into one string */ 
+  GString *device_port; /**< Device name and Port name concatenated into one string */
   gint midi_prognum; /**< midi prognum assigned to the staff voice */
   gint midi_channel; /**< midi channel assigned to the staff voice */
-  gint midi_port; /**< midi port assigned to the staff voice */ 
+  gint midi_port; /**< midi port assigned to the staff voice */
   gint space_above; /**< space above the staff used in the denemo gui */
   gint space_shorten; /**< space by the staff is shorter in height because of few staff lines */
   gint space_below; /**< space below the staff used in the denemo gui */
@@ -324,8 +324,8 @@ typedef struct
   gboolean hasfakechords; /**<TRUE if the staff has had chord symbols attached. Only one staff should have this set */
   DenemoVoice voicecontrol; /**< either controls whether this staff is displayed and printed separately or as a voice */
   gboolean hidden; /**< should this staff appear in the display? */
-  measurenode ** is_parasite; /**< points to address of host staff's measures 
-                 field if measures are owned by another 
+  measurenode ** is_parasite; /**< points to address of host staff's measures
+                 field if measures are owned by another
                  staff */
 
   gint nummeasures; /**< Number of measures in the staff*/
@@ -336,7 +336,7 @@ typedef struct
   GList *staff_directives;/**< List of DenemoDirective for the staff context, (only relevant for primary staff)*/
   GList *voice_directives;/**< List of DenemoDirective for the voice context */
 
- 
+
 
 } DenemoStaff;
 
@@ -384,7 +384,7 @@ typedef struct DenemoKeymap
                                   //The keystring is the output of
                   //dnm_accelerator_name()
   GHashTable *cursors;//hashtable linking GdkEvent state to a cursor that should be used in that state
- 
+
   GHashTable *continuations_table;//hashtable giving possible continuations for two-keybindings
 
 }keymap;
@@ -436,7 +436,7 @@ enum
 typedef enum { TYPESET_EXCERPT, TYPESET_MOVEMENT, TYPESET_ALL_MOVEMENTS} typeset_type;
 
 /**
- * DenemoPrefs holds information on user preferences. 
+ * DenemoPrefs holds information on user preferences.
  */
 typedef struct DenemoPrefs
 {
@@ -460,7 +460,7 @@ typedef struct DenemoPrefs
   gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */
   gboolean applytoselection; /**< apply commands to selection */
-  
+
   gboolean quickshortcuts;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
@@ -544,7 +544,7 @@ typedef struct DenemoPrefs
   gboolean strictshortcuts; /**< Classic shortcut scheme, now deprecated */
   gboolean menunavigation; /**< arrows and Escape work for menu navigation*/
   gboolean verboseshortcuts; /**< whether shortcuts are known by their gdk name e.g. period for . */
-  
+
   gint resolution; /**< Resolution of exported selection in dpi */
 }DenemoPrefs;
 
@@ -560,11 +560,11 @@ typedef struct DenemoDirective
  // guint x /*only_for*/, y /*ignored_by*/; /**< ids of score layouts that are to enable/ignore this directive */
 #define DENEMO_ALLOW_FOR_LAYOUTS (0)
 #define DENEMO_IGNORE_FOR_LAYOUTS (1)
-  
+
   gint flag;/**<interpretation of layouts field DENEMO_ALLOW_FOR_LAYOUTS DENEMO_IGNORE_FOR_LAYOUTS */
   GList *layouts;/**< list of layouts that ignore/respect this directive */
-  
-  
+
+
   DenemoGraphic *graphic; /**< what to draw for this directive */
   GtkWidget *widget;  /**<  a button or menu item for accessing the directive for editing or actioning */
   gint gx, gy; /**< x and y offsets in pixels for the graphic */
@@ -596,13 +596,13 @@ typedef struct DenemoDirective
 #define DENEMO_OVERRIDE_STEP (1<<17)
 #define DENEMO_OVERRIDE_RAMP (1<<18)
 
-#define DENEMO_MIDI_ACTION_MASK (DENEMO_OVERRIDE_ONCE | DENEMO_OVERRIDE_STEP | DENEMO_OVERRIDE_RAMP) 
+#define DENEMO_MIDI_ACTION_MASK (DENEMO_OVERRIDE_ONCE | DENEMO_OVERRIDE_STEP | DENEMO_OVERRIDE_RAMP)
 
 
 #define DENEMO_OVERRIDE_RELATIVE (1<<24)
 #define DENEMO_OVERRIDE_PERCENT (1<<25)
 
-#define DENEMO_MIDI_INTERPRETATION_MASK (DENEMO_OVERRIDE_RELATIVE | DENEMO_OVERRIDE_PERCENT) 
+#define DENEMO_MIDI_INTERPRETATION_MASK (DENEMO_OVERRIDE_RELATIVE | DENEMO_OVERRIDE_PERCENT)
 
 #define DENEMO_OVERRIDE_DYNAMIC (1<<28)
 #define DENEMO_OVERRIDE_HIDDEN (1<<29)
@@ -648,7 +648,7 @@ typedef struct LilypondHeaderFields
 
 
 
-typedef enum 
+typedef enum
 {
   REPLACE_SCORE,
   ADD_STAFFS,
@@ -658,7 +658,7 @@ typedef enum
   PROOFREAD
 } ImportType;
 
-typedef enum 
+typedef enum
 {
   WOODWIND,
   BRASS,
@@ -688,7 +688,7 @@ typedef enum MidiDestination {
 
 typedef enum DenemoViewType {
   DENEMO_MENU_VIEW,//menus are visible
-  DENEMO_LINE_VIEW,//menus not visible, 
+  DENEMO_LINE_VIEW,//menus not visible,
   DENEMO_PAGE_VIEW //menus not visible, defaults to full screen and several systems
 } DenemoViewType;
 
@@ -698,7 +698,7 @@ typedef enum DenemoViewType {
  * configuration wizard
  *
  */
-typedef struct 
+typedef struct
 {
     GString *name;
     GString *midiinstrument;
@@ -711,7 +711,7 @@ typedef struct
 /**
  * Stores global instrument type and a list of InstrumentConfig structures
  */
-typedef struct 
+typedef struct
 {
     InstrumentType type;
     GList *instruments;  // List to contain a list of Instruments of given type
@@ -748,7 +748,7 @@ typedef struct DenemoPrintInfo
   gint first_staff;
   gint last_staff;
   typeset_type typeset_type;
-  gint invalid;                 //set 1 if  lilypond reported problems or 2 if generating new pdf failed 
+  gint invalid;                 //set 1 if  lilypond reported problems or 2 if generating new pdf failed
   gint cycle;                   //alternate 0 1 to switch print file names
   gchar *printbasename[2];
   gchar *printname_pdf[2];
@@ -758,20 +758,20 @@ typedef struct DenemoPrintInfo
   gchar *error_file;
 } DenemoPrintInfo;
 /**
- * Contains data required for undo/redo operation 
+ * Contains data required for undo/redo operation
  * Borrowed idea from GScore
  */
 typedef struct DenemoUndoData
 {
   enum action_type action; /*action type must come first*/
-  
+
   gpointer object;    /* pointer to object to be undone/redone */
   DenemoPosition position; /* position where delete/insert took place */
- 
-} DenemoUndoData;
- 
 
-/** 
+} DenemoUndoData;
+
+
+/**
  * Control of the LilyPond output for the whole musical score DenemoProject
  *
  */
@@ -783,7 +783,7 @@ typedef struct DenemoLilyControl
   gboolean orientation;
   gboolean excerpt;
   GList *directives; /**< list of DenemoDirective for all music in the movements */
-    
+
 } DenemoLilyControl;
 
 
@@ -838,7 +838,7 @@ movementcontrol;
 
 typedef enum DenemoRecordingType {
   DENEMO_RECORDING_AUDIO,/**< Recording is an audio file represented by libsndfile handle */
-  DENEMO_RECORDING_MIDI/**< Recording is an audio file stored in recorded_midi_track */ 
+  DENEMO_RECORDING_MIDI/**< Recording is an audio file stored in recorded_midi_track */
 } DenemoRecordingType;
 
 typedef struct DenemoRecordedNote {
@@ -870,9 +870,9 @@ typedef enum DenemoTargetType {
     TARGET_CHORD,
     TARGET_NOTE,
     TARGET_SLUR,
-    TARGET_TIE,     
-    TARGET_CRESC,       
-    TARGET_DIM,     
+    TARGET_TIE,
+    TARGET_CRESC,
+    TARGET_DIM,
 
     //TARGET_,
 } DenemoTargetType;
@@ -902,7 +902,7 @@ typedef struct DenemoScrollPoint {
  *  A movement corresponds with a single \score{} block in the LilyPond language
  *  that is,  uninterrupted music on a set of staffs, preceded by a title.
  */
- 
+
 typedef struct DenemoMovement
 {
   gboolean readonly; /**< Indicates if the file is readonly or not (NOT USED)*/
@@ -916,9 +916,9 @@ typedef struct DenemoMovement
   gint widthtoworkwith;
   gint staffspace;
 
-  DenemoRecording *recording;/**< Audio or MIDI recording attached to movement */ 
-  gint marked_onset_position;/**< horizontal position in display of note onset in audio marked by user */ 
-  GList *marked_onset;/**< Note onset in audio selected by user */ 
+  DenemoRecording *recording;/**< Audio or MIDI recording attached to movement */
+  gint marked_onset_position;/**< horizontal position in display of note onset in audio marked by user */
+  GList *marked_onset;/**< Note onset in audio selected by user */
   GList *sources; /**< List of source pixbufs, one for each measure score-view*/
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */
@@ -939,7 +939,7 @@ typedef struct DenemoMovement
   //Settings for the views on this movement
 
   gdouble page_zoom;/**< zoom for page view */
-  gdouble page_system_height;/**< system height for page view */ 
+  gdouble page_system_height;/**< system height for page view */
   gint page_width;/**< width to use for window in page view. 0 means use full screen */
   gint page_height;/**< height to use for window in page view */
   gint stored_width;/**< width to use for window returning from page view */
@@ -964,7 +964,7 @@ typedef struct DenemoMovement
   gint staffletter_y;
   gint maxkeywidth;
   gboolean cursor_appending;
-  
+
   gboolean cursoroffend;
   //gint cursorclef;
   //gint cursoraccs[7];
@@ -996,7 +996,7 @@ typedef struct DenemoMovement
   movementcontrol movementcontrol;/*< Directives for control of the whole movement */
   layout layout;/*< Directives for the layout block of the movement */
   header header;/*< Directives for the header block of the movement */
-  
+
 
   guint changecount;
   /* Fields used for MIDI playback */
@@ -1008,9 +1008,9 @@ typedef struct DenemoMovement
   guint smfsync;/**< value of changecount when the smf MIDI data was last refreshed */
 
 
-  
+
   GList *savebuffer;
-  
+
 
 
 
@@ -1019,9 +1019,9 @@ typedef struct DenemoMovement
   GQueue *redodata;
   gint undo_guard;
   gboolean redo_invalid;/*< the re-do queue is awaiting freeing and should not be used */
-  
 
- 
+
+
   GList *Instruments;
   GtkWidget *buttonbox;/*< box for buttons accessing DenemoDirectives attached to the this movement*/
   GtkWidget *lyricsbox;/*< box for notebooks containing verses of lyrics for the movement */
@@ -1030,7 +1030,7 @@ typedef struct DenemoMovement
 /**
  * DenemoProject representing a musical score, with associated top level
  * GUI and a list of movements (DenemoMovement) and a pointer to the current
- * movement. 
+ * movement.
  */
 #define DENEMO_MAX_SYSTEMS (100) /**< Number of lines of music that can be displayed */
 typedef struct DenemoProject
@@ -1052,9 +1052,9 @@ typedef struct DenemoProject
   gchar *xbm; /**< xbm representation of graphic bitmap from selected rectangle in print preview area*/
   gint xbm_width, xbm_height;/**< width and height of the xbm data */
 
-  
+
   gchar *namespec;/**< A spec of which parts/movements to print */
-  
+
 
 
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */
@@ -1063,7 +1063,7 @@ typedef struct DenemoProject
   GQueue *pending_midi;/**< a MIDI effect to be output with the next note */
   gboolean audio_recording;
   input_mode mode; /**< Input mode for Score */
- 
+
 
   GList *movements;   /**< a list of DenemoMovement, NULL if just one movement */
   DenemoMovement *movement;  /**< the (current)  movement in the musical score controlled by this project */
@@ -1071,7 +1071,7 @@ typedef struct DenemoProject
 
   scoreheader scoreheader;/*< Directives for the header block at the start of the score */
   paper paper;/*< Directives for the paper block of the score */
-  
+
   gboolean has_script;/*< true if there is a script to be run on loading the DenemoProject from disk */
   GList *standard_scoreblocks; /**< List of automatically generated \score blocks for LilyPond output elements are DenemoScoreblock * */
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
@@ -1131,13 +1131,13 @@ typedef struct RhythmPattern
 
 
 /**
- * RhythmElement: information about one element of a RhythmPattern, 
+ * RhythmElement: information about one element of a RhythmPattern,
  * e.g. one RhythmElement could contain the actions "quarter-note,dotted,begin slur";
 */
 
 typedef struct RhythmElement
 {
-  GList* functions; /**< data in list are functions to be called including modifiers 
+  GList* functions; /**< data in list are functions to be called including modifiers
               eg insert_chord_3key, add dot, slur ...  */
   gpointer highlightlabel; /**< a string, but displayed in music font, which labels the button when this RhythmElement is
           the current one*/
@@ -1153,7 +1153,7 @@ struct cs_callback
 };
 
 
-/** 
+/**
  * The (singleton) root object for the program
  *
  */

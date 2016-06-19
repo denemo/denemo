@@ -267,7 +267,7 @@ newXMLUIntChild (xmlNodePtr parent, xmlNsPtr ns, const xmlChar * name, guint con
 }
 
 /**
- * 
+ *
 Set a prop of the parent, holding the passed name and integer.
  */
 static void
@@ -338,7 +338,7 @@ newThumbnailElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoSelection * thumbnail, 
 static void
 newSourceFileElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoProject * gui)
 {
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   if (source_position (&gui->source_x, &gui->source_y, &gui->source_width, &gui->source_height, &gui->source_scale))
@@ -364,7 +364,7 @@ newVersesElem (xmlNodePtr curElem, xmlNsPtr ns, GList * verses, gchar * type)
     }
 }
 
-static void newLayoutsElem (xmlNodePtr layoutsElem, xmlNsPtr ns, DenemoDirective *directive) 
+static void newLayoutsElem (xmlNodePtr layoutsElem, xmlNsPtr ns, DenemoDirective *directive)
 {
    GList *g;
    for (g=directive->layouts;g;g=g->next)
@@ -374,14 +374,14 @@ static void newLayoutsElem (xmlNodePtr layoutsElem, xmlNsPtr ns, DenemoDirective
         }
 }
 
-static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirective *directive) 
+static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirective *directive)
 {
 /*      hhmmmm the set_action_script_for_tag is not modifying the directive - just associating a script with the tag. It is when we try to invoke the directive that we find there is an action script */
-/* We Decline to store any directive that has a tag for which an action script is defined in this run of denemo 
+/* We Decline to store any directive that has a tag for which an action script is defined in this run of denemo
 *  this implies people need to be careful in the tags they use for action scripts*/
- 
 
-      
+
+
 #define DO_DIREC(field)  if (directive->field \
                    && directive->field->len)\
                       xmlNewTextChild (directiveElem, ns, (xmlChar *) #field,\
@@ -410,8 +410,8 @@ static void newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirec
 #undef DO_INTDIREC
     if (directive->layouts)
         {
-            xmlNodePtr layoutsElem = xmlNewChild (directiveElem, ns, (xmlChar *) directive->flag==DENEMO_ALLOW_FOR_LAYOUTS?"allow":"ignore", NULL);    
-            newLayoutsElem (layoutsElem, ns, directive);  
+            xmlNodePtr layoutsElem = xmlNewChild (directiveElem, ns, (xmlChar *) directive->flag==DENEMO_ALLOW_FOR_LAYOUTS?"allow":"ignore", NULL);
+            newLayoutsElem (layoutsElem, ns, directive);
         }
 }
 
@@ -425,7 +425,7 @@ newDirectivesElem (xmlNodePtr objElem, xmlNsPtr ns, GList * g, gchar * type)
       DenemoDirective *directive = (DenemoDirective *) g->data;
       if (directive->tag && get_action_script (directive->tag->str))
         continue;
-      xmlNodePtr directiveElem = xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);    
+      xmlNodePtr directiveElem = xmlNewChild (directivesElem, ns, (xmlChar *) "directive", NULL);
       newDirectiveElem (directiveElem, ns, directive);
     }
 }
@@ -702,7 +702,7 @@ outputSources (xmlNodePtr mvmntElem, xmlNsPtr ns, GList * sources)
       g_free (cdata);
       //??? xmlNodePtr xmlNewCDataBlock       (xmlDocPtr doc, const xmlChar *content, int len);
 
-      //use gboolean  gdk_pixbuf_save_to_buffer(GdkPixbuf *pixbuf, gchar **buffer, gsize *buffer_size, const char *type, GError **error, ...);  
+      //use gboolean  gdk_pixbuf_save_to_buffer(GdkPixbuf *pixbuf, gchar **buffer, gsize *buffer_size, const char *type, GError **error, ...);
 //g_base64_encode(guchar *buf, gsize len);
 //g_base64_decode(guchar *buf, gsize* outlen);
 //g_base64_decode_inplace(guchar *buf, gsize* outlen);//overwrites buf with decoded data.
@@ -728,17 +728,17 @@ set_invisible (xmlNodePtr objElem, DenemoObject * curObj)
     xmlSetProp (objElem, (xmlChar *) "show", (xmlChar *) "true");
 }
 
-static void 
+static void
 parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
     {
     xmlNodePtr parentElem, curElem, objElem;
-  
+
   DenemoObject *curObj;
   GList *curNoteNode;
   note *curNote;
   gchar *durationType;
   gchar *chordXMLID, *noteXMLID;
-  
+
       for (; curObjNode != NULL; curObjNode = curObjNode->next)
         {
           curObj = (DenemoObject *) curObjNode->data;
@@ -833,7 +833,7 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
 
 
                 /*
-                 *  Output Dynamic which is now part of note 
+                 *  Output Dynamic which is now part of note
                  *
                  */
                 if ((thechord)->dynamics)
@@ -852,33 +852,33 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
                    newXMLIntChild (objElem, ns, (xmlChar *) "slur-end", 1);
                   }
 
-              
+
 
                 if ((thechord)->crescendo_end_p)
                   {
                     newXMLIntChild (objElem, ns, (xmlChar *) "cresc-end", 1);
                   }
 
-                
+
 
                 if ((thechord)->diminuendo_end_p)
                   {
                     newXMLIntChild (objElem, ns, (xmlChar *) "dim-end", 1);
                   }
 
-              
+
                 if ((thechord)->slur_begin_p)
                   {
                      newXMLIntChild (objElem, ns, (xmlChar *) "slur-begin", 1);
                   }
 
-              
+
                 if ((thechord)->crescendo_begin_p)
                   {
                     newXMLIntChild (objElem, ns, (xmlChar *) "cresc-begin", 1);
                   }
 
-               
+
 
                 if ((thechord)->diminuendo_begin_p)
                   {
@@ -933,7 +933,7 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
               {
                 tuplet *theob = (tuplet *) curObj->object;
                 objElem = xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-start", NULL);
-               
+
                 newXMLFraction (xmlNewChild (objElem, ns, (xmlChar *) "multiplier", NULL), ns, ((tupopen *) curObj->object)->numerator, ((tupopen *) curObj->object)->denominator);
                 if (theob->directives)
                   {
@@ -947,7 +947,7 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
               {
                 tuplet *theob = (tuplet *) curObj->object;
                 objElem = xmlNewChild (measureElem, ns, (xmlChar *) "tuplet-end", NULL);
-               
+
                 if (theob->directives)
                   {
                     newDirectivesElem (objElem, ns, theob->directives, "directives");
@@ -1040,10 +1040,10 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList *curObjNode)
               SETINT_PROP (minpixels);
               SETINT_PROP (override);
     #undef SETINT_PROP
-#endif    
-    
-    
-    
+#endif
+
+
+
               if (curObj->durinticks)
                 newXMLIntProp (objElem, (xmlChar*) "ticks", curObj->durinticks);
               break;
@@ -1104,7 +1104,7 @@ newScrollPointElem (xmlNodePtr scrollElem, xmlNsPtr ns, DenemoScrollPoint *s)
 static void
 newScrollPointsElem (xmlNodePtr curElem, xmlNsPtr ns, GList *scroll_points)
 {
-  xmlNodePtr 
+  xmlNodePtr
   scrollElem = xmlNewChild (curElem, ns, (xmlChar *) "scroll-points", NULL);
   for (; scroll_points; scroll_points = scroll_points->next)
     {
@@ -1177,7 +1177,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
   if(gui->rhythms)
     newRhythmsElem (scoreElem, ns, gui->rhythms);
-    
+
   /* lilycontrol for the whole musical score */
 
 
@@ -1241,8 +1241,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
         newXMLIntChild (parentElem, ns, (xmlChar *) "page-height", si->page_height);
       if (si->measurewidth != DENEMO_INITIAL_MEASURE_WIDTH)
         newXMLIntChild (parentElem, ns, (xmlChar *) "measure-width", si->measurewidth);
-        
-        
+
+
 
 
       if (si->header.directives)
@@ -1293,11 +1293,11 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)
         {
           curStaffStruct = (DenemoStaff *) curStaff->data;
- 
+
             /* Initialize voice-wide variables. */
 
 
-              
+
 
 
           /*
@@ -1364,7 +1364,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
           /* Clean up voice-specific variables. */
 
-          
+
         }                       /* end for each voice in score */
     }                           // for each movement
   /* Save the file. */

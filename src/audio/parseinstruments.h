@@ -1,7 +1,7 @@
 //
 // parseinstruments.h
 //
-// 
+//
 //
 //
 // Author: Adam Tee <adam@ajtee.plus.com>, (C) 2005

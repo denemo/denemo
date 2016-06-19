@@ -1,5 +1,5 @@
 /****************************************************************
- * 
+ *
  * instrumentname.cpp
  *
  * Functions for identifying instrument names
@@ -7,7 +7,7 @@
  * (c) 2001-2005 Per Andersson
  *
  * License: GPL version 3 or later
- * 
+ *
  */
 
 #define INSTRUMENT_DB_VERSION	1.1
@@ -21,7 +21,7 @@
  * Why? I can't remember if the good guitar sound is called "Acoustic guitar
  *  (nylon)" or "Nylon acoustic" or "Nylon guitar" or ...
  *
- * See www.wotsit.org for some info on midi and the standard file format 
+ * See www.wotsit.org for some info on midi and the standard file format
  *
  *
  * 	Per
@@ -365,7 +365,7 @@ synonym (char **tab, char *txt)
 }
 
 /**
- * convert a (potentially multi-word) instrument name to a 
+ * convert a (potentially multi-word) instrument name to a
  * midi program number 0 .. 127
  *
  * I hope this is fairly GS compatible!

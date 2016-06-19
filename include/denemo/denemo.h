@@ -39,7 +39,7 @@ extern "C" {
 /* This unit of memory size is used all over the place.  */
 #define SEVENGINTS (sizeof (gint) * 7)
 
-#define CHECKING_MASK (GDK_CONTROL_MASK) 
+#define CHECKING_MASK (GDK_CONTROL_MASK)
 #define ADDING_MASK (GDK_MOD1_MASK)  //Alt
 #define CHORD_MASK (1<<25)  //Not used by GDK
 
@@ -118,7 +118,7 @@ extern "C" {
 #else
 #define PREFS_FILE "denemorc"
 #endif
-  
+
 #ifdef G_OS_WIN32
 #define mswin g_print
 #else

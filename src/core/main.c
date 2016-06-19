@@ -49,7 +49,7 @@ struct DenemoRoot Denemo;
 
 /**
  * signal handler to be invoked when child processes _exit() without
- * having to wait for them 
+ * having to wait for them
  */
 static void
 sigchld_handler (G_GNUC_UNUSED gint num)
@@ -111,7 +111,7 @@ append_to_path (gchar * path, gchar * extra, ...)
   gchar *path_string = (gchar *) g_getenv (path);
   if (!path_string){
     if(extra){
-      path_string = g_strdup (extra);  
+      path_string = g_strdup (extra);
       extra = va_arg(ap, gchar*);
     }
   }
@@ -172,7 +172,7 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
   {
     gchar *message = g_strconcat (
     _("GNU Denemo version"), " ", VERSION, "\n",
-    _("Gtk versions") , " runtime: %u.%u.%u, compiled against: %u.%u.%u, \n", 
+    _("Gtk versions") , " runtime: %u.%u.%u, compiled against: %u.%u.%u, \n",
     _("© 1999-2005, 2009 Matthew Hiller, Adam Tee, and others, 2010-2015 Richard Shann, Jeremiah Benham, Nils Gey and others.\n"),
     _("This program is provided with absolutely NO WARRANTY; see the file COPYING for details.\n"),
     _("This software may be redistributed and modified under the terms of the GNU General Public License; again, see the file COPYING for details.\n"),
@@ -299,7 +299,7 @@ init_environment()
   else
     g_info("Did not find emmentaler.ttf - perhaps installed in system");
   g_free(fontpath);
-  
+
   g_setenv ("LYEDITOR", "denemoclient %(line)s %(column)s", FALSE);
 }
 
@@ -314,11 +314,11 @@ static void check_if_upgrade (void) {
         sscanf (PACKAGE_VERSION, "%u.%u.%u", &this_maj, &this_min, &this_mic);
         this_ver = (this_maj<<16) + (this_min<<8) + this_mic;//allows for version numbers up to 256
         GDir *dir = g_dir_open (g_get_home_dir (), 0, NULL);
-        if(dir==NULL) 
+        if(dir==NULL)
             {
             g_warning ("Cannot find home directory");
             return;
-            }       
+            }
         while ((name = g_dir_read_name (dir))) {
             gchar *filename = g_build_filename (g_get_home_dir (), name, NULL);
             if(g_file_test (filename, G_FILE_TEST_IS_DIR)) {
@@ -334,7 +334,7 @@ static void check_if_upgrade (void) {
                 }
             g_free(filename);
             if(val>sofar)
-                sofar = val;    
+                sofar = val;
             }
         }
         if(sofar) {
@@ -442,7 +442,7 @@ main (int argc, char *argv[])
     g_message(_("Could not start graphical interface."));
 
   files = process_command_line (argc, argv, gtk_status);
-  
+
   //if (!g_thread_supported ())
   //    g_thread_init (NULL);
 
@@ -467,7 +467,7 @@ main (int argc, char *argv[])
 
   //register_stock_items ();
   scm_with_guile (inner_main, files);
-  
+
  // if(!Denemo.non_interactive)
   //  gdk_threads_leave ();
 

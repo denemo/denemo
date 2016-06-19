@@ -30,7 +30,7 @@ draw_tupbracket (cairo_t * cr, gint xx, gint y, DenemoObject * theobj, gint star
       if (theobj->type == TUPOPEN)
         {
           g_string_sprintf (tupopentext, "%d", ((tupopen *) theobj->object)->denominator);      //save number for end tuplet call
-          cairo_rectangle (cr, xx - 2, y - BRACKET_HEIGHT, 2, 15);      //small vertical 
+          cairo_rectangle (cr, xx - 2, y - BRACKET_HEIGHT, 2, 15);      //small vertical
         }
       else
         {

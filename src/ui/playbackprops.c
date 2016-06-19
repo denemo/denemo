@@ -1,6 +1,6 @@
 /* playbackprops.c
  * callback that creates a "Playback Properties" dialog box asking
- * the user to change the properties of the playback for the current 
+ * the user to change the properties of the playback for the current
  * score
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond

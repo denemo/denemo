@@ -1,10 +1,10 @@
-/* 
+/*
  * external.c
- * 
+ *
  * functions that deals with external commmands
  * such as play, playmidi, lpr...
  *
- * this is part of the GNU Denemo, 
+ * this is part of the GNU Denemo,
  * Copyright (c) 2000-2006 Adam Tee
  */
 
@@ -17,7 +17,7 @@
 
 /* give a filepath string pointing to the user's
  * Denemo temporary directory.
- * 
+ *
  * if constname is NULL, basename is random.
  * else, basename is the given constname.
  *
@@ -48,8 +48,8 @@ dnm_get_temp_filename (const gchar * name)
 /*
  * spawn an external shell command line with
  * its arguments and returns immediately.
- * 
- * additional options can be put in cmdline, 
+ *
+ * additional options can be put in cmdline,
  * separated by spaces or tabs.
  *
  * return: PID of spawned process.

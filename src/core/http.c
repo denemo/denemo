@@ -70,12 +70,12 @@ process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
   ssize_t n;
 
   GString *out = g_string_new ("");
-  g_string_append_printf (out, 
-                          "POST %s HTTP/1.0\r\n" 
-                          "Host: %s\r\n%s" 
-                          "Content-type: application/x-www-form-urlencoded\r\n" 
-                          "Content-length: %zu\r\n\r\n" 
-                          "%s", 
+  g_string_append_printf (out,
+                          "POST %s HTTP/1.0\r\n"
+                          "Host: %s\r\n%s"
+                          "Content-type: application/x-www-form-urlencoded\r\n"
+                          "Content-length: %zu\r\n\r\n"
+                          "%s",
                           page, host, other, strlen (poststr), poststr);
 
   //g_debug("about to write %s\n", out->str);
