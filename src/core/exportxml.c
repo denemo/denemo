@@ -412,7 +412,7 @@ newDirectiveElem (xmlNodePtr directiveElem, xmlNsPtr ns, DenemoDirective * direc
 #undef DO_INTDIREC
   if (directive->layouts)
     {
-      xmlNodePtr layoutsElem = xmlNewChild (directiveElem, ns, (xmlChar *) directive->flag == DENEMO_ALLOW_FOR_LAYOUTS ? "allow" : "ignore", NULL);
+      xmlNodePtr layoutsElem = xmlNewChild (directiveElem, ns, (xmlChar *) (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS ? "allow" : "ignore"), NULL);
       newLayoutsElem (layoutsElem, ns, directive);
     }
 }
