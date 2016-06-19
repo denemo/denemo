@@ -1,17 +1,17 @@
 //      scorelayout.c
-//      
-//      Copyright 2012 Richard Shann 
-//      
+//
+//      Copyright 2012 Richard Shann
+//
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 3 of the License, or
 //      (at your option) any later version.
-//      
+//
 //      This program is distributed in the hope that it will be useful,
 //      but WITHOUT ANY WARRANTY; without even the implied warranty of
 //      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //      GNU General Public License for more details.
-//      
+//
 //      You should have received a copy of the GNU General Public License
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -324,7 +324,7 @@ static void
 delete_custom_scoreblock_callback (GtkWidget * dummy, DenemoScoreblock * sb)
 {
   Denemo.project->custom_scoreblocks = g_list_remove (Denemo.project->custom_scoreblocks, sb);
-  gtk_widget_destroy (sb->widget); 
+  gtk_widget_destroy (sb->widget);
   if(Denemo.project->standard_scoreblocks==NULL && Denemo.project->custom_scoreblocks==NULL)
     create_default_scoreblock ();
   score_status (Denemo.project, TRUE);
@@ -451,7 +451,7 @@ customize_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * s
             infodialog (_("This layout will be used in place of the standard one, unless you delete it.\nAny new staffs added to the score will not appear in it unless you edit it."));
         warned = TRUE;
     } else
-    clone_scoreblock (sb, NULL);        
+    clone_scoreblock (sb, NULL);
 }
 
 static void
@@ -482,7 +482,7 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
   GtkWidget *button = gtk_button_new_with_label (_("Typeset"));
   gtk_widget_set_tooltip_text (button, _("Typeset the score using this layout to determine which movements, parts, titles, page breaks etc should be used"));
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-#ifdef USE_EVINCE  
+#ifdef USE_EVINCE
   g_signal_connect (button, "clicked", G_CALLBACK (show_print_view), NULL);
 #endif
   if (custom)
@@ -512,12 +512,12 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       gtk_widget_set_tooltip_text (button, _("Discard this customized score layout."));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (delete_custom_scoreblock_callback), sb);
-      
+
       button = gtk_button_new_with_label (_("Create Default Score Layout"));
       gtk_widget_set_tooltip_text (button, _("Creates the Default Score Layout"));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);
-      
+
     if (!sb->text_only)
        {
           button = gtk_button_new_with_label (_("Append Current Movement"));
@@ -542,12 +542,12 @@ get_options_button (DenemoScoreblock * sb, gboolean custom)
       gtk_widget_set_tooltip_text (button, _("Create a layout from this standard layout that you can then modify."));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
       g_signal_connect (button, "clicked", G_CALLBACK (customize_standard_scoreblock_callback), sb);
-      
+
       button = gtk_button_new_with_label (_("Create Default Score Layout"));
       gtk_widget_set_tooltip_text (button, _("Creates the Default Score Layout"));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-      g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);      
-      
+      g_signal_connect (button, "clicked", G_CALLBACK (create_default_scoreblock), NULL);
+
       button = gtk_button_new_with_label (_("Delete"));
       gtk_widget_set_tooltip_text (button, _("Discard this standard score layout."));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -679,7 +679,7 @@ static void substitute_voice_name (GtkWidget *button, GtkWidget *frame)
     gint mvmnt = 1, staffnum = Denemo.project->movement->currentstaffnum;
     if (Denemo.project->movements)
         mvmnt = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
-   
+
     gchar *thename = g_strdup_printf ("\\Mvmnt%dVoice%d", mvmnt, staffnum);
     GString *initial = g_string_new (thename);
     g_free (thename);
@@ -825,7 +825,7 @@ do_verses (DenemoStaff * staff, GtkWidget * vbox, gint movementnum, gint voice_c
           GtkWidget *voice = create_lyric_widget (context_text, label);
           g_free (label);
           gchar *lyrics = g_strdup_printf ("\n" TAB "\\new Lyrics = %s\n", versename /*e.g. MvmntIVoiceIVerseI */ );
-          add_lilypond (voice, lyrics, NULL);       //FIXME the destroy of these widgets should free the string     
+          add_lilypond (voice, lyrics, NULL);       //FIXME the destroy of these widgets should free the string
           add_lilypond (voice, NULL, context_text);
 
           gtk_box_pack_start (GTK_BOX (vbox), voice, FALSE, TRUE, 0);       //has to go outside the staff
@@ -1057,7 +1057,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
       gtk_box_pack_start (GTK_BOX (inner_hbox), button, FALSE, TRUE, 0);
     }
 #endif
-  
+
   button = gtk_button_new_with_label (_("Create for Custom Layout"));
   gtk_widget_set_tooltip_text (button, _("Create page breaks, blank pages ...for this layout"));
   g_signal_connect (button, "clicked", G_CALLBACK (popup_movement_menu), inner_vbox);
@@ -1070,7 +1070,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
       if (d->override & DENEMO_OVERRIDE_AFFIX) //see set_initiate_scoreblock() call which outputs the DENEMO_OVERRIDE_AFFIX
         continue;
       if (d->override & DENEMO_OVERRIDE_HIDDEN)
-        continue; 
+        continue;
       if (sb && wrong_layout (d, sb->id))
         continue;
       if (d->prefix)
@@ -1099,7 +1099,7 @@ popup_score_titles_menu (GtkWidget * button)
 }
 
 
-/* install widgets for the postfix field of score directives (lilycontrol.directives) which are not hidden and which are not OVERRIDE_AFFIX and not conditionally out - 
+/* install widgets for the postfix field of score directives (lilycontrol.directives) which are not hidden and which are not OVERRIDE_AFFIX and not conditionally out -
  * the prefix is done in create_score_directives.
  * Ones with OVERRIDE_AFFIX are done in set_default_scoreblock()
  */
@@ -1117,7 +1117,7 @@ install_scoreblock_overrides (GtkWidget * vbox, DenemoProject * gui, DenemoMovem
         continue;
       if (wrong_layout (d, sb->id))
         continue;
-             
+
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
         {
@@ -1184,15 +1184,15 @@ show_type (GtkWidget * widget, gchar * message)
 static void delete_brace (gchar *postfix)
 {
     gchar *c = g_strrstr (postfix, ">>%");
-    if(c && c>postfix) { 
+    if(c && c>postfix) {
             *c = 0;
             return;
         }
-            
-#if 0    
+
+#if 0
     gchar *c = postfix;
     while (*(c++));
-        c--;c--;c--; 
+        c--;c--;c--;
         if(c != postfix)
             while (*(c--) != '\n');
             c++;
@@ -1202,7 +1202,7 @@ static void delete_brace (gchar *postfix)
 }
 static void remove_brace_end (GtkWidget *vbox)
 {
- show_type (vbox, "new vbox ??? ")  ; 
+ show_type (vbox, "new vbox ??? ")  ;
   GList *g  = g_object_get_data (G_OBJECT(vbox), "postfix");
   for ( ;g;g=g->next)
         {
@@ -1229,10 +1229,10 @@ remove_context (GtkWidget * button, GtkWidget * parent)
       gtk_widget_reparent (g->data,     //frame
                            gtk_widget_get_parent (gtk_widget_get_parent (parent)));
     }
-    
+
     GtkWidget *topw = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (parent)));
     //show_type (topw, "new vbox parent ");g_print ("parent %p, grandparent %p, great-grp %p\n", parent, gtk_widget_get_parent (parent), topw);
-   
+
     if (g_object_get_data (G_OBJECT(parent), "postfix")==NULL)
        remove_brace_end (gtk_bin_get_child (g_list_last(staff_list)->data));  // without it deleting a top level brace leaving lower ones fails.
      else
@@ -1316,7 +1316,7 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
       DenemoDirective *directive = g->data;
       if (directive->override & DENEMO_OVERRIDE_AFFIX)
         {
-          if (wrong_layout (directive, Denemo.project->layout_id)) 
+          if (wrong_layout (directive, Denemo.project->layout_id))
             continue;
           if (directive->prefix && (directive->prefix->len > 0))
             {
@@ -1332,8 +1332,8 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
 
               GtkWidget *layout = gtk_drawing_area_new ();
               gtk_widget_set_tooltip_text (layout, _("This brace connects together several staffs - you can delete it for a customized layout."));
-                           
-#if GTK_MAJOR_VERSION != 2  
+
+#if GTK_MAJOR_VERSION != 2
               g_signal_connect (G_OBJECT (layout), "draw", G_CALLBACK (draw_staff_brace_for_layout), directive->tag->str);
 #else
               g_signal_connect (G_OBJECT (layout), "expose_event", G_CALLBACK (draw_staff_brace_gtk2), directive->tag->str);
@@ -1382,7 +1382,7 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
                   if(directive->data)
                     number_of_ends = atoi (directive->data->str);
                   if (number_of_ends<0 || (number_of_ends>10)) number_of_ends = 1;//sanity check on data in directive
-                  
+
                   (*nesting) -=  number_of_ends;
                   vbox = gtk_widget_get_parent (gtk_widget_get_parent (gtk_widget_get_parent (vbox)));
                 }
@@ -1490,14 +1490,14 @@ popup_initial_clef_menu (GtkWidget * button)
     g_warning ("No such menu path");
 }
 */
-        
+
 static void
-install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname, GList **pstafflist, 
+install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname, GList **pstafflist,
     gint *pvoice_count, gint staff_count, gint movementnum, gint *pstaff_group_nesting, gboolean standard, gboolean append_only)
       {
         DenemoMovement *si = Denemo.project->movement;
-      GList *g = *pstafflist; 
-      GtkWidget *vbox = *pvbox;   
+      GList *g = *pstafflist;
+      GtkWidget *vbox = *pvbox;
       DenemoStaff *staff = g->data;
       DenemoStaff *nextstaff = g->next ? g->next->data : NULL;
 
@@ -1577,8 +1577,8 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget **pvbox, gchar *partname,
 
       GtkWidget *outer_vbox = gtk_vbox_new (FALSE, 8);
       gtk_container_add (GTK_CONTAINER (frame), outer_vbox);
-      
-      
+
+
       gtk_box_pack_start (GTK_BOX (outer_vbox), staff_hbox, FALSE, TRUE, 0);
 
       GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
@@ -1640,11 +1640,11 @@ append_staff (GtkWidget *widget, GList ** pstaffs)
     if (Denemo.project->movements)
         movementnum = 1 + g_list_index (Denemo.project->movements, Denemo.project->movement);
     GtkWidget *vbox = gtk_widget_get_parent (widget);
-    install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff, 
+    install_staff_with_voices (pstaffs, &vbox, NULL, &Denemo.project->movement->currentstaff,
                     &voice_count, Denemo.project->movement->currentstaffnum, movementnum, &staff_group_nesting, FALSE, TRUE);
     gtk_widget_show_all (vbox);
     Denemo.project->lilysync = G_MAXUINT;
-}     
+}
 static GtkWidget *
 get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gint movementnum, gboolean last_movement, gboolean standard, DenemoScoreblock *sb)
 {
@@ -1674,15 +1674,15 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
   gtk_box_pack_start (GTK_BOX(vbox), addbutton, FALSE, TRUE, 0);
   g_signal_connect (G_OBJECT(addbutton), "clicked", G_CALLBACK (append_staff), pstaffs);
-    
-  GList *g; 
+
+  GList *g;
   for (voice_count = 1, staff_count = 1, g = si->thescore; g; g = g->next, voice_count++, staff_count++)
     {
     DenemoStaff *staff = g->data;
     if ( (*(staff->lily_name->str)) && (partname && strcmp (partname, staff->lily_name->str))) // empty partname means include with all parts.
         continue;
      install_staff_with_voices (pstaffs, &vbox, partname, &g, &voice_count, staff_count/*sic*/, movementnum, &staff_group_nesting, standard, FALSE);
-    
+
      if (g == NULL)
         break;
     }                           //for each staff
@@ -1705,10 +1705,10 @@ get_movement_widget (GList ** pstaffs, gchar * partname, DenemoMovement * si, gi
 
         }
     }
-    
-   
-    
-    
+
+
+
+
   return ret;
 }
 
@@ -1821,7 +1821,7 @@ create_scoreheader_directives (GtkWidget * vbox, DenemoScoreblock *sb)
         continue;
       if (wrong_layout (directive, sb->id)) continue;
 
-        
+
       create_element (header_box, gtk_label_new (directive->tag->str), g_strdup (directive->postfix->str));
     }
 }
@@ -1845,7 +1845,7 @@ create_score_directives (GtkWidget * vbox, DenemoScoreblock *sb)
     {
       DenemoDirective *directive = g->data;
       if (wrong_layout (directive, sb->id)) continue;
-            
+
       if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
         {
           GtkWidget *label = gtk_label_new (directive->tag->str);
@@ -1883,7 +1883,7 @@ static GtkWidget *get_reload_button (GtkWidget *frame)
   GtkWidget *reload_button = gtk_button_new_with_label (_("Reload Score-Wide Settings"));
   gtk_widget_set_tooltip_text (reload_button, _("Reload the score wide settings for this layout from the current values in the score.\nDo this if you have made changes to the score titles etc which you wish to be used for this layout."));
   g_signal_connect_swapped (reload_button, "clicked", G_CALLBACK (reload_scorewide_block), frame);
-   return reload_button; 
+   return reload_button;
 }
 static void reload_scorewide_block (GtkWidget *frame)
 {
@@ -1909,7 +1909,7 @@ create_scorewide_block (GtkWidget * vbox, DenemoScoreblock *sb)
   gtk_widget_show_all (vbox);
 }
 
-static           
+static
 void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScoreblock ** psb, gchar *partname, gint movement_num, gboolean last, gboolean standard)
           {
           DenemoProject *gui = Denemo.project;
@@ -1993,7 +1993,7 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                     }
                 }
             }
-            
+
             if (si->movementcontrol.directives)
                 {
                   GtkWidget *frame = gtk_frame_new (_("Movement Block"));
@@ -2014,10 +2014,10 @@ void install_movement_widget (DenemoMovement *si, GtkWidget *vbox, DenemoScorebl
                           create_element (innerbox, label, g_strdup (d->postfix->str));
                         }
                     }
-                }  
-            
-            
-            
+                }
+
+
+
           if (si->movementcontrol.directives)
             {
               GtkWidget *frame = gtk_frame_new (_("Movement Epilog"));
@@ -2133,7 +2133,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
       if (!(d->override & DENEMO_OVERRIDE_AFFIX))
         continue;
       if (wrong_layout (d, (*psb)->id)) continue;
- 
+
       gchar *post = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (post)
         {
@@ -2164,7 +2164,7 @@ recreate_standard_scoreblock (DenemoScoreblock ** psb)
   gtk_notebook_reorder_child (notebook, (*psb)->widget, position);
 //alternatively pass in desired position to create_standard_scoreblock....
 
-                                                    
+
  // if (visible)
   //  gtk_notebook_set_current_page (GTK_NOTEBOOK (get_score_layout_notebook (Denemo.project)), 0);
 }
@@ -2180,7 +2180,7 @@ scoreblock_name (DenemoScoreblock * sb)
 
 
 //refreshes the lilypond field of all the standard scoreblocks after re-computing the standard scoreblocks already present
-//returns FALSE if structure has not changed since they were computed. 
+//returns FALSE if structure has not changed since they were computed.
 static gboolean
 check_for_update (void)
 {
@@ -2235,7 +2235,7 @@ refresh_lilypond (DenemoScoreblock * sb)
     {
 
       if ((!is_lilypond_text_layout (sb)))
-        { 
+        {
           gchar *instrumentation = sb->instrumentation;
           gchar *set_instr = instrumentation? g_strdup (instrumentation):
                                              ((!strcmp (sb->name, DEFAULT_SCORE_LAYOUT))?g_strdup (_("Full Score")):
@@ -2255,7 +2255,7 @@ refresh_lilypond (DenemoScoreblock * sb)
             g_string_assign (sb->lilypond, sb->name);
           g_string_prepend (sb->lilypond, "%");
           g_string_append_printf (sb->lilypond, "\n\\header{DenemoLayoutName = \"%s\"\n%s        }\n",
-          sb->name, 
+          sb->name,
           set_instr);
           g_free (set_instr);
           lilypond_for_layout (sb->lilypond, sb->widget);
@@ -2276,7 +2276,7 @@ current_scoreblock_is_custom (void)
       DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
       if (sb->widget == page)
          return TRUE;
-     }  
+     }
 return FALSE;
 }
 DenemoScoreblock *
@@ -2504,8 +2504,8 @@ create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * part
   gchar *label_text = movement_part_name (movement, partname);
   (*psb)->name = g_strdup (label_text);
   Denemo.project->layout_id = (*psb)->id = crc32 ((guchar*) (*psb)->name);
-  set_default_scoreblock (psb, movement, partname);  
-  
+  set_default_scoreblock (psb, movement, partname);
+
   GtkWidget *label = gtk_label_new (label_text);
   g_free (label_text);
   gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), (*psb)->widget, label);
@@ -2628,7 +2628,7 @@ selection_install_voice (DenemoStaff * staff, gint movementnum, gint voice_count
   g_string_prepend (tail, g_string_free (voicetext, FALSE));
 }
 
-//returns a layout with no widget whose lilypond is the scoreblock for just the selected staffs 
+//returns a layout with no widget whose lilypond is the scoreblock for just the selected staffs
 DenemoScoreblock *
 selection_layout (void)
 {
@@ -2654,9 +2654,9 @@ selection_layout (void)
         continue;
       if (d->override & DENEMO_OVERRIDE_AFFIX)
         continue; //g_print ("Trying tag %s with postfix %s at %x\n", d->tag->str, (d->postfix && d->postfix->len) ? d->postfix->str :"", selected_layout_id ());
-      if (wrong_layout(d, sb->id)) 
+      if (wrong_layout(d, sb->id))
         continue;
-  
+
       gchar *start = (d->postfix && d->postfix->len) ? d->postfix->str : NULL;
       if (start)
         {
@@ -2677,10 +2677,10 @@ selection_layout (void)
           g_string_append_printf (sb->lilypond, "\n" TAB TAB "\\new ChordNames \\chordmode { \\%sChords }\n", get_voicename (movementnum, voice_count));
         }
       set_staff_definition (sb->lilypond, staff);
-      
-      
-      
-      
+
+
+
+
       //if (staff->no_of_lines != 5)
       //  g_string_append_printf (sb->lilypond, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);    //FIXME create_element
       GString *tail = g_string_new ("");
@@ -2696,7 +2696,7 @@ GString *voice_tail = g_string_new ("");
         }
 
       selection_install_voice (staff, movementnum, voice_count, sb->lilypond, tail, voice_tail);    //Primary voice
-    
+
       g_string_append (sb->lilypond, voice_tail->str);
       g_string_assign(voice_tail, "");
       //selection_do_verses(staff, vbox, movementnum, this is repeated below
@@ -2716,9 +2716,9 @@ GString *voice_tail = g_string_new ("");
               //selection_do_verses(staff, vbox, movementnum, this is repeated above
             }
         }
-        
+
       g_string_free (voice_tail, TRUE);
-    
+
       if (tail->len)
         g_string_append (sb->lilypond, g_string_free (tail, FALSE));
       else
@@ -2727,7 +2727,7 @@ GString *voice_tail = g_string_new ("");
      if(g && voices_intervened) // we have added voices to the staff, so the for loop has advanced the iterator over staffs and voice count already, so back up
      {
          g = g->prev;
-         voice_count--;  
+         voice_count--;
      }
     }                           // end of for each staff Now loop back for all the staffs in firststaffnum -  laststaffnum
   g_string_append (sb->lilypond, movement_tail->str);
@@ -2785,13 +2785,13 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
   if (Denemo.project->movement->markstaffnum)
     return selection_layout ();
 
-  
+
 
   if (all_movements && partname == NULL)
     {
       sb = selected_scoreblock ();
       if (sb)
-        { 
+        {
           if (is_in_standard_scoreblock (sb))
             {
               recreate_standard_scoreblock (&sb);
@@ -2818,7 +2818,7 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
           g_critical ("No score layout available");
           return NULL;
         }
-      
+
       refresh_lilypond (sb);    //creating a scoreblock does *not* include generating the lilypond from its widgets.
     }
 
@@ -2872,7 +2872,7 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
         }
     }
 
-//either just the current movement or just the part named or both. Set up the movement number (1 ...) or 0 for the all movements case   
+//either just the current movement or just the part named or both. Set up the movement number (1 ...) or 0 for the all movements case
   gint movement;
   if (all_movements)
     {
@@ -2923,7 +2923,7 @@ select_standard_layout (DenemoScoreblock * sb)
             DenemoScoreblock *sb = g_malloc0 (sizeof (DenemoScoreblock));
             (void) create_standard_scoreblock (&sb, 0, NULL);
             Denemo.project->standard_scoreblocks = g_list_prepend (NULL, (gpointer) sb);
-        } 
+        }
       sb = (DenemoScoreblock *) (Denemo.project->standard_scoreblocks->data);
     }
   refresh_lilypond (sb);
@@ -3021,7 +3021,7 @@ get_scoreblock_for_lilypond (gchar * lily)
     gtk_container_add (GTK_CONTAINER (sw), textview);
     gtk_box_pack_start (GTK_BOX (vbox), sw, TRUE, TRUE, 0);
   }
-  
+
   gchar *newline = g_strstr_len (lily, -1, "\n");
   if (newline)
     {
@@ -3068,7 +3068,7 @@ create_custom_scoreblock (gchar * layout_name, gboolean force)
 gboolean delete_custom_scoreblock (gchar * layout_name)
 {
   GList *g;
- 
+
   for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
     {
       DenemoScoreblock *sb = (DenemoScoreblock *) g->data;
@@ -3120,7 +3120,7 @@ static GtkWidget *LayoutMenu;   //a menu for the default layout and all created 
 static void
 typeset_layout (DenemoScoreblock * sb)
 {
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   set_notebook_page (sb->widget);

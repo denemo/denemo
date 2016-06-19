@@ -1,7 +1,7 @@
 /* calculatepositions.c
  * functions that calculate the positions at which score objects are
  * drawn
- *  
+ *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Matthew Hiller, Adam Tee
  */
@@ -16,7 +16,7 @@
 #define mudobj(x) ((DenemoObject *) x->data)
 #define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace)))
 /**
- *  Check to see if there is any more music in 
+ *  Check to see if there is any more music in
  *  the datastructures
  *  Used by find_xes_in_measure
  *  @param cur_obj_nodes pointer to the current objnodes
@@ -39,7 +39,7 @@ music_remains_p (objnode ** cur_obj_nodes, gint num_staffs)
  * Check to see if the starttick of all objnodes across
  * staves is equal
  * Used by find_xes_in_measure
- * 
+ *
  * @param cur_obj_nodes pointer to the current objnodes
  * @param num_staffs number of staffs in the score
  */
@@ -65,9 +65,9 @@ all_tickcounts_equal_p (objnode ** cur_obj_nodes, gint num_staffs)
   return TRUE;
 }
 
-/** 
+/**
  * structure and GCompareFunc used by the mechanism for dealing with
- * zero-duration DenemoObjects (clefs, tupmarks, etc.) 
+ * zero-duration DenemoObjects (clefs, tupmarks, etc.)
  */
 
 typedef struct list_info
@@ -96,10 +96,10 @@ static void print_nonchords (GList *nonchords)
     {
         g_print ("(p = %d, t = %d)\n", ((list_info *) g->data)->pixels, ((list_info *) g->data)->start_position);
     }
-    
+
 }
 /**
- * g_list_foreach function to compare the start postion of the 
+ * g_list_foreach function to compare the start postion of the
  * object
  * This is used on the non-chord infos, the non-chords being taken from across all staffs for a single block
  * a "block" being chosen so that the start and end ticks are respectively equal
@@ -120,7 +120,7 @@ list_compare_func (gpointer a, gpointer b)
 
 /**
  * Used to remove zero duration DenemoObjects
- * 
+ *
  * @param source list of DenemoObjects to prune
  */
 static GList *
@@ -135,18 +135,18 @@ prune_list (GList * source)
   if (previous)
     {
       sink = g_list_append (sink, previous->data);
-      current = previous->next;   
+      current = previous->next;
     }
   else
     current = NULL;
-         
+
   while (current)
     {
        if ((((list_info *) current->data)->start_position != ((list_info *) previous->data)->start_position))
                         sink = g_list_append (sink, current->data),  previous = current       ;
       else
         g_free (current->data);
-      
+
       current = current->next;
     }
   /* Okay. The stuff we care about has been copied to sink.  All that
@@ -160,18 +160,18 @@ prune_list (GList * source)
 /**
  * Allocate_xes - allocate the x position for all chord elements
  * in the score(??? JUl 2011, it appears to be just a single "block" it is called for each "block")
- * 
+ *
  * @param block_start_obj_nodes pointer to the starting object node
  * @param block_end_obj_nodes pointer to the last object node
  * @param num_staffs the number of staffs in the score
- * @param furthest_tick_advance 
+ * @param furthest_tick_advance
  * @param base_x
  * @param base_tick
  * @param shortest_chord_duration
  * @param shortest_chord_pixels
  * @param whole_note_width
  * @param non_chords
- * 
+ *
  */
 static void
 allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, gint num_staffs, gint furthest_tick_advance, gint * base_x, gint * base_tick, gint shortest_chord_duration, gint shortest_chord_pixels, gint whole_note_width, GList * non_chords)
@@ -270,7 +270,7 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
  * proportionally among all the notes in the block according to their
  * duration.  It also does stuff with a linked list for dealing with
  * non-chord mudela objects.  First, a utility #define: */
-//fxim appends to the non-chords list for all the non-chord objects up to the next chord. The list is a list of accumulated x-offset and tick. 
+//fxim appends to the non-chords list for all the non-chord objects up to the next chord. The list is a list of accumulated x-offset and tick.
 //If a chord follows the space before is also added to the accumulated x-offset.
 // there is also tick related stuff done.
 //cur_obj_nodes is moved to the first chord
@@ -312,7 +312,7 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
 /**
  * Iterate through the measure ready to set the x value for
  * each object
- * 
+ *
  * @param si the scoreinfo structure
  * @param measurenum the measure to set the x values for
  * @param time1 the nominator of the timesig
@@ -322,35 +322,35 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
 void
 find_xes_in_measure (DenemoMovement * si, gint measurenum)
 {
-  
+
   gint time1, time2;
-  //timesig *thetime = g_list_  
+  //timesig *thetime = g_list_
   staffnode *cur_staff = si->thescore;
   measurenode *mnode = g_list_nth (((DenemoStaff*)cur_staff->data)->themeasures, measurenum-1);
   if (mnode == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum); return;}
   DenemoMeasure *meas = (DenemoMeasure*)mnode->data;
   if (meas == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum);return;}
-  time1 = meas->timesig->time1; 
-  time2 = meas->timesig->time2; 
-    
-    
+  time1 = meas->timesig->time1;
+  time2 = meas->timesig->time2;
+
+
   gint num_staffs = g_list_length (si->thescore);
   gint base_x = 0;
   gint base_tick = 0;
   gint max_advance_ticks = 0;
   objnode **block_start_obj_nodes;
   objnode **cur_obj_nodes;
-  
+
   gint shortest_chord_duration = G_MAXINT;
   gint shortest_chord_pixels = 0;
-  
+
   gint i;
   gint accumulator, start_tick;
   GList *non_chords = NULL;
   gint whole_note_width = si->measurewidth * time2 / time1;
   DenemoObject *curobj;
 
-  
+
   block_start_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
   cur_obj_nodes = (objnode **) g_malloc (sizeof (objnode *) * num_staffs);
 
@@ -417,9 +417,9 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum)
 }
 
 /**
- * Iterate through entire score ready to 
+ * Iterate through entire score ready to
  * set x values for all objects in the score
- * 
+ *
  * @param si the scoreinfo structure
  * @return none
  */

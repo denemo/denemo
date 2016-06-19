@@ -1,6 +1,6 @@
 /* contexts.h
  * Context finders: functions that find the current clef, key, and time
- * signature contexts for the initial(?) measures being displayed 
+ * signature contexts for the initial(?) measures being displayed
  * Also, set the initial values for the staffs from the first measure data
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond

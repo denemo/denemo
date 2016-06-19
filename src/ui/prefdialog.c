@@ -217,7 +217,7 @@ set_preferences (struct callbackdata *cbdata)
    g_string_assign (prefs->field,\
     (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 
-  ASSIGNTEXT (lilypath) 
+  ASSIGNTEXT (lilypath)
   ASSIGNTEXT (browser)
   ASSIGNTEXT (imageviewer)
   ASSIGNTEXT (graphicseditor)
@@ -226,8 +226,8 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT (profile)
   ASSIGNTEXT (fontname)
   ASSIGNINT (fontsize)
-  ASSIGNTEXT (denemopath) 
-  
+  ASSIGNTEXT (denemopath)
+
   gchar const *text = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
   GList *item = g_list_find_custom (cbdata->audio_driver_option_list, text, (GCompareFunc) strcmp);
   gint index = g_list_position (cbdata->audio_driver_option_list, item);
@@ -290,15 +290,15 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT (laststaff)
     ASSIGNINT (pitchspellingchannel)
     ASSIGNINT (pitchspellingprogram)
-   
+
     ASSIGNBOOLEAN (persistence)
     ASSIGNBOOLEAN (cursor_highlight)
     ASSIGNBOOLEAN (return_key_is_special)
     ASSIGNBOOLEAN (newbie)
     ASSIGNBOOLEAN (learning)
     ASSIGNBOOLEAN (startmidiin) ASSIGNBOOLEAN (applytoselection) ASSIGNBOOLEAN (quickshortcuts) ASSIGNBOOLEAN (autosave)
-     ASSIGNINT (autosave_timeout) 
-     ASSIGNINT (compression) 
+     ASSIGNINT (autosave_timeout)
+     ASSIGNINT (compression)
      ASSIGNBOOLEAN (midi_in_controls) ASSIGNBOOLEAN (playback_controls) ASSIGNBOOLEAN (console_pane) ASSIGNBOOLEAN (lyrics_pane) ASSIGNBOOLEAN (visible_directive_buttons) ASSIGNBOOLEAN (autoupdate) ASSIGNBOOLEAN (toolbar) ASSIGNBOOLEAN (rhythm_palette) ASSIGNBOOLEAN (object_palette) ASSIGNBOOLEAN (saveparts)
     //g_debug ("Timeout %d \n", prefs->autosave_timeout);
     if (midi_in_device_was_default && strcmp (prefs->portmidi_input_device->str, "default"))
@@ -318,10 +318,10 @@ midi_audio_tab_update (GtkWidget * box, gpointer data)
   struct audio_callback_data *cbdata = (struct audio_callback_data *) data;
 
   gchar const *audio_driver = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->audio_driver));
-#if (defined _HAVE_JACK_) || (defined _HAVE_PORTMIDI_)  
+#if (defined _HAVE_JACK_) || (defined _HAVE_PORTMIDI_)
   gchar const *midi_driver = gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->midi_driver));
 #endif
-  
+
 #ifdef _HAVE_JACK_
   gtk_widget_set_visible (cbdata->jack_audio_settings, strcmp (audio_driver, "JACK") == 0);
   gtk_widget_set_visible (cbdata->jack_midi_settings, strcmp (midi_driver, "JACK") == 0);
@@ -348,7 +348,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   GtkWidget *main_vbox;
   GtkWidget *autosave;
   GtkWidget *autosave_timeout;
- 
+
   // GtkWidget *tooltip_timeout;
   //   GtkWidget *tooltip_browse_timeout;
   //    GtkWidget *tooltip_browse_mode_timeout;
@@ -549,7 +549,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   //xgettext:no-c-format
   INTENTRY_LIMITS (_("% of display height per system"), system_height, 1, 100);
 
- 
+
   /*
    * Preferences to do with commands
    */
@@ -574,11 +574,11 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
    */
   NEWPAGE (_("Externals"));
 
-  TEXTENTRY (_("Path to Lilypond"), lilypath) 
-  TEXTENTRY (_("File/Internet Browser"), browser) 
-  TEXTENTRY (_("Image Viewer"), imageviewer) 
+  TEXTENTRY (_("Path to Lilypond"), lilypath)
+  TEXTENTRY (_("File/Internet Browser"), browser)
+  TEXTENTRY (_("Image Viewer"), imageviewer)
   TEXTENTRY (_("Graphics Editor"), graphicseditor)
-  TEXTENTRY (_("Default Save Path"), denemopath) 
+  TEXTENTRY (_("Default Save Path"), denemopath)
   BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
   /*
    * Misc Menu
@@ -610,8 +610,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   INTENTRY_LIMITS (_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY (_("Enable Thumbnails"), enable_thumbnails);
-  INTENTRY (_("Max recent files"), maxhistory) 
-  TEXTENTRY (_("User Name"), username) 
+  INTENTRY (_("Max recent files"), maxhistory)
+  TEXTENTRY (_("User Name"), username)
   //PASSWORDENTRY (_("Password for Denemo.org"), password)
   BOOLEANENTRY (_("Autosave Parts"), saveparts);
 
@@ -629,11 +629,11 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   label = gtk_label_new (_("second(s)"));
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);
   g_signal_connect (G_OBJECT (autosave), "toggled", G_CALLBACK (toggle_autosave), autosave_timeout);
-  
+
   INTENTRY_LIMITS (_("Compression"), compression, 0, 9);
 
-  
-  
+
+
 
   static struct audio_callback_data audio_cbdata;
 

@@ -4,7 +4,7 @@
 #include <config.h>
 #include "common.h"
 
-/* Integration tests are those which launch the program in different 
+/* Integration tests are those which launch the program in different
  * environments, and with different parameters.
  */
 
@@ -50,7 +50,7 @@ compare_denemo_files(gchar* fileA, gchar* fileB){
     g_test_trap_subprocess (NULL, 0, 0);
     g_test_trap_assert_passed ();
   }
-  
+
   return equals;
 }
 
@@ -87,7 +87,7 @@ setup(gpointer fixture, gconstpointer data)
     while (filename = g_dir_read_name(dir))
       g_remove (g_build_filename(temp_dir, filename, NULL));
   }
-  
+
   gchar* dnm_fixtures = g_build_filename(temp_dir, "denemo", NULL);
   mkdir_if_not_exists(dnm_fixtures);
   g_free(dnm_fixtures);
@@ -103,7 +103,7 @@ setup(gpointer fixture, gconstpointer data)
 
 static void
 teardown(gpointer fixture, gconstpointer data)
-{  
+{
   delete_if_exists(temp_dir);
 }
 
@@ -158,7 +158,7 @@ test_open_save_blank_file(gpointer fixture, gconstpointer data)
     }
   g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
-  
+
   g_assert(compare_denemo_files(input, output));
   g_remove(output);
 }
@@ -174,11 +174,11 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   gchar* filename = g_path_get_basename(input);
   gchar* base_name = get_basename(filename);
   gchar* extension = g_strrstr (input, ".") + 1;
-  
+
   const gchar* output_filename = g_strconcat(base_name, ".denemo", NULL);
   const gchar* output = g_build_filename(temp_dir, extension, output_filename, NULL);
   const gchar* reference = g_build_filename(ref_dir, extension, output_filename, NULL);
- 
+
   g_test_print("Opening %s\n", input);
   if (g_test_subprocess ())
     {
@@ -192,7 +192,7 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 
-  
+
   g_test_print("Finding and reopening %s\n", output);
   g_assert(g_file_test(output, G_FILE_TEST_EXISTS));
   if (g_test_subprocess ())
@@ -203,17 +203,17 @@ test_open_save_complex_file(gpointer fixture, gconstpointer data)
   g_test_trap_subprocess (NULL, 0, 0);
   g_test_trap_assert_passed ();
 
-  
+
   // Comparision
   if(g_file_test(reference, G_FILE_TEST_EXISTS)){
     g_test_print("Comparing %s with the reference %s\n", output, reference);
-    g_assert(compare_denemo_files(output, reference)); 
+    g_assert(compare_denemo_files(output, reference));
   }
   else if(g_str_has_suffix (filename, ".denemo")){
     g_test_print("Comparing %s with %s\n", input, output);
     g_assert(compare_denemo_files(input, output));
   }
-  else{ 
+  else{
     gchar* compare_file = g_strconcat(base_name, ".denemo", NULL);
     if(g_file_test(compare_file, G_FILE_TEST_EXISTS)){
       g_test_print("Comparing %s with %s\n", compare_file, output);
@@ -236,7 +236,7 @@ parse_dir_and_run_complex_test(gchar* path, const gchar* extension)
   gchar* filename = NULL;
   while (filename = g_dir_read_name(dir)){
     filename = g_build_filename(path, filename, NULL);
-    if(g_file_test(filename, G_FILE_TEST_IS_DIR)) 
+    if(g_file_test(filename, G_FILE_TEST_IS_DIR))
       parse_dir_and_run_complex_test(filename, extension);
   }
 
@@ -266,13 +266,13 @@ main (int argc, char *argv[])
 
   if(!fixtures_dir)
     fixtures_dir = g_build_filename(PACKAGE_SOURCE_DIR, "tests", FIXTURES_DIR, NULL);
-  
+
   if(!temp_dir)
     temp_dir = g_build_filename(g_get_current_dir (), TEMP_DIR, NULL);
 
   if(!example_dir)
     example_dir = g_build_filename(PACKAGE_SOURCE_DIR, EXAMPLE_DIR, NULL);
-  
+
   if(!ref_dir)
     ref_dir = g_build_filename(g_get_current_dir (), REFERENCE_DIR, NULL);
 

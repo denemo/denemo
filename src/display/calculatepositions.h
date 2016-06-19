@@ -1,7 +1,7 @@
 /* calculatepositions.h
  * header file for functions that calculate the positions at which score
  * objects are drawn
- *  
+ *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Matthew Hiller, Adam Tee
  */

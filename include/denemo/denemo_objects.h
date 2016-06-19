@@ -9,7 +9,7 @@
  * Copyright: See COPYING file that comes with this distribution
  *
  */
- 
+
 #include <gtk/gtk.h>
 
 #ifndef DENEMOOBJECTS_H
@@ -18,19 +18,19 @@
 
 
 /**
- * enum containing notehead 
+ * enum containing notehead
  * definitions
  */
 typedef enum headtype
-{ 
-  DENEMO_NORMAL_NOTEHEAD, /*!< Enum value DENEMO_NORMAL_NOTEHEAD */ 
+{
+  DENEMO_NORMAL_NOTEHEAD, /*!< Enum value DENEMO_NORMAL_NOTEHEAD */
   DENEMO_CROSS_NOTEHEAD,
   DENEMO_HARMONIC_NOTEHEAD,
   DENEMO_DIAMOND_NOTEHEAD
 }headtype;
 
 /**
- * structure encapsulating a 
+ * structure encapsulating a
  * grace note
  */
 typedef struct grace
@@ -38,16 +38,16 @@ typedef struct grace
   gboolean on_beat;
   gint duration;
 }grace;
-  
-  
+
+
 /**
- * structure encapsulating a 
+ * structure encapsulating a
  * musical note
  */
 typedef struct note
 {
-  gint mid_c_offset;/**< This is used to define (the pitch of) a note. 
-		       A positive number is the number of half 
+  gint mid_c_offset;/**< This is used to define (the pitch of) a note.
+		       A positive number is the number of half
 		       steps above middle c. A negative number is below middle c.*/
   gint enshift;/**< Enharmonic shift. Should the note be notated as sharp (1) double-sharp (2) or flat (-1) double-flat (-2) or natural (0). No other values are legal. */
   gboolean reversealign;
@@ -64,7 +64,7 @@ note;
 
 /**
  * Enum defining ornament types
- * 
+ *
  */
 typedef enum ornament {
   STACCATO=1,
@@ -98,20 +98,20 @@ typedef enum ornament {
   UPPRALL,
   D_ARPEGGIO
 }Ornament;
- 
+
 
 
 
 /**
  * Structure describing a chord
  * 1;7B
- * 
+ *
  */
 typedef struct chord
 {
-  GList *notes;	/**< NULL if the chord is a rest 
-		   else Glist of the notes of the chord 
-		   (in order of mid_c_offset value) 
+  GList *notes;	/**< NULL if the chord is a rest
+		   else Glist of the notes of the chord
+		   (in order of mid_c_offset value)
 		   notes->data fields are of type note*
 		*/
   GList *dynamics;  /**< test for new dynamic handling */
@@ -141,33 +141,33 @@ typedef struct chord
   gint stemy;		/**< Stores the y position of the end of the stem */
   GString *lyric; /**< Pointer to the lyrics applied to that chord */
   gboolean is_syllable; /**< Is the lyric a syllable? */
-  gboolean center_lyric; /**< Should the lyrics be centered or 
+  gboolean center_lyric; /**< Should the lyrics be centered or
 			    should it be directly under the note?
 			    that it is attatched to? */
 
-  gboolean is_figure; /**< the reason for using this boolean is to exploit 
-			 the fact that all the spacing and printing of 
+  gboolean is_figure; /**< the reason for using this boolean is to exploit
+			 the fact that all the spacing and printing of
 			 figures can use the code for the CHORD type */
-  gpointer figure; /**< when this chord is a bass note 
+  gpointer figure; /**< when this chord is a bass note
 		      (figure !=NULL && is_figure==FALSE) this
 		      pointer points to an objnode in a FiguredBassStaff.
 		      That objnode's data is a DenemoObject of type CHORD.
 		      It is linked into the corresponding FiguredBassStaff if
 		      one exists.
-		      When this chord is_figure then figure is a 
+		      When this chord is_figure then figure is a
 		      GString* containing the
 		      figures in lilypond format. */
   GList *tone_node; /**< which tone this note was extracted from */
   gboolean is_fakechord; /**< This is the actual value of the fake chord if is_fakechord */
   gpointer fakechord; /**< This is the actual fake chord string if is_fakechord */
-  
+
   GList *directives;/**< list of DenemoDirective to apply to the chord */
 
 }
 chord;
 
 /**
- * Structure defining an indicator that a tuplet is starting 
+ * Structure defining an indicator that a tuplet is starting
  */
 typedef struct tupopen
 {
@@ -181,7 +181,7 @@ typedef tupopen tuplet; //used for tupclose or tupopen
 
 /**
  * Enum defining clef values
- * 
+ *
  */
 typedef enum clefs
 {
@@ -197,7 +197,7 @@ typedef enum clefs
 }clefs;
 
 /**
- * Indicator for a clef change 
+ * Indicator for a clef change
  */
 typedef struct clef
 {
@@ -208,7 +208,7 @@ clef;
 
 /**
  * Indicator for a time-signature change. Only appears at the
- * beginning of a measure 
+ * beginning of a measure
  */
 typedef struct timesig
 {
@@ -218,8 +218,8 @@ typedef struct timesig
 }
 timesig;
 
-/** 
- * Indicator for a key-signature change. 
+/**
+ * Indicator for a key-signature change.
  */
 typedef struct keysig
 {
@@ -233,7 +233,7 @@ keysig;
 
 /* Dynamic */
 
-typedef struct dynamic 
+typedef struct dynamic
 {
   GString *type;
 }
@@ -241,7 +241,7 @@ dynamic;
 
 /**
  * Enum defining barline types
- * 
+ *
  */
 typedef enum barline_type {
   ORDINARY_BARLINE,
@@ -254,7 +254,7 @@ typedef enum barline_type {
 
 /**
  * Structure encapsulating a barline
- * 
+ *
  */
 typedef struct barline
 {
@@ -265,7 +265,7 @@ barline;
 
 
 /**
- * Lyric datastructure 
+ * Lyric datastructure
  */
 typedef struct lyric
 {
@@ -296,7 +296,7 @@ lilydirective;
 
 /**
  * Enum defining stem direction values
- * 
+ *
  */
 typedef enum stemdirections
 {
@@ -307,7 +307,7 @@ typedef enum stemdirections
 
 /**
  * Indicator that the following music should be all stemup, all
- * stemdown, or stemmed normally 
+ * stemdown, or stemmed normally
  */
 typedef struct stemdirective
 {

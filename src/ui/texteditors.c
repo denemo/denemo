@@ -3,7 +3,7 @@
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2009  Richard Shann
- * 
+ *
  */
 
 #include <gtksourceview/gtksourceview.h>
@@ -76,7 +76,7 @@ executeScript (void)
     stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue so this is the end :)
     (void) call_out_to_guile (text);
     stage_undo (Denemo.project->movement, ACTION_STAGE_START);
-    }   
+    }
     else
         g_warning ("Trying to execute empty scheme script");
 }
@@ -99,7 +99,7 @@ executeCLI (GtkWidget * button, GtkEntry * entry)
 }
 
 /* Return number of characters in Scheme script */
-//TODO: Avoid to use gtk widgets for this since it can be used in non 
+//TODO: Avoid to use gtk widgets for this since it can be used in non
 //interactive mode.
 gint
 getNumCharsSchemeText (void)
@@ -127,7 +127,7 @@ deleteSchemeText (void)
 
 void
 appendSchemeText (gchar * text)
-{  
+{
   if(!Denemo.non_interactive){
     GtkTextIter enditer;
     GtkTextBuffer *buffer = gtk_text_view_get_buffer ((GtkTextView *) (Denemo.script_view));
@@ -150,7 +150,7 @@ appendSchemeText (gchar * text)
 static gint
 hide_scheme (GtkAction * action, GdkEvent * event, GtkWidget * w)
 {
-  
+
   if(Denemo.ScriptRecording) {
         gtk_action_activate (gtk_action_group_get_action (Denemo.action_group, RecordScript_STRING));
         infodialog(_("Turning off Recording scheme"));
@@ -376,7 +376,7 @@ create_editor_window (void)
   GtkWidget *button = w;
   //gtk_widget_set_can_default(w, TRUE);
   //GTK_WIDGET_SET_FLAGS(window, GTK_CAN_DEFAULT);
-  //gtk_window_set_default (window, w);  
+  //gtk_window_set_default (window, w);
   gtk_box_pack_start (GTK_BOX (hbox), w, FALSE, TRUE, 0);
   w = gtk_entry_new ();
   GtkWidget *entry = w;
@@ -443,7 +443,7 @@ create_editor_window (void)
   GtkWidget *wid = gtk_check_button_new ();
   gtk_activatable_set_related_action (GTK_ACTIVATABLE (wid), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/HiddenMenu/RecordScript"));
   gtk_box_pack_start (GTK_BOX (inner_hbox), wid, FALSE, FALSE, 0);
-  
+
   GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 

@@ -64,7 +64,7 @@ get_clef_from_name (gchar * name)
 }
 
 /**
- * Callback to insert a clef change 
+ * Callback to insert a clef change
  * calls clef change with the INSERT argument
  */
 void
@@ -84,7 +84,7 @@ clef_change_insert (GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * Callback to change the inital clef on a staff 
+ * Callback to change the inital clef on a staff
  * calls clef change with the CHANGEINITIAL argument
  */
 void

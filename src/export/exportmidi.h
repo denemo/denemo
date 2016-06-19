@@ -2,7 +2,7 @@
  * Header file for Standard MIDI output
  * for Denemo, a gtk+ frontend to GNU Lilypond
  *
- * (c) 2001 Per Andersson 
+ * (c) 2001 Per Andersson
  * 2009- 2013 RTS */
 #ifndef EXPORTMIDI_H
 #define EXPORTMIDI_H

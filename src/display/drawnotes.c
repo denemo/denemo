@@ -26,7 +26,7 @@ static void draw_selection_shading (cairo_t *cr, DenemoDirective *directive, gdo
 {
  if (directive == Denemo.project->movement->directive_on_clipboard)
             {
-                cairo_save (cr); 
+                cairo_save (cr);
                 cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
                 cairo_arc (cr,  x, y - 4, 2*diameter, 0.0, 2*M_PI); //FIXME put these adjustments back into the caller code and pass diameter and y as final values
                 cairo_fill (cr);
@@ -36,7 +36,7 @@ static void draw_selection_shading (cairo_t *cr, DenemoDirective *directive, gdo
 
 /**
  * draw_dots
- * This draws dots after rests or notes 
+ * This draws dots after rests or notes
  *
  */
 static void
@@ -52,7 +52,7 @@ draw_dots (cairo_t * cr, gint xstart, gint ystart, gint numdots)
 
 /**
  * draw_rest
- * This function actually draws a rest onto the backing pixmap 
+ * This function actually draws a rest onto the backing pixmap
  *
  */
 static void
@@ -79,21 +79,21 @@ draw_rest (cairo_t * cr, gint duration, gint numdots, gint xx, gint y, DenemoGra
 
 /**
  *  draw_notehead
- *  This function actually draws the note onto the backing pixmap 
+ *  This function actually draws the note onto the backing pixmap
  *
  */
 static void
-draw_notehead (cairo_t * cr, 
-               note * thenote, 
-               gint duration, 
-               gint numdots, 
-               gint xx, 
-               gint y, 
-               gint * accs, 
-               gint is_stemup, 
-               DenemoGraphic * override_notehead, 
-               gint gx, 
-               gint gy, 
+draw_notehead (cairo_t * cr,
+               note * thenote,
+               gint duration,
+               gint numdots,
+               gint xx,
+               gint y,
+               gint * accs,
+               gint is_stemup,
+               DenemoGraphic * override_notehead,
+               gint gx,
+               gint gy,
                gboolean at_cursor,
                gboolean percussion)
 {
@@ -274,7 +274,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
           cairo_scale (cr, 0.8, 0.8);
           cairo_translate (cr, -xx, -(y + thenote->y));
         }
-      //g_debug("Invisible is %d\n", mudelaitem->isinvisible); 
+      //g_debug("Invisible is %d\n", mudelaitem->isinvisible);
       if (mudelaitem->isinvisible)
         {
           if (selected)
@@ -321,7 +321,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     cairo_save (cr);
                     cairo_set_source_rgba (cr, 0.4 + exclude -only/2, 0.5 + only, 0.4 -only/2, at_cursor ? 1.0 : 0.7);
                                         //cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, at_cursor ? 1.0 : 0.5); green is too pale.
-                }   
+                }
           if (directive->graphic)
             {
 
@@ -485,7 +485,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     }
                   cairo_stroke (cr);
                 }
-            }                   //if graphic not overrriden  
+            }                   //if graphic not overrriden
 
           /* Now draw the tie, if appropriate */
           if (thechord.is_tied)

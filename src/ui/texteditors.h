@@ -1,6 +1,6 @@
 /* texteditors.h
- *  
- * (c)   2009 Richard Shann 
+ *
+ * (c)   2009 Richard Shann
  */
 
 #ifndef TEXTEDITORS_H

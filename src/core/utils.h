@@ -334,7 +334,7 @@ gboolean shift_held_down(void);
 void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a);
 #else
 void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a);
-#endif 
+#endif
 
 
 

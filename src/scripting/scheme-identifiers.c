@@ -407,7 +407,7 @@ create_scheme_identfiers (void)
   INSTALL_GET (object, minpixels);
   INSTALL_PUT (object, minpixels);
 
-  //block to repeat for new  directive fields 
+  //block to repeat for new  directive fields
 
   INSTALL_GET (standalone, minpixels);
   INSTALL_GET (chord, minpixels);
@@ -446,7 +446,7 @@ create_scheme_identfiers (void)
   INSTALL_PUT (layout, minpixels);
   INSTALL_PUT (movementcontrol, minpixels);
 
-  //end block to repeat for new  directive fields 
+  //end block to repeat for new  directive fields
   INSTALL_GET (standalone, data);
   INSTALL_GET (chord, data);
   INSTALL_GET (note, data);
@@ -561,7 +561,7 @@ create_scheme_identfiers (void)
   INSTALL_PUT (score, override);
 
 
-  //graphic 
+  //graphic
   INSTALL_PUT (note, graphic);
   //INSTALL_GET(note, graphic);
 
@@ -661,13 +661,13 @@ create_scheme_identfiers (void)
   //INSTALL_GET (note);
   INSTALL_PUT_IGNORE (chord);
   //INSTALL_GET (chord);
-   
+
    INSTALL_PUT_ALLOW (staff);
    INSTALL_PUT_ALLOW (voice);
    INSTALL_PUT_IGNORE (staff);
    INSTALL_PUT_IGNORE (voice);
-   
-  
+
+
 
   INSTALL_PUT (note, tx);
   INSTALL_GET (note, tx);

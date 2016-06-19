@@ -4,12 +4,12 @@
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Library General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
@@ -38,7 +38,7 @@ void set_continuous_typesetting (gboolean setting){return FALSE;}
 gboolean continuous_typesetting () {return FALSE;}
 #endif
 
-static gint changecount = -1;   //changecount when the playback typeset was last created 
+static gint changecount = -1;   //changecount when the playback typeset was last created
 static gboolean RightButtonPressed = FALSE;
 static gboolean LeftButtonPressed = FALSE;
 static gboolean Dragging = FALSE;
@@ -134,9 +134,9 @@ show_playback_view (void)
     else
         gtk_window_present (GTK_WINDOW (w));
 }
-        
 
-//draw a circle 
+
+//draw a circle
 static void
 place_spot (cairo_t * cr, gdouble x, gdouble y, gdouble size)
 {
@@ -155,7 +155,7 @@ get_window_size (gint * w, gint * h)
     window = gtk_layout_get_bin_window (GTK_LAYOUT (Denemo.playbackview));
   if (window)
     {
-     
+
 #if GTK_MAJOR_VERSION==2
       gdk_drawable_get_size (window, w, h);
 #else
@@ -170,7 +170,7 @@ gboolean attach_timings (void)
   if (TheTimings == NULL)
         return FALSE;
   GList *g;
-  for (g=TheTimings;g;g=g->next)      
+  for (g=TheTimings;g;g=g->next)
     {
         Timing *this = (Timing *)g->data;
         DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
@@ -184,7 +184,7 @@ gboolean attach_timings (void)
             else
                return FALSE;
     }
-    
+
   return TRUE;
 }
 DenemoObject *get_object_for_time (gdouble time, gboolean start)
@@ -198,7 +198,7 @@ DenemoObject *get_object_for_time (gdouble time, gboolean start)
          //g_print ("Seeking %.2f Timing %.2f to %.2f\n", time, this->object->earliest_time, this->object->latest_time);
          if (this->object && ((start? this->object->earliest_time:this->object->latest_time) > time))
             return this->object;
-            
+
         }
     return NULL;
 }
@@ -219,16 +219,16 @@ overdraw_print (cairo_t * cr)
         cairo_move_to (cr, RightButtonPressed?(double)RightButtonX:(double)LeftButtonX, RightButtonPressed?(double)RightButtonY:(double)LeftButtonY);
         cairo_line_to (cr, (double)DragX, (double)DragY);
         cairo_stroke (cr);
-        
-       return TRUE; 
+
+       return TRUE;
     }
   if ((!audio_is_playing()) && (LeftButtonX))
             {
                 cairo_set_source_rgba (cr, 0.4, 0.6, 0.8, 0.5);
                 place_spot (cr, (gdouble)LeftButtonX, (gdouble)LeftButtonY, PRINTMARKER/2.0);
                 cairo_fill (cr);
-            } 
-    
+            }
+
   cairo_scale (cr, TheScale, TheScale);
   if(!audio_is_playing())
     {
@@ -242,8 +242,8 @@ overdraw_print (cairo_t * cr)
                 //g_print ("drawing at %.2f %.2f\n", (gdouble)sp->x  - (PRINTMARKER/5)/4, (gdouble)sp->y - (PRINTMARKER/5)/2);
                 place_spot (cr, (gdouble)sp->x, (gdouble)sp->y, PRINTMARKER / 6.0);
             }
-            
-    
+
+
         cairo_fill (cr);
     return TRUE;
     }
@@ -254,8 +254,8 @@ overdraw_print (cairo_t * cr)
   if (LastTiming == NULL)
         {
             LastTiming = TheTimings;
-        }        
-  
+        }
+
     cairo_set_source_rgba (cr, 0x6e/255.0, 0xb9/255.0, 0xd5/255.0, 0.3);//6eb9d5
 
     gdouble time = Denemo.project->movement->playhead;
@@ -266,7 +266,7 @@ overdraw_print (cairo_t * cr)
         {// g_print ("\n\n\nResetting LastTiming at %.2f for %.2f\n", time, this);
             LastTiming = TheTimings;
         }
-        
+
     for(g=LastTiming;g && g->next;g=g->next)
         {
            this = ((Timing *)g->data)->time;
@@ -341,7 +341,7 @@ static Timing *get_svg_position(gchar *id, GList *ids)
         {//g_print ("Testing %s with %s\n", ids->data, id);
             if (g_str_has_prefix ((gchar*)ids->data, id))
                 {
-                    
+
                   Timing *timing = (Timing *)g_malloc (sizeof(Timing));
                   if (2==sscanf ((gchar*)ids->data, "Note-%*d-%*d translate(%lf,%lf)%*s%*s", &timing->x, &timing->y))
                     {
@@ -352,10 +352,10 @@ static Timing *get_svg_position(gchar *id, GList *ids)
                        //g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
                         return timing;
                     }
-                    
+
                 }
-            
-            
+
+
         }
     g_warning ("Failed to find a position in events.txt for %s\n", id);
     return NULL;
@@ -382,7 +382,7 @@ static void compute_timings (gchar *base, GList *ids)
 {
     free_timings();
     gchar *events = g_build_filename (base, "events.txt", NULL);
-    FILE *fp = fopen (events, "r");  
+    FILE *fp = fopen (events, "r");
     //g_print ("Collected %d ids\n", g_list_length (ids));
     if(fp)
         {
@@ -396,10 +396,10 @@ static void compute_timings (gchar *base, GList *ids)
             gdouble nextTempo = 0;
             gdouble nextTempoMoment = 0;
             gboolean incomingTempo = FALSE;
-            while (2 == fscanf (fp, "%lf%10s", &moment, type)) 
+            while (2 == fscanf (fp, "%lf%10s", &moment, type))
                 {
                 // g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
-                  if (!strcmp (type, "tempo"))  
+                  if (!strcmp (type, "tempo"))
                         {
                             if (1 == fscanf (fp, "%lf", &nextTempo))
                                 {
@@ -413,7 +413,7 @@ static void compute_timings (gchar *base, GList *ids)
                             {
                             if (4 == fscanf (fp, "%*s%lf%*s%d%d%d", &duration, &col, &line, &midi))
                                     {
-                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi); 
+                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi);
                                        if (incomingTempo)
                                         {
                                             if (moment > nextTempoMoment)
@@ -430,7 +430,7 @@ static void compute_timings (gchar *base, GList *ids)
 
                                                 idStr = g_strdup_printf ("Note-%d-%d" , line, col);
                                                 timing = get_svg_position (idStr, ids);
-                                                
+
                                                 if(timing)
                                                     {
                                                     timing->line = line;
@@ -442,13 +442,13 @@ static void compute_timings (gchar *base, GList *ids)
                                     }
                                     else
                                     g_warning ("Could not parse type %s\n", type);
-                            }            
-                                    
+                            }
+
                         else if(!strcmp (type, "rest"))
                             {
                                 if (3 == fscanf (fp, "%*s%lf%*s%d%d",  &duration, &col, &line))
                                     {
-                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi); 
+                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi);
                                        if (incomingTempo)
                                         {
                                             if (moment > nextTempoMoment)
@@ -461,10 +461,10 @@ static void compute_timings (gchar *base, GList *ids)
                                         gdouble elapsedTime = moment - latestMoment;
                                         adjustedElapsedTime += elapsedTime * timeCoef;//g_print ("adjustedElapsedtime %f\n", adjustedElapsedTime);
                                         gchar *idStr;
-                                        Timing *timing;                                        
-                                            
-                                            
-                                            
+                                        Timing *timing;
+
+
+
                                             idStr = g_strdup_printf ("Rest-%d-%d" , line, col);
                                             timing = get_svg_position (idStr, ids);
                                             if(timing)
@@ -474,7 +474,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                 timing->time = adjustedElapsedTime;
                                                 add_note (timing);//g_print ("AdjustedElapsed time %.2f rest \n", adjustedElapsedTime);
                                                 }
-                                            
+
                                 } //rest
                             else g_warning ("Don't know how to handle %s\n", type);
                             }
@@ -483,8 +483,8 @@ static void compute_timings (gchar *base, GList *ids)
                     } //while events
                 fclose (fp);
             } //if events file
-                    
-    g_free (events); 
+
+    g_free (events);
 }
 
 static GList * create_positions (gchar *filename)
@@ -549,7 +549,7 @@ static GList * create_positions (gchar *filename)
     }
     g_free (filename);
     //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
-  return ret;  
+  return ret;
 }
 static gint get_number_of_pages (gchar *base)
 {
@@ -565,7 +565,7 @@ static gint get_number_of_pages (gchar *base)
             //g_print ("Found %s\n", filename);
             g_free (filename);
         }
-   return i-1;         
+   return i-1;
 }
 static gboolean
 set_playback_view (void)
@@ -589,12 +589,12 @@ set_playback_view (void)
           filename = g_strconcat (Denemo.printstatus->printbasename[Denemo.printstatus->cycle], "-page-1.svg", NULL);
           if (g_file_test (filename, G_FILE_TEST_EXISTS))
                 {
-                    g_free (filename); 
+                    g_free (filename);
                     num_pages = get_number_of_pages (Denemo.printstatus->printbasename[Denemo.printstatus->cycle]);
                     if (num_pages<2)
                         {
                         g_warning ("Unable to determine number of pages\n");
-                        return FALSE;  
+                        return FALSE;
                         }
                     gchar *scheme = g_strdup_printf ("%s%s%s%d%s", "(d-PlaybackView \"(list ", PartOnly?"#t":"#f", " \\\"20\\\" \\\"" , 100 * num_pages, "\\\")\")");
                     g_print ("Scheme created: %s for %d pages\n", scheme, num_pages);
@@ -613,8 +613,8 @@ set_playback_view (void)
 
  if (Denemo.printstatus->invalid == 0)
     {
- 
-    compute_timings (g_path_get_dirname(filename), create_positions (filename)); 
+
+    compute_timings (g_path_get_dirname(filename), create_positions (filename));
 
 #if 1 //def G_OS_WIN32
     GError *err = NULL;
@@ -623,7 +623,7 @@ set_playback_view (void)
      //      filename = string_dialog_entry (Denemo.project, "Back Door SVG Load", "Give SVG full path:", locateprintdir());
     GdkPixbuf *pb = rsvg_pixbuf_from_file (filename, &err);
     //rsvg_pixbuf_from_file_at_size (filename, 709, 3543 * num_pages, &err);
-                               
+
     if(pb)
         {
             //g_print ("Width %d\nHeight %d\n", gdk_pixbuf_get_width (pb), gdk_pixbuf_get_height (pb)); 709, 7087 for two page, 709 by 3543 for single
@@ -635,11 +635,11 @@ set_playback_view (void)
         } else
         g_print ("\n\nThe rsvg pixbuf load of %s gave error: %s\n\n", filename, err?err->message: "no error return");
 
-#else   
+#else
       if(Denemo.playbackview)
         gtk_image_set_from_file (GTK_IMAGE (Denemo.playbackview), filename);
       else
-        Denemo.playbackview = gtk_image_new_from_file (filename);   
+        Denemo.playbackview = gtk_image_new_from_file (filename);
 #endif
 
       static gboolean shown_once = FALSE;   //Make sure the user knows that the printarea is on screen
@@ -739,13 +739,13 @@ copy_svg (void)
     {
       gchar *contents;
       gsize length;
-    
-        
+
+
       if (g_file_get_contents (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle], &contents, &length, NULL))
         {
-            
-            if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "SVG creation"), _( "File Exists, overwrite?")))  
-                {          
+
+            if ((!g_file_test (filename, G_FILE_TEST_EXISTS)) || confirm (_( "SVG creation"), _( "File Exists, overwrite?")))
+                {
                   if (!g_file_set_contents (filename, contents, length, NULL))
                     {
                       gchar *msg = g_strdup_printf (_("Errno %d:\nCould not copy %s to %s. Perhaps because some other process is using the destination file. Try again with a new location\n"),
@@ -761,7 +761,7 @@ copy_svg (void)
                       if (strcmp(uri, get_output_uri_from_scoreblock ()))
                         score_status (Denemo.project, TRUE);
                       set_current_scoreblock_uri (uri);
-                     
+
                       //g_print ("I have copied %s to %s (default was %s) uri %s\n", Denemo.printstatus->printname_svg[Denemo.printstatus->cycle], filename, outname, uri);
                     }
                   g_free (contents);
@@ -792,9 +792,9 @@ void delete_svgs (void) {
             //g_print ("deleting %s\n", filename);
             g_unlink (filename);
 #ifdef G_OS_WIN32
-    if (g_file_test (filename, G_FILE_TEST_EXISTS)) g_warning ("File %s deletion failed\n\n", filename);    
-#endif            
-            
+    if (g_file_test (filename, G_FILE_TEST_EXISTS)) g_warning ("File %s deletion failed\n\n", filename);
+#endif
+
             g_free (filename);
         }
 }
@@ -848,14 +848,14 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
     Locationx = Locationy = -1;
     if (audio_is_playing ())
         return;
-   
-    
+
+
     if (get_wysiwyg_info()->stage != TypesetForPlaybackView)
        {
             warningdialog (_("Use the Print View or re-typeset"));
             return;
        }
-    
+
     gint x = event->x;
     gint y = event->y;
     //g_print ("At %d %d\n", x, y);
@@ -865,7 +865,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
             RightButtonPressed = TRUE;
             RightButtonX = x;
             RightButtonY = y;
-            
+
         }
     else
         {
@@ -901,16 +901,16 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                         }
                     //g_print ("Set Playback Start %d column %d\n", timing->line, timing->col);
                     return;
-                    
+
                 }
             //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*TheScale, timing->y*TheScale);
         }
-        
-    call_out_to_guile ("(d-PlayMidiNote 36 255 9 100)");                    
+
+    call_out_to_guile ("(d-PlayMidiNote 36 255 9 100)");
 }
 static void scroll_by (gdouble amount)
 {
- 
+
     gdouble value =  gtk_adjustment_get_value  (VAdj);
    //g_print ("set to %.2f from %.2f\n", value+amount, value);
     gtk_adjustment_set_value (VAdj, value+amount + 0.5);//0.5 helps prevent slow movements going ahead of the scroll ...
@@ -945,7 +945,7 @@ static gboolean playback_redraw (void)
                         gtk_widget_queue_draw (Denemo.playbackview);
                         return TRUE;
                     }
-                
+
                 gdouble time = Denemo.project->movement->playhead;
                 static gdouble waiting_time;
                 if (last_time < 0.0)
@@ -981,15 +981,15 @@ static gboolean playback_redraw (void)
                                         {
                                             if (time >= tm)
                                                 {
-                                                   break;   
+                                                   break;
                                                 }
                                             if (g->prev)
                                                 { gdouble prevadj, prevtm;
-                                                   decode ((g->prev->data), &prevadj, &prevtm); 
+                                                   decode ((g->prev->data), &prevadj, &prevtm);
                                                    scroll_to (prevadj + (adj - prevadj)*((time-prevtm)/(tm - prevtm)));//,g_print ("case 3");
                                                    break;
                                                 }
-                                            if (tm>0) 
+                                            if (tm>0)
                                                 {
                                                 scroll_to (adj*(time - waiting_time)/(tm - waiting_time));//,g_print ("case 4");
                                                 }
@@ -1017,8 +1017,8 @@ static void list_scroll_points (void) //debug only
         {gdouble adj, tm;
          decode (g->data, &adj, &tm);
          g_print ("Scroll Point: %0.2f at time %0.2f\n", adj, tm);
-     }  
-    
+     }
+
 }
 static void toggle_scroll_point (gdouble adj, gdouble time, gdouble x, gdouble y)
 {
@@ -1031,10 +1031,10 @@ static void toggle_scroll_point (gdouble adj, gdouble time, gdouble x, gdouble y
                 {
                     g_free (sp);
                     Denemo.project->movement->scroll_points = g_list_delete_link (Denemo.project->movement->scroll_points, g);
-                   
+
                         return;
                 }
-            
+
             if (this->time > sp->time)
                 {
                     Denemo.project->movement->scroll_points = g_list_insert_before (Denemo.project->movement->scroll_points, g, sp);
@@ -1049,11 +1049,11 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
     gint y = event->y;
     RightButtonPressed = FALSE;
     LeftButtonPressed = FALSE;
-    
+
     if (Dragging &&   (event->button == 3))
         {
             //g_print ("Store %.2f %.2f\n", gtk_adjustment_get_value (VAdj), ScrollTime);
-            call_out_to_guile ("(d-PlayMidiNote 52 255 9 100)");    
+            call_out_to_guile ("(d-PlayMidiNote 52 255 9 100)");
             toggle_scroll_point (gtk_adjustment_get_value (VAdj), ScrollTime, x/(TheScale), y/(TheScale));
             gtk_widget_set_sensitive (ClearScrollPointsButton, (Denemo.project->movement->scroll_points != NULL));
             //list_scroll_points();
@@ -1069,8 +1069,8 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
 
     //g_print ("At %d %d\n", x, y);
     if (event->button == 3)
-        return;    
-    
+        return;
+
      if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
             static gboolean once = TRUE;
@@ -1086,13 +1086,13 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
             Timing *timing = g->data;
             if((x-timing->x*TheScale < PRINTMARKER/(2)) && (y-timing->y*TheScale < PRINTMARKER/(2)))
                 {
-                    
+
                     if ((timing->col == Locationx) && (timing->line == Locationy))
                         {
                             if (!shift_held_down())
                               call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
                             else
-                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
+                                call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)");
                             //g_print ("Found same line %d column %d\n", timing->line, timing->col);
                         }
                     else
@@ -1100,7 +1100,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                              if ( (timing->line > Locationy) || ((timing->line==Locationy)&&(timing->col>=Locationx)))
                                 {
                                     gboolean found = goto_lilypond_position (timing->line, timing->col);g_print ("y %d Lefty %d\n", y, LeftButtonY);
-                                    
+
                                     call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
                                         //g_print ("Set playback end to %d column %d\n", timing->line, timing->col);
                                     Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
@@ -1110,11 +1110,11 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                                         call_out_to_guile ("(d-OneShotTimer 500 \"(d-Play)\")");
                                 }
                                 else
-                                    call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)"); 
+                                    call_out_to_guile ("(d-PlayMidiNote 67 255 9 100)");
                         }
-                    
+
                     break;
-                    
+
                 }
            // g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*5.61*TheScale, timing->y*TheScale);
         }
@@ -1151,7 +1151,7 @@ static void part_button (void)
 
 }
 static void movement_button (void)
-{ 
+{
     PartOnly = FALSE;
     set_tempo ();
     call_out_to_guile ("(d-PlaybackView #f)");//this installs the temporary directives to typeset svg and then
@@ -1181,7 +1181,7 @@ motion_notify (GtkWidget * window, GdkEventMotion * event)
 
 static void scroll_toggle (void)
 {
- 
+
   if (ScrollRate > 0)
     ScrollRate = 0.0;
   else ScrollRate = 10.0;
@@ -1193,8 +1193,8 @@ install_svgview (GtkWidget * top_vbox)
 {
   if (Denemo.playbackview)
         return;
-        
-        
+
+
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (main_vbox), main_hbox, FALSE, TRUE, 0);
@@ -1211,24 +1211,24 @@ install_svgview (GtkWidget * top_vbox)
    button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  
-  
-  
+
+
+
     button = (GtkWidget*)gtk_check_button_new_with_label (_("Simple Scrolling"));
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-  g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (scroll_toggle), NULL); 
-  
-  
-  
-  
+  g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (scroll_toggle), NULL);
+
+
+
+
   ClearScrollPointsButton = gtk_button_new_with_label (_("Clear Scroll Points"));
   g_signal_connect (G_OBJECT (ClearScrollPointsButton), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), ClearScrollPointsButton, FALSE, FALSE, 0);
 
   button = gtk_button_new_with_label (_("Help"));
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (help_scroll_points), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0); 
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   if (top_vbox == NULL)
     {
     top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
@@ -1239,30 +1239,30 @@ install_svgview (GtkWidget * top_vbox)
     //g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);
     g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_playback_on_delete), NULL);
     }
-  
-  
+
+
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
- 
+
   GtkWidget *score_and_scroll_win = gtk_scrolled_window_new (NULL, NULL);
   Denemo.playbackview = (GtkWidget *) gtk_image_new ();
     VAdj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(score_and_scroll_win));
     // gtk_container_add (GTK_CONTAINER (score_and_scroll_win), Denemo.playbackview);
     //instead use an hbox to prevent the GtkImage widget expanding beyond the image size, which then causes positioning errors.
     hbox = gtk_hbox_new (FALSE, 1);
-    GtkWidget *event_box = gtk_event_box_new (); 
+    GtkWidget *event_box = gtk_event_box_new ();
     gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_win, TRUE, TRUE, 0);
-#if ((GTK_MAJOR_VERSION>=3)  && (GTK_MINOR_VERSION>8))  
+#if ((GTK_MAJOR_VERSION>=3)  && (GTK_MINOR_VERSION>8))
     gtk_container_add (GTK_CONTAINER (score_and_scroll_win), hbox);
-#else   
+#else
     gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW(score_and_scroll_win), hbox);
-#endif    
+#endif
     gtk_box_pack_start (GTK_BOX (hbox), event_box, FALSE, FALSE, 0);
     gtk_container_add (GTK_CONTAINER (event_box), Denemo.playbackview);
-    
+
     g_signal_connect (G_OBJECT (event_box), "button_press_event", G_CALLBACK (button_press), NULL);
     g_signal_connect (G_OBJECT (event_box), "button_release_event", G_CALLBACK (button_release), NULL);
     g_signal_connect (G_OBJECT (event_box), "motion-notify-event", G_CALLBACK (motion_notify), NULL);
-  
+
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_markup (score_and_scroll_win,
                                    _("This window shows the typeset score as one long page. During playback the notes playing are highlighted"));
@@ -1275,7 +1275,7 @@ install_svgview (GtkWidget * top_vbox)
 #endif
   gtk_widget_show_all (main_vbox);
   gtk_widget_hide (top_vbox);
-  static gint id; 
+  static gint id;
   if (!id)
     id = g_timeout_add  (50, (GSourceFunc)playback_redraw, NULL);
 }

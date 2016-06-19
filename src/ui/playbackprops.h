@@ -1,6 +1,6 @@
-/* playbackprops.h 
+/* playbackprops.h
  *
- * playback propertues callback function prototype 
+ * playback propertues callback function prototype
  *
  * for Denemo, a gtk+ frontend for GNU Lilypond
  * (c) 2000-2005 Adam Tee, Matthew Hiller

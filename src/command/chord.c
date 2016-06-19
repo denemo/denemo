@@ -28,13 +28,13 @@ calcheight (gpointer data, gpointer user_data)
 }
 
 /**
- *  Changes the position of the chord when a new clef 
+ *  Changes the position of the chord when a new clef
  *  is selected
  *
  */
 void
 newclefify (DenemoObject * thechord)
-{ 
+{
   if (((chord *) thechord->object)->notes == NULL)
     return;
   gint dclef = thechord->clef->type;
@@ -49,7 +49,7 @@ newclefify (DenemoObject * thechord)
  * "wrong" side of the stem as a result
  * the result is to set the is_reversealigned field of the chord
  * and the reversealign field of the note* structures that make up the chord.
- * thechord must have type CHORD on entry. 
+ * thechord must have type CHORD on entry.
  */
 void
 findreversealigns (DenemoObject * thechord)
@@ -173,7 +173,7 @@ hidechord (DenemoObject * thechord)
 
 /**
  * compare current note with pitch to be added
- * 
+ *
  * if equal return FALSE(0) else return TRUE (1)
  */
 #if 0
@@ -191,8 +191,8 @@ findcomparefunc (gconstpointer a, gconstpointer b)
 #endif
 
 /**
- * Compare two notes 
- * used for sorting the currentchords 
+ * Compare two notes
+ * used for sorting the currentchords
  * note list
  */
 static gint
@@ -259,7 +259,7 @@ new_note (gint mid_c_offset, gint enshift, gint dclef)
   return newnote;
 }
 
-/** 
+/**
  * Add note to the current chord
  * The note *will* get added if it is
  * present already
@@ -293,10 +293,10 @@ dnm_addtone (DenemoObject * thechord, gint mid_c_offset, gint enshift)
   addtone (thechord, mid_c_offset, enshift);
 }
 
-/** 
+/**
  * This function finds the node of the closest chord tone to n; in the
  * case of equally distant chord notes, it'll select the higher notes
- * of the two 
+ * of the two
  * returns NULL in the case of no notes
  */
 
@@ -386,7 +386,7 @@ removetone (DenemoObject * thechord, gint mid_c_offset)
         }
       ((chord *) thechord->object)->sum_mid_c_offset -= tone->mid_c_offset;
 
-      /* Now that we no longer need any info in tnode or tone, 
+      /* Now that we no longer need any info in tnode or tone,
        * actually free stuff */
 
       g_free (tone);
@@ -427,7 +427,7 @@ changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
 /**
  * Alter the pitch the  note closest to mid_c_offset in
  * the currentchord by setting
- * the accidental value 
+ * the accidental value
  * one sharper or flatter subject to a limit of double sharp/flat
  */
 void
@@ -516,10 +516,10 @@ freechord (DenemoObject * thechord)
   g_list_free (((chord *) thechord->object)->notes);
   g_list_free (((chord *) thechord->object)->dynamics);
   if (((chord *) thechord->object)->lyric)
-    g_string_free (((chord *) thechord->object)->lyric, FALSE); //FIXME memory leak???? 
+    g_string_free (((chord *) thechord->object)->lyric, FALSE); //FIXME memory leak????
   /* tone_node does not belong to the chord but belongs instead to the pitch recognition system */
   if (((chord *) thechord->object)->is_figure && ((chord *) thechord->object)->figure)
-    g_string_free (((chord *) thechord->object)->figure, FALSE);        //FIXME memory leak???? 
+    g_string_free (((chord *) thechord->object)->figure, FALSE);        //FIXME memory leak????
 
   if (((chord *) thechord->object)->directives)
     {

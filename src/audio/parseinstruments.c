@@ -1,9 +1,9 @@
 /* parseinstruments.cpp
- * Parse instruments for score setup 
- * File taken from lily4jedit 
+ * Parse instruments for score setup
+ * File taken from lily4jedit
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999-2005 Adam Tee 
+ * (c) 1999-2005 Adam Tee
  */
 
 #include "parseinstruments.h"
@@ -66,9 +66,9 @@ lookupnumstaffs (gchar * string)
  *
  * @param doc	document pointer
  * @param cur pointer to the current XML Node
- * @param list pointer to the list of instruments 
+ * @param list pointer to the list of instruments
  *
- * @return list pointer to the updated list 
+ * @return list pointer to the updated list
  */
 GList *
 ParseInstruments (xmlDocPtr doc, xmlNodePtr cur, GList * list)

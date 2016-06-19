@@ -1,6 +1,6 @@
 /* accwidths.h
  * holds accidental widths, which is used both in draw_accidental
- * and setpixelmin 
+ * and setpixelmin
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Matthew Hiller, Adam Tee
  */

@@ -1,17 +1,17 @@
 //      source.c
-//      
-//      Copyright 2012 Richard Shann 
-//      
+//
+//      Copyright 2012 Richard Shann
+//
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 3 of the License, or
 //      (at your option) any later version.
-//      
+//
 //      This program is distributed in the hope that it will be useful,
 //      but WITHOUT ANY WARRANTY; without even the implied warranty of
 //      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //      GNU General Public License for more details.
-//      
+//
 //      You should have received a copy of the GNU General Public License
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -166,7 +166,7 @@ position_source_window (EvView * view)
 }
 
 static gchar *locate_file (gchar *filename) {
-    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {    
+    if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
      gchar *basename = g_path_get_basename(filename);
      gchar *pathdir = g_path_get_dirname (Denemo.project->filename->str);
      filename = g_build_filename (pathdir, basename, NULL);
@@ -311,13 +311,13 @@ source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
           gtk_window_get_size (top, width, height);
           EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
           *scale = (int) 1000 *ev_document_model_get_scale (model);
-          if(!*scale) g_warning("Scale of document is zero!!!"); 
+          if(!*scale) g_warning("Scale of document is zero!!!");
   } else {
         *x = Denemo.project->source_x;
         *y = Denemo.project->source_y;
         *scale = Denemo.project->source_scale;
   }
-    
+
   return TRUE;
 }
 

@@ -128,7 +128,7 @@ parse_mthd_header(smf_t *smf)
 
 	if (!chunk_signature_matches(tmp_mthd, "MThd")) {
 		g_critical("SMF error: MThd signature not found, is that a MIDI file?");
-		
+
 		return (-2);
 	}
 
@@ -201,7 +201,7 @@ parse_mthd_chunk(smf_t *smf)
 		g_critical("SMF file uses FPS timing instead of PPQN, no support for that yet.");
 		return (-4);
 	}
-	
+
 	return (0);
 }
 
@@ -374,7 +374,7 @@ expected_message_length(unsigned char status, const unsigned char *second_byte, 
 		case 0xA0: /* AfterTouch. */
 		case 0xB0: /* Control Change. */
 		case 0xE0: /* Pitch Wheel. */
-			return (3);	
+			return (3);
 
 		case 0xC0: /* Program Change. */
 		case 0xD0: /* Channel Pressure. */
@@ -591,7 +591,7 @@ error:
 /**
  * Takes "len" characters starting in "buf", making sure it does not access past the length of the buffer,
  * and makes ordinary, zero-terminated string from it.  May return NULL if there was any problem.
- */ 
+ */
 static char *
 make_string(const unsigned char *buf, const int buffer_length, int len)
 {
@@ -687,7 +687,7 @@ parse_mtrk_header(smf_track_t *track)
 	if (!chunk_signature_matches(mtrk, "MTrk")) {
 		g_warning("SMF warning: Expected MTrk signature, got %c%c%c%c instead; ignoring this chunk.",
 				mtrk->id[0], mtrk->id[1], mtrk->id[2], mtrk->id[3]);
-		
+
 		return (-2);
 	}
 
@@ -842,7 +842,7 @@ load_file_into_buffer(void **file_buffer, int *file_buffer_length, const char *f
 
 		return (-6);
 	}
-	
+
 	if (fclose(stream)) {
 		g_critical("fclose(3) failed: %s", strerror(errno));
 

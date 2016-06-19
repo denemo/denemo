@@ -1,6 +1,6 @@
-/* Header file for functions for creating new views of 
+/* Header file for functions for creating new views of
  * the main window
- * 
+ *
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005 Adam Tee
