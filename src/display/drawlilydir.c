@@ -7,6 +7,7 @@
  */
 
 #include "core/utils.h"         /* Includes <gdk.h> */
+#include "command/lilydirectives.h"
 #include "command/scorelayout.h"
 #include <denemo/denemo.h>
 #include <string.h>
