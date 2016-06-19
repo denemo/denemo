@@ -2326,7 +2326,7 @@ range_dialog (void)
   if (dialog == NULL)
     {
       dialog = gtk_dialog_new ();
-      GtkWidget *area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+      GtkWidget *area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
       GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
       gtk_container_add (GTK_CONTAINER (area), vbox);
       GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
