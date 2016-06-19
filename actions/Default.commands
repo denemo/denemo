@@ -7877,6 +7877,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Duplicate to Fill Measure</_label>
         <_tooltip>Duplicates the notes in the current measure until the measure is full or over-full. If already full, duplicates the current measure.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SimpleChapter</action>
+        <after>ScoreTitle</after>
+        <menupath>/ObjectMenu/Score/Titles/SimpleTitles</menupath>
+        <_label>Book Chapter</_label>
+        <_tooltip>Asks for a Chapter Title and end movement number. Makes the current movement the start of a chapter which ends at a later movement.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

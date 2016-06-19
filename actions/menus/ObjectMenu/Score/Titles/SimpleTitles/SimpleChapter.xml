@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SimpleChapter</action>
+        <after>ScoreTitle</after>
+        <_label>Book Chapter</_label>
+        <_tooltip>Asks for a Chapter Title and end movement number. Makes the current movement the start of a chapter which ends at a later movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
