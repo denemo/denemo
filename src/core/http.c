@@ -81,7 +81,11 @@ process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
   /* *INDENT-ON* */
 
   //g_debug("about to write %s\n", out->str);
-  write (sockfd, out->str, out->len);
+  n = write (sockfd, out->str, out->len);
+  if (n != out->len)
+    {
+      return g_string_free (gstr, FALSE);
+    }
   g_string_free (out, TRUE);
 
   while ((n = read (sockfd, recvline, MAXLINE)) > 0)
@@ -90,7 +94,6 @@ process_http (int sockfd, char *host, char *page, gchar * other, char *poststr)
       g_string_append (gstr, recvline);
     }
   return g_string_free (gstr, FALSE);
-
 }
 
 gchar *
