@@ -701,8 +701,7 @@ inner_main (void *files)
 
       gtk_main ();
     }
-  else
-   if (Denemo.scheme_commands)
+  else if (Denemo.scheme_commands)
     {
       g_debug ("Executing '%s'", Denemo.scheme_commands);
       call_out_to_guile (Denemo.scheme_commands);
@@ -2888,11 +2887,26 @@ loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
       FILE *fp = fopen (filename, "rb");
       if (fp)
         {
+          size_t n;
           fseek (fp, 16, SEEK_SET);
-          fread (&thesize.width, 4, 1, fp);
-          fread (&thesize.height, 4, 1, fp);
-          thesize.width = GINT_FROM_BE (thesize.width);
-          thesize.height = GINT_FROM_BE (thesize.height);
+          n = fread (&thesize.width, 4, 1, fp);
+          if (n != 1)
+            {
+              thesize.width = 40;
+            }
+          else
+            {
+              thesize.width = GINT_FROM_BE (thesize.width);
+            }
+          n = fread (&thesize.height, 4, 1, fp);
+          if (n != 1)
+            {
+              thesize.height = 40;
+            }
+          else
+            {
+              thesize.height = GINT_FROM_BE (thesize.height);
+            }
           fclose (fp);
         }
     }
