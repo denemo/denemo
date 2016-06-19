@@ -1196,7 +1196,8 @@ static void action_ignore (DenemoDirective *directive, guint value) {
      } else
         {
            g_list_free (directive->layouts);//g_print("Removed conditions\n");
-           directive->layouts = directive->flag = 0;
+           directive->layouts = NULL;
+           directive->flag = 0;
         }
 }
 static void action_allow (DenemoDirective *directive, guint value) {
@@ -1220,7 +1221,8 @@ static void action_allow (DenemoDirective *directive, guint value) {
     } else
     {
        g_list_free (directive->layouts);//g_print("Removed conditions\n");
-       directive->layouts = directive->flag = 0;
+       directive->layouts = NULL;
+       directive->flag = 0;
     }
 }
 
