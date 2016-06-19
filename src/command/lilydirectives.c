@@ -528,6 +528,7 @@ delete_clef_directive (gchar * tag)
   DenemoDirective *directive = get_clef_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curclef->directives, tag);
 }
 
@@ -570,6 +571,7 @@ delete_keysig_directive (gchar * tag)
   DenemoDirective *directive = get_keysig_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curkeysig->directives, tag);
 }
 
@@ -609,6 +611,7 @@ delete_timesig_directive (gchar * tag)
   DenemoDirective *directive = get_timesig_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curtimesig->directives, tag);
 }
 
@@ -702,6 +705,7 @@ delete_scoreheader_directive (gchar * tag)
   DenemoDirective *directive = get_scoreheader_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curscoreheader->directives, tag);
 }
 
@@ -730,6 +734,7 @@ delete_paper_directive (gchar * tag)
   DenemoDirective *directive = get_paper_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curpaper->directives, tag);
 }
 
@@ -757,6 +762,7 @@ delete_layout_directive (gchar * tag)
   DenemoDirective *directive = get_layout_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curlayout->directives, tag);
 }
 
@@ -785,6 +791,7 @@ delete_movementcontrol_directive (gchar * tag)
   DenemoDirective *directive = get_movementcontrol_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curmovementcontrol->directives, tag);
 }
 
@@ -813,6 +820,7 @@ delete_header_directive (gchar * tag)
   DenemoDirective *directive = get_header_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curheader->directives, tag);
 }
 
@@ -908,6 +916,7 @@ delete_staff_directive (gchar * tag)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->staff_directives == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curstaff->staff_directives, tag);
 }
 
@@ -920,6 +929,7 @@ delete_initialclef_directive (gchar * tag)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->clef.directives == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curstaff->clef.directives, tag);
 }
 
@@ -932,6 +942,7 @@ delete_voice_directive (gchar * tag)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->voice_directives == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curstaff->voice_directives, tag);
 }
 
@@ -968,6 +979,7 @@ delete_score_directive (gchar * tagname)
   DenemoDirective *directive = get_score_directive (tagname);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&Denemo.project->lilycontrol.directives, tagname);
 }
 
