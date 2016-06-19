@@ -10,7 +10,7 @@ gboolean get_reference_point (void);
 gboolean get_control_point (gint which);
 gboolean get_curve (gdouble * x1, gdouble * y1, gdouble * x2, gdouble * y2, gdouble * x3, gdouble * y3, gdouble * x4, gdouble * y4);
 
-void present_print_view_window();
+void present_print_view_window ();
 void typeset_part (void);
 gboolean continuous_typesetting (void);
 void set_continuous_typesetting (gboolean setting);
@@ -24,6 +24,6 @@ void install_printpreview (GtkWidget * vbox);
 void refresh_print_view (gboolean interactive);
 void printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print);
 void print_from_print_view (gboolean all_movements);
-void create_pdf_for_lilypond (gchar *lilypond);
+void create_pdf_for_lilypond (gchar * lilypond);
 gboolean printview_is_stale (void);
 #endif
