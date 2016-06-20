@@ -9,7 +9,7 @@
 
             (let ((choice #f))
                 (if (not (d-Directive-standalone?))
-                    (while (not (Appending?)) (d-MoveCursorRight)))
+                    (GoToMeasureEnd))
                 (d-DirectivePut-standalone tag)
                 (d-DirectivePut-standalone-postfix tag "\\break")
                 (d-DirectivePut-standalone-gy tag -25)
