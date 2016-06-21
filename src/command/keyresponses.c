@@ -383,7 +383,7 @@ unset_selection_key (DenemoScriptParam *param)
 void
 insert_chord_key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.project, 2, Denemo.project->mode, FALSE);
+  dnm_insertnote (Denemo.project, 2, Denemo.project->mode, FALSE);
 }
 
 void
@@ -603,7 +603,7 @@ insert_measure_key (GtkAction* action, DenemoScriptParam *param)
 void
 insert_chord_xkey (gint duration, DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.project, duration, Denemo.project->mode, FALSE);
+  dnm_insertnote (Denemo.project, duration, Denemo.project->mode, FALSE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
@@ -665,7 +665,7 @@ insert_chord_8key (GtkAction* action, DenemoScriptParam *param)
 void
 insert_rest_xkey(gint duration, DenemoScriptParam* param)
 {
-  dnm_insertchord (Denemo.project, duration, INPUTREST, TRUE);
+  dnm_insertnote (Denemo.project, duration, INPUTREST, TRUE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
@@ -728,7 +728,7 @@ insert_rest_8key (GtkAction* action, DenemoScriptParam *param)
 void
 insert_blankchord_xkey (gint duration, DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.project, duration, INPUTBLANK, FALSE);
+  dnm_insertnote (Denemo.project, duration, INPUTBLANK, FALSE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }

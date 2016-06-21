@@ -5536,7 +5536,7 @@ scheme_put_rest (SCM optional_duration)
   if ((duration < 0) || (duration > 7))
     return SCM_BOOL_F;
 //FIXME should not allow spillover?
-  dnm_insertchord (Denemo.project, duration, 0, TRUE);
+  dnm_insertnote (Denemo.project, duration, 0, TRUE);
   displayhelper (Denemo.project);       //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
@@ -5562,9 +5562,9 @@ scheme_put_note (SCM optional_duration)
   Denemo.prefs.spillover = 0;
 
   if (scm_is_false (optional_duration))
-    dnm_insertchord (Denemo.project, duration, INPUTNORMAL | INPUTBLANK, FALSE);        //pass #f for nonprinting note
+    dnm_insertnote (Denemo.project, duration, INPUTNORMAL | INPUTBLANK, FALSE);        //pass #f for nonprinting note
   else
-    dnm_insertchord (Denemo.project, duration, INPUTNORMAL, FALSE);
+    dnm_insertnote (Denemo.project, duration, INPUTNORMAL, FALSE);
   Denemo.project->mode = mode;
   Denemo.prefs.spillover = spill;
 

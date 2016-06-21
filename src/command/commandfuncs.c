@@ -1770,14 +1770,14 @@ static gint get_cursoracc (void)
         return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
     }
 /**
- * Insert a chord into the score
- * @param si pointer to the scoreinfo structure
- * @param duration the duration of the chord to insert
+ * Insert a note into the score
+ * @param gui pointer to the DenemoProject structure
+ * @param duration the duration of the note to insert
  * @param mode the current input mode
- * @param rest specifies a note is a rest
+ * @param rest specifies the note is a rest, else cursor height determines note-name
  */
 void
-dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean rest)
+dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean rest)
 {
   DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
@@ -1809,12 +1809,12 @@ dnm_insertchord (DenemoProject * gui, gint duration, input_mode mode, gboolean r
                 gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
                 if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
                     {
-                    dnm_insertchord (gui, duration+1, mode, rest);
+                    dnm_insertnote (gui, duration+1, mode, rest);
                     //set si->cursoroffend if measure is full
                     curObj = si->currentobject->data;
                     si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
                     toggle_tie (NULL, NULL);
-                    dnm_insertchord (gui, duration+1, mode, rest);
+                    dnm_insertnote (gui, duration+1, mode, rest);
                     return;
                     }
             }
@@ -1917,7 +1917,7 @@ insert_marked_midi_note (void)
         {
             gint dots;
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;//FIXME look at marked_onset->prev to see if we should add to a chord
-            dnm_insertchord (Denemo.project, midinote->duration, INPUTNORMAL, FALSE);
+            dnm_insertnote (Denemo.project, midinote->duration, INPUTNORMAL, FALSE);
             changenumdots (si->currentobject->data, midinote->dots);
             return TRUE;
         }
