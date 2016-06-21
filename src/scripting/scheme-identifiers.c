@@ -158,6 +158,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
   install_scm_function (0, "Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);
+  install_scm_function (1, "Takes a space separated list of notes in LilyPond syntax and inserts/appends a chord at the cursor in the prevailing duration, or if given a integer, in that duration, not setting the prevailing duration.", DENEMO_SCHEME_PREFIX "InsertChord", scheme_insert_chord);
   install_scm_function (0, "Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX "PutWholeMeasureRests", scheme_put_whole_measure_rests);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none", DENEMO_SCHEME_PREFIX "GetNote", scheme_get_note);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTop", scheme_get_note_from_top);

@@ -106,6 +106,7 @@ SCM scheme_display_object (void);
 SCM scheme_destroy_scheme_init (void);
 SCM scheme_get_note_name (SCM);
 SCM scheme_insert_rest (SCM);
+SCM scheme_insert_chord (SCM lilypondnotes, SCM duration);
 SCM scheme_put_whole_measure_rests (void);
 SCM scheme_get_note (SCM);
 SCM scheme_get_note_from_top (SCM);

@@ -2094,6 +2094,40 @@ insert_or_delete_chordnote (gint enshift)
 
   return !remove;
 }
+
+//insert the passed note data as a chord at the cursor position.
+//the data are struct twoints*, mid c offset and enshift.
+void insert_chord (GList *note_data, gint duration) {
+  gboolean spill = Denemo.prefs.spillover;
+  gint mode = Denemo.project->mode;
+  Denemo.project->mode = 0;
+  Denemo.prefs.spillover = 0;
+
+  dnm_insertnote (Denemo.project, duration, INPUTNORMAL, TRUE);//insert a rest
+  movecursorleft (NULL, NULL);
+  Denemo.project->mode = mode;
+  Denemo.prefs.spillover = spill;
+  GList *g;
+  for (g=note_data;g;g=g->next)
+    {
+        struct twoints *data = g->data;
+        addtone (Denemo.project->movement->currentobject->data, data->a, data->b);
+    }
+    movecursorright (NULL, NULL);
+  displayhelper (Denemo.project);   
+}
+
+G_GNUC_UNUSED  void tempfn (void)
+{
+    struct twoints note_data = { 6, 1};
+    struct twoints note_data2 = { 12, -1};
+    GList *g = g_list_append (NULL, &note_data);
+   
+    g = g_list_append (g, &note_data2);
+    
+    insert_chord (g, 3);
+}
+
 /**
  * Helper function that contains calls to all the display
  * update functions

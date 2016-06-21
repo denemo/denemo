@@ -5572,6 +5572,35 @@ scheme_put_note (SCM optional_duration)
   return SCM_BOOL_T;
 }
 
+//Insert a chord at the cursor notes contains space separated lilypond note names
+SCM
+scheme_insert_chord (SCM notes, SCM duration)
+{
+    GList *thenotes = NULL;
+    gint theduration;
+    if (scm_is_integer (duration))
+        theduration = scm_to_int (duration);
+    else
+        theduration = get_prevailing_duration ();
+   if (scm_is_string (notes))
+    {
+        gchar *notestring = scm_to_locale_string (notes);
+        gchar *thenote = strtok (notestring, " ");
+        
+        while (thenote)
+           {
+               struct twoints *data = (struct twoints *)g_malloc (sizeof (struct twoints));
+               interpret_lilypond_notename (thenote, &data->a, &data->b);
+               thenotes = g_list_append (thenotes, data);
+               thenote = strtok (NULL, " ");
+            }
+       insert_chord (thenotes, theduration);
+       return SCM_BOOL_T;
+   } 
+        
+    return SCM_BOOL_F;
+}
+
 //Insert a rest in the given (or prevailing duration) and set the prevailing duration
 SCM
 scheme_insert_rest (SCM optional)
