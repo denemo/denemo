@@ -19,6 +19,15 @@
 #include "command/lilydirectives.h"
 #include "command/scorelayout.h"
 #include <string.h>
+
+typedef enum DIRECTIVE_TYPE
+{ DIRECTIVE_OBJECT = 0, DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6 } DIRECTIVE_TYPE;
+
+static GList *OldCurrentObject; //current object when object editor was left
+static GtkWidget *TheEditorWidget = NULL;
+static GtkWidget *ObjectInfo = NULL;
+
+
 static void edit_staff_and_voice_properties (gboolean show_staff);
 void initkeyaccs (gint * accs, gint number);
 
@@ -76,7 +85,6 @@ freeobject (DenemoObject * mudobj)
 }
 
 /* drop display full information about the object at the cursor */
-static GtkWidget *ObjectInfo = NULL;
 static gboolean
 drop_object_info (void)
 {
@@ -239,6 +247,34 @@ go_right (GtkWidget * editwin)
     }
 }
 
+//swap element node with following element
+static void swap_notes (GList *node)
+{
+    gpointer temp;
+    temp = node->data;
+    node->data = node->next->data;
+    node->next->data = temp;
+   
+}
+
+
+static void swap_notes_for_inspector (GList *node)
+{
+   
+    swap_notes (node);
+    update_object_info ();
+}
+
+static void swap_notes_for_edit (GList *node)
+{
+    gtk_widget_destroy (TheEditorWidget);
+    TheEditorWidget = NULL;
+    swap_notes (node);
+    edit_object ();
+}
+
+
+
 static gint display_timeout_id = 0;     //timeout to avoid calling display_current_object() repeatedly during rapid changes/entry of music
 static gboolean
 display_current_object_callback (void)
@@ -284,6 +320,21 @@ display_current_object_callback (void)
 
               g_signal_connect_swapped (button, "clicked", G_CALLBACK (move_to_next_note), NULL);
               gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+              
+             
+              GList * notenode = g_list_find (thechord->notes, thenote);
+              if (notenode->next)
+                {
+                   note *nextnote = notenode->next->data;
+                   if (thenote->mid_c_offset == nextnote->mid_c_offset)
+                        { 
+                          GtkWidget *button = gtk_button_new_with_label ( _("Alternate note at cursor"));
+                          g_signal_connect_swapped (button, "clicked", G_CALLBACK (swap_notes_for_inspector), notenode);
+                          gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
+                            
+                        }
+                }
+              
             }
         }
       GtkWidget *edit_button = gtk_button_new_with_label (_("Run the Object Editor"));
@@ -791,11 +842,6 @@ delete_directive (GtkWidget * button, gpointer fn)
   score_status (Denemo.project, TRUE);
 }
 
-typedef enum DIRECTIVE_TYPE
-{ DIRECTIVE_OBJECT = 0, DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6 } DIRECTIVE_TYPE;
-
-static GList *OldCurrentObject; //current object when object editor was left
-GtkWidget *TheEditorWidget;
 
 static void
 chuck_object_editor (void)
@@ -1419,6 +1465,10 @@ edit_object (void)
   GtkWidget *note_up_button = gtk_button_new_with_label (_("Next note in chord"));
   g_signal_connect_swapped (note_up_button, "clicked", G_CALLBACK (move_to_next_note), editwin);
   gtk_box_pack_start (GTK_BOX (hbox), note_up_button, FALSE, TRUE, 0);
+  
+  GtkWidget *alternate_note_button = gtk_button_new_with_label (_("Alternate note"));
+  
+  gtk_box_pack_start (GTK_BOX (hbox), alternate_note_button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("Next Object ➡"));
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_right), editwin);
@@ -1451,12 +1501,29 @@ edit_object (void)
           {
             place_chord_attributes (vbox, thechord);
             note *thenote = findnote (curObj, Denemo.project->movement->cursor_y);
-            if (!thechord->notes->next)
+            GList * notenode = g_list_find (thechord->notes, thenote);
+            if (!thechord->notes->next) //only one note
               gtk_button_set_label (GTK_BUTTON (note_up_button), _("Edit the note"));
             if ((!thenote) || thechord->notes->next || (Denemo.project->movement->cursor_y != thenote->mid_c_offset))
               {
                 note_up_button = NULL;  // a tricksy bit of code this: the button is already packed in the vbox, by setting this NULL we stop it being set insensitive as it must be for all other cases.
               }
+              
+              
+           if (notenode->next)
+                {
+                   note *nextnote = notenode->next->data;
+                   if (thenote->mid_c_offset == nextnote->mid_c_offset)
+                        {
+                          g_signal_connect_swapped (alternate_note_button, "clicked", G_CALLBACK (swap_notes_for_edit), notenode);
+                          alternate_note_button = NULL; //to prevent it being set insensitive
+                        }
+                    
+                }
+              
+              
+              
+              
             if (thenote && Denemo.project->movement->cursor_y == thenote->mid_c_offset)
               {
                 GString *text = g_string_new ("");
@@ -1778,6 +1845,8 @@ edit_object (void)
     {
       if (note_up_button)
         gtk_widget_set_sensitive (note_up_button, FALSE);
+      if (alternate_note_button)
+        gtk_widget_set_sensitive (alternate_note_button, FALSE);
       gtk_widget_show_all (editwin);
       gtk_window_present (GTK_WINDOW (editwin));
       gdk_window_set_cursor (gtk_widget_get_window (editwin), gdk_cursor_new (GDK_RIGHT_PTR));
