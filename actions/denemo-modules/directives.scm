@@ -353,7 +353,9 @@
         #f))
 
     
-            
+(define d-DirectiveGet-standalone-graphic d-DirectiveGet-standalone-graphic_name)            
+(define d-DirectiveGet-chord-graphic d-DirectiveGet-standalone-graphic_name)            
+(define d-DirectiveGet-note-graphic d-DirectiveGet-standalone-graphic_name)            
 
 
 

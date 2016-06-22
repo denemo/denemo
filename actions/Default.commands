@@ -7884,6 +7884,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Book Chapter</_label>
         <_tooltip>Asks for a Chapter Title and end movement number. Makes the current movement the start of a chapter which ends at a later movement.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CreateButtonForObject</action>
+        <after>UnhidePalettes</after>
+        <menupath>/MainMenu/ViewMenu/Palettes</menupath>
+        <_label>Create Button for Object</_label>
+        <_tooltip>Creates a palette button to insert a clone of the object at the cursor when the button is pressed.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
