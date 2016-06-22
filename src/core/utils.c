@@ -172,16 +172,62 @@ get_user_data_dir (gboolean create)
   return dotdenemo;
 }
 
-/* return a path to a temporary directory to be used for print intermediate files */
+// Create or remove a unique temporary directory
+// If removal is FALSE, the directory will be newly
+// created or the existing temporary directory will
+// be returned.
+// If removal is TRUE, the directory gets removed.
+gchar *
+make_temp_dir (gboolean removal)
+{
+  static gchar *tmpdir = NULL;
+  if (!removal)
+    {
+      // Either create a new directory or get the path
+      if (!tmpdir)
+        {
+          gchar *newdir = g_build_filename (g_get_tmp_dir (), "Denemo_XXXXXX", NULL);
+          if (!g_mkdtemp (newdir))
+            g_warning ("Creation of temp dir failed\n");
+          tmpdir = newdir;
+        }
+      return tmpdir;
+    }
+  else
+    {
+      // The directory should be removed.
+      // Remove all files in the directory before deleting it.
+      GError *error = NULL;
+      GDir *dir = g_dir_open (tmpdir, 0, &error);
+      if (!error)
+        {
+          gchar *filename;
+          while (filename = g_dir_read_name (dir))
+            {
+              gchar *fullpath = g_build_filename (tmpdir, filename, NULL);
+              g_remove (fullpath);
+              g_free (fullpath);
+            }
+          g_dir_close (dir);
+        }
+      g_remove (tmpdir);
+      tmpdir = NULL;
+    }
+}
+
+// Return a path to a temporary directory to be used for print intermediate files
 const gchar *
 locateprintdir (void)
 {
-  static gchar *printdir = NULL;
-  if (!printdir)
-    printdir = make_temp_dir ();
-  return printdir;
+  return make_temp_dir (FALSE);
 }
 
+// Remove the temporary directory
+void
+removeprintdir (void)
+{
+  make_temp_dir (TRUE);
+}
 
 void
 add_font_directory (gchar * fontpath)
@@ -210,30 +256,6 @@ add_font_file (gchar * fontname)
 #ifdef G_OS_WIN32
 gboolean CoInitializeExCalled = FALSE;
 #endif
-
-// Create a unique temporary directory starting
-gchar *
-make_temp_dir (void)
-{
-  gchar *ret = NULL;
-#ifdef G_OS_WIN32
-  gchar buf[1024] = "C:\\TMP\\\0";
-  gint length = 1024;
-  (void) GetTempPath (length, buf);
-  gint integer = 0;             //Windows does not delete the temp directory, use a constant one. g_rand_int(g_rand_new());
-  ret = g_strdup_printf ("%sDenemo%d", buf, integer);
-
-  gint fail = g_mkdir_with_parents (ret, 0700);
-  if (fail)
-    g_warning ("Could not create temp dir %s", ret);
-  else
-    g_info ("Created temp dir %s\n", ret);
-#else
-  ret = g_strdup ("/tmp/DenemoXXXXXX");
-  mkdtemp ((char *) ret);
-#endif
-  return ret;
-}
 
 gboolean
 run_file_association (gchar * filename)
