@@ -1116,6 +1116,9 @@ GET_STR_FIELD_FUNC (keysig, grob);
 GET_STR_FIELD_FUNC (tuplet, grob);
 GET_STR_FIELD_FUNC (stemdirective, grob);
 GET_STR_FIELD_FUNC (standalone, grob);
+GET_STR_FIELD_FUNC (standalone, graphic_name);
+GET_STR_FIELD_FUNC (chord, graphic_name);
+GET_STR_FIELD_FUNC (note, graphic_name);
 PUT_STR_FIELD_FUNC (score, grob)
 //PUT_STR_FIELD_FUNC(staff, grob)
 //PUT_STR_FIELD_FUNC(voice, grob)

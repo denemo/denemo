@@ -486,6 +486,9 @@ create_scheme_identfiers (void)
   INSTALL_PUT (movementcontrol, data);
 
   INSTALL_GET (standalone, grob);
+  INSTALL_GET (standalone, graphic_name);
+  INSTALL_GET (chord, graphic_name);
+  INSTALL_GET (note, graphic_name);
   INSTALL_GET (chord, grob);
   INSTALL_GET (note, grob);
   INSTALL_GET (staff, grob);
