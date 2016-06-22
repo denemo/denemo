@@ -46,6 +46,7 @@
 const gchar *get_user_data_dir (gboolean create);
 
 const gchar *locateprintdir (void);
+void removeprintdir (void);
 /* Adds a callback that processes the "activate" signal coming from
  * a widget */
 
@@ -278,7 +279,6 @@ void add_font_directory (gchar * fontpath);
 void add_font_file (gchar * fontpath);
 const gchar *get_prefix_dir (void);
 gboolean run_file_association (gchar * filenam);
-gchar *make_temp_dir (void);
 gchar *remove_extension (gchar * name);
 gchar *substitute_extension (gchar * name, gchar * extension);
 void init_denemo_notenames (void);

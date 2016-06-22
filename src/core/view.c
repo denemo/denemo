@@ -1053,20 +1053,15 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam * param)
     }
   if (Denemo.projects == NULL)
     {
-
       storeWindowState ();
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
       writePalettes ();
-      project = Denemo.project;
+      // Remove the temporary print directory
+      removeprintdir ();
+#ifdef G_OS_WIN32
       if (project)
         {
-
-          /* It would be nice to delete the print directory to avoid filling up /tmp, however this fails on Unix at least for an unknown reason.
-             gint result = g_remove (locateprintdir ());
-             g_print("Removed %s %s\n", locateprintdir(), result==0?"successfully":"not gone");
-           */
-#ifdef G_OS_WIN32
           CoUninitialize ();
           g_message ("Windows - Exiting without shutting down audio");
           if (project->input_source == INPUTMIDI)
@@ -1076,14 +1071,12 @@ close_gui_with_check (GtkAction * action, DenemoScriptParam * param)
             }
           else
             _exit (0);
-
-#endif
         }
+#endif
 
       g_print ("Exiting directly - may leave notes sounding on audio!");
       _exit (0);
       audio_shutdown ();
-
 
       exit (0);                 //do not use gtk_main_quit, as there may be inner loops active.
     }
