@@ -1038,7 +1038,10 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
 PUT_GRAPHIC (chord);
 PUT_GRAPHIC (note);
 
-PUT_GRAPHIC (keysig) PUT_GRAPHIC (timesig) PUT_GRAPHIC (tuplet) PUT_GRAPHIC (stemdirective)
+PUT_GRAPHIC (keysig);
+PUT_GRAPHIC (timesig);
+PUT_GRAPHIC (tuplet);
+PUT_GRAPHIC (stemdirective)
 #define PUT_STR_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
@@ -1090,13 +1093,39 @@ GET_TAG_FUNC (movementcontrol);
 
 
 
-GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midibytes) GET_STR_FIELD_FUNC (note, midibytes) GET_STR_FIELD_FUNC (chord, midibytes) GET_STR_FIELD_FUNC (staff, midibytes) GET_STR_FIELD_FUNC (voice, midibytes) GET_STR_FIELD_FUNC (standalone, midibytes) PUT_STR_FIELD_FUNC (note, midibytes) PUT_STR_FIELD_FUNC (chord, midibytes)
+GET_STR_FIELD_FUNC (score, midibytes);
+GET_STR_FIELD_FUNC (movementcontrol, midibytes);
+GET_STR_FIELD_FUNC (note, midibytes);
+GET_STR_FIELD_FUNC (chord, midibytes);
+GET_STR_FIELD_FUNC (staff, midibytes);
+GET_STR_FIELD_FUNC (voice, midibytes);
+GET_STR_FIELD_FUNC (standalone, midibytes);
+PUT_STR_FIELD_FUNC (note, midibytes);
+PUT_STR_FIELD_FUNC (chord, midibytes)
 
 //cloned for grob
-  GET_STR_FIELD_FUNC (score, grob) GET_STR_FIELD_FUNC (movementcontrol, grob) GET_STR_FIELD_FUNC (note, grob) GET_STR_FIELD_FUNC (chord, grob) GET_STR_FIELD_FUNC (staff, grob) GET_STR_FIELD_FUNC (voice, grob) GET_STR_FIELD_FUNC (clef, grob) GET_STR_FIELD_FUNC (timesig, grob) GET_STR_FIELD_FUNC (keysig, grob) GET_STR_FIELD_FUNC (tuplet, grob) GET_STR_FIELD_FUNC (stemdirective, grob) GET_STR_FIELD_FUNC (standalone, grob) PUT_STR_FIELD_FUNC (score, grob)
+  GET_STR_FIELD_FUNC (score, grob);
+GET_STR_FIELD_FUNC (movementcontrol, grob);
+GET_STR_FIELD_FUNC (note, grob);
+GET_STR_FIELD_FUNC (chord, grob);
+GET_STR_FIELD_FUNC (staff, grob);
+GET_STR_FIELD_FUNC (voice, grob);
+GET_STR_FIELD_FUNC (clef, grob);
+GET_STR_FIELD_FUNC (timesig, grob);
+GET_STR_FIELD_FUNC (keysig, grob);
+GET_STR_FIELD_FUNC (tuplet, grob);
+GET_STR_FIELD_FUNC (stemdirective, grob);
+GET_STR_FIELD_FUNC (standalone, grob);
+PUT_STR_FIELD_FUNC (score, grob)
 //PUT_STR_FIELD_FUNC(staff, grob)
 //PUT_STR_FIELD_FUNC(voice, grob)
-  PUT_STR_FIELD_FUNC (note, grob) PUT_STR_FIELD_FUNC (chord, grob) PUT_STR_FIELD_FUNC (clef, grob) PUT_STR_FIELD_FUNC (timesig, grob) PUT_STR_FIELD_FUNC (keysig, grob) PUT_STR_FIELD_FUNC (tuplet, grob) PUT_STR_FIELD_FUNC (stemdirective, grob)
+  PUT_STR_FIELD_FUNC (note, grob);
+PUT_STR_FIELD_FUNC (chord, grob);
+PUT_STR_FIELD_FUNC (clef, grob);
+PUT_STR_FIELD_FUNC (timesig, grob);
+PUT_STR_FIELD_FUNC (keysig, grob);
+PUT_STR_FIELD_FUNC (tuplet, grob);
+PUT_STR_FIELD_FUNC (stemdirective, grob)
 //PUT_STR_FIELD_FUNC(standalone, grob)
 //end of clone for grob
 
@@ -1114,7 +1143,10 @@ GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midib
   GET_STR_FIELD_FUNC (voice, data)
   GET_STR_FIELD_FUNC (clef, data)
   GET_STR_FIELD_FUNC (timesig, data)
-  GET_STR_FIELD_FUNC (keysig, data) GET_STR_FIELD_FUNC (tuplet, data) GET_STR_FIELD_FUNC (stemdirective, data) GET_STR_FIELD_FUNC (standalone, data)
+  GET_STR_FIELD_FUNC (keysig, data);
+GET_STR_FIELD_FUNC (tuplet, data);
+GET_STR_FIELD_FUNC (stemdirective, data);
+GET_STR_FIELD_FUNC (standalone, data)
 
 
   PUT_STR_FIELD_FUNC (score, data)
@@ -1125,7 +1157,13 @@ GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midib
   PUT_STR_FIELD_FUNCS(staff, data)
   PUT_STR_FIELD_FUNCV(voice, data)
   PUT_STR_FIELD_FUNC (movementcontrol, data)
-  PUT_STR_FIELD_FUNC (note, data) PUT_STR_FIELD_FUNC (chord, data) PUT_STR_FIELD_FUNC (clef, data) PUT_STR_FIELD_FUNC (timesig, data) PUT_STR_FIELD_FUNC (keysig, data) PUT_STR_FIELD_FUNC (tuplet, data) PUT_STR_FIELD_FUNC (stemdirective, data)
+  PUT_STR_FIELD_FUNC (note, data);
+PUT_STR_FIELD_FUNC (chord, data);
+PUT_STR_FIELD_FUNC (clef, data);
+PUT_STR_FIELD_FUNC (timesig, data);
+PUT_STR_FIELD_FUNC (keysig, data);
+PUT_STR_FIELD_FUNC (tuplet, data);
+PUT_STR_FIELD_FUNC (stemdirective, data)
 //PUT_STR_FIELD_FUNC(standalone, data) // done separately below...
 //end of set for data
 
@@ -1141,7 +1179,19 @@ GET_STR_FIELD_FUNC (note, postfix)
 GET_STR_FIELD_FUNC (note, display)
 PUT_STR_FIELD_FUNC (note, prefix)
 PUT_STR_FIELD_FUNC (note, postfix)
-PUT_STR_FIELD_FUNC (note, display) GET_STR_FIELD_FUNC (standalone, prefix) GET_STR_FIELD_FUNC (standalone, postfix) GET_STR_FIELD_FUNC (standalone, display) GET_STR_FIELD_FUNC (score, prefix) GET_STR_FIELD_FUNC (score, postfix) GET_STR_FIELD_FUNC (score, display) GET_STR_FIELD_FUNC (staff, prefix) GET_STR_FIELD_FUNC (staff, postfix) GET_STR_FIELD_FUNC (staff, display) GET_STR_FIELD_FUNC (voice, prefix) GET_STR_FIELD_FUNC (voice, postfix) GET_STR_FIELD_FUNC (voice, display)
+PUT_STR_FIELD_FUNC (note, display);
+GET_STR_FIELD_FUNC (standalone, prefix);
+GET_STR_FIELD_FUNC (standalone, postfix);
+GET_STR_FIELD_FUNC (standalone, display);
+GET_STR_FIELD_FUNC (score, prefix);
+GET_STR_FIELD_FUNC (score, postfix);
+GET_STR_FIELD_FUNC (score, display);
+GET_STR_FIELD_FUNC (staff, prefix);
+GET_STR_FIELD_FUNC (staff, postfix);
+GET_STR_FIELD_FUNC (staff, display);
+GET_STR_FIELD_FUNC (voice, prefix);
+GET_STR_FIELD_FUNC (voice, postfix);
+GET_STR_FIELD_FUNC (voice, display)
 #undef staff
 #define PUT_INT_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
@@ -1298,13 +1348,20 @@ what##_directive_get_##field(gchar *tag) {\
     return directive->graphic->field;\
   return 0;\
 }
-  PUT_GRAPHIC (object) PUT_INT_FIELD_FUNC (object, minpixels) GET_INT_FIELD_FUNC (object, minpixels)
+  PUT_GRAPHIC (object);
+PUT_INT_FIELD_FUNC (object, minpixels);
+GET_INT_FIELD_FUNC (object, minpixels)
   /* block which can be copied for new int fields */
-  PUT_INT_FIELD_FUNC (note, minpixels) PUT_INT_FIELD_FUNC (chord, minpixels)
+  PUT_INT_FIELD_FUNC (note, minpixels);
+PUT_INT_FIELD_FUNC (chord, minpixels)
   //PUT_INT_FIELD_FUNCS(staff, minpixels)
   //PUT_INT_FIELD_FUNCV(voice, minpixels)
   //PUT_INT_FIELD_FUNC(score, minpixels)
-  PUT_INT_FIELD_FUNC (clef, minpixels) PUT_INT_FIELD_FUNC (timesig, minpixels) PUT_INT_FIELD_FUNC (tuplet, minpixels) PUT_INT_FIELD_FUNC (stemdirective, minpixels) PUT_INT_FIELD_FUNC (keysig, minpixels)
+  PUT_INT_FIELD_FUNC (clef, minpixels);
+PUT_INT_FIELD_FUNC (timesig, minpixels);
+PUT_INT_FIELD_FUNC (tuplet, minpixels);
+PUT_INT_FIELD_FUNC (stemdirective, minpixels);
+PUT_INT_FIELD_FUNC (keysig, minpixels)
   //PUT_INT_FIELD_FUNC(scoreheader, minpixels)
   //PUT_INT_FIELD_FUNC(header, minpixels)
   //PUT_INT_FIELD_FUNC(paper, minpixels)
@@ -1315,7 +1372,18 @@ what##_directive_get_##field(gchar *tag) {\
 GET_INT_FIELD_FUNC (chord, minpixels)
 GET_INT_FIELD_FUNC (staff, minpixels)
 GET_INT_FIELD_FUNC (voice, minpixels)
-GET_INT_FIELD_FUNC (score, minpixels) GET_INT_FIELD_FUNC (clef, minpixels) GET_INT_FIELD_FUNC (keysig, minpixels) GET_INT_FIELD_FUNC (timesig, minpixels) GET_INT_FIELD_FUNC (tuplet, minpixels) GET_INT_FIELD_FUNC (stemdirective, minpixels) GET_INT_FIELD_FUNC (scoreheader, minpixels) GET_INT_FIELD_FUNC (header, minpixels) GET_INT_FIELD_FUNC (paper, minpixels) GET_INT_FIELD_FUNC (layout, minpixels) GET_INT_FIELD_FUNC (movementcontrol, minpixels) GET_INT_FIELD_FUNC (standalone, minpixels)
+GET_INT_FIELD_FUNC (score, minpixels);
+GET_INT_FIELD_FUNC (clef, minpixels);
+GET_INT_FIELD_FUNC (keysig, minpixels);
+GET_INT_FIELD_FUNC (timesig, minpixels);
+GET_INT_FIELD_FUNC (tuplet, minpixels);
+GET_INT_FIELD_FUNC (stemdirective, minpixels);
+GET_INT_FIELD_FUNC (scoreheader, minpixels);
+GET_INT_FIELD_FUNC (header, minpixels);
+GET_INT_FIELD_FUNC (paper, minpixels);
+GET_INT_FIELD_FUNC (layout, minpixels);
+GET_INT_FIELD_FUNC (movementcontrol, minpixels);
+GET_INT_FIELD_FUNC (standalone, minpixels)
   /* end block which can be copied for new int fields */
   PUT_INT_FIELD_FUNC (note, override)
 PUT_INT_FIELD_FUNC (chord, override)
@@ -1369,7 +1437,17 @@ GET_INT_FIELD_FUNC (score, gx)
 GET_INT_FIELD_FUNC (score, gy)
   /* width and height of graphic (if any), read only */
   GET_INT_GRAPHIC_FIELD_FUNC (note, width)
-GET_INT_GRAPHIC_FIELD_FUNC (chord, width) GET_INT_GRAPHIC_FIELD_FUNC (staff, width) GET_INT_GRAPHIC_FIELD_FUNC (voice, width) GET_INT_GRAPHIC_FIELD_FUNC (standalone, width) GET_INT_GRAPHIC_FIELD_FUNC (score, width) GET_INT_GRAPHIC_FIELD_FUNC (note, height) GET_INT_GRAPHIC_FIELD_FUNC (chord, height) GET_INT_GRAPHIC_FIELD_FUNC (staff, height) GET_INT_GRAPHIC_FIELD_FUNC (voice, height) GET_INT_GRAPHIC_FIELD_FUNC (standalone, height) GET_INT_GRAPHIC_FIELD_FUNC (score, height)
+GET_INT_GRAPHIC_FIELD_FUNC (chord, width);
+GET_INT_GRAPHIC_FIELD_FUNC (staff, width);
+GET_INT_GRAPHIC_FIELD_FUNC (voice, width);
+GET_INT_GRAPHIC_FIELD_FUNC (standalone, width);
+GET_INT_GRAPHIC_FIELD_FUNC (score, width);
+GET_INT_GRAPHIC_FIELD_FUNC (note, height);
+GET_INT_GRAPHIC_FIELD_FUNC (chord, height);
+GET_INT_GRAPHIC_FIELD_FUNC (staff, height);
+GET_INT_GRAPHIC_FIELD_FUNC (voice, height);
+GET_INT_GRAPHIC_FIELD_FUNC (standalone, height);
+GET_INT_GRAPHIC_FIELD_FUNC (score, height)
 
 
 /* return a full path to an editscript for directive or NULL if there is none */
@@ -1939,7 +2017,15 @@ PUT_GRAPHIC_WIDGET_INT (gx, layout, directives)
 PUT_GRAPHIC_WIDGET_INT (gx, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT (gx, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT (gx, voice, voice_directives)
-PUT_GRAPHIC_WIDGET_INT (gy, score, directives) PUT_GRAPHIC_WIDGET_INT (gy, scoreheader, directives) PUT_GRAPHIC_WIDGET_INT (gy, header, directives) PUT_GRAPHIC_WIDGET_INT (gy, paper, directives) PUT_GRAPHIC_WIDGET_INT (gy, layout, directives) PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives) PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives) PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives) PUT_GRAPHIC_WIDGET_INT (override, score, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, score, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, scoreheader, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, header, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, paper, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, layout, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives);
+PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives);
+PUT_GRAPHIC_WIDGET_INT (override, score, directives);
 PUT_GRAPHIC_WIDGET_INT (override, scoreheader, directives);
 PUT_GRAPHIC_WIDGET_INT (override, header, directives);
 PUT_GRAPHIC_WIDGET_INT (override, paper, directives);
@@ -3419,7 +3505,16 @@ GET_INT_FIELD_FUNC (clef, tx)
 GET_INT_FIELD_FUNC (clef, ty)
 GET_INT_FIELD_FUNC (clef, gx)
 GET_INT_FIELD_FUNC (clef, gy)
-GET_INT_FIELD_FUNC (clef, override) GET_INT_GRAPHIC_FIELD_FUNC (clef, width) GET_INT_GRAPHIC_FIELD_FUNC (clef, height) PUT_GRAPHIC (clef) PUT_STR_FIELD_FUNC (clef, prefix) PUT_STR_FIELD_FUNC (clef, postfix) PUT_STR_FIELD_FUNC (clef, display) GET_STR_FIELD_FUNC (clef, prefix) GET_STR_FIELD_FUNC (clef, postfix) GET_STR_FIELD_FUNC (clef, display)
+GET_INT_FIELD_FUNC (clef, override);
+GET_INT_GRAPHIC_FIELD_FUNC (clef, width);
+GET_INT_GRAPHIC_FIELD_FUNC (clef, height);
+PUT_GRAPHIC (clef);
+PUT_STR_FIELD_FUNC (clef, prefix);
+PUT_STR_FIELD_FUNC (clef, postfix);
+PUT_STR_FIELD_FUNC (clef, display);
+GET_STR_FIELD_FUNC (clef, prefix);
+GET_STR_FIELD_FUNC (clef, postfix);
+GET_STR_FIELD_FUNC (clef, display)
 /* end block which can be copied for type of directive */
 PUT_LAYOUT_ALLOW_FUNC (keysig)
 PUT_LAYOUT_IGNORE_FUNC (keysig)
