@@ -5806,8 +5806,27 @@ Inspect the next note in chord
 \begin_inset Quotes erd
 \end_inset
 
- which will work upwards through the notes before wrapping round to start
- at the lowest note.
+ which will work upwards through the distinct notes before wrapping round
+ to start at the lowest note.
+ Where a chord has two notes with the same note-name
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Doubled Chord Notes
+\end_layout
+
+\end_inset
+
+ the button labelled 
+\begin_inset Quotes eld
+\end_inset
+
+Alternate note at cursor
+\begin_inset Quotes erd
+\end_inset
+
+ can be used to inspect the other one.
 \end_layout
 
 \begin_layout Standard
@@ -5955,7 +5974,25 @@ Chord
 
 ) to move through the notes of a chord so as to allow editing the detail
  of each note.
- 
+ Where a chord has two notes with the same note-name
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Doubled Chord Notes
+\end_layout
+
+\end_inset
+
+ the button labelled 
+\begin_inset Quotes eld
+\end_inset
+
+Alternate note
+\begin_inset Quotes erd
+\end_inset
+
+ can be used to edit the other one.
 \end_layout
 
 \begin_layout Standard
@@ -6344,7 +6381,7 @@ Duplicate Directives
 status open
 
 \begin_layout Plain Layout
-Conditional Directives
+Conditional Directive
 \end_layout
 
 \end_inset
@@ -6604,7 +6641,7 @@ and as with the Score/Movements and Staff/Voices editors there are facilities
 status open
 
 \begin_layout Plain Layout
-Conditional Directives
+Conditional Directive
 \end_layout
 
 \end_inset
@@ -8519,7 +8556,37 @@ Alt-b
 \family default
 ...
  are the standard shortcuts for this.
- 
+ When a chord should have two notes on the same line or space
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Doubled Chord Notes
+\end_layout
+
+\end_inset
+
+ the same keypress can be used to enter it, however selecting which note
+ to edit can be tricky.
+ The easy way is to use the Object Inspector
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Object Inspector
+\end_layout
+
+\end_inset
+
+'s 
+\begin_inset Quotes eld
+\end_inset
+
+Alternate note at cursor
+\begin_inset Quotes erd
+\end_inset
+
+ button to make the note you want accessible for editing.
 \end_layout
 
 \begin_layout Subsubsection

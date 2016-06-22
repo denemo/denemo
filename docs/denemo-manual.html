@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-06-15"/>
+<meta name="create-date" content="2016-06-22"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -2191,7 +2191,7 @@ Note: LilyPond Version 2.19.x is needed for some MIDI features (e.g. staccato). 
 The Object Inspector is shown by clicking View-&gt;Object Inspector, or just double-clicking on an object in the Denemo Display. It gives comprehensive information about the object at the cursor. This includes directives like ornaments, dynamic markings, fingerings that may be attached to the object. For objects like notes and rests which start at a particular musical moment it also describes at what moment in the measure the note begins and what its duration is.
 </div>
 <div class="Indented">
-The Object Inspector is sensitive to which note of a chord the cursor is on, so that things like fingerings (which can vary from note to note within a chord) are displayed individually as you move the cursor up and down a chord. You can step through the notes of a chord using the button marked &ldquo;Inspect the next note in chord&rdquo; which will work upwards through the notes before wrapping round to start at the lowest note.
+The Object Inspector is sensitive to which note of a chord the cursor is on, so that things like fingerings (which can vary from note to note within a chord) are displayed individually as you move the cursor up and down a chord. You can step through the notes of a chord using the button marked &ldquo;Inspect the next note in chord&rdquo; which will work upwards through the distinct notes before wrapping round to start at the lowest note. Where a chord has two notes with the same note-name<a class="IndexReference" name="entry-Doubled-Chord-Notes-0" href="#index-Doubled-Chord-Notes">↓</a> the button labelled &ldquo;Alternate note at cursor&rdquo; can be used to inspect the other one.
 </div>
 <div class="Indented">
 For many directives full information about which command created the directive and where it is to be found in the menu system is given, and the description of the command’s behavior.
@@ -2228,7 +2228,7 @@ The Object Editor allows you to edit the current Denemo Object and also to creat
 This window is <i>modal, </i>that is you cannot interact with Denemo outside of the editor until you have dismissed it. To warn you of this the pointer turns to an X if you try to interact with the Denemo Input Display when the Object Editor is still open. Buttons are provided to move on to editing the next (or previous) object. 
 </div>
 <div class="Indented">
-As with the Object Inspector the Object Editor is sensitive to the cursor height, with the same navigation control (&ldquo;Next note in chord<a class="IndexReference" name="entry-Chord-3" href="#index-Chord">↓</a>&rdquo;) to move through the notes of a chord so as to allow editing the detail of each note. 
+As with the Object Inspector the Object Editor is sensitive to the cursor height, with the same navigation control (&ldquo;Next note in chord<a class="IndexReference" name="entry-Chord-3" href="#index-Chord">↓</a>&rdquo;) to move through the notes of a chord so as to allow editing the detail of each note. Where a chord has two notes with the same note-name<a class="IndexReference" name="entry-Doubled-Chord-Notes-1" href="#index-Doubled-Chord-Notes">↓</a> the button labelled &ldquo;Alternate note&rdquo; can be used to edit the other one.
 </div>
 <div class="Indented">
 In the example the cursor is on a chord which has a trill on it. Within the chord it is on the note C-natural which has a fingering on it for finger 3. These are the Denemo Directives attached to the chord and note - there can be even more.
@@ -2313,7 +2313,7 @@ Some older commands do not have edit facilities.
 As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal.</i>
 </div>
 <div class="Indented">
-In addition to the buttons described for the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>there is a button to create a duplicate<a class="IndexReference" name="entry-Duplicate-Directives-0" href="#index-Duplicate-Directives">↓</a> of the directive. The purpose of this is to have two versions of some setting (e.g. the indent for the first staff) which are used for different score layouts - a full score may require a larger indent than an individual part. If you make the duplicate conditional<a class="IndexReference" name="entry-Conditional-Directives-0" href="#index-Conditional-Directives">↓</a> on one layout, then it is good practice to make the original conditionally <i>ignored</i> by the same layout, rather than relying on it overriding the earlier directive. <div class="Shadowbox" style="width: 100%;">
+In addition to the buttons described for the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>there is a button to create a duplicate<a class="IndexReference" name="entry-Duplicate-Directives-0" href="#index-Duplicate-Directives">↓</a> of the directive. The purpose of this is to have two versions of some setting (e.g. the indent for the first staff) which are used for different score layouts - a full score may require a larger indent than an individual part. If you make the duplicate conditional<a class="IndexReference" name="entry-Conditional-Directive-3" href="#index-Conditional-Directive">↓</a> on one layout, then it is good practice to make the original conditionally <i>ignored</i> by the same layout, rather than relying on it overriding the earlier directive. <div class="Shadowbox" style="width: 100%;">
 Note that the command that created the directive you have duplicated will only edit the original directive, not the duplicate. So if you want to change it you can either use the Advanced edit button or delete and re-create it with the different value desired. (And then return to the value desired for the original copy of the directive).
 </div>
 
@@ -2353,7 +2353,7 @@ Note that if there are additional voices on a staff these are usually displayed 
 
 </div>
 <div class="Indented">
-As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal, </i>and as with the Score/Movements and Staff/Voices editors there are facilities to make duplicate directives for conditional<a class="IndexReference" name="entry-Conditional-Directives-1" href="#index-Conditional-Directives">↓</a> use in the various layouts you may need.
+As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal, </i>and as with the Score/Movements and Staff/Voices editors there are facilities to make duplicate directives for conditional<a class="IndexReference" name="entry-Conditional-Directive-4" href="#index-Conditional-Directive">↓</a> use in the various layouts you may need.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-14">14</a> The Score Layouts<a class="IndexReference" name="entry-Score-Layout-4" href="#index-Score-Layout">↓</a> Window<a class="Label" name="sec:The-Score-Layouts"> </a>
@@ -2858,7 +2858,7 @@ Mixed mouse and keyboard strategies are possible too. For example with one hand 
 <a class="toc" name="toc-Subsubsection-19.4.2">19.4.2</a> Chord Entry
 </h3>
 <div class="Unindented">
-The standard keybinding for entering a note in a chord is the <tt>Insert</tt> key, <tt>Ctrl-Insert</tt> or<tt> Del</tt>,<tt>Del</tt> deletes. The is inserted at the cursor height, use <tt>-</tt> and <tt>+</tt> to flatten/sharpen the note before you enter it (avoiding hearing both notes if you flatten/sharpen afterwards). There are also commands to enter a named note <tt>Alt-a</tt>, <tt>Alt-b</tt>... are the standard shortcuts for this. 
+The standard keybinding for entering a note in a chord is the <tt>Insert</tt> key, <tt>Ctrl-Insert</tt> or<tt> Del</tt>,<tt>Del</tt> deletes. The is inserted at the cursor height, use <tt>-</tt> and <tt>+</tt> to flatten/sharpen the note before you enter it (avoiding hearing both notes if you flatten/sharpen afterwards). There are also commands to enter a named note <tt>Alt-a</tt>, <tt>Alt-b</tt>... are the standard shortcuts for this. When a chord should have two notes on the same line or space<a class="IndexReference" name="entry-Doubled-Chord-Notes-2" href="#index-Doubled-Chord-Notes">↓</a> the same keypress can be used to enter it, however selecting which note to edit can be tricky. The easy way is to use the Object Inspector<a class="IndexReference" name="entry-Object-Inspector-1" href="#index-Object-Inspector">↓</a>’s &ldquo;Alternate note at cursor&rdquo; button to make the note you want accessible for editing.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-19.4.3">19.4.3</a> Editing Music
@@ -5180,10 +5180,7 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Command-Center"></a>Command Center: <a class="IndexArrow" href="#entry-Command-Center-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>
-</p>
-<p class="printindex">
-<a class="printindex" name="index-Conditional-Directives"></a>Conditional Directives: <a class="IndexArrow" href="#entry-Conditional-Directives-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directives-1">↑</a>
+<a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-3">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-4">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Copy/Cut-and-Paste"></a>Copy/Cut and Paste: <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-0">↑</a>, <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-1">↑</a>
@@ -5202,6 +5199,9 @@ If you are not logged in as root user, for the last step type su and your root p
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Directives"></a>Directives: <a class="IndexArrow" href="#entry-Directives-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-Doubled-Chord-Notes"></a>Doubled Chord Notes: <a class="IndexArrow" href="#entry-Doubled-Chord-Notes-0">↑</a>, <a class="IndexArrow" href="#entry-Doubled-Chord-Notes-1">↑</a>, <a class="IndexArrow" href="#entry-Doubled-Chord-Notes-2">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Duplicate-Directives"></a>Duplicate Directives: <a class="IndexArrow" href="#entry-Duplicate-Directives-0">↑</a>
@@ -5300,7 +5300,7 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Object-Editor"></a>Object Editor: <a class="IndexArrow" href="#entry-Object-Editor-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Object-Inspector"></a>Object Inspector: <a class="IndexArrow" href="#entry-Object-Inspector-0">↑</a>
+<a class="printindex" name="index-Object-Inspector"></a>Object Inspector: <a class="IndexArrow" href="#entry-Object-Inspector-0">↑</a>, <a class="IndexArrow" href="#entry-Object-Inspector-1">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Ornaments"></a>Ornaments: <a class="IndexArrow" href="#entry-Ornaments-0">↑</a>, <a class="IndexArrow" href="#entry-Ornaments-1">↑</a>, <a class="IndexArrow" href="#entry-Ornaments-2">↑</a>
@@ -5434,7 +5434,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-06-15T22:18:16.912333</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-06-22T12:38:34.552384</span>
 </div>
 </div>
 </body>
