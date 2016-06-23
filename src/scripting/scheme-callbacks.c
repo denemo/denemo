@@ -3479,6 +3479,42 @@ scheme_increment_keysig (SCM amount)
 }
 
 SCM
+scheme_swap_notes_at_cursor_height (SCM nochange)
+{
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+     return SCM_BOOL_F;
+  GList *g;
+  for (g=thechord->notes;g;g=g->next)
+    {
+        thenote = (note *) g->data;
+        if (thenote->mid_c_offset == Denemo.project->movement->cursor_y)
+            {
+                if (g->next)
+                    {  gpointer temp;
+                       note *next = (note*)g->next->data;
+                       if (next->mid_c_offset == Denemo.project->movement->cursor_y)
+                        {
+                                if(scm_is_true (nochange)) //not just a query, actually swap notes
+                                    {
+                                        temp = g->next->data;
+                                        g->next->data = g->data;
+                                        g->data = temp;
+                                    }
+                                return SCM_BOOL_T;
+                        }
+                    }
+                else
+                    return SCM_BOOL_F;
+                
+            }
+        }
+  return SCM_BOOL_F;
+}
+
+SCM
 scheme_cursor_to_nth_note_height (SCM number)
 {
   return SCM_BOOL (cursor_to_nth_note_height (scm_to_int (number) - 1));

@@ -190,6 +190,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);
   install_scm_function (1, "Takes a number 1 ... n. Moves the cursor to the nth note from the bottom of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNthNoteHeight", scheme_cursor_to_nth_note_height);
+  install_scm_function (0, "If there are two notes at the cursor height it re-orders them and returns #t. If passed 'enquire it does not do the swapping.", DENEMO_SCHEME_PREFIX "SwapNotesAtCursorHeight", scheme_swap_notes_at_cursor_height);
   install_scm_function (0, "Moves the cursor up to the next higher note of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNextNoteHeight", scheme_cursor_to_next_note_height);
 
   install_scm_function (0, "Returns the prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysig", scheme_get_prevailing_keysig);

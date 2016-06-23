@@ -131,6 +131,7 @@ SCM scheme_get_start_tick (void);
 SCM scheme_get_measure_number (void);
 SCM scheme_set_measure_number_offset (SCM val);
 SCM scheme_get_measure_number_offset (void);
+SCM scheme_swap_notes_at_cursor_height (SCM nochange);
 SCM scheme_cursor_to_nth_note_height (SCM number);
 SCM scheme_cursor_to_next_note_height (void);
 SCM scheme_cursor_to_note (SCM);
