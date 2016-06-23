@@ -41,8 +41,16 @@
     (begin
         (if (Music?)
             (begin
-                (set! script (string-append "(d-InsertChord \"" (d-GetNotes) "\")\n"))
+                (set! script (string-append "(d-InsertChord \"" (d-GetNotes) "\")(d-MoveCursorLeft)\n"))
                 ;;;do directives here
+                (let loop ((n 0))
+                    (define tag (d-DirectiveGetNthTag-chord n))
+                    (if tag
+                        (begin
+                            (clone-directive tag (create-args "chord"))
+                            (loop (1+ n)))))
+                
+                
                 ))))
             
         
