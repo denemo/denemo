@@ -1,4 +1,4 @@
-;;;;CreateButtonForObject
+;;;CreateButtonForObject
 (let ((script "")(tag (d-DirectiveGetForTag-standalone))(palette (d-SelectPalette #f)))
     (define (list-io direction type)
         (list 
@@ -34,6 +34,17 @@
         (if (> n 1)
             (loop (- n 1)))))
             
+  (define (clone-note-directives m)
+     (let loop ((n 0))
+        (define tag (d-DirectiveGetNthTag-note n))
+        (if tag
+            (begin
+                (set! script (string-append script "(d-CursorToNthNoteHeight " (number->string n) ")\n"))
+                (clone-directive tag (create-args "note"))
+                (loop (1+ n))))))        
+
+        
+            
  (if tag ;;;standalone directive
     (begin
         (set! script (string-append "(d-Directive-standalone \"" tag "\")\n"))
@@ -42,12 +53,18 @@
         (if (Music?)
             (begin
                 (set! script (string-append "(d-InsertChord \"" (d-GetNotes) "\")(d-MoveCursorLeft)\n"))
-                ;;;do directives here
+                ;;;clone chord directives
                 (let loop ((n 0))
                     (define tag (d-DirectiveGetNthTag-chord n))
                     (if tag
                         (begin
                             (clone-directive tag (create-args "chord"))
+                            (loop (1+ n)))))
+                ;;;clone note directives
+                 (let loop ((n 1))
+                    (if (d-CursorToNthNoteHeight n)
+                        (begin
+                            (clone-note-directives n)
                             (loop (1+ n)))))
                 
                 
@@ -62,3 +79,6 @@
     
 (disp "We have created \n" script "\n\n"))
             
+
+
+ 
