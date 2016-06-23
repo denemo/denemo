@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AlternateNote</action>
+        <after>ChangeEnharmonicDown</after>
+        <_label>Alternate Note</_label>
+        <_tooltip>If there are two notes at the cursor height this command swaps them round. This affects which note will be acted on by commands such as fingering, string-number, sharpen, flatten etc.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

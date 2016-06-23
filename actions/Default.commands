@@ -7891,6 +7891,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Create Button for Object</_label>
         <_tooltip>Creates a palette button to insert a clone of the object at the cursor when the button is pressed.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AlternateNote</action>
+        <after>ChangeEnharmonicDown</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Alternate Note</_label>
+        <_tooltip>If there are two notes at the cursor height this command swaps them round. This affects which note will be acted on by commands such as fingering, string-number, sharpen, flatten etc.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
