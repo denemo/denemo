@@ -1,4 +1,4 @@
-;;;CreateButtonForObject
+;;;;CreateButtonForObject
 (let ((script "")(tag (d-DirectiveGetForTag-standalone))(palette (d-SelectPalette #f)))
     (define (list-io direction type)
         (list 
@@ -35,16 +35,14 @@
             (loop (- n 1)))))
             
   (define (clone-note-directives m)
+    (set! script (string-append script "(d-CursorToNthNoteHeight " (number->string m) ")\n"))
      (let loop ((n 0))
         (define tag (d-DirectiveGetNthTag-note n))
         (if tag
             (begin
-                (set! script (string-append script "(d-CursorToNthNoteHeight " (number->string n) ")\n"))
                 (clone-directive tag (create-args "note"))
                 (loop (1+ n))))))        
 
-        
-            
  (if tag ;;;standalone directive
     (begin
         (set! script (string-append "(d-Directive-standalone \"" tag "\")\n"))
@@ -64,21 +62,19 @@
                  (let loop ((n 1))
                     (if (d-CursorToNthNoteHeight n)
                         (begin
+                            (disp "Doing note height " n "\n\n")
                             (clone-note-directives n)
-                            (loop (1+ n)))))
-                
-                
-                ))))
-            
-        
-        
-        
+                            (if (d-SwapNotesAtCursorHeight #f)
+                                (begin
+                                    (d-SwapNotesAtCursorHeight)
+                                    (set! script (string-append script "(d-SwapNotesAtCursorHeight)"))))
+                            (loop (1+ n)))))))))
   (set! script (string-append script "(d-RefreshDisplay)"))
- (d-CreatePaletteButton palette "label" "tooltip" script)
+  (let ((label (d-GetUserInput (_ "Object Clone") (_ "Give (unique) label for button: ") (_ "mylabel"))))
+  
+    (if label
+            (let ((tooltip (d-GetUserInput (_ "Object Clone") (_ "Give tooltip for button: ") (_ "Inserts object"))))
+                (if (not tooltip)
+                    (set! tooltip "No tooltip"))
+                    (d-CreatePaletteButton palette  label tooltip script)))))
     
-    
-(disp "We have created \n" script "\n\n"))
-            
-
-
- 
