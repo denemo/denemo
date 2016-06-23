@@ -5630,7 +5630,7 @@ scheme_insert_chord (SCM notes, SCM duration)
            {
                struct twoints *data = (struct twoints *)g_malloc (sizeof (struct twoints));
                interpret_lilypond_notename (thenote, &data->a, &data->b);
-               thenotes = g_list_append (thenotes, data);
+               thenotes = g_list_prepend (thenotes, data);
                thenote = strtok (NULL, " ");
             }
        insert_chord (thenotes, theduration);
