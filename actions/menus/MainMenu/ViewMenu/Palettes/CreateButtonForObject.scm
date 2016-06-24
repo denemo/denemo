@@ -1,5 +1,5 @@
 ;;;;CreateButtonForObject
-(let ((script "")(tag (d-DirectiveGetForTag-standalone))(palette (d-SelectPalette #f)))
+(let ((script "")(tag (d-DirectiveGetForTag-standalone))(palette #f))
     (define (list-io direction type)
         (list 
                 (string-append "d-Directive" direction "-" type "-prefix")
@@ -71,8 +71,9 @@
                             (loop (1+ n)))))))))
   (if (or tag (Music?))
     (begin
-      (set! script (string-append script "(d-RefreshDisplay)(d-MoveCursorRight)"))
-      (let ((label (d-GetUserInput (_ "Object Clone") (_ "Give (unique) label for button: ") (_ "mylabel"))))
+    (set! palette (d-SelectPalette #f))
+    (set! script (string-append script "(d-RefreshDisplay)(d-MoveCursorRight)"))
+    (let ((label (d-GetUserInput (_ "Object Clone") (_ "Give (unique) label for button: ") (_ "mylabel"))))
         (if label
                 (let ((tooltip (d-GetUserInput (_ "Object Clone") (_ "Give tooltip for button: ") (_ "Inserts object"))))
                     (if (not tooltip)
