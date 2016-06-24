@@ -18,7 +18,7 @@
     (cons (list-io "Put" type) (list-io "Get" type)))
                 
         
-  (define (clone-directive tag theargs) (disp "tag is " tag " and args " (car theargs) " and " (cdr theargs) "\n\n")
+  (define (clone-directive tag theargs)
     (let loop ((n (- (length (car theargs)) 1)))
         (define put (list-ref (car theargs) n))
         (define get (eval-string (list-ref (cdr theargs) n)))
@@ -62,19 +62,22 @@
                  (let loop ((n 1))
                     (if (d-CursorToNthNoteHeight n)
                         (begin
-                            (disp "Doing note height " n "\n\n")
+                           
                             (clone-note-directives n)
                             (if (d-SwapNotesAtCursorHeight #f)
                                 (begin
                                     (d-SwapNotesAtCursorHeight)
                                     (set! script (string-append script "(d-SwapNotesAtCursorHeight)"))))
                             (loop (1+ n)))))))))
-  (set! script (string-append script "(d-RefreshDisplay)"))
-  (let ((label (d-GetUserInput (_ "Object Clone") (_ "Give (unique) label for button: ") (_ "mylabel"))))
-  
-    (if label
-            (let ((tooltip (d-GetUserInput (_ "Object Clone") (_ "Give tooltip for button: ") (_ "Inserts object"))))
-                (if (not tooltip)
-                    (set! tooltip "No tooltip"))
-                    (d-CreatePaletteButton palette  label tooltip script)))))
+  (if (or tag (Music?))
+    (begin
+      (set! script (string-append script "(d-RefreshDisplay)(d-MoveCursorRight)"))
+      (let ((label (d-GetUserInput (_ "Object Clone") (_ "Give (unique) label for button: ") (_ "mylabel"))))
+        (if label
+                (let ((tooltip (d-GetUserInput (_ "Object Clone") (_ "Give tooltip for button: ") (_ "Inserts object"))))
+                    (if (not tooltip)
+                        (set! tooltip "No tooltip"))
+                (if (not (d-CreatePaletteButton palette label tooltip script))
+                    (d-WarningDialog (_ "Failed - duplicate label, no palette?")))))))
+    (d-WarningDialog (_ "Not implemented yet"))))
     
