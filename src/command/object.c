@@ -273,7 +273,12 @@ static void swap_notes_for_edit (GList *node)
     edit_object ();
 }
 
-
+static void
+create_palette_button_for_clone (void)
+{
+  call_out_to_guile ("(d-CreateButtonForObject)");  
+    
+}
 
 static gint display_timeout_id = 0;     //timeout to avoid calling display_current_object() repeatedly during rapid changes/entry of music
 static gboolean
@@ -337,10 +342,18 @@ display_current_object_callback (void)
               
             }
         }
+
       GtkWidget *edit_button = gtk_button_new_with_label (_("Run the Object Editor"));
       g_signal_connect (edit_button, "clicked", G_CALLBACK (edit_object), NULL);
       gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
-
+      
+      
+     if ((curObj->type == CHORD) || (curObj->type == LILYDIRECTIVE))
+        {      
+          GtkWidget *clone_button = gtk_button_new_with_label (_("Create Button for Clone"));
+          g_signal_connect (clone_button, "clicked", G_CALLBACK (create_palette_button_for_clone), NULL);
+          gtk_box_pack_start (GTK_BOX (vbox), clone_button, FALSE, TRUE, 0);
+        }
 
       GString *selection = g_string_new (gui->movement->cursor_appending ? _("The cursor is in the appending position after ") : _("The cursor is on "));
       GString *warning = g_string_new ("");
