@@ -29,7 +29,11 @@
             (begin
                 (set! end (string->number end))
                
-                (while (> end (d-GetMovement)) (d-NextMovement))
+                (while (and (> end (d-GetMovement)) (d-NextMovement)))
+                (if (> end (d-GetMovement))
+                	(begin
+                		(d-WarningDialog (_ "Setting End Chapter at last movement"))
+                		(set! end (d-GetMovement))))
                 (if (d-Directive-movementcontrol? tag)
                     (begin
                         (d-WarningDialog (string-append (_ "A Chapter start/end is already present at movement #") (number->string (d-GetMovement))))
