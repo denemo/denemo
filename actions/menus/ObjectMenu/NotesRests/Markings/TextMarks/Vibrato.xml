@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>Vibrato</action>
+        <after>Glissando</after>
+        <_label>Vibrato</_label>
+        <_tooltip>Start or Stop a wavy line above the notes. The waves can be made longer/shorter via the wavelength given and can be made to swell and or diminish, several times if desired by giving one or more amplitudes. </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

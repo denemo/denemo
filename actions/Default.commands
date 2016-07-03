@@ -7898,6 +7898,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Alternate Note</_label>
         <_tooltip>If there are two notes at the cursor height this command swaps them round. This affects which note will be acted on by commands such as fingering, string-number, sharpen, flatten etc.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>Vibrato</action>
+        <after>Glissando</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <_label>Vibrato</_label>
+        <_tooltip>Start or Stop a wavy line above the notes. The waves can be made longer/shorter via the wavelength given and can be made to swell and or diminish, several times if desired by giving one or more amplitudes. </_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

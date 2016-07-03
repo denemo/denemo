@@ -1538,6 +1538,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.xml
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.scm
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.scm
