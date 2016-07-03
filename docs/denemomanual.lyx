@@ -4285,19 +4285,42 @@ You should make palettes your best friend - when you find a command in the
 \end_layout
 
 \begin_layout Standard
-Palette buttons can also be created directly from objects so that you can
- create more of them in your score; if you run Help->Open Feature Packed
- Score and find the type of object or attribute you need there then you
- can run the Object Editor on it and create a palette button for installing
- the same thing in your own score.
- See the Object Editor
+Palette buttons can also be created directly from objects or Denemo Directives
+ so that you can duplicate them in your score without having to copy and
+ paste.
+ So, for example if you run Help->Open Feature Packed Score and find the
+ type of object or attribute you need there then you can run the Object
+ Inspector or one of the editors on it and create a palette button for installin
+g the same thing in your own score.
+ See the sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Object-Inspector"
+
+\end_inset
+
+
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Object-Editor"
 
 \end_inset
 
- for more details.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Score-and"
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Staff-and"
+
+\end_inset
+
+for more details.
 \end_layout
 
 \begin_layout Standard
@@ -5884,6 +5907,22 @@ reference "sec:Object-Editor"
 
  on the current object, which allows you to modify or delete the property
  you are interested in.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Create Button for Clone
+\begin_inset Quotes erd
+\end_inset
+
+ button will let you create a palette button that can thereafter be used
+ to insert a duplicate of the object any desired position in the score.
+ This means that a complex marking or a chord with its fingerings, ornaments
+ etc can be created once and then inserted elsewhere, even in other scores
+ by invoking that button.
 \end_layout
 
 \begin_layout Standard
