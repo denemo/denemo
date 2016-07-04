@@ -194,6 +194,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Moves the cursor up to the next higher note of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNextNoteHeight", scheme_cursor_to_next_note_height);
 
   install_scm_function (0, "Returns the prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysig", scheme_get_prevailing_keysig);
+  install_scm_function (0, "Returns the name prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysigName", scheme_get_prevailing_keysig_name);
   install_scm_function (0, "Returns the prevailing time signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingTimesig", scheme_get_prevailing_timesig);
   install_scm_function (0, "Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.", DENEMO_SCHEME_PREFIX "GetPrevailingClef", scheme_get_prevailing_clef);
 

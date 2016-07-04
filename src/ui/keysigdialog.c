@@ -292,11 +292,18 @@ key_change_insert (GtkAction * action, DenemoScriptParam * param)
 }
 
 
-static  gchar *keysig_name (DenemoStaff *staff)
-{
-    
-    
-    
+gchar *
+get_prevailing_keysig_name (void)
+{ 
+  gchar *key;
+  keysig *keysig = get_prevailing_context (KEYSIG);
+  gboolean isminor = keysig->isminor;
+  gint number = keysig->number + KEYNAME_ARRAY_OFFSET;
+  if (isminor)
+    key = g_strdup_printf ("%s %s", minorkeys[number], "Minor");
+  else
+    key = g_strdup_printf ("%s %s", majorkeys[number], "Major");
+  return key;
 }
 /**
  * callback for changing the initial keysig

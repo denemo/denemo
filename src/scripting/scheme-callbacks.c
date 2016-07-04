@@ -3402,6 +3402,17 @@ scheme_get_prevailing_keysig (SCM optional)
   return scm_from_locale_string (g_string_free (str, FALSE));
 }
 
+
+
+SCM
+scheme_get_prevailing_keysig_name (void)
+{
+  SCM ret;
+  gchar *key = get_prevailing_keysig_name();
+  ret = scm_from_locale_string (key);
+  g_free (key);
+  return ret;
+}
 SCM
 scheme_set_prevailing_keysig (SCM keyaccs)
 {
