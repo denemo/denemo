@@ -31,7 +31,7 @@
                         (set! val (number->string val))
                         (set! script (string-append script "(" put " \"" tag "\" " val ")\n")))
                     (set! script (string-append script "(" put " \"" tag "\" \"" (scheme-escape val) "\")\n")))))
-        (if (> n 1)
+        (if (> n 0)
             (loop (- n 1)))))
             
   (define (clone-note-directives m)
@@ -68,8 +68,49 @@
                                 (begin
                                     (d-SwapNotesAtCursorHeight)
                                     (set! script (string-append script "(d-SwapNotesAtCursorHeight)"))))
-                            (loop (1+ n)))))))))
-  (if (or tag (Music?))
+                            (loop (1+ n))))))
+            (if (Keysignature?)
+                (begin
+                    (set! script (string-append "(d-InsertKey \"" (scheme-escape (d-GetPrevailingKeysigAsLilyPond)) "\")(d-MoveCursorLeft)\n"))
+                    (let loop ((n 0))
+                    (define tag (d-DirectiveGetNthTag-keysig n))
+                    (if tag
+                        (begin
+                            (clone-directive tag (create-args "keysig"))
+                            (loop (1+ n)))))
+                )
+                (if (Timesignature?)
+                    (begin
+                        (set! script (string-append "(d-InsertTimeSig \"" (d-GetPrevailingTimesig) "\")(d-MoveCursorLeft)\n"))
+                        (let loop ((n 0))
+                        (define tag (d-DirectiveGetNthTag-timesig n))
+                        (if tag
+                            (begin
+                                (clone-directive tag (create-args "timesig"))
+                                (loop (1+ n)))))
+                    
+                    )
+                    (if (Clef?)
+                        (begin
+                            (set! script (string-append "(d-InsertClef \"" (d-GetPrevailingClef) "\")(d-MoveCursorLeft)\n"))
+                            (let loop ((n 0))
+                            (define tag (d-DirectiveGetNthTag-clef n))
+                            (if tag
+                                (begin
+                                    (clone-directive tag (create-args "clef"))
+                                    (loop (1+ n)))))
+                        
+                        )
+                            
+                            
+                            
+                            )
+                            
+                            
+                            
+                            
+                            )))))
+  (if (or tag (Music?) (Keysignature?)(Timesignature?)(Clef?))
     (begin
     (set! palette (d-SelectPalette #f))
     (set! script (string-append script "(d-RefreshDisplay)(d-MoveCursorRight)"))
