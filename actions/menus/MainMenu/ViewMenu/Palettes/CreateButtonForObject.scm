@@ -71,7 +71,7 @@
                             (loop (1+ n))))))
             (if (Keysignature?)
                 (begin
-                    (set! script (string-append "(d-InsertKey \"" (scheme-escape (d-GetPrevailingKeysigAsLilyPond)) "\")(d-MoveCursorLeft)\n"))
+                    (set! script (string-append "(d-InsertKey \"" (d-GetPrevailingKeysigName) "\")(d-MoveCursorLeft)\n"))
                     (let loop ((n 0))
                     (define tag (d-DirectiveGetNthTag-keysig n))
                     (if tag
