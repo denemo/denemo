@@ -291,6 +291,13 @@ key_change_insert (GtkAction * action, DenemoScriptParam * param)
     }
 }
 
+
+static  gchar *keysig_name (DenemoStaff *staff)
+{
+    
+    
+    
+}
 /**
  * callback for changing the initial keysig
  *  calls key_change with the CHANGEINITIAL argument
@@ -305,24 +312,29 @@ key_change_initial (GtkAction * action, DenemoScriptParam * param)
     key_change (gui, CHANGEINITIAL);
   else
     {
-      gint tokey, isminor;
-      GString *scheme_str = g_string_new (keyname);
-      gboolean valid = key_from_string (scheme_str, &tokey, &isminor);
-      g_string_free (scheme_str, TRUE);
-      if (valid)
+      if (query && !strcmp ("keysigname", query))
         {
-          dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
-          displayhelper (gui);
+          gchar *key;
+          if (curstaffstruct->keysig.isminor == 1)
+            key = g_strdup_printf ("%s %s", minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Minor");
+          else
+            key = g_strdup_printf ("%s %s", majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Major");
+          g_string_assign (param->string, key);
+          param->status = TRUE;
+          g_free (key);
+        } else 
+        {        
+        
+          gint tokey, isminor;
+          GString *scheme_str = g_string_new (keyname);
+          gboolean valid = key_from_string (scheme_str, &tokey, &isminor);
+          g_string_free (scheme_str, TRUE);
+          if (valid)
+            {
+              dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
+              displayhelper (gui);
+            }
         }
-
-      gchar *key;
-      if (curstaffstruct->keysig.isminor == 1)
-        key = g_strdup_printf ("%s %s", minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Minor");
-      else
-        key = g_strdup_printf ("%s %s", majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Major");
-      g_string_assign (param->string, key);
-      g_free (key);
-
     }
 }
 
