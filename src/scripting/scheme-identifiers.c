@@ -490,6 +490,9 @@ create_scheme_identfiers (void)
   INSTALL_GET (standalone, graphic_name);
   INSTALL_GET (chord, graphic_name);
   INSTALL_GET (note, graphic_name);
+  INSTALL_GET (clef, graphic_name);
+  INSTALL_GET (keysig, graphic_name);
+  INSTALL_GET (timesig, graphic_name);
   INSTALL_GET (chord, grob);
   INSTALL_GET (note, grob);
   INSTALL_GET (staff, grob);
