@@ -538,6 +538,9 @@ create_scheme_identfiers (void)
   INSTALL_GET (standalone, midibytes);
   INSTALL_GET (chord, midibytes);
   INSTALL_GET (note, midibytes);
+  INSTALL_GET (keysig, midibytes);
+  INSTALL_GET (timesig, midibytes);
+  INSTALL_GET (clef, midibytes);
   INSTALL_GET (staff, midibytes);
   INSTALL_GET (voice, midibytes);
   INSTALL_GET (score, midibytes);
@@ -545,6 +548,9 @@ create_scheme_identfiers (void)
   INSTALL_PUT (standalone, midibytes);
   INSTALL_PUT (chord, midibytes);
   INSTALL_PUT (note, midibytes);
+  INSTALL_PUT (keysig, midibytes);
+  INSTALL_PUT (timesig, midibytes);
+  INSTALL_PUT (clef, midibytes);
   INSTALL_PUT (staff, midibytes);
   INSTALL_PUT (voice, midibytes);
   INSTALL_PUT (score, midibytes);

@@ -1097,11 +1097,17 @@ GET_STR_FIELD_FUNC (score, midibytes);
 GET_STR_FIELD_FUNC (movementcontrol, midibytes);
 GET_STR_FIELD_FUNC (note, midibytes);
 GET_STR_FIELD_FUNC (chord, midibytes);
+GET_STR_FIELD_FUNC (keysig, midibytes);
+GET_STR_FIELD_FUNC (timesig, midibytes);
+GET_STR_FIELD_FUNC (clef, midibytes);
 GET_STR_FIELD_FUNC (staff, midibytes);
 GET_STR_FIELD_FUNC (voice, midibytes);
 GET_STR_FIELD_FUNC (standalone, midibytes);
 PUT_STR_FIELD_FUNC (note, midibytes);
 PUT_STR_FIELD_FUNC (chord, midibytes)
+PUT_STR_FIELD_FUNC (keysig, midibytes)
+PUT_STR_FIELD_FUNC (timesig, midibytes)
+PUT_STR_FIELD_FUNC (clef, midibytes)
 
 //cloned for grob
   GET_STR_FIELD_FUNC (score, grob);
