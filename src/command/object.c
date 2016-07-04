@@ -2841,6 +2841,7 @@ void
 dnm_setinitialkeysig (DenemoStaff * curstaff, gint tokey, gint type)
 {
   take_snapshot ();
+  signal_structural_change (Denemo.project);
   curstaff->keysig.number = tokey;
   curstaff->keysig.isminor = type;
 
