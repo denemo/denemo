@@ -302,7 +302,7 @@ get_prevailing_keysig_name (void)
   if (isminor)
     key = g_strdup_printf ("%s %s", minorkeys[number], "Minor");
   else
-    key = g_strdup_printf ("%s %s", majorkeys[number], "Major");
+    key = g_strdup_printf ("%s", majorkeys[number]); //do not use Major as the crude algorithm identifies the letter A in major as the note name A !!
   return key;
 }
 /**
