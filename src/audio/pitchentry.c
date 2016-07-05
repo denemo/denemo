@@ -987,7 +987,8 @@ Freq2Pitch (float freq)
 }
 
 
-
+#ifdef DISABLE_AUBIO
+#else
 /* look for a new note played into audio input, if
    present insert it into the score/store */
 gint
@@ -1149,7 +1150,7 @@ frequency_smoothing (GtkSpinButton * widget, G_GNUC_UNUSED gpointer data)
   set_frequency_smoothing (m);
 }
 
-
+#endif
 
 /* stop_pitch_input
    if not midi stop audio and aubio
