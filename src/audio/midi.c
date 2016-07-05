@@ -146,9 +146,9 @@ static gboolean do_set_playbutton (gboolean paused)
 static gboolean
 update_playbutton_callback (gboolean paused)
 {
-  
+
   g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, GINT_TO_POINTER(paused));
-  
+
   return FALSE;
 }
 
@@ -383,7 +383,7 @@ get_obj_for_end_time (smf_t * smf, gdouble time)
   enters ( or (if mode==INPUTEDIT and appending) edits the note at the cursor)
  * the parameters specify which note
  * @mid_c_offset
- * @enshift enharmonic adjustment -1 is one flat etc.. 
+ * @enshift enharmonic adjustment -1 is one flat etc..
  * @octave
  */
 static void
@@ -423,7 +423,7 @@ typedef struct enharmonic
 void new_midi_recording (void) {
   DenemoRecording *recording;
   if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
-    {  
+    {
       //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
       recording = Denemo.project->movement->recording;
       g_static_mutex_lock (&smfmutex);
@@ -432,7 +432,7 @@ void new_midi_recording (void) {
       g_free (recording->filename);
       g_free (recording);
       g_list_free_full (recording->notes, g_free);
-     } 
+     }
   recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
   recording->type = DENEMO_RECORDING_MIDI;
   recording->samplerate = 44100;
@@ -443,13 +443,13 @@ void new_midi_recording (void) {
 static void
 record_midi (gchar * buf, gdouble time)
 {
-  buf[0] |= 0xF; //here force the channel to 15 
+  buf[0] |= 0xF; //here force the channel to 15
   smf_event_t *event = smf_event_new_from_pointer (buf, 3);
   if (event && smf_event_is_valid (event))
     {
       if (Denemo.project->movement->recorded_midi_track && ((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf)
         {
-           
+
           smf_track_add_event_seconds (Denemo.project->movement->recorded_midi_track, event, time);
           if(Denemo.project->movement->recording && noteon_key(event))
             {
@@ -501,11 +501,11 @@ do_one_note (gint mid_c_offset, gint enshift, gint notenum)
             }
           else
             PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes
-        }          
+        }
        else
-            PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes   
+            PopPosition (NULL, NULL);// go to where we started, as there are no non-printing notes
       action_note_into_score (mid_c_offset, enshift, notenum);
-      
+
       if (Denemo.keyboard_state & ADDING_MASK)
         Denemo.keyboard_state |= CHORD_MASK;
       set_midi_in_status ();
@@ -567,17 +567,17 @@ get_previous (enharmonic * enote)
 }
 
 
-static gboolean at_nonprinting (void) 
+static gboolean at_nonprinting (void)
 {
-  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;  
+  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   DenemoObject *curObj = Denemo.project->movement->currentobject->data;
   return (curObj->type == CHORD && curObj->isinvisible);
 }
 
 /*  take an action for the passed note. Enter/edit/check the score following the mode and keyboard state. */
 static gint
-midiaction (gint notenum) 
-{ 
+midiaction (gint notenum)
+{
   gboolean new_measure = Denemo.project->movement->cursoroffend;
   DenemoProject *gui = Denemo.project;
   if (gui == NULL)
@@ -646,7 +646,7 @@ midiaction (gint notenum)
             }
           else //there is a current object that is not a chord
             {
-              if (gui->movement->cursor_appending) 
+              if (gui->movement->cursor_appending)
                 {
                     do_one_note (enote.mid_c_offset, enote.enshift, enote.octave);
                     next_insert_or_editable_note();
@@ -677,7 +677,7 @@ midiaction (gint notenum)
         }
     }
   else
-    {                           // not INPUTEDIT    
+    {                           // not INPUTEDIT
       action_note_into_score (enote.mid_c_offset, enote.enshift, enote.octave);
     }
   if (!(Denemo.keyboard_state & CHECKING_MASK))
@@ -742,7 +742,7 @@ void add_after_touch (gchar * buf)
           buf[2] = 60 / exp ((get_time () - times[notenumber]) * 1);    //scale according to the time
           return;
         }
-    } 
+    }
 }
 
 void
@@ -873,7 +873,7 @@ advance_until_time (gchar * buf)
                   //IF THE NEXT OBJ IS A REST ADVANCE OVER IT/THEM
                   do
                     {
-                      if (!cursor_to_next_note ())      //if(!cursor_to_next_chord())                 
+                      if (!cursor_to_next_note ())      //if(!cursor_to_next_chord())
                         {
                           play_until = G_MAXDOUBLE;
                           break;
@@ -919,7 +919,7 @@ play_adjusted_midi_event (gchar * buf)
 {
   adjust_midi_velocity (buf, 100 - Denemo.prefs.dynamic_compression);
   add_after_touch (buf);
-  adjust_midi_channel (buf);                                   
+  adjust_midi_channel (buf);
   //g_print ("play adj midibytes 0x%hhX 0x%hhX 0x%hhX\n", *(buf+0), *(buf+1), *(buf+2));
   play_midi_event (DEFAULT_BACKEND, 0, (guchar*) buf);
 }
@@ -1069,7 +1069,7 @@ change_tuning (gdouble * cents)
   play_midi_event (DEFAULT_BACKEND, 0, buffer);
 }
 
-//return the midi key of the passed event if note on, else 0 
+//return the midi key of the passed event if note on, else 0
 
 int
 noteon_key (smf_event_t * event)

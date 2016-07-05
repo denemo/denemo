@@ -19,7 +19,7 @@
  * update_hscrollbar should be called as a cleanup whenever
  * si->leftmeasurenum or si->rightmeasurenum may have been altered,
  *  e.g., by preceding calls to set_rightmeasurenum; or when the
- *  number of measures may have changed.  
+ *  number of measures may have changed.
  */
 void
 update_hscrollbar (DenemoProject * gui)
@@ -46,7 +46,7 @@ update_hscrollbar (DenemoProject * gui)
  *
  * For simplicity, this function treats nonprimary voices as
  * full-fledged staffs, which'll be visually confusing. I'll fix it
- * soon.  
+ * soon.
  */
 
 void
@@ -85,7 +85,7 @@ set_rightmeasurenum (DenemoMovement * si)
 /**
  * Utility function for advancing a staff number and staff iterator to
  * the next primary voice, or to one off the end and NULL if there are
- * none remaining.  
+ * none remaining.
  */
 static void
 to_next_primary_voice (gint * staff_number, staffnode ** staff_iterator)
@@ -104,7 +104,7 @@ to_next_primary_voice (gint * staff_number, staffnode ** staff_iterator)
 /**
  * This function also has a side effect of bumping si->top_staff
  * up to the staff number of the next primary voice if si->top_staff
- * initially points to a nonprimary voice.  
+ * initially points to a nonprimary voice.
  */
 void
 set_bottom_staff (DenemoProject * gui)
@@ -183,13 +183,13 @@ isoffrightside (DenemoProject * gui)
 }
 
 /**
- * Move the viewable part of the score up 
+ * Move the viewable part of the score up
  *
  */
 void
 move_viewport_up (DenemoProject * gui)
 {
-  if(Denemo.non_interactive)  
+  if(Denemo.non_interactive)
     return;
   staffnode *staff_iterator;
 

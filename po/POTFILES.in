@@ -623,6 +623,8 @@ actions/menus/MainMenu/ViewMenu/DisplayEditingTime.scm
 actions/menus/MainMenu/ViewMenu/DisplayEditingTime.xml
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.scm
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.xml
+actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.scm
+actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.xml
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.scm
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.xml
 actions/menus/MainMenu/ViewMenu/ToggleCursorHighlight.scm
@@ -693,6 +695,8 @@ actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect4.scm
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect4.xml
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect5.scm
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect5.xml
+actions/menus/ObjectMenu/ChordMenu/AlternateNote.scm
+actions/menus/ObjectMenu/ChordMenu/AlternateNote.xml
 actions/menus/ObjectMenu/ChordMenu/BassInversionSequence.scm
 actions/menus/ObjectMenu/ChordMenu/BassInversionSequence.xml
 actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicDown.scm
@@ -1295,6 +1299,8 @@ actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateRestNoteChord.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateRestNoteChord.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.xml
+actions/menus/ObjectMenu/NotesRests/InsertNote/FillUpMeasure.scm
+actions/menus/ObjectMenu/NotesRests/InsertNote/FillUpMeasure.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.scm
@@ -1532,6 +1538,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.xml
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.scm
 actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm
+actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.xml
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.scm
 actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.scm
@@ -1786,6 +1794,8 @@ actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.xml
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.xml
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm
 actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml
 actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm

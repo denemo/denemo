@@ -14,7 +14,7 @@
 #define TAB "        "
 
 #define LILYPOND_SYMBOL_DEFINITIONS \
-    "\nCompactChordSymbols = {}\n#(define DenemoTransposeStep 0)\n#(define DenemoTransposeAccidental 0)\nDenemoGlobalTranspose = \\void #0\ntitledPiece = {}\nAutoBarline = {}\nAutoEndMovementBarline = \\bar \"|.\"\n"
+    "\nCompactChordSymbols = {}\n#(define DenemoTransposeStep 0)\n#(define DenemoTransposeAccidental 0)\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #})\ntitledPiece = {}\nAutoBarline = {}\nAutoEndMovementBarline = \\bar \"|.\"\n"
 void create_lilywindow (void);
 void exportlilypond (gchar * thefilename, DenemoProject * gui, gboolean all_movements);
 
@@ -52,5 +52,5 @@ void set_staff_termination (GString * str, DenemoStaff * curstaffstruct);
 void set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name);
 void set_staff_definition (GString * str, DenemoStaff * curstaffstruct);
 gint get_cursor_offset (void);
-void init_lilypond_buffer(void);
+void init_lilypond_buffer (void);
 #endif

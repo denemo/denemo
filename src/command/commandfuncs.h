@@ -170,4 +170,5 @@ void dnm_inserttuplet (DenemoProject * gui, tuplet_type type);
 gboolean next_editable_note (void);
 gboolean next_insert_or_editable_note (void);
 gboolean insert_marked_midi_note (void);
+void insert_chord (GList *note_data, gint duration);
 #endif /*COMMANDFUNCSH */

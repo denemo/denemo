@@ -1,11 +1,11 @@
-/* 
+/*
  * importmusicxml.c
  *
  * Functions for importing a MusicXML file
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (C)  2010 Richard Shann
- * 
+ *
  * License: this file may be used under the FSF GPL version 3 or later
  */
 #include <string.h>
@@ -614,7 +614,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
     if (ELEM_NAME_EQ (childElem, "rest"))
       {
         is_rest = TRUE;
-        gchar *whole  = xmlGetProp (childElem, (xmlChar *) "measure");   
+        gchar *whole  = xmlGetProp (childElem, (xmlChar *) "measure");
         is_whole_measure_rest = !g_strcmp0 (whole , "yes");
       }
     if (ELEM_NAME_EQ (childElem, "dot"))
@@ -696,7 +696,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
 
   if (type)
     {
-       
+
             g_string_append (text, in_chord ? add_note (octave, step, alter) : (is_rest ? add_rest (type, duration, divisions) : insert_note (type, octave, step, alter)));
 
       if (is_nonprinting)
@@ -718,7 +718,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
     {                           //for the case where a rest is given without a type, just a duration.
      if(is_whole_measure_rest)
             g_string_append (text, "(d-InsertWholeMeasureRest)(d-MoveCursorLeft)");
-     else 
+     else
             get_rest_for_duration (text, duration, divisions);
 
     voice_timings[voicenum - 1] += duration;
@@ -900,18 +900,18 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
                 if(!strcmp(font_style, "italic"))
                     font_style = "\\\\italic";
                 else
-                    font_style = "";  
-            } 
+                    font_style = "";
+            }
           else
-            font_style = "";  
+            font_style = "";
           if(placement)
             {
             if(!strcmp(placement, "above"))
                 placement = "^";
             else if(!strcmp(placement, "below"))
-                placement = "_";  
+                placement = "_";
             else
-                placement = "-";  
+                placement = "-";
             }
           else
             placement = "-";
@@ -921,11 +921,11 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
         pending = g_strdup_printf ("(StandaloneText \"TextAnnotation\" \"%s\" \"%s\" \"%s\")(GoToMeasureEnd)", /*words g_strescape(words, NULL)*/ escape_scheme (words), placement, font_style);
         g_free (thewords);
         g_free (words);
-        
+
       }
-      
-      
-      /*     
+
+
+      /*
   <direction placement="below">
         <direction-type>
           <dynamics default-x="-21" default-y="-67" halign="center">
@@ -936,15 +936,15 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
         <staff>2</staff>
         <sound dynamics="98"/>
       </direction>
-   */         
+   */
     if (ELEM_NAME_EQ (childElem, "dynamics"))
-      {   
+      {
        // if(pending==NULL)
        //     pending = "";
        // pending = g_strdup_printf ("%s(d-DynamicText \"%s\")(GoToMeasureEnd)", pending, childElem->xmlChildrenNode->name);
-       
+
        g_string_append_printf (script, "(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", childElem->xmlChildrenNode->name);
-       
+
       }
   }
   return pending;
@@ -958,9 +958,9 @@ parse_direction (xmlNodePtr rootElem, GString * script, gchar *placement)
   {
     if (ELEM_NAME_EQ (childElem, "direction-type"))
       return parse_direction_type (childElem, script, placement);
- 
-            
-            
+
+
+
   }
   return NULL;
 }
@@ -1011,14 +1011,14 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
         gboolean is_nonprinting = FALSE;
         if (printing && !strcmp (printing, "no"))
           is_nonprinting = TRUE;
-   
+
         gchar *warning = parse_note (childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
         if(pendings->len)
             {
                 g_string_prepend (pendings, "(d-MoveCursorLeft)");
                 g_string_append (scripts[current_voice], pendings->str);
                 g_string_assign(pendings, "");
-            }      
+            }
         note_count++;
         if (*warning)
           g_string_append_printf (ret, "%s at note number %d, ", warning, note_count);
@@ -1171,12 +1171,12 @@ parse_identification (xmlNodePtr rootElem, GString *script)
         {
             title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             g_string_append_printf (script, "(d-BookComposer \"%s\")", title);
-        }    
+        }
     if (ELEM_NAME_EQ (childElem, "rights"))
         {
             title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
             g_string_append_printf (script, "(d-BookCopyright \"%s\")", title);
-        } 
+        }
   }
   g_free (title);
 }
@@ -1191,7 +1191,7 @@ mxmlinput (gchar * filename)
   xmlNodePtr rootElem;
   gboolean spillover = Denemo.prefs.spillover;
   Denemo.prefs.spillover = FALSE;
-  
+
   /* ignore blanks between nodes that appear as "text" */
   xmlKeepBlanksDefault (0);
   /* Try to parse the file. */
@@ -1224,7 +1224,7 @@ mxmlinput (gchar * filename)
         }
      if (ELEM_NAME_EQ (childElem, "identification"))   {
             parse_identification (childElem, script);
-    }   
+    }
     if (ELEM_NAME_EQ (childElem, "part"))
       {
         g_string_append_printf (script, "\n;;-------------------------Part (ie Instrument) %d ----------------------\n", part_count++);
@@ -1258,13 +1258,13 @@ static void parseFont (xmlNodePtr rootElem, GString *script) {
      FOREACH_CHILD_ELEM (childElem, rootElem)
   {
      if (ELEM_NAME_EQ (childElem, "glyph"))
-        { 
+        {
             gchar *title = xmlGetProp (childElem, (xmlChar *) "glyph-name");
             if(title) {
-               
+
                 gint i, j;
                 gchar *c;
-                
+
                 for(i=0, j=0, c = title; *c; c++) {
                     if(*c=='.')
                         {
@@ -1286,13 +1286,13 @@ static void parseFont (xmlNodePtr rootElem, GString *script) {
                      }
                 else
                     if((new_class = strcmp(current, buffer1)))
-                        strcpy (current, buffer1); 
+                        strcpy (current, buffer1);
                 if(new_class)
                             g_string_append_printf(script, "))\n(cons (_ \"%s\") (list \n", current);
                 g_string_append_printf (script, "\t(cons (_ \"%s\") \"%s\")\n", buffer2, title);
-               
+
             }
-        } 
+        }
     }
 }
 
@@ -1302,9 +1302,9 @@ static void parseDefs (xmlNodePtr rootElem, GString *script) {
      FOREACH_CHILD_ELEM (childElem, rootElem)
   {
      if (ELEM_NAME_EQ (childElem, "font"))
-        { 
+        {
            parseFont(childElem, script);
-        } 
+        }
     }
 }
 
@@ -1333,10 +1333,10 @@ fontinput (gchar * filename)
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
       if (ELEM_NAME_EQ (childElem, "defs"))
-        { 
+        {
             parseDefs(childElem, script);
         }
-     
+
   }
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");

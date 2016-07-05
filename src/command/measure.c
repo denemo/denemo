@@ -26,7 +26,7 @@
 
 /**
  * Adds measures to the score at given position, and returns the
- * measurenode * to the first one in currentstaff 
+ * measurenode * to the first one in currentstaff
  * @param si the scoreinfo structure
  * @param pos position in staff to insert measures
  * @param nummeasures number of measures to insert
@@ -40,7 +40,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
   guint i;
   objnode *barlinenode = NULL;
   if(all)
-        stage_undo (si, ACTION_STAGE_END); 
+        stage_undo (si, ACTION_STAGE_END);
   for (i = 0; i < nummeasures; i++)
     {
       if (all)
@@ -53,7 +53,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
               ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
               ((DenemoStaff *) curstaff->data)->nummeasures++;
             }
-            
+
         }
       else
         {
@@ -76,8 +76,8 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 
 
     }
-    
-    
+
+
     if (all)
         cache_all();
     else
@@ -88,9 +88,9 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
  // score_status(Denemo.project, TRUE);
 //check not returning NULL!!!!
   si->cursoroffend = FALSE;//This was left to the drawing routine to set, but it can happen that no draw occurs before the value is needed.
-  
+
   if(all)
-        stage_undo (si, ACTION_STAGE_START); 
+        stage_undo (si, ACTION_STAGE_START);
   if (ret)
     return ret;
   g_warning ("Add measures was going to return NULL");
@@ -113,7 +113,7 @@ freeit_object (gpointer data, gpointer user_data)
 }
 
 /**
- * Free a measures objects 
+ * Free a measures objects
  *
  */
 void
@@ -146,7 +146,7 @@ free_measure (DenemoMeasure *m)
 {
   GList *g;
    for (g=m->objects;g;g=g->next)
-     freeobjlist (g);  
+     freeobjlist (g);
   m->objects = NULL;
 }
 /**
@@ -172,8 +172,8 @@ staffremovemeasures (staffnode * curstaff, guint pos)
 
           //  g_debug ("Firstmeasure %x\t DelMeasure %x \t Position\n",
           //       firstmeasure, delmeasure, pos);
-         
-          
+
+
         DenemoUndoData *undo;
         if (!si->undo_guard)
             {
@@ -181,22 +181,22 @@ staffremovemeasures (staffnode * curstaff, guint pos)
               undo->object = clone_measure ((DenemoMeasure*)delmeasure->data);
             }
        // freeobjlist (((DenemoMeasure*)delmeasure->data)->objects, NULL);
-        
+
         free_measure (delmeasure->data);
         ((DenemoStaff *) curstaff->data)->themeasures = g_list_remove_link (firstmeasure, delmeasure); //FIXME DANGER
         g_free ((DenemoMeasure*)delmeasure->data);
         g_list_free_1 (delmeasure);
         ((DenemoStaff *) curstaff->data)->nummeasures--;
         if ( ((DenemoStaff *) curstaff->data)->themeasures != NULL)
-            {//if the removed measures have a clef change in them the noteheights may need to change so...  
+            {//if the removed measures have a clef change in them the noteheights may need to change so...
             cache_staff (curstaff);
             staff_fix_note_heights (curstaff->data);
             }
         if (!si->undo_guard)
             {
               get_position (si, &undo->position);
-              //!!!!!!!! that is setting the cursor position 
-                undo->position.staff = 1 + g_list_position (si->thescore, curstaff); 
+              //!!!!!!!! that is setting the cursor position
+                undo->position.staff = 1 + g_list_position (si->thescore, curstaff);
                 g_print ("Setting staff %d\n", undo->position.staff);
               undo->action = ACTION_MEASURE_DELETE;
               update_undo_info (si, undo);
@@ -227,7 +227,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
   if (nummeasures <= g_list_length (staff_first_measure_node ((staffnode *) si->currentstaff)) - pos)
     {
       if(all)
-        stage_undo (si, ACTION_STAGE_END); 
+        stage_undo (si, ACTION_STAGE_END);
       for (i = 0; i < nummeasures; i++)
         {
           totalmeasures = 0;
@@ -259,7 +259,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
       set_measure_transition (20, all);
       all?  cache_all (): cache_staff (si->currentstaff);
       if(all)
-        stage_undo (si, ACTION_STAGE_START); 
+        stage_undo (si, ACTION_STAGE_START);
     }
   else
     {
@@ -281,7 +281,7 @@ removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all)
 
 /**
  * This function calculates the number of ticks per beat in a given
- * time signature 
+ * time signature
  */
 gint
 calcticksperbeat (gint time1, gint time2)
@@ -327,7 +327,7 @@ is_end_grace (objnode * curobjnode)
  *
  * It works out that this function can be called wherever
  * calculatebeamsandstemdirs is invoked, and would share code besides, so
- * that's precisely where it is invoked 
+ * that's precisely where it is invoked
  */
 static void
 settickvalsinmeasure (objnode * theobjs)
@@ -361,7 +361,7 @@ settickvalsinmeasure (objnode * theobjs)
                     theobj->durinticks = 0;
                 }
 
-                
+
             }
           else
             {
@@ -409,7 +409,7 @@ settickvalsinmeasure (objnode * theobjs)
 /**
  * This function simply sets stem directions. It probably deals with
  * staves that have a fixed stem direction inefficiently, but this was
- * the easiest way to add things to the existing code. 
+ * the easiest way to add things to the existing code.
  */
 static void
 setsdir (objnode * starter, objnode * ender, gint beamgroup_sum, gint beamgroup_number, gint beamgroup_highest, gint beamgroup_lowest, gint clef, gint stem_directive)
@@ -487,8 +487,8 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum, gint beamgroup_
   */
 void
 calculatebeamsandstemdirs (DenemoMeasure *measure)
-{ 
-  if (measure == NULL) 
+{
+  if (measure == NULL)
     return;
   objnode * theobjs = measure->objects;
   DenemoObject *prevobj = NULL, *theobj;
@@ -499,8 +499,8 @@ calculatebeamsandstemdirs (DenemoMeasure *measure)
   gint beamgroup_number = 0;
   gint beamgroup_highest = 0;
   gint beamgroup_lowest = 0;
-  
-  
+
+
   gboolean isbeambreak;
   gint  theclef = measure->clef->type;
   gint  thetime1 = measure->timesig->time1;
@@ -509,7 +509,7 @@ calculatebeamsandstemdirs (DenemoMeasure *measure)
   gint next_clef = theclef;      /* Useful for when a clef intrudes
                                    mid-beamgroup */
   gint next_stem_directive = thestem_directive;
-  
+
   if (theobjs==NULL)
     return;
 #if 0
@@ -636,7 +636,7 @@ calculatebeamsandstemdirs (DenemoMeasure *measure)
 #define ACCS_TOO_CLOSE 10
 /**
  * This function offsets accidentals that are near to each
- * other on the same chord.  
+ * other on the same chord.
  */
 void
 set_accidental_positions (DenemoObject * the_chord)
@@ -705,7 +705,7 @@ set_accidental_positions (DenemoObject * the_chord)
  */
 void
 showwhichaccidentals (objnode * theobjs)
-{ 
+{
   if(theobjs==NULL) return;
   gint curkey;
   gint * initialaccs;
@@ -728,11 +728,11 @@ showwhichaccidentals (objnode * theobjs)
 
   memcpy (ret, initialaccs, SEVENGINTS);
   memcpy (whatpersisted, initialaccs, SEVENGINTS);
-  
+
   for (curobjnode = theobjs; curobjnode; curobjnode = curobjnode->next)
     {
       theobj = (DenemoObject *) curobjnode->data;
-      
+
       if (theobj->type == CHORD)
         {
           ((chord *) theobj->object)->hasanacc = FALSE;
@@ -772,8 +772,8 @@ showwhichaccidentals (objnode * theobjs)
                 thetone->showaccidental = ((chord *) theobj->object)->hasanacc = TRUE;
               else
                 thetone->showaccidental = FALSE;
-                
-                
+
+
               // FIXME - you should use a script to apply these directives & set hasnacc with that.
               if (thetone->directives && ((DenemoDirective *) thetone->directives->data)->postfix && (*((DenemoDirective *) thetone->directives->data)->postfix->str == '!' || *((DenemoDirective *) thetone->directives->data)->postfix->str == '?'))
                 thetone->showaccidental = ((chord *) theobj->object)->hasanacc = (*((DenemoDirective *) thetone->directives->data)->postfix->str == '?') ? DENEMO_CAUTIONARY : DENEMO_REMINDER;
@@ -791,15 +791,15 @@ showwhichaccidentals (objnode * theobjs)
             theobj->minpixelsalloted = draw_key (NULL, 0, 0, ((keysig *) theobj->object)->number, curkey, 0, FALSE, (keysig *) theobj->object);
             curkey = ((keysig *) theobj->object)->number;
         }
-    
+
     }                           /* End object loop */
   //memcpy (initialaccs, ret, SEVENGINTS);
-  
+
 }
 
 /**
  *  Force and accidental to be shown on the score.
- * 
+ *
  * @param theobj the DenemoObject to force the accidential on
  */
 void

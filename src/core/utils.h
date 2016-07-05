@@ -46,6 +46,7 @@
 const gchar *get_user_data_dir (gboolean create);
 
 const gchar *locateprintdir (void);
+void removeprintdir (void);
 /* Adds a callback that processes the "activate" signal coming from
  * a widget */
 
@@ -72,11 +73,11 @@ void drawlargetext_cr (cairo_t * cr, const char *text, double x, double y);
 
 void drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size);
 
-void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height);
+void draw_staff_brace (cairo_t * cr, gboolean curly, gint x, gint y, gint height);
 
 gint draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean at_cursor);
 
-gchar *pretty_name (gchar *lilynote);
+gchar *pretty_name (gchar * lilynote);
 
 /* Gives space after a note or rest */
 
@@ -118,8 +119,8 @@ GtkWidget *infodialog (gchar * msg);
 
 GtkWindow *progressbar (gchar * msg, gpointer callback);
 void progressbar_stop (void);
-void busy_cursor (GtkWidget *area);
-void normal_cursor (GtkWidget *area);
+void busy_cursor (GtkWidget * area);
+void normal_cursor (GtkWidget * area);
 void headerfields (GtkWidget * dialog, GtkListStore * list_store, GtkTreeIter * iter, DenemoMovement * si, gboolean isdialog);
 /* default isdialog shall be TRUE */
 
@@ -131,12 +132,12 @@ const gchar *get_system_conf_dir (void);
 */
 const gchar *get_system_locale_dir (void);
 const gchar *get_system_bin_dir (void);
-const gchar *get_system_font_dir(void);
-const gchar *get_executable_dir(void);
+const gchar *get_system_font_dir (void);
+const gchar *get_executable_dir (void);
 /* get directory of current Denemo.project or home directory if untitled. User must free the returned string */
-gchar *get_project_dir(void);
-const gchar* get_local_dir(DenemoDirectory dir);
-gchar* get_system_dir(DenemoDirectory dir);
+gchar *get_project_dir (void);
+const gchar *get_local_dir (DenemoDirectory dir);
+gchar *get_system_dir (DenemoDirectory dir);
 void kill_process (GPid pid);
 
 gchar *music_font (gchar * str);
@@ -145,9 +146,9 @@ void set_title_bar (DenemoProject * gui);
 void score_status (DenemoProject * gui, gboolean change);
 void write_status (DenemoProject * gui);
 gboolean confirm (gchar * primary, gchar * secondary);
-gboolean choose_option (gchar *title, gchar * primary, gchar * secondary);
+gboolean choose_option (gchar * title, gchar * primary, gchar * secondary);
 void nullify_gstring (GString ** s);
-gchar *choose_file (gchar *title, gchar *startdir, GList *extensions);
+gchar *choose_file (gchar * title, gchar * startdir, GList * extensions);
 gchar *string_dialog_entry (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value);
 
 gchar *string_dialog_entry_with_widget (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value, GtkWidget * extra_widget);
@@ -161,7 +162,7 @@ void chord2lilybaseduration (struct chord *chordobject, GString * ret);
 void chord2lilyduration (struct chord *chordobject, GString * ret);
 void chord2lilynumdots (struct chord *chordobject, GString * ret);
 gchar *get_fretdiagram_as_markup (void);
-gchar *get_fakechord_as_markup (gchar *size, gchar *font);
+gchar *get_fakechord_as_markup (gchar * size, gchar * font);
 
 
 #define UTILS_H_PARAM_ASSIGN(param_name) if( (str = g_strstr_len(values->str+i,strlen(values->str+i), #param_name)))\
@@ -269,7 +270,7 @@ if(!action && param){\
       param_name1=values?values->str:NULL;\
 }
 
-gchar *get_option (gchar *title, gchar * str, gint length);
+gchar *get_option (gchar * title, gchar * str, gint length);
 void console_output (gchar * text);
 
 gint get_override (GList * g);
@@ -278,7 +279,6 @@ void add_font_directory (gchar * fontpath);
 void add_font_file (gchar * fontpath);
 const gchar *get_prefix_dir (void);
 gboolean run_file_association (gchar * filenam);
-gchar *make_temp_dir (void);
 gchar *remove_extension (gchar * name);
 gchar *substitute_extension (gchar * name, gchar * extension);
 void init_denemo_notenames (void);
@@ -289,58 +289,52 @@ void use_markup (GtkWidget * widget);
 
 typedef enum
 {
-  TwoKey=0,
-  SingleKey=1,
-  MouseGesture=2,
-  KeyPlusMouse=3
+  TwoKey = 0,
+  SingleKey = 1,
+  MouseGesture = 2,
+  KeyPlusMouse = 3
 } DenemoShortcutType;
 void initialize_keystroke_help (void);
 void KeyStrokeAwait (gchar * first_keypress);
 void KeyStrokeDecline (gchar * first_keypress);
 void KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type);
-void MouseGestureShow (gchar *str, gchar *help, DenemoShortcutType type);
-void KeyPlusMouseGestureShow(gchar *str, gint command_idx);
+void MouseGestureShow (gchar * str, gchar * help, DenemoShortcutType type);
+void KeyPlusMouseGestureShow (gchar * str, gint command_idx);
 
-note *
-findnote (DenemoObject * curObj, gint cursory);
-note *
-findnote_strict (DenemoObject * curObj, gint cursory);
+note *findnote (DenemoObject * curObj, gint cursory);
+note *findnote_strict (DenemoObject * curObj, gint cursory);
 #include "core/kbd-custom.h"
 #define get_label_for_command(name) lookup_label_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_tooltip_for_command(name) lookup_tooltip_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 #define get_menu_path_for_command(name) lookup_menu_path_from_idx(Denemo.map, lookup_command_from_name(Denemo.map, name))
 
 #ifdef FAKE_TOOLTIPS
-gboolean show_tooltip(GtkWidget *w, GdkEvent *ev, gchar *text);
-void free_tooltip(GtkWidget *w, gchar *text);
+gboolean show_tooltip (GtkWidget * w, GdkEvent * ev, gchar * text);
+void free_tooltip (GtkWidget * w, gchar * text);
 #endif
 
-void write_input_status();
+void write_input_status ();
 enum clefs cleftypefromname (gchar * str);
-gchar* find_dir_for_file(gchar* filename, GList* dirs);
-gchar* find_dir_for_files(GList* files, GList* dirs);
-gchar* find_path_for_file(gchar* filename, GList* dirs);
-gchar* find_denemo_file (DenemoDirectory dir, gchar* filename);
-gchar *escape_scheme (gchar *input);
-gchar *time_spent_editing(void);
-void reset_editing_timer(void);
-gboolean shift_held_down(void);
+gchar *find_dir_for_file (gchar * filename, GList * dirs);
+gchar *find_dir_for_files (GList * files, GList * dirs);
+gchar *find_path_for_file (gchar * filename, GList * dirs);
+gchar *find_denemo_file (DenemoDirectory dir, gchar * filename);
+gchar *escape_scheme (gchar * input);
+gchar *time_spent_editing (void);
+void reset_editing_timer (void);
+gboolean shift_held_down (void);
 
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
 #define gtk_widget_override_background_color gtk_widget_modify_bg
 #define GTK_STATE_FLAG_NORMAL (0)
-void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a);
+void get_color (GdkColor * color, gdouble r, gdouble g, gdouble b, gdouble a);
 #else
-void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a);
-#endif 
+void get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a);
+#endif
 
 
 
 
 #endif /* UTILS_H */
-
-
-
-

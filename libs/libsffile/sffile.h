@@ -101,7 +101,7 @@ typedef struct _SFInfo {
 	/* preset headers */
 	int npresets;
 	SFPresetHdr *preset;
-	
+
 	/* sample infos */
 	int nsamples;
 	SFSampleInfo *sample;

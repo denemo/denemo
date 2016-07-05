@@ -295,7 +295,7 @@ static int process_list(int size, SFInfo *sf, FILE *fd)
 
 	/* read the following id string */
 	READID(chunk.id, fd); size -= 4;
-	
+
 	switch (chunkid(chunk.id)) {
 	case INFO_ID:
 		return process_info(size, sf, fd);
@@ -310,16 +310,16 @@ static int process_list(int size, SFInfo *sf, FILE *fd)
 	}
 }
 
-			
+
 /*================================================================
  * process info list
  *================================================================*/
-		
+
 static int process_info(int size, SFInfo *sf, FILE *fd)
 {
 	sf->infopos = ftell(fd);
 	sf->infosize = size;
-	
+
 	/* parse the buffer */
 	while (size > 0) {
 		SFChunk chunk;
@@ -458,7 +458,7 @@ static void load_sample_names(int size, SFInfo *sf, FILE *fd)
 		FSKIP(size, fd);
 		return;
 	}
-		
+
 	/* read each name from file */
 	for (i = 0; i < sf->nsamples; i++) {
 		READSTR(sf->sample[i].name, fd);
@@ -645,7 +645,7 @@ static void generate_layers(SFHeader *hdr, SFHeader *next, SFBags *bags)
 {
 	int i;
 	SFGenLayer *layp;
-	
+
 	hdr->nlayers = next->bagNdx - hdr->bagNdx;
 	if (hdr->nlayers < 0) {
 		fprintf(stderr, "illegal layer numbers %d\n", hdr->nlayers);

@@ -1,6 +1,6 @@
 /*  file.c
  * License: this file may be used under the FSF GPL version 3 or later
- *  Denemo File IO 
+ *  Denemo File IO
  *
  *  for Denemo, a gtk+ frontend to GNU Lilypond
  *  (c) Adam Tee, Matthew Hiller 2000-2005
@@ -51,7 +51,7 @@ static gint file_import_musicxml (DenemoProject * gui, DenemoSaveType template, 
 static gboolean replace_existing_file_dialog (const gchar * filename, gint format_id);
 
 typedef enum
-{ 
+{
   DENEMO_FORMAT = 0,
   DNM_FORMAT,
   MUDELA_FORMAT,
@@ -88,30 +88,30 @@ static struct FileFormatData supported_file_formats[] = {
 static GList*
 supported_file_extensions(gchar* format){
   GList* exts = NULL;
-  
+
   if(g_strcmp0 ("denemo", format) == 0){
     exts = g_list_append(exts, "*.denemo");
     exts = g_list_append(exts, "*.DENEMO");
   }
-  
+
   if(g_strcmp0 ("lilypond", format) == 0){
     exts = g_list_append(exts, "*.ly");
     exts = g_list_append(exts, "*.LY");
   }
-  
+
   if(g_strcmp0 ("midi", format) == 0){
     exts = g_list_append(exts, "*.midi");
     exts = g_list_append(exts, "*.mid");
     exts = g_list_append(exts, "*.MIDI");
     exts = g_list_append(exts, "*.MID");
-  }  
-  
+  }
+
   if(g_strcmp0 ("musicxml", format) == 0){
     exts = g_list_append(exts, "*.mxml");
     exts = g_list_append(exts, "*.MXML");
     exts = g_list_append(exts, "*.xml");
   }
-  
+
   if(g_strcmp0 ("pdf", format) == 0){
     exts = g_list_append(exts, "*.pdf");
     exts = g_list_append(exts, "*.PDF");
@@ -195,7 +195,7 @@ confirm_save (DenemoProject * gui, gchar * primary, gchar * secondary)
 }
 
 /**
- * Display a message box asking the user to confirm that unsaved 
+ * Display a message box asking the user to confirm that unsaved
  * changes will be lost
  * @return TRUE if the OK button clicked or Enter pressed
  */
@@ -212,7 +212,7 @@ confirmbox (DenemoProject * gui)
 /**
  * Custom function to compare the elements of the History queue
  * it simply wraps up stcmp
- * 
+ *
  * @param a pointer to a queue elements
  * @param b pointer to the comparison value
  * @return gint 0 if match -1 or 1 otherwise
@@ -346,7 +346,7 @@ if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _
 }
 /**
  * The function that actually determines the file type and calls the
- *  function that opens the file.  (So many layers of indirection...)  
+ *  function that opens the file.  (So many layers of indirection...)
  *filename must be full path
  * @return 0 for success non zero for failure
  */
@@ -376,8 +376,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
       else if (exists (filename, ".mid") || exists (filename, ".midi"))
         result = (type==GUIDED_IMPORT)?guidedImportMidi (filename):importMidi (filename);
       else if (exists (filename, ".pdf") || exists (filename, ".PDF"))
-        {                       
-#ifndef USE_EVINCE  
+        {
+#ifndef USE_EVINCE
           g_debug("This feature requires denemo to be built with evince");
 #else
           // a .pdf file for transcribing from, does not affect the current score.
@@ -426,7 +426,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
               executeScript ();
             }
         }
-        
+
 
       set_rightmeasurenum (gui->movement);
       select_lyrics ();
@@ -486,7 +486,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
 
 /*
     If the filename format already has the correct extension use
-    it. otherwise add the file name extension 
+    it. otherwise add the file name extension
 */
 static gchar *
 create_filename (const gchar * file_name, gint format_id)
@@ -535,9 +535,9 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
     case DENEMO_FORMAT:
     case DNM_FORMAT:
       {
-        /* HERE examine Denemo.Script and 
-         * if present ask it it should be 
-         * saved with the file, if not 
+        /* HERE examine Denemo.Script and
+         * if present ask it it should be
+         * saved with the file, if not
          * delete the script.
          */
         if (getNumCharsSchemeText () == 0)
@@ -648,7 +648,7 @@ typedef enum
 } TemplateType;
 
 /*
- * Sets the file_selection_path to the templates directory and 
+ * Sets the file_selection_path to the templates directory and
  * calls file_open to create the file selection dialog
  * LOCAL whether to use the local templates or systemwide templates or examples
  * does nothing if unable to access templates
@@ -719,7 +719,7 @@ open_with_check(TemplateType dir, GtkAction * action, DenemoScriptParam * param)
 }
 
 /*
- * Open system template file callback function 
+ * Open system template file callback function
  */
 void
 system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -728,7 +728,7 @@ system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
 }
 
 /*
- * Open system template file callback function 
+ * Open system template file callback function
  */
 void
 system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -737,7 +737,7 @@ system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
 }
 
 /*
- * Open local template file callback function 
+ * Open local template file callback function
  */
 void
 local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
@@ -747,7 +747,7 @@ local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
 
 /**
  * Wrapper function for opening a file, d-Open
- * if no param checks to see if current score has changed and prompts user to save 
+ * if no param checks to see if current score has changed and prompts user to save
  * otherwise opens the file
  */
 void
@@ -800,7 +800,7 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
 
 /**
  * Wrapper function for opening a file to add movements to the current score
- * 
+ *
  */
 void
 file_add_movements (GtkAction * action, DenemoScriptParam * param)
@@ -809,7 +809,7 @@ ADD (ADD_MOVEMENTS)}
 
 /**
  * Wrapper function for opening a file to add staffs to the current movement
- * 
+ *
  */
 void
 file_add_staffs (GtkAction * action, DenemoScriptParam * param)
@@ -867,7 +867,7 @@ file_dialog (gchar * message, gboolean type, gchar * location)
 static void
 update_preview_cb (GtkFileChooser * file_chooser, gpointer data)
 {
-#ifndef USE_EVINCE  
+#ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else
   GtkWidget *preview = NULL;
@@ -901,12 +901,12 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
 
   if(filename && !g_file_test(filename, G_FILE_TEST_IS_DIR))
     return (open_for_real(filename, Denemo.project, template, type));
-  
+
   GtkWidget *file_selection;
   GtkFileFilter *filter;
   gint i;
-  
-  
+
+
   file_selection = gtk_file_chooser_dialog_new (_(message),
                         GTK_WINDOW (Denemo.window),
                         GTK_FILE_CHOOSER_ACTION_OPEN,
@@ -919,14 +919,14 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), filename);
   else
     set_current_folder(file_selection, template);
-  
+
   filter = gtk_file_filter_new ();
   gtk_file_filter_set_name (filter, FORMAT_DESCRIPTION(save_type));
-  
-  GList* exts = supported_file_extensions (format); 
-  GList* cur = NULL; 
+
+  GList* exts = supported_file_extensions (format);
+  GList* cur = NULL;
   for (cur = exts; cur; cur = cur->next)
-    gtk_file_filter_add_pattern (filter, cur->data); 
+    gtk_file_filter_add_pattern (filter, cur->data);
   gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection),
                    GTK_RESPONSE_ACCEPT);
@@ -948,13 +948,13 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
       g_free (name);
     }
   gtk_widget_destroy (file_selection);
-  
-  
+
+
   return ret;
 }
 
 /**
- * File open dialog - opened where appropriate 
+ * File open dialog - opened where appropriate
  * return 0 on success non-zero on failure.
  * filename must be full path or NULL for dialog
  */
@@ -976,7 +976,7 @@ open_proof_file (void)
 }
 
 /**
- * Lilypond Import dialog - opened where appropriate 
+ * Lilypond Import dialog - opened where appropriate
  * return 0 on success non-zero on failure.
  * filename must be full path or NULL for dialog
  */
@@ -987,7 +987,7 @@ file_import_lilypond (DenemoProject * gui, DenemoSaveType template, ImportType t
 }
 
 /**
- * Midi Import dialog - opened where appropriate 
+ * Midi Import dialog - opened where appropriate
  * return 0 on success non-zero on failure.
  * filename must be full path or NULL for dialog
  */
@@ -998,7 +998,7 @@ file_import_midi (DenemoProject * gui, DenemoSaveType template, ImportType type,
 }
 
 /**
- * MusicXML Import dialog - opened where appropriate 
+ * MusicXML Import dialog - opened where appropriate
  * return 0 on success non-zero on failure.
  * filename must be full path or NULL for dialog
  */
@@ -1009,7 +1009,7 @@ file_import_musicxml (DenemoProject * gui, DenemoSaveType template, ImportType t
 }
 
 /**
- * Wrapper function to save the current file if not already 
+ * Wrapper function to save the current file if not already
  * saved.
  */
 void
@@ -1024,7 +1024,7 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
   else
     {
       gint status = filesel_save (gui, filename, DENEMO_FORMAT, FALSE);
-      
+
       if(!Denemo.non_interactive){
         if (status == 0)
           score_status (gui, FALSE);
@@ -1061,7 +1061,7 @@ file_copy_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPara
  */
 void
 file_savewrapper (GtkAction * action, DenemoScriptParam * param)
-{                
+{
   DenemoProject *gui = Denemo.project;
   GET_1PARAM (action, param, filename);
   if (filename) {
@@ -1360,7 +1360,7 @@ comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar 
     g_string_append_printf (exceptions, "%c", i);
   for (i=0x7F;i<0x100;i++)
     g_string_append_printf (exceptions, "%c", i);
-    
+
   if ((!text) || (*text == 0))
     {
       warningdialog (_("No selection text available"));
@@ -1380,7 +1380,7 @@ paste_comment (GtkAction * action, DenemoScriptParam * param)
 {
     if(param && param->string && param->string->len)
         comment_selection_received (NULL, param->string->str);
-    else 
+    else
         {
         GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
         gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) comment_selection_received, NULL);

@@ -19,7 +19,7 @@
 
 /**
  * This function draws the clef appropriate for the current context
- * onto the backing pixmap 
+ * onto the backing pixmap
  */
 void
 draw_clef (cairo_t * cr, gint xx, gint y, clef * clef)

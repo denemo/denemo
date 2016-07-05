@@ -17,11 +17,26 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 
+#include <denemo/denemo.h>
 
+#ifdef DISABLE_AUBIO
+    gboolean
+    audio_is_playing (void)
+    {
+      return FALSE;
+    }
+#else
 #include <stdio.h>
 #include <sndfile.h>
 #include <fcntl.h>
-#include <glib.h>
+#include <aubio/aubio.h>
+#include "core/utils.h"
+#include "core/view.h"
+#include "audio/midi.h"
+#include "export/exportmidi.h"
+#include "source/sourceaudio.h"
+#include "command/keyresponses.h"
+#include "audio/audiointerface.h"
 #if GTK_MAJOR_VERSION==3
 #include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
 #endif
@@ -30,8 +45,6 @@ static gint leadin = 0;         //number of frames of silence before playing aud
 static gboolean playing = FALSE;
 
 
-#ifdef DISABLE_AUBIO
-#else
 
 #include <aubio/aubio.h>
 #include "core/utils.h"
@@ -347,12 +360,12 @@ open_source_audio_file (void)
 
   return ret;
 }
-
-#endif //DISABLE_AUBIO
-
 gboolean
 audio_is_playing (void)
 {
   return playing;
 }
+#endif //DISABLE_AUBIO
+
+
 

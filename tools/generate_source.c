@@ -1,4 +1,4 @@
-/* 
+/*
  * generate_source.c
  *
  * Program for generating source code from the old unmenued commands
@@ -49,15 +49,15 @@ void parse_menu_commands(){
 
           /*******************   create a procedure d-<name> in scheme to call scheme_<name>  *******************/
           fprintf (scheme, "/*%s %s*/\n", ni, fi);
-          fprintf (scheme, 
+          fprintf (scheme,
                    "SCM scheme_%s(SCM optional);\n"
                    "install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX \"%s\", scheme_%s);\n", ni, ni, ni);  // for direct callback via (scheme_xxx)
 
           /*******************   create a callback scheme_<name> for calling from a scheme procedure d-<name>  *******************/
-          fprintf (scheme_cb, 
+          fprintf (scheme_cb,
                    "SCM scheme_%s (SCM optional) {\n"
                    "  return scheme_call_callback(optional, %s);\n"
-                   "}\n", 
+                   "}\n",
                    ni, fi);
 
           /****************** install the command in the hash table of commands (keymap) **************/
@@ -83,7 +83,7 @@ main ()
   fprintf (entries, "/******** generated automatically from generate_source. See generate_source.c */\n");
 
   parse_menu_commands ();
-  
+
   int i;
 
   /* generate source for duration callbacks - these were intercepted when
@@ -114,7 +114,7 @@ main ()
                " {\"Add%c\", NULL, \"Add %c to Chord\", NULL, \"Adds note %c to chord at cursor\\nCursor determines which octave\",\n"
                "  G_CALLBACK (Add%c)},\n"
                "  {\"ChangeTo%c\", NULL, \"Change current note to %c\", NULL, \"Changes current note to the %c nearest cursor or (if no current note) inserts the note %c\\nCursor determines which octave\\nNote is inserted in the prevailing rhythm\",\n"
-               "   G_CALLBACK (ChangeTo%c)},\n" 
+               "   G_CALLBACK (ChangeTo%c)},\n"
                "  {\"MoveTo%c\", NULL, \"Move cursor to step %c\", NULL, \"Moves the cursor to the %c nearest cursor\\nCurrent cursor position determines which octave.\",\n" "   G_CALLBACK (MoveTo%c)},\n", i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i, i);
 
     }
@@ -179,7 +179,7 @@ main ()
 
       fprintf (register_commands, "register_command(\"InsertRest%d\",  _(\"Insert a %s\") ,  _(\"Inserts a rest at cursor position\\nSets prevailing rhythm to %s\"), InsertRest%d);\n", i, RESTS[i], NOTES[i], i);
 
-      //  fprintf(register_commands, 
+      //  fprintf(register_commands,
       //    "register_command(Denemo.map, gtk_action_group_get_action(action_group, \"ChangeRest%d\"), \"ChangeRest%d\",  _(\"Change a %s\") ,  _(\"Changes a rest at cursor position\\nSets prevailing rhythm to %s\"), ChangeRest%d);\n", i, i, RESTS[i], NOTES[i], i);
 
       fprintf (register_commands, "register_command(\"Set%d\", _(\"Set Prevailing Duration to %s\"), _(\"Set the prevailing duration to %s (subsequent notes entered will have this duration)\"), SetDur%d);\n", i, NOTES[i], NOTES[i], i);
@@ -235,7 +235,7 @@ main ()
   xml = fopen ("xml.fragment", "w");
   if(!xml)
     return -1
-    char *catname[9] = { 
+    char *catname[9] = {
       N_("Navigation"),
       N_("Note entry"),
       N_("Rest entry"),

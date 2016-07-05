@@ -1,5 +1,5 @@
 /* tuplet.h
- * 
+ *
  * tuplet function prototypes
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond

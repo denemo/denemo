@@ -43,7 +43,7 @@ static void set_default_lilypond_path (void)
 #endif /* !G_OS_WIN32 */
 }
 /**
- * Initialise user preferences to reasonable defaults 
+ * Initialise user preferences to reasonable defaults
  * read global denemorc file
  * then local preferences file
  *
@@ -58,7 +58,7 @@ initprefs ()
             localrc =  g_build_filename (Denemo.old_user_data_dir, PREFS_FILE, NULL);
         else
         Denemo.old_user_data_dir = NULL;
-            
+
     }
   /* Reasonable default values */
 
@@ -93,8 +93,8 @@ initprefs ()
   ret->tooltip_timeout = 1000;
   ret->tooltip_browse_timeout = 700;
   ret->tooltip_browse_mode_timeout = 1000;
- 
-  
+
+
   ret->overlays = FALSE;
   ret->continuous = TRUE;
   ret->cursor_highlight = TRUE;
@@ -177,8 +177,8 @@ initprefs ()
         writeXMLPrefs (ret);
     }
   g_free (localrc);
-  
-  
+
+
   if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
     set_default_lilypond_path ();
     //FIXME if ret->lilypath still does not exist prepare to issue warning to user once the GUI is available.
@@ -272,9 +272,9 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
             }
         }
 
-      READXMLENTRY (graphicseditor) 
-      READXMLENTRY (fontname) 
-      READINTXMLENTRY (fontsize) 
+      READXMLENTRY (graphicseditor)
+      READXMLENTRY (fontname)
+      READINTXMLENTRY (fontsize)
       READXMLENTRY (browser)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
         {
@@ -306,7 +306,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
             }
         }
 
- 
+
         READXMLENTRY (imageviewer)
         READXMLENTRY (profile)
         READXMLENTRY (username)
@@ -314,13 +314,13 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READXMLENTRY (denemopath)
         READXMLENTRY (temperament)
         READBOOLXMLENTRY (createclones)
-        
-        
+
+
         READBOOLXMLENTRY (autosave)
         READINTXMLENTRY (autosave_timeout)
         READINTXMLENTRY (maxhistory)
-        
-        
+
+
         READBOOLXMLENTRY (immediateplayback)
         READINTXMLENTRY (measureswitchsound)
         READBOOLXMLENTRY (manualtypeset)
@@ -332,7 +332,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READINTXMLENTRY (laststaff)
         READINTXMLENTRY (pitchspellingchannel)
         READINTXMLENTRY (pitchspellingprogram)
-        
+
         READBOOLXMLENTRY (persistence)
         READBOOLXMLENTRY (cursor_highlight)
         READBOOLXMLENTRY (return_key_is_special)
@@ -413,7 +413,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (createclones)
     GETBOOLPREF (immediateplayback)
     GETBOOLPREF (manualtypeset)
-    GETBOOLPREF (damping)   
+    GETBOOLPREF (damping)
     GETBOOLPREF (persistence)
     GETBOOLPREF (cursor_highlight)
     GETBOOLPREF (return_key_is_special)
@@ -474,7 +474,7 @@ get_string_pref (gchar * prefname)
 {
   if (*prefname == 0)
     return NULL;
-  
+
     GETSTRINGPREF (imageviewer)
     GETSTRINGPREF (profile)
     GETSTRINGPREF (username) GETSTRINGPREF (password) GETSTRINGPREF (denemopath) GETSTRINGPREF (temperament) GETSTRINGPREF (audio_driver) GETSTRINGPREF (midi_driver) GETSTRINGPREF (jack_connect_ports_l) GETSTRINGPREF (jack_connect_ports_r) GETSTRINGPREF (jack_connect_midi_in_port) GETSTRINGPREF (jack_connect_midi_out_port) GETSTRINGPREF (portaudio_device) GETSTRINGPREF (portmidi_input_device) GETSTRINGPREF (portmidi_output_device) GETSTRINGPREF (fluidsynth_soundfont) return NULL;
@@ -498,7 +498,7 @@ writeHistoryEntry (gpointer data, gpointer user_data)
 
 /**
  * parseHistory - reads history entry from xml node and adds it to the history queue
- * 
+ *
  * @param  doc  document pointer
  * @param cur pointer to the current XML Node
  * @param prefs pointer to the preferences structure
@@ -541,7 +541,7 @@ static gint readxmlprefs (gchar * xmlsource, gboolean from_file);
 
 /**
  * Read a denemo preferences xml file.
- * @param filename - denemorc file name 
+ * @param filename - denemorc file name
  * @param prefs - struct to populate data into
  *
  */
@@ -554,7 +554,7 @@ readxmlprefsFile (gchar * filename)
 
 /**
  * Read denemo preferences from an xml string.
- * @param content - a string containing prefs in xml 
+ * @param content - a string containing prefs in xml
  *
  */
 gint
@@ -718,19 +718,19 @@ writeXMLPrefs (DenemoPrefs * prefs)
     g_free(def);\
   newXMLIntChild (child, (xmlChar *) #field,\
           prefs->field);}
-          
+
 
 
     WRITEXMLENTRY (lilypath)
-    WRITEXMLENTRY (graphicseditor) 
+    WRITEXMLENTRY (graphicseditor)
     WRITEXMLENTRY (fontname)
     WRITEINTXMLENTRY (fontsize)
     WRITEXMLENTRY (imageviewer)
-    WRITEXMLENTRY (profile) 
+    WRITEXMLENTRY (profile)
     WRITEXMLENTRY (username)
     WRITEXMLENTRY (password)
     WRITEXMLENTRY (denemopath)
-    WRITEXMLENTRY (temperament)          
+    WRITEXMLENTRY (temperament)
     WRITEBOOLXMLENTRY (autosave)
     WRITEINTXMLENTRY (autosave_timeout)
     WRITEINTXMLENTRY (maxhistory)
@@ -748,7 +748,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (laststaff)
     WRITEINTXMLENTRY (pitchspellingchannel)
     WRITEINTXMLENTRY (pitchspellingprogram)
-   
+
     WRITEBOOLXMLENTRY (persistence)
     WRITEBOOLXMLENTRY (cursor_highlight)
     WRITEBOOLXMLENTRY (return_key_is_special)
@@ -791,17 +791,17 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (portaudio_sample_rate)
     WRITEINTXMLENTRY (portaudio_period_size)
     WRITEINTXMLENTRY (maxrecordingtime)
-    WRITEXMLENTRY (portmidi_input_device) 
-    WRITEXMLENTRY (portmidi_output_device) 
-    WRITEXMLENTRY (fluidsynth_soundfont) 
-    WRITEBOOLXMLENTRY (fluidsynth_reverb) 
-    WRITEBOOLXMLENTRY (fluidsynth_chorus) 
-    WRITEINTXMLENTRY (dynamic_compression) 
-    WRITEBOOLXMLENTRY (damping) 
-    WRITEINTXMLENTRY (zoom) 
-    WRITEINTXMLENTRY (system_height) 
-    WRITEBOOLXMLENTRY (progressbardecorations) 
-    WRITEXMLENTRY (browser) 
+    WRITEXMLENTRY (portmidi_input_device)
+    WRITEXMLENTRY (portmidi_output_device)
+    WRITEXMLENTRY (fluidsynth_soundfont)
+    WRITEBOOLXMLENTRY (fluidsynth_reverb)
+    WRITEBOOLXMLENTRY (fluidsynth_chorus)
+    WRITEINTXMLENTRY (dynamic_compression)
+    WRITEBOOLXMLENTRY (damping)
+    WRITEINTXMLENTRY (zoom)
+    WRITEINTXMLENTRY (system_height)
+    WRITEBOOLXMLENTRY (progressbardecorations)
+    WRITEXMLENTRY (browser)
   xmlSaveFormatFile (localrc->str, doc, 1);
   xmlFreeDoc (doc);
   ret = 0;
@@ -811,7 +811,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
 /**
  * Read denemohistory file
  *
- * @param prefs pointer to the preferences structure 
+ * @param prefs pointer to the preferences structure
  *
  */
 gint

@@ -1,11 +1,11 @@
-/* 
+/*
  * exportmidi.c
  *
  * Functions for exporting a Standard Midi file
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (C) 2001, 2002 Per Andersson, 2009, 2010, 2011, 2012 Richard Shann
- * 
+ *
  * License: this file may be used under the FSF GPL version 3 or later
  */
 
@@ -15,13 +15,13 @@
  * The function exportmidi() writes a "Standard MIDI file" to disk.
  * The file can then be played by programs like playmidi
  * or TiMidity, externally or by the denemo playback command.
- * 
- * See www.wotsit.org for some info on midi and the standard file format 
+ *
+ * See www.wotsit.org for some info on midi and the standard file format
  *
  * The ambition is to honour as many musical directives (tempo, slurs, ties,
  * dynamics, staccato ...) as possible, and to make the output as musical
  * as possible.  Efforts have been made to try to handle empty or incomplete
- * measures, unbalanced slurs and other strange input. 
+ * measures, unbalanced slurs and other strange input.
  *
  * Exportmidi() has a velocity modulation feature to make the sound
  * less mechanical, but this is still under development.
@@ -31,13 +31,13 @@
  * It has the same parameters as exportmudela().
  * There is a code fragment for this in the file fragment.c.
  * The makefile needs the four files exportmidi.[ch] and instrumentname.[ch].
- * 
+ *
  * Environment variable is used for user preferences. This should be replaced
  * by some musical "style sheet" in the future, since the values depend on
- * the genre (and tempo) of the piece, as well as personal taste. 
+ * the genre (and tempo) of the piece, as well as personal taste.
  * Information should be stored in the mudela file, somehow.
- * Values may change within the piece, and ...  
- * There are many issues to resolve here! 
+ * Values may change within the piece, and ...
+ * There are many issues to resolve here!
  *
  * This software is tested with denemo 0.5.5.
  *
@@ -63,7 +63,7 @@
 #include "core/view.h"
 #include "printview/svgview.h"
 #include "smf.h"
-/* 
+/*
  * only for developers
  */
 
@@ -152,7 +152,7 @@ string_to_vol (char *dynamic, int default_vol)
 
 /**
  *  unbiased random generator,
- *  
+ *
  *  returns a value within +- maxdev
  */
 /* UNUSED
@@ -378,7 +378,7 @@ fmt_ticks (long t)
 #if slurdebug
 /**
  * Output slur descriptions to the given file
- * 
+ *
  */
 static int
 print_slurs (FILE * fd, int *tab, int status, int t_read, int t_written, char *txt)
@@ -410,7 +410,7 @@ print_slurs (FILE * fd, int *tab, int status, int t_read, int t_written, char *t
 
 /**
  * reset note status table and slur status
- * 
+ *
  * called once before each track
  */
 
@@ -895,7 +895,7 @@ static void load_smf ( DenemoMovement *si, smf_t *smf)
     if (si->smf==smf)
        return;
     gboolean midi_track = FALSE;
-    
+
 
     g_static_mutex_lock (&smfmutex);
     if (Denemo.project->movement->recorded_midi_track)
@@ -915,7 +915,7 @@ static void load_smf ( DenemoMovement *si, smf_t *smf)
     si->smfsync = si->changecount;
     g_static_mutex_unlock (&smfmutex);
   }
-  
+
 
 static void save_smf_to_file (smf_t *smf, gchar *thefilename)
 {
@@ -937,12 +937,12 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     if (smf)
         {
         if (!attach_timings ())
-            g_warning ("Attaching timings to objects failed\n");              
+            g_warning ("Attaching timings to objects failed\n");
         if (outfile)
-            save_smf_to_file (smf, outfile);             
+            save_smf_to_file (smf, outfile);
         if (!keep )
             load_smf (Denemo.project->movement, smf);
-        else 
+        else
             smf_delete (smf);
         return smf_get_length_seconds (Denemo.project->movement->smf);
     } else
@@ -951,7 +951,7 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     }
     return 0.0;
 }
-  
+
 /*
  * the main midi output system (somewhat large)
  */
@@ -1082,7 +1082,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
     {
       /* handle one track */
       curstaffstruct = (DenemoStaff *) curstaff->data;
-     
+
       /* select a suitable track number */
       tracknumber++;
       smf_track_t *track = smf_track_new ();
@@ -1101,7 +1101,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
           smf_track_add_event_delta_pulses (track, event, 0);
         }
       /* Midi Client/Port */
-//      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str); 
+//      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str);
 
       /* The midi instrument */
       if (curstaffstruct->midi_instrument && curstaffstruct->midi_instrument->len)
@@ -1218,9 +1218,9 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
       slur_erase (note_status, &slur_status);
 
       /* set boundries */
-     
+
       last = g_list_length (curmeasure);
-      
+
 
       /* iterate for over measures in track */
       for (measurenum = 1; curmeasure && measurenum <= last; curmeasure = curmeasure->next, measurenum++)
@@ -1249,7 +1249,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
               switch (curobj->type)
                 {
                 case CHORD:
-          /******************** 
+          /********************
        * one or more notes
        ********************/
 
@@ -1297,7 +1297,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               else
                                 g_warning ("Tempo change to 0 bpm is illegal");
                               break;
-                              //etc                           
+                              //etc
                             default:
                               if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                                 if (buf)
@@ -1317,7 +1317,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                     }
 
           /***********************************
-       * compute nominal duration of note 
+       * compute nominal duration of note
        ***********************************/
 
                   numdots = chordval.numdots;
@@ -1387,10 +1387,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                     {
                       //MUST GIVE OFF TIME FOR RESTS HERE
                       curobj->latest_time = curobj->earliest_time + duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
-                      //g_debug("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written); 
+                      //g_debug("Adding Dummy event for rest %d %d %d\n", duration, ticks_read, ticks_written);
                       event = midi_meta_text (1 /* comment */ , "rest");
                       smf_track_add_event_delta_pulses (track, event, duration);
-                      
+
                       ticks_written += duration;
                       event->user_pointer = curobj;
                       //g_debug("rest of %f seconds at %f\n", duration/(double)MIDI_RESOLUTION, curobj->latest_time);
@@ -1418,7 +1418,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                       //beat = compute_beat (ticks_read - ticks_at_bar, beats2ticks (1, timesigupper, timesiglower), bars2ticks (1, timesigupper, timesiglower), duration, vel_beatfact);
 
             /************************
-         * begin chord read loop 
+         * begin chord read loop
          ************************/
 
                       for (curtone = chordval.notes; curtone; curtone = curtone->next)
@@ -1494,7 +1494,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               event = smf_event_new_from_bytes (MIDI_NOTE_ON | midi_channel, n,(curstaffstruct->mute)? 0: (override_volume ? 127 : (gint) (master_volume * cur_volume /*FIXME as above, mix */ )));
                               smf_track_add_event_delta_pulses (track, event, mididelta);
                               event->user_pointer = curobj;
-                              
+
                               curobj->earliest_time = event->time_seconds;
                               curobj->latest_time = curobj->earliest_time + duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
 
@@ -1508,7 +1508,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               smf_track_add_event_delta_pulses (track, event, mididelta);
                               //g_debug("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
                               event->user_pointer = curobj;
-                              
+
                               curobj->latest_time = event->time_seconds;
                               curobj->earliest_time = curobj->latest_time - duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
                               //g_debug("event off lur kill %f\n", event->time_seconds);
@@ -1557,7 +1557,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               //g_debug("Note  off for track %x at delta (%d) %.1f for cur_tempo %d\n", track, mididelta, event->time_seconds, cur_tempo);
                               //g_debug("smf length after %d %f mididelta %d", smf_get_length_pulses(smf), smf_get_length_seconds(smf),mididelta);
                               event->user_pointer = curobj;
-                              
+
                               curobj->latest_time = event->time_seconds;
                               curobj->earliest_time = curobj->latest_time - duration * 60.0 / (cur_tempo * MIDI_RESOLUTION);
                               //g_debug("event off %f mididelta %d duration %d for curobj->type = %d\n", event->time_seconds, mididelta, duration, curobj->type);
@@ -1602,7 +1602,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                   event = midi_timesig (timesigupper, timesiglower);
                   smf_track_add_event_delta_pulses (track, event, 0);
                   event->user_pointer = curobj;
-                  
+
                   curobj->earliest_time = curobj->latest_time = event->time_seconds;    //= smf_get_length_seconds(smf);
                   break;
 
@@ -1670,12 +1670,12 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
                 case KEYSIG:
                   // curobj->object
-                  //  ((keysig *) theobj->object)->number; referenced in src/measure.cpp       
+                  //  ((keysig *) theobj->object)->number; referenced in src/measure.cpp
                   //printf("\nKEYSIG type = %d\n", ((keysig *) curobj->object)->number);
                   event = midi_keysig ((((keysig *) curobj->object)->number), curstaffstruct->keysig.isminor);
                   smf_track_add_event_delta_pulses (track, event, 0);
                   event->user_pointer = curobj;
-                  
+
                   curobj->earliest_time = curobj->latest_time = event->time_seconds;    //= smf_get_length_seconds(smf);
                   break;
 
@@ -1798,7 +1798,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
       //fprintf (stderr, "[%s done]\n", curstaffstruct->lily_name->str);
       fflush (stdout);
-      /*gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(si->progressbar), fraction + 
+      /*gtk_progress_bar_set_fraction(GTK_PROGRESS_BAR(si->progressbar), fraction +
          gtk_progress_bar_get_fraction(GTK_PROGRESS_BAR(si->progressbar))); */
       if (si->stafftoplay == 0)
         curstaff = curstaff->next;
@@ -1810,7 +1810,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   smf_event_t *event;
   smf_rewind (smf);
   while ((event=smf_get_next_event (smf)))
-    g_print ("generated 0x%hhX 0x%hhX 0x%hhX\n", *(event->midi_buffer+0), *(event->midi_buffer+1), *(event->midi_buffer+2));   
+    g_print ("generated 0x%hhX 0x%hhX 0x%hhX\n", *(event->midi_buffer+0), *(event->midi_buffer+1), *(event->midi_buffer+2));
 }
 #endif
 
@@ -1820,7 +1820,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
    ********/
    save_smf_to_file (smf, thefilename);
 
-  
+
   load_smf (si, smf);
 
 

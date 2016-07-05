@@ -14,7 +14,7 @@
  * GtkText widget needs to be freed.  I don't do such a free, though,
  * so I think this function has a memory leak in it. */
 
-/** 
+/**
  * Create the about dialog
  *
  */
@@ -44,7 +44,7 @@ NO WARRANTY; see the file COPYING for details."));
 }
 
 
-/** 
+/**
  * Function to allow browsing the user manual
  * uses the given web browser to display the manual
  * If param contains a url it opens that

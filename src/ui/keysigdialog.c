@@ -2,7 +2,7 @@
  * Prompts the user to change the key signature
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 2000-2005 Matthew Hiller 
+ * (c) 2000-2005 Matthew Hiller
  */
 
 #include <stdio.h>
@@ -60,7 +60,7 @@ typedef struct keysig_data
 /**
  * Finds key name and returns its numeric value
  *
- * Returns G_MININT if keyname cannot be found 
+ * Returns G_MININT if keyname cannot be found
  */
 
 gint
@@ -81,7 +81,7 @@ findkey (GtkWidget * combobox, GList * list)
 }
 
 /**
- * Sets the initial key signature on either the current staff or 
+ * Sets the initial key signature on either the current staff or
  * across the entire score.
  */
 static void
@@ -149,7 +149,7 @@ insert_keysig (keysig_data * kdata)
               curmeasure = g_list_nth (staff_first_measure_node (curstaff), si->currentmeasurenum - 1);
               if (curmeasure)
                 {
-                    if (curmeasure == si->currentmeasure) 
+                    if (curmeasure == si->currentmeasure)
                         ((DenemoMeasure*)curmeasure->data)->objects = g_list_insert ((objnode *) ((DenemoMeasure*)curmeasure->data)->objects, newkey = dnm_newkeyobj ((tokey - mode), isminor, mode), si->cursor_x);
                     else
                     {
@@ -179,14 +179,14 @@ insert_keysig (keysig_data * kdata)
       if (newkey)
         {
             adjust_tonal_center (((keysig *) (newkey->object))->accs);
-        }   
+        }
     }                           /* End if valid key*/
 }
 //static void sensitize_ok_button (keysig_data *data) {
   //   gtk_widget_set_sensitive (data->okbutton, TRUE);
 //}
 /**
- * Update the keysig dialogs combobox with the 
+ * Update the keysig dialogs combobox with the
  * major keys
  */
 void
@@ -198,7 +198,7 @@ majorcallback (GtkWidget * widget, struct keysig_data *data)
 }
 
 /**
- * Update the keysig dialogs combobox with the 
+ * Update the keysig dialogs combobox with the
  * minor keys
  */
 void
@@ -291,8 +291,22 @@ key_change_insert (GtkAction * action, DenemoScriptParam * param)
     }
 }
 
+
+gchar *
+get_prevailing_keysig_name (void)
+{ 
+  gchar *key;
+  keysig *keysig = get_prevailing_context (KEYSIG);
+  gboolean isminor = keysig->isminor;
+  gint number = keysig->number + KEYNAME_ARRAY_OFFSET;
+  if (isminor)
+    key = g_strdup_printf ("%s %s", minorkeys[number], "Minor");
+  else
+    key = g_strdup_printf ("%s", majorkeys[number]); //do not use Major as the crude algorithm identifies the letter A in major as the note name A !!
+  return key;
+}
 /**
- * callback for changing the initial keysig 
+ * callback for changing the initial keysig
  *  calls key_change with the CHANGEINITIAL argument
  */
 void
@@ -305,24 +319,29 @@ key_change_initial (GtkAction * action, DenemoScriptParam * param)
     key_change (gui, CHANGEINITIAL);
   else
     {
-      gint tokey, isminor;
-      GString *scheme_str = g_string_new (keyname);
-      gboolean valid = key_from_string (scheme_str, &tokey, &isminor);
-      g_string_free (scheme_str, TRUE);
-      if (valid)
+      if (query && !strcmp ("keysigname", query))
         {
-          dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
-          displayhelper (gui);
+          gchar *key;
+          if (curstaffstruct->keysig.isminor == 1)
+            key = g_strdup_printf ("%s %s", minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Minor");
+          else
+            key = g_strdup_printf ("%s %s", majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Major");
+          g_string_assign (param->string, key);
+          param->status = TRUE;
+          g_free (key);
+        } else 
+        {        
+        
+          gint tokey, isminor;
+          GString *scheme_str = g_string_new (keyname);
+          gboolean valid = key_from_string (scheme_str, &tokey, &isminor);
+          g_string_free (scheme_str, TRUE);
+          if (valid)
+            {
+              dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
+              displayhelper (gui);
+            }
         }
-
-      gchar *key;
-      if (curstaffstruct->keysig.isminor == 1)
-        key = g_strdup_printf ("%s %s", minorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Minor");
-      else
-        key = g_strdup_printf ("%s %s", majorkeys[curstaffstruct->keysig.number + KEYNAME_ARRAY_OFFSET], "Major");
-      g_string_assign (param->string, key);
-      g_free (key);
-
     }
 }
 

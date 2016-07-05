@@ -1,6 +1,6 @@
 /* twoints.h
  * header file for struct twoints
- *  
+ *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller
  */

@@ -1,7 +1,7 @@
 /* draw.c
  * loop that draws all the items in the presently-displayed part of
  * the score
- *  
+ *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 1999-2005 Matthew Hiller, Adam Tee
  */
@@ -90,7 +90,7 @@ create_tool_pixbuf (void)
  * scorearea_configure_event
  *
  * This function recaculates the number of measures that can be fit into
- * the display, and returns 
+ * the display, and returns
  */
 gint
 scorearea_configure_event (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventConfigure * event)
@@ -132,7 +132,7 @@ struct infotopass
   gint tickspermeasure;
   gint wholenotewidth;
   gint objnum;
-  gint measurenum;              
+  gint measurenum;
   gint staffnum;
   gboolean end;                 //if we have drawn the last measure
   gint top_y;
@@ -207,9 +207,9 @@ count_syllables (DenemoStaff * staff, gint from)
   return count;
 }
 
-static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean mark) 
+static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean mark)
 {
-    if(glyph) { 
+    if(glyph) {
         drawlargetext_cr (cr, glyph, x, 20);
     } else
     {
@@ -220,11 +220,11 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean 
 
     }
    static gboolean on;
-   
-    if(mark) 
+
+    if(mark)
         {
             on = !on;
-            if(on) 
+            if(on)
                 {
                   cairo_set_line_width (cr, 6.0 / Denemo.project->movement->zoom);
                   cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
@@ -237,12 +237,12 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean 
 /**
  *  draw_object
  *
- * Draws a single object in a measure within a staff. 
+ * Draws a single object in a measure within a staff.
  * @param curobj
  * @param x
  * @param y
  * @param gui
- * @param itp 
+ * @param itp
  * @return excess ticks in the measure at this object. (Negative means still space).
  */
 static gint
@@ -267,8 +267,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         cairo_fill (cr);
         cairo_restore (cr);
       }
-      
-      
+
+
 // if (Denemo.project->movement->playingnow)
  //   g_print("%p %p %f %f %f\n", Denemo.project->movement->playingnow, mudelaitem, Denemo.project->movement->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
 
@@ -276,7 +276,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
  //if (Denemo.project->movement->playingnow == mudelaitem)
 //  if (Denemo.project->movement->playingnow && (Denemo.project->movement->playhead >= mudelaitem->earliest_time) &&
 //        (Denemo.project->movement->playhead < mudelaitem->latest_time)) falls through a gap!!!!
-//  if (Denemo.project->movement->playingnow && (Denemo.project->movement->playhead >= mudelaitem->earliest_time)) 
+//  if (Denemo.project->movement->playingnow && (Denemo.project->movement->playhead >= mudelaitem->earliest_time))
     if(Denemo.project->movement->playingnow && itp->highlight_next_note && (((Denemo.project->movement->playhead < mudelaitem->latest_time))))
         {
             itp->highlight_next_note = FALSE;
@@ -295,13 +295,13 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
             itp->highlight_next_note = TRUE;
         }
 
-  
+
   /* The current note, rest, etc. being painted */
 
   if (mudelaitem == Denemo.project->movement->playingnow)
     itp->playposition = x + mudelaitem->x;
 
-  if (mudelaitem == itp->startobj) {   
+  if (mudelaitem == itp->startobj) {
     itp->startposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
     // if(curobj->prev==NULL) g_debug("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
     }
@@ -309,7 +309,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
 
- 
+
 
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
@@ -337,50 +337,50 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         if(cr)
            {
             cairo_restore (cr);
-           }             
+           }
         if ((thechord->highesty) < itp->highy)
           itp->highy = thechord->highesty;
         itp->highy = MIN (itp->highy, highest);
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
- 
- //display note onsets for source audio above relevant notes in top staff 
- // if there are not enough notes to use up all the recorded note onsets only some recorded notes are shown.      
-         if(cr && si->recording && itp->recordednote && (itp->staffnum == si->top_staff)) 
+
+ //display note onsets for source audio above relevant notes in top staff
+ // if there are not enough notes to use up all the recorded note onsets only some recorded notes are shown.
+         if(cr && si->recording && itp->recordednote && (itp->staffnum == si->top_staff))
             {
-             GList *g = itp->recordednote;          
+             GList *g = itp->recordednote;
              gint current = mudelaitem->earliest_time*si->recording->samplerate;
              gint next =  mudelaitem->latest_time*si->recording->samplerate;
-             gint leadin =  si->recording->leadin;   
+             gint leadin =  si->recording->leadin;
              gint notewidth = 0;
              objnode *curobjnext = curobj->next;
              if(curobjnext){
                     DenemoObject *nextobj = (DenemoObject*)curobjnext->data;
                     notewidth = nextobj->x - mudelaitem->x;
-             } else 
+             } else
              {
                     notewidth = GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE - mudelaitem->x;
              }
 
              /* draw the extent of the note */
             gint extra_width = (curobj->prev==NULL) ? SPACE_FOR_BARLINE:0; //first note has extra width to leave no gap in timing from end of last bar
-            
+
             notewidth += extra_width;
-            
-            cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);   
+
+            cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);
             cairo_move_to (cr, -extra_width + x + mudelaitem->x, 25);
             cairo_line_to (cr, -extra_width + x + mudelaitem->x, 20);
             cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth - 2, 20);
             cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 14);
             cairo_line_to (cr, -extra_width + x + mudelaitem->x+ notewidth, 22);
             cairo_line_to (cr, -extra_width + x + mudelaitem->x+2, 22);
-            
-            cairo_fill (cr);            
-            
-        
-        
-            cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5); 
-            
+
+            cairo_fill (cr);
+
+
+
+            cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);
+
              while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
                 {
                     if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
@@ -391,40 +391,40 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     }
                     g=g->next;
                 }
-            while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next)) 
+            while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next))
                 {
                 DenemoRecordedNote *midinote = (DenemoRecordedNote*)(g->data);
                 gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
                 gint pos;
                 gchar *glyph;
-                glyph = NULL;               
+                glyph = NULL;
                 pos = notewidth * fraction;
-                pos +=  mudelaitem->x; 
-                
-                if(g==si->marked_onset) 
-                {   
+                pos +=  mudelaitem->x;
+
+                if(g==si->marked_onset)
+                {
                     cairo_save (cr);
                     cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
-                } else 
+                } else
                 if (si->playingnow)
                     {
                     (itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
                         cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
                         cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
                     }
-                
-                    
+
+
                 //if MIDI RECORDING draw the pitch as a headless diamond note.
                 if(si->recording->type==DENEMO_RECORDING_MIDI)
                     {
-                        
-                        DenemoObject *midiobj = (DenemoObject*)(MidiDrawObject->data); 
+
+                        DenemoObject *midiobj = (DenemoObject*)(MidiDrawObject->data);
                         DenemoMeasure *curmeasure = si->currentmeasure->data;
-                        midiobj->clef = curmeasure->clef;       
-                        midiobj->keysig = curmeasure->keysig;         
+                        midiobj->clef = curmeasure->clef;
+                        midiobj->keysig = curmeasure->keysig;
                         midiobj->stemdir = curmeasure->stemdir;/// FIXME is there anything else
-                                  
-                        removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do                 
+
+                        removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do
                         addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
                         chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
                         note *thenote = ((note*)(thechord->notes->data));
@@ -460,45 +460,45 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                             case 7:
                                 glyph = NULL;//we do not have a glyph for this yet
                                 break;
-                                
-                                
-                            
+
+
+
                         }
-                        
+
                         if (g==si->marked_onset)
                         {
                             //midinote->measurenum = itp->measurenum;
-                            //midinote->objnum = itp->objnum;       
+                            //midinote->objnum = itp->objnum;
                         }
-                        
+
                         cairo_save (cr);
                         (g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
                             cairo_set_source_rgba (cr, 0, 0, 0, 1);
-                        draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);    
+                        draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);
                         cairo_restore (cr);
                     }
-                    
+
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
-                if(g==si->marked_onset) 
+                if(g==si->marked_onset)
                     {//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
                         cairo_restore (cr);
                     }
-                if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20) 
+                if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20)
                     {
-                    si->marked_onset = g; 
+                    si->marked_onset = g;
                     si->marked_onset_position = 0; //g_debug("Found selected onset\n\n");
                     }
-                    
+
                 //if(g==itp->onset) g_debug("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
-                    
-                
+
+
                 g = g->next;
                 }
-            itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets. 
+            itp->recordednote = g;//Search onwards for future onsets. Only notes on top staff are used for display of onsets.
 
          } //recording
-          
+
 
         if (itp->tupletstart)
           itp->tuplety = MAX (0, MAX (itp->tuplety, MAX (-thechord->lowesty, -thechord->highesty)));
@@ -543,7 +543,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     }
               if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
                    //pop stack
-              itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);      
+              itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
              } else  if (thechord->crescendo_end_p)
               {
                 if (top_hairpin_stack (itp->hairpin_stack) == -1)
@@ -575,8 +575,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     }
               if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
                    //pop stack
-              itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);      
-             } 
+              itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
+             }
             itp->hairpin_stack = push_hairpin_stack (itp->hairpin_stack, x + mudelaitem->x);
           }
        else
@@ -599,7 +599,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     }
                if (cr) draw_hairpin (cr, &(itp->hairpin_stack), x + mudelaitem->x, y, 0);
                    //pop stack
-               itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);       
+               itp->hairpin_stack = pop_hairpin_stack (itp->hairpin_stack);
               }
           }
         /* notice the following does not check is_figure but checks if figure is not VOID) */
@@ -652,7 +652,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
               cairo_restore (cr);
             }
         }
-      
+
       break;
     case KEYSIG:
       if (cr)
@@ -660,14 +660,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       itp->key = ((keysig *) mudelaitem->object)->number;
       memcpy (itp->keyaccs, ((keysig *) mudelaitem->object)->accs, SEVENGINTS);
       memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
-      
+
       break;
     case TIMESIG:
       itp->time1 = ((timesig *) mudelaitem->object)->time1;
       itp->time2 = ((timesig *) mudelaitem->object)->time2;
       if (cr)
         draw_timesig (cr, x + mudelaitem->x, y, itp->time1, itp->time2, (timesig *) mudelaitem->object);
-     
+
       /* The following assumes no multiple simultaneous time signatures */
       itp->tickspermeasure = WHOLE_NUMTICKS * itp->time1 / itp->time2;
       itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
@@ -695,7 +695,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       if (si->cursor_appending)
         {
           draw_cursor (cr, si, x + mudelaitem->x + extra, y, ((itp->curmeasure->next != NULL) && (objnode *) ((DenemoMeasure*)itp->curmeasure->next->data)->objects) ? -1 : 0 /*itp->last_gap */ , 0, mudelaitem->clef->type);
-          
+
         }
       else
         {
@@ -724,7 +724,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 }                              /* draw_object */
 
 /**
- * Draws a single measure within a staff. 
+ * Draws a single measure within a staff.
  * @param curmeasure pointer to the measure to draw
  * @param x
  * @param y
@@ -749,14 +749,14 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
   memcpy (itp->curaccs, itp->keyaccs, SEVENGINTS);
   itp->wholenotewidth = si->measurewidth * itp->time2 / itp->time1;
- 
 
-  /*  paint the measure number at the preceding barline 
+
+  /*  paint the measure number at the preceding barline
    */
 
   if (cr)
     {
-        
+
      DenemoMeasure *meas = (DenemoMeasure*)curmeasure->data;
      if (meas->measure_numbering_offset)
         {
@@ -764,7 +764,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
           g_string_sprintf (mstring, "%d", meas->measure_numbering_offset);
           drawlargetext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y + 2 * STAFF_HEIGHT - 10);
         }
-        
+
       if (itp->measurenum > 1)
         {                       //don't draw first measure number, as it collides and is obvious anyway and is never typeset thus
           cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
@@ -830,7 +830,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
         DenemoObject *obj = (DenemoObject *) curobj->data;
         last_type = obj->type;
       }
-      //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object 
+      //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object
     }                           // for each object
   if (cr)
     {
@@ -851,10 +851,10 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
             {
                 extra_ticks = 0;
                 itp->allow_duration_error = FALSE;
-            } 
+            }
       if (curmeasure->data)
         {
-            //overfull or underfull measure indicator 
+            //overfull or underfull measure indicator
           if (extra_ticks == -itp->tickspermeasure)
                 extra_ticks = 0;//allow empty measures
           if(itp->time1 == 256) //Cadenza Time
@@ -866,7 +866,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
           if (((extra_ticks > 0) || (extra_ticks < 0)) &&
             ((curmeasure->next && curmeasure->next->data) || ((curmeasure->next!= NULL) && (!has_cursor))))
-              
+
             {
               cairo_rectangle (cr, x, y, GPOINTER_TO_INT (itp->mwidthiterator->data), STAFF_HEIGHT + 1);
               cairo_fill (cr);
@@ -877,7 +877,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
               cairo_set_source_rgb (cr, 0, 0, 0);
             }
         }
-#undef OPACITY        
+#undef OPACITY
       if (extra_ticks == 0)
         {
           cairo_set_source_rgb (cr, 0, 0, 0);
@@ -911,8 +911,8 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 }
 
 /**
- * Draws a single staff 
- * TODO sort out graphics context for active polyphonic voice should 
+ * Draws a single staff
+ * TODO sort out graphics context for active polyphonic voice should
  * do it here
  * @param curstaffstruct pointer to the staff to draw
  * @param y    y position of the staff
@@ -938,7 +938,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
     //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->themeasures);
- 
+
   //g_debug("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
     cr = NULL;                  //no more drawing on this staff
@@ -969,9 +969,9 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
         cairo_set_source_rgb (cr, 0.3, 0.3, 0.3);
     }   //if cr
 
- 
 
-    
+
+
   if (!itp->line_end)
     {                           //not a continuation
       itp->clef = thestaff->leftmost_clefcontext;
@@ -1032,12 +1032,12 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       if (!itp->line_end)
         {
           gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 26 : 12;
-          
-           if (si->leftmeasurenum == 1)//make a button of it if measure 1 is leftmost 
+
+           if (si->leftmeasurenum == 1)//make a button of it if measure 1 is leftmost
              {
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ , y - staffname_offset + 10);
               if (thestaff->subpart)
-                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20); 
+                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20);
               cairo_save (cr);
               cairo_set_source_rgba (cr, 0.2, 0.8, 0.4, 0.4);
               cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 30, 12);
@@ -1049,17 +1049,17 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
              }
            else
              {
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 10); 
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 10);
               if (thestaff->subpart)
-                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 20); 
+                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 20);
              }
-            if(thestaff->hasfakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
-            if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT); 
+            if(thestaff->hasfakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
+            if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
             { cairo_save (cr);
               cairo_set_source_rgb (cr, 1, 0.4, 0.4);
               if(thestaff->hidden)  drawlargetext_cr (cr, _("Hidden when not the current staff."), gui->leftmargin +55, y - staffname_offset + 5 + 2 * STAFF_HEIGHT);
-              cairo_restore(cr);  
-            }                
+              cairo_restore(cr);
+            }
         }
       else
         {
@@ -1069,7 +1069,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
           cairo_rotate (cr, -M_PI / 5.0);
           drawnormaltext_cr (cr, thestaff->denemo_name->str, 0, 0);
           if (thestaff->subpart)
-                drawnormaltext_cr (cr, thestaff->subpart->str, 30, 20); 
+                drawnormaltext_cr (cr, thestaff->subpart->str, 30, 20);
           cairo_restore (cr);
         }
     }                           //if cr
@@ -1336,7 +1336,7 @@ draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_
   itp->endposition = -1;
 }
 
-void 
+void
 draw_score_area(){
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw (Denemo.scorearea);
@@ -1360,7 +1360,7 @@ schedule_draw (gint * flip_count)
 
 
 /**
- * This actually draws the score, staff-by-staff 
+ * This actually draws the score, staff-by-staff
  * @param cr cairo context to draw with.
  * @param gui pointer to the DenemoProject structure
  * returns whether the height of the drawing area was sufficient to draw everything
@@ -1415,7 +1415,7 @@ draw_score (cairo_t * cr)
     cairo_scale (cr, gui->movement->zoom, gui->movement->zoom);
   if (cr)
     cairo_translate (cr, 0.5, 0.5);
-  
+
  if (cr && (si->leftmeasurenum == 1))
   {
     GList *h, *g;
@@ -1463,9 +1463,9 @@ draw_score (cairo_t * cr)
             }
         y += staff->space_above +staff->space_below + si->staffspace;
         }
-   
+
    // terminate all un-ended braces
- 
+
     for(g=gui->braces;g;g=g->next)
           {
               DenemoBrace *brace = (DenemoBrace *) g->data;
@@ -1473,10 +1473,10 @@ draw_score (cairo_t * cr)
                 brace->endstaff = count-1;// g_print ("Unended staff terminated at staff %d with %d; ", count-1, y);
                 brace->endy = y; //bottom staff value;
               }
-          } 
+          }
     gint off_screen = 0;
     gui->leftmargin = BASIC_LEFT_MARGIN + BRACEWIDTH*g_list_length (gui->braces);
-    if(gui->braces) 
+    if(gui->braces)
         {
         for (count=1, curstaff = si->thescore;curstaff && (count<si->top_staff);curstaff=curstaff->next, count++)
             {
@@ -1484,52 +1484,56 @@ draw_score (cairo_t * cr)
             if(count==1) off_screen = si->staffspace / 4;
             off_screen += staff->space_above + staff->space_below + si->staffspace;
         }
-       
+
     }
     //draw all braces
     for(count=1, g=gui->braces;g;g=g->next, count++) {
             DenemoBrace *brace = (DenemoBrace *) g->data;
             cairo_save (cr);
-            draw_staff_brace (cr, brace->curly, (count*BRACEWIDTH),  (brace->starty - off_screen), 
+            draw_staff_brace (cr, brace->curly, (count*BRACEWIDTH),  (brace->starty - off_screen),
                  (brace->endy-brace->starty) + (off_screen?40:15));
             cairo_restore (cr);
     }
  }
  else gui->leftmargin = 20;
 
-  
+
   y = 0;
-  
+
   /* Draw each staff */
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff;  curstaff = curstaff->next, itp.staffnum++)
     {
       DenemoStaff *staff = (DenemoStaff *) curstaff->data;
       g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
       itp.hairpin_stack = NULL;
-      if(cr) if (staff->hidden && (si->currentstaffnum != itp.staffnum)) 
+      if(cr) if (staff->hidden && (si->currentstaffnum != itp.staffnum))
       {
-       
+
 
         cairo_save (cr);
-        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 1.0);
-       
+        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 0.6);
+
         if (itp.staffnum == si->top_staff)
             {
-                //cairo_rectangle (cr, 0, 5, 50, 3); 
-                cairo_rectangle (cr, 120, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3); 
+                //cairo_rectangle (cr, 0, 5, 50, 3);
+                cairo_rectangle (cr, 200, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
                 cairo_fill (cr);
-                drawnormaltext_cr (cr, staff->denemo_name->str, 80, 10);
+                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
+                gchar *text = g_strdup_printf ("%s (%s)", staff->denemo_name->str, _( "Hidden"));
+                drawnormaltext_cr (cr, text, 80, 10);
+                g_free (text);
             }
         else {
-                cairo_rectangle (cr, 120, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
+                cairo_rectangle (cr, 20, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
                 cairo_fill (cr);
+                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
                 drawlargetext_cr (cr, staff->denemo_name->str,  80, itp.staffnum == si->top_staff? 15 : y - 35);
                 drawlargetext_cr (cr, _("Hidden"), 80, y - 10);
             }
-            
-            
-            
-        cairo_restore (cr);  
+
+
+
+        cairo_restore (cr);
         continue;
       }
       itp.verse = verse_get_current_view (staff);
@@ -1561,7 +1565,7 @@ draw_score (cairo_t * cr)
             cairo_fill (cr);
             //cairo_restore (cr);
 
-            
+
             //  {
 
                 guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffDirectivesPixbuf));
@@ -1583,9 +1587,9 @@ draw_score (cairo_t * cr)
                 else
                     drawlargetext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
                 g_free (number);
-                
+
                 cairo_restore (cr);
-                
+
            //  }
 
 
@@ -1609,19 +1613,19 @@ draw_score (cairo_t * cr)
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 0, 0, 1);
                 cairo_set_line_width (cr, 3);
-                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);      
+                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);
                 cairo_stroke (cr);
 
-                
+
                 cairo_set_source_rgb (cr, 1, 0.5, 0.5);
                 cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    /*keysig flatten edit */
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 1, 0, 0);
                 cairo_set_line_width (cr, 3);
-                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    
+                cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);
                 cairo_stroke (cr);
 
-                
+
 
                 cairo_restore (cr);
               }
@@ -1650,7 +1654,7 @@ draw_score (cairo_t * cr)
       if (draw_staff (flip_count > 0 ? NULL : cr, curstaff, y, gui, &itp))
         repeat = TRUE;
 
-      if (cr) 
+      if (cr)
         draw_playback_markers (cr, &itp, y, line_height);
 
       gint system_num;
@@ -1748,7 +1752,7 @@ draw_score (cairo_t * cr)
        //   if(itp.rightmosttime != si->rightmost_time)
         //      g_debug("Resetting %f %f? ",itp.rightmosttime, si->rightmost_time);
         // itp.rightmosttime = si->rightmost_time;//We want to ignore the rightmost_time of the flipped over top system that belongs to the next page
-         
+
       }                         //end of block printing continuations
       *itp.left = 0;            //To signal end of valid systems
 
@@ -1765,13 +1769,13 @@ draw_score (cairo_t * cr)
         } else
          y += (si->staffspace + staff->space_below);
       }
-     
+
     }                           // for all the staffs
 
   //g_debug("Right most time %f\n", si->rightmost_time);
   //  if(itp.last_midi)
   //  si->rightmost_time = get_midi_off_time(itp.last_midi);
- 
+
 
   return repeat;
 
@@ -1803,7 +1807,7 @@ draw_callback (cairo_t * cr)
   layout_needed = TRUE;
   if(Denemo.project->movement->playingnow)
     gtk_widget_queue_draw (Denemo.playbackview);
-  
+
   /* Clear with an appropriate background color. */
   if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
@@ -1841,7 +1845,7 @@ update_drawing_cache (void)
 
 /**
  * Here we have the function that actually draws the score. Note that
- * it does not clip intelligently at all 
+ * it does not clip intelligently at all
  */
 #if GTK_MAJOR_VERSION==3
 gint

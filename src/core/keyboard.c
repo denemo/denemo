@@ -175,7 +175,7 @@ set_visibility_for_action (GtkAction * action, gboolean visible)
       gint id = lookup_command_from_name (Denemo.map, name);
       if(id < 0)
         g_warning("Invalid command name:'%s' id:'%i'", name, id);
-      else 
+      else
       {
         keymap_get_command_row (Denemo.map, &row, id);
         row->hidden = !visible;
@@ -224,7 +224,7 @@ create_command(command_row *command)
     gboolean new_command = (g_hash_table_lookup(Denemo.map->idx_from_name, command->name) == NULL);
 
     if(!Denemo.non_interactive){
-      
+
       if (!new_command)
         action = lookup_action_from_name (command->name);
       else
@@ -235,14 +235,14 @@ create_command(command_row *command)
       }
     }
 
-    if(new_command){  
+    if(new_command){
       register_command_row (Denemo.map, command);
       command->callback = activate_script;
 
       // create a scheme function to call this script
       create_scheme_function_for_script (command->name);
     }
-    
+
     if(g_list_length(command->locations) > 0)
     {
       GList *g = NULL;
@@ -254,11 +254,11 @@ create_command(command_row *command)
       }
     }
     else if (command->fallback)
-    {           
+    {
       command->menupath = command->fallback;
       add_ui (command->menupath, command->after, command->name);
     }
-    
+
     if(!Denemo.non_interactive){
       if (new_command)
         g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
@@ -267,7 +267,7 @@ create_command(command_row *command)
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
   }
-  
+
   // we are not as yet re-writing tooltips etc on builtin commands
   else { //built-in
     if(!Denemo.non_interactive)

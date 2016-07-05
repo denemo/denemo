@@ -232,7 +232,7 @@ select_area_button_press (GtkWidget * window, GdkEventButton * event, select_are
         }
       else
         {
-          fix_rectangle (x_root, y_root, &data->rect);  //sets the far corner                      
+          fix_rectangle (x_root, y_root, &data->rect);  //sets the far corner
           gtk_main_quit ();
         }
     }
@@ -522,7 +522,7 @@ select_area_filter (GdkXEvent * gdk_xevent, GdkEvent * event, gpointer user_data
             }
           else
             {
-              fix_rectangle (&xevent->xbutton, &data->rect, &data->draw_rect, data->root, data->gc);    //sets the far corner                      
+              fix_rectangle (&xevent->xbutton, &data->rect, &data->draw_rect, data->root, data->gc);    //sets the far corner
               gtk_main_quit ();
             }
           break;
@@ -555,8 +555,8 @@ select_area_filter (GdkXEvent * gdk_xevent, GdkEvent * event, gpointer user_data
     case KeyPress:
       // if (xevent->xkey.keycode == XKeysymToKeycode (gdk_display, XK_Escape)) let any key end - may need to re-instate this for Ctrl-press to join pixbufs
       {
-        // this undraws in the wrong place, 
-        // gdk_draw_rectangle (data->root, data->gc, FALSE, 
+        // this undraws in the wrong place,
+        // gdk_draw_rectangle (data->root, data->gc, FALSE,
         //               data->rect.x - data->rect.width, data->rect.y - data->rect.height,
         //              data->rect.width, data->rect.height);
         data->button_pressed = FALSE;

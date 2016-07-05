@@ -1,8 +1,8 @@
-/* drawlyric.cpp 
+/* drawlyric.cpp
  *
  * function to display Lyrics on score
- * for Denemo, a gtk+ frontend to GNU Lilypond 
- * 
+ * for Denemo, a gtk+ frontend to GNU Lilypond
+ *
  * (c) 2002 Adam Tee <eenajt@leeds.ac.uk>
  */
 

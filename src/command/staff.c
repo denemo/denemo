@@ -3,7 +3,7 @@
  * functions dealing with whole staffs
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
- * (c) 1999-2005 Matthew Hiller 
+ * (c) 1999-2005 Matthew Hiller
  */
 
 #include "command/chord.h"
@@ -29,7 +29,7 @@
 gboolean
 signal_structural_change (DenemoProject * project)
 {
-  project->layout_sync = project->changecount;
+  project->layout_sync++;//project->changecount;
   return TRUE;
 }
 
@@ -59,7 +59,7 @@ staff_nth_measure_node (staffnode * thestaff, gint n)
 
 /**
  * Reset movement->currentprimarystaff based on current value of
- * movement->currentstaff 
+ * movement->currentstaff
  * @param movement a scoreinfo structure
  * @return none
  */
@@ -130,7 +130,7 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all)
   dest->midi_channel = src->midi_channel;
   dest->midi_prognum = src->midi_prognum;
   dest->hide_lyrics = src->hide_lyrics;
-  
+
   dest->no_of_lines = src->no_of_lines;
   dest->transposition = src->transposition;
   dest->space_above = src->space_above; /**< space above the staff used in the denemo gui */
@@ -140,7 +140,7 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all)
   dest->range_hi = src->range_hi;/**< highest note playable by instrument, mid_c_offset */
   dest->range_lo = src->range_lo;/**< lowest note playable by instrument, mid_c_offset */
   dest->volume = src->volume;
-  
+
   dest->clef.type = src->clef.type;
   dest->leftmost_clefcontext = &dest->clef;
   if (copy_all)
@@ -148,12 +148,12 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all)
       dest->voicecontrol = src->voicecontrol;
       dest->staff_directives = clone_directives (src->staff_directives);
       dest->voice_directives = clone_directives (src->voice_directives);
-      
+
       dest->clef.directives = clone_directives (src->clef.directives);
       dest->keysig.directives = clone_directives (src->keysig.directives);
       dest->timesig.directives = clone_directives (src->timesig.directives);
     }
-    
+
   dest->keysig.number = src->keysig.number;
   dest->keysig.isminor = src->keysig.isminor;
   memcpy (dest->keysig.accs, src->keysig.accs, SEVENGINTS);
@@ -328,23 +328,23 @@ staff_new (DenemoProject * project, enum newstaffcallbackaction action, DenemoCo
           //      ret = staff_properties_change (&itp);
           //      if (ret)
           {
-            /* 
+            /*
                If staff_properties_change returns false,
                then the staff should probably be removed
-               Fixed 09042005 Adam Tee 
+               Fixed 09042005 Adam Tee
              */
             staff_insert (movement, staff, action, addat);
             movement->currentmeasurenum = 1;
             /*
-               Reset leftmeasure num to 1 to be at the start of 
-               the next staff. 
+               Reset leftmeasure num to 1 to be at the start of
+               the next staff.
              */
             movement->leftmeasurenum = 1;
           }
           //    else
           //      {
           /*
-           *  Free the staff struct as it has not been inserted 
+           *  Free the staff struct as it has not been inserted
            *  into the score
            */
           //     g_free (staff);
@@ -447,7 +447,7 @@ staff_delete (DenemoProject * project, gboolean interactive)
     displayhelper (project);
     score_status (project, TRUE);
   }
-  
+
   if (give_info)
     infodialog (_("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts."));
   return;
@@ -485,7 +485,7 @@ staff_show_which_accidentals (DenemoStaff * thestaff)
 /**
  * Function to set the note positions on the given staff when there is a clef change
  * @param thestaff a staff structure
- * @return none 
+ * @return none
  */
 void
 staff_fix_note_heights (DenemoStaff * thestaff)

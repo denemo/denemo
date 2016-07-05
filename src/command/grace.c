@@ -3,7 +3,7 @@
  * functions which manipulate grace notes
  * For denemo, a gtk+ frontend to Lilypond, the GNU music typesetter
  *
- * (c) 2000, 2001, 2002 Adam Tee 
+ * (c) 2000, 2001, 2002 Adam Tee
  *
  */
 #include "command/grace.h"

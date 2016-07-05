@@ -1,6 +1,6 @@
-/* Header file for functions for creating new views of 
+/* Header file for functions for creating new views of
  * the main window
- * 
+ *
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005 Adam Tee
@@ -10,7 +10,7 @@
 #define VIEW_H
 #include "command/commandfuncs.h"
 #include "config.h"
-#include "display/draw.h"               /* Which includes gtk.h */
+#include "display/draw.h"       /* Which includes gtk.h */
 #include <denemo/denemo.h>
 #include "ui/dialogs.h"
 #include "export/exportlilypond.h"
@@ -46,7 +46,7 @@
 #define INIT_SCM "init.scm"
 
 void newview (GtkAction * action, DenemoScriptParam * param);
-void free_movements (DenemoProject * gui);  /* frees all movement data (i.e. the DenemoMovement objects) from gui, leaving gui interface intact */
+void free_movements (DenemoProject * gui);      /* frees all movement data (i.e. the DenemoMovement objects) from gui, leaving gui interface intact */
 void addhistorymenuitem (gchar * filename);
 
 //TODO Fix for automatic updating during operation
@@ -54,15 +54,15 @@ void addhistorymenuitem (gchar * filename);
 
 /* tool_buttons cannot be visually separated from the toolbar, which is ok for icons but not so good for pure text; to separate them we put the label of the tool_button into an event box and decorate that. This macro gets the label out.
  Unfortunately, this lead to problems on some builds, so it has been dropped and the macro re-defined.*/
-void set_rhythm_label (RhythmPattern * r, gchar *text);
-void delete_rhythm_pattern (RhythmPattern *r);
+void set_rhythm_label (RhythmPattern * r, gchar * text);
+void delete_rhythm_pattern (RhythmPattern * r);
 void highlight_rhythm (RhythmPattern * r);
 
 void unhighlight_rhythm (RhythmPattern * r);
 void highlight_duration (DenemoProject * gui, gint dur);
 void highlight_rest (DenemoProject * gui, gint dur);
 
-void highlight_audio_record();
+void highlight_audio_record ();
 
 gboolean loadGraphicItem (gchar * name, DenemoGraphic ** pgraphic);
 
@@ -73,7 +73,7 @@ GError *execute_script_file (gchar * filename);
 
 gboolean activate_script (GtkAction * action, DenemoScriptParam * param);
 void create_scheme_function_for_script (gchar * name);
-void* inner_main (void* data);
+void *inner_main (void *data);
 
 gchar *create_xbm_data_from_pixbuf (GdkPixbuf * pixbuf, int lox, int loy, int hix, int hiy);
 gchar *get_icon_for_name (gchar * name, gchar * label);
@@ -115,17 +115,17 @@ void define_scheme_double_variable (gchar * varname, gdouble value, gchar * tool
 void define_scheme_bool_variable (gchar * varname, gint value, gchar * tooltip);
 SCM scheme_next_note (SCM optional);
 void define_scheme_literal_variable (gchar * varname, gchar * value, gchar * tooltip);
-gboolean show_midi_record_control(void);
+gboolean show_midi_record_control (void);
 gint eval_file_with_catch (gchar * filename);
 
-GtkWidget* get_playalong_button();
-GtkWidget* get_conduct_button();
-GtkWidget* get_record_button();
+GtkWidget *get_playalong_button ();
+GtkWidget *get_conduct_button ();
+GtkWidget *get_record_button ();
 
 void destroy_local_scheme_init (void);
 void delete_recording (void);
 void pb_playalong (GtkWidget * button);
-gboolean pb_record (gchar *callback);
+gboolean pb_record (gchar * callback);
 void pb_conduct (GtkWidget * button);
 void install_button_for_pattern (RhythmPattern * r, gchar * thelabel);
 gboolean append_rhythm (RhythmPattern * r, gpointer fn);
@@ -136,20 +136,19 @@ void toggle_toolbar (GtkAction * action, gpointer param);
 void toggle_playback_controls (GtkAction * action, gpointer param);
 void toggle_midi_in_controls (GtkAction * action, gpointer param);
 void openinnew (GtkAction * action, DenemoScriptParam * param);
-gboolean close_gui_with_check (GtkAction * action, DenemoScriptParam* param);
-void closewrapper (GtkAction * action, DenemoScriptParam* param);
-void morecommands (GtkAction * action, DenemoScriptParam* param);
-void mycommands (GtkAction * action, DenemoScriptParam* param);
-void fetchcommands (GtkAction * action, DenemoScriptParam* param);
-void toggle_edit_mode (GtkAction * action, DenemoScriptParam* param);
-void toggle_rest_mode (GtkAction * action, DenemoScriptParam* param);
-void toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param);
-void create_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
-void delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param);
+gboolean close_gui_with_check (GtkAction * action, DenemoScriptParam * param);
+void closewrapper (GtkAction * action, DenemoScriptParam * param);
+void morecommands (GtkAction * action, DenemoScriptParam * param);
+void mycommands (GtkAction * action, DenemoScriptParam * param);
+void fetchcommands (GtkAction * action, DenemoScriptParam * param);
+void toggle_edit_mode (GtkAction * action, DenemoScriptParam * param);
+void toggle_rest_mode (GtkAction * action, DenemoScriptParam * param);
+void toggle_rhythm_mode (GtkAction * action, DenemoScriptParam * param);
+void create_rhythm_cb (GtkAction * action, DenemoScriptParam * param);
+void delete_rhythm_cb (GtkAction * action, DenemoScriptParam * param);
 void midi_in_adjust (gint value);
 gboolean insert_nth_rhythm (gint n);
-void create_rhythm (RhythmPattern *r, gboolean from_selection);
+void create_rhythm (RhythmPattern * r, gboolean from_selection);
 GError *execute_script_file (gchar * filename);
-void
-popup_help_for_action (GtkAction * action);
+void popup_help_for_action (GtkAction * action);
 #endif

@@ -118,7 +118,7 @@ llock_mask (gint keyval)
 
 
 /**
- * keyrelease event callback 
+ * keyrelease event callback
  * sets cursor if a modifier
  */
 
@@ -204,7 +204,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
                         if (idx_has_callback (the_keymap, command_idx))
                             {
                                 append_scheme_call ((gchar *) command_name);
-                            }  
+                            }
           //g_debug("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
           return perform_command (command_name, event);
         }
@@ -238,7 +238,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
                             if (idx_has_callback (the_keymap, command_idx))
                                 {
                                     append_scheme_call ((gchar *) command_name);
-                                }            
+                                }
               ret = perform_command (command_name, event);
             }
         }
@@ -260,7 +260,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
       return ret;
     }
   else
-    {                           //no prefix stored 
+    {                           //no prefix stored
       gchar *name = dnm_accelerator_name (event->keyval, event->state); //FIXME free name
 
       if ((Denemo.continuations = (GList *) g_hash_table_lookup (Denemo.map->continuations_table, name)))
@@ -300,7 +300,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 
 
 /**
- * keypress event callback 
+ * keypress event callback
  * looks up the key press and executes the correct function
  */
 
@@ -383,7 +383,7 @@ unset_selection_key (DenemoScriptParam *param)
 void
 insert_chord_key (DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.project, 2, Denemo.project->mode, FALSE);
+  dnm_insertnote (Denemo.project, 2, Denemo.project->mode, FALSE);
 }
 
 void
@@ -552,7 +552,7 @@ default_mode (DenemoScriptParam *param)
 
 /**
  * Toggle into rest mode
- * 
+ *
  */
 void
 rest_toggle_key (GtkAction* action, DenemoScriptParam *param)
@@ -591,8 +591,8 @@ append_measure_score (GtkAction* action, DenemoScriptParam *param)
   appendmeasurestoentirescore (Denemo.project->movement, 1);
 }
 
-/** 
- * Insert measure at the current 
+/**
+ * Insert measure at the current
  */
 void
 insert_measure_key (GtkAction* action, DenemoScriptParam *param)
@@ -603,7 +603,7 @@ insert_measure_key (GtkAction* action, DenemoScriptParam *param)
 void
 insert_chord_xkey (gint duration, DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.project, duration, Denemo.project->mode, FALSE);
+  dnm_insertnote (Denemo.project, duration, Denemo.project->mode, FALSE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
@@ -665,7 +665,7 @@ insert_chord_8key (GtkAction* action, DenemoScriptParam *param)
 void
 insert_rest_xkey(gint duration, DenemoScriptParam* param)
 {
-  dnm_insertchord (Denemo.project, duration, INPUTREST, TRUE);
+  dnm_insertnote (Denemo.project, duration, INPUTREST, TRUE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
@@ -728,7 +728,7 @@ insert_rest_8key (GtkAction* action, DenemoScriptParam *param)
 void
 insert_blankchord_xkey (gint duration, DenemoScriptParam *param)
 {
-  dnm_insertchord (Denemo.project, duration, INPUTBLANK, FALSE);
+  dnm_insertnote (Denemo.project, duration, INPUTBLANK, FALSE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }

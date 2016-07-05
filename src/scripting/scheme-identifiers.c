@@ -158,6 +158,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
   install_scm_function (0, "Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);
+  install_scm_function (1, "Takes a space separated list of notes in LilyPond syntax and inserts/appends a chord at the cursor in the prevailing duration, or if given a integer, in that duration, not setting the prevailing duration.", DENEMO_SCHEME_PREFIX "InsertChord", scheme_insert_chord);
   install_scm_function (0, "Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX "PutWholeMeasureRests", scheme_put_whole_measure_rests);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none", DENEMO_SCHEME_PREFIX "GetNote", scheme_get_note);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTop", scheme_get_note_from_top);
@@ -189,9 +190,11 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Takes LilyPond note name string. Moves the cursor to the line or space", DENEMO_SCHEME_PREFIX "CursorToNote", scheme_cursor_to_note);
   install_scm_function (1, "Takes a number 1 ... n. Moves the cursor to the nth note from the bottom of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNthNoteHeight", scheme_cursor_to_nth_note_height);
+  install_scm_function (0, "If there are two notes at the cursor height it re-orders them and returns #t. If passed 'enquire it does not do the swapping.", DENEMO_SCHEME_PREFIX "SwapNotesAtCursorHeight", scheme_swap_notes_at_cursor_height);
   install_scm_function (0, "Moves the cursor up to the next higher note of the chord at the cursor, returning #f if it fails.", DENEMO_SCHEME_PREFIX "CursorToNextNoteHeight", scheme_cursor_to_next_note_height);
 
   install_scm_function (0, "Returns the prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysig", scheme_get_prevailing_keysig);
+  install_scm_function (0, "Returns the name prevailing key signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingKeysigName", scheme_get_prevailing_keysig_name);
   install_scm_function (0, "Returns the prevailing time signature at the cursor", DENEMO_SCHEME_PREFIX "GetPrevailingTimesig", scheme_get_prevailing_timesig);
   install_scm_function (0, "Returns the prevailing clef at the cursor. Note that non-builtin clefs like drum are not handled yet.", DENEMO_SCHEME_PREFIX "GetPrevailingClef", scheme_get_prevailing_clef);
 
@@ -407,7 +410,7 @@ create_scheme_identfiers (void)
   INSTALL_GET (object, minpixels);
   INSTALL_PUT (object, minpixels);
 
-  //block to repeat for new  directive fields 
+  //block to repeat for new  directive fields
 
   INSTALL_GET (standalone, minpixels);
   INSTALL_GET (chord, minpixels);
@@ -446,7 +449,7 @@ create_scheme_identfiers (void)
   INSTALL_PUT (layout, minpixels);
   INSTALL_PUT (movementcontrol, minpixels);
 
-  //end block to repeat for new  directive fields 
+  //end block to repeat for new  directive fields
   INSTALL_GET (standalone, data);
   INSTALL_GET (chord, data);
   INSTALL_GET (note, data);
@@ -485,6 +488,12 @@ create_scheme_identfiers (void)
   INSTALL_PUT (movementcontrol, data);
 
   INSTALL_GET (standalone, grob);
+  INSTALL_GET (standalone, graphic_name);
+  INSTALL_GET (chord, graphic_name);
+  INSTALL_GET (note, graphic_name);
+  INSTALL_GET (clef, graphic_name);
+  INSTALL_GET (keysig, graphic_name);
+  INSTALL_GET (timesig, graphic_name);
   INSTALL_GET (chord, grob);
   INSTALL_GET (note, grob);
   INSTALL_GET (staff, grob);
@@ -530,6 +539,9 @@ create_scheme_identfiers (void)
   INSTALL_GET (standalone, midibytes);
   INSTALL_GET (chord, midibytes);
   INSTALL_GET (note, midibytes);
+  INSTALL_GET (keysig, midibytes);
+  INSTALL_GET (timesig, midibytes);
+  INSTALL_GET (clef, midibytes);
   INSTALL_GET (staff, midibytes);
   INSTALL_GET (voice, midibytes);
   INSTALL_GET (score, midibytes);
@@ -537,6 +549,9 @@ create_scheme_identfiers (void)
   INSTALL_PUT (standalone, midibytes);
   INSTALL_PUT (chord, midibytes);
   INSTALL_PUT (note, midibytes);
+  INSTALL_PUT (keysig, midibytes);
+  INSTALL_PUT (timesig, midibytes);
+  INSTALL_PUT (clef, midibytes);
   INSTALL_PUT (staff, midibytes);
   INSTALL_PUT (voice, midibytes);
   INSTALL_PUT (score, midibytes);
@@ -561,7 +576,7 @@ create_scheme_identfiers (void)
   INSTALL_PUT (score, override);
 
 
-  //graphic 
+  //graphic
   INSTALL_PUT (note, graphic);
   //INSTALL_GET(note, graphic);
 
@@ -661,6 +676,13 @@ create_scheme_identfiers (void)
   //INSTALL_GET (note);
   INSTALL_PUT_IGNORE (chord);
   //INSTALL_GET (chord);
+
+   INSTALL_PUT_ALLOW (staff);
+   INSTALL_PUT_ALLOW (voice);
+   INSTALL_PUT_IGNORE (staff);
+   INSTALL_PUT_IGNORE (voice);
+
+
 
   INSTALL_PUT (note, tx);
   INSTALL_GET (note, tx);

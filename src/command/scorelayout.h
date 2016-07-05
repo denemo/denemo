@@ -1,17 +1,17 @@
 //      scorelayout.h
-//      
+//
 //      Copyright 2012 Richard Shann <rshann@debian2>
-//      
+//
 //      This program is free software; you can redistribute it and/or modify
 //      it under the terms of the GNU General Public License as published by
 //      the Free Software Foundation; either version 2 of the License, or
 //      (at your option) any later version.
-//      
+//
 //      This program is distributed in the hope that it will be useful,
 //      but WITHOUT ANY WARRANTY; without even the implied warranty of
 //      MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 //      GNU General Public License for more details.
-//      
+//
 //      You should have received a copy of the GNU General Public License
 //      along with this program; if not, write to the Free Software
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
@@ -27,7 +27,7 @@
 #include <denemo/denemo.h>
 void create_default_scoreblock (void);
 void free_scoreblocks (DenemoProject * gui);
-DenemoScoreblock *select_layout (gboolean all_movements, gchar * partname, gchar *instrumentation);
+DenemoScoreblock *select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation);
 DenemoScoreblock *get_scoreblock_for_lilypond (gchar * lily);
 GtkWidget *get_score_layout_notebook (DenemoProject * gui);
 DenemoScoreblock *create_custom_scoreblock (gchar * layout_name, gboolean force);
@@ -48,6 +48,5 @@ gboolean select_custom_layout_for_name (gchar * name);
 GtkWidget *GetLayoutMenu (void);
 void refresh_lilypond (DenemoScoreblock * sb);
 gboolean select_layout_id (gint id);
-guint
-get_layout_id_for_name (gchar *name);
+guint get_layout_id_for_name (gchar * name);
 #endif

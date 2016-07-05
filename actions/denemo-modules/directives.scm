@@ -353,7 +353,12 @@
         #f))
 
     
-            
+(define d-DirectiveGet-standalone-graphic d-DirectiveGet-standalone-graphic_name)            
+(define d-DirectiveGet-chord-graphic d-DirectiveGet-chord-graphic_name)            
+(define d-DirectiveGet-note-graphic d-DirectiveGet-note-graphic_name)            
+(define d-DirectiveGet-clef-graphic d-DirectiveGet-clef-graphic_name)            
+(define d-DirectiveGet-keysig-graphic d-DirectiveGet-keysig-graphic_name)            
+(define d-DirectiveGet-timesig-graphic d-DirectiveGet-timesig-graphic_name)            
 
 
 

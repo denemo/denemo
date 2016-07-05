@@ -11,7 +11,7 @@ find_command_dir(gint idx, gchar* filename)
 
   if(!row->menupath)
     g_debug("Command %s has no menupath", filename);
-  
+
   GList* dirs = NULL;
   dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", row->menupath, NULL));
   dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, NULL));
@@ -44,13 +44,13 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
             }
           else
             {
-              // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node. 
+              // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node.
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
               gchar* name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
               command = get_or_create_command(name);
               command->fallback = fallback;
               command->locations = NULL;
-              
+
               if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
                 command->script_type = get_command_type(type);
             }
@@ -251,9 +251,9 @@ parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupat
     }
 }
 
-/* 
- * load a command from filename. 
- * if not scripted and merging with other commands, tell the user where the new command is. 
+/*
+ * load a command from filename.
+ * if not scripted and merging with other commands, tell the user where the new command is.
  * If an action exists but has an empty script load the scheme script,
  if action is a new action leave script as empty string for loading on demand.
  * Create a widget for the action in a menupath found in filename or failing that deduced from
@@ -268,13 +268,13 @@ load_xml_keymap (gchar * filename)
   xmlDocPtr doc;
   xmlNodePtr rootElem;
   xmlKeepBlanksDefault (0);
-  
+
   if (filename == NULL)
     return ret;
-  
+
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
     return ret;
-  
+
   if (g_file_test (filename, G_FILE_TEST_IS_DIR))
     {
       warningdialog (_("There is no support for loading whole folders of commands yet, sorry"));
@@ -459,7 +459,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
       keymap_get_command_row (the_keymap, &row, i);
-        
+
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
 
@@ -491,12 +491,12 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       child = xmlNewChild (parent, NULL, COMMANDXML_TAG_ROW, NULL);
 
       xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) name);
-      
+
       if(!is_action_name_builtin(name))
           xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
       else
           xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_BUILTIN);
-      
+
       if (row->after)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) row->after);
       if (row->deleted)              //store as hidden in commands file
@@ -530,7 +530,7 @@ save_xml_keybindings (gchar * filename)
   //xmlNsPtr ns;
   xmlNodePtr parent, child;
   command_row *row;
-    
+
   doc = xmlNewDoc ((xmlChar *) "1.0");
   doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, COMMANDXML_TAG_ROOT, NULL);
   child = xmlNewChild (parent, NULL, COMMANDXML_TAG_MERGE, NULL);
@@ -548,7 +548,7 @@ save_xml_keybindings (gchar * filename)
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
       keymap_get_command_row (the_keymap, &row, i);
-      
+
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       if (row->deleted && !is_action_id_builtin(i))
         continue;
@@ -562,7 +562,7 @@ save_xml_keybindings (gchar * filename)
           if (row->hidden)
             xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
 
-          g_list_foreach(row->bindings, (GFunc) write_xml_keybinding_info, child);   
+          g_list_foreach(row->bindings, (GFunc) write_xml_keybinding_info, child);
         }
     }
 
@@ -601,8 +601,8 @@ parseMenu (xmlNodePtr rootElem, gchar * path, DenemoProject * gui)
 {
   for (rootElem = rootElem->xmlChildrenNode; rootElem; rootElem = rootElem->next)
     {
-      if (0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENUBAR) || 
-          0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENU) || 
+      if (0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENUBAR) ||
+          0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENU) ||
           0 == xmlStrcmp (rootElem->name, MENUXML_TAG_TOOLBAR))
         /* ignoring popup menus */
         {
@@ -648,7 +648,7 @@ parseMenu (xmlNodePtr rootElem, gchar * path, DenemoProject * gui)
   return 0;
 }
 
-/* 
+/*
  * attaches the menu hierarchy path to each menuitem widget in the passed file (denemoui.xml)
  * returns 0 on success
  * negative on failure
@@ -709,7 +709,7 @@ save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar 
   xmlNewProp(child, COMMANDXML_TAG_TYPE, COMMAND_TYPE_SCHEME);
 
   xmlNewTextChild (child, NULL, COMMANDXML_TAG_ACTION, (xmlChar *) myname);
-  
+
   if (after)
     xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) after);
 
@@ -762,11 +762,11 @@ load_command_data (gint idx)
     return NULL;
   }
   g_free(path);
-  
+
   // Load the init script if there is one
   path = g_build_filename (dir, INIT_SCM, NULL);
   if (g_file_test (path, G_FILE_TEST_EXISTS))
-    //scm_c_primitive_load(path);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead. 
+    //scm_c_primitive_load(path);Use scm_c_primitive_load together with scm_internal_catch and scm_handle_by_message_no_exit instead.
     eval_file_with_catch (path);
   g_free (path);
 
@@ -781,7 +781,7 @@ GString *contents = NULL;
 
 
 static void insert_path (gchar *name, gchar *path)
-{  
+{
  if(!contents)
     {
      GError* error = NULL;
@@ -790,7 +790,7 @@ static void insert_path (gchar *name, gchar *path)
      if(error) exit (-1);
      contents = g_string_new (temp);
      //g_print ("contents %s\n", contents->str);
-    } 
+    }
  name = g_strconcat ("<action>", name, "</action>", NULL);
  gchar *found = g_strrstr (contents->str, name);
  if(found)
@@ -851,7 +851,7 @@ attach_menupaths (void)
       xmlFreeDoc (doc);
       return ret;
     }
- 
+
   xmlNodePtr cur;
  for (cur = rootElem->xmlChildrenNode; cur != NULL; cur = cur->next)
     {

@@ -1,5 +1,5 @@
 /* figure.h
- *  
+ *
  * (c)  2003 Richard Shann <richard.shann@virgin.net>
  */
 

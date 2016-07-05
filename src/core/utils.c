@@ -22,6 +22,7 @@
 #include "export/print.h"
 #include "core/kbd-custom.h"
 #include "core/view.h"
+#include "command/lilydirectives.h"
 #include "command/object.h"
 #include "command/scorelayout.h"
 #include <signal.h>             /*for SIGTERM */
@@ -136,9 +137,10 @@ static cairo_path_data_t piano_brace_data[] = {
 };
 
 static cairo_path_t piano_brace_path = { 0, piano_brace_data, 92 };
+
 /**
  * This checks to see if there's a .denemo/ directory in the user's
- * home directory, 
+ * home directory,
  * if create tries to create one if there isn't, and returns the
  * path to it
  * else returns NULL
@@ -170,27 +172,79 @@ get_user_data_dir (gboolean create)
   return dotdenemo;
 }
 
-/* return a path to a temporary directory to be used for print intermediate files */
+// Create or remove a unique temporary directory
+// If removal is FALSE, the directory will be newly
+// created or the existing temporary directory will
+// be returned.
+// If removal is TRUE, the directory gets removed.
+gchar *
+make_temp_dir (gboolean removal)
+{
+  static gchar *tmpdir = NULL;
+  if (!removal)
+    {
+      // Either create a new directory or get the path
+      if (!tmpdir)
+        {
+          gchar *newdir = g_build_filename (g_get_tmp_dir (), "Denemo_XXXXXX", NULL);
+#ifdef G_OS_WIN32
+          // Windows does not delete the temporary directory, use a constant one.
+          if (!g_mkdir_with_parents (newdir, 0700))
+            g_warning ("Creation of temp dir failed\n");
+#else
+          if (!g_mkdtemp (newdir))
+            g_warning ("Creation of temp dir failed\n");
+#endif
+          tmpdir = newdir;
+        }
+      return tmpdir;
+    }
+  else
+    {
+      // The directory should be removed.
+      // Remove all files in the directory before deleting it.
+      GError *error = NULL;
+      GDir *dir = g_dir_open (tmpdir, 0, &error);
+      if (!error)
+        {
+          gchar *filename;
+          while (filename = g_dir_read_name (dir))
+            {
+              gchar *fullpath = g_build_filename (tmpdir, filename, NULL);
+              g_remove (fullpath);
+              g_free (fullpath);
+            }
+          g_dir_close (dir);
+        }
+      g_remove (tmpdir);
+      tmpdir = NULL;
+    }
+}
+
+// Return a path to a temporary directory to be used for print intermediate files
 const gchar *
 locateprintdir (void)
 {
-  static gchar *printdir = NULL;
-  if (!printdir)
-    printdir = make_temp_dir ();
-  return printdir;
+  return make_temp_dir (FALSE);
 }
 
+// Remove the temporary directory
+void
+removeprintdir (void)
+{
+  make_temp_dir (TRUE);
+}
 
 void
 add_font_directory (gchar * fontpath)
 {
 #ifdef G_OS_WIN32
   if (0 == AddFontResource (fontpath))
-    g_warning("Failed to add font dir %s.", fontpath);
+    g_warning ("Failed to add font dir %s.", fontpath);
   SendMessage (HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 #endif
-  if(FcConfigAppFontAddDir (NULL, (FcChar8*) fontpath) == FcFalse)
-    g_warning("Failed to add font dir %s.", fontpath);
+  if (FcConfigAppFontAddDir (NULL, (FcChar8 *) fontpath) == FcFalse)
+    g_warning ("Failed to add font dir %s.", fontpath);
 }
 
 void
@@ -198,40 +252,16 @@ add_font_file (gchar * fontname)
 {
 #ifdef G_OS_WIN32
   if (0 == AddFontResource (fontname))
-    g_warning("Failed to add font file %s.", fontname);
+    g_warning ("Failed to add font file %s.", fontname);
   SendMessage (HWND_BROADCAST, WM_FONTCHANGE, 0, 0);
 #endif
-  if(FcConfigAppFontAddFile (NULL, (FcChar8*) fontname) == FcFalse)
-    g_warning("Failed to add font file %s.", fontname);
+  if (FcConfigAppFontAddFile (NULL, (FcChar8 *) fontname) == FcFalse)
+    g_warning ("Failed to add font file %s.", fontname);
 }
 
 #ifdef G_OS_WIN32
 gboolean CoInitializeExCalled = FALSE;
 #endif
-
-// Create a unique temporary directory starting
-gchar *
-make_temp_dir (void)
-{
-  gchar *ret = NULL;
-#ifdef G_OS_WIN32
-  gchar buf[1024] = "C:\\TMP\\\0";
-  gint length = 1024;
-  (void) GetTempPath (length, buf);
-  gint integer = 0;             //Windows does not delete the temp directory, use a constant one. g_rand_int(g_rand_new());
-  ret = g_strdup_printf ("%sDenemo%d", buf, integer);
-
-  gint fail = g_mkdir_with_parents (ret, 0700);
-  if (fail)
-    g_warning ("Could not create temp dir %s", ret);
-  else
-    g_info ("Created temp dir %s\n", ret);
-#else
-  ret = g_strdup ("/tmp/DenemoXXXXXX");
-  mkdtemp ((char *) ret);
-#endif
-  return ret;
-}
 
 gboolean
 run_file_association (gchar * filename)
@@ -283,19 +313,20 @@ warningmessage (gchar * msg)
 void
 infowarningdialog (gchar * msg, gboolean info)
 {
-  if(Denemo.non_interactive)
-    g_warning("%s", msg);
+  if (Denemo.non_interactive)
+    g_warning ("%s", msg);
   else
-  {
-    GtkWidget *dialog;
-    dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, info?GTK_MESSAGE_INFO  :GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
-    gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-    gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
-    gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
-    gtk_dialog_run (GTK_DIALOG (dialog));
-    gtk_widget_destroy (dialog);
-  }
+    {
+      GtkWidget *dialog;
+      dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, info ? GTK_MESSAGE_INFO : GTK_MESSAGE_WARNING, GTK_BUTTONS_CLOSE, "%s", msg);
+      gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+      gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
+      gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
+      gtk_dialog_run (GTK_DIALOG (dialog));
+      gtk_widget_destroy (dialog);
+    }
 }
+
 /**
  * Pops up a warning dialog and blocks until it is dismissed
  *  @param msg warning message to display
@@ -304,7 +335,7 @@ infowarningdialog (gchar * msg, gboolean info)
 void
 warningdialog (gchar * msg)
 {
- infowarningdialog (msg, FALSE);
+  infowarningdialog (msg, FALSE);
 }
 
 /**
@@ -316,24 +347,25 @@ warningdialog (gchar * msg)
 GtkWidget *
 infodialog (gchar * msg)
 {
-  if(Denemo.non_interactive){
-    g_info("%s", msg);
-    return NULL;
-  }
+  if (Denemo.non_interactive)
+    {
+      g_info ("%s", msg);
+      return NULL;
+    }
 
   GtkWidget *dialog;
   dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
 #ifdef G_OS_WIN32
-  gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen. 
+  gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen.
 #endif
   g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_hide), dialog);
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   return dialog;
 }
 
-/* data stucture to contain Progressbar 
+/* data stucture to contain Progressbar
  * data
  */
 typedef struct _ProgressData
@@ -377,7 +409,8 @@ progressbar (gchar * msg, gpointer callback)
 
   GtkWidget *vbox;
   ProgressData *pdata = &progress_data;
-  if (pdata->progressing) pdata->window;
+  if (pdata->progressing)
+    pdata->window;
   if (pdata->window == NULL)
     {
       if (callback && Denemo.prefs.progressbardecorations)
@@ -387,7 +420,7 @@ progressbar (gchar * msg, gpointer callback)
       gtk_window_set_accept_focus (GTK_WINDOW (pdata->window), FALSE);  //FIXME this is only a hint; perhaps we should embed the progress bar in the status line...
       gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress"));
       gtk_widget_set_tooltip_text (pdata->window, _("This indicates the the LilyPond typesetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typesetting is taking place.\nKill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."));
-      gtk_window_set_transient_for (GTK_WINDOW(pdata->window), GTK_WINDOW(Denemo.window));
+      gtk_window_set_transient_for (GTK_WINDOW (pdata->window), GTK_WINDOW (Denemo.window));
       gtk_window_set_keep_above (GTK_WINDOW (pdata->window), TRUE);
       vbox = gtk_vbox_new (FALSE, 5);
       gtk_container_add (GTK_CONTAINER (pdata->window), vbox);
@@ -399,11 +432,11 @@ progressbar (gchar * msg, gpointer callback)
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
   if (pdata->timer == 0)
     pdata->timer = g_timeout_add (100, (GSourceFunc) progress_timeout, pdata);
-  pdata->progressing = TRUE;           /* If this is false the progress bar will stop */
+  pdata->progressing = TRUE;    /* If this is false the progress bar will stop */
   gtk_widget_show (pdata->window);
   /* If widget is destroyed stop the printing */
-  if(callback)
-    g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond*/), NULL);
+  if (callback)
+    g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (callback /*call_stop_lilypond */ ), NULL);
   else
     g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (progressbar_stop), NULL);
   return GTK_WINDOW (pdata->window);
@@ -417,19 +450,20 @@ progressbar_stop (void)
 
 
 void
-busy_cursor (GtkWidget *area)
+busy_cursor (GtkWidget * area)
 {
   static GdkCursor *busycursor = NULL;
-  if(!busycursor)
+  if (!busycursor)
     busycursor = gdk_cursor_new (GDK_WATCH);
   if (gtk_widget_get_window (Denemo.printarea))
     gdk_window_set_cursor (gtk_widget_get_window (area), busycursor);
 }
+
 void
-normal_cursor (GtkWidget *area)
+normal_cursor (GtkWidget * area)
 {
   static GdkCursor *arrowcursor = NULL;
-  if(!arrowcursor)
+  if (!arrowcursor)
     arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
   if (gtk_widget_get_window (area))
     gdk_window_set_cursor (gtk_widget_get_window (area), arrowcursor);
@@ -437,9 +471,9 @@ normal_cursor (GtkWidget *area)
 
 
 /**
- *  Draws the given bitmap mask on to the pixmap using the given 
+ *  Draws the given bitmap mask on to the pixmap using the given
  *  grahpics context.
- * 
+ *
  * @param pixmap pixmap be drawn on.
  * @param gc graphics context to use
  * @param mask  bitmap to be drawn
@@ -447,7 +481,7 @@ normal_cursor (GtkWidget *area)
  * @param y y position on the pixmap
  * @param width width of the bitmap mask
  * @param height height of the bitmap mask
- * 
+ *
  * @return none
  */
 
@@ -455,10 +489,10 @@ normal_cursor (GtkWidget *area)
 #ifdef G_OS_WIN32
 //this code actually works on GNU/Linux too, it is not clear what to prefer
 static void
-windows_draw_text (cairo_t *cr, const char *font, const char *text, double x, double y, double size, gboolean invert)
+windows_draw_text (cairo_t * cr, const char *font, const char *text, double x, double y, double size, gboolean invert)
 {
- y -= size;
- size *= 0.75;
+  y -= size;
+  size *= 0.75;
   PangoLayout *layout;
   PangoFontDescription *desc;
   /* Create a PangoLayout, set the font and text */
@@ -466,15 +500,15 @@ windows_draw_text (cairo_t *cr, const char *font, const char *text, double x, do
 
   pango_layout_set_text (layout, text, -1);
   desc = pango_font_description_from_string (font);
-  pango_font_description_set_size (desc, size*PANGO_SCALE);
+  pango_font_description_set_size (desc, size * PANGO_SCALE);
   pango_layout_set_font_description (layout, desc);
   pango_font_description_free (desc);
   pango_cairo_update_layout (cr, layout);
 
-     
+
   cairo_move_to (cr, x, y);
   if (invert)
-          cairo_scale (cr, 1, -1);
+    cairo_scale (cr, 1, -1);
   pango_cairo_show_layout (cr, layout);
   /* free the layout object */
   g_object_unref (layout);
@@ -549,7 +583,7 @@ drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size)
       return windows_draw_text (cr, "Denemo", text, x, y, size, FALSE); //these values arrived at by trial and error, to match the previously used code below
 #else
       //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
-      cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL); 
+      cairo_select_font_face (cr, "Denemo", CAIRO_FONT_SLANT_NORMAL, CAIRO_FONT_WEIGHT_NORMAL);
       cairo_set_font_size (cr, size);
       cairo_move_to (cr, x, y);
       cairo_show_text (cr, text);
@@ -580,15 +614,15 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
     {
       DenemoDirective *directive = (DenemoDirective *) directives->data;
       guint layout = selected_layout_id ();
-      gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5: 0.0;
+      gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5 : 0.0;
       gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
       //if (directive->y && directive->y != layout)
       //  exclude = 0.9;
-      if (exclude>0.0 || only >0.0)
-            {
-                cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.4 + exclude -only/2, 0.5 + only, 0.4 -only/2, at_cursor ? 1.0 : 0.7);
-            }   
+      if (exclude > 0.0 || only > 0.0)
+        {
+          cairo_save (cr);
+          cairo_set_source_rgba (cr, 0.4 + exclude - only / 2, 0.5 + only, 0.4 - only / 2, at_cursor ? 1.0 : 0.7);
+        }
       if (directive->graphic)
         {
           gint gwidth, gheight;
@@ -596,19 +630,19 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
           gheight = directive->graphic->height;
 
           maxwidth = MAX (gwidth, maxwidth);
-         // g_print("%p %p drawing a graphic at %d %d\n",directive,Denemo.project->movement->directive_on_clipboard,   x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2);
+          // g_print("%p %p drawing a graphic at %d %d\n",directive,Denemo.project->movement->directive_on_clipboard,   x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2);
           drawbitmapinverse_cr (cr, directive->graphic, x + directive->gx + count - gwidth / 2, y + directive->gy - gheight / 2, FALSE);
-          
+
           if (directive == Denemo.project->movement->directive_on_clipboard)
             {
-                cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
-                cairo_arc (cr,  x + directive->gx + count, y + directive->gy, MAX(gwidth, 8.0), 0.0, 2*M_PI);
-                cairo_fill (cr);
-                cairo_restore (cr);
+              cairo_save (cr);
+              cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
+              cairo_arc (cr, x + directive->gx + count, y + directive->gy, MAX (gwidth, 8.0), 0.0, 2 * M_PI);
+              cairo_fill (cr);
+              cairo_restore (cr);
             }
-          
-          
+
+
 
         }
       if (directive->display)
@@ -626,24 +660,25 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
                 }
             }
           drawnormaltext_cr (cr, directive->display->str, x + directive->tx + count, y + directive->ty);
-               if (directive == Denemo.project->movement->directive_on_clipboard)
-            {   cairo_save (cr);
-                cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
-                cairo_arc (cr,  x + directive->tx + count + 4, y + directive->ty - 4, 8.0, 0.0, 2*M_PI);
-                cairo_fill (cr);
-                cairo_restore (cr);
+          if (directive == Denemo.project->movement->directive_on_clipboard)
+            {
+              cairo_save (cr);
+              cairo_set_source_rgba (cr, 0.4, 0.8, 0.5, 0.7);
+              cairo_arc (cr, x + directive->tx + count + 4, y + directive->ty - 4, 8.0, 0.0, 2 * M_PI);
+              cairo_fill (cr);
+              cairo_restore (cr);
             }
-          
-          
-          
-          
-          
+
+
+
+
+
           if (c)
             {
               *p = c;
             }
-         if (exclude>0.0 || only >0.0)
-           cairo_restore (cr);
+          if (exclude > 0.0 || only > 0.0)
+            cairo_restore (cr);
         }
     }
 
@@ -651,13 +686,14 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
 }
 
 /* draw a brace straight or curly */
-void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
+void
+draw_staff_brace (cairo_t * cr, gboolean curly, gint x, gint y, gint height)
 {
   cairo_set_source_rgb (cr, 0, 0, 0);
   if (!curly)
     {
       drawfetachar_cr (cr, 0xD8, x, y);
-      cairo_rectangle (cr, x, y+2.0, 3, height - 4.0);
+      cairo_rectangle (cr, x, y + 2.0, 3, height - 4.0);
       cairo_fill (cr);
       cairo_rectangle (cr, x + 5.0, y + 1.0, 1, height - 2.0);
       cairo_fill (cr);
@@ -666,56 +702,57 @@ void draw_staff_brace (cairo_t *cr, gboolean curly, gint x, gint y, gint height)
   else
     {
       //cairo_translate (cr, 0, 10.0);
-      cairo_translate (cr, x-5, y + 2);
+      cairo_translate (cr, x - 5, y + 2);
       cairo_scale (cr, 1.0, height / 100.0);
       cairo_append_path (cr, &piano_brace_path);
       cairo_fill (cr);
     }
-  return;  
+  return;
 }
 
-gchar *pretty_name (gchar *lilynote) //display 𝄪𝄫♯♭♮ with note name
+gchar *
+pretty_name (gchar * lilynote)  //display 𝄪𝄫♯♭♮ with note name
 {
- static gchar *natural = NULL;
- static gchar *sharp;
- static gchar *flat;
- static gchar *double_sharp;
- static gchar *double_flat;
- gchar *answer;
- if (!natural)
+  static gchar *natural = NULL;
+  static gchar *sharp;
+  static gchar *flat;
+  static gchar *double_sharp;
+  static gchar *double_flat;
+  gchar *answer;
+  if (!natural)
     {
-        natural = g_strdup ("C♮");
-        sharp = g_strdup ("C♯");
-        flat = g_strdup ("C♭");
-        double_sharp = g_strdup ("C𝄪");
-        double_flat = g_strdup ("C𝄫");
+      natural = g_strdup ("C♮");
+      sharp = g_strdup ("C♯");
+      flat = g_strdup ("C♭");
+      double_sharp = g_strdup ("C𝄪");
+      double_flat = g_strdup ("C𝄫");
     }
- answer = natural;
- if(*(lilynote+1)==0)
+  answer = natural;
+  if (*(lilynote + 1) == 0)
     answer = natural;
-    else if (*(lilynote+1) == 'i')
-        {
-            if (*(lilynote+3) == 'i')
-                answer = double_sharp;
-            else
-                answer = sharp;
-        }
-        else if (*(lilynote+1) == 'e')
-            {
-                if (*(lilynote+3) == 'e')
-                    answer = double_flat;
-                else
-                    answer = flat;
-            }   
-  *answer =  toupper(*lilynote);
-  return answer;  
+  else if (*(lilynote + 1) == 'i')
+    {
+      if (*(lilynote + 3) == 'i')
+        answer = double_sharp;
+      else
+        answer = sharp;
+    }
+  else if (*(lilynote + 1) == 'e')
+    {
+      if (*(lilynote + 3) == 'e')
+        answer = double_flat;
+      else
+        answer = flat;
+    }
+  *answer = toupper (*lilynote);
+  return answer;
 }
 
 
 /**
  * Utility function to set the number of ticks used by the given object
  * if it is within a given tuplet
- * 
+ *
  * @param theobj DenemoObject to set the number of ticks
  * @param numerator numerator of the current tuplet
  * @param denominator denominator of the current tuplet
@@ -750,7 +787,7 @@ set_grace_numticks (DenemoObject * theobj, gint multiplier)
 
 /**
  * Sets the number of ticks taken by the given DenemoObject.
- * 
+ *
  * @param theobj the mudela object to set the number of ticks on
  * @return none
  */
@@ -787,9 +824,9 @@ set_basic_numticks (DenemoObject * theobj)
     }
 }
 
-/** 
+/**
  * Returns the amount of space to be left after a note or rest, only
- * taking the width of the measure into consideration 
+ * taking the width of the measure into consideration
  *
  * @param numticks the number of ticks taken so far
  * @param wholenotewidth the number of ticks taken be a whole note
@@ -852,7 +889,7 @@ setpixelmin (DenemoObject * theobj)
       else                      /* a rest */
         theobj->minpixelsalloted = restwidths[baseduration];
 
-      // Allow extra space specified by attached LilyPond directives - example:     
+      // Allow extra space specified by attached LilyPond directives - example:
       theobj->minpixelsalloted += directive_pixels;
 
 
@@ -871,17 +908,18 @@ setpixelmin (DenemoObject * theobj)
             if (thetone->showaccidental)
               theobj->space_before = MAX (theobj->space_before, thetone->position_of_accidental);
           }
-      if (chordval.is_reversealigned){
-        if (chordval.is_stemup)
-          theobj->minpixelsalloted += headwidths[headtype];
-        else if (!chordval.hasanacc)
-          /* Accidental positioning already accounts for the extra leading
-             space that we need for reverse-aligned noteheads, provided
-             the chord has an accidental in it somewhere. We only have to
-             remark upon noteheads to the left of the stem if there weren't
-             any accidentals to position.  */
-          theobj->space_before += headwidths[headtype];
-      }
+      if (chordval.is_reversealigned)
+        {
+          if (chordval.is_stemup)
+            theobj->minpixelsalloted += headwidths[headtype];
+          else if (!chordval.hasanacc)
+            /* Accidental positioning already accounts for the extra leading
+               space that we need for reverse-aligned noteheads, provided
+               the chord has an accidental in it somewhere. We only have to
+               remark upon noteheads to the left of the stem if there weren't
+               any accidentals to position.  */
+            theobj->space_before += headwidths[headtype];
+        }
       theobj->minpixelsalloted += EXTRAWIDTH;
       break;
     case TUPOPEN:
@@ -908,7 +946,7 @@ setpixelmin (DenemoObject * theobj)
       theobj->space_before = 0;
       break;
     case KEYSIG:
-      theobj->minpixelsalloted = 20; //needed so find_xes_in_measures assigns space to it without waiting for drawing to do so.
+      theobj->minpixelsalloted = 20;    //needed so find_xes_in_measures assigns space to it without waiting for drawing to do so.
       theobj->space_before = 0;
       break;
     case TIMESIG:
@@ -938,11 +976,11 @@ setpixelmin (DenemoObject * theobj)
 }
 
 /**
- * 
+ *
  * @param mid_c_offset the mid_c_offset of the the tone
  * @param dclef the clef of the current tone
- * 
- * @return the height of a tone based on its mid_c_offset and the clef that it's in 
+ *
+ * @return the height of a tone based on its mid_c_offset and the clef that it's in
  */
 gint
 calculateheight (gint mid_c_offset, gint dclef)
@@ -980,7 +1018,7 @@ calculateheight (gint mid_c_offset, gint dclef)
 
 /**
  * Converts the given offset to a number
- * 
+ *
  * @param n the offset to convert
  * @return the result of the offset conversion
  */
@@ -996,10 +1034,10 @@ offsettonumber (gint n)
 }
 
 /**
- * converts the int mid_c_offset to the lilypond name 
+ * converts the int mid_c_offset to the lilypond name
  * returns a gchar * so it will have to be freed
  * 0 returns "c", 1 returns "cis"
- * The octave ",,, or '''" is also appended" 
+ * The octave ",,, or '''" is also appended"
  */
 
 gchar *
@@ -1218,7 +1256,7 @@ printmeasure (measurenode * mnode)
       fprintf (stderr, "Empty measure\n");
       return;
     }
-  printobjs ((objnode*)measure_first_obj_node (mnode));
+  printobjs ((objnode *) measure_first_obj_node (mnode));
 }
 
 G_GNUC_UNUSED void
@@ -1266,7 +1304,7 @@ initdir ()
 }
 
 extern gchar *gbr_find_pkg_data_dir (const gchar * default_pkg_data_dir, const gchar * pkg_name);
-  
+
 static gchar *DENEMO_datadir = NULL;
 const gchar *
 get_system_data_dir ()
@@ -1342,11 +1380,12 @@ get_prefix_dir (void)
 #endif //G_OS_WIN32
   return prefix;
 }
+
 static gchar *DENEMO_bindir = NULL;
 const gchar *
 get_system_bin_dir (void)
 {
-  
+
   if (DENEMO_bindir == NULL)
     {
 #ifdef G_OS_WIN32
@@ -1399,7 +1438,7 @@ get_system_conf_dir ()
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
       confdir = g_build_filename (rootdir, "etc", "denemo", NULL);
       g_free (rootdir);
-#else // not G_OS_WIN32 
+#else // not G_OS_WIN32
 #ifdef _MACH_O_
 
       {
@@ -1474,18 +1513,19 @@ get_system_locale_dir ()
   return localedir;
 }
 
-const gchar*
-get_system_font_dir(){
-  static gchar* fontdir = NULL;
-  if(fontdir == NULL)
-  {
+const gchar *
+get_system_font_dir ()
+{
+  static gchar *fontdir = NULL;
+  if (fontdir == NULL)
+    {
 #ifdef G_OS_WIN32
-    gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
+      gchar *prefix = g_win32_get_package_installation_directory (NULL, NULL);
 #else
-    gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
+      gchar *prefix = g_build_filename (get_prefix_dir (), NULL);
 #endif
-    fontdir = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", NULL);
-  }
+      fontdir = g_build_filename (prefix, "share", "fonts", "truetype", "denemo", NULL);
+    }
   return fontdir;
 }
 
@@ -1660,7 +1700,7 @@ music_font (gchar * str)
 void
 set_title_bar (DenemoProject * gui)
 {
-  if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return;
   gchar *title;
   if (gui->tabname && gui->tabname->len)
@@ -1671,18 +1711,18 @@ set_title_bar (DenemoProject * gui)
   gtk_window_set_title (GTK_WINDOW (Denemo.window), title);
   gchar *base = g_path_get_basename (title);
   gint index = g_list_index (Denemo.projects, gui);
-  if(index < 0)
+  if (index < 0)
     {
-       g_critical ("project is %p is not in list of projects, first tab is  %p\n", gui, Denemo.projects->data);
-       return;
-        
+      g_critical ("project is %p is not in list of projects, first tab is  %p\n", gui, Denemo.projects->data);
+      return;
+
     }
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), index);
-  if (page==NULL)
+  if (page == NULL)
     {
-       g_critical ("Bad page, passed project is %p, first tab is  %p\n", gui, Denemo.projects->data);
-       return;
-        
+      g_critical ("Bad page, passed project is %p, first tab is  %p\n", gui, Denemo.projects->data);
+      return;
+
     }
   gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (Denemo.notebook), page, base);
 
@@ -1715,37 +1755,42 @@ enshift_string (gint enshift)
 
 gint64 thetime;
 
-static void start_editing_timer (void)
+static void
+start_editing_timer (void)
 {
-   
-    thetime = g_get_monotonic_time ();
-    
-}
-static void stop_editing_timer (void)
-{
-    gint64 thistime = g_get_monotonic_time ();
-    if ((thetime>0) && (thetime<thistime))
-        Denemo.project->total_edit_time += (thistime - thetime)/1000000;
+
+  thetime = g_get_monotonic_time ();
+
 }
 
-void reset_editing_timer (void)
+static void
+stop_editing_timer (void)
 {
-    thetime = 0;
+  gint64 thistime = g_get_monotonic_time ();
+  if ((thetime > 0) && (thetime < thistime))
+    Denemo.project->total_edit_time += (thistime - thetime) / 1000000;
 }
 
-gchar *time_spent_editing()
+void
+reset_editing_timer (void)
 {
-    gint seconds =  Denemo.project->total_edit_time;
-    gint days = seconds/(24*60*60);
-    gint hours;
-    gint minutes;
+  thetime = 0;
+}
 
-    seconds -= days*(24*60*60);
-    hours = (seconds/(60*60));
-    seconds -= hours*(60*60);
-    minutes = seconds/60;
-    seconds -= minutes*60;
-    return g_strdup_printf("%d days %d hours %d minutes %d seconds\n", days, hours, minutes, seconds);
+gchar *
+time_spent_editing ()
+{
+  gint seconds = Denemo.project->total_edit_time;
+  gint days = seconds / (24 * 60 * 60);
+  gint hours;
+  gint minutes;
+
+  seconds -= days * (24 * 60 * 60);
+  hours = (seconds / (60 * 60));
+  seconds -= hours * (60 * 60);
+  minutes = seconds / 60;
+  seconds -= minutes * 60;
+  return g_strdup_printf ("%d days %d hours %d minutes %d seconds\n", days, hours, minutes, seconds);
 }
 
 /* set the status of the current musical score - its change count and
@@ -1764,26 +1809,26 @@ score_status (DenemoProject * gui, gboolean change)
       gui->changecount++;
       gui->movement->changecount++;
       if (just_changed)
-        if(!Denemo.non_interactive)
-            start_editing_timer();
+        if (!Denemo.non_interactive)
+          start_editing_timer ();
 
     }
   else
     {
       gui->notsaved = FALSE;
-      if(!Denemo.non_interactive)
-       stop_editing_timer();
+      if (!Denemo.non_interactive)
+        stop_editing_timer ();
     }
-  if(!Denemo.non_interactive)
-     {
-            set_title_bar (gui);
-            write_status (gui);
+  if (!Denemo.non_interactive)
+    {
+      set_title_bar (gui);
+      write_status (gui);
     }
 }
 
 /**
  * If the curObj is a chord with a note(s)
- * return the first note at or below cursory, or the last note 
+ * return the first note at or below cursory, or the last note
  * else return NULL
  */
 note *
@@ -1804,6 +1849,7 @@ findnote (DenemoObject * curObj, gint cursory)
     }
   return curnote;
 }
+
 /**
  * If the curObj is a chord with a note(s)
  * return the note at cursory else return NULL
@@ -1828,41 +1874,43 @@ findnote_strict (DenemoObject * curObj, gint cursory)
 }
 
 /* get a fret diagram for the chord at the cursor or before the cursor if not on the chord  */
-gchar *get_fretdiagram_as_markup (void)
+gchar *
+get_fretdiagram_as_markup (void)
 {
-DenemoProject *gui = Denemo.project;
-   DenemoObject *curObj;
-      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
-        return NULL;
-      if(curObj->type != CHORD && Denemo.project->movement->currentobject->next)
-        curObj = Denemo.project->movement->currentobject->next->data;
-      if (gui->lilysync != gui->changecount)
-        refresh_lily_cb (NULL, Denemo.project);
-      if (curObj->lilypond)
-        {
-              gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new FretBoards {%s}\n\\layout{indent=0.0}\n}",  curObj->lilypond);
-              return text;
-        }  
+  DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return NULL;
+  if (curObj->type != CHORD && Denemo.project->movement->currentobject->next)
+    curObj = Denemo.project->movement->currentobject->next->data;
+  if (gui->lilysync != gui->changecount)
+    refresh_lily_cb (NULL, Denemo.project);
+  if (curObj->lilypond)
+    {
+      gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new FretBoards {%s}\n\\layout{indent=0.0}\n}", curObj->lilypond);
+      return text;
+    }
+  return NULL;
 }
 
 /* get a chord symbol for the chord at the cursor or before the cursor if not on the chord */
-gchar *get_fakechord_as_markup (gchar *size, gchar *font)
+gchar *
+get_fakechord_as_markup (gchar * size, gchar * font)
 {
-DenemoProject *gui = Denemo.project;
-   DenemoObject *curObj;
-      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
-        return NULL;
-      if((curObj->type != CHORD) && Denemo.project->movement->currentobject->next)
-        curObj = Denemo.project->movement->currentobject->next->data;
-      if (gui->lilysync != gui->changecount)        
-        refresh_lily_cb (NULL, Denemo.project);
-      if (curObj->lilypond)
-        {
-            gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, curObj->lilypond);
-            return text;
-        }  
+  DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
     return NULL;
+  if ((curObj->type != CHORD) && Denemo.project->movement->currentobject->next)
+    curObj = Denemo.project->movement->currentobject->next->data;
+  if (gui->lilysync != gui->changecount)
+    refresh_lily_cb (NULL, Denemo.project);
+  if (curObj->lilypond)
+    {
+      gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, curObj->lilypond);
+      return text;
+    }
+  return NULL;
 }
 
 /****************
@@ -1873,7 +1921,7 @@ DenemoProject *gui = Denemo.project;
 void
 write_status (DenemoProject * gui)
 {
-  if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return;
 
   gint minutes = 0;
@@ -1884,19 +1932,19 @@ write_status (DenemoProject * gui)
     return;
 
   static GList *last_object;
-   
+
   if (gui->movement->currentobject)
-       {
-           if (last_object != gui->movement->currentobject)
-                {
-                    if(get_wysiwyg_info()->stage != TypesetForPlaybackView)
-                        get_wysiwyg_info()->stage = STAGE_NONE;//remove the mark in the printview window as the cursor has moved
-                    get_wysiwyg_info()->Mark.width = 0;
-                    gtk_widget_queue_draw (Denemo.printarea);
-                }
-        last_object = gui->movement->currentobject;
+    {
+      if (last_object != gui->movement->currentobject)
+        {
+          if (get_wysiwyg_info ()->stage != TypesetForPlaybackView)
+            get_wysiwyg_info ()->stage = STAGE_NONE;    //remove the mark in the printview window as the cursor has moved
+          get_wysiwyg_info ()->Mark.width = 0;
+          gtk_widget_queue_draw (Denemo.printarea);
         }
- 
+      last_object = gui->movement->currentobject;
+    }
+
   if (gui->movement->currentobject && gui->movement->currentobject->data)
     {
       DenemoObject *curObj = gui->movement->currentobject->data;
@@ -1911,7 +1959,8 @@ write_status (DenemoProject * gui)
           {
             chord *thechord = ((chord *) curObj->object);
             selection = g_strdup_printf ("%s%s%s%s%s%s%s%s%s",
-                                         thechord->notes ? (g_list_length (thechord->notes) > 1 ? _("Chord ") : _("Note ")) : _("Rest "), thechord->slur_begin_p ? _(", begin slur") : "", thechord->slur_end_p ? _(", end slur") : "", thechord->is_tied ? _(", tied") : "", thechord->crescendo_begin_p ? _(", begin cresc.") : "", thechord->crescendo_end_p ? _(", end cresc.") : "", thechord->diminuendo_begin_p ? _(", begin dim.") : "", thechord->diminuendo_end_p ? _(", end dim.") : "", thechord->is_grace ? _(", grace note") : "");
+                                         thechord->notes ? (g_list_length (thechord->notes) > 1 ? _("Chord ") : _("Note ")) : _("Rest "), thechord->slur_begin_p ? _(", begin slur") : "", thechord->slur_end_p ? _(", end slur") : "", thechord->is_tied ? _(", tied") : "", thechord->crescendo_begin_p ? _(", begin cresc.") : "", thechord->crescendo_end_p ? _(", end cresc.") : "", thechord->diminuendo_begin_p ? _(", begin dim.") : "", thechord->diminuendo_end_p ? _(", end dim.") : "",
+                                         thechord->is_grace ? _(", grace note") : "");
             if (thechord->notes)
               {
                 GList *g;
@@ -1965,45 +2014,54 @@ write_status (DenemoProject * gui)
         default:
           selection = g_strdup_printf (_("Cursor on an unknown object"));
         }
-        
-        //DenemoMeasure *measure = gui->movement->currentmeasure->data;
-        //selection = g_strdup_printf ("%s %s %d/%d %d", selection, curObj->clef?get_clef_name (curObj->clef->type):"NULL", measure->timesig?measure->timesig->time1:0, measure->timesig?measure->timesig->time2:0, curObj->keysig?curObj->keysig->number:0xFFFF);
-        
-        
+
+      //DenemoMeasure *measure = gui->movement->currentmeasure->data;
+      //selection = g_strdup_printf ("%s %s %d/%d %d", selection, curObj->clef?get_clef_name (curObj->clef->type):"NULL", measure->timesig?measure->timesig->time1:0, measure->timesig?measure->timesig->time2:0, curObj->keysig?curObj->keysig->number:0xFFFF);
+
+
     }
   else
     selection = g_strdup_printf (_("Cursor not on any object"));
 
   GString *status = g_string_new (_("Movement"));
   gint index = g_list_index (gui->movements, gui->movement);
-  const gchar *dur ="";
-  switch (get_prevailing_duration())
-  {
-      case 0: dur = NOTE0;
+  const gchar *dur = "";
+  switch (get_prevailing_duration ())
+    {
+    case 0:
+      dur = NOTE0;
       break;
-      case 1: dur = NOTE1;
+    case 1:
+      dur = NOTE1;
       break;
-      case 2: dur = NOTE2;
+    case 2:
+      dur = NOTE2;
       break;
-      case 3: dur = NOTE3;
+    case 3:
+      dur = NOTE3;
       break;
-      case 4: dur = NOTE4;
+    case 4:
+      dur = NOTE4;
       break;
-      case 5: dur = NOTE5;
+    case 5:
+      dur = NOTE5;
       break;
-      case 6: dur = NOTE6;
+    case 6:
+      dur = NOTE6;
       break;
-      case 7: dur = NOTE7;
+    case 7:
+      dur = NOTE7;
       break;
-      case 8: dur = NOTE8;
+    case 8:
+      dur = NOTE8;
       break;
-     
-      
-  }
-  g_string_printf (status, "%s%s %d: %s: ", enshift_string (gui->movement->pending_enshift), dur, index + 1, selection);
-  
 
-  
+
+    }
+  g_string_printf (status, "%s%s %d: %s: ", enshift_string (gui->movement->pending_enshift), dur, index + 1, selection);
+
+
+
   if (gui->movement->smf && (gui->movement->smfsync == gui->movement->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf (status, _("start %.2f end %.2f"), early, late);
   else
@@ -2020,7 +2078,7 @@ write_status (DenemoProject * gui)
 
   g_free (selection);
   gchar *end_valid;
-  if (!g_utf8_validate (status->str, -1, (const gchar **)&end_valid))
+  if (!g_utf8_validate (status->str, -1, (const gchar **) &end_valid))
     *end_valid = '\0';
   gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), status->str);
 
@@ -2031,7 +2089,7 @@ write_status (DenemoProject * gui)
 void
 write_input_status (void)
 {
-  if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return;
   gtk_label_set_markup (GTK_LABEL (Denemo.input_label), Denemo.input_filters->str);
 }
@@ -2056,19 +2114,18 @@ confirm (gchar * primary, gchar * secondary)
 }
 
 gboolean
-choose_option (gchar *title, gchar * primary, gchar * secondary)
+choose_option (gchar * title, gchar * primary, gchar * secondary)
 {
   GtkWidget *dialog;
   gboolean r;
-  dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), 
-                                                      primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL);
+  dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL);
   //g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
   gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT);
   gtk_widget_destroy (dialog);
-  return r; 
+  return r;
 }
 
 
@@ -2082,59 +2139,56 @@ nullify_gstring (GString ** s)
 }
 
 /* dialog to get a filename from the user
- */ 
-gchar *choose_file (gchar *title, gchar *startdir, GList *extensions)
+ */
+gchar *
+choose_file (gchar * title, gchar * startdir, GList * extensions)
 {
   GtkWidget *dialog;
   gchar *filename = NULL;
-  dialog = gtk_file_chooser_dialog_new (title,
-                                      NULL,
-                                      GTK_FILE_CHOOSER_ACTION_OPEN,
-                                      _("_Cancel"), GTK_RESPONSE_CANCEL,
-                                      _("_Open"), GTK_RESPONSE_ACCEPT,
-                                      NULL);
-  GtkFileFilter *filter = gtk_file_filter_new();
+  dialog = gtk_file_chooser_dialog_new (title, NULL, GTK_FILE_CHOOSER_ACTION_OPEN, _("_Cancel"), GTK_RESPONSE_CANCEL, _("_Open"), GTK_RESPONSE_ACCEPT, NULL);
+  GtkFileFilter *filter = gtk_file_filter_new ();
   GString *filter_description = g_string_new ("");
-  for(extensions;extensions;extensions=extensions->next)
+  for (extensions; extensions; extensions = extensions->next)
     {
-    gtk_file_filter_add_pattern (filter,(gchar*)extensions->data);
-    g_string_append_printf (filter_description, "%s ", (gchar*)extensions->data);
+      gtk_file_filter_add_pattern (filter, (gchar *) extensions->data);
+      g_string_append_printf (filter_description, "%s ", (gchar *) extensions->data);
     }
   gtk_file_filter_set_name (filter, filter_description->str);
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER(dialog), filter);
-  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER(dialog), startdir);
-  
+  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
+  gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), startdir);
+
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
-      {
-        filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-      }
+    {
+      filename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+    }
 
-  gtk_widget_destroy (dialog);  
-  return filename;  
+  gtk_widget_destroy (dialog);
+  return filename;
 }
 
 
-static void 
-hide_windows (void) 
+static void
+hide_windows (void)
 {
-    if (Denemo.prefs.hide_windows)
-        {
-            if(Denemo.window)
-                gtk_widget_hide (Denemo.window);
-            if(Denemo.printarea)
-                gtk_widget_hide (gtk_widget_get_toplevel(Denemo.printarea));
-        }
+  if (Denemo.prefs.hide_windows)
+    {
+      if (Denemo.window)
+        gtk_widget_hide (Denemo.window);
+      if (Denemo.printarea)
+        gtk_widget_hide (gtk_widget_get_toplevel (Denemo.printarea));
+    }
 }
-static void 
+
+static void
 show_windows (void)
 {
-   if (Denemo.prefs.hide_windows)
-        {
-            if(Denemo.window)
-                gtk_widget_show (Denemo.window);
-             if(Denemo.printarea)
-                gtk_widget_show (gtk_widget_get_toplevel(Denemo.printarea));
-        }
+  if (Denemo.prefs.hide_windows)
+    {
+      if (Denemo.window)
+        gtk_widget_show (Denemo.window);
+      if (Denemo.printarea)
+        gtk_widget_show (gtk_widget_get_toplevel (Denemo.printarea));
+    }
 }
 
 /**
@@ -2167,7 +2221,7 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
 
   dialog = modal ? gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL) : gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, NULL);
 
-  g_signal_connect (dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL); //if the user tries to dismiss the window, hide it, will that then hang??? It doesn't on GNOME using the right-click menu to close the window
+  g_signal_connect (dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);      //if the user tries to dismiss the window, hide it, will that then hang??? It doesn't on GNOME using the right-click menu to close the window
 
   label = gtk_label_new (direction);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
@@ -2185,35 +2239,35 @@ string_dialog_entry_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar 
   gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
- 
+
   if (modal)
     {
       gtk_widget_grab_focus (entry);
-      hide_windows();
+      hide_windows ();
       gtk_window_present (GTK_WINDOW (dialog));
       if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
         {
-            gchar *string = NULL;
-            if (GTK_DIALOG (dialog))
-                {
-                entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-                string = g_strdup (entry_string);
-                gtk_widget_destroy (dialog);
-                }
-               show_windows();
-              return string;
+          gchar *string = NULL;
+          if (GTK_DIALOG (dialog))
+            {
+              entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+              string = g_strdup (entry_string);
+              gtk_widget_destroy (dialog);
+            }
+          show_windows ();
+          return string;
         }
       else
         {
           if (GTK_DIALOG (dialog))
             gtk_widget_destroy (dialog);
-        
+
         }
-     show_windows();  
-     return NULL;
+      show_windows ();
+      return NULL;
     }
   else
     {
@@ -2250,18 +2304,18 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
   t = gtk_text_tag_new ("code");
   g_object_set (G_OBJECT (t), "weight", PANGO_WEIGHT_BOLD, "family", "monospace", NULL);
   gtk_text_tag_table_add (tagtable, t);
-  
-  
-  GtkTextBuffer  *textbuffer = gtk_text_buffer_new (tagtable);
+
+
+  GtkTextBuffer *textbuffer = gtk_text_buffer_new (tagtable);
   GtkWidget *textview = gtk_text_view_new_with_buffer (textbuffer);
- 
+
   gtk_text_buffer_set_text (textbuffer, PreValue ? PreValue : "", -1);
   GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
-  
+
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
 
   dialog = modal ? gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL) : gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, NULL);
-  if(keypress_callback)
+  if (keypress_callback)
     g_signal_connect (G_OBJECT (textview), "key-press-event", G_CALLBACK (keypress_callback), textbuffer);
 
   label = gtk_label_new (direction);
@@ -2280,7 +2334,7 @@ string_dialog_editor_with_widget_opt (DenemoProject * gui, gchar * wlabel, gchar
 
 
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_CENTER);
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   gtk_widget_grab_focus (textview);
@@ -2339,28 +2393,30 @@ option_choice (GtkWidget * widget, gchar ** response)
 
 static gint root_x;
 static gint root_y;
-static gboolean dialog_realize (GtkWidget *dialog) {
-  if(root_x)
-   gtk_window_move (GTK_WINDOW(dialog), root_x, root_y);
-    return FALSE;
+static gboolean
+dialog_realize (GtkWidget * dialog)
+{
+  if (root_x)
+    gtk_window_move (GTK_WINDOW (dialog), root_x, root_y);
+  return FALSE;
 }
 
 /* run a dialog for the user to select a string from the NULL separated strings, str
  return NULL if user cancels.*/
 static gchar *
-get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
+get_option_recursive (gchar * title, gchar * str, gint length, gboolean more)
 {
   gchar *response = NULL;
-  if (title==NULL)
+  if (title == NULL)
     title = _("Select from List (or Cancel)");
-  GtkWidget *dialog = gtk_dialog_new_with_buttons ( title,
+  GtkWidget *dialog = gtk_dialog_new_with_buttons (title,
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
                                                    _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
-  g_signal_connect_after (G_OBJECT(dialog), "realize", G_CALLBACK(dialog_realize), NULL);
+  g_signal_connect_after (G_OBJECT (dialog), "realize", G_CALLBACK (dialog_realize), NULL);
   GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), vbox);
@@ -2382,16 +2438,16 @@ get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
       g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
       gtk_container_add (GTK_CONTAINER (vbox), widget);
     }
-    
-   if(more)
-        { 
-            opt = _("More...");
-            widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget1), opt);
-            g_object_set_data (G_OBJECT (widget), "choice", (gpointer) opt);
-            g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
-            gtk_container_add (GTK_CONTAINER (vbox), widget);   
-        }
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+
+  if (more)
+    {
+      opt = _("More...");
+      widget = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget1), opt);
+      g_object_set_data (G_OBJECT (widget), "choice", (gpointer) opt);
+      g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (option_choice), &response);
+      gtk_container_add (GTK_CONTAINER (vbox), widget);
+    }
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   hide_windows ();
@@ -2400,36 +2456,39 @@ get_option_recursive (gchar *title, gchar * str, gint length, gboolean more)
       response = NULL;
     }
   g_debug ("Returning contents of response is %s\n", response);
-  gtk_window_get_position (GTK_WINDOW(dialog), &root_x, &root_y);
+  gtk_window_get_position (GTK_WINDOW (dialog), &root_x, &root_y);
   gtk_widget_destroy (dialog);
   show_windows ();
   return response;
 }
+
 #define MAX_ITEMS (Denemo.prefs.max_menu_size)
-gchar *get_option (gchar *title, gchar * str, gint length)
+gchar *
+get_option (gchar * title, gchar * str, gint length)
 {
   gchar *opt;
   gint i;
   for (opt = str, i = 0; (opt - str) < length; i++, opt += strlen (opt) + 1)
+    {
+      if (i < MAX_ITEMS)
+        continue;
+      else
         {
-        if (i < MAX_ITEMS)
-            continue;
-        else
+          gchar *response = get_option_recursive (title, str, opt - str, TRUE);
+          if (response && (!strcmp (response, _("More..."))))
             {
-                gchar *response = get_option_recursive (title, str, opt-str, TRUE);
-                if(response && (!strcmp (response, _("More..."))))
-                    { 
-                        length -= (opt - str);
-                        str = opt;
-                        i = 0;
-                        continue;
-                    }
-                else return response;
+              length -= (opt - str);
+              str = opt;
+              i = 0;
+              continue;
             }
+          else
+            return response;
         }
- if ((opt - str) >= length)
+    }
+  if ((opt - str) >= length)
     return get_option_recursive (title, str, length, FALSE);
- return NULL;
+  return NULL;
 }
 
 
@@ -2448,18 +2507,18 @@ console_output (gchar * text)
     gtk_text_buffer_set_text (buffer, "", -1);
 }
 
-/* returns an override flag ORd from all those in the list of directives, 
-   excluding ones with DENEMO_OVERRIDE_HIDDEN set */
+/* returns an override flag ORd from all those in the list of directives,
+   excluding ones with DENEMO_OVERRIDE_HIDDEN set and ones not for the current layout */
 gint
 get_override (GList * g)
 {
   gint ret = 0;
   for (; g; g = g->next)
     {
-    DenemoDirective *d = g->data;
-   // if (wrong_layout (d, sb->id))
-   //     continue;
-    if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
+      DenemoDirective *d = g->data;
+      if (wrong_layout (d, Denemo.project->layout_id))
+        continue;
+      if (!(d->override & DENEMO_OVERRIDE_HIDDEN))
         ret |= d->override;
     }
   return ret;
@@ -2564,19 +2623,22 @@ use_markup (GtkWidget * widget)
 }
 
 #ifdef FAKE_TOOLTIPS
- static GtkWidget *TooltipDialog = NULL;
+static GtkWidget *TooltipDialog = NULL;
 static gboolean not_wanted = TRUE;
 static gboolean not_wanted_in_this_session = FALSE;
 
-static gboolean no_longer_wanted (GtkWidget *w)
+static gboolean
+no_longer_wanted (GtkWidget * w)
 {
-   not_wanted = TRUE;
-   if(Denemo.prefs.newbie)
+  not_wanted = TRUE;
+  if (Denemo.prefs.newbie)
     not_wanted_in_this_session = FALSE;
-   TooltipDialog = NULL;
-   return FALSE; 
+  TooltipDialog = NULL;
+  return FALSE;
 }
-gboolean show_tooltip (GtkWidget *w, GdkEvent *ev, gchar *text)
+
+gboolean
+show_tooltip (GtkWidget * w, GdkEvent * ev, gchar * text)
 {
   static gchar *last_tooltip;
   if (Denemo.prefs.newbie)
@@ -2585,29 +2647,31 @@ gboolean show_tooltip (GtkWidget *w, GdkEvent *ev, gchar *text)
     return FALSE;
   if (not_wanted_in_this_session)
     return FALSE;
-  
+
   if (text && (*text) && (last_tooltip != text))
-       {
-           if (TooltipDialog)
-                {
-                    gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (TooltipDialog), text);
-                    gtk_widget_show (TooltipDialog);
-                }
-                else
-                {
-                    TooltipDialog = infodialog (text);
-                    g_signal_connect (G_OBJECT (TooltipDialog), "delete-event", G_CALLBACK (no_longer_wanted), NULL);
-                }
+    {
+      if (TooltipDialog)
+        {
+          gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG (TooltipDialog), text);
+          gtk_widget_show (TooltipDialog);
         }
-    last_tooltip = text;
-        
-    return FALSE;//allow normal response
+      else
+        {
+          TooltipDialog = infodialog (text);
+          g_signal_connect (G_OBJECT (TooltipDialog), "delete-event", G_CALLBACK (no_longer_wanted), NULL);
+        }
+    }
+  last_tooltip = text;
+
+  return FALSE;                 //allow normal response
 }
-void free_tooltip (GtkWidget *w, gchar *tooltip)
+
+void
+free_tooltip (GtkWidget * w, gchar * tooltip)
 {
   //g_print ("Freeing tooltip\n");
-   g_free (tooltip); 
-}  
+  g_free (tooltip);
+}
 #endif
 // Help for beginners using keyboard shortcuts
 static GtkWidget *KeyStrokes;
@@ -2627,18 +2691,21 @@ KeyStrokeDecline (gchar * first_keypress)
   KeyStrokeShow (first_keypress, DENEMO_NO_COMMAND, SingleKey);
 }
 
-void MouseGestureShow (gchar *str, gchar *help, DenemoShortcutType type)
+void
+MouseGestureShow (gchar * str, gchar * help, DenemoShortcutType type)
 {
   gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), help);
   KeyStrokeShow (str, DENEMO_NO_COMMAND, type);
 }
-void KeyPlusMouseGestureShow(gchar *str, gint command_idx)
+
+void
+KeyPlusMouseGestureShow (gchar * str, gint command_idx)
 {
   const gchar *label = lookup_label_from_idx (Denemo.map, command_idx);
   const gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, command_idx);
   gchar *text = g_strdup_printf (_("Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
-            
-  gtk_window_set_title (GTK_WINDOW (KeyStrokes),  _("Mouse Shortcut"));
+
+  gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Mouse Shortcut"));
   gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
   gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), tooltip);
   g_free (text);
@@ -2664,20 +2731,19 @@ KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
             {
               text = g_strdup_printf (_("Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span>" " invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
             }
-          gtk_window_set_title (GTK_WINDOW (KeyStrokes), type==SingleKey ? _("Single Key Press") : _("Two Key Presses"));
+          gtk_window_set_title (GTK_WINDOW (KeyStrokes), type == SingleKey ? _("Single Key Press") : _("Two Key Presses"));
           gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
           gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), tooltip);
           g_free (text);
         }
-      else // no command
+      else                      // no command
         {
-          switch (type) {
+          switch (type)
+            {
             case SingleKey:
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Key Press"));
               gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
-              text = g_strdup_printf (_("Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str,
-              (Denemo.project->view != DENEMO_MENU_VIEW)?
-              _("(The menus are now restored in case you are lost.)"):"");
+              text = g_strdup_printf (_("Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str, (Denemo.project->view != DENEMO_MENU_VIEW) ? _("(The menus are now restored in case you are lost.)") : "");
               break;
             case TwoKey:
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("First Key Press"));
@@ -2693,9 +2759,9 @@ KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
               text = g_strdup_printf (_("Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"), str);
               break;
             default:
-              g_warning("bad call");
+              g_warning ("bad call");
               return;
-          }
+            }
           gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
           g_free (text);
         }
@@ -2718,13 +2784,13 @@ initialize_keystroke_help (void)
     {
       KeyStrokes = gtk_window_new (GTK_WINDOW_TOPLEVEL);
       g_signal_connect (G_OBJECT (KeyStrokes), "delete-event", G_CALLBACK (toggle_show_keystroke_preference), NULL);
-      gtk_window_set_transient_for (GTK_WINDOW(KeyStrokes), GTK_WINDOW(Denemo.window));
+      gtk_window_set_transient_for (GTK_WINDOW (KeyStrokes), GTK_WINDOW (Denemo.window));
       gtk_window_set_keep_above (GTK_WINDOW (KeyStrokes), TRUE);
       gtk_window_set_accept_focus (GTK_WINDOW (KeyStrokes), FALSE);
       KeyStrokeLabel = gtk_label_new ("");
       //gtk_label_set_line_wrap (KeyStrokeLabel, TRUE);
       KeyStrokeHelp = gtk_label_new ("");
-      gtk_label_set_line_wrap (GTK_LABEL(KeyStrokeHelp), TRUE);
+      gtk_label_set_line_wrap (GTK_LABEL (KeyStrokeHelp), TRUE);
       GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
       gtk_container_add (GTK_CONTAINER (KeyStrokes), vbox);
       gtk_box_pack_start (GTK_BOX (vbox), KeyStrokeLabel, FALSE, TRUE, 0);
@@ -2744,25 +2810,25 @@ initialize_keystroke_help (void)
  *
  * Returns: The dir path if found, NULL either
  **/
-gchar*
-find_dir_for_file(gchar* filename, GList* dirs)
+gchar *
+find_dir_for_file (gchar * filename, GList * dirs)
 {
   gchar *dir = NULL;
   gchar *path = NULL;
-  GList* curdir = NULL;
+  GList *curdir = NULL;
 
-  for(curdir = dirs ; curdir ; curdir = g_list_next(curdir))
-  {
-    if(!dir)
+  for (curdir = dirs; curdir; curdir = g_list_next (curdir))
     {
-      path = g_build_filename (curdir->data, filename, NULL);
-      if(g_file_test (path, G_FILE_TEST_EXISTS))
-          dir = g_strdup(curdir->data); //even though found, the loop is continued to clear the list of dirs
-     // else here causes a memory leak as path is not used hereafter
-      g_free(path);
+      if (!dir)
+        {
+          path = g_build_filename (curdir->data, filename, NULL);
+          if (g_file_test (path, G_FILE_TEST_EXISTS))
+            dir = g_strdup (curdir->data);      //even though found, the loop is continued to clear the list of dirs
+          // else here causes a memory leak as path is not used hereafter
+          g_free (path);
+        }
+      g_free (curdir->data);
     }
-    g_free(curdir->data);
-  }
   return dir;
 }
 
@@ -2775,28 +2841,28 @@ find_dir_for_file(gchar* filename, GList* dirs)
  *
  * Returns: The dir path if found, NULL either
  **/
-gchar*
-find_dir_for_files(GList* files, GList* dirs)
+gchar *
+find_dir_for_files (GList * files, GList * dirs)
 {
   gchar *dir = NULL;
   gchar *path = NULL;
-  GList* curdir = NULL;
-  GList* curfile = NULL;
+  GList *curdir = NULL;
+  GList *curfile = NULL;
 
-  for(curdir = dirs; curdir; curdir = g_list_next(curdir))
-  {
-    for(curfile = files; curfile; curfile = g_list_next(curfile))
+  for (curdir = dirs; curdir; curdir = g_list_next (curdir))
     {
-      if(!dir)
-      {
-        path = g_build_filename (curdir->data, curfile->data, NULL);
-        if(g_file_test (path, G_FILE_TEST_EXISTS))
-          dir = g_strdup(curdir->data);
-        g_free(path);
-      }
+      for (curfile = files; curfile; curfile = g_list_next (curfile))
+        {
+          if (!dir)
+            {
+              path = g_build_filename (curdir->data, curfile->data, NULL);
+              if (g_file_test (path, G_FILE_TEST_EXISTS))
+                dir = g_strdup (curdir->data);
+              g_free (path);
+            }
+        }
+      g_free (curdir->data);
     }
-    g_free(curdir->data);
-  }
   return dir;
 }
 
@@ -2809,91 +2875,103 @@ find_dir_for_files(GList* files, GList* dirs)
  *
  * Returns: The file path if found, NULL either
  **/
-gchar*
-find_path_for_file(gchar* filename, GList* dirs)
+gchar *
+find_path_for_file (gchar * filename, GList * dirs)
 {
-  gchar* dir = find_dir_for_file (filename, dirs);
-  if(dir){
-    gchar* path = g_build_filename(dir, filename, NULL);
-    g_free(dir);
-    return path;
-  }
+  gchar *dir = find_dir_for_file (filename, dirs);
+  if (dir)
+    {
+      gchar *path = g_build_filename (dir, filename, NULL);
+      g_free (dir);
+      return path;
+    }
   return NULL;
 }
+
 gchar *
-get_project_dir (void) {
-    if(Denemo.project && Denemo.project->filename->len)
-        {
-            return g_path_get_dirname (Denemo.project->filename->str);
-        }
-    return g_strdup(g_get_home_dir ());
-}
-const gchar*
-get_local_dir(DenemoDirectory dir)
+get_project_dir (void)
 {
-  switch(dir)
-  {
-    case DENEMO_DIR_COMMANDS:   return COMMANDS_DIR;
-    case DENEMO_DIR_UI:         return UI_DIR;
-    case DENEMO_DIR_SOUNDFONTS: return SOUNDFONTS_DIR;
-    case DENEMO_DIR_PIXMAPS:    return PIXMAPS_DIR;
-    case DENEMO_DIR_FONTS:      return FONTS_DIR;
-    case DENEMO_DIR_LOCALE:     return LOCALE_DIR;
-    case DENEMO_DIR_LILYPOND_INCLUDE:     return LILYPOND_INCLUDE_DIR;
-    default:         return NULL;
-  }
+  if (Denemo.project && Denemo.project->filename->len)
+    {
+      return g_path_get_dirname (Denemo.project->filename->str);
+    }
+  return g_strdup (g_get_home_dir ());
 }
 
-gchar*
-get_system_dir(DenemoDirectory dir)
+const gchar *
+get_local_dir (DenemoDirectory dir)
 {
-  switch(dir)
-  {
+  switch (dir)
+    {
+    case DENEMO_DIR_COMMANDS:
+      return COMMANDS_DIR;
+    case DENEMO_DIR_UI:
+      return UI_DIR;
+    case DENEMO_DIR_SOUNDFONTS:
+      return SOUNDFONTS_DIR;
+    case DENEMO_DIR_PIXMAPS:
+      return PIXMAPS_DIR;
+    case DENEMO_DIR_FONTS:
+      return FONTS_DIR;
+    case DENEMO_DIR_LOCALE:
+      return LOCALE_DIR;
+    case DENEMO_DIR_LILYPOND_INCLUDE:
+      return LILYPOND_INCLUDE_DIR;
+    default:
+      return NULL;
+    }
+}
+
+gchar *
+get_system_dir (DenemoDirectory dir)
+{
+  switch (dir)
+    {
     case DENEMO_DIR_COMMANDS:
     case DENEMO_DIR_UI:
     case DENEMO_DIR_SOUNDFONTS:
     case DENEMO_DIR_FONTS:
     case DENEMO_DIR_LILYPOND_INCLUDE:
-      return g_build_filename(get_system_data_dir (), get_local_dir(dir), NULL);
+      return g_build_filename (get_system_data_dir (), get_local_dir (dir), NULL);
     case DENEMO_DIR_PIXMAPS:
-      return g_build_filename(get_system_data_dir (), PIXMAPS_DIR, NULL);
+      return g_build_filename (get_system_data_dir (), PIXMAPS_DIR, NULL);
       break;
     case DENEMO_DIR_LOCALE:
-      return g_strdup(get_system_locale_dir ());
+      return g_strdup (get_system_locale_dir ());
       break;
     case DENEMO_DIR_BIN:
-      return g_strdup(get_system_bin_dir ());
+      return g_strdup (get_system_bin_dir ());
       break;
     default:
       return NULL;
-  }
+    }
 }
 
-const gchar*
+const gchar *
 get_executable_dir ()
 {
-  static const gchar* dir = NULL;
-  if(dir == NULL)
-  {
-    char path[1024];
-    gint n;
+  static const gchar *dir = NULL;
+  if (dir == NULL)
+    {
+      char path[1024];
+      gint n;
 #ifdef G_OS_WIN32
-    GetModuleFileNameW(NULL, path, MAX_PATH);
+      GetModuleFileNameW (NULL, path, MAX_PATH);
 
 #elif defined _MACH_O_
-    guint size = sizeof (path);
-    _NSGetExecutablePath (path, &size);
+      guint size = sizeof (path);
+      _NSGetExecutablePath (path, &size);
 
 #else
-   if ((n=readlink("/proc/self/exe", path, sizeof(path))) < 0)
-   {
-    perror("/proc/self/exe");
-    return NULL;
-   }
-   path[n] = 0;
+      if ((n = readlink ("/proc/self/exe", path, sizeof (path))) < 0)
+        {
+          perror ("/proc/self/exe");
+          return NULL;
+        }
+      path[n] = 0;
 #endif
-    dir = g_path_get_dirname(path);
-  }
+      dir = g_path_get_dirname (path);
+    }
   return dir;
 }
 
@@ -2909,65 +2987,71 @@ get_executable_dir ()
  *  - in the system directory
  *  - in the system fonts directory
  **/
-gchar*
-find_denemo_file (DenemoDirectory dir, gchar* filename)
+gchar *
+find_denemo_file (DenemoDirectory dir, gchar * filename)
 {
   //g_debug("find_denemo_file called with %d and %s\n", dir, filename);
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename(PACKAGE_SOURCE_DIR, get_local_dir (dir), NULL));
-  dirs = g_list_append(dirs, g_build_filename(get_executable_dir (), "..", get_local_dir (dir), NULL));
-  dirs = g_list_append(dirs, g_build_filename(get_user_data_dir (TRUE), get_local_dir (dir), NULL));
-  dirs = g_list_append(dirs, g_strdup(get_system_dir(dir)));
-  dirs = g_list_append(dirs, g_build_filename(get_executable_dir (), "..", "share","fonts","truetype","denemo", NULL));
+  GList *dirs = NULL;
+  dirs = g_list_append (dirs, g_build_filename (PACKAGE_SOURCE_DIR, get_local_dir (dir), NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_executable_dir (), "..", get_local_dir (dir), NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_user_data_dir (TRUE), get_local_dir (dir), NULL));
+  dirs = g_list_append (dirs, g_strdup (get_system_dir (dir)));
+  dirs = g_list_append (dirs, g_build_filename (get_executable_dir (), "..", "share", "fonts", "truetype", "denemo", NULL));
   return find_path_for_file (filename, dirs);
 }
 
-gchar *escape_scheme (gchar *input)
+gchar *
+escape_scheme (gchar * input)
 {
-    gchar *c = input -1;
-    GString *out = g_string_new("");
-       for(c=input; c && *c; c++)
+  gchar *c = input - 1;
+  GString *out = g_string_new ("");
+  for (c = input; c && *c; c++)
+    {
+      if (*c == '"')
+        g_string_append (out, "\\\\\\\"");
+      else if (*c == '\\')
+        g_string_append (out, "\\\\");
+      else
         {
-            if(*c=='"')
-                g_string_append (out, "\\\\\\\""); 
-            else
-                if(*c=='\\')
-                    g_string_append(out, "\\\\");
-                else 
-                {
-                    g_string_append_printf (out, "%c", *c);
-                }
+          g_string_append_printf (out, "%c", *c);
         }
-    return g_string_free(out, FALSE); 
+    }
+  return g_string_free (out, FALSE);
 }
 
-gboolean shift_held_down(void) 
-    {
-        GdkModifierType mask;
-        GdkWindow *win = gtk_widget_get_window (Denemo.window);
+gboolean
+shift_held_down (void)
+{
+  GdkModifierType mask;
+  GdkWindow *win = gtk_widget_get_window (Denemo.window);
 #if GTK_MAJOR_VERSION == 2
-        gdk_window_get_pointer (win, NULL, NULL, &mask);
+  gdk_window_get_pointer (win, NULL, NULL, &mask);
 #else
-        gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager(gdk_display_get_default())) ,NULL, NULL, &mask);
-#endif        
-        return (mask & GDK_SHIFT_MASK);
-    }
-    
-    
+  gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_display_get_default ())), NULL, NULL, &mask);
+#endif
+  return (mask & GDK_SHIFT_MASK);
+}
+
+
 #if GTK_MAJOR_VERSION == 2
 #define GdkRGBA GdkColor
 #define gtk_widget_override_color gtk_widget_modify_fg
 #define gtk_widget_override_background_color gtk_widget_modify_bg
 #define GTK_STATE_FLAG_NORMAL (0)
-void get_color (GdkColor *color, gdouble r, gdouble g, gdouble b, gdouble a) {
-    gchar *col = g_strdup_printf ( "#%02x%02x%02x", (gint)(r*254),(gint)(g*254),(gint)(b*254));
-    gdk_color_parse (col, color);
-    g_free(col);
+void
+get_color (GdkColor * color, gdouble r, gdouble g, gdouble b, gdouble a)
+{
+  gchar *col = g_strdup_printf ("#%02x%02x%02x", (gint) (r * 254), (gint) (g * 254), (gint) (b * 254));
+  gdk_color_parse (col, color);
+  g_free (col);
 }
 #else
-void get_color (GdkRGBA *color, gdouble r, gdouble g, gdouble b, gdouble a) {
-            color->red = r; color->green = g;
-            color->blue = b; 
-            color->alpha = a;
-            }
-#endif 
+void
+get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a)
+{
+  color->red = r;
+  color->green = g;
+  color->blue = b;
+  color->alpha = a;
+}
+#endif

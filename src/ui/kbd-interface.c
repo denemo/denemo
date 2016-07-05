@@ -2,7 +2,7 @@
  *  functions for implementing the customize keyboard dialog
  *
  *  for Denemo, thu GNU graphical music notation editor
- *  (c) 2000-2005 Matthew Hiller 
+ *  (c) 2000-2005 Matthew Hiller
  */
 
 #include <config.h>
@@ -29,10 +29,10 @@ get_command_position(GtkTreeModel* model, gint command_idx){
   command_row* row2 = NULL;
   gint i = 0;
   GtkTreeIter iter;
-  
+
   valid = gtk_tree_model_get_iter_first (model, &iter);
   keymap_get_command_row(Denemo.map, &row2, command_idx);
-  
+
   while (valid){
     gtk_tree_model_get (model, &iter, COL_ROW, &row1, -1);
     if(row1 && row1 == row2)
@@ -129,7 +129,7 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
   keymap_get_command_row (Denemo.map, &row, command_idx);
   GtkListStore* bindings_model = GTK_LIST_STORE(gtk_tree_view_get_model(cbdata->binding_view));
   update_bindings_model(bindings_model, row->bindings);
-  
+
   gtk_statusbar_pop (cbdata->statusbar, cbdata->context_id);
   g_signal_handler_disconnect (GTK_WIDGET (widget), cbdata->handler_key_press);
   g_signal_handler_disconnect (GTK_WIDGET (widget), cbdata->handler_focus_out);
@@ -156,7 +156,7 @@ capture_look_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_dat
 
   //look for the keybinding
   command_idx = lookup_command_for_keybinding (Denemo.map, event->keyval, modifiers);
-  //if the binding is associated to a command 
+  //if the binding is associated to a command
   if (command_idx == -1)
     {
       gchar *name = dnm_accelerator_name (event->keyval, event->state);
@@ -262,7 +262,7 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
     return;
   //else get the binding and remove it
   gtk_tree_model_get (model, &iter, 0, &binding, -1);
-  
+
   gint command_id_ptr = lookup_command_for_keybinding_name(Denemo.map, binding);
   remove_keybinding_from_name (Denemo.map, binding);
 
@@ -270,7 +270,7 @@ kbd_interface_del_binding (G_GNUC_UNUSED GtkButton * button, gpointer user_data)
     if(keymap_get_command_row (Denemo.map, &row, command_id_ptr))
       update_bindings_model(GTK_LIST_STORE(model), row->bindings);
   }
-  else 
+  else
     g_debug("Cannot find command to delete.\n");
   g_free (binding);
   Denemo.accelerator_status = TRUE;
@@ -301,7 +301,7 @@ add_current_to_palette (keyboard_dialog_data *data)
   selection = gtk_tree_view_get_selection (data->command_view);
   gtk_tree_selection_get_selected (selection, &model, &iter);
   gtk_tree_model_get (model, &iter, COL_NAME, &cname, -1);
-  gint command_idx = lookup_command_from_name (Denemo.map, cname);  
+  gint command_idx = lookup_command_from_name (Denemo.map, cname);
   place_action_in_palette (command_idx, NULL);
 }
 
@@ -346,14 +346,14 @@ static void
 load_system_keymap_dialog_response (void)
 {
   load_system_keymap_dialog ();
-  
+
 }
 
 static void
 load_keymap_dialog_response (void)
 {
   load_keymap_dialog ();
-  
+
 }
 
 static GtkWidget *SearchEntry = NULL;
@@ -441,7 +441,7 @@ setMouseAction (ModifierAction * info)
     }
   if (current_action == NULL || confirm (title, prompt))
     {
-      remove_keybinding_from_name (Denemo.map, modname->str);   //by_name 
+      remove_keybinding_from_name (Denemo.map, modname->str);   //by_name
       const gchar *name = gtk_action_get_name (info->action);
       command_idx = lookup_command_from_name (Denemo.map, name);
       if (command_idx >= 0)
@@ -509,7 +509,7 @@ mouse_shortcut_dialog (ModifierAction * info)
   g_signal_connect (G_OBJECT (widget), "button-release-event", G_CALLBACK (button_modifier_callback), info);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
 
-  
+
 
   gtk_window_set_modal (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
@@ -551,12 +551,12 @@ static void createMouseShortcut_from_data (keyboard_dialog_data *data) {
 static gboolean search_entry_character (GtkWidget *entry,  GdkEventKey *event)
 {
    gint key = event->keyval;
-   if ((key == GDK_KEY_Tab) || (event->keyval == GDK_KEY_Return)) 
+   if ((key == GDK_KEY_Tab) || (event->keyval == GDK_KEY_Return))
     { //transform into spaces
         event->keyval = GDK_KEY_space;
         event->hardware_keycode = 0x41;
     }
-  return FALSE;  
+  return FALSE;
 }
 
 
@@ -589,14 +589,14 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   GtkTreeModel *model;
   GtkTreePath *path;
   guint context_id;
- 
+
   if(Denemo.command_manager)   {
       model = gtk_tree_view_get_model (GTK_TREE_VIEW (cbdata.command_view));
       if (command_idx == -1)
         {
         //selecting the first command
         gtk_tree_model_get_iter_first (model, &iter);
-        } 
+        }
       else
         {
       gint pos = get_command_position(model, command_idx);
@@ -642,13 +642,13 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   outer_hbox = gtk_hbox_new (FALSE, 8);
   gtk_container_add (GTK_CONTAINER (Denemo.command_manager), outer_hbox);
   vbox = gtk_vbox_new (FALSE, 8);
-   
-  
+
+
 
   gtk_container_set_border_width (GTK_CONTAINER (vbox), 12);
   gtk_box_pack_start (GTK_BOX (outer_hbox), vbox, TRUE, TRUE, 0);
 
-    
+
   frame = gtk_frame_new (_("Help for Selected Command"));
   gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
   gtk_widget_set_size_request (frame, -1, 200);
@@ -660,8 +660,8 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   gtk_container_add (GTK_CONTAINER (scrolled_text_view), text_view);
   gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_text_view), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
   gtk_container_add (GTK_CONTAINER (frame), scrolled_text_view);
-  
-  
+
+
 
   {
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
@@ -673,17 +673,17 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   GtkWidget *label = gtk_label_new ("");
   gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
   gtk_label_set_markup (GTK_LABEL (label), _("List of shortcuts\nfor <i>selected</i> command\nfrom table on left.\nSelect a shortcut\nto remove\nwith button below."));
-  
+
   gtk_box_pack_start (GTK_BOX (inner_vbox), label,  TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (inner_vbox), binding_view,  FALSE, TRUE, 0);
   delbutton = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
     gtk_box_pack_start (GTK_BOX (inner_vbox), delbutton, FALSE, TRUE, 0);
 }
   }
- 
+
   vbox = gtk_vbox_new (FALSE, 8);
   gtk_box_pack_end (GTK_BOX (outer_hbox), vbox, FALSE, TRUE, 0);
-  
+
    {
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
@@ -703,7 +703,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
     gtk_box_pack_start (GTK_BOX (inner_hbox), button_load_from, FALSE, TRUE, 0);
 
    }
-  
+
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
     GtkWidget *inner_vbox = gtk_vbox_new (FALSE, 1);
@@ -736,10 +736,10 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   g_signal_connect_swapped (G_OBJECT (execute_button), "clicked", G_CALLBACK (execute_current), &cbdata);
   g_signal_connect_swapped (G_OBJECT (palette_button), "clicked", G_CALLBACK (add_current_to_palette), &cbdata);
 
-  
-  
-  
-  
+
+
+
+
   statusbar = gtk_statusbar_new ();
   context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (statusbar), "");
   //FIXME gtk_statusbar_set_has_resize_grip(GTK_STATUSBAR(statusbar), FALSE);
@@ -797,7 +797,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   g_signal_connect (G_OBJECT (button_save_as), "clicked", G_CALLBACK (save_keymap_dialog), NULL);
   g_signal_connect (G_OBJECT (button_load), "clicked", G_CALLBACK (load_system_keymap_dialog_response), NULL);
   g_signal_connect (G_OBJECT (button_load_from), "clicked", G_CALLBACK (load_keymap_dialog_response), NULL);
- 
+
   gtk_widget_show_all (Denemo.command_manager);
   g_signal_connect (Denemo.command_manager, "delete-event", G_CALLBACK (keymap_cleanup_command_view), &cbdata);
 }

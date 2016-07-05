@@ -1,7 +1,7 @@
 ;;;DuplicateOrMergeMovements
 (if (d-GetSaved)
     (let ((timesig (d-InitialTimeSig "query=timesigname"))
-            (keysig (d-GetPrevailingKeysigAsLilyPond)) 
+            (keysig (d-InitialKey "query=keysigname")) 
             (choice (RadioBoxMenu (cons (_ "Duplicate Movement") 'dup) (cons (_ "Merge with Previous Movement") 'merge))))
         
         (d-SelectAll)
@@ -31,6 +31,6 @@
                     (d-InitialTimeSig timesig)
                     (d-InitialKey keysig)
                     (d-Paste)
-            	   (d-DecreaseGuard)))
+                   (d-DecreaseGuard)))
             (d-InfoDialog (_ "Cancelled"))))
     (d-WarningDialog (_ "Score is not saved")))

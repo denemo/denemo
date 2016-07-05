@@ -7007,7 +7007,7 @@ then this will replace the standard ornament throughout the score.</_tooltip>
         <after>RehearsalMark</after>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
         <_label>Add Mark (Text/Rehearsal/Book)</_label>
-        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once (above the top part) in the score (provided they occur at the same moment in each part). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed.</_tooltip>
+        <_tooltip>Inserts a Mark in the score at the cursor. Marks can be placed in each part and will appear only once (above the top part) in the score (provided they occur at the same moment in each part and are identical). Any size, font, effect can be chosen. A preview button allows you to check the appearance/syntax used. The text position can be dragged in the print view if needed. If there is any slight difference in the text of multiple text marks at the same moment a warning will be given on manually typesetting the score, to avoid this copy and paste or clone the mark you want to place in each part.</_tooltip>
       </row>
       <row type="scheme">
         <action>CustomBarline</action>
@@ -7869,6 +7869,41 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Create/Populate Click Staff</_label>
         <_tooltip>Creates a staff at the top as a click track. Suggests a pattern of drum beats for the first bar, and offers to copy these to the following bars. The cursor height determines which drum sounds are suggested from the General MIDI set. Invoked in a click track it will copy your own set of drum beats to subsequent (empty) measures.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>FillUpMeasure</action>
+        <after>FillMeasure</after>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Duplicate to Fill Measure</_label>
+        <_tooltip>Duplicates the notes in the current measure until the measure is full or over-full. If already full, duplicates the current measure.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SimpleChapter</action>
+        <after>ScoreTitle</after>
+        <menupath>/ObjectMenu/Score/Titles/SimpleTitles</menupath>
+        <_label>Book Chapter</_label>
+        <_tooltip>Asks for a Chapter Title and end movement number. Makes the current movement the start of a chapter which ends at a later movement.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CreateButtonForObject</action>
+        <after>UnhidePalettes</after>
+        <menupath>/MainMenu/ViewMenu/Palettes</menupath>
+        <_label>Create Button for Object</_label>
+        <_tooltip>Creates a palette button to insert a clone of the object at the cursor when the button is pressed.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>AlternateNote</action>
+        <after>ChangeEnharmonicDown</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Alternate Note</_label>
+        <_tooltip>If there are two notes at the cursor height this command swaps them round. This affects which note will be acted on by commands such as fingering, string-number, sharpen, flatten etc.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Vibrato</action>
+        <after>Glissando</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <_label>Vibrato</_label>
+        <_tooltip>Start or Stop a wavy line above the notes. The waves can be made longer/shorter via the wavelength given and can be made to swell and or diminish, several times if desired by giving one or more amplitudes. </_tooltip>
       </row>
     </map>
   </merge>

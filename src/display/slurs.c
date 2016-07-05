@@ -54,15 +54,15 @@ draw_slur (cairo_t * cr, GSList ** slur_stack, gint x2, gint y, gint y2)
   gint x1 = top_slur_stack_x (*slur_stack);
   gint y1 = top_slur_stack_y (*slur_stack);
   gint dir = (y1+y2>40?-1:1);
-  
-  
+
+
   if (x1 != -1)
     {
       x1 += 6;//over note head
       *slur_stack = pop_slur_stack (*slur_stack);
 
       cairo_set_line_width (cr, 1.0);
-      cairo_move_to (cr, x1, y1 + y - 12 * dir);         
+      cairo_move_to (cr, x1, y1 + y - 12 * dir);
       cairo_rel_curve_to (cr, (x2 - x1) / 3, (y2 - y1 - 5* dir)*1/3 -8 * dir, (x2 - x1) * 2 / 3, (y2 - y1 - 5* dir)*2/3 - 8* dir, (x2 - x1), y2 - y1 - 5* dir);
       cairo_stroke (cr);
     }

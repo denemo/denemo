@@ -64,7 +64,7 @@ draw_hairpin (cairo_t * cr, GSList ** hairpin_stack, gint x2, gint y, gint dir)
   cairo_set_line_width (cr, 1.0);
  // allow drawing from off window
     {
-     
+
       if (x1 == x2)
         x2 += 5;
       if (dir)

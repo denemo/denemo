@@ -4285,19 +4285,42 @@ You should make palettes your best friend - when you find a command in the
 \end_layout
 
 \begin_layout Standard
-Palette buttons can also be created directly from objects so that you can
- create more of them in your score; if you run Help->Open Feature Packed
- Score and find the type of object or attribute you need there then you
- can run the Object Editor on it and create a palette button for installing
- the same thing in your own score.
- See the Object Editor
+Palette buttons can also be created directly from objects or Denemo Directives
+ so that you can duplicate them in your score without having to copy and
+ paste.
+ So, for example if you run Help->Open Feature Packed Score and find the
+ type of object or attribute you need there then you can run the Object
+ Inspector or one of the editors on it and create a palette button for installin
+g the same thing in your own score.
+ See the sections 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Object-Inspector"
+
+\end_inset
+
+
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:Object-Editor"
 
 \end_inset
 
- for more details.
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Score-and"
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Staff-and"
+
+\end_inset
+
+for more details.
 \end_layout
 
 \begin_layout Standard
@@ -5806,8 +5829,27 @@ Inspect the next note in chord
 \begin_inset Quotes erd
 \end_inset
 
- which will work upwards through the notes before wrapping round to start
- at the lowest note.
+ which will work upwards through the distinct notes before wrapping round
+ to start at the lowest note.
+ Where a chord has two notes with the same note-name
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Doubled Chord Notes
+\end_layout
+
+\end_inset
+
+ the button labelled 
+\begin_inset Quotes eld
+\end_inset
+
+Alternate note at cursor
+\begin_inset Quotes erd
+\end_inset
+
+ can be used to inspect the other one.
 \end_layout
 
 \begin_layout Standard
@@ -5865,6 +5907,22 @@ reference "sec:Object-Editor"
 
  on the current object, which allows you to modify or delete the property
  you are interested in.
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+Create Button for Clone
+\begin_inset Quotes erd
+\end_inset
+
+ button will let you create a palette button that can thereafter be used
+ to insert a duplicate of the object any desired position in the score.
+ This means that a complex marking or a chord with its fingerings, ornaments
+ etc can be created once and then inserted elsewhere, even in other scores
+ by invoking that button.
 \end_layout
 
 \begin_layout Standard
@@ -5955,12 +6013,31 @@ Chord
 
 ) to move through the notes of a chord so as to allow editing the detail
  of each note.
- 
+ Where a chord has two notes with the same note-name
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Doubled Chord Notes
+\end_layout
+
+\end_inset
+
+ the button labelled 
+\begin_inset Quotes eld
+\end_inset
+
+Alternate note
+\begin_inset Quotes erd
+\end_inset
+
+ can be used to edit the other one.
 \end_layout
 
 \begin_layout Standard
 In the example the cursor is on a chord which has a trill on it.
- Within the chord it is on the note C-natural which has a fingering on it.
+ Within the chord it is on the note C-natural which has a fingering on it
+ for finger 3.
  These are the Denemo Directives attached to the chord and note - there
  can be even more.
 \end_layout
@@ -6128,6 +6205,30 @@ reference "sec:The-Score-Layouts"
 \end_layout
 
 \begin_layout Subsubsection
+Making the Directive Conditional
+\end_layout
+
+\begin_layout Standard
+The conditional button allows you to designate certain score layouts (e.g.
+ typesetting just one part, or one movement) as ones for which this directive
+ is active or ones which ignore the directive.
+ So if the full score is wanted without fingerings then by clicking this
+ button with the full score as the currently typeset layout the fingering
+ directive can be designated as ignored by that layout.
+ Further examples can be searched and similarly marked in the dialog that
+ follows.
+\end_layout
+
+\begin_layout Subsubsection
+Making a Copy of the Directive
+\end_layout
+
+\begin_layout Standard
+This button copies the directive to the clipboard - it can then be pasted
+ by moving the cursor elsewhere and invoking the paste command.
+\end_layout
+
+\begin_layout Subsubsection
 Creating Palette Buttons for Objects and Properties.
 \end_layout
 
@@ -6216,7 +6317,7 @@ name "sec:The-Score-and"
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/ScorePropsEditor.png
-	scale 70
+	scale 65
 
 \end_inset
 
@@ -6290,6 +6391,71 @@ reference "sec:Object-Editor"
 , this editor is 
 \emph on
 modal.
+\end_layout
+
+\begin_layout Standard
+In addition to the buttons described for the Object Editor
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Object-Editor"
+
+\end_inset
+
+there is a button to create a duplicate
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Duplicate Directives
+\end_layout
+
+\end_inset
+
+ of the directive.
+ The purpose of this is to have two versions of some setting (e.g.
+ the indent for the first staff) which are used for different score layouts
+ - a full score may require a larger indent than an individual part.
+ If you make the duplicate conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directive
+\end_layout
+
+\end_inset
+
+ on one layout, then it is good practice to make the original conditionally
+ 
+\emph on
+ignored
+\emph default
+ by the same layout, rather than relying on it overriding the earlier directive.
+ 
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note that the command that created the directive you have duplicated will
+ only edit the original directive, not the duplicate.
+ So if you want to change it you can either use the Advanced edit button
+ or delete and re-create it with the different value desired.
+ (And then return to the value desired for the original copy of the directive).
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -6506,7 +6672,20 @@ reference "sec:Object-Editor"
 
 , this editor is 
 \emph on
-modal.
+modal, 
+\emph default
+and as with the Score/Movements and Staff/Voices editors there are facilities
+ to make duplicate directives for conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directive
+\end_layout
+
+\end_inset
+
+ use in the various layouts you may need.
 \end_layout
 
 \begin_layout Section
@@ -8416,7 +8595,37 @@ Alt-b
 \family default
 ...
  are the standard shortcuts for this.
- 
+ When a chord should have two notes on the same line or space
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Doubled Chord Notes
+\end_layout
+
+\end_inset
+
+ the same keypress can be used to enter it, however selecting which note
+ to edit can be tricky.
+ The easy way is to use the Object Inspector
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Object Inspector
+\end_layout
+
+\end_inset
+
+'s 
+\begin_inset Quotes eld
+\end_inset
+
+Alternate note at cursor
+\begin_inset Quotes erd
+\end_inset
+
+ button to make the note you want accessible for editing.
 \end_layout
 
 \begin_layout Subsubsection

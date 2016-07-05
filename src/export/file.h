@@ -1,7 +1,7 @@
 /* file.h
  * prototypes for file I/O routines
- * 
- * for Denemo, a gtk+ frontend to GNU Lilypond 
+ *
+ * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000, 2001, Adam Tee
  * (c) 2000, 2001, University of Leeds
  */

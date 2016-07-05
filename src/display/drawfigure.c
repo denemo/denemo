@@ -1,8 +1,8 @@
-/* drawfigure.cpp 
+/* drawfigure.cpp
  *
  * function to display Figured Bass figures on score
- * for Denemo, a gtk+ frontend to GNU Lilypond 
- * 
+ * for Denemo, a gtk+ frontend to GNU Lilypond
+ *
  * (c) 2003-2005 Richard Shann <richard.shann@virgin.net>
  */
 

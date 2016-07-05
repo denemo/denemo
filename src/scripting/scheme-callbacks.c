@@ -32,28 +32,31 @@
 #include "source/source.h"
 #include "source/sourceaudio.h"
 
-SCM 
-scheme_call_callback (SCM optional, callback_function callback) {
-  gboolean query=FALSE;
+SCM
+scheme_call_callback (SCM optional, callback_function callback)
+{
+  gboolean query = FALSE;
   DenemoScriptParam param;
-  GString *gstr=NULL;
+  GString *gstr = NULL;
   int length;
-  char *str=NULL;
-  
-  if(scm_is_string(optional)){
-    str = scm_to_locale_stringn(optional, (size_t *)&length);
-    gstr = g_string_new_len(str, length);
-    if(!strncmp("query",str,5)) query = TRUE;  
-  }
+  char *str = NULL;
+
+  if (scm_is_string (optional))
+    {
+      str = scm_to_locale_stringn (optional, (size_t *) & length);
+      gstr = g_string_new_len (str, length);
+      if (!strncmp ("query", str, 5))
+        query = TRUE;
+    }
   param.string = gstr;
   param.status = FALSE;
 
   callback (NULL, &param);
-  if(param.status && query) 
-    return scm_from_locale_string (gstr->str);  
-  if(gstr) 
-    g_string_free(gstr, TRUE);
-  return SCM_BOOL(param.status);
+  if (param.status && query)
+    return scm_from_locale_string (gstr->str);
+  if (gstr)
+    g_string_free (gstr, TRUE);
+  return SCM_BOOL (param.status);
 }
 
 SCM ReturnValue = SCM_BOOL_F;
@@ -136,60 +139,64 @@ scheme_popup_menu (SCM list)
     }
   return ReturnValue;
 }
-static void toggle_value (gboolean *value)
+
+static void
+toggle_value (gboolean * value)
 {
-   *value = !*value; 
+  *value = !*value;
 }
 
-void check_all (GtkWidget *button) {
-    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
-    for (;children; children=children->next)
-        {
-            GtkWidget *child = children->data;
-            if (GTK_IS_CHECK_BUTTON (child))
-                gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), TRUE);
-        }
+void
+check_all (GtkWidget * button)
+{
+  GList *children = gtk_container_get_children ((GtkContainer *) gtk_widget_get_parent (button));
+  for (; children; children = children->next)
+    {
+      GtkWidget *child = children->data;
+      if (GTK_IS_CHECK_BUTTON (child))
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), TRUE);
+    }
 }
-    
-void uncheck_all (GtkWidget *button) {
-    GList *children = gtk_container_get_children (gtk_widget_get_parent (button));
-    for (;children; children=children->next)
-        {
-            GtkWidget *child = children->data;
-            if (GTK_IS_CHECK_BUTTON (child))
-               gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), FALSE);
-        }
-}    
-    
+
+void
+uncheck_all (GtkWidget * button)
+{
+  GList *children = gtk_container_get_children ((GtkContainer *) gtk_widget_get_parent (button));
+  for (; children; children = children->next)
+    {
+      GtkWidget *child = children->data;
+      if (GTK_IS_CHECK_BUTTON (child))
+        gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (child), FALSE);
+    }
+}
+
 SCM
 scheme_check_boxes (SCM list, SCM title)
 {
-  gchar *thetitle = scm_is_string (title)?
-            scm_to_locale_string (title) :
-            _("Set Values");
+  gchar *thetitle = scm_is_string (title) ? scm_to_locale_string (title) : _("Set Values");
   GtkWidget *dialog = gtk_dialog_new_with_buttons (thetitle,
-                                                 GTK_WINDOW(Denemo.window),
-                                                 GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
-                                                 GTK_STOCK_OK,
-                                                 GTK_RESPONSE_ACCEPT,
-                                                 GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
-                                                 NULL);
+                                                   GTK_WINDOW (Denemo.window),
+                                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                   GTK_STOCK_OK,
+                                                   GTK_RESPONSE_ACCEPT,
+                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                                   NULL);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
- 
+
   if (scm_is_list (list))
     {
       gint i;
       gint length = scm_to_int (scm_length (list));
       gboolean *status;
-      status = (gint*)g_malloc0 (length* sizeof (gboolean));
+      status = (gint *) g_malloc0 (length * sizeof (gboolean));
       GtkWidget *button = gtk_button_new_with_label (_("Check all"));
-      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK(check_all), NULL);
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (check_all), NULL);
       gtk_container_add (GTK_CONTAINER (content_area), button);
       button = gtk_button_new_with_label (_("Un-check all"));
-      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK(uncheck_all), NULL);
+      g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (uncheck_all), NULL);
       gtk_container_add (GTK_CONTAINER (content_area), button);
-      
-      
+
+
       scm_reverse (list);
       for (i = 0; i < length; i++)
         {
@@ -200,38 +207,38 @@ scheme_check_boxes (SCM list, SCM title)
               if (scm_is_string (scm_car (el)) && scm_is_bool (scm_cdr (el)))
                 {
                   label = scm_to_locale_string (scm_car (el));
-                  status[i]  = scm_is_true (scm_cdr (el));
+                  status[i] = scm_is_true (scm_cdr (el));
                 }
               if (label)
                 {
                   GtkWidget *item = gtk_check_button_new_with_label (label);
-                  
-                  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(item), status [i]);
+
+                  gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item), status[i]);
                   gtk_container_add (GTK_CONTAINER (content_area), item);
                   g_signal_connect_swapped (G_OBJECT (item), "toggled", G_CALLBACK (toggle_value), &status[i]);
                 }
-             else
-             {
-              return SCM_BOOL_F;
-            }
-          }
-        }
-        gtk_widget_show_all (dialog);
-        gint result = gtk_dialog_run (GTK_DIALOG (dialog));
-        switch (result)
-          {
-            case GTK_RESPONSE_ACCEPT:
-               for (i = 0; i < length; i++)
+              else
                 {
-                    scm_list_set_x (list, scm_from_int (i), scm_cons (scm_car (scm_list_ref (list, scm_from_int (i))), scm_from_bool (status[i])));
+                  return SCM_BOOL_F;
                 }
-               g_free (status);
-               break;
-            default:
-                gtk_widget_destroy (dialog);
-               return SCM_BOOL_F;
-          }
-        gtk_widget_destroy (dialog);
+            }
+        }
+      gtk_widget_show_all (dialog);
+      gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+      switch (result)
+        {
+        case GTK_RESPONSE_ACCEPT:
+          for (i = 0; i < length; i++)
+            {
+              scm_list_set_x (list, scm_from_int (i), scm_cons (scm_car (scm_list_ref (list, scm_from_int (i))), scm_from_bool (status[i])));
+            }
+          g_free (status);
+          break;
+        default:
+          gtk_widget_destroy (dialog);
+          return SCM_BOOL_F;
+        }
+      gtk_widget_destroy (dialog);
     }
   return list;
 }
@@ -239,194 +246,214 @@ scheme_check_boxes (SCM list, SCM title)
 
 
 SCM
-scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp) 
+scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
 {
-    SCM ret;
-    gchar *name = scm_to_locale_string (palette);
-    gchar *label = scm_to_locale_string (lbl);
-    gchar *tooltip = scm_to_locale_string (tltp);
-    gchar *script = scm_to_locale_string (scrp);
-    
-    DenemoPalette *pal = create_palette (name, FALSE, TRUE);
+  SCM ret;
+  gchar *name = scm_to_locale_string (palette);
+  gchar *label = scm_to_locale_string (lbl);
+  gchar *tooltip = scm_to_locale_string (tltp);
+  gchar *script = scm_to_locale_string (scrp);
 
-    ret = palette_add_button (pal, label, tooltip, script)?SCM_BOOL_T:SCM_BOOL_F;
-    gtk_widget_show_all (gtk_widget_get_parent(pal->box));
-    free(name);
-    free(label);
-    free(tooltip);
-    free(script);
-    return ret;
-}   
+  DenemoPalette *pal = create_palette (name, FALSE, TRUE);
+
+  ret = palette_add_button (pal, label, tooltip, script) ? SCM_BOOL_T : SCM_BOOL_F;
+  gtk_widget_show_all (gtk_widget_get_parent (pal->box));
+  free (name);
+  free (label);
+  free (tooltip);
+  free (script);
+  return ret;
+}
+
 SCM
 scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit)
 {
-    gchar *name = scm_to_locale_string (palette);
-    gboolean horiz = scm_is_true (horizontal);
-    gint lim = scm_to_int (limit);
-    
-    DenemoPalette *pal = create_palette (name, FALSE, horiz);
-    free(name);
-    if (lim>0) {
-        pal->limit = lim;
-        pal->rows = horiz;
-        repack_palette (pal);
-        return SCM_BOOL_T;
+  gchar *name = scm_to_locale_string (palette);
+  gboolean horiz = scm_is_true (horizontal);
+  gint lim = scm_to_int (limit);
+
+  DenemoPalette *pal = create_palette (name, FALSE, horiz);
+  free (name);
+  if (lim > 0)
+    {
+      pal->limit = lim;
+      pal->rows = horiz;
+      repack_palette (pal);
+      return SCM_BOOL_T;
     }
- return SCM_BOOL_F;
-}
-SCM
-scheme_show_palettes (SCM option, SCM show) 
-{
-    if(scm_is_true (option)) 
-        {
-        gchar *name;
-        if(scm_is_string (option))
-           {
-            name = scm_to_locale_string (option);
-            DenemoPalette *pal = get_palette (name);
-                if(pal==NULL)
-                {
-                    mergePalette ((const gchar *)name);
-                    pal = get_palette (name);           
-                }
-                if(pal)
-                {
-                    if (!scm_is_false (show))
-                        {
-                         gtk_widget_show (gtk_widget_get_parent(pal->box));
-                         gtk_widget_show_all (pal->box);
-                        } else
-                        {
-                        gtk_widget_hide (pal->box);
-                        gtk_widget_hide (gtk_widget_get_parent(pal->box));
-                        }
-                    return SCM_BOOL_T;
-                }
-                else
-                {
-                    return SCM_BOOL_F;
-                }
-          } else
-          {
-            name = choose_palette_by_name (FALSE, TRUE);
-           if(name)
-            {
-                DenemoPalette *pal = get_palette (name);
-                if(pal)
-                {
-                    gtk_widget_show (gtk_widget_get_parent(pal->box));
-                    gtk_widget_show_all (pal->box);
-                    return SCM_BOOL_T;
-                }
-                else
-                {
-                    return SCM_BOOL_F;
-                }
-            }
-          }
-        } else
-        {
-        if(Denemo.palettes)
-            {
-            GList *g;
-            for (g=Denemo.palettes;g;g=g->next)
-                {
-                DenemoPalette *pal = (DenemoPalette *) g->data;
-                    if (!scm_is_false (show))
-                        {
-                        gtk_widget_show (gtk_widget_get_parent(pal->box));
-                        gtk_widget_show_all (pal->box);
-                        } else
-                        {
-                          gtk_widget_hide (pal->box);  
-                          gtk_widget_hide (gtk_widget_get_parent(pal->box));     
-                        }
-                }   
-            return SCM_BOOL_T;
-            } else
-            return SCM_BOOL_F;
-        }
-    return SCM_BOOL_F;
-}
-SCM
-scheme_select_palette (SCM aname) {
-     gchar *name = NULL;
-     if(scm_is_string (aname))
-        name = scm_to_locale_string (aname);
-     else
-        if(!SCM_UNBNDP (aname))
-            name = choose_palette_by_name (FALSE, FALSE);
-    if(name) {
-        DenemoPalette *pal = get_palette (name);
-        if(pal)
-            Denemo.currentpalette = pal;
-    }
-    if(Denemo.currentpalette)
-        return scm_from_locale_string(Denemo.currentpalette->name);
-    return SCM_BOOL_F;
+  return SCM_BOOL_F;
 }
 
-static gint flash_input_cursor (void)
+SCM
+scheme_show_palettes (SCM option, SCM show)
 {
-  if (Denemo.input_filters->len > 0) 
+  if (scm_is_true (option))
     {
-     if (g_str_has_suffix(Denemo.input_filters->str, "|"))
-        g_string_truncate (Denemo.input_filters, Denemo.input_filters->len-1);
-    else
+      gchar *name;
+      if (scm_is_string (option))
+        {
+          name = scm_to_locale_string (option);
+          DenemoPalette *pal = get_palette (name);
+          if (pal == NULL)
+            {
+              mergePalette ((const gchar *) name);
+              pal = get_palette (name);
+            }
+          if (pal)
+            {
+              if (!scm_is_false (show))
+                {
+                  gtk_widget_show (gtk_widget_get_parent (pal->box));
+                  gtk_widget_show_all (pal->box);
+                }
+              else
+                {
+                  gtk_widget_hide (pal->box);
+                  gtk_widget_hide (gtk_widget_get_parent (pal->box));
+                }
+              return SCM_BOOL_T;
+            }
+          else
+            {
+              return SCM_BOOL_F;
+            }
+        }
+      else
+        {
+          name = choose_palette_by_name (FALSE, TRUE);
+          if (name)
+            {
+              DenemoPalette *pal = get_palette (name);
+              if (pal)
+                {
+                  gtk_widget_show (gtk_widget_get_parent (pal->box));
+                  gtk_widget_show_all (pal->box);
+                  return SCM_BOOL_T;
+                }
+              else
+                {
+                  return SCM_BOOL_F;
+                }
+            }
+        }
+    }
+  else
+    {
+      if (Denemo.palettes)
+        {
+          GList *g;
+          for (g = Denemo.palettes; g; g = g->next)
+            {
+              DenemoPalette *pal = (DenemoPalette *) g->data;
+              if (!scm_is_false (show))
+                {
+                  gtk_widget_show (gtk_widget_get_parent (pal->box));
+                  gtk_widget_show_all (pal->box);
+                }
+              else
+                {
+                  gtk_widget_hide (pal->box);
+                  gtk_widget_hide (gtk_widget_get_parent (pal->box));
+                }
+            }
+          return SCM_BOOL_T;
+        }
+      else
+        return SCM_BOOL_F;
+    }
+  return SCM_BOOL_F;
+}
+
+SCM
+scheme_select_palette (SCM aname)
+{
+  gchar *name = NULL;
+  if (scm_is_string (aname))
+    name = scm_to_locale_string (aname);
+  else if (!SCM_UNBNDP (aname))
+    name = choose_palette_by_name (FALSE, FALSE);
+  if (name)
+    {
+      DenemoPalette *pal = get_palette (name);
+      if (pal)
+        Denemo.currentpalette = pal;
+    }
+  if (Denemo.currentpalette)
+    return scm_from_locale_string (Denemo.currentpalette->name);
+  return SCM_BOOL_F;
+}
+
+static gint
+flash_input_cursor (void)
+{
+  if (Denemo.input_filters->len > 0)
+    {
+      if (g_str_has_suffix (Denemo.input_filters->str, "|"))
+        g_string_truncate (Denemo.input_filters, Denemo.input_filters->len - 1);
+      else
         g_string_append_c (Denemo.input_filters, '|');
     }
   write_input_status ();
   return TRUE;
 }
 
-static void choose_palette (GtkWidget *button)
+static void
+choose_palette (GtkWidget * button)
 {
-    GtkWidget *win = gtk_widget_get_toplevel (button);
-    gchar *name = choose_palette_by_name (FALSE, FALSE);
-    if(name) {
-        DenemoPalette *pal = get_palette (name);
-        if(pal)
-            {
-            Denemo.currentpalette = pal;
-            gtk_window_set_title (GTK_WINDOW(win), pal->name);
+  GtkWidget *win = gtk_widget_get_toplevel (button);
+  gchar *name = choose_palette_by_name (FALSE, FALSE);
+  if (name)
+    {
+      DenemoPalette *pal = get_palette (name);
+      if (pal)
+        {
+          Denemo.currentpalette = pal;
+          gtk_window_set_title (GTK_WINDOW (win), pal->name);
         }
     }
 }
-static gboolean check_character (GtkWidget *entry, GdkEventKey *event, GtkWidget *dialog)
+
+static gboolean
+check_character (GtkWidget * entry, GdkEventKey * event, GtkWidget * dialog)
 {
-   if(event->keyval == GDK_KEY_Tab) {
-    choose_palette (entry);
-    return TRUE;
+  if (event->keyval == GDK_KEY_Tab)
+    {
+      choose_palette (entry);
+      return TRUE;
     }
-  if (event->keyval == GDK_KEY_Return) {
-    gtk_dialog_response (GTK_DIALOG(dialog), GTK_RESPONSE_ACCEPT);
-    return TRUE;
+  if (event->keyval == GDK_KEY_Return)
+    {
+      gtk_dialog_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
+      return TRUE;
     }
-  return FALSE;  
+  return FALSE;
 }
+
 static gchar *
 label_entry (gchar * wlabel, gchar * direction)
 {
-
   GtkWidget *dialog;
   GtkWidget *entry;
   GtkWidget *label;
   gchar *entry_string;
   GString *string;
   entry = gtk_entry_new ();
-  dialog = gtk_dialog_new_with_buttons (wlabel, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_DESTROY_WITH_PARENT), NULL);
-  g_signal_connect(G_OBJECT(entry), "key-press-event", G_CALLBACK(check_character), dialog);
+  dialog = gtk_dialog_new ();
+  gtk_window_set_title ((GtkWindow *) dialog, wlabel);
+  gtk_window_set_transient_for ((GtkWindow *) dialog, GTK_WINDOW (Denemo.window));
+  gtk_window_set_destroy_with_parent ((GtkWindow *) dialog, TRUE);
+  g_signal_connect (G_OBJECT (entry), "key-press-event", G_CALLBACK (check_character), dialog);
   label = gtk_label_new (direction);
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), label);
   gtk_container_add (GTK_CONTAINER (content_area), entry);
-  
+
   label = gtk_label_new (_("Use <Tab> to switch palette\n<Return>to activate"));
   gtk_container_add (GTK_CONTAINER (content_area), label);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_window_set_position (GTK_WINDOW (dialog), GTK_WIN_POS_MOUSE);
-  gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window)); 
+  gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
   gtk_widget_show_all (dialog);
   gtk_widget_grab_focus (entry);
@@ -442,48 +469,49 @@ label_entry (gchar * wlabel, gchar * direction)
       gtk_widget_destroy (dialog);
       return NULL;
     }
-return NULL;
-
- 
+  return NULL;
 }
+
 SCM
-scheme_activate_palette_button (void) {
-GdkEventKey event;
-GString *input = g_string_new ("");
+scheme_activate_palette_button (void)
+{
+  GdkEventKey event;
+  GString *input = g_string_new ("");
 
-SCM ret = SCM_BOOL_F;
-gint id = 0;
+  SCM ret = SCM_BOOL_F;
+  gint id = 0;
 
-if(Denemo.palettes)
+  if (Denemo.palettes)
     {
-    DenemoPalette *pal = Denemo.currentpalette;
-    if(pal==NULL)
+      DenemoPalette *pal = Denemo.currentpalette;
+      if (pal == NULL)
         pal = (DenemoPalette *) Denemo.palettes->data;
-    gchar *str =   label_entry (pal->name,  _("Key in (part of) label"));
-    pal = Denemo.currentpalette;
-    if(str)
+      gchar *str = label_entry (pal->name, _("Key in (part of) label"));
+      pal = Denemo.currentpalette;
+      if (str)
         {
-            g_string_assign (input, str);
-            g_free(str);
-            if(input->len && palette_action_button (pal, input->str))
-                {
-                    ret = SCM_BOOL_T;
-                } else 
-                {
-                    infodialog ( _("No such label"));
-                    gtk_widget_show (gtk_widget_get_parent(pal->box));
-                    gtk_widget_show_all (pal->box);
-                }
+          g_string_assign (input, str);
+          g_free (str);
+          if (input->len && palette_action_button (pal, input->str))
+            {
+              ret = SCM_BOOL_T;
+            }
+          else
+            {
+              infodialog (_("No such label"));
+              gtk_widget_show (gtk_widget_get_parent (pal->box));
+              gtk_widget_show_all (pal->box);
+            }
         }
     }
-    return ret;
+  return ret;
 }
 
 SCM
 scheme_get_offset (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   gdouble offsetx, offsety;
   if (get_offset (&offsetx, &offsety))
@@ -505,7 +533,7 @@ SCM
 scheme_get_control_point (SCM pt)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   if (scm_is_integer (pt))
     {
@@ -527,7 +555,7 @@ SCM
 scheme_get_curve (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   gdouble x1, y1, x2, y2, x3, y3, x4, y4;
   if (get_curve (&x1, &y1, &x2, &y2, &x3, &y3, &x4, &y4))
@@ -550,10 +578,10 @@ SCM
 scheme_get_positions (SCM is_slur)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   gdouble neary, fary;
-  if (get_positions (&neary, &fary, scm_is_true (is_slur) ? Slur: Beam))
+  if (get_positions (&neary, &fary, scm_is_true (is_slur) ? Slur : Beam))
     {
       return scm_cons (scm_from_double (neary), scm_from_double (fary));
     }
@@ -565,7 +593,7 @@ SCM
 scheme_get_new_target (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
   return scm_from_bool (get_new_target ());
@@ -576,7 +604,7 @@ SCM
 scheme_get_new_point (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
   return scm_from_bool (get_new_point ());
@@ -587,7 +615,7 @@ SCM
 scheme_get_reference_point (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
   return scm_from_bool (get_reference_point ());
@@ -633,38 +661,39 @@ scheme_get_target_info (void)
       break;
     }
 
-  if (si->target.type == TARGET_NOTE) {
-    DenemoObject *obj = si->currentobject->data;
-    if (obj->type == CHORD)
+  if (si->target.type == TARGET_NOTE)
+    {
+      DenemoObject *obj = si->currentobject->data;
+      if (obj->type == CHORD)
         {
-        chord *thechord = ((chord *) ((DenemoObject *) obj->object));
-        if(thechord->figure)
-        grob = scm_from_locale_string ("BassFigure");
+          chord *thechord = ((chord *) ((DenemoObject *) obj->object));
+          if (thechord->figure)
+            grob = scm_from_locale_string ("BassFigure");
         }
-  }
+    }
 
-            
+
   if (si->target.directivenum || (si->target.type == TARGET_OBJECT))
     {
       DenemoDirective *directive = NULL;
       DenemoObject *obj = si->currentobject->data;
       if (si->target.type == TARGET_CHORD)
         {
-            if (obj->type == CHORD)
+          if (obj->type == CHORD)
+            {
+              GList *directives = ((chord *) ((DenemoObject *) obj->object))->directives;
+              if (directives)
                 {
-                  GList *directives = ((chord *) ((DenemoObject *) obj->object))->directives;
-                  if (directives)
-                    {
-                      directive = (DenemoDirective *) g_list_nth_data (directives, si->target.directivenum - 1);
-                    }
+                  directive = (DenemoDirective *) g_list_nth_data (directives, si->target.directivenum - 1);
                 }
+            }
         }
       else if (si->target.type == TARGET_NOTE)
         {
-            if (obj->type == CHORD)
-                {
-                    directive = get_note_directive_number (si->target.directivenum);
-                }
+          if (obj->type == CHORD)
+            {
+              directive = get_note_directive_number (si->target.directivenum);
+            }
         }
       else if (si->target.type == TARGET_OBJECT)
         {
@@ -712,7 +741,7 @@ scheme_http (SCM hname, SCM page, SCM other, SCM poststr)
 
   if (name && thepage && post && oth)
     {
-      gchar *ret = (gchar *)post_denemodotorg (name, thepage, oth, post);
+      gchar *ret = (gchar *) post_denemodotorg (name, thepage, oth, post);
       SCM scm = scm_from_locale_string (ret);
       g_free (ret);
       free (name);
@@ -745,7 +774,7 @@ interpret_lilypond_notename (gchar * x, gint * mid_c_offset, gint * enshift)
       if (*c == 'i' && *(c + 1) == 's')
         {
           accs++;
-          c++;;
+          c++;
         }
       else if (*c == 'e' && *(c + 1) == 's')
         {
@@ -796,16 +825,17 @@ lilypond_to_enshift (gchar * enshift_name)
 SCM
 scheme_execute_init (gchar * menupath)
 {
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL));
+  GList *dirs = NULL;
+  dirs = g_list_append (dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, NULL));
 
-  gchar* path = find_path_for_file (INIT_SCM, dirs);
+  gchar *path = find_path_for_file (INIT_SCM, dirs);
 
-  if(path){
-    g_message ("About to load from %s", path);
-    eval_file_with_catch (path);  //ret = scm_c_primitive_load(filename);
-  }
+  if (path)
+    {
+      g_message ("About to load from %s", path);
+      eval_file_with_catch (path);      //ret = scm_c_primitive_load(filename);
+    }
   return SCM_BOOL (TRUE);
 }
 
@@ -822,10 +852,10 @@ scheme_initialize_script (SCM action_name)
 {
   SCM ret = SCM_BOOL_T;
   char *name = scm_to_locale_string (action_name);
-  
+
   gint idx = lookup_command_from_name (Denemo.map, name);
-  command_row* row = NULL;
-  keymap_get_command_row(Denemo.map, &row, idx);
+  command_row *row = NULL;
+  keymap_get_command_row (Denemo.map, &row, idx);
 
   ret = scheme_execute_init (row->menupath);
   if (name)
@@ -846,11 +876,11 @@ scheme_load_command (SCM command)
   gboolean ret;
   char *name;
   name = scm_to_locale_string (command);
-  GList* files = NULL;
-  files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", name, NULL));
-  files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, name, NULL));
-  files = g_list_append(files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, name, NULL));
-  ret = load_keymap_files(files);
+  GList *files = NULL;
+  files = g_list_append (files, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", name, NULL));
+  files = g_list_append (files, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, name, NULL));
+  files = g_list_append (files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, name, NULL));
+  ret = load_keymap_files (files);
 
   if (name)
     free (name);
@@ -919,10 +949,11 @@ scheme_hide_menus (SCM hide)
   gboolean show = FALSE;
   if (scm_is_false (hide))
     show = TRUE;
-  if(!Denemo.non_interactive){
-    toggle_to_drawing_area (show);
-    activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
-  }
+  if (!Denemo.non_interactive)
+    {
+      toggle_to_drawing_area (show);
+      activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+    }
   return SCM_BOOL (TRUE);
 }
 
@@ -950,10 +981,10 @@ scheme_script_callback (SCM script, SCM params)
   if (scm_is_string (script))
     {
       name = scm_to_locale_string (script);
-      gint idx = lookup_command_from_name(Denemo.map, name);
+      gint idx = lookup_command_from_name (Denemo.map, name);
       if (name)
         {
-          if (!is_action_name_builtin(name))
+          if (!is_action_name_builtin (name))
             {
               gchar *paramvar = g_strdup_printf ("%s::params", name);
               scm_c_define (paramvar, params);
@@ -966,12 +997,13 @@ scheme_script_callback (SCM script, SCM params)
                   ret = SCM_BOOL (!call_out_to_guile (text));
                   stage_undo (Denemo.project->movement, ACTION_STAGE_START);
                 }
-              else if(!Denemo.non_interactive){
-                GtkAction *action = lookup_action_from_name (name);
-                ret = SCM_BOOL (activate_script (action, NULL));
-              }
+              else if (!Denemo.non_interactive)
+                {
+                  GtkAction *action = lookup_action_from_name (name);
+                  ret = SCM_BOOL (activate_script (action, NULL));
+                }
               else
-                g_warning("Could not execute %s script", name);
+                g_warning ("Could not execute %s script", name);
               scm_c_define (paramvar, SCM_BOOL_F);
               g_free (paramvar);
             }
@@ -1009,6 +1041,7 @@ scheme_debug_object (SCM optional)
   g_debug ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
   return SCM_BOOL (TRUE);
 }
+
 SCM
 scheme_display_object (void)
 {
@@ -1019,26 +1052,28 @@ scheme_display_object (void)
   display_current_object ();
   return SCM_BOOL (TRUE);
 }
+
 SCM
 scheme_get_editing_time (void)
 {
-   SCM ret;
-   gchar *edit_time = time_spent_editing();
-   ret = scm_from_locale_string (edit_time);
-   g_free (edit_time);
-   return ret;
+  SCM ret;
+  gchar *edit_time = time_spent_editing ();
+  ret = scm_from_locale_string (edit_time);
+  g_free (edit_time);
+  return ret;
 }
 
 SCM
 scheme_destroy_scheme_init (void)
 {
-    if(confirm(_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?"))) 
+  if (confirm (_("Destroying Customized Buttons"), _("Remove buttons and other customized scheme on startup?")))
     {
-        destroy_local_scheme_init();
-        return SCM_BOOL_T;
+      destroy_local_scheme_init ();
+      return SCM_BOOL_T;
     }
-return SCM_BOOL_F;
+  return SCM_BOOL_F;
 }
+
 SCM
 scheme_load_keybindings (SCM name)
 {
@@ -1046,15 +1081,15 @@ scheme_load_keybindings (SCM name)
   if (scm_is_string (name))
     {
       filename = scm_to_locale_string (name);
-      GList* files = NULL;
+      GList *files = NULL;
 
-      files = g_list_append(files, g_strdup(filename));
-      files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, filename, NULL));
-      files = g_list_append(files, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, filename, NULL));
-      files = g_list_append(files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, filename, NULL));
+      files = g_list_append (files, g_strdup (filename));
+      files = g_list_append (files, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, filename, NULL));
+      files = g_list_append (files, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, filename, NULL));
+      files = g_list_append (files, g_build_filename (get_system_data_dir (), COMMANDS_DIR, filename, NULL));
       g_free (name);
 
-      return SCM_BOOL(load_keymap_files(files));
+      return SCM_BOOL (load_keymap_files (files));
     }
   //if (name) g_free(name); CHECKME
   return SCM_BOOL_F;
@@ -1203,7 +1238,7 @@ scheme_set_newbie (SCM optional)
       Denemo.prefs.tooltip_timeout = 1000;
       Denemo.prefs.tooltip_browse_timeout = 700;
       Denemo.prefs.tooltip_browse_mode_timeout = 1000;
-      
+
       Denemo.prefs.learning = 1;
       Denemo.prefs.newbie = 1;
     }
@@ -1235,10 +1270,10 @@ SCM
 scheme_create_thumbnail (SCM optional, SCM filename)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
-  gchar* path = scm_is_string (filename) ? scm_to_locale_string(filename) : NULL;
+  gchar *path = scm_is_string (filename) ? scm_to_locale_string (filename) : NULL;
   gboolean ret;
   if ((!SCM_UNBNDP (optional)) && scm_is_true (optional))
     ret = create_thumbnail (TRUE, path);
@@ -1264,6 +1299,7 @@ scheme_create_layout (SCM name)
     }
   return SCM_BOOL_F;
 }
+
 SCM
 scheme_delete_layout (SCM name)
 {
@@ -1274,6 +1310,7 @@ scheme_delete_layout (SCM name)
     }
   return SCM_BOOL_F;
 }
+
 SCM
 scheme_lilypond_for_part (void)
 {
@@ -1289,7 +1326,7 @@ SCM
 scheme_typeset_part (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
   typeset_part ();
@@ -1309,20 +1346,22 @@ scheme_get_current_staff_layout_id (void)
 {
   guint id;
   if (((DenemoStaff *) (Denemo.project->movement->currentstaff->data))->voicecontrol == DENEMO_PRIMARY)
-  {
-    id = get_layout_id_for_name(((DenemoStaff *) (Denemo.project->movement->currentstaff->data))->lily_name->str);
-    return scm_from_int(id);
-  }
+    {
+      id = get_layout_id_for_name (((DenemoStaff *) (Denemo.project->movement->currentstaff->data))->lily_name->str);
+      return scm_from_int (id);
+    }
   return SCM_BOOL_F;
 }
+
 SCM
 scheme_get_layout_id (void)
 {
-  DenemoScoreblock *sb = (DenemoScoreblock *)selected_scoreblock ();
+  DenemoScoreblock *sb = (DenemoScoreblock *) selected_scoreblock ();
   if (sb)
     return scm_from_int (sb->id);
   return SCM_BOOL_F;
 }
+
 SCM
 scheme_select_layout_id (SCM the_id)
 {
@@ -1344,7 +1383,7 @@ scheme_select_default_layout (void)
 SCM
 scheme_get_layout_name (void)
 {
-  DenemoScoreblock *sb = (DenemoScoreblock *)selected_scoreblock ();
+  DenemoScoreblock *sb = (DenemoScoreblock *) selected_scoreblock ();
   if (sb && sb->name)
     return scm_from_locale_string (sb->name);
   return SCM_BOOL_F;
@@ -1355,7 +1394,7 @@ scheme_select_next_layout (void)
 {
   if (gtk_widget_get_visible (Denemo.project->score_layout))
     {
-      DenemoScoreblock *sb = (DenemoScoreblock *)get_next_scoreblock ();
+      DenemoScoreblock *sb = (DenemoScoreblock *) get_next_scoreblock ();
       return sb ? SCM_BOOL_T : SCM_BOOL_F;
     }
   return SCM_BOOL_F;
@@ -1366,7 +1405,7 @@ scheme_select_first_layout (void)
 {
   if (gtk_widget_get_visible (Denemo.project->score_layout))
     {
-      DenemoScoreblock *sb = (DenemoScoreblock *)get_first_scoreblock ();
+      DenemoScoreblock *sb = (DenemoScoreblock *) get_first_scoreblock ();
       return sb ? SCM_BOOL_T : SCM_BOOL_F;
     }
   return SCM_BOOL_F;
@@ -1384,97 +1423,101 @@ scheme_select_first_custom_layout (void)
 {
   return SCM_BOOL (iterate_custom_layout (TRUE));
 }
+
 SCM
 scheme_get_filename (void)
 {
-    if(Denemo.project && Denemo.project->filename && Denemo.project->filename->len && strcmp ("Unnamed", Denemo.project->filename->str))
-        return scm_from_locale_string (Denemo.project->filename->str);
-    return SCM_BOOL_F;
+  if (Denemo.project && Denemo.project->filename && Denemo.project->filename->len && strcmp ("Unnamed", Denemo.project->filename->str))
+    return scm_from_locale_string (Denemo.project->filename->str);
+  return SCM_BOOL_F;
 }
+
 SCM
 scheme_path_from_filename (SCM filepath)
 {
-    SCM ret = SCM_BOOL_F;
-    if (scm_is_string (filepath))
-        { 
-            char *temp = scm_to_locale_string (filepath);
-            gchar *dirname = g_path_get_dirname (temp);
-            free(temp);
-            ret = scm_from_locale_string (dirname);
-            g_free(dirname);
-        }
-return ret;
+  SCM ret = SCM_BOOL_F;
+  if (scm_is_string (filepath))
+    {
+      char *temp = scm_to_locale_string (filepath);
+      gchar *dirname = g_path_get_dirname (temp);
+      free (temp);
+      ret = scm_from_locale_string (dirname);
+      g_free (dirname);
+    }
+  return ret;
 }
 
 SCM
 scheme_filename_from_path (SCM filepath)
 {
-    SCM ret = SCM_BOOL_F;
-    if (scm_is_string (filepath))
-        { 
-            char *temp = scm_to_locale_string (filepath);
-            gchar *dirname = g_path_get_basename (temp);
-            free(temp);
-            ret = scm_from_locale_string (dirname);
-            g_free(dirname);
-        }
-return ret;
+  SCM ret = SCM_BOOL_F;
+  if (scm_is_string (filepath))
+    {
+      char *temp = scm_to_locale_string (filepath);
+      gchar *dirname = g_path_get_basename (temp);
+      free (temp);
+      ret = scm_from_locale_string (dirname);
+      g_free (dirname);
+    }
+  return ret;
 }
 
 SCM
 scheme_file_exists (SCM filepath)
 {
-    SCM ret = SCM_BOOL_F;
-    if (scm_is_string (filepath))
-        { 
-            char *temp = scm_to_locale_string (filepath);
-            return SCM_BOOL(g_file_test(temp, G_FILE_TEST_EXISTS));
-        }
-return ret;
+  SCM ret = SCM_BOOL_F;
+  if (scm_is_string (filepath))
+    {
+      char *temp = scm_to_locale_string (filepath);
+      return SCM_BOOL (g_file_test (temp, G_FILE_TEST_EXISTS));
+    }
+  return ret;
 }
 
 SCM
 scheme_choose_file (SCM title, SCM startdir, SCM list)
 {
-    gchar *thetitle = g_strdup(_( "Choose File"));
-    gchar *thedir = get_project_dir();
-    GList *exts = NULL;
-    gchar *filename;
-    SCM ret = SCM_BOOL_F;
-     if (scm_is_string (title))
-        { char *temp = scm_to_locale_string (title);
-            thetitle = g_strdup(temp);
-            free(temp);
-        }
-     if (scm_is_string (startdir))
-        { 
-            char *temp = scm_to_locale_string (startdir);
-            g_free(thedir);
-            thedir = g_strdup(temp);
-            free(temp);
-        } 
-    if (scm_is_list(list))
+  gchar *thetitle = g_strdup (_("Choose File"));
+  gchar *thedir = get_project_dir ();
+  GList *exts = NULL;
+  gchar *filename;
+  SCM ret = SCM_BOOL_F;
+  if (scm_is_string (title))
+    {
+      char *temp = scm_to_locale_string (title);
+      thetitle = g_strdup (temp);
+      free (temp);
+    }
+  if (scm_is_string (startdir))
+    {
+      char *temp = scm_to_locale_string (startdir);
+      g_free (thedir);
+      thedir = g_strdup (temp);
+      free (temp);
+    }
+  if (scm_is_list (list))
+    {
+      gint length = scm_to_int (scm_length (list));
+      int i;
+      for (i = 0; i < length; i++)
         {
-        gint length = scm_to_int (scm_length (list));
-        int i;
-        for (i=0;i<length;i++)
+          SCM glob = scm_list_ref (list, scm_from_int (i));
+          if (scm_is_string (glob))
             {
-                SCM glob = scm_list_ref (list, scm_from_int(i));
-                if (scm_is_string (glob))
-                    {   char *extension = scm_to_locale_string (glob);
-                        exts = g_list_append (exts, g_strdup(extension));
-                        free(extension);
-                    }
+              char *extension = scm_to_locale_string (glob);
+              exts = g_list_append (exts, g_strdup (extension));
+              free (extension);
             }
         }
-    filename = choose_file (thetitle, thedir, exts);
-    g_free(thetitle);
-    g_free(thedir);
-    g_list_free_full (exts, g_free);
-    if(filename)
-        ret = scm_from_locale_string(filename);
-    g_free(filename);
-    return ret;
+    }
+  filename = choose_file (thetitle, thedir, exts);
+  g_free (thetitle);
+  g_free (thedir);
+  g_list_free_full (exts, g_free);
+  if (filename)
+    ret = scm_from_locale_string (filename);
+  g_free (filename);
+  return ret;
 }
 
 SCM
@@ -1483,22 +1526,24 @@ scheme_edit_graphics (SCM name, SCM newname)
   SCM ret = SCM_BOOL_F;
   gchar *opened = NULL;
   gchar *thenewname = NULL;
-  if(scm_is_string (newname))
-        thenewname = scm_to_locale_string (newname);
+  if (scm_is_string (newname))
+    thenewname = scm_to_locale_string (newname);
   if (scm_is_string (name))
     {
       gchar *filename = scm_to_locale_string (name);
-      
+
       opened = edit_graphics_file (filename, thenewname);
       free (filename);
-  } else
-  {
+    }
+  else
+    {
       opened = edit_graphics_file (NULL, thenewname);
-  }
- if(opened)
+    }
+  if (opened)
     ret = scm_from_locale_string (opened);
   g_free (opened);
-  if(thenewname) free(thenewname);
+  if (thenewname)
+    free (thenewname);
   return ret;
 }
 
@@ -1507,29 +1552,29 @@ scheme_open_source (SCM link)
 {
   SCM ret = SCM_BOOL_F;
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   if (scm_is_string (link))
     {
       gchar *thestring = scm_to_locale_string (link);
       gchar *filename;
 #ifdef G_OS_WIN32
-        filename = thestring;
-        (void) strtok (thestring+2, ":");//skip leading drive name on windows
-#else      
-       filename = strtok (thestring, ":");//will not work if filename contains ':' characters.
+      filename = thestring;
+      (void) strtok (thestring + 2, ":");       //skip leading drive name on windows
+#else
+      filename = strtok (thestring, ":");       //will not work if filename contains ':' characters.
 #endif
       if (filename)
         {
           gint x, y, page;
-          
+
           gchar *xstr = strtok (NULL, ":");
           gchar *ystr = strtok (NULL, ":");
           gchar *pstr = strtok (NULL, ":");
           x = xstr ? atoi (xstr) : 0;
           y = ystr ? atoi (ystr) : 0;
           page = pstr ? atoi (pstr) : 0;
-     
+
           if (open_source (filename, x, y, page))
             ret = SCM_BOOL_T;
         }
@@ -1547,6 +1592,7 @@ scheme_open_source_file (SCM optional)
     return SCM_BOOL_T;
   return SCM_BOOL_F;
 }
+
 SCM
 scheme_open_proofread_file (SCM optional)
 {
@@ -1568,8 +1614,9 @@ scheme_export_recorded_audio (void)
 SCM
 scheme_open_source_audio_file (SCM optional)
 {
-    if(open_source_audio_file () && Denemo.project->movement->recording && Denemo.project->movement->recording->samplerate) {
-        return scm_from_double (Denemo.project->movement->recording->nframes/(double)Denemo.project->movement->recording->samplerate);
+  if (open_source_audio_file () && Denemo.project->movement->recording && Denemo.project->movement->recording->samplerate)
+    {
+      return scm_from_double (Denemo.project->movement->recording->nframes / (double) Denemo.project->movement->recording->samplerate);
     }
   return SCM_BOOL_F;
 }
@@ -1654,8 +1701,8 @@ scheme_decrease_guard (SCM optional)
   return SCM_BOOL_T;
 }
 
-//From a script undo must undo only the modifications to the start of the 
-//script, and push another STAGE_END for the end of the actions that it will do 
+//From a script undo must undo only the modifications to the start of the
+//script, and push another STAGE_END for the end of the actions that it will do
 //after the invocation of undo. This function overrides the built-in undo called
 //directly by the user.
 SCM
@@ -1775,7 +1822,7 @@ scheme_movement_tempo (SCM bpm)
       name = scm_to_locale_string (bpm);
       if (name)
         {
-          gdouble tempo =  atof (name);
+          gdouble tempo = atof (name);
           si->tempo = tempo;
           set_master_tempo (si, si->master_tempo);
           free (name);
@@ -1822,15 +1869,15 @@ scheme_staff_master_volume (SCM level)
         thestaff->volume = 0;
 
       return scm_from_double (thestaff->volume / 127.0);
-      }
+    }
   if (scm_is_false (level))
-  {
+    {
       thestaff->mute = TRUE;
       return scm_from_double (-thestaff->volume / 127.0);
-  }    
+    }
   if (level == SCM_UNDEFINED)
-      return thestaff->mute?scm_from_double (-thestaff->volume / 127.0) : scm_from_double (thestaff->volume / 127.0);
-  thestaff->mute = FALSE;  
+    return thestaff->mute ? scm_from_double (-thestaff->volume / 127.0) : scm_from_double (thestaff->volume / 127.0);
+  thestaff->mute = FALSE;
   return scm_from_double (thestaff->volume / 127.0);
 }
 
@@ -1931,7 +1978,7 @@ scheme_next_midi_notes (SCM interval)
   if (scm_is_real (interval))
     {
       double margin = scm_to_double (interval);
-      double start = -1.0;      //unset  
+      double start = -1.0;      //unset
       smf_event_t *event = si->smf ? smf_peek_next_event (si->smf) : NULL;
       if (event)
         {
@@ -1970,10 +2017,10 @@ scheme_get_midi_on_time (void)
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
   GList *curObj = Denemo.project->movement->currentobject;
-  while (curObj && (((DenemoObject *)curObj->data)->durinticks == 0))
-    curObj = curObj->next; //find first note/rest or duration-full object after the cursor
+  while (curObj && (((DenemoObject *) curObj->data)->durinticks == 0))
+    curObj = curObj->next;      //find first note/rest or duration-full object after the cursor
   if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
-    return scm_from_double (((DenemoObject *)curObj->data)->earliest_time);
+    return scm_from_double (((DenemoObject *) curObj->data)->earliest_time);
   return SCM_BOOL_F;
 }
 
@@ -1983,30 +2030,32 @@ scheme_get_midi_off_time (void)
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
   GList *curObj = Denemo.project->movement->currentobject;
-  while (curObj && (((DenemoObject *)curObj->data)->durinticks == 0))
-    curObj = curObj->prev; //find last note/rest or duration-full object before the cursor
+  while (curObj && (((DenemoObject *) curObj->data)->durinticks == 0))
+    curObj = curObj->prev;      //find last note/rest or duration-full object before the cursor
   if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
-    return scm_from_double (((DenemoObject *)curObj->data)->latest_time);
+    return scm_from_double (((DenemoObject *) curObj->data)->latest_time);
   return SCM_BOOL_F;
-} 
+}
 
 SCM
 scheme_midi_in_listening (void)
 {
- midi_in_adjust (GDK_SHIFT_MASK);
- return SCM_BOOL_T;   
+  midi_in_adjust (GDK_SHIFT_MASK);
+  return SCM_BOOL_T;
 }
+
 SCM
 scheme_midi_in_checking (void)
 {
- midi_in_adjust (GDK_CONTROL_MASK);
- return SCM_BOOL_T;   
+  midi_in_adjust (GDK_CONTROL_MASK);
+  return SCM_BOOL_T;
 }
+
 SCM
 scheme_midi_in_append_edit (void)
 {
- midi_in_adjust (0);
- return SCM_BOOL_T;   
+  midi_in_adjust (0);
+  return SCM_BOOL_T;
 }
 
 SCM
@@ -2015,30 +2064,35 @@ scheme_restart_play (void)
   restart_play ();
   return SCM_BOOL_T;
 }
+
 SCM
 scheme_staff_to_play (SCM num)
 {
-    if (scm_is_integer (num)) {
-        gint staffnum = scm_to_int (num);
-        if (staffnum>=0 && staffnum <= g_list_length (Denemo.project->movement->thescore))
-            {
-                Denemo.project->movement->stafftoplay = staffnum;
-                exportmidi (NULL, Denemo.project->movement);
-                return scm_from_int(staffnum);
-            }
+  if (scm_is_integer (num))
+    {
+      gint staffnum = scm_to_int (num);
+      if (staffnum >= 0 && staffnum <= g_list_length (Denemo.project->movement->thescore))
+        {
+          Denemo.project->movement->stafftoplay = staffnum;
+          exportmidi (NULL, Denemo.project->movement);
+          return scm_from_int (staffnum);
+        }
     }
-    Denemo.project->movement->stafftoplay = 0;
-    exportmidi (NULL, Denemo.project->movement);
-    return SCM_BOOL_F;
+  Denemo.project->movement->stafftoplay = 0;
+  exportmidi (NULL, Denemo.project->movement);
+  return SCM_BOOL_F;
 }
 
-static double convert_and_adjust (SCM time) {
-    return scm_to_double (time) * get_playback_speed();
+static double
+convert_and_adjust (SCM time)
+{
+  return scm_to_double (time) * get_playback_speed ();
 }
+
 SCM
 scheme_set_playback_interval (SCM start, SCM end)
 {
-  stop_midi_playback(NULL, NULL);
+  stop_midi_playback (NULL, NULL);
   if (scm_is_real (start) && scm_is_real (end))
     {
       Denemo.project->movement->start_time = convert_and_adjust (start);
@@ -2109,7 +2163,7 @@ scheme_adjust_playback_start (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
-      stop_midi_playback(NULL, NULL);
+      stop_midi_playback (NULL, NULL);
       Denemo.project->movement->start_time += convert_and_adjust (adj);
       if (Denemo.project->movement->start_time < 0.0)
         Denemo.project->movement->start_time = 0.0;
@@ -2126,7 +2180,7 @@ scheme_adjust_playback_end (SCM adj)
   SCM ret = SCM_BOOL_F;
   if (scm_is_real (adj))
     {
-      stop_midi_playback(NULL, NULL);
+      stop_midi_playback (NULL, NULL);
       if (Denemo.project->movement->end_time > 0)
         Denemo.project->movement->end_time += convert_and_adjust (adj);
       if (Denemo.project->movement->end_time > 0.0)
@@ -2298,8 +2352,8 @@ scheme_get_menu_position (SCM command)
     }
 
   gint idx = lookup_command_from_name (Denemo.map, name);
-  command_row* row = NULL;
-  keymap_get_command_row(Denemo.map, &row, idx);
+  command_row *row = NULL;
+  keymap_get_command_row (Denemo.map, &row, idx);
   if (name)
     free (name);
   if (idx < 0)
@@ -2308,10 +2362,11 @@ scheme_get_menu_position (SCM command)
     }
   menuposition = get_menu_position (row->menupath);
 
-  if(menuposition && *menuposition) { 
-    ret = scm_from_locale_string (menuposition);
-    g_free(menuposition);
-    } 
+  if (menuposition && *menuposition)
+    {
+      ret = scm_from_locale_string (menuposition);
+      g_free (menuposition);
+    }
   return ret;
 }
 
@@ -2333,8 +2388,8 @@ scheme_get_menu_path (SCM command)
       return SCM_BOOL_F;
     }
   gint idx = lookup_command_from_name (Denemo.map, name);
-  command_row* row = NULL;
-  keymap_get_command_row(Denemo.map, &row, idx);
+  command_row *row = NULL;
+  keymap_get_command_row (Denemo.map, &row, idx);
   if (name)
     free (name);
   if (idx < 0)
@@ -2374,7 +2429,7 @@ scheme_get_verse (SCM number)
 SCM
 scheme_syllable_count (void)
 {
-  if(Denemo.project->movement->currentobject)
+  if (Denemo.project->movement->currentobject)
     return scm_from_int (syllable_count ());
   return SCM_BOOL_F;
 }
@@ -2382,31 +2437,34 @@ scheme_syllable_count (void)
 SCM
 scheme_typeset_lyrics_for_staff (SCM on)
 {
-    DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-    if (scm_is_bool (on))
-        staff->hide_lyrics = !scm_is_true (on);
-    return scm_from_bool (!staff->hide_lyrics);
+  DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (scm_is_bool (on))
+    staff->hide_lyrics = !scm_is_true (on);
+  return scm_from_bool (!staff->hide_lyrics);
 }
+
 SCM
 scheme_synchronize_lyric_cursor (SCM val)
 {
-    gint offset = 0;
-    if(scm_is_integer (val))
-        offset = scm_to_int (val);
-    return SCM_BOOL(synchronize_lyric_cursor(offset));
-    
+  gint offset = 0;
+  if (scm_is_integer (val))
+    offset = scm_to_int (val);
+  return SCM_BOOL (synchronize_lyric_cursor (offset));
+
 }
+
 SCM
 scheme_insert_text_in_verse (SCM text)
 {
-if (scm_is_string (text))
+  if (scm_is_string (text))
     {
-    char *thetext;
-    thetext = scm_to_locale_string (text);
-    return SCM_BOOL(insert_text_in_verse(thetext));
+      char *thetext;
+      thetext = scm_to_locale_string (text);
+      return SCM_BOOL (insert_text_in_verse (thetext));
     }
-return SCM_BOOL_F;
+  return SCM_BOOL_F;
 }
+
 SCM
 scheme_put_verse (SCM verse)
 {
@@ -2599,16 +2657,16 @@ scheme_staff_hidden (SCM set)
 SCM
 scheme_get_voice_identifier (void)
 {
-    gint snum = Denemo.project->movement->currentstaffnum;
-    gint mnum = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;
-    GString *voice_ident = g_string_new ("");
-    GString *name = g_string_new ("");
-    g_string_printf (name, "Mvmnt%dVoice%d", mnum, snum);
-    set_lily_name (name, voice_ident);
-    SCM ret = scm_from_locale_string (voice_ident->str);
-    g_string_free (name, TRUE);
-    g_string_free (voice_ident, TRUE);
-    return ret;
+  gint snum = Denemo.project->movement->currentstaffnum;
+  gint mnum = g_list_index (Denemo.project->movements, Denemo.project->movement) + 1;
+  GString *voice_ident = g_string_new ("");
+  GString *name = g_string_new ("");
+  g_string_printf (name, "Mvmnt%dVoice%d", mnum, snum);
+  set_lily_name (name, voice_ident);
+  SCM ret = scm_from_locale_string (voice_ident->str);
+  g_string_free (name, TRUE);
+  g_string_free (voice_ident, TRUE);
+  return ret;
 }
 
 
@@ -2743,7 +2801,7 @@ scheme_chordize (SCM setting)
   note *thenote;
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL (FALSE);
-  gboolean old =   thechord->chordize;
+  gboolean old = thechord->chordize;
   thechord->chordize = scm_is_true (setting);
   if (old != thechord->chordize)
     score_status (Denemo.project, TRUE);
@@ -2782,8 +2840,8 @@ scheme_put_whole_measure_rests (void)
     return scm_from_int (0);
   else
     {
-      gint numerator = ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time1;    // staff->timesig.time1;
-      gint denominator = ((DenemoMeasure*)gui->movement->currentmeasure->data)->timesig->time2;   //staff->timesig.time2;
+      gint numerator = ((DenemoMeasure *) gui->movement->currentmeasure->data)->timesig->time1; // staff->timesig.time1;
+      gint denominator = ((DenemoMeasure *) gui->movement->currentmeasure->data)->timesig->time2;       //staff->timesig.time2;
       gboolean dot = TRUE;
       if (numerator % 3)
         dot = FALSE;
@@ -2910,65 +2968,69 @@ scheme_set_duration_in_ticks (SCM duration)
 SCM
 scheme_get_recorded_midi_tempo (SCM index)
 {
-    SCM scm = scm_list_n (SCM_UNDEFINED);
-    if(scm_is_integer(index)) { 
-    gint idx =scm_to_int (index);
-    smf_tempo_t *tempo = get_recorded_midi_tempo (idx);
-    if(tempo)
+  SCM scm = scm_list_n (SCM_UNDEFINED);
+  if (scm_is_integer (index))
+    {
+      gint idx = scm_to_int (index);
+      smf_tempo_t *tempo = get_recorded_midi_tempo (idx);
+      if (tempo)
         {
-            scm = scm_cons (scm_from_double (tempo->microseconds_per_quarter_note/1000000.0), scm);
-            scm = scm_cons (scm_from_int (tempo->denominator), scm);
-            scm = scm_cons (scm_from_int (tempo->numerator), scm);
-            scm = scm_cons (scm_from_int (tempo->time_seconds), scm);
-            return scm;
+          scm = scm_cons (scm_from_double (tempo->microseconds_per_quarter_note / 1000000.0), scm);
+          scm = scm_cons (scm_from_int (tempo->denominator), scm);
+          scm = scm_cons (scm_from_int (tempo->numerator), scm);
+          scm = scm_cons (scm_from_int (tempo->time_seconds), scm);
+          return scm;
         }
     }
- return SCM_BOOL_F;
+  return SCM_BOOL_F;
 }
 
 SCM
 scheme_get_imported_midi_track (SCM index)
 {
-    if(scm_is_integer(index)) { 
-        gint idx = scm_to_int (index);
-        if(get_imported_midi_track (idx))
-            return SCM_BOOL_F;
-        }
- return SCM_BOOL_F;
+  if (scm_is_integer (index))
+    {
+      gint idx = scm_to_int (index);
+      if (get_imported_midi_track (idx))
+        return SCM_BOOL_F;
+    }
+  return SCM_BOOL_F;
 }
 
 SCM
 scheme_delete_imported_midi (void)
 {
- return SCM_BOOL (delete_imported_midi ());
+  return SCM_BOOL (delete_imported_midi ());
 }
 
 
 SCM
 scheme_get_current_midi_track (void)
 {
-gint track = get_current_midi_track();
-  if(track)
+  gint track = get_current_midi_track ();
+  if (track)
     return scm_from_int (track);
   return SCM_BOOL_F;
 }
 
 SCM
 scheme_get_imported_midi_tracks (void)
-{ gint num = get_imported_midi_tracks ();
-    if(num < 1)
-        return SCM_BOOL_F;
-    else
-        return scm_from_int (num);
+{
+  gint num = get_imported_midi_tracks ();
+  if (num < 1)
+    return SCM_BOOL_F;
+  else
+    return scm_from_int (num);
 }
 
 SCM
-scheme_get_recorded_midi_duration (void) {
-    gdouble duration = get_recorded_midi_duration (); 
-  g_debug("Duration returned %f so %d\n", duration, duration>0.0);
-    if (duration > 0.0)
-        return scm_from_double (duration);
-    return SCM_BOOL_F;
+scheme_get_recorded_midi_duration (void)
+{
+  gdouble duration = get_recorded_midi_duration ();
+  g_debug ("Duration returned %f so %d\n", duration, duration > 0.0);
+  if (duration > 0.0)
+    return scm_from_double (duration);
+  return SCM_BOOL_F;
 }
 
 SCM
@@ -3022,34 +3084,34 @@ scheme_get_measure_number (void)
 SCM
 scheme_set_measure_number_offset (SCM val)
 {
-    DenemoMeasure *themeasure;
-    if (scm_is_integer (val))
+  DenemoMeasure *themeasure;
+  if (scm_is_integer (val))
+    {
+      gint offset = scm_to_int (val);
+      DenemoPosition pos;
+      get_position (Denemo.project->movement, &pos);
+
+      gint i = 1;
+
+      while (goto_movement_staff_obj (NULL, -1, i++, pos.measure, 0, 0))
         {
-            gint offset = scm_to_int (val);
-            DenemoPosition pos;
-            get_position (Denemo.project->movement, &pos);  
-            
-            gint i=1;
-            
-            while (goto_movement_staff_obj (NULL, -1, i++, pos.measure, 0, 0))
-                {
-                    themeasure = (DenemoMeasure *)Denemo.project->movement->currentmeasure->data;
-                    themeasure->measure_numbering_offset =  offset;
-                }
-            goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object, pos.leftmeasurenum);
-            cache_all ();
+          themeasure = (DenemoMeasure *) Denemo.project->movement->currentmeasure->data;
+          themeasure->measure_numbering_offset = offset;
         }
-    else 
+      goto_movement_staff_obj (NULL, -1, pos.staff, pos.measure, pos.object, pos.leftmeasurenum);
+      cache_all ();
+    }
+  else
     return SCM_BOOL_F;
-  themeasure = Denemo.project->movement->currentmeasure->data;     
+  themeasure = Denemo.project->movement->currentmeasure->data;
   return scm_from_int (themeasure->measure_numbering_offset);
 }
 
 SCM
 scheme_get_measure_number_offset (void)
 {
-    DenemoMeasure *themeasure = Denemo.project->movement->currentmeasure->data;
-    return scm_from_int (themeasure->measure_numbering_offset);
+  DenemoMeasure *themeasure = Denemo.project->movement->currentmeasure->data;
+  return scm_from_int (themeasure->measure_numbering_offset);
 }
 
 
@@ -3226,6 +3288,7 @@ scheme_get_notes (SCM optional)
       return scm;
     }
 }
+
 SCM
 scheme_get_note_at_cursor (void)
 {
@@ -3237,18 +3300,19 @@ scheme_get_note_at_cursor (void)
 
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
     return SCM_BOOL_F;
-      GList *g;
-      for (g = thechord->notes; g; g = g->next)
+  GList *g;
+  for (g = thechord->notes; g; g = g->next)
+    {
+      thenote = (note *) g->data;
+      if (thenote->mid_c_offset == Denemo.project->movement->cursor_y)
         {
-          thenote = (note *) g->data;
-          if(thenote->mid_c_offset == Denemo.project->movement->cursor_y)
-            {
-              gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
-              return scm_from_locale_string (name);
-            }
-      }
-     return SCM_BOOL_F;   
+          gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+          return scm_from_locale_string (name);
+        }
+    }
+  return SCM_BOOL_F;
 }
+
 SCM
 scheme_add_movement (SCM optional)
 {
@@ -3304,14 +3368,15 @@ scheme_get_prevailing_duration (SCM optional)
   if (scm_is_integer (optional))
     {
       gint duration = scm_to_int (optional);
-      if(duration >=0 && (duration < 8))
+      if (duration >= 0 && (duration < 8))
         {
-            SetDur (duration);
-            return SCM_BOOL_T;
+          SetDur (duration);
+          return SCM_BOOL_T;
         }
       return SCM_BOOL_F;
-    } else 
-  return scm_from_int (get_prevailing_duration ());
+    }
+  else
+    return scm_from_int (get_prevailing_duration ());
 }
 
 SCM
@@ -3322,7 +3387,7 @@ scheme_get_prevailing_timesig (SCM optional)
   gchar *name = g_strdup_printf ("%d/%d", timesig->time1, timesig->time2);
   SCM ret = scm_from_locale_string (name);
   g_free (name);
-    
+
   return ret;
 }
 
@@ -3337,6 +3402,17 @@ scheme_get_prevailing_keysig (SCM optional)
   return scm_from_locale_string (g_string_free (str, FALSE));
 }
 
+
+
+SCM
+scheme_get_prevailing_keysig_name (void)
+{
+  SCM ret;
+  gchar *key = get_prevailing_keysig_name();
+  ret = scm_from_locale_string (key);
+  g_free (key);
+  return ret;
+}
 SCM
 scheme_set_prevailing_keysig (SCM keyaccs)
 {
@@ -3354,7 +3430,7 @@ scheme_set_prevailing_keysig (SCM keyaccs)
   sscanf (accs, "%d%d%d%d%d%d%d", keysig->accs + 0, keysig->accs + 1, keysig->accs + 2, keysig->accs + 3, keysig->accs + 4, keysig->accs + 5, keysig->accs + 6);
   staff_show_which_accidentals ((DenemoStaff *) Denemo.project->movement->currentstaff->data);
   free (accs);
-  displayhelper (Denemo.project);   //score_status(Denemo.project, TRUE);
+  displayhelper (Denemo.project);       //score_status(Denemo.project, TRUE);
   return SCM_BOOL_T;
 }
 
@@ -3414,10 +3490,47 @@ scheme_increment_keysig (SCM amount)
 }
 
 SCM
+scheme_swap_notes_at_cursor_height (SCM nochange)
+{
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+     return SCM_BOOL_F;
+  GList *g;
+  for (g=thechord->notes;g;g=g->next)
+    {
+        thenote = (note *) g->data;
+        if (thenote->mid_c_offset == Denemo.project->movement->cursor_y)
+            {
+                if (g->next)
+                    {  gpointer temp;
+                       note *next = (note*)g->next->data;
+                       if (next->mid_c_offset == Denemo.project->movement->cursor_y)
+                        {
+                                if(scm_is_true (nochange)) //not just a query, actually swap notes
+                                    {
+                                        temp = g->next->data;
+                                        g->next->data = g->data;
+                                        g->data = temp;
+                                    }
+                                return SCM_BOOL_T;
+                        }
+                    }
+                else
+                    return SCM_BOOL_F;
+                
+            }
+        }
+  return SCM_BOOL_F;
+}
+
+SCM
 scheme_cursor_to_nth_note_height (SCM number)
 {
-  return SCM_BOOL (cursor_to_nth_note_height (scm_to_int(number) - 1));
+  return SCM_BOOL (cursor_to_nth_note_height (scm_to_int (number) - 1));
 }
+
 SCM
 scheme_cursor_to_next_note_height (void)
 {
@@ -3557,20 +3670,20 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
 {
   char *title, *instruction, *initial_value;
   SCM scm;
-  gboolean ismodal=FALSE, format=FALSE;
+  gboolean ismodal = FALSE, format = FALSE;
   if (scm_is_string (modal))
     {
-        char *arg = scm_to_locale_string (modal);
-        if (!strcmp (arg, "format"))
-            ismodal = format = TRUE;
-        else if (!strcmp (arg, "modal"))
-            ismodal = TRUE, format = FALSE;
-            //g_print ("setting from  %s %d %d\n", arg, ismodal, format);
-        free (arg);
+      char *arg = scm_to_locale_string (modal);
+      if (!strcmp (arg, "format"))
+        ismodal = format = TRUE;
+      else if (!strcmp (arg, "modal"))
+        ismodal = TRUE, format = FALSE;
+      //g_print ("setting from  %s %d %d\n", arg, ismodal, format);
+      free (arg);
     }
   else
     {
-    ismodal = !scm_is_false (modal), format = (!scm_is_false (modal)) && (modal != SCM_UNDEFINED);
+      ismodal = !scm_is_false (modal), format = (!scm_is_false (modal)) && (modal != SCM_UNDEFINED);
     }
   if (scm_is_string (label))
     {
@@ -3591,15 +3704,15 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
     }
   else
     initial_value = strdup (" ");
-  GString *text = g_string_new(""), *lilypond=g_string_new("");  // g_print ("Called with %d %d\n", ismodal, format);
+  GString *text = g_string_new (""), *lilypond = g_string_new ("");     // g_print ("Called with %d %d\n", ismodal, format);
   gboolean ok = get_user_markup (text, lilypond, title, instruction, initial_value, ismodal, format);
 
- if (ok)
+  if (ok)
     {
       scm = scm_cons (scm_from_locale_string (text->str), scm_from_locale_string (lilypond->str));
     }
   else
-    scm = SCM_BOOL_F; 
+    scm = SCM_BOOL_F;
 
   if (title)
     free (title);
@@ -3613,107 +3726,108 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
   return scm;
 }
 
-static gchar *select_font(gchar *title)
+static gchar *
+select_font (gchar * title)
 {
   gchar *fontname = NULL;
   GtkResponseType result;
 
-  GtkWidget *dialog = 
-#if GTK_MAJOR_VERSION == 2 
-  gtk_font_selection_dialog_new(title);
+  GtkWidget *dialog =
+#if GTK_MAJOR_VERSION == 2
+    gtk_font_selection_dialog_new (title);
 #else
-  gtk_font_chooser_dialog_new (title, NULL);
+    gtk_font_chooser_dialog_new (title, NULL);
 #endif
-  result = gtk_dialog_run(GTK_DIALOG(dialog));
+  result = gtk_dialog_run (GTK_DIALOG (dialog));
 
   if (result == GTK_RESPONSE_OK || result == GTK_RESPONSE_APPLY)
 #if GTK_MAJOR_VERSION == 2
-    fontname = gtk_font_selection_dialog_get_font_name(
-                            GTK_FONT_SELECTION_DIALOG(dialog));
-    fontname = string_dialog_entry (Denemo.project, title, _("Please delete the font size and bold/italic indications,\nleaving just the font family name."), fontname);
+    fontname = gtk_font_selection_dialog_get_font_name (GTK_FONT_SELECTION_DIALOG (dialog));
+  fontname = string_dialog_entry (Denemo.project, title, _("Please delete the font size and bold/italic indications,\nleaving just the font family name."), fontname);
 #else
-    fontname = g_strdup(pango_font_family_get_name (gtk_font_chooser_get_font_family (GTK_FONT_CHOOSER(dialog))));
-                         
-                         
+    fontname = g_strdup (pango_font_family_get_name (gtk_font_chooser_get_font_family (GTK_FONT_CHOOSER (dialog))));
+
+
 #endif
-  gtk_widget_destroy(dialog);
+  gtk_widget_destroy (dialog);
   return fontname;
 }
 
 SCM
 scheme_select_font (SCM text)
 {
-    SCM ret = SCM_BOOL_F;
-    gchar *title, *choice;
-    if (scm_is_string (text))
+  SCM ret = SCM_BOOL_F;
+  gchar *title, *choice;
+  if (scm_is_string (text))
     {
       title = scm_to_locale_string (text);
     }
-    else
-    title = strdup (_("Choose Font"));  
-    choice = select_font (title);
-    if(choice)
-        ret = scm_from_locale_string (choice);
-    g_free(choice);
-    return ret;
+  else
+    title = strdup (_("Choose Font"));
+  choice = select_font (title);
+  if (choice)
+    ret = scm_from_locale_string (choice);
+  g_free (choice);
+  return ret;
 }
 
 #define GDOUBLE_TO_POINTER(x) (GINT_TO_POINTER((gint)(10000*x)))
 #define GPOINTER_TO_DOUBLE(x) (GPOINTER_TO_INT(x)/10000.0)
 
-static GList *select_color (gchar *title)
+static GList *
+select_color (gchar * title)
 {
   GtkResponseType result;
   GList *ret = NULL;
-  GtkWidget *dialog = 
-#if GTK_MAJOR_VERSION == 2 
-  gtk_color_selection_dialog_new(title);
+  GtkWidget *dialog =
+#if GTK_MAJOR_VERSION == 2
+    gtk_color_selection_dialog_new (title);
 #else
-  gtk_color_chooser_dialog_new (title, NULL);
+    gtk_color_chooser_dialog_new (title, NULL);
 #endif
-  result = gtk_dialog_run(GTK_DIALOG(dialog));
+  result = gtk_dialog_run (GTK_DIALOG (dialog));
 
   if (result == GTK_RESPONSE_OK || result == GTK_RESPONSE_APPLY)
-  {
+    {
 #if GTK_MAJOR_VERSION == 2
-    GdkColor color;
-    GtkColorSelection *colorsel = gtk_color_selection_dialog_get_color_selection (dialog);
-    gtk_color_selection_get_current_color (colorsel, &color);
-    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.red/65535.0));
-    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.green/65535.0));
-    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.blue/65535.0));
+      GdkColor color;
+      GtkColorSelection *colorsel = gtk_color_selection_dialog_get_color_selection (dialog);
+      gtk_color_selection_get_current_color (colorsel, &color);
+      ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.red / 65535.0));
+      ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.green / 65535.0));
+      ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.blue / 65535.0));
 
 #else
-    GdkRGBA color;
-    gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER(dialog), &color);                    
-    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.red));
-    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.green));
-    ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.blue));
+      GdkRGBA color;
+      gtk_color_chooser_get_rgba (GTK_COLOR_CHOOSER (dialog), &color);
+      ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.red));
+      ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.green));
+      ret = g_list_append (ret, GDOUBLE_TO_POINTER (color.blue));
 #endif
-  }
-  gtk_widget_destroy(dialog);
+    }
+  gtk_widget_destroy (dialog);
   return ret;
 }
 
 SCM
 scheme_select_color (SCM text)
 {
-    SCM ret = SCM_BOOL_F;
-    gchar *title;
-    GList *list;
-    if (scm_is_string (text))
+  SCM ret = SCM_BOOL_F;
+  gchar *title;
+  GList *list;
+  if (scm_is_string (text))
     {
       title = scm_to_locale_string (text);
     }
-    else
-    title = strdup (_("Choose Font"));  
-    list = select_color (title);
-    if(list)
-        {
-            ret = scm_list_n (scm_from_double (GPOINTER_TO_DOUBLE(list->data)), scm_from_double (GPOINTER_TO_DOUBLE(list->next->data)), scm_from_double (GPOINTER_TO_DOUBLE(list->next->next->data)), SCM_UNDEFINED);
-            g_list_free(list);
-        }
-    return ret;
+  else
+    title = strdup (_("Choose Font"));
+  list = select_color (title);
+  if (list)
+    {
+      ret = scm_list_n (scm_from_double (GPOINTER_TO_DOUBLE (list->data)), scm_from_double (GPOINTER_TO_DOUBLE (list->next->data)), scm_from_double (GPOINTER_TO_DOUBLE (list->next->next->data)), SCM_UNDEFINED);
+      g_list_free (list);
+    }
+  return ret;
 }
 
 SCM
@@ -3734,11 +3848,12 @@ scheme_warningdialog (SCM msg)
 }
 
 
-static void info_response (GtkWidget *dialog, gint reponse_id, gchar *script)
+static void
+info_response (GtkWidget * dialog, gint reponse_id, gchar * script)
 {
-    if (script)
-        call_out_to_guile (script);
-    gtk_widget_destroy (dialog);
+  if (script)
+    call_out_to_guile (script);
+  gtk_widget_destroy (dialog);
 }
 
 
@@ -3753,16 +3868,16 @@ scheme_info_with_hook (SCM title, SCM hook)
     msg = scm_to_locale_string (title);
   if (msg)
     {
-    dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
+      dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CLOSE, "%s", msg);
 #ifdef G_OS_WIN32
-  gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE); //needed on windows because of a bug, not all text can be seen. 
+      gtk_window_set_resizable (GTK_WINDOW (dialog), TRUE);     //needed on windows because of a bug, not all text can be seen.
 #endif
       g_signal_connect (dialog, "response", G_CALLBACK (info_response), script);
-      gtk_window_set_transient_for (GTK_WINDOW(dialog), GTK_WINDOW(Denemo.window));
+      gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
       gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
       gtk_widget_show_all (dialog);
       return SCM_BOOL_T;
-  }
+    }
   return SCM_BOOL_F;
 }
 
@@ -3787,10 +3902,11 @@ scheme_infodialog (SCM msg, SCM noblock)
     }
   if (modal)
     {
-    infowarningdialog (title, FALSE);
-    }  else
+      infowarningdialog (title, FALSE);
+    }
+  else
     {
-    static GtkWidget *dialog;
+      static GtkWidget *dialog;
       if (dialog)
         {
           gtk_widget_show (dialog);
@@ -3844,8 +3960,8 @@ scheme_typeset_for_script (SCM thescript)
 {
   SCM ret = SCM_BOOL_F;
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
-#else  
+  g_debug ("This feature requires denemo to be built with evince");
+#else
   if (scm_is_string (thescript))
     {
       gchar *script = scm_to_locale_string (thescript);
@@ -3860,30 +3976,35 @@ SCM
 scheme_print_typeset_pdf (void)
 {
 #ifndef USE_EVINCE
-  g_debug("This feature requires denemo to be built with evince");
+  g_debug ("This feature requires denemo to be built with evince");
   return SCM_BOOL_F;
 #else
   return print_typeset_pdf ()? SCM_BOOL_F : SCM_BOOL_T;
 #endif
 }
-SCM scheme_continous_typsetting (void)
+
+SCM
+scheme_continous_typsetting (void)
 {
-    return SCM_BOOL (continuous_typesetting());
-    
+  return SCM_BOOL (continuous_typesetting ());
+
 }
-SCM scheme_display_typeset_svg (SCM scaling, SCM part)
+
+SCM
+scheme_display_typeset_svg (SCM scaling, SCM part)
 {
-    if (!continuous_typesetting())
+  if (!continuous_typesetting ())
     {
-        gdouble scale = 1.0;
-        if (scm_is_real (scaling))
-           scale = scm_to_double (scaling);
-        display_svg (scale, scm_is_true (part));
-        return SCM_BOOL_T;
-    } else
-        return SCM_BOOL_F;
+      gdouble scale = 1.0;
+      if (scm_is_real (scaling))
+        scale = scm_to_double (scaling);
+      display_svg (scale, scm_is_true (part));
+      return SCM_BOOL_T;
+    }
+  else
+    return SCM_BOOL_F;
 }
-        
+
 SCM
 scheme_get_char (void)
 {
@@ -4125,12 +4246,12 @@ scheme_get_option (SCM options, SCM title)
   //gchar *str=NULL;
   if (scm_is_string (title))
     thetitle = scm_to_locale_string (title);
-  
+
   if (scm_is_string (options))
     {
       char *str_unterm;
       str_unterm = scm_to_locale_stringn (options, &length);
-      response = get_option (thetitle, str_unterm, length);       //returns NULL or a pointer to a location in str_unterm
+      response = get_option (thetitle, str_unterm, length);     //returns NULL or a pointer to a location in str_unterm
       //g_debug("Got %p holding %s\n", response, response);
       if (response)
         response = g_strdup (response);
@@ -4195,17 +4316,17 @@ scheme_set_action_script_for_tag (SCM tag, SCM script)
 SCM
 scheme_put_standalone_directive (SCM tag, SCM width)
 {
- if (scm_is_string (tag))
+  if (scm_is_string (tag))
     {
-        char *the_tag;
-        gint pixelwidth = 40;
-        if(scm_is_integer (width))
-            pixelwidth = scm_to_int (width);
-        the_tag = scm_to_locale_string (tag);
-        put_standalone_directive (the_tag, pixelwidth);
-        if (the_tag)
-                free (the_tag);
-        return SCM_BOOL_T;
+      char *the_tag;
+      gint pixelwidth = 40;
+      if (scm_is_integer (width))
+        pixelwidth = scm_to_int (width);
+      the_tag = scm_to_locale_string (tag);
+      put_standalone_directive (the_tag, pixelwidth);
+      if (the_tag)
+        free (the_tag);
+      return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
 }
@@ -4213,63 +4334,67 @@ scheme_put_standalone_directive (SCM tag, SCM width)
 SCM
 scheme_choose_tag_at_cursor (void)
 {
- DenemoObject *curObj;
+  DenemoObject *curObj;
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
     return SCM_BOOL_F;
- gchar *tag;
- gboolean is_note = choose_tag_at_cursor (&tag);
- if (tag)
+  gchar *tag;
+  gboolean is_note = choose_tag_at_cursor (&tag);
+  if (tag)
     {
-        if (curObj->type == CHORD)
-            return scm_cons (scm_from_locale_string (tag), scm_from_bool (is_note));
-        else
-            return scm_from_locale_string (tag);
+      if (curObj->type == CHORD)
+        return scm_cons (scm_from_locale_string (tag), scm_from_bool (is_note));
+      else
+        return scm_from_locale_string (tag);
     }
- return SCM_BOOL_F;
+  return SCM_BOOL_F;
 }
 
 SCM
 scheme_get_script_for_directive (SCM tagname, SCM isnote)
 {
- DenemoObject *curObj;
- SCM ret = SCM_BOOL_F;
-  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type!=CHORD))
+  DenemoObject *curObj;
+  SCM ret = SCM_BOOL_F;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD))
     return SCM_BOOL_F;
- gchar *tag, *script;
- gboolean note = scm_is_true (isnote);
- if (scm_is_string (tagname))
+  gchar *tag, *script;
+  gboolean note = scm_is_true (isnote);
+  if (scm_is_string (tagname))
     {
       tag = scm_to_locale_string (tagname);
-     
-      DenemoDirective *directive = note? get_note_directive (tag) : find_directive (((chord*)curObj->object)->directives, tag);
+
+      DenemoDirective *directive = note ? get_note_directive (tag) : find_directive (((chord *) curObj->object)->directives, tag);
       if (directive)
         {
-            Denemo.project->movement->directive_on_clipboard = (gpointer)directive;
-            script = get_script_for_directive (directive, note? "note":"chord");
-            ret = scm_from_locale_string (script);
-            g_free (script);
+          Denemo.project->movement->directive_on_clipboard = (gpointer) directive;
+          script = get_script_for_directive (directive, note ? "note" : "chord");
+          ret = scm_from_locale_string (script);
+          g_free (script);
         }
     }
-return ret;
+  return ret;
 }
 
 
 
 SCM
 scheme_directive_change_tag (SCM tag)
-{   DenemoObject *curObj;
-    if(scm_is_string (tag)) {
-            gchar *thetag = scm_to_locale_string (tag);
-            DenemoDirective *directive;
-              if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != LILYDIRECTIVE) || !(directive = (DenemoDirective *) curObj->object))
-                return SCM_BOOL (FALSE);
-                if(directive->tag==NULL) directive->tag = g_string_new("");
-                g_string_assign (directive->tag, thetag);
-                g_free(thetag);
-                return SCM_BOOL_T;
-            }
-    return SCM_BOOL_F;
+{
+  DenemoObject *curObj;
+  if (scm_is_string (tag))
+    {
+      gchar *thetag = scm_to_locale_string (tag);
+      DenemoDirective *directive;
+      if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != LILYDIRECTIVE) || !(directive = (DenemoDirective *) curObj->object))
+        return SCM_BOOL (FALSE);
+      if (directive->tag == NULL)
+        directive->tag = g_string_new ("");
+      g_string_assign (directive->tag, thetag);
+      g_free (thetag);
+      return SCM_BOOL_T;
+    }
+  return SCM_BOOL_F;
 }
+
 #define GET_NTH_TAG(what)\
  SCM scheme_##what##_directive_get_nth_tag(SCM index) {\
   gint n;\
@@ -4327,59 +4452,67 @@ PRIORITIZE_TAG (movementcontrol);
 #undef PRIORITIZE_TAG
 
 
-SCM scheme_edit_system_directive (void)
+SCM
+scheme_edit_system_directive (void)
 {
-    edit_system_directive ();
-    return SCM_BOOL_T;
+  edit_system_directive ();
+  return SCM_BOOL_T;
 }
 
-SCM scheme_display_directive_text_editor (SCM type, SCM tagname) {
-    if(scm_is_string (type) && scm_is_string (tagname)) 
-        {
-            gchar *what = scm_to_locale_string (type);
-            gchar *tag = scm_to_locale_string (tagname);
-            DenemoDirective *directive;
-            if (!strcmp (what, "score"))
-                directive = get_score_directive (tag);
-            else 
-                directive = get_movementcontrol_directive (tag); //others - note, chord ...
-            
-        if (directive && directive->override & DENEMO_OVERRIDE_EDITOR)
-            {
-            GtkWidget *texteditor = (GtkWidget *) g_object_get_data (G_OBJECT (directive->widget), DENEMO_TEXTEDITOR_TAG);
-            if (texteditor)
-                {
-                gtk_widget_show_all (gtk_widget_get_toplevel (texteditor));
-                gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (texteditor)));
-                }
-                return SCM_BOOL_T;
-            }
-        }
-    return SCM_BOOL_F;
-}   
+SCM
+scheme_display_directive_text_editor (SCM type, SCM tagname)
+{
+  if (scm_is_string (type) && scm_is_string (tagname))
+    {
+      gchar *what = scm_to_locale_string (type);
+      gchar *tag = scm_to_locale_string (tagname);
+      DenemoDirective *directive;
+      if (!strcmp (what, "score"))
+        directive = get_score_directive (tag);
+      else
+        directive = get_movementcontrol_directive (tag);        //others - note, chord ...
 
-//only retrieve directives when cursor is actually on the note
-SCM scheme_directive_get_nth_tag_strict_note(SCM index) {
-  gint n;
-  if(!scm_is_integer(index))
-     return SCM_BOOL_F;
-    n = scm_to_int(index);
-  gchar *val = get_nth_strict_note_tag (n);
-  if(val) return scm_from_locale_stringn (val, strlen(val));
+      if (directive && directive->override & DENEMO_OVERRIDE_EDITOR)
+        {
+          GtkWidget *texteditor = (GtkWidget *) g_object_get_data (G_OBJECT (directive->widget), DENEMO_TEXTEDITOR_TAG);
+          if (texteditor)
+            {
+              gtk_widget_show_all (gtk_widget_get_toplevel (texteditor));
+              gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (texteditor)));
+            }
+          return SCM_BOOL_T;
+        }
+    }
   return SCM_BOOL_F;
 }
 
-SCM scheme_directive_get_for_tag_strict_note (SCM tagname) 
+//only retrieve directives when cursor is actually on the note
+SCM
+scheme_directive_get_nth_tag_strict_note (SCM index)
 {
-    SCM ret = SCM_BOOL_F;
-    const gchar *tag = NULL;
-    if( scm_is_string (tagname))
-        tag = scm_to_locale_string (tagname);
-    tag = strict_note_directive_get_tag ((gchar *)tag);
-    if (tag)
-        ret = scm_from_locale_string (tag);
-return ret;
+  gint n;
+  if (!scm_is_integer (index))
+    return SCM_BOOL_F;
+  n = scm_to_int (index);
+  gchar *val = get_nth_strict_note_tag (n);
+  if (val)
+    return scm_from_locale_stringn (val, strlen (val));
+  return SCM_BOOL_F;
 }
+
+SCM
+scheme_directive_get_for_tag_strict_note (SCM tagname)
+{
+  SCM ret = SCM_BOOL_F;
+  const gchar *tag = NULL;
+  if (scm_is_string (tagname))
+    tag = scm_to_locale_string (tagname);
+  tag = strict_note_directive_get_tag ((gchar *) tag);
+  if (tag)
+    ret = scm_from_locale_string (tag);
+  return ret;
+}
+
 #define GET_TAG_FN_DEF(what)\
  SCM scheme_##what##_directive_get_tag(SCM tag) {\
   char *tagname;\
@@ -4398,7 +4531,6 @@ return ret;
   if(tagname) free(tagname);\
   return SCM_BOOL(FALSE);\
 }
-
 GET_TAG_FN_DEF (object);
 GET_TAG_FN_DEF (standalone);
 GET_TAG_FN_DEF (chord);
@@ -4417,6 +4549,7 @@ GET_TAG_FN_DEF (paper);
 GET_TAG_FN_DEF (layout);
 GET_TAG_FN_DEF (movementcontrol);
 #undef GET_TAG_FN_DEF
+
 #define ACTIVATE_FN_DEF(what)\
  SCM scheme_activate_##what##_directive(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4442,6 +4575,7 @@ GET_TAG_FN_DEF (movementcontrol);
   if(tagname) g_free(tagname);\
   return SCM_BOOL(ret);\
 }
+
 #define DELETE_FN_DEF(what)\
  SCM scheme_delete_##what##_directive(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4454,12 +4588,19 @@ GET_TAG_FN_DEF (movementcontrol);
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
-#define EDIT_DELETE_FN_DEF(what)\
-EDIT_FN_DEF(what)\
-DELETE_FN_DEF(what)\
+
+#define EDIT_DELETE_FN_DEF(what) \
+EDIT_FN_DEF(what) \
+DELETE_FN_DEF(what) \
 ACTIVATE_FN_DEF(what)
 
-EDIT_FN_DEF (standalone) EDIT_DELETE_FN_DEF (note) EDIT_DELETE_FN_DEF (chord) EDIT_DELETE_FN_DEF (staff) EDIT_DELETE_FN_DEF (voice) EDIT_DELETE_FN_DEF (score)
+EDIT_FN_DEF (standalone);
+EDIT_DELETE_FN_DEF (note);
+EDIT_DELETE_FN_DEF (chord);
+EDIT_DELETE_FN_DEF (staff);
+EDIT_DELETE_FN_DEF (voice);
+EDIT_DELETE_FN_DEF (score);
+
 #define GETFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4475,6 +4616,103 @@ SCM scheme_##what##_directive_get_##field(SCM tag) {\
   }\
   return SCM_BOOL(FALSE);\
 }
+
+static void
+structural_change_note (void)
+{
+}
+
+static void
+structural_change_chord (void)
+{
+}
+
+static void
+structural_change_clef (void)
+{
+}
+
+static void
+structural_change_timesig (void)
+{
+}
+
+static void
+structural_change_keysig (void)
+{
+}
+
+static void
+structural_change_stemdirective (void)
+{
+}
+
+static void
+structural_change_tuplet (void)
+{
+}
+
+static void
+structural_change_standalone (void)
+{
+}
+
+static void
+structural_change_score (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_scoreheader (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_movementcontrol (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_paper (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_header (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_layout (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_staff (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+static void
+structural_change_voice (void)
+{
+  signal_structural_change (Denemo.project);
+}
+
+
+static void
+structural_change_object (void)
+{
+}                               //not sure what this is - some sort of temporary marker thing Nils devised.
+
+
+
 #define PUTFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_string(value)))\
@@ -4485,11 +4723,14 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   valuename = scm_to_locale_string(value);\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, (gchar*)valuename);\
+  structural_change_##what ();\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
 }
-//block to clone for new GString entries in DenemoDirective
+
+// block to clone for new GString entries in DenemoDirective
+
 GETFUNC_DEF (note, display);
 GETFUNC_DEF (chord, display);
 GETFUNC_DEF (standalone, display);
@@ -4504,16 +4745,22 @@ PUTFUNC_DEF (staff, display);
 PUTFUNC_DEF (voice, display);
 PUTFUNC_DEF (score, display);
 PUTFUNC_DEF (movementcontrol, display);
+
 // end of block to clone ??? there are now stem tuplet and keysigs as well - see grob
+
 GETFUNC_DEF (note, grob);
 GETFUNC_DEF (chord, grob);
 GETFUNC_DEF (standalone, grob);
+GETFUNC_DEF (standalone, graphic_name);
+GETFUNC_DEF (chord, graphic_name);
+GETFUNC_DEF (note, graphic_name);
+GETFUNC_DEF (clef, graphic_name);
+GETFUNC_DEF (keysig, graphic_name);
+GETFUNC_DEF (timesig, graphic_name);
 GETFUNC_DEF (staff, grob);
 GETFUNC_DEF (voice, grob);
 GETFUNC_DEF (score, grob);
-/*UNUSED
-  GETFUNC_DEF (movementcontrol, grob);
-  */
+// UNUSED: GETFUNC_DEF (movementcontrol, grob);
 GETFUNC_DEF (clef, grob);
 GETFUNC_DEF (timesig, grob);
 GETFUNC_DEF (tuplet, grob);
@@ -4522,17 +4769,15 @@ GETFUNC_DEF (keysig, grob);
 PUTFUNC_DEF (note, grob);
 PUTFUNC_DEF (chord, grob);
 PUTFUNC_DEF (standalone, grob);
-//PUTFUNC_DEF(staff, grob)
-//PUTFUNC_DEF(voice, grob)
-PUTFUNC_DEF (score, grob)
-//PUTFUNC_DEF(movementcontrol, grob)
-  PUTFUNC_DEF (clef, grob)
-PUTFUNC_DEF (timesig, grob)
-PUTFUNC_DEF (tuplet, grob)
-PUTFUNC_DEF (stemdirective, grob)
-PUTFUNC_DEF (keysig, grob)
-
-
+// UNUSED: PUTFUNC_DEF(staff, grob)
+// UNUSED: PUTFUNC_DEF(voice, grob)
+PUTFUNC_DEF (score, grob);
+// UNUSED: PUTFUNC_DEF(movementcontrol, grob)
+PUTFUNC_DEF (clef, grob);
+PUTFUNC_DEF (timesig, grob);
+PUTFUNC_DEF (tuplet, grob);
+PUTFUNC_DEF (stemdirective, grob);
+PUTFUNC_DEF (keysig, grob);
 
 GETFUNC_DEF (note, data);
 GETFUNC_DEF (chord, data);
@@ -4553,60 +4798,65 @@ GETFUNC_DEF (keysig, data);
 PUTFUNC_DEF (note, data);
 PUTFUNC_DEF (chord, data);
 PUTFUNC_DEF (standalone, data);
-PUTFUNC_DEF(staff, data)
-PUTFUNC_DEF(voice, data)
-PUTFUNC_DEF (score, data)
-PUTFUNC_DEF (scoreheader, data)
-PUTFUNC_DEF (header, data)
-PUTFUNC_DEF (paper, data)
-PUTFUNC_DEF (layout, data)
-PUTFUNC_DEF(movementcontrol, data)
-PUTFUNC_DEF (clef, data)
-PUTFUNC_DEF (timesig, data)
-PUTFUNC_DEF (tuplet, data)
-PUTFUNC_DEF (stemdirective, data)
-PUTFUNC_DEF (keysig, data)
+PUTFUNC_DEF (staff, data);
+PUTFUNC_DEF (voice, data);
+PUTFUNC_DEF (score, data);
+PUTFUNC_DEF (scoreheader, data);
+PUTFUNC_DEF (header, data);
+PUTFUNC_DEF (paper, data);
+PUTFUNC_DEF (layout, data);
+PUTFUNC_DEF (movementcontrol, data);
+PUTFUNC_DEF (clef, data);
+PUTFUNC_DEF (timesig, data);
+PUTFUNC_DEF (tuplet, data);
+PUTFUNC_DEF (stemdirective, data);
+PUTFUNC_DEF (keysig, data);
 
-
-GETFUNC_DEF (note, midibytes)
-GETFUNC_DEF (chord, midibytes)
-GETFUNC_DEF (standalone, midibytes) 
-GETFUNC_DEF (staff, midibytes) 
-GETFUNC_DEF (voice, midibytes) 
-GETFUNC_DEF (score, midibytes) 
-GETFUNC_DEF (movementcontrol, midibytes) 
-PUTFUNC_DEF (note, midibytes) 
-PUTFUNC_DEF (chord, midibytes) 
-PUTFUNC_DEF (standalone, midibytes) 
-PUTFUNC_DEF (staff, midibytes) 
-PUTFUNC_DEF (voice, midibytes) 
-PUTFUNC_DEF (score, midibytes) 
-PUTFUNC_DEF (movementcontrol, midibytes) 
-GETFUNC_DEF (note, prefix) 
-GETFUNC_DEF (note, postfix) 
-PUTFUNC_DEF (note, prefix)
-  //PUTFUNC_DEF(clef, prefix)
-  PUTFUNC_DEF (note, postfix)
-GETFUNC_DEF (score, prefix)
-GETFUNC_DEF (score, postfix)
-PUTFUNC_DEF (score, prefix)
-PUTFUNC_DEF (score, postfix)
-PUTFUNC_DEF (staff, prefix) 
-PUTFUNC_DEF (voice, prefix) 
-GETFUNC_DEF (staff, prefix) 
-GETFUNC_DEF (voice, prefix) 
-PUTFUNC_DEF (staff, postfix) 
-PUTFUNC_DEF (voice, postfix) 
-GETFUNC_DEF (staff, postfix) 
-GETFUNC_DEF (voice, postfix) 
-GETFUNC_DEF (chord, prefix) 
-GETFUNC_DEF (chord, postfix) 
-PUTFUNC_DEF (chord, prefix) 
-PUTFUNC_DEF (chord, postfix) 
-GETFUNC_DEF (standalone, prefix) 
-GETFUNC_DEF (standalone, postfix) 
-PUTFUNC_DEF (standalone, prefix) 
-PUTFUNC_DEF (standalone, postfix)
+GETFUNC_DEF (note, midibytes);
+GETFUNC_DEF (chord, midibytes);
+GETFUNC_DEF (keysig, midibytes);
+GETFUNC_DEF (timesig, midibytes);
+GETFUNC_DEF (clef, midibytes);
+GETFUNC_DEF (standalone, midibytes);
+GETFUNC_DEF (staff, midibytes);
+GETFUNC_DEF (voice, midibytes);
+GETFUNC_DEF (score, midibytes);
+GETFUNC_DEF (movementcontrol, midibytes);
+PUTFUNC_DEF (note, midibytes);
+PUTFUNC_DEF (chord, midibytes);
+PUTFUNC_DEF (keysig, midibytes);
+PUTFUNC_DEF (timesig, midibytes);
+PUTFUNC_DEF (clef, midibytes);
+PUTFUNC_DEF (standalone, midibytes);
+PUTFUNC_DEF (staff, midibytes);
+PUTFUNC_DEF (voice, midibytes);
+PUTFUNC_DEF (score, midibytes);
+PUTFUNC_DEF (movementcontrol, midibytes);
+GETFUNC_DEF (note, prefix);
+GETFUNC_DEF (note, postfix);
+PUTFUNC_DEF (note, prefix);
+// UNUSED: PUTFUNC_DEF(clef, prefix)
+PUTFUNC_DEF (note, postfix);
+GETFUNC_DEF (score, prefix);
+GETFUNC_DEF (score, postfix);
+PUTFUNC_DEF (score, prefix);
+PUTFUNC_DEF (score, postfix);
+PUTFUNC_DEF (staff, prefix);
+PUTFUNC_DEF (voice, prefix);
+GETFUNC_DEF (staff, prefix);
+GETFUNC_DEF (voice, prefix);
+PUTFUNC_DEF (staff, postfix);
+PUTFUNC_DEF (voice, postfix);
+GETFUNC_DEF (staff, postfix);
+GETFUNC_DEF (voice, postfix);
+GETFUNC_DEF (chord, prefix);
+GETFUNC_DEF (chord, postfix);
+PUTFUNC_DEF (chord, prefix);
+PUTFUNC_DEF (chord, postfix);
+GETFUNC_DEF (standalone, prefix);
+GETFUNC_DEF (standalone, postfix);
+PUTFUNC_DEF (standalone, prefix);
+PUTFUNC_DEF (standalone, postfix);
 
 #define ALLOW_PUTFUNC_DEF(what)\
 SCM scheme_##what##_directive_put_allow(SCM tag, SCM value) {\
@@ -4618,9 +4868,11 @@ SCM scheme_##what##_directive_put_allow(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_allow (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_allow ((gchar*)tagname, valuename);\
+  structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
+
 #define IGNORE_PUTFUNC_DEF(what)\
 SCM scheme_##what##_directive_put_ignore(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_integer(value))){\
@@ -4631,10 +4883,10 @@ SCM scheme_##what##_directive_put_ignore(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_ignore (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_ignore ((gchar*)tagname, valuename);\
+  structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
-
 
 #define INT_PUTFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
@@ -4646,9 +4898,11 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
+structural_change_##what ();\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
+
 #define INT_GETFUNC_DEF(what, field)\
 SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(!scm_is_string(tag)){\
@@ -4661,6 +4915,7 @@ SCM scheme_##what##_directive_get_##field(SCM tag) {\
   if(tagname) free(tagname);\
   return scm_from_int(ret);\
 }
+
 #define PUTGRAPHICFUNC_DEF(what)\
 SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   if((!scm_is_string(tag))||(!scm_is_string(value))){\
@@ -4671,321 +4926,354 @@ SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
   gboolean ret = what##_directive_put_graphic ((gchar*)tagname, (gchar*)valuename);\
+structural_change_##what ();\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
 }
-  PUTGRAPHICFUNC_DEF (note);
+
+PUTGRAPHICFUNC_DEF (note);
 PUTGRAPHICFUNC_DEF (chord);
 PUTGRAPHICFUNC_DEF (standalone);
 PUTGRAPHICFUNC_DEF (staff);
 PUTGRAPHICFUNC_DEF (voice);
 PUTGRAPHICFUNC_DEF (score);
 
+// block to copy for new int field in directive
 
-     //block to copy for new int field in directive
-INT_PUTFUNC_DEF (note, minpixels)
-INT_PUTFUNC_DEF (chord, minpixels)
-INT_PUTFUNC_DEF (standalone, minpixels)
-INT_PUTFUNC_DEF (staff, minpixels)
-INT_PUTFUNC_DEF (voice, minpixels)
-INT_PUTFUNC_DEF (score, minpixels)
-INT_PUTFUNC_DEF (clef, minpixels)
-INT_PUTFUNC_DEF (timesig, minpixels)
-INT_PUTFUNC_DEF (tuplet, minpixels)
-INT_PUTFUNC_DEF (stemdirective, minpixels)
-INT_PUTFUNC_DEF (keysig, minpixels)
-INT_PUTFUNC_DEF (scoreheader, minpixels)
-INT_PUTFUNC_DEF (header, minpixels)
-INT_PUTFUNC_DEF (paper, minpixels)
-INT_PUTFUNC_DEF (layout, minpixels)
-INT_PUTFUNC_DEF (movementcontrol, minpixels)
-INT_GETFUNC_DEF (note, minpixels)
-INT_GETFUNC_DEF (chord, minpixels)
-INT_GETFUNC_DEF (standalone, minpixels)
-INT_GETFUNC_DEF (staff, minpixels)
-INT_GETFUNC_DEF (voice, minpixels)
-INT_GETFUNC_DEF (score, minpixels)
-INT_GETFUNC_DEF (clef, minpixels)
-INT_GETFUNC_DEF (timesig, minpixels)
-INT_GETFUNC_DEF (tuplet, minpixels)
-INT_GETFUNC_DEF (stemdirective, minpixels)
-INT_GETFUNC_DEF (keysig, minpixels)
-INT_GETFUNC_DEF (scoreheader, minpixels)
-INT_GETFUNC_DEF (header, minpixels)
-INT_GETFUNC_DEF (paper, minpixels)
-INT_GETFUNC_DEF (layout, minpixels)
-INT_GETFUNC_DEF (movementcontrol, minpixels)
-  //end block to ocpy for new int field in directive
-INT_PUTFUNC_DEF (note, override)
-INT_PUTFUNC_DEF (chord, override)
-INT_PUTFUNC_DEF (standalone, override)
-INT_PUTFUNC_DEF (staff, override)
-INT_PUTFUNC_DEF (voice, override)
-INT_PUTFUNC_DEF (score, override)
-INT_GETFUNC_DEF (note, override)
-INT_GETFUNC_DEF (chord, override)
-INT_GETFUNC_DEF (standalone, override)
-INT_GETFUNC_DEF (staff, override)
-INT_GETFUNC_DEF (voice, override)
-INT_GETFUNC_DEF (score, override)
-IGNORE_PUTFUNC_DEF (note)
-IGNORE_PUTFUNC_DEF (chord)
-IGNORE_PUTFUNC_DEF (standalone)
-//INT_PUTFUNC_DEF (standalone)
-//INT_GETFUNC_DEF (note)
-//INT_GETFUNC_DEF (chord)
-//INT_GETFUNC_DEF (standalone)
-ALLOW_PUTFUNC_DEF (note)
-ALLOW_PUTFUNC_DEF (chord)
-ALLOW_PUTFUNC_DEF (standalone)
-//INT_GETFUNC_DEF (note)
-//INT_GETFUNC_DEF (chord)
-//INT_GETFUNC_DEF (standalone)
-INT_PUTFUNC_DEF (note, ty)
-INT_PUTFUNC_DEF (chord, ty)
-INT_PUTFUNC_DEF (standalone, ty)
-INT_GETFUNC_DEF (note, ty)
-INT_GETFUNC_DEF (chord, ty)
-INT_GETFUNC_DEF (standalone, ty)
-INT_PUTFUNC_DEF (note, tx)
-INT_PUTFUNC_DEF (chord, tx)
-INT_PUTFUNC_DEF (standalone, tx)
-INT_GETFUNC_DEF (note, tx)
-INT_GETFUNC_DEF (chord, tx)
-INT_GETFUNC_DEF (standalone, tx)
-INT_PUTFUNC_DEF (note, gy)
-INT_PUTFUNC_DEF (chord, gy)
-INT_PUTFUNC_DEF (standalone, gy)
-INT_GETFUNC_DEF (note, gy)
-INT_GETFUNC_DEF (chord, gy)
-INT_GETFUNC_DEF (standalone, gy)
-INT_PUTFUNC_DEF (note, gx)
-INT_PUTFUNC_DEF (chord, gx)
-INT_PUTFUNC_DEF (standalone, gx)
-INT_GETFUNC_DEF (note, gx)
-INT_GETFUNC_DEF (chord, gx)
-INT_GETFUNC_DEF (standalone, gx)
-INT_GETFUNC_DEF (note, width)
-INT_GETFUNC_DEF (chord, width)
-INT_GETFUNC_DEF (standalone, width)
-INT_GETFUNC_DEF (note, height)
-INT_GETFUNC_DEF (chord, height)
-INT_GETFUNC_DEF (standalone, height)
-//INT_GETFUNC_DEF (score)
-//INT_GETFUNC_DEF (score)
-INT_GETFUNC_DEF (score, tx)
-INT_GETFUNC_DEF (score, ty)
-INT_GETFUNC_DEF (score, gx)
-INT_GETFUNC_DEF (score, gy)
-INT_GETFUNC_DEF (score, width)
-INT_GETFUNC_DEF (score, height)
-ALLOW_PUTFUNC_DEF (score)
-IGNORE_PUTFUNC_DEF (score)
-INT_PUTFUNC_DEF (score, tx)
-INT_PUTFUNC_DEF (score, ty)
-INT_PUTFUNC_DEF (score, gx)
-INT_PUTFUNC_DEF (score, gy)
-INT_GETFUNC_DEF (object, minpixels)
-INT_PUTFUNC_DEF (object, minpixels) DELETE_FN_DEF (object)
-  // block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
-  GETFUNC_DEF (clef, prefix) GETFUNC_DEF (clef, postfix) GETFUNC_DEF (clef, display) PUTFUNC_DEF (clef, prefix) PUTFUNC_DEF (clef, postfix) PUTFUNC_DEF (clef, display) PUTGRAPHICFUNC_DEF (clef);
+INT_PUTFUNC_DEF (note, minpixels);
+INT_PUTFUNC_DEF (chord, minpixels);
+INT_PUTFUNC_DEF (standalone, minpixels);
+INT_PUTFUNC_DEF (staff, minpixels);
+INT_PUTFUNC_DEF (voice, minpixels);
+INT_PUTFUNC_DEF (score, minpixels);
+INT_PUTFUNC_DEF (clef, minpixels);
+INT_PUTFUNC_DEF (timesig, minpixels);
+INT_PUTFUNC_DEF (tuplet, minpixels);
+INT_PUTFUNC_DEF (stemdirective, minpixels);
+INT_PUTFUNC_DEF (keysig, minpixels);
+INT_PUTFUNC_DEF (scoreheader, minpixels);
+INT_PUTFUNC_DEF (header, minpixels);
+INT_PUTFUNC_DEF (paper, minpixels);
+INT_PUTFUNC_DEF (layout, minpixels);
+INT_PUTFUNC_DEF (movementcontrol, minpixels);
+INT_GETFUNC_DEF (note, minpixels);
+INT_GETFUNC_DEF (chord, minpixels);
+INT_GETFUNC_DEF (standalone, minpixels);
+INT_GETFUNC_DEF (staff, minpixels);
+INT_GETFUNC_DEF (voice, minpixels);
+INT_GETFUNC_DEF (score, minpixels);
+INT_GETFUNC_DEF (clef, minpixels);
+INT_GETFUNC_DEF (timesig, minpixels);
+INT_GETFUNC_DEF (tuplet, minpixels);
+INT_GETFUNC_DEF (stemdirective, minpixels);
+INT_GETFUNC_DEF (keysig, minpixels);
+INT_GETFUNC_DEF (scoreheader, minpixels);
+INT_GETFUNC_DEF (header, minpixels);
+INT_GETFUNC_DEF (paper, minpixels);
+INT_GETFUNC_DEF (layout, minpixels);
+INT_GETFUNC_DEF (movementcontrol, minpixels);
 
-ALLOW_PUTFUNC_DEF (clef)
-IGNORE_PUTFUNC_DEF (clef)
-INT_PUTFUNC_DEF (clef, tx)
-INT_PUTFUNC_DEF (clef, ty)
-INT_PUTFUNC_DEF (clef, gx)
-INT_PUTFUNC_DEF (clef, gy)
-INT_PUTFUNC_DEF (clef, override)
-//INT_GETFUNC_DEF (clef)
-//INT_GETFUNC_DEF (clef)
-INT_GETFUNC_DEF (clef, tx)
-INT_GETFUNC_DEF (clef, ty)
-INT_GETFUNC_DEF (clef, gx)
-INT_GETFUNC_DEF (clef, gy)
-INT_GETFUNC_DEF (clef, override)
-INT_GETFUNC_DEF (clef, width)
-INT_GETFUNC_DEF (clef, height) EDIT_DELETE_FN_DEF (clef)
-  // end block
-  GETFUNC_DEF (timesig, prefix) GETFUNC_DEF (timesig, postfix) GETFUNC_DEF (timesig, display) PUTFUNC_DEF (timesig, prefix) PUTFUNC_DEF (timesig, postfix) PUTFUNC_DEF (timesig, display) PUTGRAPHICFUNC_DEF (timesig);
+// end block to ocpy for new int field in directive
 
-ALLOW_PUTFUNC_DEF (timesig)
-IGNORE_PUTFUNC_DEF (timesig)
-INT_PUTFUNC_DEF (timesig, tx)
-INT_PUTFUNC_DEF (timesig, ty)
-INT_PUTFUNC_DEF (timesig, gx)
-INT_PUTFUNC_DEF (timesig, gy)
-INT_PUTFUNC_DEF (timesig, override)
-//INT_GETFUNC_DEF (timesig)
-//INT_GETFUNC_DEF (timesig)
-INT_GETFUNC_DEF (timesig, tx)
-INT_GETFUNC_DEF (timesig, ty)
-INT_GETFUNC_DEF (timesig, gx)
-INT_GETFUNC_DEF (timesig, gy)
-INT_GETFUNC_DEF (timesig, override)
-INT_GETFUNC_DEF (timesig, width)
-INT_GETFUNC_DEF (timesig, height) EDIT_DELETE_FN_DEF (timesig) GETFUNC_DEF (tuplet, prefix) GETFUNC_DEF (tuplet, postfix) GETFUNC_DEF (tuplet, display) PUTFUNC_DEF (tuplet, prefix) PUTFUNC_DEF (tuplet, postfix) PUTFUNC_DEF (tuplet, display) PUTGRAPHICFUNC_DEF (tuplet);
+INT_PUTFUNC_DEF (note, override);
+INT_PUTFUNC_DEF (chord, override);
+INT_PUTFUNC_DEF (standalone, override);
+INT_PUTFUNC_DEF (staff, override);
+INT_PUTFUNC_DEF (voice, override);
+INT_PUTFUNC_DEF (score, override);
+INT_GETFUNC_DEF (note, override);
+INT_GETFUNC_DEF (chord, override);
+INT_GETFUNC_DEF (standalone, override);
+INT_GETFUNC_DEF (staff, override);
+INT_GETFUNC_DEF (voice, override);
+INT_GETFUNC_DEF (score, override);
+IGNORE_PUTFUNC_DEF (note);
+IGNORE_PUTFUNC_DEF (chord);
+IGNORE_PUTFUNC_DEF (standalone);
+IGNORE_PUTFUNC_DEF (staff);
+IGNORE_PUTFUNC_DEF (voice);
+// UNUSED: INT_PUTFUNC_DEF (standalone)
+// UNUSED: INT_GETFUNC_DEF (note)
+// UNUSED: INT_GETFUNC_DEF (chord)
+// UNUSED: INT_GETFUNC_DEF (standalone)
+ALLOW_PUTFUNC_DEF (note);
+ALLOW_PUTFUNC_DEF (chord);
+ALLOW_PUTFUNC_DEF (standalone);
+ALLOW_PUTFUNC_DEF (staff);
+ALLOW_PUTFUNC_DEF (voice);
 
-ALLOW_PUTFUNC_DEF (tuplet)
-IGNORE_PUTFUNC_DEF (tuplet)
-INT_PUTFUNC_DEF (tuplet, tx)
-INT_PUTFUNC_DEF (tuplet, ty)
-INT_PUTFUNC_DEF (tuplet, gx)
-INT_PUTFUNC_DEF (tuplet, gy)
-INT_PUTFUNC_DEF (tuplet, override)
-//INT_GETFUNC_DEF (tuplet)
-//INT_GETFUNC_DEF (tuplet)
-INT_GETFUNC_DEF (tuplet, tx)
-INT_GETFUNC_DEF (tuplet, ty)
-INT_GETFUNC_DEF (tuplet, gx)
-INT_GETFUNC_DEF (tuplet, gy)
-INT_GETFUNC_DEF (tuplet, override)
-INT_GETFUNC_DEF (tuplet, width)
-INT_GETFUNC_DEF (tuplet, height) EDIT_DELETE_FN_DEF (tuplet) GETFUNC_DEF (stemdirective, prefix) GETFUNC_DEF (stemdirective, postfix) GETFUNC_DEF (stemdirective, display) PUTFUNC_DEF (stemdirective, prefix) PUTFUNC_DEF (stemdirective, postfix) PUTFUNC_DEF (stemdirective, display) PUTGRAPHICFUNC_DEF (stemdirective);
+// UNUSED: INT_GETFUNC_DEF (note)
+// UNUSED: INT_GETFUNC_DEF (chord)
+// UNUSED: INT_GETFUNC_DEF (standalone)
+INT_PUTFUNC_DEF (note, ty);
+INT_PUTFUNC_DEF (chord, ty);
+INT_PUTFUNC_DEF (standalone, ty);
+INT_GETFUNC_DEF (note, ty);
+INT_GETFUNC_DEF (chord, ty);
+INT_GETFUNC_DEF (standalone, ty);
+INT_PUTFUNC_DEF (note, tx);
+INT_PUTFUNC_DEF (chord, tx);
+INT_PUTFUNC_DEF (standalone, tx);
+INT_GETFUNC_DEF (note, tx);
+INT_GETFUNC_DEF (chord, tx);
+INT_GETFUNC_DEF (standalone, tx);
+INT_PUTFUNC_DEF (note, gy);
+INT_PUTFUNC_DEF (chord, gy);
+INT_PUTFUNC_DEF (standalone, gy);
+INT_GETFUNC_DEF (note, gy);
+INT_GETFUNC_DEF (chord, gy);
+INT_GETFUNC_DEF (standalone, gy);
+INT_PUTFUNC_DEF (note, gx);
+INT_PUTFUNC_DEF (chord, gx);
+INT_PUTFUNC_DEF (standalone, gx);
+INT_GETFUNC_DEF (note, gx);
+INT_GETFUNC_DEF (chord, gx);
+INT_GETFUNC_DEF (standalone, gx);
+INT_GETFUNC_DEF (note, width);
+INT_GETFUNC_DEF (chord, width);
+INT_GETFUNC_DEF (standalone, width);
+INT_GETFUNC_DEF (note, height);
+INT_GETFUNC_DEF (chord, height);
+INT_GETFUNC_DEF (standalone, height);
+INT_GETFUNC_DEF (score, tx);
+INT_GETFUNC_DEF (score, ty);
+INT_GETFUNC_DEF (score, gx);
+INT_GETFUNC_DEF (score, gy);
+INT_GETFUNC_DEF (score, width);
+INT_GETFUNC_DEF (score, height);
+ALLOW_PUTFUNC_DEF (score);
+IGNORE_PUTFUNC_DEF (score);
+INT_PUTFUNC_DEF (score, tx);
+INT_PUTFUNC_DEF (score, ty);
+INT_PUTFUNC_DEF (score, gx);
+INT_PUTFUNC_DEF (score, gy);
+INT_GETFUNC_DEF (object, minpixels);
+INT_PUTFUNC_DEF (object, minpixels);
+DELETE_FN_DEF (object);
 
-ALLOW_PUTFUNC_DEF (stemdirective)
-IGNORE_PUTFUNC_DEF (stemdirective)
-INT_PUTFUNC_DEF (stemdirective, tx)
-INT_PUTFUNC_DEF (stemdirective, ty)
-INT_PUTFUNC_DEF (stemdirective, gx)
-INT_PUTFUNC_DEF (stemdirective, gy)
-INT_PUTFUNC_DEF (stemdirective, override)
-//INT_GETFUNC_DEF (stemdirective)
-//INT_GETFUNC_DEF (stemdirective)
-INT_GETFUNC_DEF (stemdirective, tx)
-INT_GETFUNC_DEF (stemdirective, ty)
-INT_GETFUNC_DEF (stemdirective, gx)
-INT_GETFUNC_DEF (stemdirective, gy)
-INT_GETFUNC_DEF (stemdirective, override)
-INT_GETFUNC_DEF (stemdirective, width)
-INT_GETFUNC_DEF (stemdirective, height) EDIT_DELETE_FN_DEF (stemdirective) GETFUNC_DEF (keysig, prefix) GETFUNC_DEF (keysig, postfix) GETFUNC_DEF (keysig, display) PUTFUNC_DEF (keysig, prefix) PUTFUNC_DEF (keysig, postfix) PUTFUNC_DEF (keysig, display) PUTGRAPHICFUNC_DEF (keysig);
+// block to copy for new type of directive, !!minpixels is done in block to copy for new fields!!
 
-ALLOW_PUTFUNC_DEF (keysig)
-IGNORE_PUTFUNC_DEF (keysig)
-INT_PUTFUNC_DEF (keysig, tx)
-INT_PUTFUNC_DEF (keysig, ty)
-INT_PUTFUNC_DEF (keysig, gx)
-INT_PUTFUNC_DEF (keysig, gy)
-INT_PUTFUNC_DEF (keysig, override)
-//INT_GETFUNC_DEF (keysig)
-//INT_GETFUNC_DEF (keysig)
-INT_GETFUNC_DEF (keysig, tx)
-INT_GETFUNC_DEF (keysig, ty)
-INT_GETFUNC_DEF (keysig, gx)
-INT_GETFUNC_DEF (keysig, gy)
-INT_GETFUNC_DEF (keysig, override)
-INT_GETFUNC_DEF (keysig, width)
-INT_GETFUNC_DEF (keysig, height) EDIT_DELETE_FN_DEF (keysig) GETFUNC_DEF (scoreheader, prefix) GETFUNC_DEF (scoreheader, postfix) GETFUNC_DEF (scoreheader, display) PUTFUNC_DEF (scoreheader, prefix) PUTFUNC_DEF (scoreheader, postfix) PUTFUNC_DEF (scoreheader, display) PUTGRAPHICFUNC_DEF (scoreheader);
+GETFUNC_DEF (clef, prefix) GETFUNC_DEF (clef, postfix) GETFUNC_DEF (clef, display) PUTFUNC_DEF (clef, prefix) PUTFUNC_DEF (clef, postfix) PUTFUNC_DEF (clef, display) PUTGRAPHICFUNC_DEF (clef);
 
-ALLOW_PUTFUNC_DEF (scoreheader)
-IGNORE_PUTFUNC_DEF (scoreheader)
-INT_PUTFUNC_DEF (scoreheader, tx)
-INT_PUTFUNC_DEF (scoreheader, ty)
-INT_PUTFUNC_DEF (scoreheader, gx)
-INT_PUTFUNC_DEF (scoreheader, gy)
-INT_PUTFUNC_DEF (scoreheader, override)
-//INT_GETFUNC_DEF (scoreheader)
-//INT_GETFUNC_DEF (scoreheader)
-INT_GETFUNC_DEF (scoreheader, tx)
-INT_GETFUNC_DEF (scoreheader, ty)
-INT_GETFUNC_DEF (scoreheader, gx)
-INT_GETFUNC_DEF (scoreheader, gy)
-INT_GETFUNC_DEF (scoreheader, override)
-INT_GETFUNC_DEF (scoreheader, width)
-INT_GETFUNC_DEF (scoreheader, height) EDIT_DELETE_FN_DEF (scoreheader) GETFUNC_DEF (header, prefix) GETFUNC_DEF (header, postfix) GETFUNC_DEF (header, display) PUTFUNC_DEF (header, prefix) PUTFUNC_DEF (header, postfix) PUTFUNC_DEF (header, display) PUTGRAPHICFUNC_DEF (header);
+ALLOW_PUTFUNC_DEF (clef);
+IGNORE_PUTFUNC_DEF (clef);
+INT_PUTFUNC_DEF (clef, tx);
+INT_PUTFUNC_DEF (clef, ty);
+INT_PUTFUNC_DEF (clef, gx);
+INT_PUTFUNC_DEF (clef, gy);
+INT_PUTFUNC_DEF (clef, override);
+INT_GETFUNC_DEF (clef, tx);
+INT_GETFUNC_DEF (clef, ty);
+INT_GETFUNC_DEF (clef, gx);
+INT_GETFUNC_DEF (clef, gy);
+INT_GETFUNC_DEF (clef, override);
+INT_GETFUNC_DEF (clef, width);
+INT_GETFUNC_DEF (clef, height);
+EDIT_DELETE_FN_DEF (clef);
 
-ALLOW_PUTFUNC_DEF (header)
-IGNORE_PUTFUNC_DEF (header)
-INT_PUTFUNC_DEF (header, tx)
-INT_PUTFUNC_DEF (header, ty)
-INT_PUTFUNC_DEF (header, gx)
-INT_PUTFUNC_DEF (header, gy)
-INT_PUTFUNC_DEF (header, override)
-//INT_GETFUNC_DEF (header) 
-//INT_GETFUNC_DEF (header) 
-INT_GETFUNC_DEF (header, tx) 
-INT_GETFUNC_DEF (header, ty) 
-INT_GETFUNC_DEF (header, gx) 
-INT_GETFUNC_DEF (header, gy) 
-INT_GETFUNC_DEF (header, override) 
-INT_GETFUNC_DEF (header, width) 
-INT_GETFUNC_DEF (header, height) 
-EDIT_DELETE_FN_DEF (header) 
-GETFUNC_DEF (paper, prefix) 
-GETFUNC_DEF (paper, postfix) 
-GETFUNC_DEF (paper, display) 
-PUTFUNC_DEF (paper, prefix) 
-PUTFUNC_DEF (paper, postfix) 
-PUTFUNC_DEF (paper, display) 
+// end block
+
+GETFUNC_DEF (timesig, prefix) GETFUNC_DEF (timesig, postfix) GETFUNC_DEF (timesig, display) PUTFUNC_DEF (timesig, prefix) PUTFUNC_DEF (timesig, postfix) PUTFUNC_DEF (timesig, display) PUTGRAPHICFUNC_DEF (timesig);
+
+ALLOW_PUTFUNC_DEF (timesig);
+IGNORE_PUTFUNC_DEF (timesig);
+INT_PUTFUNC_DEF (timesig, tx);
+INT_PUTFUNC_DEF (timesig, ty);
+INT_PUTFUNC_DEF (timesig, gx);
+INT_PUTFUNC_DEF (timesig, gy);
+INT_PUTFUNC_DEF (timesig, override);
+INT_GETFUNC_DEF (timesig, tx);
+INT_GETFUNC_DEF (timesig, ty);
+INT_GETFUNC_DEF (timesig, gx);
+INT_GETFUNC_DEF (timesig, gy);
+INT_GETFUNC_DEF (timesig, override);
+INT_GETFUNC_DEF (timesig, width);
+INT_GETFUNC_DEF (timesig, height);
+EDIT_DELETE_FN_DEF (timesig);
+GETFUNC_DEF (tuplet, prefix);
+GETFUNC_DEF (tuplet, postfix);
+GETFUNC_DEF (tuplet, display);
+PUTFUNC_DEF (tuplet, prefix);
+PUTFUNC_DEF (tuplet, postfix);
+PUTFUNC_DEF (tuplet, display);
+PUTGRAPHICFUNC_DEF (tuplet);
+
+ALLOW_PUTFUNC_DEF (tuplet);
+IGNORE_PUTFUNC_DEF (tuplet);
+INT_PUTFUNC_DEF (tuplet, tx);
+INT_PUTFUNC_DEF (tuplet, ty);
+INT_PUTFUNC_DEF (tuplet, gx);
+INT_PUTFUNC_DEF (tuplet, gy);
+INT_PUTFUNC_DEF (tuplet, override);
+INT_GETFUNC_DEF (tuplet, tx);
+INT_GETFUNC_DEF (tuplet, ty);
+INT_GETFUNC_DEF (tuplet, gx);
+INT_GETFUNC_DEF (tuplet, gy);
+INT_GETFUNC_DEF (tuplet, override);
+INT_GETFUNC_DEF (tuplet, width);
+INT_GETFUNC_DEF (tuplet, height);
+EDIT_DELETE_FN_DEF (tuplet);
+GETFUNC_DEF (stemdirective, prefix);
+GETFUNC_DEF (stemdirective, postfix);
+GETFUNC_DEF (stemdirective, display);
+PUTFUNC_DEF (stemdirective, prefix);
+PUTFUNC_DEF (stemdirective, postfix);
+PUTFUNC_DEF (stemdirective, display);
+PUTGRAPHICFUNC_DEF (stemdirective);
+
+ALLOW_PUTFUNC_DEF (stemdirective);
+IGNORE_PUTFUNC_DEF (stemdirective);
+INT_PUTFUNC_DEF (stemdirective, tx);
+INT_PUTFUNC_DEF (stemdirective, ty);
+INT_PUTFUNC_DEF (stemdirective, gx);
+INT_PUTFUNC_DEF (stemdirective, gy);
+INT_PUTFUNC_DEF (stemdirective, override);
+INT_GETFUNC_DEF (stemdirective, tx);
+INT_GETFUNC_DEF (stemdirective, ty);
+INT_GETFUNC_DEF (stemdirective, gx);
+INT_GETFUNC_DEF (stemdirective, gy);
+INT_GETFUNC_DEF (stemdirective, override);
+INT_GETFUNC_DEF (stemdirective, width);
+INT_GETFUNC_DEF (stemdirective, height);
+EDIT_DELETE_FN_DEF (stemdirective);
+GETFUNC_DEF (keysig, prefix);
+GETFUNC_DEF (keysig, postfix);
+GETFUNC_DEF (keysig, display);
+PUTFUNC_DEF (keysig, prefix);
+PUTFUNC_DEF (keysig, postfix);
+PUTFUNC_DEF (keysig, display);
+PUTGRAPHICFUNC_DEF (keysig);
+
+ALLOW_PUTFUNC_DEF (keysig);
+IGNORE_PUTFUNC_DEF (keysig);
+INT_PUTFUNC_DEF (keysig, tx);
+INT_PUTFUNC_DEF (keysig, ty);
+INT_PUTFUNC_DEF (keysig, gx);
+INT_PUTFUNC_DEF (keysig, gy);
+INT_PUTFUNC_DEF (keysig, override);
+INT_GETFUNC_DEF (keysig, tx);
+INT_GETFUNC_DEF (keysig, ty);
+INT_GETFUNC_DEF (keysig, gx);
+INT_GETFUNC_DEF (keysig, gy);
+INT_GETFUNC_DEF (keysig, override);
+INT_GETFUNC_DEF (keysig, width);
+INT_GETFUNC_DEF (keysig, height);
+EDIT_DELETE_FN_DEF (keysig);
+GETFUNC_DEF (scoreheader, prefix);
+GETFUNC_DEF (scoreheader, postfix);
+GETFUNC_DEF (scoreheader, display);
+PUTFUNC_DEF (scoreheader, prefix);
+PUTFUNC_DEF (scoreheader, postfix);
+PUTFUNC_DEF (scoreheader, display);
+PUTGRAPHICFUNC_DEF (scoreheader);
+
+ALLOW_PUTFUNC_DEF (scoreheader);
+IGNORE_PUTFUNC_DEF (scoreheader);
+INT_PUTFUNC_DEF (scoreheader, tx);
+INT_PUTFUNC_DEF (scoreheader, ty);
+INT_PUTFUNC_DEF (scoreheader, gx);
+INT_PUTFUNC_DEF (scoreheader, gy);
+INT_PUTFUNC_DEF (scoreheader, override);
+INT_GETFUNC_DEF (scoreheader, tx);
+INT_GETFUNC_DEF (scoreheader, ty);
+INT_GETFUNC_DEF (scoreheader, gx);
+INT_GETFUNC_DEF (scoreheader, gy);
+INT_GETFUNC_DEF (scoreheader, override);
+INT_GETFUNC_DEF (scoreheader, width);
+INT_GETFUNC_DEF (scoreheader, height);
+EDIT_DELETE_FN_DEF (scoreheader);
+GETFUNC_DEF (header, prefix);
+GETFUNC_DEF (header, postfix);
+GETFUNC_DEF (header, display);
+PUTFUNC_DEF (header, prefix);
+PUTFUNC_DEF (header, postfix);
+PUTFUNC_DEF (header, display);
+PUTGRAPHICFUNC_DEF (header);
+
+ALLOW_PUTFUNC_DEF (header);
+IGNORE_PUTFUNC_DEF (header);
+INT_PUTFUNC_DEF (header, tx);
+INT_PUTFUNC_DEF (header, ty);
+INT_PUTFUNC_DEF (header, gx);
+INT_PUTFUNC_DEF (header, gy);
+INT_PUTFUNC_DEF (header, override);
+INT_GETFUNC_DEF (header, tx);
+INT_GETFUNC_DEF (header, ty);
+INT_GETFUNC_DEF (header, gx);
+INT_GETFUNC_DEF (header, gy);
+INT_GETFUNC_DEF (header, override);
+INT_GETFUNC_DEF (header, width);
+INT_GETFUNC_DEF (header, height);
+EDIT_DELETE_FN_DEF (header);
+GETFUNC_DEF (paper, prefix);
+GETFUNC_DEF (paper, postfix);
+GETFUNC_DEF (paper, display);
+PUTFUNC_DEF (paper, prefix);
+PUTFUNC_DEF (paper, postfix);
+PUTFUNC_DEF (paper, display);
 PUTGRAPHICFUNC_DEF (paper);
 
-ALLOW_PUTFUNC_DEF (paper)
-IGNORE_PUTFUNC_DEF (paper)
-INT_PUTFUNC_DEF (paper, tx)
-INT_PUTFUNC_DEF (paper, ty)
-INT_PUTFUNC_DEF (paper, gx)
-INT_PUTFUNC_DEF (paper, gy)
-INT_PUTFUNC_DEF (paper, override)
-//INT_GETFUNC_DEF (paper) 
-//INT_GETFUNC_DEF (paper) 
-INT_GETFUNC_DEF (paper, tx) 
-INT_GETFUNC_DEF (paper, ty) 
-INT_GETFUNC_DEF (paper, gx) 
-INT_GETFUNC_DEF (paper, gy) 
-INT_GETFUNC_DEF (paper, override) 
-INT_GETFUNC_DEF (paper, width) 
-INT_GETFUNC_DEF (paper, height) 
-EDIT_DELETE_FN_DEF (paper) 
-GETFUNC_DEF (layout, prefix) 
-GETFUNC_DEF (layout, postfix) 
-GETFUNC_DEF (layout, display) 
-PUTFUNC_DEF (layout, prefix) 
-PUTFUNC_DEF (layout, postfix) 
-PUTFUNC_DEF (layout, display) 
+ALLOW_PUTFUNC_DEF (paper);
+IGNORE_PUTFUNC_DEF (paper);
+INT_PUTFUNC_DEF (paper, tx);
+INT_PUTFUNC_DEF (paper, ty);
+INT_PUTFUNC_DEF (paper, gx);
+INT_PUTFUNC_DEF (paper, gy);
+INT_PUTFUNC_DEF (paper, override);
+INT_GETFUNC_DEF (paper, tx);
+INT_GETFUNC_DEF (paper, ty);
+INT_GETFUNC_DEF (paper, gx);
+INT_GETFUNC_DEF (paper, gy);
+INT_GETFUNC_DEF (paper, override);
+INT_GETFUNC_DEF (paper, width);
+INT_GETFUNC_DEF (paper, height);
+EDIT_DELETE_FN_DEF (paper);
+GETFUNC_DEF (layout, prefix);
+GETFUNC_DEF (layout, postfix);
+GETFUNC_DEF (layout, display);
+PUTFUNC_DEF (layout, prefix);
+PUTFUNC_DEF (layout, postfix);
+PUTFUNC_DEF (layout, display);
 PUTGRAPHICFUNC_DEF (layout);
 
-ALLOW_PUTFUNC_DEF (layout)
-IGNORE_PUTFUNC_DEF (layout)
-INT_PUTFUNC_DEF (layout, tx)
-INT_PUTFUNC_DEF (layout, ty)
-INT_PUTFUNC_DEF (layout, gx)
-INT_PUTFUNC_DEF (layout, gy)
-INT_PUTFUNC_DEF (layout, override)
-//INT_GETFUNC_DEF (layout) 
-//INT_GETFUNC_DEF (layout) 
-INT_GETFUNC_DEF (layout, tx) 
-INT_GETFUNC_DEF (layout, ty) 
-INT_GETFUNC_DEF (layout, gx) 
-INT_GETFUNC_DEF (layout, gy) 
-INT_GETFUNC_DEF (layout, override) 
-INT_GETFUNC_DEF (layout, width) 
-INT_GETFUNC_DEF (layout, height) 
-EDIT_DELETE_FN_DEF (layout) 
-GETFUNC_DEF (movementcontrol, prefix) 
-GETFUNC_DEF (movementcontrol, postfix) 
-PUTFUNC_DEF (movementcontrol, prefix) 
-PUTFUNC_DEF (movementcontrol, postfix) 
+ALLOW_PUTFUNC_DEF (layout);
+IGNORE_PUTFUNC_DEF (layout);
+INT_PUTFUNC_DEF (layout, tx);
+INT_PUTFUNC_DEF (layout, ty);
+INT_PUTFUNC_DEF (layout, gx);
+INT_PUTFUNC_DEF (layout, gy);
+INT_PUTFUNC_DEF (layout, override);
+INT_GETFUNC_DEF (layout, tx);
+INT_GETFUNC_DEF (layout, ty);
+INT_GETFUNC_DEF (layout, gx);
+INT_GETFUNC_DEF (layout, gy);
+INT_GETFUNC_DEF (layout, override);
+INT_GETFUNC_DEF (layout, width);
+INT_GETFUNC_DEF (layout, height);
+EDIT_DELETE_FN_DEF (layout);
+GETFUNC_DEF (movementcontrol, prefix);
+GETFUNC_DEF (movementcontrol, postfix);
+PUTFUNC_DEF (movementcontrol, prefix);
+PUTFUNC_DEF (movementcontrol, postfix);
 PUTGRAPHICFUNC_DEF (movementcontrol);
 
-ALLOW_PUTFUNC_DEF (movementcontrol)
-IGNORE_PUTFUNC_DEF (movementcontrol)
-INT_PUTFUNC_DEF (movementcontrol, tx)
-INT_PUTFUNC_DEF (movementcontrol, ty)
-INT_PUTFUNC_DEF (movementcontrol, gx)
-INT_PUTFUNC_DEF (movementcontrol, gy) 
-INT_PUTFUNC_DEF (movementcontrol, override) 
-//INT_GETFUNC_DEF (movementcontrol) 
-//INT_GETFUNC_DEF (movementcontrol) 
-INT_GETFUNC_DEF (movementcontrol, tx) 
-INT_GETFUNC_DEF (movementcontrol, ty) 
-INT_GETFUNC_DEF (movementcontrol, gx) 
-INT_GETFUNC_DEF (movementcontrol, gy) 
-INT_GETFUNC_DEF (movementcontrol, override) 
-INT_GETFUNC_DEF (movementcontrol, width) 
-INT_GETFUNC_DEF (movementcontrol, height) 
-EDIT_DELETE_FN_DEF (movementcontrol)
-     
+ALLOW_PUTFUNC_DEF (movementcontrol);
+IGNORE_PUTFUNC_DEF (movementcontrol);
+INT_PUTFUNC_DEF (movementcontrol, tx);
+INT_PUTFUNC_DEF (movementcontrol, ty);
+INT_PUTFUNC_DEF (movementcontrol, gx);
+INT_PUTFUNC_DEF (movementcontrol, gy);
+INT_PUTFUNC_DEF (movementcontrol, override);
+INT_GETFUNC_DEF (movementcontrol, tx);
+INT_GETFUNC_DEF (movementcontrol, ty);
+INT_GETFUNC_DEF (movementcontrol, gx);
+INT_GETFUNC_DEF (movementcontrol, gy);
+INT_GETFUNC_DEF (movementcontrol, override);
+INT_GETFUNC_DEF (movementcontrol, width);
+INT_GETFUNC_DEF (movementcontrol, height);
+EDIT_DELETE_FN_DEF (movementcontrol);
+
 SCM
 scheme_put_text_clipboard (SCM optional)
 {
@@ -5032,7 +5320,7 @@ scheme_get_keyboard_state (void)
 }
 
 SCM
-scheme_set_midi_thru (SCM set) // see also d-MidiInListening this doesn't lock the state against keyboard changes
+scheme_set_midi_thru (SCM set)  // see also d-MidiInListening this doesn't lock the state against keyboard changes
 {
   SCM ret = scm_from_int (Denemo.keyboard_state);
   if (scm_is_true (set))
@@ -5131,24 +5419,27 @@ scheme_get_midi (SCM bytes)
   gint midi;
   SCM scm;
   gboolean success = intercept_midi_event (&midi);
-  if (scm_is_false(bytes))
+  if (scm_is_false (bytes))
     {
-        if (!success)
-            scm = SCM_BOOL_F;
-        else {
-            Denemo.project->last_source = INPUTMIDI;
-            scm = scm_list_n ( scm_from_int (midi&0xFF), scm_from_int ((midi>>8)&0xFF), scm_from_int ((midi>>16)&0xFF), scm_from_int (midi>>24), SCM_UNDEFINED);
+      if (!success)
+        scm = SCM_BOOL_F;
+      else
+        {
+          Denemo.project->last_source = INPUTMIDI;
+          scm = scm_list_n (scm_from_int (midi & 0xFF), scm_from_int ((midi >> 8) & 0xFF), scm_from_int ((midi >> 16) & 0xFF), scm_from_int (midi >> 24), SCM_UNDEFINED);
         }
-    } else {
-  if (!success)
-    midi = 0;                   /* scripts should detect this impossible value and take action */
+    }
   else
-    Denemo.project->last_source = INPUTMIDI;
-  gchar *buf = (gchar *) & midi;
-  *buf &= 0xF0;                 //do not return channel info
+    {
+      if (!success)
+        midi = 0;               /* scripts should detect this impossible value and take action */
+      else
+        Denemo.project->last_source = INPUTMIDI;
+      gchar *buf = (gchar *) & midi;
+      *buf &= 0xF0;             //do not return channel info
 
-  scm = scm_from_int (midi);
-}
+      scm = scm_from_int (midi);
+    }
   return scm;
 }
 
@@ -5158,20 +5449,21 @@ scheme_put_midi (SCM scm)
 {
   gchar buf[3];
   gint midi;
-  if (scm_is_list(scm))
+  if (scm_is_list (scm))
     {
-    buf[0] = scm_to_int (scm_list_ref (scm, scm_from_int(0)));
-    buf[1] = scm_to_int (scm_list_ref (scm, scm_from_int(1)));
-    buf[2] = scm_to_int (scm_list_ref (scm, scm_from_int(2)));
-    midi = TRUE;
-    } else
-    {
-    midi = scm_to_int (scm);
-    buf[0] = midi & 0xFF;
-    buf[1] = (midi >> 8) & 0xFF;
-    buf[2] = (midi >> 16) & 0xFF;
+      buf[0] = scm_to_int (scm_list_ref (scm, scm_from_int (0)));
+      buf[1] = scm_to_int (scm_list_ref (scm, scm_from_int (1)));
+      buf[2] = scm_to_int (scm_list_ref (scm, scm_from_int (2)));
+      midi = TRUE;
     }
- 
+  else
+    {
+      midi = scm_to_int (scm);
+      buf[0] = midi & 0xFF;
+      buf[1] = (midi >> 8) & 0xFF;
+      buf[2] = (midi >> 16) & 0xFF;
+    }
+
   //g_debug("got %x\nbreaks as %x %x %x\n", midi&0xFFFFFF, buf[0], buf[1], buf[2]);
   if (midi)
     {
@@ -5303,10 +5595,11 @@ scheme_put_rest (SCM optional_duration)
   if ((duration < 0) || (duration > 7))
     return SCM_BOOL_F;
 //FIXME should not allow spillover?
-  dnm_insertchord (Denemo.project, duration, 0, TRUE);
-  displayhelper (Denemo.project);   //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
+  dnm_insertnote (Denemo.project, duration, 0, TRUE);
+  displayhelper (Denemo.project);       //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
+
 //Insert a note without setting the prevailing duration
 SCM
 scheme_put_note (SCM optional_duration)
@@ -5326,17 +5619,47 @@ scheme_put_note (SCM optional_duration)
   gint mode = Denemo.project->mode;
   Denemo.project->mode = 0;
   Denemo.prefs.spillover = 0;
-  
-  if( scm_is_false (optional_duration))
-   dnm_insertchord (Denemo.project, duration, INPUTNORMAL | INPUTBLANK, FALSE);//pass #f for nonprinting note
+
+  if (scm_is_false (optional_duration))
+    dnm_insertnote (Denemo.project, duration, INPUTNORMAL | INPUTBLANK, FALSE);        //pass #f for nonprinting note
   else
-   dnm_insertchord (Denemo.project, duration, INPUTNORMAL, FALSE);
+    dnm_insertnote (Denemo.project, duration, INPUTNORMAL, FALSE);
   Denemo.project->mode = mode;
   Denemo.prefs.spillover = spill;
-  
-  displayhelper (Denemo.project);   //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
+
+  displayhelper (Denemo.project);       //without this a call to d-AddVoice causes a crash as the chord length info has not been updated
   return SCM_BOOL_T;
 }
+
+//Insert a chord at the cursor notes contains space separated lilypond note names
+SCM
+scheme_insert_chord (SCM notes, SCM duration)
+{
+    GList *thenotes = NULL;
+    gint theduration;
+    if (scm_is_integer (duration))
+        theduration = scm_to_int (duration);
+    else
+        theduration = get_prevailing_duration ();
+   if (scm_is_string (notes))
+    {
+        gchar *notestring = scm_to_locale_string (notes);
+        gchar *thenote = strtok (notestring, " ");
+        
+        while (thenote)
+           {
+               struct twoints *data = (struct twoints *)g_malloc (sizeof (struct twoints));
+               interpret_lilypond_notename (thenote, &data->a, &data->b);
+               thenotes = g_list_prepend (thenotes, data);
+               thenote = strtok (NULL, " ");
+            }
+       insert_chord (thenotes, theduration);
+       return SCM_BOOL_T;
+   } 
+        
+    return SCM_BOOL_F;
+}
+
 //Insert a rest in the given (or prevailing duration) and set the prevailing duration
 SCM
 scheme_insert_rest (SCM optional)
@@ -5368,17 +5691,19 @@ scheme_toggle_conduct (void)
 SCM
 scheme_midi_record (SCM script)
 {
-  if(is_playing())
-        return SCM_BOOL_F;
+  if (is_playing ())
+    return SCM_BOOL_F;
   if (scm_is_string (script))
     {
       gchar *text = scm_to_locale_string (script);
       pb_record (text);
       free (text);
-    } else
+    }
+  else
     pb_record (NULL);
   return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
+
 SCM
 scheme_compute_midi_note_durations (void)
 {
@@ -5388,78 +5713,82 @@ scheme_compute_midi_note_durations (void)
 SCM
 scheme_get_marked_midi_note (void)
 {
- SCM scm = SCM_BOOL_F;
- DenemoProject *gui = Denemo.project;
- DenemoMovement *si = gui->movement;
- if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
-     GList *marked = si->marked_onset;
-     DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
-     gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
-     gchar *str = g_strdup_printf ("%s", mid_c_offsettolily (thenote->mid_c_offset + 7*thenote->octave, thenote->enshift));
-     scm = scm_from_locale_string (str);
- }
- return scm;
+  SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
+    {
+      GList *marked = si->marked_onset;
+      DenemoRecordedNote *thenote = (DenemoRecordedNote *) marked->data;
+      gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+      gchar *str = g_strdup_printf ("%s", mid_c_offsettolily (thenote->mid_c_offset + 7 * thenote->octave, thenote->enshift));
+      scm = scm_from_locale_string (str);
+    }
+  return scm;
 }
+
 SCM
 scheme_get_marked_midi_note_seconds (void)
 {
- SCM scm = SCM_BOOL_F;
- DenemoProject *gui = Denemo.project;
- DenemoMovement *si = gui->movement;
- if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset) {
-     GList *marked = si->marked_onset;
-     DenemoRecordedNote *thenote = (DenemoRecordedNote*)marked->data;
-     gdouble seconds = thenote->timing/((gdouble)si->recording->samplerate);
-     scm = scm_from_double (seconds);
- }
- return scm;
+  SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
+    {
+      GList *marked = si->marked_onset;
+      DenemoRecordedNote *thenote = (DenemoRecordedNote *) marked->data;
+      gdouble seconds = thenote->timing / ((gdouble) si->recording->samplerate);
+      scm = scm_from_double (seconds);
+    }
+  return scm;
 }
 
 SCM
 scheme_advance_marked_midi (SCM advance)
 {
- SCM scm = SCM_BOOL_F;
- DenemoProject *gui = Denemo.project;
- DenemoMovement *si = gui->movement;
- if(si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
- {
-   if (SCM_UNBNDP(advance))
+  SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
     {
-        if(si->marked_onset)
+      if (SCM_UNBNDP (advance))
+        {
+          if (si->marked_onset)
             si->marked_onset = si->marked_onset->next;
-    }
-  else if (scm_is_integer (advance))
-    {
-        gint i = scm_to_int (advance);
-        if(i>0)
+        }
+      else if (scm_is_integer (advance))
+        {
+          gint i = scm_to_int (advance);
+          if (i > 0)
             {
-                while(i-- && si->marked_onset)
-                    si->marked_onset = si->marked_onset->next;
+              while (i-- && si->marked_onset)
+                si->marked_onset = si->marked_onset->next;
             }
-        else if (i<0)
-        {
-            while(i++ && si->marked_onset)
-                    si->marked_onset = si->marked_onset->prev;
-        }
-        else
+          else if (i < 0)
+            {
+              while (i++ && si->marked_onset)
+                si->marked_onset = si->marked_onset->prev;
+            }
+          else
             si->marked_onset = si->recording->notes;
-        
-    }
-    else if (scm_is_false (advance))
-        {
-        si->marked_onset = NULL;
-        return SCM_BOOL_T;
-        }
-    if(si->marked_onset)
-            scm = SCM_BOOL_T;
- }
 
- return scm;
+        }
+      else if (scm_is_false (advance))
+        {
+          si->marked_onset = NULL;
+          return SCM_BOOL_T;
+        }
+      if (si->marked_onset)
+        scm = SCM_BOOL_T;
+    }
+
+  return scm;
 }
 
-SCM scheme_insert_marked_midi_note (void)
+SCM
+scheme_insert_marked_midi_note (void)
 {
-    return SCM_BOOL (insert_marked_midi_note ());
+  return SCM_BOOL (insert_marked_midi_note ());
 }
 
 typedef struct cb_scheme_and_id
@@ -5633,7 +5962,7 @@ scheme_set_accidental (SCM optional)
         thenote->enshift = 0;
       if ((thenote->enshift < -2) || (thenote->enshift > 2))
         thenote->enshift = 0;
-      showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
+      showwhichaccidentals ((objnode *) ((DenemoMeasure *) si->currentmeasure->data)->objects);
       //  find_xes_in_measure (si, si->currentmeasurenum, si->cursortime1,
       //                      si->cursortime2); causes a crash, si is not passed correctly, why???
       //thenote->mid_c_offset = interpret_lilypond_notename(str);
@@ -5657,26 +5986,27 @@ scheme_insert_note_in_chord (SCM lily)
 {
   DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
-  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) )
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
     return SCM_BOOL_F;
 #ifdef INSERT_NOTE_IN_CHORD_WORKS_ON_PREVIOUS_CHORD
-  if(curObj->type != CHORD) {
-    objnode *theobj = Denemo.project->movement->currentobject;
-    while(theobj->prev)
-      {
-        theobj = theobj->prev;
-        curObj = theobj->data;
-        if(curObj->type ==CHORD)
-          break;
-      }
-    if(curObj->type !=CHORD)
-      return SCM_BOOL_F;
-  }
+  if (curObj->type != CHORD)
+    {
+      objnode *theobj = Denemo.project->movement->currentobject;
+      while (theobj->prev)
+        {
+          theobj = theobj->prev;
+          curObj = theobj->data;
+          if (curObj->type == CHORD)
+            break;
+        }
+      if (curObj->type != CHORD)
+        return SCM_BOOL_F;
+    }
 #else
-   if(curObj->type !=CHORD)
-      return SCM_BOOL_F;
+  if (curObj->type != CHORD)
+    return SCM_BOOL_F;
 #endif
-      
+
   char *str = NULL;
   if (scm_is_string (lily))
     {
@@ -5742,8 +6072,8 @@ scheme_adjust_xes (SCM optional)
 static gint
 flash_cursor (void)
 {
-  draw_score_area();
- // draw_score (NULL); what was this for?????
+  draw_score_area ();
+  // draw_score (NULL); what was this for?????
   return TRUE;
 }
 
@@ -5753,14 +6083,15 @@ scheme_highlight_cursor (SCM optional)
   static gint id;
   SCM ret = SCM_BOOL_T;
   gboolean old_value = Denemo.prefs.cursor_highlight;
-  if (scm_is_bool(optional))
-   {
+  if (scm_is_bool (optional))
+    {
       Denemo.prefs.cursor_highlight = scm_is_true (optional);
-      ret =  old_value?SCM_BOOL_T:SCM_BOOL_F;  
-  } else
-  {
-  Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
-  }
+      ret = old_value ? SCM_BOOL_T : SCM_BOOL_F;
+    }
+  else
+    {
+      Denemo.prefs.cursor_highlight = !Denemo.prefs.cursor_highlight;
+    }
   if (id && !Denemo.prefs.cursor_highlight)
     {
       g_source_remove (id);
@@ -5839,8 +6170,8 @@ scheme_set_background (SCM color)
     {
       gint value = scm_to_int (color);
       Denemo.color = value;
-      draw_score_area();
-      if(!Denemo.non_interactive)
+      draw_score_area ();
+      if (!Denemo.non_interactive)
         draw_score (NULL);
       return SCM_BOOL_T;
     }
@@ -5956,11 +6287,13 @@ scheme_is_in_selection (void)
 {
   return SCM_BOOL (in_selection (Denemo.project->movement));
 }
+
 SCM
 scheme_has_selection (void)
 {
   return SCM_BOOL (Denemo.project->movement->markstaffnum != 0);
 }
+
 SCM
 scheme_is_appending (void)
 {
@@ -5993,6 +6326,7 @@ scheme_get_measures_in_staff (SCM optional)
   gint num = g_list_length (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->themeasures);
   return scm_from_int (num);
 }
+
 SCM
 scheme_get_staffs_in_movement (SCM optional)
 {
@@ -6002,102 +6336,108 @@ scheme_get_staffs_in_movement (SCM optional)
 
 SCM
 scheme_set_lines_in_staff (SCM lines)
-{  
-    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-    if (scm_is_integer (lines))
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (scm_is_integer (lines))
     {
       gint value = scm_to_int (lines);
       thestaff->no_of_lines = value;
       displayhelper (Denemo.project);
-  }
-  
+    }
+
   return scm_from_int (thestaff->no_of_lines);
 }
+
 SCM
 scheme_inherit_staff_properties (void)
-{  
-    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-    DenemoStaff *prevstaff = (DenemoStaff *) (Denemo.project->movement->currentstaff->prev?Denemo.project->movement->currentstaff->prev->data:NULL);
-    
-    if (prevstaff)
-        {
-        staff_copy (prevstaff, thestaff, FALSE);
-        return SCM_BOOL_T;
-        }
-  
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  DenemoStaff *prevstaff = (DenemoStaff *) (Denemo.project->movement->currentstaff->prev ? Denemo.project->movement->currentstaff->prev->data : NULL);
+
+  if (prevstaff)
+    {
+      staff_copy (prevstaff, thestaff, FALSE);
+      return SCM_BOOL_T;
+    }
+
   return SCM_BOOL_F;
 }
 
 static SCM
 set_staff_range (SCM setting, gboolean hi)
-{  
- DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
- if (scm_is_integer (setting))
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (scm_is_integer (setting))
     {
       gint value = scm_to_int (setting);
-      *(hi?&thestaff->range_hi:&thestaff->range_lo) = value;
+      *(hi ? &thestaff->range_hi : &thestaff->range_lo) = value;
       thestaff->range = TRUE;
     }
-  if(thestaff->range)
-    return scm_from_int (hi?thestaff->range_hi:thestaff->range_lo);
+  if (thestaff->range)
+    return scm_from_int (hi ? thestaff->range_hi : thestaff->range_lo);
   return SCM_BOOL_F;
 }
+
 SCM
 scheme_set_staff_range_hi (SCM hi)
-{  
+{
   return set_staff_range (hi, TRUE);
 }
+
 SCM
 scheme_set_staff_range_lo (SCM lo)
-{  
+{
   return set_staff_range (lo, FALSE);
 }
+
 SCM
 scheme_set_staff_range (void)
-{  
-    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-    if(Denemo.project->movement->currentobject)
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (Denemo.project->movement->currentobject)
+    {
+      DenemoObject *curobj = Denemo.project->movement->currentobject->data;
+      if (curobj->type == CHORD)
         {
-        DenemoObject *curobj = Denemo.project->movement->currentobject->data;
-        if(curobj->type==CHORD)
-            {
-                chord *thechord = ((chord *) curobj->object);
-                thestaff->range_hi = thechord->highestpitch;
-                thestaff->range_lo = thechord->lowestpitch;
-                thestaff->range = TRUE;
-                return SCM_BOOL_T;
-            }
+          chord *thechord = ((chord *) curobj->object);
+          thestaff->range_hi = thechord->highestpitch;
+          thestaff->range_lo = thechord->lowestpitch;
+          thestaff->range = TRUE;
+          return SCM_BOOL_T;
         }
-    return SCM_BOOL_F;
+    }
+  return SCM_BOOL_F;
 }
+
 SCM
 scheme_shorten_staff_height (SCM shorten)
-{  
-    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-   
-    if (scm_is_integer (shorten))
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+
+  if (scm_is_integer (shorten))
     {
       gint value = scm_to_int (shorten);
       thestaff->space_shorten = value;
       displayhelper (Denemo.project);
-  }
+    }
   return scm_from_int (thestaff->space_shorten);
 }
 
 SCM
 scheme_set_color_of_staff (SCM color)
-{  
-    DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-   gint current = thestaff->color;
-    if (scm_is_integer (color))
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  gint current = thestaff->color;
+  if (scm_is_integer (color))
     {
       gint value = scm_to_ulong (color);
       thestaff->color = value;
       displayhelper (Denemo.project);
-  }
-  
+    }
+
   return scm_from_ulong (thestaff->color);
 }
+
 SCM
 scheme_staff_to_voice (SCM optional)
 {
@@ -6108,32 +6448,29 @@ scheme_staff_to_voice (SCM optional)
       current->voicecontrol |= DENEMO_SECONDARY;
       staff_set_current_primary (Denemo.project->movement);
       DenemoStaff *primary = (DenemoStaff *) Denemo.project->movement->currentprimarystaff->data;
-      if ((current->timesig.time1 != primary->timesig.time1)
-        || (current->timesig.time2 != primary->timesig.time2))
-            {
-                warningdialog (_("Time Signatures do not match, will not make voice"));
-                current->voicecontrol = DENEMO_PRIMARY;
-                staff_set_current_primary (Denemo.project->movement);
-                return SCM_BOOL_F;
-            }
-      if ((current->keysig.number != primary->keysig.number)
-        || (current->keysig.isminor != primary->keysig.isminor)
-        || (current->keysig.mode != primary->keysig.mode))
-            {
-                warningdialog (_("Key Signatures do not match, will not make voice"));
-                current->voicecontrol = DENEMO_PRIMARY;
-                staff_set_current_primary (Denemo.project->movement);
-                return SCM_BOOL_F;
-            }
-            
-       if (current->clef.type != primary->clef.type)
-            {
-                warningdialog (_("This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."));
-            }        
+      if ((current->timesig.time1 != primary->timesig.time1) || (current->timesig.time2 != primary->timesig.time2))
+        {
+          warningdialog (_("Time Signatures do not match, will not make voice"));
+          current->voicecontrol = DENEMO_PRIMARY;
+          staff_set_current_primary (Denemo.project->movement);
+          return SCM_BOOL_F;
+        }
+      if ((current->keysig.number != primary->keysig.number) || (current->keysig.isminor != primary->keysig.isminor) || (current->keysig.mode != primary->keysig.mode))
+        {
+          warningdialog (_("Key Signatures do not match, will not make voice"));
+          current->voicecontrol = DENEMO_PRIMARY;
+          staff_set_current_primary (Denemo.project->movement);
+          return SCM_BOOL_F;
+        }
+
+      if (current->clef.type != primary->clef.type)
+        {
+          warningdialog (_("This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."));
+        }
       ret = SCM_BOOL_T;
-      draw_score_area();
+      draw_score_area ();
       score_status (Denemo.project, TRUE);
-      if(!Denemo.non_interactive)
+      if (!Denemo.non_interactive)
         draw_score (NULL);
     }
   return ret;
@@ -6149,7 +6486,7 @@ scheme_voice_to_staff (SCM optional)
       staff_set_current_primary (Denemo.project->movement);
       ret = SCM_BOOL_T;
       score_status (Denemo.project, TRUE);
-      draw_score_area();
+      draw_score_area ();
     }
   return ret;
 }
@@ -6157,8 +6494,9 @@ scheme_voice_to_staff (SCM optional)
 SCM
 scheme_is_voice (void)
 {
-return SCM_BOOL ((((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol & DENEMO_SECONDARY));
+  return SCM_BOOL ((((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol & DENEMO_SECONDARY));
 }
+
 /* shifts the note at the cursor by the number of diatonic steps passed in */
 SCM
 scheme_diatonic_shift (SCM optional)
@@ -6263,10 +6601,10 @@ scheme_get_saved (SCM optional)
 SCM
 scheme_changecount (SCM count)
 {
-    if(scm_is_integer (count))
-        {
-            Denemo.project->changecount = scm_to_int (count);
-        }
+  if (scm_is_integer (count))
+    {
+      Denemo.project->changecount = scm_to_int (count);
+    }
   return scm_from_int (Denemo.project->changecount);
 
 }
@@ -6461,11 +6799,14 @@ scheme_insert_snippet (SCM number, SCM select)
           RhythmPattern *r = g->data;
           if (r)
             {
-                if(scm_is_true(select)) {
-                    select_rhythm_pattern (r);
-                    insert_note_following_pattern (Denemo.project);
-                } else {
-                    insert_nth_rhythm (position-1);
+              if (scm_is_true (select))
+                {
+                  select_rhythm_pattern (r);
+                  insert_note_following_pattern (Denemo.project);
+                }
+              else
+                {
+                  insert_nth_rhythm (position - 1);
                 }
 
               return SCM_BOOL_T;
@@ -6488,51 +6829,68 @@ scheme_locate_dotdenemo (SCM optional)
 }
 
 
-SCM scheme_log_debug(SCM message){
-  if(scm_is_string(message)){
-    const gchar* msg = scm_to_locale_string(message);
-    g_debug("%s", msg);
-  }
+SCM
+scheme_log_debug (SCM message)
+{
+  if (scm_is_string (message))
+    {
+      const gchar *msg = scm_to_locale_string (message);
+      g_debug ("%s", msg);
+    }
   return SCM_BOOL_T;
 }
 
-SCM scheme_log_info(SCM message){
-  if(scm_is_string(message)){
-    const gchar* msg = scm_to_locale_string(message);
-    g_info("%s", msg);
-  }
+SCM
+scheme_log_info (SCM message)
+{
+  if (scm_is_string (message))
+    {
+      const gchar *msg = scm_to_locale_string (message);
+      g_info ("%s", msg);
+    }
   return SCM_BOOL_T;
 }
 
-SCM scheme_log_message(SCM message){
-  if(scm_is_string(message)){
-    const gchar* msg = scm_to_locale_string(message);
-    g_message("%s", msg);
-  }
+SCM
+scheme_log_message (SCM message)
+{
+  if (scm_is_string (message))
+    {
+      const gchar *msg = scm_to_locale_string (message);
+      g_message ("%s", msg);
+    }
   return SCM_BOOL_T;
 }
 
-SCM scheme_log_warning(SCM message){
-  if(scm_is_string(message)){
-    const gchar* msg = scm_to_locale_string(message);
-    g_warning("%s", msg);
-  }
+SCM
+scheme_log_warning (SCM message)
+{
+  if (scm_is_string (message))
+    {
+      const gchar *msg = scm_to_locale_string (message);
+      g_warning ("%s", msg);
+    }
   return SCM_BOOL_T;
 }
 
-SCM scheme_log_critical(SCM message){
-  if(scm_is_string(message)){
-    const gchar* msg = scm_to_locale_string(message);
-    g_critical("%s", msg);
-  }
+SCM
+scheme_log_critical (SCM message)
+{
+  if (scm_is_string (message))
+    {
+      const gchar *msg = scm_to_locale_string (message);
+      g_critical ("%s", msg);
+    }
   return SCM_BOOL_T;
 }
 
-SCM scheme_log_error(SCM message){
-  if(scm_is_string(message)){
-    const gchar* msg = scm_to_locale_string(message);
-    g_error("%s", msg);
-  }
+SCM
+scheme_log_error (SCM message)
+{
+  if (scm_is_string (message))
+    {
+      const gchar *msg = scm_to_locale_string (message);
+      g_error ("%s", msg);
+    }
   return SCM_BOOL_T;
 }
-

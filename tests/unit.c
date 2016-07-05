@@ -30,7 +30,7 @@ setup(gpointer fixture, gconstpointer data)
 
 static void
 teardown(gpointer fixture, gconstpointer data)
-{  
+{
   delete_if_exists(temp_dir);
 }
 
@@ -114,7 +114,7 @@ test_thumbnailer(gpointer fixture, gconstpointer data)
   gchar* thumbnail = g_build_filename(temp_dir, "thumbnail.png", NULL);
   gchar* scheme = g_strdup_printf( "(d-CreateThumbnail #f \"%s\")(d-Exit)", thumbnail);
   gchar* input = g_build_filename(data_dir, "denemo", "blank.denemo", NULL);
-  
+
   g_test_print("Running scheme: %s %s\n", scheme, input);
   if (g_test_subprocess ())
     {
@@ -136,7 +136,7 @@ int
 main (int argc, char *argv[])
 {
   g_test_init (&argc, &argv, NULL);
-  
+
   if(!g_file_test(DENEMO, G_FILE_TEST_EXISTS))
     g_error("Denemo has not been compiled successfully");
 
@@ -148,7 +148,7 @@ main (int argc, char *argv[])
 
   if(!example_dir)
     example_dir = g_build_filename(PACKAGE_SOURCE_DIR, EXAMPLE_DIR, NULL);
-  
+
   g_test_add ("/unit/run-and-quit", void, NULL, setup, test_run_and_quit, teardown);
 
   //g_test_add ("/unit/invalid-scheme", void, NULL, setup, test_invalid_scheme, teardown);

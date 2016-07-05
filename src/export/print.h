@@ -11,7 +11,7 @@
 #define INSTALLED_LILYPOND_VERSION "2.18.0"       /* FIXME set via gub */
 #define MANUAL _("Manual Updates")
 #define CONTINUOUS _("Continuous")
-#ifdef G_OS_WIN32    
+#ifdef G_OS_WIN32
 #define  return_on_windows_if_printing \
   if (Denemo.printstatus->printpid != GPID_NONE)\
     {\
@@ -27,7 +27,7 @@
 #else
 #define  return_on_windows_if_printing
 #define  return1_on_windows_if_printing
-#endif  
+#endif
 
 
 typedef struct WwRectangle

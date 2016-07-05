@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CreateButtonForObject</action>
+        <after>UnhidePalettes</after>
+        <_label>Create Button for Object</_label>
+        <_tooltip>Creates a palette button to insert a clone of the object at the cursor when the button is pressed.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

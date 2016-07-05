@@ -1,7 +1,7 @@
 /* timesigdialog.cpp
  * a callback that creates a dialog boxes prompting the
  * user for information on changing the time signature
- 
+
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Matthew Hiller */
 
@@ -39,7 +39,7 @@ ispow2 (gint x)
 
 /**
  * Set the timesig values for the given staff
- * 
+ *
  */
 static void
 settimesig (DenemoStaff * curstaffstruct, gint time1, gint time2)
@@ -88,7 +88,7 @@ dnm_setinitialtimesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint t
 
 
 /**
- * Insert time sig change on either a single staff or across the 
+ * Insert time sig change on either a single staff or across the
  * entire score.
  */
 static void
@@ -123,14 +123,14 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
           ((DenemoMeasure *)curmeasure->data)->objects = g_list_remove_link ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, firstobj);
           freeobject (firstmudobj);
           g_list_free_1 (firstobj);
-        } 
+        }
       DenemoObject *timesigobj =  dnm_newtimesigobj (time1, time2);
       ((DenemoMeasure *)curmeasure->data)->objects = g_list_prepend ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, timesigobj);
       ((DenemoMeasure *)curmeasure->data)->timesig = ((DenemoObject*)((DenemoMeasure *)curmeasure->data)->objects->data)->object;
       timesigobj->clef = ((DenemoMeasure*)curmeasure->data)->clef;
       timesigobj->keysig = ((DenemoMeasure*)curmeasure->data)->keysig;
       timesigobj->stemdir = ((DenemoMeasure*)curmeasure->data)->stemdir;
-      
+
       if (curmeasure == si->currentmeasure)
         {
           if (!replacing)

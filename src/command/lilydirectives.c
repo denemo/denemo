@@ -1,5 +1,5 @@
-/* lilydirectives.c 
- * Implements lilydirectives which are not notes 
+/* lilydirectives.c
+ * Implements lilydirectives which are not notes
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * Richard Shann 2009, 2010, 2011
@@ -23,9 +23,9 @@
 #include "core/view.h"
 #include "ui/texteditors.h"
 //#if GTK_MAJOR_VERSION==2
-//#define GDK_KEY_Escape GDK_Escape 
-//#define GDK_KEY_Return GDK_Return 
-//#define GDK_KEY_Tab GDK_Tab 
+//#define GDK_KEY_Escape GDK_Escape
+//#define GDK_KEY_Return GDK_Return
+//#define GDK_KEY_Tab GDK_Tab
 //#define GDK_KEY_BackSpace GDK_BackSpace
 //#endif
 
@@ -36,8 +36,8 @@ static GHashTable *action_scripts;
 
 
 
-    
-    
+
+
 static void
 action_script_table_insert (gchar * name, gchar * script)
 {
@@ -84,7 +84,7 @@ toggle_locked (GtkWidget * widget, gboolean * locked)
    if TAG is NULL or "" return the first directive
    else return NULL
    DEPRECATED * If TAG has two lines the first only is matched, while the second is
-   DEPRECATED* interpreted as a number selecting which matching directive to return 
+   DEPRECATED* interpreted as a number selecting which matching directive to return
    * USE d-DirectiveGetNthTag-##what## instead.
    * */
 DenemoDirective *
@@ -194,8 +194,8 @@ new_directive (gchar * tag)
 typedef enum attach_type
 { ATTACH_NOTE, ATTACH_CHORD } attach_type;
 /**
- * Denemo directive attach or edit.  
-if interactive: Allows user to attach a lilypond directive 
+ * Denemo directive attach or edit.
+if interactive: Allows user to attach a lilypond directive
 else attache the passed strings as lilypond directive
 attachment is to chord ( attach is ATTACH_CHORD) or to the note at the cursor
  */
@@ -528,6 +528,7 @@ delete_clef_directive (gchar * tag)
   DenemoDirective *directive = get_clef_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curclef->directives, tag);
 }
 
@@ -570,6 +571,7 @@ delete_keysig_directive (gchar * tag)
   DenemoDirective *directive = get_keysig_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curkeysig->directives, tag);
 }
 
@@ -609,6 +611,7 @@ delete_timesig_directive (gchar * tag)
   DenemoDirective *directive = get_timesig_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curtimesig->directives, tag);
 }
 
@@ -702,6 +705,7 @@ delete_scoreheader_directive (gchar * tag)
   DenemoDirective *directive = get_scoreheader_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curscoreheader->directives, tag);
 }
 
@@ -730,6 +734,7 @@ delete_paper_directive (gchar * tag)
   DenemoDirective *directive = get_paper_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curpaper->directives, tag);
 }
 
@@ -757,6 +762,7 @@ delete_layout_directive (gchar * tag)
   DenemoDirective *directive = get_layout_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curlayout->directives, tag);
 }
 
@@ -785,6 +791,7 @@ delete_movementcontrol_directive (gchar * tag)
   DenemoDirective *directive = get_movementcontrol_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curmovementcontrol->directives, tag);
 }
 
@@ -813,6 +820,7 @@ delete_header_directive (gchar * tag)
   DenemoDirective *directive = get_header_directive (tag);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curheader->directives, tag);
 }
 
@@ -908,6 +916,7 @@ delete_staff_directive (gchar * tag)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->staff_directives == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curstaff->staff_directives, tag);
 }
 
@@ -920,6 +929,7 @@ delete_initialclef_directive (gchar * tag)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->clef.directives == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curstaff->clef.directives, tag);
 }
 
@@ -932,6 +942,7 @@ delete_voice_directive (gchar * tag)
   DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
   if (curstaff == NULL || curstaff->voice_directives == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&curstaff->voice_directives, tag);
 }
 
@@ -968,6 +979,7 @@ delete_score_directive (gchar * tagname)
   DenemoDirective *directive = get_score_directive (tagname);
   if (directive == NULL)
     return FALSE;
+  signal_structural_change (Denemo.project);
   return delete_directive (&Denemo.project->lilycontrol.directives, tagname);
 }
 
@@ -1026,7 +1038,10 @@ what##_directive_put_graphic(gchar *tag, gchar *value) {\
 PUT_GRAPHIC (chord);
 PUT_GRAPHIC (note);
 
-PUT_GRAPHIC (keysig) PUT_GRAPHIC (timesig) PUT_GRAPHIC (tuplet) PUT_GRAPHIC (stemdirective)
+PUT_GRAPHIC (keysig);
+PUT_GRAPHIC (timesig);
+PUT_GRAPHIC (tuplet);
+PUT_GRAPHIC (stemdirective)
 #define PUT_STR_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
 what##_directive_put_##field(gchar *tag, gchar *value) {\
@@ -1078,31 +1093,73 @@ GET_TAG_FUNC (movementcontrol);
 
 
 
-GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midibytes) GET_STR_FIELD_FUNC (note, midibytes) GET_STR_FIELD_FUNC (chord, midibytes) GET_STR_FIELD_FUNC (staff, midibytes) GET_STR_FIELD_FUNC (voice, midibytes) GET_STR_FIELD_FUNC (standalone, midibytes) PUT_STR_FIELD_FUNC (note, midibytes) PUT_STR_FIELD_FUNC (chord, midibytes)
+GET_STR_FIELD_FUNC (score, midibytes);
+GET_STR_FIELD_FUNC (movementcontrol, midibytes);
+GET_STR_FIELD_FUNC (note, midibytes);
+GET_STR_FIELD_FUNC (chord, midibytes);
+GET_STR_FIELD_FUNC (keysig, midibytes);
+GET_STR_FIELD_FUNC (timesig, midibytes);
+GET_STR_FIELD_FUNC (clef, midibytes);
+GET_STR_FIELD_FUNC (staff, midibytes);
+GET_STR_FIELD_FUNC (voice, midibytes);
+GET_STR_FIELD_FUNC (standalone, midibytes);
+PUT_STR_FIELD_FUNC (note, midibytes);
+PUT_STR_FIELD_FUNC (chord, midibytes)
+PUT_STR_FIELD_FUNC (keysig, midibytes)
+PUT_STR_FIELD_FUNC (timesig, midibytes)
+PUT_STR_FIELD_FUNC (clef, midibytes)
 
 //cloned for grob
-  GET_STR_FIELD_FUNC (score, grob) GET_STR_FIELD_FUNC (movementcontrol, grob) GET_STR_FIELD_FUNC (note, grob) GET_STR_FIELD_FUNC (chord, grob) GET_STR_FIELD_FUNC (staff, grob) GET_STR_FIELD_FUNC (voice, grob) GET_STR_FIELD_FUNC (clef, grob) GET_STR_FIELD_FUNC (timesig, grob) GET_STR_FIELD_FUNC (keysig, grob) GET_STR_FIELD_FUNC (tuplet, grob) GET_STR_FIELD_FUNC (stemdirective, grob) GET_STR_FIELD_FUNC (standalone, grob) PUT_STR_FIELD_FUNC (score, grob)
+  GET_STR_FIELD_FUNC (score, grob);
+GET_STR_FIELD_FUNC (movementcontrol, grob);
+GET_STR_FIELD_FUNC (note, grob);
+GET_STR_FIELD_FUNC (chord, grob);
+GET_STR_FIELD_FUNC (staff, grob);
+GET_STR_FIELD_FUNC (voice, grob);
+GET_STR_FIELD_FUNC (clef, grob);
+GET_STR_FIELD_FUNC (timesig, grob);
+GET_STR_FIELD_FUNC (keysig, grob);
+GET_STR_FIELD_FUNC (tuplet, grob);
+GET_STR_FIELD_FUNC (stemdirective, grob);
+GET_STR_FIELD_FUNC (standalone, grob);
+GET_STR_FIELD_FUNC (standalone, graphic_name);
+GET_STR_FIELD_FUNC (chord, graphic_name);
+GET_STR_FIELD_FUNC (note, graphic_name);
+GET_STR_FIELD_FUNC (clef, graphic_name);
+GET_STR_FIELD_FUNC (keysig, graphic_name);
+GET_STR_FIELD_FUNC (timesig, graphic_name);
+
+PUT_STR_FIELD_FUNC (score, grob)
 //PUT_STR_FIELD_FUNC(staff, grob)
 //PUT_STR_FIELD_FUNC(voice, grob)
-  PUT_STR_FIELD_FUNC (note, grob) PUT_STR_FIELD_FUNC (chord, grob) PUT_STR_FIELD_FUNC (clef, grob) PUT_STR_FIELD_FUNC (timesig, grob) PUT_STR_FIELD_FUNC (keysig, grob) PUT_STR_FIELD_FUNC (tuplet, grob) PUT_STR_FIELD_FUNC (stemdirective, grob)
+  PUT_STR_FIELD_FUNC (note, grob);
+PUT_STR_FIELD_FUNC (chord, grob);
+PUT_STR_FIELD_FUNC (clef, grob);
+PUT_STR_FIELD_FUNC (timesig, grob);
+PUT_STR_FIELD_FUNC (keysig, grob);
+PUT_STR_FIELD_FUNC (tuplet, grob);
+PUT_STR_FIELD_FUNC (stemdirective, grob)
 //PUT_STR_FIELD_FUNC(standalone, grob)
 //end of clone for grob
 
 //this set for the "data" field is complete I think. For some reason others fields have incomplete sets of get/put functions.
 //In particular, the S and V versions of the macros, that enable staff and voice directives to be accessed were commented out for some reason and needed to be put back for this set.
-  GET_STR_FIELD_FUNC (score, data) 
+  GET_STR_FIELD_FUNC (score, data)
   GET_STR_FIELD_FUNC (scoreheader, data)
   GET_STR_FIELD_FUNC (header, data)
   GET_STR_FIELD_FUNC (paper, data)
   GET_STR_FIELD_FUNC (layout, data)
-  GET_STR_FIELD_FUNC (movementcontrol, data) 
-  GET_STR_FIELD_FUNC (note, data) 
-  GET_STR_FIELD_FUNC (chord, data) 
-  GET_STR_FIELD_FUNC (staff, data) 
-  GET_STR_FIELD_FUNC (voice, data) 
-  GET_STR_FIELD_FUNC (clef, data) 
-  GET_STR_FIELD_FUNC (timesig, data) 
-  GET_STR_FIELD_FUNC (keysig, data) GET_STR_FIELD_FUNC (tuplet, data) GET_STR_FIELD_FUNC (stemdirective, data) GET_STR_FIELD_FUNC (standalone, data) 
+  GET_STR_FIELD_FUNC (movementcontrol, data)
+  GET_STR_FIELD_FUNC (note, data)
+  GET_STR_FIELD_FUNC (chord, data)
+  GET_STR_FIELD_FUNC (staff, data)
+  GET_STR_FIELD_FUNC (voice, data)
+  GET_STR_FIELD_FUNC (clef, data)
+  GET_STR_FIELD_FUNC (timesig, data)
+  GET_STR_FIELD_FUNC (keysig, data);
+GET_STR_FIELD_FUNC (tuplet, data);
+GET_STR_FIELD_FUNC (stemdirective, data);
+GET_STR_FIELD_FUNC (standalone, data)
 
 
   PUT_STR_FIELD_FUNC (score, data)
@@ -1113,7 +1170,13 @@ GET_STR_FIELD_FUNC (score, midibytes) GET_STR_FIELD_FUNC (movementcontrol, midib
   PUT_STR_FIELD_FUNCS(staff, data)
   PUT_STR_FIELD_FUNCV(voice, data)
   PUT_STR_FIELD_FUNC (movementcontrol, data)
-  PUT_STR_FIELD_FUNC (note, data) PUT_STR_FIELD_FUNC (chord, data) PUT_STR_FIELD_FUNC (clef, data) PUT_STR_FIELD_FUNC (timesig, data) PUT_STR_FIELD_FUNC (keysig, data) PUT_STR_FIELD_FUNC (tuplet, data) PUT_STR_FIELD_FUNC (stemdirective, data)
+  PUT_STR_FIELD_FUNC (note, data);
+PUT_STR_FIELD_FUNC (chord, data);
+PUT_STR_FIELD_FUNC (clef, data);
+PUT_STR_FIELD_FUNC (timesig, data);
+PUT_STR_FIELD_FUNC (keysig, data);
+PUT_STR_FIELD_FUNC (tuplet, data);
+PUT_STR_FIELD_FUNC (stemdirective, data)
 //PUT_STR_FIELD_FUNC(standalone, data) // done separately below...
 //end of set for data
 
@@ -1129,7 +1192,19 @@ GET_STR_FIELD_FUNC (note, postfix)
 GET_STR_FIELD_FUNC (note, display)
 PUT_STR_FIELD_FUNC (note, prefix)
 PUT_STR_FIELD_FUNC (note, postfix)
-PUT_STR_FIELD_FUNC (note, display) GET_STR_FIELD_FUNC (standalone, prefix) GET_STR_FIELD_FUNC (standalone, postfix) GET_STR_FIELD_FUNC (standalone, display) GET_STR_FIELD_FUNC (score, prefix) GET_STR_FIELD_FUNC (score, postfix) GET_STR_FIELD_FUNC (score, display) GET_STR_FIELD_FUNC (staff, prefix) GET_STR_FIELD_FUNC (staff, postfix) GET_STR_FIELD_FUNC (staff, display) GET_STR_FIELD_FUNC (voice, prefix) GET_STR_FIELD_FUNC (voice, postfix) GET_STR_FIELD_FUNC (voice, display)
+PUT_STR_FIELD_FUNC (note, display);
+GET_STR_FIELD_FUNC (standalone, prefix);
+GET_STR_FIELD_FUNC (standalone, postfix);
+GET_STR_FIELD_FUNC (standalone, display);
+GET_STR_FIELD_FUNC (score, prefix);
+GET_STR_FIELD_FUNC (score, postfix);
+GET_STR_FIELD_FUNC (score, display);
+GET_STR_FIELD_FUNC (staff, prefix);
+GET_STR_FIELD_FUNC (staff, postfix);
+GET_STR_FIELD_FUNC (staff, display);
+GET_STR_FIELD_FUNC (voice, prefix);
+GET_STR_FIELD_FUNC (voice, postfix);
+GET_STR_FIELD_FUNC (voice, display)
 #undef staff
 #define PUT_INT_FIELD_FUNC_NAME(what, field, name)\
 gboolean \
@@ -1152,26 +1227,26 @@ what##_directive_put_##field(gchar *tag, gint value) {\
   }\
   return TRUE;\
 }
-static GList *add_layout (GList *layouts, gint id)
+static GList *add_layout (GList *layouts, guint id)
 {
-    if (g_list_index (layouts, GINT_TO_POINTER(id))<0)
-        return g_list_append (layouts, GINT_TO_POINTER(id));
+    if (g_list_index (layouts, GUINT_TO_POINTER(id))<0)
+        return g_list_append (layouts, GUINT_TO_POINTER(id));
     return layouts;
 }
-static GList *remove_layout (GList *layouts, gint id)
+static GList *remove_layout (GList *layouts, guint id)
 {
-   return g_list_remove (layouts, GINT_TO_POINTER(id));
+   return g_list_remove (layouts, GUINT_TO_POINTER(id));
 }
-static void action_ignore (DenemoDirective *directive, gint value) {
+static void action_ignore (DenemoDirective *directive, guint value) {
   if (value)
       {
-       if(directive->layouts==NULL) 
+       if(directive->layouts==NULL)
           {
           directive->flag = DENEMO_IGNORE_FOR_LAYOUTS;
           directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the ignored layouts\n", value);
-          } else 
+          } else
           {
-                  
+
             if (directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
                 {
                  directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to ignored layouts\n", value);
@@ -1184,40 +1259,42 @@ static void action_ignore (DenemoDirective *directive, gint value) {
      } else
         {
            g_list_free (directive->layouts);//g_print("Removed conditions\n");
-           directive->layouts = directive->flag = 0;  
+           directive->layouts = NULL;
+           directive->flag = 0;
         }
 }
-static void action_allow (DenemoDirective *directive, gint value) {
+static void action_allow (DenemoDirective *directive, guint value) {
   if (value)
       {
-        if(directive->layouts==NULL) 
+        if(directive->layouts==NULL)
           {
               directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
               directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the allowed layout\n", value);
-          } else 
+          } else
           {
           if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
             {
                 directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to allowed layouts\n", value);
             }
           else {
-            directive->layouts = remove_layout (directive->layouts, value);g_print("Removed %x from ignored layouts\n", value);
+            directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from ignored layouts\n", value);
             if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
             }
         }
     } else
     {
        g_list_free (directive->layouts);//g_print("Removed conditions\n");
-       directive->layouts = directive->flag = 0;  
+       directive->layouts = NULL;
+       directive->flag = 0;
     }
 }
-       
-       
-       
-       
+
+
+
+
 #define PUT_LAYOUT_IGNORE_FUNC_NAME(what, directives) \
 gboolean \
-what##_directive_put_ignore(gchar *tag, gint value) {\
+what##_directive_put_ignore(gchar *tag, guint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   if(Denemo.project->movement->currentobject)\
@@ -1238,7 +1315,7 @@ what##_directive_put_ignore(gchar *tag, gint value) {\
 }
 #define PUT_LAYOUT_ALLOW_FUNC_NAME(what, directives) \
 gboolean \
-what##_directive_put_allow(gchar *tag, gint value) {\
+what##_directive_put_allow(gchar *tag, guint value) {\
   what *current = get_##what();\
   if(current==NULL) return FALSE;\
   if(Denemo.project->movement->currentobject)\
@@ -1284,13 +1361,20 @@ what##_directive_get_##field(gchar *tag) {\
     return directive->graphic->field;\
   return 0;\
 }
-  PUT_GRAPHIC (object) PUT_INT_FIELD_FUNC (object, minpixels) GET_INT_FIELD_FUNC (object, minpixels)
+  PUT_GRAPHIC (object);
+PUT_INT_FIELD_FUNC (object, minpixels);
+GET_INT_FIELD_FUNC (object, minpixels)
   /* block which can be copied for new int fields */
-  PUT_INT_FIELD_FUNC (note, minpixels) PUT_INT_FIELD_FUNC (chord, minpixels)
+  PUT_INT_FIELD_FUNC (note, minpixels);
+PUT_INT_FIELD_FUNC (chord, minpixels)
   //PUT_INT_FIELD_FUNCS(staff, minpixels)
   //PUT_INT_FIELD_FUNCV(voice, minpixels)
   //PUT_INT_FIELD_FUNC(score, minpixels)
-  PUT_INT_FIELD_FUNC (clef, minpixels) PUT_INT_FIELD_FUNC (timesig, minpixels) PUT_INT_FIELD_FUNC (tuplet, minpixels) PUT_INT_FIELD_FUNC (stemdirective, minpixels) PUT_INT_FIELD_FUNC (keysig, minpixels)
+  PUT_INT_FIELD_FUNC (clef, minpixels);
+PUT_INT_FIELD_FUNC (timesig, minpixels);
+PUT_INT_FIELD_FUNC (tuplet, minpixels);
+PUT_INT_FIELD_FUNC (stemdirective, minpixels);
+PUT_INT_FIELD_FUNC (keysig, minpixels)
   //PUT_INT_FIELD_FUNC(scoreheader, minpixels)
   //PUT_INT_FIELD_FUNC(header, minpixels)
   //PUT_INT_FIELD_FUNC(paper, minpixels)
@@ -1301,7 +1385,18 @@ what##_directive_get_##field(gchar *tag) {\
 GET_INT_FIELD_FUNC (chord, minpixels)
 GET_INT_FIELD_FUNC (staff, minpixels)
 GET_INT_FIELD_FUNC (voice, minpixels)
-GET_INT_FIELD_FUNC (score, minpixels) GET_INT_FIELD_FUNC (clef, minpixels) GET_INT_FIELD_FUNC (keysig, minpixels) GET_INT_FIELD_FUNC (timesig, minpixels) GET_INT_FIELD_FUNC (tuplet, minpixels) GET_INT_FIELD_FUNC (stemdirective, minpixels) GET_INT_FIELD_FUNC (scoreheader, minpixels) GET_INT_FIELD_FUNC (header, minpixels) GET_INT_FIELD_FUNC (paper, minpixels) GET_INT_FIELD_FUNC (layout, minpixels) GET_INT_FIELD_FUNC (movementcontrol, minpixels) GET_INT_FIELD_FUNC (standalone, minpixels)
+GET_INT_FIELD_FUNC (score, minpixels);
+GET_INT_FIELD_FUNC (clef, minpixels);
+GET_INT_FIELD_FUNC (keysig, minpixels);
+GET_INT_FIELD_FUNC (timesig, minpixels);
+GET_INT_FIELD_FUNC (tuplet, minpixels);
+GET_INT_FIELD_FUNC (stemdirective, minpixels);
+GET_INT_FIELD_FUNC (scoreheader, minpixels);
+GET_INT_FIELD_FUNC (header, minpixels);
+GET_INT_FIELD_FUNC (paper, minpixels);
+GET_INT_FIELD_FUNC (layout, minpixels);
+GET_INT_FIELD_FUNC (movementcontrol, minpixels);
+GET_INT_FIELD_FUNC (standalone, minpixels)
   /* end block which can be copied for new int fields */
   PUT_INT_FIELD_FUNC (note, override)
 PUT_INT_FIELD_FUNC (chord, override)
@@ -1355,7 +1450,17 @@ GET_INT_FIELD_FUNC (score, gx)
 GET_INT_FIELD_FUNC (score, gy)
   /* width and height of graphic (if any), read only */
   GET_INT_GRAPHIC_FIELD_FUNC (note, width)
-GET_INT_GRAPHIC_FIELD_FUNC (chord, width) GET_INT_GRAPHIC_FIELD_FUNC (staff, width) GET_INT_GRAPHIC_FIELD_FUNC (voice, width) GET_INT_GRAPHIC_FIELD_FUNC (standalone, width) GET_INT_GRAPHIC_FIELD_FUNC (score, width) GET_INT_GRAPHIC_FIELD_FUNC (note, height) GET_INT_GRAPHIC_FIELD_FUNC (chord, height) GET_INT_GRAPHIC_FIELD_FUNC (staff, height) GET_INT_GRAPHIC_FIELD_FUNC (voice, height) GET_INT_GRAPHIC_FIELD_FUNC (standalone, height) GET_INT_GRAPHIC_FIELD_FUNC (score, height)
+GET_INT_GRAPHIC_FIELD_FUNC (chord, width);
+GET_INT_GRAPHIC_FIELD_FUNC (staff, width);
+GET_INT_GRAPHIC_FIELD_FUNC (voice, width);
+GET_INT_GRAPHIC_FIELD_FUNC (standalone, width);
+GET_INT_GRAPHIC_FIELD_FUNC (score, width);
+GET_INT_GRAPHIC_FIELD_FUNC (note, height);
+GET_INT_GRAPHIC_FIELD_FUNC (chord, height);
+GET_INT_GRAPHIC_FIELD_FUNC (staff, height);
+GET_INT_GRAPHIC_FIELD_FUNC (voice, height);
+GET_INT_GRAPHIC_FIELD_FUNC (standalone, height);
+GET_INT_GRAPHIC_FIELD_FUNC (score, height)
 
 
 /* return a full path to an editscript for directive or NULL if there is none */
@@ -1435,11 +1540,11 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
                       if (idx > 0)
                         {
                           gpointer fn = (widget != NULL) ? g_object_get_data (G_OBJECT (widget), "fn") : NULL;
-                            
+
                           gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
                           if (confirm (label, _("Repeat the command?\n(Hold Shift for advanced edit)")))
-                            if(shift_held_down()) 
-                                { 
+                            if(shift_held_down())
+                                {
                                 GList **directives = (GList **) g_object_get_data (G_OBJECT (widget), "directives-pointer");
                                 gboolean delete = !text_edit_directive (directive, fn);
                                 if (delete)
@@ -1519,7 +1624,7 @@ get_label_text (DenemoDirective * directive, gchar * text)
   return g_markup_escape_text (text, -1);
 }
 
-/* create a label. 
+/* create a label.
 Use the display string up to the first newline, if it is long enough
 else use tag
 */
@@ -1567,7 +1672,7 @@ editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive
     if (!text_edit_directive (directive, "unknown"))
       {
         /* I have used "unknown" here because we would need to get the name e.g. "score" "movementcontrol" etc from fn, but this is only used for the create a script thing...
-           g_object_get_data(G_OBJECT(directive->widget), "fn") 
+           g_object_get_data(G_OBJECT(directive->widget), "fn")
          */
         GList **directives_ptr = g_object_get_data (G_OBJECT (directive->widget), "directives-pointer");
         if (directives_ptr)
@@ -1925,7 +2030,15 @@ PUT_GRAPHIC_WIDGET_INT (gx, layout, directives)
 PUT_GRAPHIC_WIDGET_INT (gx, movementcontrol, directives)
 PUT_GRAPHIC_WIDGET_INT (gx, staff, staff_directives)
 PUT_GRAPHIC_WIDGET_INT (gx, voice, voice_directives)
-PUT_GRAPHIC_WIDGET_INT (gy, score, directives) PUT_GRAPHIC_WIDGET_INT (gy, scoreheader, directives) PUT_GRAPHIC_WIDGET_INT (gy, header, directives) PUT_GRAPHIC_WIDGET_INT (gy, paper, directives) PUT_GRAPHIC_WIDGET_INT (gy, layout, directives) PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives) PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives) PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives) PUT_GRAPHIC_WIDGET_INT (override, score, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, score, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, scoreheader, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, header, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, paper, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, layout, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, movementcontrol, directives);
+PUT_GRAPHIC_WIDGET_INT (gy, staff, staff_directives);
+PUT_GRAPHIC_WIDGET_INT (gy, voice, voice_directives);
+PUT_GRAPHIC_WIDGET_INT (override, score, directives);
 PUT_GRAPHIC_WIDGET_INT (override, scoreheader, directives);
 PUT_GRAPHIC_WIDGET_INT (override, header, directives);
 PUT_GRAPHIC_WIDGET_INT (override, paper, directives);
@@ -2010,8 +2123,8 @@ standalone_directive_put_allow(gchar *tag, gint id) {
     return TRUE;
     }
  return FALSE; //can only make an already existing directive conditional
-}   
-    
+}
+
 gboolean
 standalone_directive_put_ignore(gchar *tag, gint id) {
   DenemoDirective *directive = get_standalone_directive(tag);
@@ -2021,8 +2134,8 @@ standalone_directive_put_ignore(gchar *tag, gint id) {
     return TRUE;
     }
  return FALSE; //can only make an already existing directive conditional
-}     
-    
+}
+
 
 #define STANDALONE_PUT_INT_FIELD_FUNC(field)\
 gboolean \
@@ -2055,7 +2168,7 @@ void put_standalone_directive (gchar *tag, gint value) {
   DenemoDirective *directive = (DenemoDirective *) obj->object;
   directive->tag = g_string_new (tag);
   obj->minpixelsalloted = directive->minpixels = value;
-  object_insert (Denemo.project, obj);   
+  object_insert (Denemo.project, obj);
 }
 
 gboolean
@@ -2151,15 +2264,15 @@ select_directive (gchar * instr, GList * directives)
     {
     content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
     gtk_container_add (GTK_CONTAINER (content_area), vbox);
-    }   
+    }
 
   DenemoDirective *response = NULL;
 
-/*                                 
+/*
     void                user_function                      (GtkDialog *arg0,
                                                         gpointer   user_data)      : Action
     The ::close signal is a keybinding signal which gets emitted when the user uses a keybinding to close the dialog.
-    The default binding for this signal is the Escape key. 
+    The default binding for this signal is the Escape key.
 */
   g_signal_connect (G_OBJECT (dialog), "close", G_CALLBACK (tag_none), &response);
 
@@ -2169,7 +2282,7 @@ select_directive (gchar * instr, GList * directives)
   GtkWidget *widget;
   widget = gtk_label_new (instr);
   gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
-  count = pack_buttons (vbox, directives, &response); 
+  count = pack_buttons (vbox, directives, &response);
 
   if (count > 0)
     {
@@ -2332,7 +2445,7 @@ populate_menu_for_directives (GtkWidget * menu, GList * directives)
 }
 
 /* callback for deactivate signal installed at startup on the NoteEditPopup menu
-   it removes the menu items for the specific note 
+   it removes the menu items for the specific note
  */
 gboolean
 unpopulate_menu (GtkWidget * menu)
@@ -2382,10 +2495,10 @@ edit_object_type (GtkAction * action, DenemoScriptParam * param)
       return;
     case CHORD:
       {
-      
+
           popup_menu ("/NoteEditPopupDirectives");
-       
-          
+
+
       }
       return;
 
@@ -2497,15 +2610,15 @@ if(directive->field)\
   ADD_INTTEXT (gy);
 
 #undef ADD_INTTEXT
-  if (!strcmp (what, "note"))    
+  if (!strcmp (what, "note"))
       g_string_append (scheme, "(d-Chordize)(d-SetSaved #f))\n");
   else if (!strcmp (what, "standalone"))
             g_string_append (scheme, "(d-SetSaved #f)(d-RefreshDisplay))\n");
         else
             g_string_append (scheme, "(d-SetSaved #f))\n");
- return g_string_free (scheme, FALSE);    
+ return g_string_free (scheme, FALSE);
 }
-  
+
 static void
 create_script (DenemoDirective * directive, gchar * what)
 {
@@ -2594,7 +2707,7 @@ static void
 help_for_conditional (gchar *help)
 {
     warningdialog (help);
-    
+
 }
 /* text_edit_directive
    textually edit the directive via a dialog.
@@ -2700,7 +2813,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   if (directive->layouts == NULL)
     {
         button = gtk_button_new_with_label (_("Applies to all layouts"));
-        GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));     
+        GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
         GdkRGBA color;
         get_color (&color, 0.0, 1.0, 0.0, 1.0);
         gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
@@ -2708,29 +2821,29 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
     }
   else
     {
-        gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);
+        gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);//g_print ("Current layout %x directive->flag %d and directive->layouts->data %x which is wrong = %d\n", Denemo.project->layout_id, directive->flag, directive->layouts->data, wrong);
         if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
-            { 
+            {
               button = gtk_button_new_with_label (wrong?
                                 _("Applies only to certain layouts, excluding the current one.")
-                                :_("Applies only to certain layouts, including the current one.")); 
-              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));     
+                                :_("Applies only to certain layouts, including the current one."));
+              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
               GdkRGBA color;
               get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
               gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
-              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));   
+              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
             }
         else
             {
               button = gtk_button_new_with_label (wrong?
                                 _("Excludes the current layout.")
                                 :_("Excludes certain layouts, but applies to the current one."));
-              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));   
+              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
               GdkRGBA color;
               get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
               gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
               g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
-            } 
+            }
     }
  gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 
@@ -2803,8 +2916,8 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
 }
 gboolean low_level_directive_edit (DenemoDirective *directive)
 {
-  return text_edit_directive (directive, NULL);  
-    
+  return text_edit_directive (directive, NULL);
+
 }
 #define TEXT_EDIT_IF(what)\
   if(fn == (void(*)())what##_directive_put_graphic)\
@@ -2835,7 +2948,7 @@ text_edit_directive_by_fn (DenemoDirective * directive, gpointer fn)
 
 
 
-/* allow edit of a directive, either via script or textually if no script exists 
+/* allow edit of a directive, either via script or textually if no script exists
    return FALSE if user confirms a request to delete the directive
 */
 static gboolean
@@ -2862,7 +2975,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
       if (chopped)
         *eol = '\n';
       if (action && !shift_held_down())
-        {                       
+        {
           DenemoScriptParam param;
           param.string = g_string_new ("edit");
           g_debug ("Script can look for params \"edit\" - a string to catch this");
@@ -2874,7 +2987,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
             {
                 ret = (text_edit_directive (directive, what) || !confirm (_("Directive Delete"), _("Are you sure you want to delete the directive?")));
                 score_status (Denemo.project, TRUE);
-            } 
+            }
         else
             edit_object();
         }
@@ -2926,7 +3039,7 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * callback for DeleteDirective 
+ * callback for DeleteDirective
  */
 void
 delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param)
@@ -2966,8 +3079,8 @@ append_directives (DenemoDirective *direc, gchar *type)
 
 static gint
 select_system_directive (void)
-{ 
-    
+{
+
     g_list_foreach (Denemo.project->lilycontrol.directives, (GFunc)append_directives, "lilycontrol");
     g_list_foreach (Denemo.project->scoreheader.directives, (GFunc)append_directives, "scoreheader");
     g_list_foreach (Denemo.project->paper.directives, (GFunc)append_directives, "paper");
@@ -2985,8 +3098,8 @@ select_system_directive (void)
 }
 void edit_system_directive (void)
 {
-    gint index = select_system_directive ();   
-    if(index >= 0) 
+    gint index = select_system_directive ();
+    if(index >= 0)
         {
             gchar *type =  g_list_nth_data (directive_types, index);
             DenemoDirective *directive = g_list_nth_data (all_directives, index);
@@ -3011,6 +3124,7 @@ void edit_system_directive (void)
                     else
                             g_warning ("Could not get directives list to delete from");
                 }
+            signal_structural_change (Denemo.project);
         }
     g_list_free (all_directives);
     g_list_free (directive_types);
@@ -3136,7 +3250,7 @@ select_voice_directive (void)
 
 
 /**
- * callback for EditVoiceDirective 
+ * callback for EditVoiceDirective
  */
 void
 edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3150,11 +3264,12 @@ edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "voice"))
     delete_voice_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
 /**
- * callback for EditStaffDirective 
+ * callback for EditStaffDirective
  */
 void
 edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3168,11 +3283,12 @@ edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "staff"))
     delete_staff_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
 /**
- * callback for EditClefDirective 
+ * callback for EditClefDirective
  */
 void
 edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3186,11 +3302,12 @@ edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "clef"))
     delete_clef_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
 /**
- * callback for EditKeysigDirective 
+ * callback for EditKeysigDirective
  */
 void
 edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3204,12 +3321,13 @@ edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "keysig"))
     delete_keysig_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
 
 /**
- * callback for EditTimesigDirective 
+ * callback for EditTimesigDirective
  */
 void
 edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3223,11 +3341,12 @@ edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
     directive->tag = g_string_new (UNKNOWN_TAG);
   if (!edit_directive (directive, "timesig"))
     delete_timesig_directive (directive->tag->str);
+  signal_structural_change (Denemo.project);
   score_status (Denemo.project, TRUE);
 }
 
 /**
- * callback for EditTupletDirective 
+ * callback for EditTupletDirective
  */
 void
 edit_tuplet_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3245,7 +3364,7 @@ edit_tuplet_directive (GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * callback for EditStemdirectiveDirective 
+ * callback for EditStemdirectiveDirective
  */
 void
 edit_stemdirective_directive (GtkAction * action, DenemoScriptParam * param)
@@ -3263,11 +3382,12 @@ edit_stemdirective_directive (GtkAction * action, DenemoScriptParam * param)
 }
 
 /**
- * callback for EditScoreDirective 
+ * callback for EditScoreDirective
  */
 void
 edit_score_directive (GtkAction * action, DenemoScriptParam * param)
 {
+  signal_structural_change (Denemo.project);
 #define ScoreDirectives  _("ScoreDirectives")
 #define ScoreHeaderBlockDirectives  _("Score Header Block Directives")
 #define ScorePaperBlockDirectives  _("Score Paper Block Directives")
@@ -3327,11 +3447,13 @@ edit_score_directive (GtkAction * action, DenemoScriptParam * param)
 
 
 /**
- * callback for EditMovementDirective 
+ * callback for EditMovementDirective
  */
 void
 edit_movement_directive (GtkAction * action, DenemoScriptParam * param)
 {
+  signal_structural_change (Denemo.project);
+
 #define LayoutDirectives  _("Layout Directives")
 #define MovementDirectives  _("Movement Directives")
 #define HeaderBlockDirectives  _("Movement Header Block Directives")
@@ -3396,7 +3518,16 @@ GET_INT_FIELD_FUNC (clef, tx)
 GET_INT_FIELD_FUNC (clef, ty)
 GET_INT_FIELD_FUNC (clef, gx)
 GET_INT_FIELD_FUNC (clef, gy)
-GET_INT_FIELD_FUNC (clef, override) GET_INT_GRAPHIC_FIELD_FUNC (clef, width) GET_INT_GRAPHIC_FIELD_FUNC (clef, height) PUT_GRAPHIC (clef) PUT_STR_FIELD_FUNC (clef, prefix) PUT_STR_FIELD_FUNC (clef, postfix) PUT_STR_FIELD_FUNC (clef, display) GET_STR_FIELD_FUNC (clef, prefix) GET_STR_FIELD_FUNC (clef, postfix) GET_STR_FIELD_FUNC (clef, display)
+GET_INT_FIELD_FUNC (clef, override);
+GET_INT_GRAPHIC_FIELD_FUNC (clef, width);
+GET_INT_GRAPHIC_FIELD_FUNC (clef, height);
+PUT_GRAPHIC (clef);
+PUT_STR_FIELD_FUNC (clef, prefix);
+PUT_STR_FIELD_FUNC (clef, postfix);
+PUT_STR_FIELD_FUNC (clef, display);
+GET_STR_FIELD_FUNC (clef, prefix);
+GET_STR_FIELD_FUNC (clef, postfix);
+GET_STR_FIELD_FUNC (clef, display)
 /* end block which can be copied for type of directive */
 PUT_LAYOUT_ALLOW_FUNC (keysig)
 PUT_LAYOUT_IGNORE_FUNC (keysig)
@@ -3534,9 +3665,9 @@ GET_INT_FIELD_FUNC (movementcontrol, gx)
 GET_INT_FIELD_FUNC (movementcontrol, gy)
 GET_INT_FIELD_FUNC (movementcontrol, override)
 GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, width)
-GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, height) 
-GET_STR_FIELD_FUNC (movementcontrol, prefix) 
-GET_STR_FIELD_FUNC (movementcontrol, postfix) 
+GET_INT_GRAPHIC_FIELD_FUNC (movementcontrol, height)
+GET_STR_FIELD_FUNC (movementcontrol, prefix)
+GET_STR_FIELD_FUNC (movementcontrol, postfix)
 GET_STR_FIELD_FUNC (movementcontrol, display)
 #undef STANDALONE_PUT_INT_FIELD_FUNC
 #undef PUT_GRAPHIC
@@ -3624,7 +3755,7 @@ GET_NTH_TAG (layout, directives);
 GET_NTH_TAG (movementcontrol, directives);
 #undef GET_NTH_TAG
 
-gchar *get_nth_strict_note_tag(gint n) 
+gchar *get_nth_strict_note_tag(gint n)
     {
       note *current = get_strict_note();
       if(current==NULL) return NULL;
@@ -3635,7 +3766,7 @@ gchar *get_nth_strict_note_tag(gint n)
       return directive->tag->str;
   }
 
-const gchar *strict_note_directive_get_tag (gchar *tag) 
+const gchar *strict_note_directive_get_tag (gchar *tag)
     {
       note *current = get_strict_note();
       if(current==NULL) return NULL;
@@ -3661,10 +3792,10 @@ DenemoDirective *get_next_directive_at_cursor (void)
   note *current = get_strict_note();
   if(current)
     {static GList *last;
-        directives = current->directives;  
+        directives = current->directives;
         if(directives)
             {
-                if(last && (g_list_position(directives, last)>=0)) 
+                if(last && (g_list_position(directives, last)>=0))
                 {
                     last = last->next;
                     if(!last) last = directives;
@@ -3675,21 +3806,21 @@ DenemoDirective *get_next_directive_at_cursor (void)
     }
   if(directives==NULL)
     {
-       chord *curchord = get_chord (); 
+       chord *curchord = get_chord ();
        if(curchord)
            {static GList *last;
             directives = curchord->directives;
             if(directives)
                 {
-                    if(last && (g_list_position(directives, last)>=0)) 
+                    if(last && (g_list_position(directives, last)>=0))
                     {
-                        last = last->next; 
-                        if(!last) last = directives;                   
+                        last = last->next;
+                        if(!last) last = directives;
                     } else
                     last = directives;
                 directive =  last->data;
                 }
-           } 
+           }
     }
   if(directives==NULL)
     {
@@ -3698,7 +3829,7 @@ DenemoDirective *get_next_directive_at_cursor (void)
             {static GList *last;
                 if(currentobject->type == LILYDIRECTIVE)
                     {
-                       directive = currentobject->object; 
+                       directive = currentobject->object;
                     } else {
                         gpointer obj = currentobject->object;
                         directives = (currentobject->type==KEYSIG)?((keysig*)obj)->directives:
@@ -3710,10 +3841,10 @@ DenemoDirective *get_next_directive_at_cursor (void)
 
                         if(directives)
                             {
-                                if(last && (g_list_position(directives, last)>=0)) 
+                                if(last && (g_list_position(directives, last)>=0))
                                 {
-                                    last = last->next; 
-                                    if(!last) last = directives;                 
+                                    last = last->next;
+                                    if(!last) last = directives;
                                 } else
                                 last = directives;
                             directive = last->data;
@@ -3768,21 +3899,22 @@ REORDER_TAG (layout, directives);
 REORDER_TAG (movementcontrol, directives);
 #undef REORDER_TAG
 
-gboolean wrong_layout (DenemoDirective *directive, gint id)
+gboolean wrong_layout (DenemoDirective *directive, guint id)
 {
+
  if (directive->layouts)
     {
-      if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+     if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
         {
-           if (g_list_index (directive->layouts, GINT_TO_POINTER(id))<0)
+           if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))<0)
              return TRUE;
           return FALSE;
         }
        if(directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
         {
-         if (g_list_index (directive->layouts, GINT_TO_POINTER(id))>=0)
+         if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))>=0)
             return TRUE;
         }
     }
- return FALSE;   
+ return FALSE;
 }

@@ -5,7 +5,7 @@
 
 /**
  * Create a new keysignature object
- * 
+ *
  * @param number number of keysignature
  * @param isminor signifies if the key sig should be minor
  * @param mode    description of the keys mode

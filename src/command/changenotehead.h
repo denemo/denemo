@@ -2,7 +2,7 @@
  *
  * function prototypes for changing
  * the notehead.
- * 
+ *
  * for Denemo, a gtk+ frontend for GNU Lilypond
  * (c) 2000-2005 Adam Tee
  */

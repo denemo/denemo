@@ -169,7 +169,7 @@ event_queue_write_rubberband (event_queue_t * queue, float *data)
 
 static gboolean do_page_viewport(void)
 {
-    
+
     page_viewport ();
     return FALSE;
 }
@@ -177,9 +177,9 @@ static gboolean do_page_viewport(void)
 static gboolean
 page_viewport_callback (gpointer data)
 {
-  
+
   g_main_context_invoke (NULL, (GSourceFunc)do_page_viewport, NULL);
-  
+
   return FALSE;
 }
 
@@ -224,7 +224,7 @@ event_queue_read_output (event_queue_t * queue, unsigned char *event_buffer, siz
 {
 
 #if 0
-//old fixed length code                                   
+//old fixed length code
   if (jack_ringbuffer_read_space (queue->immediate))
     {
       midi_event_t event;

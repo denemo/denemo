@@ -1,11 +1,5 @@
 ;;;NewSpacing
 (let* ((tag "NewSpacing")(params NewSpacing::params)(count (d-DirectiveGet-standalone-data tag)))
-    
-    (if (and params (d-Directive-standalone? tag))
-        (begin
-            (d-InfoDialog (_ (string-append "Spacing of notes from this point is based on spacing-increment " count))))
-        (begin
-            
             (if (not count)
                 (set! count "4"))
             (set! count (d-GetUserInput (_ "Spacing") (_ "Give new spacing: ") count))
@@ -17,5 +11,5 @@
                     (begin
                       (if (d-Directive-standalone? tag)
                         (d-InfoDialog (_ "To restore the prevailing music spacing delete this directive object."))
-                         (d-InfoDialog (_ "Note spacing unaltered."))))))))
+                         (d-InfoDialog (_ "Note spacing unaltered."))))))
 

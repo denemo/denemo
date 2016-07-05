@@ -1,17 +1,17 @@
 /*
  * cache.c
- * 
+ *
  * Copyright 2016 Richard Shann <richard@rshann.plus.com>
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Library General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
@@ -34,8 +34,8 @@ static void object_set_cache (DenemoObject *obj, clef *clef, keysig *keysig, ste
 }
 void cache_from_cursor (void)
 {
-    
-    
+
+
 }
 void update_timesig_cache (measurenode *mnode)
 {
@@ -46,7 +46,7 @@ void update_timesig_cache (measurenode *mnode)
     for (mnode=mnode->next;mnode;mnode=mnode->next)
         {
             measure = mnode->data;
-            
+
           /*  examine objects in mnode - if there is a timesignature then don't change it
             */
             GList *h = measure->objects;
@@ -69,7 +69,7 @@ void update_clef_cache (measurenode *mnode, objnode *onode)
 {
     DenemoMeasure *measure = mnode->data;
     clef *current = onode?((DenemoObject*)onode->data)->clef: measure->clef;
-    if (current == NULL) 
+    if (current == NULL)
         current =  measure->clef;
     if (current == NULL)
         {
@@ -77,13 +77,13 @@ void update_clef_cache (measurenode *mnode, objnode *onode)
             cache_all();
             return;
         }
-        
-    if (onode) 
+
+    if (onode)
         {
             ((DenemoObject*)onode->data)->clef = current;
             onode = onode->next;
         }
-    for (;mnode;mnode=mnode->next, onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL, 
+    for (;mnode;mnode=mnode->next, onode = mnode? ((DenemoMeasure*)mnode->data)->objects:NULL,
                                     mnode?((DenemoMeasure*)mnode->data)->clef = current:NULL)
         {
             while (onode)
@@ -101,8 +101,8 @@ void update_keysig_cache (measurenode *mnode, objnode *onode)
 {
     DenemoMeasure *measure = mnode->data;
     keysig *current = onode?((DenemoObject*)onode->data)->keysig : measure->keysig;
-    
-    if (current == NULL) 
+
+    if (current == NULL)
         current =  measure->keysig;
     if (current == NULL)
         {
@@ -134,8 +134,8 @@ void update_stemdir_cache (measurenode *mnode, objnode *onode)
 {
     DenemoMeasure *measure = mnode->data;
     stemdirective *current = onode? ((DenemoObject*)onode->data)->stemdir : measure->stemdir;
-    
-    if (current == NULL) 
+
+    if (current == NULL)
         current =  measure->stemdir;
     if (current == NULL)
         {
@@ -197,15 +197,15 @@ void cache_staff (staffnode *s)
                                 break;
                                 case KEYSIG:
                                     ckey = obj->object;
-                                break;  
+                                break;
                                 case STEMDIRECTIVE:
                                     cstem = obj->object;
-                                break;        
+                                break;
                                 default:
                                     break;
-                                
+
                             }
-                     object_set_cache (obj, cclef, ckey, cstem);  
+                     object_set_cache (obj, cclef, ckey, cstem);
                     }
             }
 }

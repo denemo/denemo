@@ -3,7 +3,7 @@
  *
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005  Adam Tee (c) 2007, 2008 2009 Richard Shann
- * 
+ *
  */
 
 #include <string.h>
@@ -71,7 +71,7 @@ static void pb_audiorecord (GtkWidget * button);
 static void pb_exportaudio (GtkWidget * button);
 static void toggle_scheme (void);
 
-static DenemoProject* new_project(gboolean);
+static DenemoProject *new_project (gboolean);
 static void newtab ();
 
 static void create_window (void);
@@ -89,18 +89,21 @@ typedef enum
   ACCELS_MAY_HAVE_CHANGED = 0x1 << 2
 } AccelStatus;
 
-GtkWidget*
-get_playalong_button(){
+GtkWidget *
+get_playalong_button ()
+{
   return midiplayalongbutton;
 }
 
-GtkWidget*
-get_conduct_button(){
+GtkWidget *
+get_conduct_button ()
+{
   return midiconductbutton;
 }
 
-GtkWidget*
-get_record_button(){
+GtkWidget *
+get_record_button ()
+{
   return midirecordbutton;
 }
 
@@ -125,13 +128,11 @@ standard_handler (gchar * data SCM_UNUSED, SCM tag, SCM throw_args SCM_UNUSED)
 }
 
 static SCM
-standard_preunwind_proc (void *data,
-                       SCM key,
-                       SCM parameters)
+standard_preunwind_proc (void *data, SCM key, SCM parameters)
 {
   // Capture the stack here:
-  *(SCM *)data = scm_make_stack (SCM_BOOL_T, SCM_EOL);
-  return *(SCM *)data;
+  *(SCM *) data = scm_make_stack (SCM_BOOL_T, SCM_EOL);
+  return *(SCM *) data;
 }
 
 gint
@@ -141,16 +142,13 @@ eval_file_with_catch (gchar * filename)
   SCM captured_stack = SCM_BOOL_F;
   SCM name = scm_from_locale_string (filename);
   scm_eval_status = 0;
-  scm_c_catch (SCM_BOOL_T, 
-              (scm_t_catch_body) scm_primitive_load, (void *) name, 
-              (scm_t_catch_handler) standard_handler, (void *) filename,
-              standard_preunwind_proc, &captured_stack);
+  scm_c_catch (SCM_BOOL_T, (scm_t_catch_body) scm_primitive_load, (void *) name, (scm_t_catch_handler) standard_handler, (void *) filename, standard_preunwind_proc, &captured_stack);
   if (captured_stack != SCM_BOOL_F)
-  {
+    {
 #ifdef DEBUG
-    scm_display_backtrace(captured_stack, scm_current_error_port (), SCM_BOOL_F, SCM_BOOL_F);
+      scm_display_backtrace (captured_stack, scm_current_error_port (), SCM_BOOL_F, SCM_BOOL_F);
 #endif
-  }
+    }
   return scm_eval_status;
 }
 
@@ -281,8 +279,8 @@ define_scheme_constants (void)
     );
   gchar *filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL);
   gchar *actions_dir = g_strdup_printf ("%s%c", filename, G_DIR_SEPARATOR);
-  gchar *templates_dir =  g_build_filename (get_system_data_dir (), "templates", NULL);
-  gchar *instruments_dir =  g_build_filename (get_system_data_dir (), "templates", "instruments", NULL);
+  gchar *templates_dir = g_build_filename (get_system_data_dir (), "templates", NULL);
+  gchar *instruments_dir = g_build_filename (get_system_data_dir (), "templates", "instruments", NULL);
   gchar *glyphs_dir = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL);
   gchar *graphics_dir = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", NULL);
   glyphs_dir = g_strdup_printf ("%s%c", glyphs_dir, G_DIR_SEPARATOR);
@@ -292,8 +290,8 @@ define_scheme_constants (void)
 
   filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, NULL);
   gchar *local_actions_dir = g_strdup_printf ("%s%c", filename, G_DIR_SEPARATOR);
-  gchar *local_templates_dir =  g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
-  gchar *local_instruments_dir =  g_build_filename (get_user_data_dir (TRUE), "templates", "instruments", NULL);
+  gchar *local_templates_dir = g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
+  gchar *local_instruments_dir = g_build_filename (get_user_data_dir (TRUE), "templates", "instruments", NULL);
   if (filename)
     g_free (filename);
 
@@ -310,7 +308,7 @@ define_scheme_constants (void)
   DEF_SCHEME_CONST ("DENEMO_INPUTAUDIO", INPUTAUDIO);
 
 
-  
+
   DEF_SCHEME_CONST ("DENEMO_OVERRIDE_LILYPOND", DENEMO_OVERRIDE_LILYPOND);
   DEF_SCHEME_CONST ("DENEMO_ALT_OVERRIDE", DENEMO_ALT_OVERRIDE);
   DEF_SCHEME_CONST ("DENEMO_OVERRIDE_GRAPHIC", DENEMO_OVERRIDE_GRAPHIC);
@@ -363,7 +361,7 @@ define_scheme_constants (void)
     for (i = 0; i < G_N_ELEMENTS (DenemoObjTypeNames); i++)
       DEF_SCHEME_CONST (DenemoObjTypeNames[i], i);
   }
- DEF_SCHEME_STR ("DenemoClickTrack", DENEMO_CLICK_TRACK_NAME, "Holds a name for identifying a click track as the staff name query=denemo_name");
+  DEF_SCHEME_STR ("DenemoClickTrack", DENEMO_CLICK_TRACK_NAME, "Holds a name for identifying a click track as the staff name query=denemo_name");
 
 #undef DEF_SCHEME_STR
 #undef DEF_SCHEME_CONST
@@ -373,7 +371,7 @@ define_scheme_constants (void)
 }
 
 /*
-  load denemo.scm from user's .denemo 
+  load denemo.scm from user's .denemo
 */
 static void
 load_local_scheme_init (void)
@@ -389,7 +387,7 @@ void
 denemo_scheme_init (void)
 {
   gchar *initscheme = Denemo.scheme_file;
-  if(!Denemo.non_interactive)
+  if (!Denemo.non_interactive)
     Denemo.project->movement->undo_guard++;
 
   if (initscheme)
@@ -412,7 +410,7 @@ denemo_scheme_init (void)
     }
 
   load_local_scheme_init ();
-  if(!Denemo.non_interactive)
+  if (!Denemo.non_interactive)
     Denemo.project->movement->undo_guard--;
 }
 
@@ -424,10 +422,11 @@ append_to_local_scheme_init (gchar * scheme)
 {
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "a+");
-  if (fp){
-    fprintf (fp, "%s", scheme);
-    fclose (fp);
-  }
+  if (fp)
+    {
+      fprintf (fp, "%s", scheme);
+      fclose (fp);
+    }
   g_free (filename);
 }
 
@@ -440,7 +439,7 @@ destroy_local_scheme_init (void)
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, SCHEME_INIT, NULL);
   FILE *fp = fopen (filename, "w");
   if (fp)
-  fclose (fp);
+    fclose (fp);
 }
 
 
@@ -452,11 +451,11 @@ static void
 load_scheme_init (void)
 {
   //Denemo.project->movement->undo_guard++;
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL));
+  GList *dirs = NULL;
+  dirs = g_list_append (dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, NULL));
 
-  gchar *filename = find_path_for_file(SCHEME_INIT, dirs);
+  gchar *filename = find_path_for_file (SCHEME_INIT, dirs);
 
   g_debug ("System wide denemo.scm %s\n", filename);
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
@@ -478,7 +477,7 @@ load_preferences (void)
   // activate_action("/MainMenu/InputMenu/JackMidi");
   // if(!have_midi())
   //  activate_action("/MainMenu/InputMenu/KeyboardOnly");
-  
+
   if (!Denemo.prefs.playback_controls)
     activate_action ("/MainMenu/ViewMenu/" TogglePlaybackControls_STRING);
   if (!Denemo.prefs.midi_in_controls)
@@ -490,12 +489,12 @@ load_preferences (void)
   if (!Denemo.prefs.toolbar)
     activate_action ("/MainMenu/ViewMenu/" ToggleToolbar_STRING);
 
- //if (!Denemo.prefs.lyrics_pane)
-    //activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
-    Denemo.prefs.lyrics_pane = TRUE; //ignore pref, does not work.
-    //gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLyricsView"), !Denemo.prefs.lyrics_pane);
+  //if (!Denemo.prefs.lyrics_pane)
+  //activate_action ("/MainMenu/ViewMenu/" ToggleLyricsView_STRING);
+  Denemo.prefs.lyrics_pane = TRUE;      //ignore pref, does not work.
+  //gtk_toggle_action_set_active (gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleLyricsView"), !Denemo.prefs.lyrics_pane);
 
-  
+
   if (!Denemo.prefs.rhythm_palette)
     activate_action ("/MainMenu/ViewMenu/" ToggleRhythmToolbar_STRING);
 
@@ -524,7 +523,7 @@ load_preferences (void)
     }
 }
 
-/* 
+/*
  * create and populate the keymap - a register of all the Denemo commands with their shortcuts
  */
 static void
@@ -537,23 +536,24 @@ init_keymap (void)
 }
 
 static gboolean
-load_files(gchar** files)
+load_files (gchar ** files)
 {
   gboolean ret = FALSE;
   gint i = 0;
 
-  if(!files){
-    if(!Denemo.non_interactive)
-      newtab ();
-    else
-      Denemo.project = new_project (TRUE);
-    open_for_real (get_most_recent_file (), Denemo.project, FALSE, REPLACE_SCORE);
-    return TRUE;
-  }
-
-  for(i=0; files[i]; i++)
+  if (!files)
     {
-      if(!Denemo.non_interactive)
+      if (!Denemo.non_interactive)
+        newtab ();
+      else
+        Denemo.project = new_project (TRUE);
+      open_for_real (get_most_recent_file (), Denemo.project, FALSE, REPLACE_SCORE);
+      return TRUE;
+    }
+
+  for (i = 0; files[i]; i++)
+    {
+      if (!Denemo.non_interactive)
         newtab ();
       else
         Denemo.project = new_project (TRUE);
@@ -564,21 +564,21 @@ load_files(gchar** files)
 }
 
 static void
-autosave_recovery_check(void)
+autosave_recovery_check (void)
 {
   gchar *autosave_file;
   if (!Denemo.project->autosavename)
-        return;
+    return;
   autosave_file = Denemo.project->autosavename->str;
   if (g_file_test (autosave_file, G_FILE_TEST_EXISTS))
     {
-     
-        if ( choose_option (_("Denemo was terminated abnormally"), _("Open auto-saved file"), _("Delete auto-saved file")))
+
+      if (choose_option (_("Denemo was terminated abnormally"), _("Open auto-saved file"), _("Delete auto-saved file")))
         {
-            open_for_real (autosave_file, Denemo.project, TRUE, REPLACE_SCORE);
-            score_status (Denemo.project, TRUE);
+          open_for_real (autosave_file, Denemo.project, TRUE, REPLACE_SCORE);
+          score_status (Denemo.project, TRUE);
         }
-        g_remove (autosave_file);
+      g_remove (autosave_file);
     }
 }
 
@@ -586,11 +586,11 @@ autosave_recovery_check(void)
 /* Called from main for scheme initialization reasons.
    calls back to finish command line processing
 */
-void*
+void *
 inner_main (void *files)
 {
 #if 0
-  //disabled pending appearance of pathconfig.h 
+  //disabled pending appearance of pathconfig.h
   /* initialize guile core */
   {
     SCM load_path;
@@ -611,101 +611,102 @@ inner_main (void *files)
 #endif
 
   initprefs ();
-  init_lilypond_buffer();
+  init_lilypond_buffer ();
   initialize_print_status ();
   //project Initializations
   if (audio_initialize (&Denemo.prefs))
-      g_error ("Failed to initialize audio or MIDI backends");
+    g_error ("Failed to initialize audio or MIDI backends");
 
-  if(!Denemo.non_interactive)
-  {
-    initialize_keystroke_help ();
+  if (!Denemo.non_interactive)
+    {
+      initialize_keystroke_help ();
 
-    create_window ();
-    installPalettes ();
+      create_window ();
+      installPalettes ();
 
-    if (Denemo.prefs.tooltip_timeout)
-      {
-        g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-timeout", Denemo.prefs.tooltip_timeout, NULL);
-        g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-timeout", Denemo.prefs.tooltip_browse_timeout, NULL);
-        g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
-      }
+      if (Denemo.prefs.tooltip_timeout)
+        {
+          g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-timeout", Denemo.prefs.tooltip_timeout, NULL);
+          g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-timeout", Denemo.prefs.tooltip_browse_timeout, NULL);
+          g_object_set (gtk_widget_get_settings (Denemo.window), "gtk-tooltip-browse-mode-timeout", Denemo.prefs.tooltip_browse_mode_timeout, NULL);
+        }
 
-   
-    Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;  //FIXME must correspond with default in prefops.c
-    
-    Denemo.accelerator_status = FALSE;
-  }
+
+      Denemo.prefs.mode = INPUTEDIT | INPUTRHYTHM | INPUTNORMAL;        //FIXME must correspond with default in prefops.c
+
+      Denemo.accelerator_status = FALSE;
+    }
 
   //Scheme initializations
   {
-      const char prog[] =
-    "(catch #t (lambda () (setlocale LC_ALL \"\")) (lambda _(display \"Locale not supported by the C library. Falling back to default \\\"C\\\" locale.\\n\"(current-error-port))))";
-      scm_c_eval_string (prog);
+    const char prog[] = "(catch #t (lambda () (setlocale LC_ALL \"\")) (lambda _(display \"Locale not supported by the C library. Falling back to default \\\"C\\\" locale.\\n\"(current-error-port))))";
+    scm_c_eval_string (prog);
     //scm_setlocale( scm_variable_ref(scm_c_lookup("LC_ALL")), scm_from_locale_string("") );
     create_scheme_identfiers ();
 
     if (Denemo.prefs.autoupdate)
       fetchcommands (NULL, NULL);
-    
+
     gint i;
- 
+
     //ensure (use-modules (ice-9 optargs)) is loaded first #:optional params
     call_out_to_guile ("(use-modules (ice-9 optargs))");
     init_keymap ();
 
     define_scheme_constants ();
-  
+
     load_default_keymap_file ();
 
     load_scheme_init ();
 
     readHistory ();
-    
-    gboolean file_loaded = load_files(files);
+
+    gboolean file_loaded = load_files (files);
 
     if (!file_loaded && !Denemo.scheme_commands)
       {
-        gchar* code = g_strdup_printf("(d-InstrumentName \"%s\")", _("Unnamed"));
+        gchar *code = g_strdup_printf ("(d-InstrumentName \"%s\")", _("Unnamed"));
         call_out_to_guile (code);
-        g_free(code);
+        g_free (code);
         denemo_scheme_init ();
       }
   }
 
   //project related initializations
-  if(!Denemo.non_interactive)  
-  {
-    populate_opened_recent_menu ();
-    
-    load_preferences ();
-    
-    gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
-    score_status (Denemo.project, FALSE);
-    if (Denemo.scheme_commands){
-        g_debug("Executing '%s'", Denemo.scheme_commands);
-        call_out_to_guile (Denemo.scheme_commands);
-    } else
-        autosave_recovery_check();
-    
+  if (!Denemo.non_interactive)
+    {
+      populate_opened_recent_menu ();
 
-    
-    if (Denemo.prefs.fontname->len && Denemo.prefs.fontsize)
-      {
-        gchar *fontspec = g_strdup_printf ("%s %d", Denemo.prefs.fontname->str, Denemo.prefs.fontsize);
-        GtkSettings *settings = gtk_settings_get_default ();
-        gtk_settings_set_string_property (settings, "gtk-font-name", fontspec, "denemo");
-        g_free (fontspec);
-      }
+      load_preferences ();
 
-    gtk_main ();
-  } else
+      gtk_key_snooper_install ((GtkKeySnoopFunc) dnm_key_snooper, NULL);
+      score_status (Denemo.project, FALSE);
+      if (Denemo.scheme_commands)
+        {
+          g_debug ("Executing '%s'", Denemo.scheme_commands);
+          call_out_to_guile (Denemo.scheme_commands);
+        }
+      else
+        autosave_recovery_check ();
 
-  if (Denemo.scheme_commands){
-    g_debug("Executing '%s'", Denemo.scheme_commands);
-    call_out_to_guile (Denemo.scheme_commands);
-  }
-  
+
+
+      if (Denemo.prefs.fontname->len && Denemo.prefs.fontsize)
+        {
+          gchar *fontspec = g_strdup_printf ("%s %d", Denemo.prefs.fontname->str, Denemo.prefs.fontsize);
+          GtkSettings *settings = gtk_settings_get_default ();
+          gtk_settings_set_string_property (settings, "gtk-font-name", fontspec, "denemo");
+          g_free (fontspec);
+        }
+
+      gtk_main ();
+    }
+  else if (Denemo.scheme_commands)
+    {
+      g_debug ("Executing '%s'", Denemo.scheme_commands);
+      call_out_to_guile (Denemo.scheme_commands);
+    }
+
   return NULL;
 }
 
@@ -757,7 +758,7 @@ action_callbacks (DenemoProject * project)
   GList *callbacks = project->callbacks;
   if (callbacks == NULL)
     return FALSE;
-  project->callbacks = NULL;        //do this before calling the callbacks, so they cannot run twice
+  project->callbacks = NULL;    //do this before calling the callbacks, so they cannot run twice
   for (; callbacks; callbacks = g_list_delete_link (callbacks, callbacks))
     {
       call_out_to_guile (callbacks->data);
@@ -778,7 +779,7 @@ close_project (void)
   g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);       // turn of refresh of display before destroying the data
   stop_midi_playback (NULL, NULL);      // if you do not do this, there is a timer moving the score on which will hang
   //FIXME why was this here??? activate_action("/MainMenu/InputMenu/KeyboardOnly");
-#ifdef USE_EVINCE  
+#ifdef USE_EVINCE
   if (Denemo.prefs.enable_thumbnails)
     create_thumbnail (TRUE, NULL);
 #endif
@@ -789,8 +790,8 @@ close_project (void)
       g_source_remove (Denemo.autosaveid);
       Denemo.autosaveid = 0;
     }
-  if(Denemo.project->autosavename)
-            g_remove (Denemo.project->autosavename->str);
+  if (Denemo.project->autosavename)
+    g_remove (Denemo.project->autosavename->str);
   if (Denemo.textwindow && gtk_widget_get_visible (Denemo.textwindow))
     {
       activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
@@ -799,14 +800,14 @@ close_project (void)
   free_movements (Denemo.project);
 
   DenemoProject *oldproject = Denemo.project;
- /*
-  *      gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
-  * this widget destroy causes critical errors - the sequence of New, New Tab, (return to first tab), Close, New shows the effect.
-  */
+  /*
+   *      gtk_widget_destroy (Denemo.page);  //note switch_page from g_signal_connect (G_OBJECT(Denemo.notebook), "switch_page", G_CALLBACK(switch_page), NULL);
+   * this widget destroy causes critical errors - the sequence of New, New Tab, (return to first tab), Close, New shows the effect.
+   */
   gint index = g_list_index (Denemo.projects, oldproject);
   gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
   g_message ("Closing project %d", index);
-  Denemo.projects = g_list_remove (Denemo.projects, oldproject);    //FIXME ?? or in the destroy callback??
+  Denemo.projects = g_list_remove (Denemo.projects, oldproject);        //FIXME ?? or in the destroy callback??
   g_free (oldproject);
   if (Denemo.projects)
     {
@@ -830,17 +831,18 @@ void
 free_movements (DenemoProject * project)
 {
   gint success;
-   if(!is_playing())
-       success = delete_imported_midi(); g_print("Success %d\n", success);
+  if (!is_playing ())
+    success = delete_imported_midi ();
+  g_print ("Success %d\n", success);
   GList *g;
   free_scoreblocks (project);
   for (g = project->movements; g; g = g->next)
     {
       project->movement = g->data;
-      project->movement->undo_guard = 1;  //no undo as that is per movement
+      project->movement->undo_guard = 1;        //no undo as that is per movement
       //close_source_audio ();//???
-   //  if(!delete_imported_midi ()) not if still playing!!!
-    //    delete_imported_midi();
+      //  if(!delete_imported_midi ()) not if still playing!!!
+      //    delete_imported_midi();
       free_score (project);
     }
   project->movement = NULL;
@@ -852,58 +854,60 @@ free_movements (DenemoProject * project)
 
 
   /* any other free/initializations */
-  project->lilycontrol.papersize = g_string_new ("a4");     //A4 default
+  project->lilycontrol.papersize = g_string_new ("a4"); //A4 default
   project->lilycontrol.staffsize = g_string_new ("18");
   project->lilycontrol.lilyversion = g_string_new ("");
-  project->lilycontrol.orientation = TRUE;  //portrait
+  project->lilycontrol.orientation = TRUE;      //portrait
 }
 
 /**
 * Wrapper function to close application when the quit
 * menu item has been used
-* 
+*
 *
 */
 void
-closewrapper (GtkAction * action, DenemoScriptParam* param)
+closewrapper (GtkAction * action, DenemoScriptParam * param)
 {
-  if(!Denemo.non_interactive){
-    GList *display;
-    gint unsaved = 0;
-    for (display = Denemo.projects; display != NULL; display = g_list_next (display))
-      {
-          DenemoProject *project = (DenemoProject *)display->data; 
+  if (!Denemo.non_interactive)
+    {
+      GList *display;
+      gint unsaved = 0;
+      for (display = Denemo.projects; display != NULL; display = g_list_next (display))
+        {
+          DenemoProject *project = (DenemoProject *) display->data;
           if (project->notsaved)
-                unsaved++;
-      }
-    if (unsaved>1)
-        { GString *options = g_string_new ("");
-            g_string_append_printf(options,"%s%c%s", _("Ask me about each"),'\0', _("Close all without saving"));
-            gchar *title = g_strdup_printf (_("You have %d score(s) unsaved"), unsaved);
-            gchar * response = get_option (title, options->str, options->len);
-            if (response != options->str)
+            unsaved++;
+        }
+      if (unsaved > 1)
+        {
+          GString *options = g_string_new ("");
+          g_string_append_printf (options, "%s%c%s", _("Ask me about each"), '\0', _("Close all without saving"));
+          gchar *title = g_strdup_printf (_("You have %d score(s) unsaved"), unsaved);
+          gchar *response = get_option (title, options->str, options->len);
+          if (response != options->str)
+            {
+              for (display = Denemo.projects; display != NULL; display = g_list_next (display))
                 {
-                    for (display = Denemo.projects; display != NULL; display = g_list_next (display))
-                        {
-                            DenemoProject *project = (DenemoProject *)display->data; 
-                                project->notsaved = FALSE;
-                        }
+                  DenemoProject *project = (DenemoProject *) display->data;
+                  project->notsaved = FALSE;
                 }
+            }
         }
 
-    for (display = Denemo.projects; display != NULL; display = Denemo.projects)
-      {
-        Denemo.project = (DenemoProject *) display->data;
-        if (close_gui_with_check (NULL, NULL) == FALSE)
-          break;
-      }
-  }
+      for (display = Denemo.projects; display != NULL; display = Denemo.projects)
+        {
+          Denemo.project = (DenemoProject *) display->data;
+          if (close_gui_with_check (NULL, NULL) == FALSE)
+            break;
+        }
+    }
 }
 
 /**
  * callback from deleting window belonging to project:
  * close window if check for unsaved data succeeds.
- * 
+ *
  */
 
 static gboolean
@@ -917,7 +921,7 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
  * callback to fetch up-to-date system commands from internet, denemo.org hardwired at present
  */
 void
-fetchcommands (GtkAction * action, DenemoScriptParam* param)
+fetchcommands (GtkAction * action, DenemoScriptParam * param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, NULL);
@@ -958,7 +962,7 @@ fetchcommands (GtkAction * action, DenemoScriptParam* param)
  * if user has a local (possibly updated) set in ~/.denemo/downloads then that directory is used.
  */
 void
-morecommands (GtkAction * action, DenemoScriptParam* param)
+morecommands (GtkAction * action, DenemoScriptParam * param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
@@ -981,10 +985,10 @@ morecommands (GtkAction * action, DenemoScriptParam* param)
 
 /**
  * callback to load local extra commands
- * 
+ *
  */
 void
-mycommands (GtkAction * action, DenemoScriptParam* param)
+mycommands (GtkAction * action, DenemoScriptParam * param)
 {
   static gchar *location = NULL;
   if (location == NULL)
@@ -1003,7 +1007,7 @@ mycommands (GtkAction * action, DenemoScriptParam* param)
 
 
 /**
- * Open in New Window callback 
+ * Open in New Window callback
  * Creates new view then opens file in the view
  */
 void
@@ -1018,68 +1022,61 @@ openinnew (GtkAction * action, DenemoScriptParam * param)
 
 
 /**
- * Close callback 
+ * Close callback
  * if user confirms close the current project
  * if it is the last close the application.
  * return FALSE if project was not closed, else TRUE
  */
 gboolean
-close_gui_with_check (GtkAction * action, DenemoScriptParam* param)
+close_gui_with_check (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   Denemo.prefs.mode = Denemo.project->mode;
   if (action_callbacks (Denemo.project))
     return FALSE;               //Denemo.project may have been closed, depends on script callbacks;
   if (Denemo.accelerator_status)
-      {
-        if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
-          save_accels ();
-      }
+    {
+      if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
+        save_accels ();
+    }
   //do not ask for confirm if scripted FIXME
   if ((!project->notsaved) || (project->notsaved && confirmbox (project)))
     close_project ();
   else
     return FALSE;
-    
-    if (action) //called as Close not Quit
-        {
-            if (Denemo.projects == NULL)
-                newtab ();
-            return TRUE;
-        }
+
+  if (action)                   //called as Close not Quit
+    {
+      if (Denemo.projects == NULL)
+        newtab ();
+      return TRUE;
+    }
   if (Denemo.projects == NULL)
     {
-
       storeWindowState ();
       writeHistory ();
       writeXMLPrefs (&Denemo.prefs);
       writePalettes ();
-      project = Denemo.project;
-      if(project)
-        {
-
-    /* It would be nice to delete the print directory to avoid filling up /tmp, however this fails on Unix at least for an unknown reason.
-          gint result = g_remove (locateprintdir ());
-          g_print("Removed %s %s\n", locateprintdir(), result==0?"successfully":"not gone");
-    */
+      // Remove the temporary print directory
+      removeprintdir ();
 #ifdef G_OS_WIN32
+      if (project)
+        {
           CoUninitialize ();
           g_message ("Windows - Exiting without shutting down audio");
           if (project->input_source == INPUTMIDI)
             {
               if (confirm (_("MIDI Controller Active?"), _("Please turn off your MIDI keyboard\nif you have not already done so")))
-                _exit (0);          //audio shutdown can hang
+                _exit (0);      //audio shutdown can hang
             }
           else
             _exit (0);
-
-#endif
         }
-    
+#endif
+
       g_print ("Exiting directly - may leave notes sounding on audio!");
       _exit (0);
       audio_shutdown ();
-
 
       exit (0);                 //do not use gtk_main_quit, as there may be inner loops active.
     }
@@ -1194,7 +1191,7 @@ pb_start_to_cursor (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoSetPlaybackStart)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  draw_score_area();
+  draw_score_area ();
   draw_score (NULL);
 }
 
@@ -1203,7 +1200,7 @@ pb_end_to_cursor (GtkWidget * button)
 {
   call_out_to_guile ("(DenemoSetPlaybackEnd)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
-  draw_score_area();
+  draw_score_area ();
   draw_score (NULL);
 }
 
@@ -1223,15 +1220,17 @@ pb_tempo (GtkAdjustment * adjustment)
   call_out_to_guile ("(DenemoTempo)");
   Denemo.project->movement->smfsync = G_MAXINT;
 }
+
 static void
 pb_mute_staffs ()
 {
-   call_out_to_guile ("(d-MuteStaffs)"); 
+  call_out_to_guile ("(d-MuteStaffs)");
 }
+
 void
 update_tempo_widget (gdouble value)
 {
-  gdouble bpm = gtk_adjustment_get_value (master_tempo_adj);//g_debug("bpm %f and correction %f\n", bpm, value);
+  gdouble bpm = gtk_adjustment_get_value (master_tempo_adj);    //g_debug("bpm %f and correction %f\n", bpm, value);
   bpm += value;
   gtk_adjustment_set_value (master_tempo_adj, bpm);
   gtk_adjustment_changed (master_tempo_adj);
@@ -1243,7 +1242,7 @@ static void
 set_speed (GtkAdjustment * adjustment)
 {
   gdouble speed = gtk_adjustment_get_value (adjustment);
-  set_playback_speed(speed);
+  set_playback_speed (speed);
 }
 #endif
 
@@ -1294,10 +1293,10 @@ update_leadin_widget (gdouble secs)
 static void
 pb_play_range (GtkWidget * button)
 {
-    if(Denemo.project->movement->markstaffnum)
-        call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)(d-Play)"); 
-    else
-        call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
+  if (Denemo.project->movement->markstaffnum)
+    call_out_to_guile ("(DenemoSetPlaybackIntervalToSelection)(d-Play)");
+  else
+    call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
 }
 
 static void
@@ -1311,10 +1310,10 @@ pb_panic (GtkWidget * button)
 {
   playback_panic ();
   Denemo.project->movement->start_time = 0.0;
-  Denemo.project->movement->end_time = -1.0;      //ie unset
+  Denemo.project->movement->end_time = -1.0;    //ie unset
   set_start_and_end_objects_for_draw ();
   reset_temperament ();
-  draw_score_area();
+  draw_score_area ();
 }
 
 static void
@@ -1355,33 +1354,37 @@ set_midi_in_status (void)
       else
         text = g_strconcat ("<span foreground=\"#000000\">", _("Appending/Editing Pitches"), "</span>", NULL);
       gtk_label_set_markup (GTK_LABEL (midi_in_status), text);
-      g_free(text);
+      g_free (text);
     }
 }
 
-void midi_in_adjust (gint value) {
-    Denemo.keyboard_state = value;
-    Denemo.keyboard_state_locked = value;//lock if set to listening or checking
-    set_midi_in_status ();
-    switch_back_to_main_window ();
+void
+midi_in_adjust (gint value)
+{
+  Denemo.keyboard_state = value;
+  Denemo.keyboard_state_locked = value; //lock if set to listening or checking
+  set_midi_in_status ();
+  switch_back_to_main_window ();
 }
 
 
-static void midi_in_menu (void) {
-    GtkWidget *menu = gtk_menu_new ();
-    GtkWidget *item = gtk_menu_item_new_with_label (_("Checking Pitches"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GINT_TO_POINTER(GDK_CONTROL_MASK));
+static void
+midi_in_menu (void)
+{
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *item = gtk_menu_item_new_with_label (_("Checking Pitches"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GINT_TO_POINTER (GDK_CONTROL_MASK));
 
-    item = gtk_menu_item_new_with_label (_("Listening to Pitches"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GINT_TO_POINTER(GDK_SHIFT_MASK));
+  item = gtk_menu_item_new_with_label (_("Listening to Pitches"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), GINT_TO_POINTER (GDK_SHIFT_MASK));
 
-    item = gtk_menu_item_new_with_label (_("Appending/Editing Pitches"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), 0);
-    gtk_widget_show_all (menu);
-    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+  item = gtk_menu_item_new_with_label (_("Appending/Editing Pitches"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), 0);
+  gtk_widget_show_all (menu);
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
 }
 
 void
@@ -1407,61 +1410,64 @@ pb_playalong (GtkWidget * button)
   set_midi_in_status ();
 }
 
-gboolean show_midi_record_control(void) {
-      gtk_widget_show (deletebutton);
-      gtk_widget_show (convertbutton);
-      set_midi_in_status ();
-      return FALSE;// stop timer callback
- }
 gboolean
-pb_record (gchar *callback)
+show_midi_record_control (void)
 {
-   if(is_playing())
-        {
-            warningdialog(_("Stop playing first"));
-            return FALSE;   
-        }
-  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_AUDIO))
+  gtk_widget_show (deletebutton);
+  gtk_widget_show (convertbutton);
+  set_midi_in_status ();
+  return FALSE;                 // stop timer callback
+}
+
+gboolean
+pb_record (gchar * callback)
+{
+  if (is_playing ())
     {
-        warningdialog(_("Cannot mix audio and MIDI recordings"));
-        return  FALSE;
+      warningdialog (_("Stop playing first"));
+      return FALSE;
     }
-    
-  if (Denemo.project->movement->recorded_midi_track &&  midi_is_from_file())
+  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_AUDIO))
     {
-        warningdialog(_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
-        return FALSE;
-     }
-    
+      warningdialog (_("Cannot mix audio and MIDI recordings"));
+      return FALSE;
+    }
+
+  if (Denemo.project->movement->recorded_midi_track && midi_is_from_file ())
+    {
+      warningdialog (_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
+      return FALSE;
+    }
+
   if (Denemo.project->movement->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return FALSE;
     }
-    
-  delete_imported_midi (); 
+
+  delete_imported_midi ();
   call_out_to_guile ("(DenemoSetPlaybackStart)");
 
 
- 
-  new_midi_recording();
-  
-  
-  
+
+  new_midi_recording ();
+
+
+
   Denemo.project->midi_destination |= MIDIRECORD;
   track_delete (Denemo.project->movement->recorded_midi_track);
   Denemo.project->movement->recorded_midi_track = smf_track_new ();
   gtk_widget_hide (deletebutton);
   gtk_widget_hide (convertbutton);
-  
+
   set_midi_in_status ();
-  gchar *script = callback?g_strdup_printf("(d-Play \"%s\")", callback): g_strdup("(d-Play)");
+  gchar *script = callback ? g_strdup_printf ("(d-Play \"%s\")", callback) : g_strdup ("(d-Play)");
   call_out_to_guile (script);
-  g_free(script);
- {//this note off event prevents the first MIDI note from sounding a few seconds into the recording
- //why such a spurious note is heard is unknown, it does not get put into the event queues (immediate or standard)
-      gchar buf[] = {0x80, 0x0, 0x0};
-      handle_midi_event (buf);
-    
+  g_free (script);
+  {                             //this note off event prevents the first MIDI note from sounding a few seconds into the recording
+    //why such a spurious note is heard is unknown, it does not get put into the event queues (immediate or standard)
+    gchar buf[] = { 0x80, 0x0, 0x0 };
+    handle_midi_event (buf);
+
   }
   return TRUE;
 }
@@ -1469,35 +1475,39 @@ pb_record (gchar *callback)
 static void
 pb_audiorecord (GtkWidget * button)
 {
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton),
-    gtk_image_new_from_stock (GTK_STOCK_MEDIA_RECORD, GTK_ICON_SIZE_BUTTON));//highlighting may have turned it off
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_stock (GTK_STOCK_MEDIA_RECORD, GTK_ICON_SIZE_BUTTON));       //highlighting may have turned it off
   if (Denemo.prefs.maxrecordingtime)
-  {
-    Denemo.project->audio_recording = !Denemo.project->audio_recording;
-    if(!Denemo.project->audio_recording) gtk_widget_show(exportbutton);
-  }
+    {
+      Denemo.project->audio_recording = !Denemo.project->audio_recording;
+      if (!Denemo.project->audio_recording)
+        gtk_widget_show (exportbutton);
+    }
   else
-  {
-    warningdialog (_("The preference set for recording time is 0 - nothing can be recorded.\nSee Edit → Change Preferences Audio/Midi Tab"));
-  }
+    {
+      warningdialog (_("The preference set for recording time is 0 - nothing can be recorded.\nSee Edit → Change Preferences Audio/Midi Tab"));
+    }
 }
+
 static void
 pb_exportaudio (GtkWidget * button)
 {
-  if(!Denemo.project->audio_recording)
+  if (!Denemo.project->audio_recording)
     Denemo.project->audio_recording = FALSE;
   export_recorded_audio ();
 }
 
-void highlight_audio_record(void) {
+void
+highlight_audio_record (void)
+{
   static gboolean on;
   on = !on;
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton),
-    gtk_image_new_from_stock (on?GTK_STOCK_MEDIA_RECORD:GTK_STOCK_MEDIA_STOP, GTK_ICON_SIZE_BUTTON));
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_stock (on ? GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP, GTK_ICON_SIZE_BUTTON));
 }
 
-void delete_recording (void) {
-     //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
+void
+delete_recording (void)
+{
+  //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
   if (Denemo.project->movement && Denemo.project->movement->recording)
     {
       DenemoRecording *temp = Denemo.project->movement->recording;
@@ -1507,31 +1517,32 @@ void delete_recording (void) {
       if (temp->sndfile)
         sf_close (temp->sndfile);
       g_free (temp->filename);
-      g_list_free_full(temp->notes, g_free);
+      g_list_free_full (temp->notes, g_free);
       g_free (temp);
       Denemo.project->movement->recording = NULL;
       Denemo.project->movement->marked_onset = NULL;
-    }   
+    }
 }
+
 static void
 pb_midi_delete (GtkWidget * button)
 {
   DenemoRecording *recording = Denemo.project->movement->recording;
-  if(recording)
+  if (recording)
     {
-      if(recording->type!=DENEMO_RECORDING_MIDI)
+      if (recording->type != DENEMO_RECORDING_MIDI)
         {
-            g_warning("Cannot delete Audio yet");
-            return;//see sourceaudio.c:222 for deleting audio
+          g_warning ("Cannot delete Audio yet");
+          return;               //see sourceaudio.c:222 for deleting audio
         }
       track_delete (Denemo.project->movement->recorded_midi_track);
       Denemo.project->movement->recorded_midi_track = NULL;
-      
+
       delete_recording ();
     }
   gtk_widget_hide (convertbutton);
   gtk_widget_hide (button);
-  gtk_widget_queue_draw(Denemo.scorearea);
+  gtk_widget_queue_draw (Denemo.scorearea);
 }
 
 static void
@@ -1542,21 +1553,23 @@ pb_midi_convert (GtkWidget * button)
 
   g_info ("Finished midi convert");
 }
+
 #define CURRP ((RhythmPattern *)project->currhythm->data)
 #define LABEL_WIDGET_OF_TOOLBUTTON(a) (gtk_tool_button_get_label_widget((a)))
 
-void set_rhythm_label (RhythmPattern * r, gchar *text)
+void
+set_rhythm_label (RhythmPattern * r, gchar * text)
 {
-     DenemoProject *project = Denemo.project;
-    GtkWidget *label = LABEL_WIDGET_OF_TOOLBUTTON (CURRP->button);
-    gchar *labelstr;
-    if (r->nickname && r->nickname->len)
-    labelstr = g_strconcat (text,"\n",r->nickname->str, NULL);
-    else
+  DenemoProject *project = Denemo.project;
+  GtkWidget *label = LABEL_WIDGET_OF_TOOLBUTTON (CURRP->button);
+  gchar *labelstr;
+  if (r->nickname && r->nickname->len)
+    labelstr = g_strconcat (text, "\n", r->nickname->str, NULL);
+  else
     labelstr = g_strdup (text);
-    //g_debug("markup is %s\n", ((RhythmElement*)g->data)->icon);
-    gtk_label_set_markup (GTK_LABEL (label), labelstr);
-    g_free (labelstr); 
+  //g_debug("markup is %s\n", ((RhythmElement*)g->data)->icon);
+  gtk_label_set_markup (GTK_LABEL (label), labelstr);
+  g_free (labelstr);
 }
 
 /**
@@ -1586,75 +1599,85 @@ select_rhythm_pattern (RhythmPattern * r)
       gchar *text = ((RhythmElement *) project->rstep->data)->highlightlabel;
       if (text)
         {
-         set_rhythm_label (r, text);
+          set_rhythm_label (r, text);
         }
       highlight_rhythm (CURRP);
     }
 #undef CURRP
 }
+
 #undef LABEL_WIDGET_OF_TOOLBUTTON
-static void insert_and_select_snippet (RhythmPattern * r)
+static void
+insert_and_select_snippet (RhythmPattern * r)
 {
   select_rhythm_pattern (r);
   if ((Denemo.project->mode & INPUTEDIT))
     {
-        insert_clipboard (r->clipboard);
-    }   
-}
-static void insert_snippet (RhythmPattern * r)
-{
- 
-  if ((Denemo.project->mode & INPUTEDIT))
-    {
-        insert_clipboard (r->clipboard);
-    }   
+      insert_clipboard (r->clipboard);
+    }
 }
 
-static void rename_snippet (RhythmPattern *r);
+static void
+insert_snippet (RhythmPattern * r)
+{
+
+  if ((Denemo.project->mode & INPUTEDIT))
+    {
+      insert_clipboard (r->clipboard);
+    }
+}
+
+static void rename_snippet (RhythmPattern * r);
 
 static void
 activate_rhythm_pattern (GtkToolButton * toolbutton, RhythmPattern * r)
 {
-   GtkWidget *menu = gtk_menu_new ();
-    GtkWidget *item = gtk_menu_item_new_with_label (_("Select and Reset Snippet"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_rhythm_pattern),r);
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *item = gtk_menu_item_new_with_label (_("Select and Reset Snippet"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (select_rhythm_pattern), r);
 
-    item = gtk_menu_item_new_with_label (_("Insert Snippet at Cursor"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (insert_snippet), r);
-        item = gtk_menu_item_new_with_label (_("Re-label Snippet"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (rename_snippet), r);
+  item = gtk_menu_item_new_with_label (_("Insert Snippet at Cursor"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (insert_snippet), r);
+  item = gtk_menu_item_new_with_label (_("Re-label Snippet"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (rename_snippet), r);
 
-    item = gtk_menu_item_new_with_label (_("Insert and Select"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (insert_and_select_snippet), r);
-    
-     item = gtk_menu_item_new_with_label (_("Delete Snippet"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_rhythm_pattern), r);
-    gtk_widget_show_all (menu);
-    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());   
+  item = gtk_menu_item_new_with_label (_("Insert and Select"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (insert_and_select_snippet), r);
+
+  item = gtk_menu_item_new_with_label (_("Delete Snippet"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_rhythm_pattern), r);
+  gtk_widget_show_all (menu);
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
 }
 
-gboolean insert_nth_rhythm (gint n) {
-    
-    gint nr = g_list_length (Denemo.project->rhythms);
-    if (n>=0 && n<nr)
-       {
-            insert_clipboard (((RhythmPattern*)(g_list_nth (Denemo.project->rhythms, n))->data)->clipboard);
-            return TRUE;
-        }
-    return FALSE;
+gboolean
+insert_nth_rhythm (gint n)
+{
+
+  gint nr = g_list_length (Denemo.project->rhythms);
+  if (n >= 0 && n < nr)
+    {
+      insert_clipboard (((RhythmPattern *) (g_list_nth (Denemo.project->rhythms, n))->data)->clipboard);
+      return TRUE;
+    }
+  return FALSE;
 }
-static void null_action () {}
+
+static void
+null_action ()
+{
+}
 
 /* duration_code(gpointer function)
  * return an ascii code to indicate what duration (if any) function gives.
  * '0x0' means not a duration
  * chars 012345678 are the standard note durations
- * 
+ *
  */
 gchar
 duration_code (gpointer fn)
@@ -1668,7 +1691,7 @@ duration_code (gpointer fn)
  * char '.' means a dotted note, '(' and ')' mean start and end slur
  * r to z are rests
  * others to be defined
- * 
+ *
  */
 gchar
 modifier_code (gpointer fn)
@@ -1677,18 +1700,7 @@ modifier_code (gpointer fn)
     fn == (gpointer) tuplet_end ? '|' :
     fn == (gpointer) add_dot_key ? '.' :
     fn == (gpointer) toggle_begin_slur ? '(' :
-     fn == (gpointer) toggle_end_slur ? ')' :
-      fn == (gpointer) insert_rest_0key ? 'r' :
-       fn == (gpointer) insert_rest_1key ? 's' :
-        fn == (gpointer) insert_rest_2key ? 't' :
-         fn == (gpointer) insert_rest_3key ? 'u' :
-          fn == (gpointer) insert_rest_4key ? 'v' :
-           fn == (gpointer) insert_rest_5key ? 'w' :
-            fn == (gpointer) insert_rest_6key ? 'x' :
-             fn == (gpointer) insert_rest_7key ? 'y' :
-              fn == (gpointer) insert_rest_8key ? 'z' :
-              fn == (gpointer) null_action ? 'S' :
-               0;
+    fn == (gpointer) toggle_end_slur ? ')' : fn == (gpointer) insert_rest_0key ? 'r' : fn == (gpointer) insert_rest_1key ? 's' : fn == (gpointer) insert_rest_2key ? 't' : fn == (gpointer) insert_rest_3key ? 'u' : fn == (gpointer) insert_rest_4key ? 'v' : fn == (gpointer) insert_rest_5key ? 'w' : fn == (gpointer) insert_rest_6key ? 'x' : fn == (gpointer) insert_rest_7key ? 'y' : fn == (gpointer) insert_rest_8key ? 'z' : fn == (gpointer) null_action ? 'S' : 0;
 }
 
 gboolean
@@ -1763,7 +1775,8 @@ attach_clipboard (RhythmPattern * r)
 {
   DenemoProject *project = Denemo.project;
   DenemoMovement *si;
-  if (project->movement) si = project->movement;
+  if (project->movement)
+    si = project->movement;
   if (si->markstaffnum)
     {
       push_clipboard ();
@@ -1779,7 +1792,7 @@ attach_clipboard (RhythmPattern * r)
 gint
 insert_pattern_in_toolbar (RhythmPattern * r, gboolean highlight)
 {
-  if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return -1;
   DenemoProject *project = Denemo.project;
   if (r->clipboard == NULL)
@@ -1794,15 +1807,15 @@ insert_pattern_in_toolbar (RhythmPattern * r, gboolean highlight)
   project->rhythms = g_list_append (project->rhythms, r);
   if (highlight)
     {
-        project->rstep = r->rsteps;
-        project->cstep = r->clipboard->data;
-        if (project->currhythm)
+      project->rstep = r->rsteps;
+      project->cstep = r->clipboard->data;
+      if (project->currhythm)
         unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
-        project->currhythm = g_list_last (project->rhythms);
-        highlight_rhythm ((RhythmPattern *) project->currhythm->data);
-  }
+      project->currhythm = g_list_last (project->rhythms);
+      highlight_rhythm ((RhythmPattern *) project->currhythm->data);
+    }
   g_signal_connect (G_OBJECT (r->button), "clicked", G_CALLBACK (activate_rhythm_pattern), (gpointer) r);
-  return g_list_length (project->rhythms);  //the index of the newly added snippet
+  return g_list_length (project->rhythms);      //the index of the newly added snippet
 }
 
 void
@@ -1816,33 +1829,40 @@ install_button_for_pattern (RhythmPattern * r, gchar * thelabel)
   gtk_tool_button_set_label_widget (button, label);
   r->button = button;
 }
-static GString *shorten_string (gchar *str) {
-    GString *ret = g_string_new("");
-    for(;*str;str++)
+
+static GString *
+shorten_string (gchar * str)
+{
+  GString *ret = g_string_new ("");
+  for (; *str; str++)
+    {
+      switch (*str)
         {
-         switch (*str) {
-             case '\n':
-             case '\t':
-             case ' ':
-             continue;
-             default:
-                g_string_append_c (ret, *str);
-             
-         }
-       if(ret->len > 8) break;
-      }
-    return ret;
+        case '\n':
+        case '\t':
+        case ' ':
+          continue;
+        default:
+          g_string_append_c (ret, *str);
+
+        }
+      if (ret->len > 8)
+        break;
+    }
+  return ret;
 }
-        
+
 /*
- * curobj is a list of DenemoObject, 
- * creates a RhythmPattern 
+ * curobj is a list of DenemoObject,
+ * creates a RhythmPattern
  * and the ASCII pattern that is used by the caller to generate a label on the snippet button and a set of highlighted labels for each step of the rhythm pattern.
  * accumulates the lilypond field of the rhythm pattern from the lilypond fields of the objects
  */
-static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString *pattern)  {
-  if(r->lilypond==NULL)
-        r->lilypond = g_string_new("");
+static void
+create_rhythm_and_pattern (GList * curobj, RhythmPattern * r, GString * pattern)
+{
+  if (r->lilypond == NULL)
+    r->lilypond = g_string_new ("");
   for (; curobj; curobj = curobj->next)
     {
       gpointer fn;
@@ -1861,7 +1881,7 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
               fn = (gpointer) triplet_start;
               g_string_append_c (pattern, '~');
               break;
-            default:       // need to create start_xxxtuplet() functions to go with triplet_start(), then they can go here.
+            default:           // need to create start_xxxtuplet() functions to go with triplet_start(), then they can go here.
               fn = NULL;
             }
           append_rhythm (r, fn);
@@ -1910,7 +1930,7 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
                 append_rhythm (r, fn);
               }
             else
-              {     /* a rest */
+              {                 /* a rest */
                 switch (ch->baseduration)
                   {
                   case 0:
@@ -1947,8 +1967,8 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
                   }
                 g_string_append_c (pattern, modifier_code (fn));
                 append_rhythm (r, fn);
-              }     /* end of rests */
-              gint i;
+              }                 /* end of rests */
+            gint i;
             for (i = ch->numdots; i; i--)
               {
                 fn = add_dot_key;
@@ -1967,149 +1987,156 @@ static void create_rhythm_and_pattern (GList *curobj, RhythmPattern* r, GString 
                 g_string_append_c (pattern, ')');
                 append_rhythm (r, fn);
               }
-              //FIXME other built-ins here - cresc endcresc ...
+            //FIXME other built-ins here - cresc endcresc ...
           }
           break;
         case LILYDIRECTIVE:
-            {
-                DenemoDirective *direc = (DenemoDirective *)obj->object;
-                fn = (gpointer) null_action;
-                if((curobj->prev==NULL)&&(curobj->next==NULL) && (r->nickname==NULL))
-                    {
-                        if(direc->display)
-                            r->nickname = shorten_string (direc->display->str);
-                        else
-                        if(direc->graphic_name)
-                            r->nickname = shorten_string (direc->graphic_name->str);
-                        else
-                            if(direc->postfix)
-                            r->nickname = shorten_string (direc->prefix->str);
-                        else 
-                            r->nickname = g_string_new ("S");
-                    } 
-                g_string_append_c (pattern, 'S');
-                append_rhythm (r, fn);
-            }
+          {
+            DenemoDirective *direc = (DenemoDirective *) obj->object;
+            fn = (gpointer) null_action;
+            if ((curobj->prev == NULL) && (curobj->next == NULL) && (r->nickname == NULL))
+              {
+                if (direc->display)
+                  r->nickname = shorten_string (direc->display->str);
+                else if (direc->graphic_name)
+                  r->nickname = shorten_string (direc->graphic_name->str);
+                else if (direc->postfix)
+                  r->nickname = shorten_string (direc->prefix->str);
+                else
+                  r->nickname = g_string_new ("S");
+              }
+            g_string_append_c (pattern, 'S');
+            append_rhythm (r, fn);
+          }
           break;
         default:
-            {
-                fn = null_action;
-                g_string_append_c (pattern, 'S');
-                append_rhythm (r, fn);
-            }
+          {
+            fn = null_action;
+            g_string_append_c (pattern, 'S');
+            append_rhythm (r, fn);
+          }
           //g_warning("ignoring %d", obj->type);
           break;
-        }           /* end of switch obj type */
+        }                       /* end of switch obj type */
       //g_debug("Number of rhythms %d\n", g_list_length(r->rsteps));
       if (obj->lilypond)
         g_string_append (r->lilypond, obj->lilypond);
-    }               /* End object loop */
+    }                           /* End object loop */
 }
+
 //create values for highlightlabel field of the r->steps from the pattern
-void fill_in_steps (RhythmPattern* r, GString *pattern)  {
-      /* fill the r->rsteps with highlightlabels for each step */
-      GList *g;
-      RhythmElement *el;
-      gint i;
-      for (g = r->rsteps, i = 0; g; g = g->next, i++)
+void
+fill_in_steps (RhythmPattern * r, GString * pattern)
+{
+  /* fill the r->rsteps with highlightlabels for each step */
+  GList *g;
+  RhythmElement *el;
+  gint i;
+  for (g = r->rsteps, i = 0; g; g = g->next, i++)
+    {
+      el = (RhythmElement *) g->data;
+      if (i == 0 && (*(pattern->str) < '0' || *(pattern->str) > '8') && g->next)
+        g = g->next;            // pattern does not start with a note (0 to 8), so we skip to the second element, unless there are no notes
+      while (*(pattern->str + i) && (*(pattern->str + i) < '0' || *(pattern->str + i) > '8'))
+        i++;
+      if (*(pattern->str + i))
         {
-          el = (RhythmElement *) g->data;
-          if (i == 0 && (*(pattern->str) < '0' || *(pattern->str) > '8') && g->next)
-            g = g->next;        // pattern does not start with a note (0 to 8), so we skip to the second element, unless there are no notes
-          while (*(pattern->str + i) && (*(pattern->str + i) < '0' || *(pattern->str + i) > '8'))
-            i++;
-          if (*(pattern->str + i))
-            {
-              *(pattern->str + i) += HIGHLIGHT_OFFSET;
-              el->highlightlabel = music_font (pattern->str);
-              *(pattern->str + i) -= HIGHLIGHT_OFFSET;
-            }
-          //g_debug("el->highlightlabel = %s step %d pattern->str %s\n", el->highlightlabel, i, pattern->str);
+          *(pattern->str + i) += HIGHLIGHT_OFFSET;
+          el->highlightlabel = music_font (pattern->str);
+          *(pattern->str + i) -= HIGHLIGHT_OFFSET;
         }
+      //g_debug("el->highlightlabel = %s step %d pattern->str %s\n", el->highlightlabel, i, pattern->str);
     }
-    
-    
-static void rename_rhythm (RhythmPattern *r, gchar *name)
-{ 
+}
+
+
+static void
+rename_rhythm (RhythmPattern * r, gchar * name)
+{
   GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
   if (r->nickname == NULL)
     r->nickname = g_string_new (r->name);
-  if(name==NULL)
+  if (name == NULL)
     name = string_dialog_entry (Denemo.project, _("Rename Music Snippet"), _("Give new label for snippet"), r->nickname->str);
-  if(name && *name)
+  if (name && *name)
     {
-        g_string_assign (r->nickname, name);
-        gtk_label_set_markup (GTK_LABEL (label), r->nickname->str);
+      g_string_assign (r->nickname, name);
+      gtk_label_set_markup (GTK_LABEL (label), r->nickname->str);
     }
-}    
-
-static void rename_snippet (RhythmPattern *r)
-{
-   rename_rhythm (r, NULL); 
-}    
-//create a rhythm pattern (aka snippet) from r->clipboard or the selection
-//put the rhythm pattern in the Denemo.project and on the snippets toolbar
-//highlight the created rhythm if from the selection    
-void create_rhythm (RhythmPattern *r, gboolean from_selection) {
-    GString *pattern = g_string_new("");
-    install_button_for_pattern (r, NULL);
-    if (from_selection)
-        attach_clipboard (r);
-
-    if (r->clipboard)
-      create_rhythm_and_pattern ( (GList *)((GList *)r->clipboard)->data, r, pattern);
-    gchar *labelstr;
-    labelstr = music_font (pattern->str);
-    GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
-    gtk_label_set_markup (GTK_LABEL (label), labelstr);
-    g_free (labelstr);
-    fill_in_steps (r, pattern);
-    if (r->rsteps)
-    {
-    /* make the list circular */
-    r->rsteps->prev = g_list_last (r->rsteps);
-    g_list_last (r->rsteps)->next = r->rsteps;
-    }
-    insert_pattern_in_toolbar (r, from_selection);
-    if(r->nickname)
-        rename_rhythm (r, r->nickname->str);
-    if(!from_selection)
-        unhighlight_rhythm (r);
-    g_string_free (pattern, TRUE); 
 }
 
-    
+static void
+rename_snippet (RhythmPattern * r)
+{
+  rename_rhythm (r, NULL);
+}
+
+//create a rhythm pattern (aka snippet) from r->clipboard or the selection
+//put the rhythm pattern in the Denemo.project and on the snippets toolbar
+//highlight the created rhythm if from the selection
+void
+create_rhythm (RhythmPattern * r, gboolean from_selection)
+{
+  GString *pattern = g_string_new ("");
+  install_button_for_pattern (r, NULL);
+  if (from_selection)
+    attach_clipboard (r);
+
+  if (r->clipboard)
+    create_rhythm_and_pattern ((GList *) ((GList *) r->clipboard)->data, r, pattern);
+  gchar *labelstr;
+  labelstr = music_font (pattern->str);
+  GtkWidget *label = gtk_tool_button_get_label_widget (r->button);
+  gtk_label_set_markup (GTK_LABEL (label), labelstr);
+  g_free (labelstr);
+  fill_in_steps (r, pattern);
+  if (r->rsteps)
+    {
+      /* make the list circular */
+      r->rsteps->prev = g_list_last (r->rsteps);
+      g_list_last (r->rsteps)->next = r->rsteps;
+    }
+  insert_pattern_in_toolbar (r, from_selection);
+  if (r->nickname)
+    rename_rhythm (r, r->nickname->str);
+  if (!from_selection)
+    unhighlight_rhythm (r);
+  g_string_free (pattern, TRUE);
+}
+
+
 /* create_rhythm_cb
         - create a rhythm pattern from the current selection
         - clipboard field is pointed to the selected objects
         - a button is created in "/RhythmToolbar"
-        - and the pattern is added to project->rhythms 
+        - and the pattern is added to project->rhythms
         - with the first step of it put in project->rstep
         - the rhythm becomes the prevailing_rhythm, setting cstep
 
 */
 void
-create_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
+create_rhythm_cb (GtkAction * action, DenemoScriptParam * param)
 {
-    DenemoProject *project = Denemo.project;
+  DenemoProject *project = Denemo.project;
 
-    DenemoMovement *si = project->movement;
-    RhythmPattern *r;
+  DenemoMovement *si = project->movement;
+  RhythmPattern *r;
 
-    if (!si->markstaffnum)    /* Indicator that there's a selection.  */
-        {
-        warningdialog (_("No selection to create a music snippet from\nSee Edit → Select menu for selecting music to snip"));
-        return;
-        }   
-    
-    r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
+  if (!si->markstaffnum)        /* Indicator that there's a selection.  */
+    {
+      warningdialog (_("No selection to create a music snippet from\nSee Edit → Select menu for selecting music to snip"));
+      return;
+    }
 
-    
-    if (project->lilysync != project->changecount)
-        refresh_lily_cb (NULL, Denemo.project);/* ensure lilypond syntax attached to objects in selection */
-    create_rhythm (r, TRUE);
+  r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
+
+
+  if (project->lilysync != project->changecount)
+    refresh_lily_cb (NULL, Denemo.project);     /* ensure lilypond syntax attached to objects in selection */
+  create_rhythm (r, TRUE);
 
 }
+
 // create a rhythm pattern for a standard duration note or rest action is the insert_chord or rest for the appropriate duration.
 static void
 create_singleton_rhythm (gpointer insert_fn)
@@ -2119,7 +2146,7 @@ create_singleton_rhythm (gpointer insert_fn)
   gboolean default_rhythm = FALSE;
   DenemoMovement *si = project->movement;
   RhythmPattern *r = (RhythmPattern *) g_malloc0 (sizeof (RhythmPattern));
-  GString *pattern = g_string_new("");
+  GString *pattern = g_string_new ("");
   if (insert_fn == (gpointer) insert_chord_0key)
     pattern = g_string_assign (pattern, "0");
   if (insert_fn == (gpointer) insert_chord_1key)
@@ -2157,45 +2184,45 @@ create_singleton_rhythm (gpointer insert_fn)
     pattern = g_string_assign (pattern, "y");
   if (insert_fn == (gpointer) insert_rest_8key)
     pattern = g_string_assign (pattern, "z");
-  if (pattern->len<=0)
+  if (pattern->len <= 0)
     {
-        g_critical ("Bad call to create_singleton_rhythm");
-        g_string_free (pattern, TRUE);
-        return;
+      g_critical ("Bad call to create_singleton_rhythm");
+      g_string_free (pattern, TRUE);
+      return;
     }
-    /* if we already have it globally we don't need it again
-        note we never delete the singleton rhythms */
-      if (Denemo.singleton_rhythms[(unsigned int) *pattern->str])
-        {
-          g_free (r);
-          r = Denemo.singleton_rhythms[(unsigned int) *pattern->str];
-          already_done = TRUE;
-        }
-      else
-        {
-          Denemo.singleton_rhythms[(unsigned int) *pattern->str] = r;
-          already_done = FALSE;
-        }
+  /* if we already have it globally we don't need it again
+     note we never delete the singleton rhythms */
+  if (Denemo.singleton_rhythms[(unsigned int) *pattern->str])
+    {
+      g_free (r);
+      r = Denemo.singleton_rhythms[(unsigned int) *pattern->str];
+      already_done = TRUE;
+    }
+  else
+    {
+      Denemo.singleton_rhythms[(unsigned int) *pattern->str] = r;
+      already_done = FALSE;
+    }
 
-    if (!already_done)
-        {
-          gchar *labelstr;
-          append_rhythm (r, insert_fn);
-          labelstr = music_font (pattern->str);
-          g_free (labelstr);
+  if (!already_done)
+    {
+      gchar *labelstr;
+      append_rhythm (r, insert_fn);
+      labelstr = music_font (pattern->str);
+      g_free (labelstr);
 
-        /* make the list circular */
-            r->rsteps->prev = g_list_last (r->rsteps);
-            g_list_last (r->rsteps)->next = r->rsteps;
-        }
-    if (default_rhythm)
-        {
-          project->prevailing_rhythm = r;
-          project->rstep = r->rsteps;
-          project->cstep = NULL;
-          highlight_rhythm (r);
-        }
-    g_string_free (pattern, TRUE);
+      /* make the list circular */
+      r->rsteps->prev = g_list_last (r->rsteps);
+      g_list_last (r->rsteps)->next = r->rsteps;
+    }
+  if (default_rhythm)
+    {
+      project->prevailing_rhythm = r;
+      project->rstep = r->rsteps;
+      project->cstep = NULL;
+      highlight_rhythm (r);
+    }
+  g_string_free (pattern, TRUE);
 }
 
 
@@ -2224,8 +2251,8 @@ configure_keyboard_idx (GtkWidget * w, gint idx)
 static void
 toggle_record_script (GtkAction * action, gpointer param)
 {
-  if(!gtk_widget_get_visible (gtk_widget_get_toplevel(Denemo.script_view)))
-        toggle_scheme();
+  if (!gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view)))
+    toggle_scheme ();
   Denemo.ScriptRecording = !Denemo.ScriptRecording;
 }
 
@@ -2234,7 +2261,8 @@ appendSchemeText_cb (GtkWidget * widget, gchar * text)
 {
   gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
   appendSchemeText (text);
-  if(!sensitive) activate_action ("/MainMenu/ViewMenu/ToggleScript");
+  if (!sensitive)
+    activate_action ("/MainMenu/ViewMenu/ToggleScript");
 }
 
 
@@ -2296,11 +2324,11 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       g_free (current_script);
 
       gchar *text = get_scheme_from_idx (idx);
-      if (!is_action_name_builtin((gchar*) gtk_action_get_name(action)))
+      if (!is_action_name_builtin ((gchar *) gtk_action_get_name (action)))
         {
           if (text)
             {
-              stage_undo (project->movement, ACTION_STAGE_END);   //undo is a queue so this is the end :)
+              stage_undo (project->movement, ACTION_STAGE_END); //undo is a queue so this is the end :)
               ret = (gboolean) ! call_out_to_guile (text);
               stage_undo (project->movement, ACTION_STAGE_START);
             }
@@ -2378,7 +2406,7 @@ placeInPalette (GtkWidget * widget, GtkAction * action)
     place_action_in_palette (idx, name);
 }
 
-/* gets a name label and tooltip from the user, then creates a menuitem in the menu 
+/* gets a name label and tooltip from the user, then creates a menuitem in the menu
    given by the path myposition whose callback is the activate on the current scheme script.
 */
 
@@ -2428,7 +2456,7 @@ insertScript (GtkWidget * widget, gchar * insertion_point)
       g_free (dirpath);
       //g_file_set_contents(xml_path, text, -1, NULL);
       save_command_metadata (xml_path, myname, mylabel, mytooltip, idx < 0 ? NULL : after);
-      save_command_data(scm_path, myscheme);
+      save_command_data (scm_path, myscheme);
       load_xml_keymap (xml_path);
 
       if (confirm (_("New Command Added"), _("Do you want to save this with your default commands?")))
@@ -2472,16 +2500,17 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
   gchar *script;
   g_debug ("Loading %s/init.scm into Denemo.script_view", directory);
 
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs,  g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, NULL));
-  dirs = g_list_append(dirs,  g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", directory, NULL));
-  dirs = g_list_append(dirs,  g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", directory, NULL));
-  gchar* filename = find_path_for_file (INIT_SCM, dirs);
+  GList *dirs = NULL;
+  dirs = g_list_append (dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", directory, NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", directory, NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", directory, NULL));
+  gchar *filename = find_path_for_file (INIT_SCM, dirs);
 
-  if(!filename){
-    g_warning("Could not find scm initialization file");
-    return;
-  }
+  if (!filename)
+    {
+      g_warning ("Could not find scm initialization file");
+      return;
+    }
 
   if (g_file_get_contents (filename, &script, NULL, &error))
     appendSchemeText (script);
@@ -2554,13 +2583,13 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
 {
   gchar *name = (gchar *) gtk_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
-  
-  command_row* row = NULL;
+
+  command_row *row = NULL;
   keymap_get_command_row (Denemo.map, &row, idx);
-  
+
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
-  
+
   gchar *xml_filename = g_strconcat (name, XML_EXT, NULL);
   gchar *xml_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, xml_filename, NULL);
   g_free (xml_filename);
@@ -2568,7 +2597,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
   gchar *scm_filename = g_strconcat (name, SCM_EXT, NULL);
   gchar *scm_path = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, scm_filename, NULL);
   g_free (scm_filename);
-  
+
   gchar *scheme = get_script_view_text ();
   if (scheme && *scheme && confirm (_("Save Script"), g_strconcat (_("Over-write previous version of the script for "), name, _(" ?"), NULL)))
     {
@@ -2576,7 +2605,7 @@ saveMenuItem (GtkWidget * widget, GtkAction * action)
       g_mkdir_with_parents (dirpath, 0770);
       g_free (dirpath);
       save_command_metadata (xml_filename, name, label, tooltip, row->after);
-      save_command_data(scm_path, scheme);
+      save_command_data (scm_path, scheme);
       row->scheme = NULL;
     }
   else
@@ -2593,8 +2622,8 @@ uploadMenuItem (GtkWidget * widget, GtkAction * action)
 {
   gchar *name = (gchar *) gtk_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
-  
-  command_row* row = NULL;
+
+  command_row *row = NULL;
   keymap_get_command_row (the_keymap, &row, idx);
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
@@ -2648,6 +2677,7 @@ locatebitmapsdir (void)
     }
   return bitmapsdir;
 }
+
 static const gchar *
 locategraphicsdir (void)
 {
@@ -2666,6 +2696,7 @@ locategraphicsdir (void)
     }
   return bitmapsdir;
 }
+
 static const gchar *
 locatedownloadbitmapsdir (void)
 {
@@ -2698,11 +2729,11 @@ get_icon_for_name (gchar * name, gchar * label)
           filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", pngname, NULL);
           if (!g_file_test (filename, G_FILE_TEST_EXISTS))
             {
-                
+
               g_free (filename);
               filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", pngname, NULL);
               if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-                {                  
+                {
                   g_free (filename);
                   g_free (pngname);
                   return NULL;
@@ -2849,11 +2880,26 @@ loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
       FILE *fp = fopen (filename, "rb");
       if (fp)
         {
+          size_t n;
           fseek (fp, 16, SEEK_SET);
-          fread (&thesize.width, 4, 1, fp);
-          fread (&thesize.height, 4, 1, fp);
-          thesize.width = GINT_FROM_BE (thesize.width);
-          thesize.height = GINT_FROM_BE (thesize.height);
+          n = fread (&thesize.width, 4, 1, fp);
+          if (n != 1)
+            {
+              thesize.width = 40;
+            }
+          else
+            {
+              thesize.width = GINT_FROM_BE (thesize.width);
+            }
+          n = fread (&thesize.height, 4, 1, fp);
+          if (n != 1)
+            {
+              thesize.height = 40;
+            }
+          else
+            {
+              thesize.height = GINT_FROM_BE (thesize.height);
+            }
           fclose (fp);
         }
     }
@@ -2888,7 +2934,7 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
 #define NEWLINE "\n"
   if (*name == *NEWLINE)
     {
-//if name starts '\n' treat it as lines holding char font size weight (e.g. bold) slant (e.g. italic) 
+//if name starts '\n' treat it as lines holding char font size weight (e.g. bold) slant (e.g. italic)
 //so let user specify a hex value and convert to utf8 here len = g_unichar_to_utf8( uc, utf_string );
 //e.g "\n0x20" would be glyph 0x20 from the feta26 font, size 35 not bold or italic (as in  drawfetachar_cr())
 //while "\n0x40 0x40\nSans\n16\n1\n1" would be a "AA" string in sans font at 16pt bold and italic
@@ -2937,35 +2983,37 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
       return TRUE;
     }
 
-  GList* files = NULL;
-  files = g_list_append(files, g_strconcat (name, ".png", NULL));
-  files = g_list_append(files, g_strconcat (name, ".svg", NULL));
-  
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename (locategraphicsdir (), NULL));
-  dirs = g_list_append(dirs, g_build_filename (locatebitmapsdir (), NULL));
-  dirs = g_list_append(dirs, g_build_filename (locatedownloadbitmapsdir (), NULL));
-  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", NULL));
+  GList *files = NULL;
+  files = g_list_append (files, g_strconcat (name, ".png", NULL));
+  files = g_list_append (files, g_strconcat (name, ".svg", NULL));
+
+  GList *dirs = NULL;
+  dirs = g_list_append (dirs, g_build_filename (locategraphicsdir (), NULL));
+  dirs = g_list_append (dirs, g_build_filename (locatebitmapsdir (), NULL));
+  dirs = g_list_append (dirs, g_build_filename (locatedownloadbitmapsdir (), NULL));
+  dirs = g_list_append (dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "bitmaps", NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "bitmaps", NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "graphics", NULL));
 
   gboolean success = TRUE;
   gchar *dir = find_dir_for_files (files, dirs);
-  if(!dir){
-    g_warning ("Could not find graphic item %s", name);
-    success = FALSE;
-  }
+  if (!dir)
+    {
+      g_warning ("Could not find graphic item %s", name);
+      success = FALSE;
+    }
 
-  else{
-    gchar* basename = g_build_filename(dir, name, NULL);
-    success = loadGraphicFromFormat (name, basename, xbm);
-    g_free(basename);
+  else
+    {
+      gchar *basename = g_build_filename (dir, name, NULL);
+      success = loadGraphicFromFormat (name, basename, xbm);
+      g_free (basename);
 
-    if(!success)
-      g_warning ("Could not load graphic item %s from %s", name, dir);
-  }
-  
-  g_free(dir);
+      if (!success)
+        g_warning ("Could not load graphic item %s from %s", name, dir);
+    }
+
+  g_free (dir);
 
   return success;
 }
@@ -3030,7 +3078,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
 
   gint idx = lookup_command_from_name (the_keymap, func_name);
-  command_row* row = NULL;
+  command_row *row = NULL;
   keymap_get_command_row (the_keymap, &row, idx);
   //g_debug("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3)       //Not right click
@@ -3043,17 +3091,17 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
   if (event->button != 3)
     return FALSE;
 
-  gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));//some buttons should be insensitive if the Scheme window is not visible
+  gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));   //some buttons should be insensitive if the Scheme window is not visible
   GtkWidget *menu = gtk_menu_new ();
   gchar *labeltext = g_strdup_printf ("Help for %s", func_name);
   GtkWidget *item = gtk_menu_item_new_with_label (labeltext);
-  
+
   g_free (labeltext);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (popup_help_for_action), (gpointer) action);
 
- /* Place button in palette */
- if (idx != -1)
+  /* Place button in palette */
+  if (idx != -1)
     {
       item = gtk_menu_item_new_with_label (_("Place Command in a Palette"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
@@ -3109,7 +3157,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (load_command_from_location), (gpointer) filepath);
     }
 
-  if (!is_action_name_builtin((gchar*)func_name))
+  if (!is_action_name_builtin ((gchar *) func_name))
     {
       gchar *scheme = get_scheme_from_idx (idx);
       if (!scheme)
@@ -3121,11 +3169,11 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
           g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (appendSchemeText_cb), scheme);
         }
       {
-            
-            item = gtk_menu_item_new_with_label (_("Save Script from Scheme Window"));
-            gtk_widget_set_sensitive (item, sensitive);
-            gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-            g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (saveMenuItem), action);
+
+        item = gtk_menu_item_new_with_label (_("Save Script from Scheme Window"));
+        gtk_widget_set_sensitive (item, sensitive);
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+        g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (saveMenuItem), action);
       }
       if (Denemo.project->xbm)
         {
@@ -3145,28 +3193,28 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 #endif
     }
 
-    item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
-    gtk_widget_set_sensitive (item, sensitive);
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    static gchar *insertion_point;
-    if (insertion_point)
-      g_free (insertion_point);
-    insertion_point = g_build_filename (myposition, func_name, NULL);
-    //g_debug("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
-    g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (insertScript), insertion_point);
+  item = gtk_menu_item_new_with_label (_("Save Script as New Menu Item"));
+  gtk_widget_set_sensitive (item, sensitive);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  static gchar *insertion_point;
+  if (insertion_point)
+    g_free (insertion_point);
+  insertion_point = g_build_filename (myposition, func_name, NULL);
+  //g_debug("using %p %s for %d %s %s\n", insertion_point, insertion_point, idx, myposition, func_name);
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (insertScript), insertion_point);
 
-    /* options for getting/putting init.scm */
-    item = gtk_menu_item_new_with_label (_("Get Initialization Script for this Menu"));
-    gtk_widget_set_sensitive (item, sensitive);
+  /* options for getting/putting init.scm */
+  item = gtk_menu_item_new_with_label (_("Get Initialization Script for this Menu"));
+  gtk_widget_set_sensitive (item, sensitive);
 
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (get_initialization_script), myposition);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (get_initialization_script), myposition);
 
-    item = gtk_menu_item_new_with_label (_("Put Script as Initialization Script for this Menu"));
-    gtk_widget_set_sensitive (item, sensitive);
+  item = gtk_menu_item_new_with_label (_("Put Script as Initialization Script for this Menu"));
+  gtk_widget_set_sensitive (item, sensitive);
 
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (put_initialization_script), myposition);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (put_initialization_script), myposition);
 
   gtk_widget_show_all (menu);
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
@@ -3202,9 +3250,9 @@ unhighlight_rhythm (RhythmPattern * r)
 
 
 /*
- 
 
-  
+
+
 */
 void
 highlight_rest (DenemoProject * project, gint dur)
@@ -3214,14 +3262,16 @@ highlight_rest (DenemoProject * project, gint dur)
       unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
     }
   gint nb_sr = 'r' + dur;
-  if(nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS){
-    g_critical("Singleton rhythm index out of range");
-    return;
-  }
-  if(!Denemo.singleton_rhythms[nb_sr]){
-    g_debug("Unvalid singleton rhythm %i", nb_sr);
-    return;
-  }
+  if (nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS)
+    {
+      g_critical ("Singleton rhythm index out of range");
+      return;
+    }
+  if (!Denemo.singleton_rhythms[nb_sr])
+    {
+      g_debug ("Unvalid singleton rhythm %i", nb_sr);
+      return;
+    }
   project->currhythm = NULL;
   project->cstep = NULL;
   project->rstep = Denemo.singleton_rhythms[nb_sr]->rsteps;
@@ -3239,14 +3289,16 @@ highlight_duration (DenemoProject * project, gint dur)
       unhighlight_rhythm ((RhythmPattern *) project->currhythm->data);
     }
   gint nb_sr = '0' + dur;
-  if(nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS){
-    g_critical("Singleton rhythm index out of range");
-    return;
-  }
-  if(!Denemo.singleton_rhythms[nb_sr]){
-    g_debug("Unvalid singleton rhythm %i", nb_sr);
-    return;
-  }
+  if (nb_sr < 0 || nb_sr > NB_SINGLETON_RHYTHMS)
+    {
+      g_critical ("Singleton rhythm index out of range");
+      return;
+    }
+  if (!Denemo.singleton_rhythms[nb_sr])
+    {
+      g_debug ("Unvalid singleton rhythm %i", nb_sr);
+      return;
+    }
   project->currhythm = NULL;
   project->cstep = NULL;
   project->rstep = Denemo.singleton_rhythms[nb_sr]->rsteps;
@@ -3258,7 +3310,8 @@ highlight_duration (DenemoProject * project, gint dur)
 
 
 
-void delete_rhythm_pattern (RhythmPattern *r)
+void
+delete_rhythm_pattern (RhythmPattern * r)
 {
   DenemoProject *project = Denemo.project;
   free_clipboard (r->clipboard);
@@ -3280,13 +3333,13 @@ void delete_rhythm_pattern (RhythmPattern *r)
   g_list_free (r->rsteps);
   g_free (r);
   //g_debug("length %d\n", g_list_length(project->rhythms));
-  project->rhythms = g_list_remove (project->rhythms, r);//project->currhythm->data);
+  project->rhythms = g_list_remove (project->rhythms, r);       //project->currhythm->data);
   //g_debug("length %d %p\n", g_list_length(project->rhythms), project->rhythms);
   project->currhythm = g_list_last (project->rhythms);
 
   if (project->currhythm == NULL)
     {
-      create_singleton_rhythm ((gpointer) insert_chord_2key);//to re-set the default rhythm which is 1/4 note 
+      create_singleton_rhythm ((gpointer) insert_chord_2key);   //to re-set the default rhythm which is 1/4 note
     }
   else
     {
@@ -3302,11 +3355,10 @@ void delete_rhythm_pattern (RhythmPattern *r)
 
 /*
  * delete a rhythmic pattern and its button
- * 
+ *
  */
 void
-delete_rhythm_cb (GtkAction * action, DenemoScriptParam* param)
-
+delete_rhythm_cb (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   if ((project->mode & (INPUTEDIT)) == 0)
@@ -3437,8 +3489,8 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
     case INPUTMIDI:
       midi_stop ();
       audio_shutdown ();
-      (void)audio_initialize (&Denemo.prefs);
-      if(have_midi())
+      (void) audio_initialize (&Denemo.prefs);
+      if (have_midi ())
         project->input_source = INPUTMIDI;
       else
         fail = TRUE;
@@ -3458,7 +3510,7 @@ change_input_type (GtkRadioAction * action, GtkRadioAction * current)
 
 /* callback: if not Insert mode set Insert mode else set Edit mode */
 void
-toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
+toggle_edit_mode (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   static gint mode = INPUTINSERT;
@@ -3481,14 +3533,14 @@ toggle_edit_mode (GtkAction * action, DenemoScriptParam* param)
     }
   else
     {
-      mode = project->mode;         // remember mode for switching back
+      mode = project->mode;     // remember mode for switching back
       activate_action ("/MainMenu/ModeMenu/EditMode");
     }
 }
 
 /* callback: if rest entry make note entry and vv */
 void
-toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
+toggle_rest_mode (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   static gint mode = INPUTNORMAL;
@@ -3508,7 +3560,7 @@ toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
     }
   else
     {
-      mode = project->mode;         // remember mode for switching back
+      mode = project->mode;     // remember mode for switching back
       activate_action ("/MainMenu/ModeMenu/Rest");
     }
 }
@@ -3516,7 +3568,7 @@ toggle_rest_mode (GtkAction * action, DenemoScriptParam* param)
 
 /* callback: if rhythm entry make note entry and vv */
 void
-toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
+toggle_rhythm_mode (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
 #if 1
@@ -3544,14 +3596,14 @@ toggle_rhythm_mode (GtkAction * action, DenemoScriptParam* param)
     }
   else
     {
-      mode = project->mode;         // remember mode for switching back, breaks with multi project FIXME
+      mode = project->mode;     // remember mode for switching back, breaks with multi project FIXME
       activate_action ("/MainMenu/ModeMenu/Rhythm");
     }
 #endif
 }
 
 /**
- *  Function to toggle the visibility of the LilyPond text window. It refreshes 
+ *  Function to toggle the visibility of the LilyPond text window. It refreshes
  *  the text if needed
  */
 static void
@@ -3569,7 +3621,7 @@ toggle_lilytext (GtkAction * action, gpointer param)
 
 
 /**
- *  Function to toggle the visibility of the Scheme text window. 
+ *  Function to toggle the visibility of the Scheme text window.
  */
 static void
 toggle_scheme (void)
@@ -3586,9 +3638,9 @@ toggle_scheme (void)
 
 
 /**
- *  Function to toggle whether rhythm toolbar is visible 
+ *  Function to toggle whether rhythm toolbar is visible
  *  (no longer switches keymap to Rhythm.keymaprc when toolbar is on back to standard when off.)
- *  
+ *
  */
 static void
 toggle_rhythm_toolbar (GtkAction * action, gpointer param)
@@ -3614,9 +3666,9 @@ toggle_rhythm_toolbar (GtkAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle whether main toolbar is visible 
- *  
- * 
+ *  Function to toggle whether main toolbar is visible
+ *
+ *
  */
 void
 toggle_toolbar (GtkAction * action, gpointer param)
@@ -3632,9 +3684,9 @@ toggle_toolbar (GtkAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle whether playback toolbar is visible 
- *  
- * 
+ *  Function to toggle whether playback toolbar is visible
+ *
+ *
  */
 void
 toggle_playback_controls (GtkAction * action, gpointer param)
@@ -3650,9 +3702,9 @@ toggle_playback_controls (GtkAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle whether playback toolbar is visible 
- *  
- * 
+ *  Function to toggle whether playback toolbar is visible
+ *
+ *
  */
 void
 toggle_midi_in_controls (GtkAction * action, gpointer param)
@@ -3669,9 +3721,9 @@ toggle_midi_in_controls (GtkAction * action, gpointer param)
 
 
 /**
- *  Function to toggle whether keyboard bindings can be set by pressing key over menu item 
- *  
- *  
+ *  Function to toggle whether keyboard bindings can be set by pressing key over menu item
+ *
+ *
  */
 static void
 toggle_quick_edits (GtkAction * action, gpointer param)
@@ -3693,9 +3745,9 @@ toggle_main_menu (GtkAction * action, gpointer param)
 }
 */
 /**
- *  Function to toggle whether action menubar is visible 
- *  
- *  
+ *  Function to toggle whether action menubar is visible
+ *
+ *
  */
 /* UNUSED
 static void
@@ -3718,38 +3770,39 @@ toggle_action_menu (GtkAction * action, gpointer param)
 
 /**
  *  Function to toggle visibility of print preview pane of current project
- *  
- *  
+ *
+ *
  */
 static void
 toggle_print_view (GtkAction * action, gpointer param)
 {
- if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return;
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
   if ((!action) || gtk_widget_get_visible (w))
     gtk_widget_hide (w);
   else
     {
-     // gtk_widget_show (w);
+      // gtk_widget_show (w);
       //if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "printviewupdate")) < Denemo.project->changecount)
       //  refresh_print_view (TRUE);
       implement_show_print_view (TRUE);
     }
 #endif
 }
+
 /**
  *  Function to toggle visibility of playback view pane of current project
- *  
- *  
+ *
+ *
  */
 static void
 toggle_playback_view (GtkAction * action, gpointer param)
 {
- if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return;
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.playbackview);
   if (gtk_widget_get_visible (w))
@@ -3757,22 +3810,23 @@ toggle_playback_view (GtkAction * action, gpointer param)
   else
     {
       gtk_widget_show (w);
-      GtkImageType type = gtk_image_get_storage_type (GTK_IMAGE(Denemo.playbackview));
-    if (type == GTK_IMAGE_EMPTY)
+      GtkImageType type = gtk_image_get_storage_type (GTK_IMAGE (Denemo.playbackview));
+      if (type == GTK_IMAGE_EMPTY)
         call_out_to_guile ("(d-PlaybackView #f)");
-      
+
     }
 }
+
 /**
  *  Function to toggle visibility of score layout window of current project
- *  
- *  
+ *
+ *
  */
 static void
 toggle_score_layout (GtkAction * action, gpointer param)
 {
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   DenemoProject *project = Denemo.project;
   GtkWidget *w = project->score_layout;
@@ -3793,36 +3847,36 @@ toggle_score_layout (GtkAction * action, gpointer param)
 
 /**
  *  Function to toggle visibility of command manager window
- *  
- *  
+ *
+ *
  */
 static void
 toggle_command_manager (GtkAction * action, gpointer param)
 {
-  if(Denemo.command_manager==NULL) 
-  {
-    configure_keyboard_dialog (action, NULL);
-  }
-  else 
-  {
-    GtkWidget *w = Denemo.command_manager;
-    if ((!action) || gtk_widget_get_visible (w))
+  if (Denemo.command_manager == NULL)
+    {
+      configure_keyboard_dialog (action, NULL);
+    }
+  else
+    {
+      GtkWidget *w = Denemo.command_manager;
+      if ((!action) || gtk_widget_get_visible (w))
         gtk_widget_hide (w);
-    else    
-      gtk_widget_show (w);
-  }
+      else
+        gtk_widget_show (w);
+    }
 }
 
 /**
  *  Function to toggle visibility of lyrics view pane of current movement
- *  
- *  
+ *
+ *
  */
 void
 toggle_lyrics_view (GtkAction * action, gpointer param)
 {
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   GtkWidget *widget = Denemo.project->movement->lyricsbox;
   static gint last_height = 100;
@@ -3832,19 +3886,19 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
     {
       if ((!action) || gtk_widget_get_visible (widget))
         {
-        GtkWidget *parent = gtk_widget_get_parent(gtk_widget_get_parent(widget));
-        gint height = get_widget_height (parent);
-        last_height = get_widget_height (widget);
-        gtk_paned_set_position (GTK_PANED(parent), height); 
-        gtk_widget_hide (widget);
+          GtkWidget *parent = gtk_widget_get_parent (gtk_widget_get_parent (widget));
+          gint height = get_widget_height (parent);
+          last_height = get_widget_height (widget);
+          gtk_paned_set_position (GTK_PANED (parent), height);
+          gtk_widget_hide (widget);
         }
       else
         {
           gtk_widget_show (widget);
-          GtkWidget *parent = gtk_widget_get_parent(gtk_widget_get_parent(widget));
+          GtkWidget *parent = gtk_widget_get_parent (gtk_widget_get_parent (widget));
           gint height = get_widget_height (parent);
-          if((height>last_height))
-             gtk_paned_set_position (GTK_PANED(parent), height - last_height);
+          if ((height > last_height))
+            gtk_paned_set_position (GTK_PANED (parent), height - last_height);
         }
       if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
         Denemo.prefs.lyrics_pane = gtk_widget_get_visible (widget);
@@ -3853,23 +3907,25 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
 }
 
 
-void show_lilypond_errors (void)
+void
+show_lilypond_errors (void)
 {
-    GtkWidget *widget = gtk_widget_get_parent (Denemo.console);
-    
-    if (!gtk_widget_get_visible (widget))
-        activate_action ("/MainMenu/ViewMenu/" ToggleConsoleView_STRING); 
+  GtkWidget *widget = gtk_widget_get_parent (Denemo.console);
+
+  if (!gtk_widget_get_visible (widget))
+    activate_action ("/MainMenu/ViewMenu/" ToggleConsoleView_STRING);
 }
+
 /**
  *  Function to toggle visibility of print preview pane of current project
- *  
- *  
+ *
+ *
  */
 static void
 toggle_score_view (GtkAction * action, gpointer param)
 {
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   GtkWidget *w = gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea));
   if ((!action) || gtk_widget_get_visible (w))
@@ -3884,14 +3940,14 @@ toggle_score_view (GtkAction * action, gpointer param)
 
 /**
  *  Function to toggle visibility of titles etc of current project
- *  
- *  
+ *
+ *
  */
 static void
 toggle_scoretitles (GtkAction * action, gpointer param)
 {
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   GtkWidget *widget = Denemo.project->buttonboxes;
   if ((!action) || gtk_widget_get_visible (widget))
@@ -3904,15 +3960,15 @@ toggle_scoretitles (GtkAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle whether object menubar is visible 
- *  
- *  
+ *  Function to toggle whether object menubar is visible
+ *
+ *
  */
 static void
 toggle_object_menu (GtkAction * action, gpointer param)
 {
-#ifndef USE_EVINCE  
-  g_debug("This feature requires denemo to be built with evince");
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
 #else
   GtkWidget *widget;
   widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu");
@@ -4086,15 +4142,15 @@ dnm_key_snooper (GtkWidget * grab_widget, GdkEventKey * event)
   //else we let the event be processed by other functions
   return FALSE;
 }
-   
-static  void visible_rhythm_buttons (GList *rhythms, gboolean on) 
-    {
-    GList *g;
-    for (g=rhythms;g;g=g->next)
-    on?gtk_widget_show (GTK_WIDGET(((RhythmPattern*)(g->data))->button)):
-    gtk_widget_hide (GTK_WIDGET(((RhythmPattern*)(g->data))->button));
 
-    }
+static void
+visible_rhythm_buttons (GList * rhythms, gboolean on)
+{
+  GList *g;
+  for (g = rhythms; g; g = g->next)
+    on ? gtk_widget_show (GTK_WIDGET (((RhythmPattern *) (g->data))->button)) : gtk_widget_hide (GTK_WIDGET (((RhythmPattern *) (g->data))->button));
+
+}
 
 static void
 switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
@@ -4123,8 +4179,8 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
     activate_action ("/MainMenu/ViewMenu/" ToggleScoreLayout_STRING);
 
   unhighlight_rhythm (Denemo.project->prevailing_rhythm);
-  
-    visible_rhythm_buttons (Denemo.project->rhythms, FALSE);
+
+  visible_rhythm_buttons (Denemo.project->rhythms, FALSE);
 
   Denemo.project = project = (DenemoProject *) (g->data);
   //g_debug("switch page\n");
@@ -4136,13 +4192,13 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
       activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
     }
 
- 
+
   visible_rhythm_buttons (Denemo.project->rhythms, TRUE);
 
 
   set_title_bar (Denemo.project);
   highlight_rhythm (Denemo.project->prevailing_rhythm);
-  draw_score_area();
+  draw_score_area ();
   draw_score (NULL);
 }
 
@@ -4161,14 +4217,14 @@ thecallback (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
 /*  proxy_connected
     callback to set callback for right click on menu items and
-    set the shortcut label 
+    set the shortcut label
 
 */
 static void
 proxy_connected (GtkUIManager * uimanager, GtkAction * action, GtkWidget * proxy)
 {
   int command_idx;
-  command_row* row;
+  command_row *row;
   attach_right_click_callback (proxy, action);
   const gchar *tooltip = gtk_action_get_tooltip (action);
   const gchar *additional_text;
@@ -4198,13 +4254,14 @@ proxy_connected (GtkUIManager * uimanager, GtkAction * action, GtkWidget * proxy
     return;
   command_idx = lookup_command_from_name (Denemo.map, gtk_action_get_name (action));
 
-  if (command_idx > -1){
-    keymap_get_command_row (Denemo.map, &row, command_idx);
-    update_accel_labels (Denemo.map, command_idx);
+  if (command_idx > -1)
+    {
+      keymap_get_command_row (Denemo.map, &row, command_idx);
+      update_accel_labels (Denemo.map, command_idx);
 
-    if (row->hidden)
-      set_visibility_for_action (action, FALSE);
-  }
+      if (row->hidden)
+        set_visibility_for_action (action, FALSE);
+    }
 }
 
 
@@ -4260,14 +4317,14 @@ set_master_volume (DenemoMovement * si, gdouble volume)
 void
 set_master_tempo (DenemoMovement * si, gdouble tempo)
 {
-    if(si->master_tempo>0.0)
-        {
-            Denemo.project->movement->end_time /= si->master_tempo;
-            Denemo.project->movement->start_time /= si->master_tempo;
-        }
-    si->master_tempo = tempo;
-    Denemo.project->movement->end_time *= si->master_tempo;
-    Denemo.project->movement->start_time *= si->master_tempo;
+  if (si->master_tempo > 0.0)
+    {
+      Denemo.project->movement->end_time /= si->master_tempo;
+      Denemo.project->movement->start_time /= si->master_tempo;
+    }
+  si->master_tempo = tempo;
+  Denemo.project->movement->end_time *= si->master_tempo;
+  Denemo.project->movement->start_time *= si->master_tempo;
   if (master_tempo_adj)
     {
       gtk_adjustment_set_value (master_tempo_adj, tempo * si->tempo);
@@ -4275,10 +4332,11 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
     }
 }
 
-static void toggle_dynamic_compression (gboolean *compression)
+static void
+toggle_dynamic_compression (gboolean * compression)
 {
-    *compression = 100 * (!*compression);
-    Denemo.project->movement->smfsync = G_MAXINT;
+  *compression = 100 * (!*compression);
+  Denemo.project->movement->smfsync = G_MAXINT;
 }
 
 /* create_window() creates the toplevel window and all the menus - it only
@@ -4291,7 +4349,7 @@ create_window (void)
   GtkUIManager *ui_manager;
   GError *error;
   gchar *denemoui_path = NULL;
-  gchar* data_file = NULL;
+  gchar *data_file = NULL;
 
   Denemo.window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (Denemo.window), _("Denemo Main Window"));
@@ -4301,12 +4359,12 @@ create_window (void)
   g_message ("Denemo icon not used");
   //not installed on windows ... data_file = g_build_filename (get_system_data_dir (), "icons","denemo.png", NULL);
 #else
-  GList* icon_dirs = NULL;
-  icon_dirs = g_list_append(icon_dirs, g_build_filename(PACKAGE_SOURCE_DIR, PIXMAPS_DIR, NULL));
-  icon_dirs = g_list_append(icon_dirs, g_strconcat (get_system_data_dir (), "/../pixmaps", NULL)); //FIXME installed in wrong place?
+  GList *icon_dirs = NULL;
+  icon_dirs = g_list_append (icon_dirs, g_build_filename (PACKAGE_SOURCE_DIR, PIXMAPS_DIR, NULL));
+  icon_dirs = g_list_append (icon_dirs, g_strconcat (get_system_data_dir (), "/../pixmaps", NULL));     //FIXME installed in wrong place?
 
-  data_file = find_path_for_file("denemo.png", icon_dirs);
-  if(data_file)
+  data_file = find_path_for_file ("denemo.png", icon_dirs);
+  if (data_file)
     gtk_window_set_default_icon_from_file (data_file, NULL);
 #endif
 
@@ -4319,7 +4377,7 @@ create_window (void)
 
 //FIXME this is where score_layout should be created.
 //score_layout should belong the Denemo.xxx not Denemo.project->xxx (so as to be like the others)
-#ifdef USE_EVINCE  
+#ifdef USE_EVINCE
   install_printpreview (NULL);
 #endif
   install_svgview (NULL);
@@ -4338,7 +4396,7 @@ create_window (void)
   gtk_action_group_add_toggle_actions (Denemo.action_group, toggle_menu_entries, G_N_ELEMENTS (toggle_menu_entries), Denemo.project);
 
 
- 
+
 
   gtk_action_group_add_radio_actions (Denemo.action_group, input_menu_entries, G_N_ELEMENTS (input_menu_entries), have_midi ()? INPUTMIDI : INPUTKEYBOARD /* initial value */ ,
                                       G_CALLBACK (change_input_type), NULL);
@@ -4358,11 +4416,11 @@ create_window (void)
   //accel_group = gtk_ui_manager_get_accel_group (ui_manager);
   //gtk_window_add_accel_group (GTK_WINDOW (Denemo.window), accel_group);
 
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename(PACKAGE_SOURCE_DIR, UI_DIR, NULL));
-  dirs = g_list_append(dirs, g_build_filename(get_system_data_dir (), UI_DIR, NULL));
+  GList *dirs = NULL;
+  dirs = g_list_append (dirs, g_build_filename (PACKAGE_SOURCE_DIR, UI_DIR, NULL));
+  dirs = g_list_append (dirs, g_build_filename (get_system_data_dir (), UI_DIR, NULL));
 
-  denemoui_path = find_path_for_file("denemoui.xml", dirs);
+  denemoui_path = find_path_for_file ("denemoui.xml", dirs);
 
   if (!denemoui_path)
     {
@@ -4407,15 +4465,12 @@ create_window (void)
   gtk_toolbar_set_style (GTK_TOOLBAR (toolbar), GTK_TOOLBAR_BOTH_HORIZ);
   gtk_box_pack_start (GTK_BOX (outer_main_vbox), toolbar, FALSE, TRUE, 0);
   gtk_widget_set_can_focus (toolbar, FALSE);
-  //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS); 
+  //GTK_WIDGET_UNSET_FLAGS(toolbar, GTK_CAN_FOCUS);
 
 
   {
     Denemo.playback_control = gtk_vbox_new (FALSE, 1);
-    gtk_widget_set_tooltip_text (Denemo.playback_control,
-                                 _
-                                 ("Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start"
-                                 " and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."));
+    gtk_widget_set_tooltip_text (Denemo.playback_control, _("Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start" " and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."));
     gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
     GtkFrame *frame = (GtkFrame *) gtk_frame_new (_("Playback Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -4446,8 +4501,8 @@ create_window (void)
     create_playbutton (inner, NULL, pb_stop, GTK_STOCK_MEDIA_STOP, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
     playbutton = create_playbutton (inner, NULL, pb_play, GTK_STOCK_MEDIA_PLAY, _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
     audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, GTK_STOCK_MEDIA_RECORD, _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
-    exportbutton =  create_playbutton (inner, NULL, pb_exportaudio, GTK_STOCK_SAVE, _("Exports the audio recorded to disk"));
-    
+    exportbutton = create_playbutton (inner, NULL, pb_exportaudio, GTK_STOCK_SAVE, _("Exports the audio recorded to disk"));
+
     create_playbutton (inner, NULL, pb_previous, GTK_STOCK_GO_BACK, _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_end_to_cursor, GTK_STOCK_GO_UP, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
@@ -4457,7 +4512,7 @@ create_window (void)
 
     create_playbutton (inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\n(so that you can continuously listen as you try alternatives)."));
 
-   // midiconductbutton = create_playbutton (inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
+    // midiconductbutton = create_playbutton (inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
 
     create_playbutton (inner,
 #ifdef _HAVE_JACK_
@@ -4492,11 +4547,11 @@ create_window (void)
       g_signal_connect (G_OBJECT (master_tempo_adj), "value_changed", G_CALLBACK (pb_tempo), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-      create_playbutton(hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
+      create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
 
       // Volume
       label = gtk_label_new (_("Volume"));
-      //GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);      
+      //GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
       gtk_widget_set_tooltip_text (label, _("Set the (initial) volume of the movement"));
 
       gtk_widget_set_can_focus (label, FALSE);
@@ -4515,8 +4570,8 @@ create_window (void)
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (always_full_volume), Denemo.prefs.dynamic_compression);
       g_signal_connect_swapped (G_OBJECT (always_full_volume), "toggled", G_CALLBACK (toggle_dynamic_compression), &Denemo.prefs.dynamic_compression);
       gtk_box_pack_start (GTK_BOX (hbox), always_full_volume, FALSE, FALSE, 10);
-      
-      
+
+
       // Audio Volume
       Denemo.audio_vol_control = gtk_hbox_new (FALSE, 1);
       label = gtk_label_new (_("Audio Volume Cut"));
@@ -4535,7 +4590,7 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
 
       label = gtk_label_new (_("Audio Volume Boost"));
-       gtk_widget_set_tooltip_text (label, _("Boost the volume of the source audio relative to the volume of the score"));
+      gtk_widget_set_tooltip_text (label, _("Boost the volume of the source audio relative to the volume of the score"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
@@ -4559,16 +4614,16 @@ create_window (void)
       //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
 
       gtk_box_pack_start (GTK_BOX (hbox), Denemo.audio_vol_control, TRUE, TRUE, 0);
-      
-#ifdef _HAVE_RUBBERBAND_      
-            /* Speed */
+
+#ifdef _HAVE_RUBBERBAND_
+      /* Speed */
       label = gtk_label_new (_("Slowdown:"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
       speed_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 1.0, 4.0, 0.01, 0.1, 0.0);
-      
-      
-      
+
+
+
       hscale = gtk_hscale_new (GTK_ADJUSTMENT (speed_adj));
       //gtk_scale_set_digits (GTK_SCALE (hscale), 0);
       gtk_widget_set_can_focus (hscale, FALSE);
@@ -4576,7 +4631,7 @@ create_window (void)
       g_signal_connect (G_OBJECT (speed_adj), "value_changed", G_CALLBACK (set_speed), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 #endif
-      
+
 
     }
 
@@ -4604,9 +4659,9 @@ create_window (void)
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
       GtkWidget *midi_in_button = gtk_button_new ();
-      g_signal_connect (G_OBJECT(midi_in_button), "clicked", midi_in_menu, NULL);
+      g_signal_connect (G_OBJECT (midi_in_button), "clicked", midi_in_menu, NULL);
       midi_in_status = gtk_label_new (_("Appending/Editing Pitches"));
-      gtk_container_add(GTK_CONTAINER(midi_in_button), midi_in_status);
+      gtk_container_add (GTK_CONTAINER (midi_in_button), midi_in_status);
       gtk_widget_set_tooltip_text (midi_in_status, _("This tells you what will happen to a MIDI in event from your controller. Click here or use the Control Shift or ALT keys, or caps lock to affect what will happen. Moving the cursor into the display will revert to editing notes."));
       gtk_label_set_use_markup (GTK_LABEL (midi_in_status), TRUE);
       gtk_box_pack_start (GTK_BOX (hbox), midi_in_button, FALSE, TRUE, 0);
@@ -4638,19 +4693,19 @@ create_window (void)
     {
       gtk_box_pack_start (GTK_BOX (outer_main_vbox), menubar, FALSE, TRUE, 0);
     }
-    
+
   main_hbox = gtk_hbox_new (FALSE, 1);
   gtk_widget_show (main_hbox);
   gtk_box_pack_start (GTK_BOX (outer_main_vbox), main_hbox, TRUE, TRUE, 0);
   Denemo.hpalettes = gtk_hbox_new (FALSE, 1);
-  gtk_widget_show(Denemo.hpalettes);
+  gtk_widget_show (Denemo.hpalettes);
   gtk_box_pack_start (GTK_BOX (main_hbox), Denemo.hpalettes, FALSE, FALSE, 0);
   main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_widget_show (main_vbox);
   gtk_box_pack_start (GTK_BOX (main_hbox), main_vbox, TRUE, TRUE, 0);
 
   Denemo.vpalettes = gtk_vbox_new (FALSE, 1);
-  gtk_widget_show(Denemo.vpalettes);
+  gtk_widget_show (Denemo.vpalettes);
   gtk_box_pack_start (GTK_BOX (main_vbox), Denemo.vpalettes, FALSE, FALSE, 0);
 
   Denemo.notebook = gtk_notebook_new ();
@@ -4667,24 +4722,20 @@ create_window (void)
                                                        " The blue lozenge is the Denemo Cursor - it turns red when when the bar is full or green if you are inserting in a bar. "
                                                        "Overfull/Underfull bars are colored red/blue,"
                                                        " use the Upbeat (Anacrusis, Pickup) command if that is intentional."
-                                                       "\nYou can switch to a menu-less view or a page-view using the Esc key." 
-                                                       " For the paged view you drag the red bar up the page to set how many systems you want showing." 
-                                                       "For the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display."
-                                                       "\nMany commands operate on the object at the Denemo cursor. " 
-                                                       "Right-click on an object to get a short menu of actions or set the mouse input mode.\n"
-                                                       "Shift-Right-click for more objects to insert."));
+                                                       "\nYou can switch to a menu-less view or a page-view using the Esc key."
+                                                       " For the paged view you drag the red bar up the page to set how many systems you want showing." "For the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display." "\nMany commands operate on the object at the Denemo cursor. " "Right-click on an object to get a short menu of actions or set the mouse input mode.\n" "Shift-Right-click for more objects to insert."));
 #if GTK_MAJOR_VERSION == 2
     GtkWidget *outer_pane = gtk_vpaned_new ();
-#else                                                       
+#else
     GtkWidget *outer_pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 #endif
     GtkWidget *scorearea_topbox = gtk_vbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (main_vbox), scorearea_topbox);
-    gtk_box_pack_start (GTK_BOX (main_vbox), outer_pane, TRUE, TRUE, 0);   
+    gtk_box_pack_start (GTK_BOX (main_vbox), outer_pane, TRUE, TRUE, 0);
     gtk_paned_pack1 (GTK_PANED (outer_pane), scorearea_topbox, TRUE, FALSE);
     GtkWidget *score_and_scroll_hbox = gtk_hbox_new (FALSE, 1);
     //gtk_container_add (GTK_CONTAINER (scorearea_topbox), score_and_scroll_hbox);
-    gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE, 0);   
+    gtk_box_pack_start (GTK_BOX (scorearea_topbox), score_and_scroll_hbox, TRUE, TRUE, 0);
     gtk_widget_show (score_and_scroll_hbox);
 
     gtk_box_pack_start (GTK_BOX (score_and_scroll_hbox), Denemo.scorearea, TRUE, TRUE, 0);      // with this, the scorearea_draw_event is called
@@ -4707,11 +4758,11 @@ create_window (void)
 
 
 #if GTK_MAJOR_VERSION==2
-    gtk_widget_add_events /*gtk_widget_set_events */ (Denemo.scorearea, (GDK_EXPOSURE_MASK | 
-                                                                        GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK));
+    gtk_widget_add_events /*gtk_widget_set_events */ (Denemo.scorearea, (GDK_EXPOSURE_MASK |
+                                                                         GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK));
 #else
-   gtk_widget_add_events /*gtk_widget_set_events */ (Denemo.scorearea, (GDK_EXPOSURE_MASK | GDK_SCROLL_MASK |
-                                                                        GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK));
+    gtk_widget_add_events /*gtk_widget_set_events */ (Denemo.scorearea, (GDK_EXPOSURE_MASK | GDK_SCROLL_MASK |
+                                                                         GDK_POINTER_MOTION_MASK | GDK_LEAVE_NOTIFY_MASK | GDK_ENTER_NOTIFY_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK));
 #endif
     Denemo.vadjustment = (GtkAdjustment *) gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0);
     g_signal_connect (G_OBJECT (Denemo.vadjustment), "value_changed", G_CALLBACK (vertical_scroll), NULL);
@@ -4733,11 +4784,13 @@ create_window (void)
   // This section creates an hbox and places it in the main vbox. Inside this hbox are placed a status bar and a label.
   // The status bar is not properly used within Denemo, and could just as well be a label too.
   Denemo.statuslabel = gtk_label_new ("");
-  gtk_widget_set_tooltip_text (Denemo.statuslabel, _("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
+  gtk_widget_set_tooltip_text (Denemo.statuslabel,
+                               _
+                               ("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
 #if GTK_MAJOR_VERSION == 2
-    hbox = gtk_hpaned_new ();
+  hbox = gtk_hpaned_new ();
 #else
-    hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
+  hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 #endif
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
   gtk_paned_add1 (GTK_PANED (hbox), Denemo.statuslabel);
@@ -4752,10 +4805,10 @@ create_window (void)
   gtk_paned_set_position (GTK_PANED (hbox), 600);
   gtk_widget_show (hbox);
   // End of status bar stuff - note this is not working on Windows correctly.
-    
-    
+
+
   create_scheme_window ();
-  gtk_widget_hide(gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/HiddenMenu"));
+  gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/HiddenMenu"));
   if (!Denemo.non_interactive)
     gtk_widget_show (Denemo.window);
   // Now that the window is shown, initialize the gcs
@@ -4763,15 +4816,15 @@ create_window (void)
 
   parse_paths (denemoui_path, Denemo.project);
   g_free (denemoui_path);
-  
-  //set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them 
+
+  //set all the labels to use markup so that we can use the music font. Be aware this means you cannot use labels involving "&" "<" and ">" and so on without escaping them
   //                                 FIXME labels in toolitems are not correct until you do NewWindow.
   //                                 Really we should change the default for the class. */
-  use_markup (Denemo.window);   
+  use_markup (Denemo.window);
   //g_debug("Turning on the modes\n");
 
 
- 
+
 
 
   g_signal_connect (G_OBJECT (Denemo.notebook), "switch_page", G_CALLBACK (switch_page), NULL);
@@ -4783,7 +4836,7 @@ void
 newview (GtkAction * action, DenemoScriptParam * param)
 {
   newtab ();
-  Denemo.project->movement->undo_guard = 1;       //do not collect undo for initialization of score
+  Denemo.project->movement->undo_guard = 1;     //do not collect undo for initialization of score
   load_scheme_init ();
   Denemo.project->movement->undo_guard = Denemo.prefs.disable_undo;
 }
@@ -4799,13 +4852,13 @@ new_score_cb (GtkAction * action, DenemoScriptParam * param)
   if (param->status)
     {
       //call_out_to_guile ("(d-InstrumentName  (_ \"Unnamed\"))");
-     // call_out_to_guile ("(d-ScoreTitle (_ \"Click Title\"))");
+      // call_out_to_guile ("(d-ScoreTitle (_ \"Click Title\"))");
       denemo_scheme_init ();
     }
 }
 
-static DenemoProject*
-new_project(gboolean new_movement)
+static DenemoProject *
+new_project (gboolean new_movement)
 {
   static gint id = 1;
   DenemoProject *project = (DenemoProject *) g_malloc0 (sizeof (DenemoProject));
@@ -4815,17 +4868,18 @@ new_project(gboolean new_movement)
   project->pending_midi = g_queue_new ();
   Denemo.projects = g_list_append (Denemo.projects, project);
   Denemo.project = NULL;
-  project->lilycontrol.papersize = g_string_new ("a4");     //A4 default
+  project->lilycontrol.papersize = g_string_new ("a4"); //A4 default
   project->lilycontrol.staffsize = g_string_new ("18");
   project->lilycontrol.lilyversion = g_string_new ("");
-  project->lilycontrol.orientation = TRUE;  //portrait
+  project->lilycontrol.orientation = TRUE;      //portrait
   project->total_edit_time = 0;
   reset_editing_timer ();
-  if(new_movement){
-    Denemo.project = project;
-    point_to_new_movement (project);
-    project->movements = g_list_append (NULL, project->movement);
-  }
+  if (new_movement)
+    {
+      Denemo.project = project;
+      point_to_new_movement (project);
+      project->movements = g_list_append (NULL, project->movement);
+    }
 
   return project;
 }
@@ -4898,7 +4952,7 @@ toggle_page_view (void)
 void
 toggle_to_drawing_area (gboolean show)
 {
-  if(Denemo.non_interactive)
+  if (Denemo.non_interactive)
     return;
 #define current_view Denemo.project->view
   gint height;                  // height of menus that are hidden
@@ -4924,9 +4978,8 @@ toggle_to_drawing_area (gboolean show)
   gboolean hide = !show;
   if (((current_view == DENEMO_PAGE_VIEW) && hide) || (show && (!current_view)))
     return;
-    
-   hide ? (gtk_widget_hide(Denemo.vpalettes),gtk_widget_hide(Denemo.hpalettes)):
-    (gtk_widget_show(Denemo.vpalettes),gtk_widget_show(Denemo.hpalettes));
+
+  hide ? (gtk_widget_hide (Denemo.vpalettes), gtk_widget_hide (Denemo.hpalettes)) : (gtk_widget_show (Denemo.vpalettes), gtk_widget_show (Denemo.hpalettes));
   current_view = hide ? DENEMO_LINE_VIEW : DENEMO_MENU_VIEW;
 #define ACCUM height += get_widget_height(widget)
 
@@ -4989,7 +5042,7 @@ ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
  * Creates a new DenemoProject structure represented by a tab in a notebook: the DenemoProject can, at anyone time, control one musical score possibly of several movements. It can, from time to time have different musical scores loaded into it. So it is to be thought of as a Music Score Editor.
  * This DenemoProject* project is appended to the global list Denemo.projects.
  * A single movement (DenemoMovement) is instantiated in the project.
- * 
+ *
  */
 static void
 newtab (void)
@@ -5000,7 +5053,7 @@ newtab (void)
     activate_action ("/MainMenu/ViewMenu/" ToggleLilyText_STRING);
   if (Denemo.project)
     visible_rhythm_buttons (Denemo.project->rhythms, FALSE);
-  DenemoProject* project = new_project(FALSE);
+  DenemoProject *project = new_project (FALSE);
   project->score_layout = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   gtk_window_set_title (GTK_WINDOW (project->score_layout), "Score Layout");
   gtk_window_set_default_size (GTK_WINDOW (project->score_layout), 1000, 600);
@@ -5020,9 +5073,8 @@ newtab (void)
 
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_start (GTK_BOX (top_vbox), main_vbox, TRUE, TRUE, 0);
-  gint pagenum = 
-  gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1); //puts top_vbox inside Denemo.notebook
- 
+  gint pagenum = gtk_notebook_insert_page_menu (GTK_NOTEBOOK (Denemo.notebook), top_vbox, NULL, NULL, -1);      //puts top_vbox inside Denemo.notebook
+
   gtk_notebook_popup_enable (GTK_NOTEBOOK (Denemo.notebook));
 
   Denemo.page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (Denemo.notebook), pagenum);    //note Denemo.page is suspect, it is set to the last page created and it is never unset even when that page is deleted - it is only used by the selection paste routine.
@@ -5108,6 +5160,5 @@ newtab (void)
     }
   if (have_midi () && Denemo.prefs.startmidiin)
     project->input_source = INPUTMIDI;
-  panic_all (); //g_print ("Reset synth as part of newtab()\n");
+  panic_all ();                 //g_print ("Reset synth as part of newtab()\n");
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
-
