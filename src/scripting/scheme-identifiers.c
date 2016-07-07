@@ -494,6 +494,7 @@ create_scheme_identfiers (void)
   INSTALL_GET (clef, graphic_name);
   INSTALL_GET (keysig, graphic_name);
   INSTALL_GET (timesig, graphic_name);
+  INSTALL_GET (tuplet, graphic_name);
   INSTALL_GET (chord, grob);
   INSTALL_GET (note, grob);
   INSTALL_GET (staff, grob);
@@ -541,6 +542,7 @@ create_scheme_identfiers (void)
   INSTALL_GET (note, midibytes);
   INSTALL_GET (keysig, midibytes);
   INSTALL_GET (timesig, midibytes);
+  INSTALL_GET (tuplet, midibytes);
   INSTALL_GET (clef, midibytes);
   INSTALL_GET (staff, midibytes);
   INSTALL_GET (voice, midibytes);
@@ -551,6 +553,7 @@ create_scheme_identfiers (void)
   INSTALL_PUT (note, midibytes);
   INSTALL_PUT (keysig, midibytes);
   INSTALL_PUT (timesig, midibytes);
+  INSTALL_PUT (tuplet, midibytes);
   INSTALL_PUT (clef, midibytes);
   INSTALL_PUT (staff, midibytes);
   INSTALL_PUT (voice, midibytes);
