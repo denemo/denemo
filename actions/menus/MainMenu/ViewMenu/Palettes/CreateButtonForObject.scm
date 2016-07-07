@@ -101,16 +101,26 @@
                                     (loop (1+ n)))))
                         
                         )
-                            
-                            
-                            
-                            )
-                            
-                            
-                            
-                            
-                            )))))
-  (if (or tag (Music?) (Keysignature?)(Timesignature?)(Clef?))
+                        (if (TupletOpen?)
+                            (begin
+                                (set! script (string-append "(d-StartTriplet)(d-MoveCursorLeft)(d-SetTuplet \"" (d-GetTuplet) "\")\n"))
+                                (let loop ((n 0))
+                                (define tag (d-DirectiveGetNthTag-clef n))
+                                (if tag
+                                    (begin
+                                        (clone-directive tag (create-args "tuplet"))
+                                        (loop (1+ n))))))
+                            (if (TupletClose?)
+                                (begin
+                                    (set! script "(d-EndTuplet)(d-MoveCursorLeft)")
+                                    (let loop ((n 0))
+                                    (define tag (d-DirectiveGetNthTag-clef n))
+                                    (if tag
+                                        (begin
+                                            (clone-directive tag (create-args "tuplet"))
+                                            (loop (1+ n))))))))))))))
+                     
+  (if (or tag (Music?) (Keysignature?)(Timesignature?)(Clef?)(TupletMarker?))
     (begin
     (set! palette (d-SelectPalette #f))
     (set! script (string-append script "(d-RefreshDisplay)(d-MoveCursorRight)"))

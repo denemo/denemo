@@ -359,6 +359,7 @@
 (define d-DirectiveGet-clef-graphic d-DirectiveGet-clef-graphic_name)            
 (define d-DirectiveGet-keysig-graphic d-DirectiveGet-keysig-graphic_name)            
 (define d-DirectiveGet-timesig-graphic d-DirectiveGet-timesig-graphic_name)            
+(define d-DirectiveGet-tuplet-graphic d-DirectiveGet-tuplet-graphic_name)            
 
 
 
