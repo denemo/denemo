@@ -348,7 +348,7 @@ display_current_object_callback (void)
       gtk_box_pack_start (GTK_BOX (vbox), edit_button, FALSE, TRUE, 0);
       
       
-     if ((curObj->type == CHORD) || (curObj->type == LILYDIRECTIVE))
+     if ((curObj->type == CHORD) || (curObj->type == LILYDIRECTIVE) || (curObj->type == CLEF)  || (curObj->type == KEYSIG)   || (curObj->type == TIMESIG)    || (curObj->type == TUPOPEN) || (curObj->type == TUPCLOSE))
         {      
           GtkWidget *clone_button = gtk_button_new_with_label (_("Create Button for Clone"));
           g_signal_connect (clone_button, "clicked", G_CALLBACK (create_palette_button_for_clone), NULL);
