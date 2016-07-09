@@ -267,6 +267,7 @@ goto_currentmeasurenum (gint dest, gint leftmeasurenum)
       gui->movement->currentmeasurenum = dest;
       if(leftmeasurenum)
         gui->movement->leftmeasurenum = leftmeasurenum;
+      set_rightmeasurenum (gui->movement);
       if ((dest < gui->movement->leftmeasurenum) || (dest > gui->movement->rightmeasurenum))
         center_viewport ();
       setcurrents (gui->movement);
