@@ -20,6 +20,7 @@
 		  (if (positive? num)
 		      (begin
 			(d-MoveToEnd)
+			(d-SetSaved #f)
 			(d-InsertMeasureAfter)
 			(addloop (- num 1)))))
 		  (if (d-MoveToStaffDown)
