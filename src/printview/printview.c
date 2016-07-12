@@ -146,9 +146,7 @@ set_printarea_doc (EvDocument * doc)
       g_object_unref (ev_document_model_get_document (model));  //FIXME check if this releases the file lock on windows.s
       ev_document_model_set_document (model, doc);
     }
-#ifdef G_OS_WIN32 
-  ev_document_model_set_dual_page (model, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
-#else    
+#if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 8))
   if (GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")))
     {
       ev_document_model_set_page_layout (model, EV_PAGE_LAYOUT_DUAL);
@@ -157,6 +155,8 @@ set_printarea_doc (EvDocument * doc)
     {
       ev_document_model_set_page_layout (model, EV_PAGE_LAYOUT_SINGLE);
     }
+#else       
+     ev_document_model_set_dual_page (model, GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
 #endif
   get_wysiwyg_info ()->Mark.width = 0;  //indicate that there should no longer be any Mark placed on the score
 }
