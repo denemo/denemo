@@ -510,14 +510,15 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         if (si->currentstaffnum == itp->staffnum && itp->verse && thechord->notes)
           {
             static gboolean last_tied = FALSE;
-            if ((!last_tied) && (!itp->slur_stack) && (!thechord->is_tied) && !find_directive (thechord->directives, "MoveRest"))
+            if ((!last_tied) && (!itp->slur_stack)
+                            && !find_directive (thechord->directives, "MoveRest"))
               {
                 gchar *syllable = (gchar *) next_syllable ();
                 if (cr)
                   if (syllable)
                     draw_lyric (cr, x + mudelaitem->x, y + itp->in_lowy, syllable);
               }
-            last_tied = thechord->slur_end_p && thechord->is_tied;
+            last_tied = thechord->is_tied;
           }
 
         if (cr)
