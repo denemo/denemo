@@ -553,101 +553,94 @@
 (define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo
 ; DenemoConvert
 (define (DenemoConvert)
-(define MidiNoteStarts (make-vector 256 #f))
-
-(defstruct Note name start duration)
-(define Notes '())
-
-(if (d-RewindRecordedMidi)
-    (let loop ((note #f)(tick 0))
-      (set! note (d-GetRecordedMidiNote))
-      (if note
-      (begin
-        (set! tick (d-GetRecordedMidiOnTick))
-        (if (< tick 0)
-        (let ((on (vector-ref MidiNoteStarts note)))
-          (if on
-              (begin 
-            (set! Notes (cons (list (make-Note 'name note 'start on 'duration (- (- tick) on))) Notes))
-            (vector-set! MidiNoteStarts note #f)    
-            (loop note tick))
-              (format #t "An off with no On\n")))
-        (let ((on (vector-ref MidiNoteStarts note)))
-          (if on
-              (format #t "An on when already on\n")
+    (define MidiNoteStarts (make-vector 256 #f))
+    (defstruct Note name start duration)
+    (define Notes '())
+    (if (d-RewindRecordedMidi)
+        (let loop ((note #f)(tick 0))
+          (set! note (d-GetRecordedMidiNote)) ;(disp "note is " note "\n")
+          (if note
               (begin
-            (vector-set! MidiNoteStarts note tick)
-            (loop note tick)
-        )))))
-      (begin         ;;;;;; finished processing the notes
-        (if (> (length Notes) 0)
-        (let ()
-            (define (add-note note)
-              (if (Note? note)
-              (begin
-              (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey (Note.name note)) "\")")))
-              (format #t "\tNo note to add note ~a ~a to\n" (Note.name note) (Note.duration note))))
-            
-            (define (insert-note name dur)
-              (let ((base (duration::GuessBaseNoteInTicks dur)))
-(format #t "have ~a ~a \n" base dur)
-            (if base
-                (begin
-                  (if (> (- dur base) (- (* 2 base) dur))
-                  (set! base (* base 2)))
-                  (begin 
-                ;(format #t "Create note ~a ~a\n"  (d-GetNoteForMidiKey name)   (duration::ticks->denemo base))
-                (eval-string (string-append  "(d-Insert" (duration::ticks->denemo base)")"))
-                (d-PutNoteName (d-GetNoteForMidiKey name)))))))
-            
-        
-            (set! Notes (reverse Notes))
-     
-;;;;;; change the list of Notes into a list of chords
-            (let loop ((index 0))
+                (set! tick (d-GetRecordedMidiOnTick)) ;(disp "tick is " tick "\n")
+                (if (< tick 0) ;;; note OFF
+                    (let ((on (vector-ref MidiNoteStarts note)))
+                      (if on
+                          (begin 
+                            (set! Notes (cons (list (make-Note 'name note 'start on 'duration (- (- tick) on))) Notes))
+                            (vector-set! MidiNoteStarts note #f)    
+                            (loop note tick))
+                          (disp "An off with no On\n")))
+                    (let ((on (vector-ref MidiNoteStarts note))) ;;;note ON
+                      (if on
+                          (disp "An on when already on\n")
+                          (begin
+                            (vector-set! MidiNoteStarts note tick)
+                            (loop note tick))))))
+              (begin         ;;;;;; finished processing the notes
+                (if (> (length Notes) 0)
+                        (let ()
+                            (define (add-note note)
+                              (if (Note? note)
+                                  (begin
+                                    (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey (Note.name note)) "\")")))
+                                  (disp "\tNo note to add note ~a ~a to\n" (Note.name note) (Note.duration note))))
+                            (define (insert-note name dur)
+                              (let ((base (duration::GuessBaseNoteInTicks dur)))
+                                (format #t "have ~a ~a \n" base dur)
+                                (if base
+                                    (begin
+                                      (if (> (- dur base) (- (* 2 base) dur))
+                                      (set! base (* base 2)))
+                                      (begin 
+                                    ;(format #t "Create note ~a ~a\n"  (d-GetNoteForMidiKey name)   (duration::ticks->denemo base))
+                                    (eval-string (string-append  "(d-Insert" (duration::ticks->denemo base)")"))
+                                    (d-PutNoteName (d-GetNoteForMidiKey name)))))))
+                                    
+                            (set! Notes (reverse Notes))
+                            ;;;;;; change the list of Notes into a list of chords
+                            (let loop ((index 0))
+                                ;;;;;;;;;;; overlap decides if two notes should be a chord   
+                              (define (overlap n1 n2)
+                                (if (list? n1)
+                                    (set! n1 (car n1)))
+                                (< (abs (- (Note.start n1) (Note.start n2))) 50))
+                                ;;;;;;;;;;;;;;;;;; end of overlap
+                              
+                                    ;(format #t "Number of notes ~a\n" index)         
+                              (let ((note1 (list-ref Notes index))(note2 #f))
+                                (if (> (length Notes) (+ 1 index))
+                                    (begin
+                                      (set! note2 (list-ref Notes (+ 1 index)))
+                                      (if (overlap note1 (car note2))
+                                      (begin
+                                        (list-set! Notes index (cons (car note2) note1))
+                                        (set! Notes (delq note2 Notes)))
+                                      (begin
+                                        ;(list-set! Notes index (list note1))
+                                        (set! index (+ index 1))))
+                                      (loop index))))) ;;;;;;; end of changing Notes to list of chords
 
-;;;;;;;;;;; overlap decides if two notes should be a chord   
-              (define (overlap n1 n2)
-            (if (list? n1)
-                (set! n1 (car n1)))
-            (< (abs (- (Note.start n1) (Note.start n2))) 50))
-;;;;;;;;;;;;;;;;;; end of overlap
-              
-                    ;(format #t "Number of notes ~a\n" index)         
-              (let ((note1 (list-ref Notes index))
-                (note2 #f))
-            (if (> (length Notes) (+ 1 index))
-                (begin
-                  (set! note2 (list-ref Notes (+ 1 index)))
-                  (if (overlap note1 (car note2))
-                  (begin
-                    (list-set! Notes index (cons (car note2) note1))
-                    (set! Notes (delq note2 Notes)))
-                  (begin
-                    ;(list-set! Notes index (list note1))
-                    (set! index (+ index 1))))
-                  (loop index))))) ;;;;;;; end of changing Notes to list of chords
 
+                            ;;;loop through the chords, getting a good duration value, the duration from one to the next and inserting
+                            (let loop ((index 0))
+                              (if (> (length Notes) (+ 1 index))
+                              (let ((chord1 (list-ref Notes index))
+                                    (chord2 #f)
+                                    (duration #f))
+                                (if (> (length Notes) (+ 1 index))
+                                    (begin
+                                        (set! chord2 (list-ref Notes (+ 1 index)))
+                                        (set! duration (- (Note.start (car chord2)) (Note.start (car chord1))))
+                                        (format #t "With duration ~a\n" duration)
+                                        (insert-note (Note.name (car chord1)) duration)
+                                        (for-each  add-note (cdr chord1))
+                                        (set! index (+ index 1))
+                                        (loop index))
+                                    (insert-note (Note.name (car chord1)) (Note.duration (car chord1)))))))
+                        
+                            (format #t "End of processing\n"))))));;;;;if rewind succeeded
+            (format #t "No notes found in recording\n")))
 
-;;;loop through the chords, getting a good duration value, the duration from one to the next and inserting
-            (let loop ((index 0))
-              (if (> (length Notes) (+ 1 index))
-              (let ((chord1 (list-ref Notes index))
-                (chord2 #f)
-                (duration #f))
-                (if (> (length Notes) (+ 1 index))
-                 (begin
-                  (set! chord2 (list-ref Notes (+ 1 index)))
-                  (set! duration (- (Note.start (car chord2)) (Note.start (car chord1))))
-                  (format #t "With duration ~a\n" duration)
-                  (insert-note (Note.name (car chord1)) duration)
-                   (for-each  add-note (cdr chord1))
-                   (set! index (+ index 1))
-                   (loop index))
-                 (insert-note (Note.name (car chord1)) (Note.duration (car chord1)))))))
-        
-            (format #t "End of processing\n"))))));;;;;if rewind succeeded
-        (format #t "No notes found in recording\n")))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
