@@ -7765,7 +7765,7 @@ and others in the LilyPond documentation.</_tooltip>
         <after>InsertStanzaNumber</after>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Skip Syllables in Selection</_label>
-        <_tooltip>Inserts blanks for the syllables from the start of the notes selected in the Denemo Display to the cursor. With no selection ask for a number of syllables to skip and inserts the skip at the lyric cursor.</_tooltip>
+        <_tooltip>Inserts blanks for the syllables from the start of the notes selected in the Denemo Display to the cursor. With no selection asks for a number of syllables to skip and inserts the skip at the lyric cursor.</_tooltip>
       </row>
       <row type="scheme">
         <action>AddMirrorVoice</action>
