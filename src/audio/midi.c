@@ -445,7 +445,11 @@ record_midi (gchar * buf, gdouble time)
 {
   buf[0] |= 0xF; //here force the channel to 15
   smf_event_t *event = smf_event_new_from_pointer (buf, 3);
-  if (event && smf_event_is_valid (event))
+  if (event && smf_event_is_valid (event)
+  && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_ON) || (event->midi_buffer[0] & 0xF0) == MIDI_NOTE_OFF)
+  && event->midi_buffer[1]
+  //allow only note on/off, and not note 0
+  )
     {
       if (Denemo.project->movement->recorded_midi_track && ((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf)
         {
