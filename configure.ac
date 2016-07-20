@@ -285,6 +285,21 @@ if test "x$userubberband" = "xyes"; then
   LIBS="$LIBS -D_HAVE_RUBBERBAND_ $RUBBERBAND_LIBS"
 fi
 
+AC_ARG_ENABLE(
+  fann,
+  AS_HELP_STRING([--enable-fann], [use FANN @<:@default=yes@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      usefann=yes
+    fi
+  ], [ usefann=yes ])
+AM_CONDITIONAL(HAVE_FANN, [test x$usefann = xyes])
+
+if test "x$usefann" = "xyes"; then
+  PKG_CHECK_MODULES(FANN, fann >= 2.1.0)
+  CFLAGS="$CFLAGS -D_HAVE_FANN_"
+  LIBS="$LIBS -D_HAVE_FANN_ $FANN_LIBS"
+fi
 
 
 AC_ARG_ENABLE(

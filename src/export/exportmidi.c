@@ -906,7 +906,7 @@ static void load_smf ( DenemoMovement *si, smf_t *smf)
             midi_track = TRUE;
           }
       }
-    free_midi_data (si);
+    free_midi_data (si);//this can fail with recorded MIDI with event->track->smf NULL, in smf_event_remove_from_track ()
     si->smf = smf;
     if (midi_track)
       smf_add_track (smf, Denemo.project->movement->recorded_midi_track);

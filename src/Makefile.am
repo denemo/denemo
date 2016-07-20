@@ -148,6 +148,10 @@ denemo_SOURCES = \
   source/sourceaudio.h \
   printview/svgview.h \
   printview/svgview.c \
+  neural/classify.h \
+  neural/classify.c \
+  neural/train.h \
+  neural/train.c \
   ui/clefdialog.c \
   ui/dialogs.h \
   ui/help.c \

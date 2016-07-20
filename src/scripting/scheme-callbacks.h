@@ -123,6 +123,8 @@ SCM scheme_midi_record (SCM script);
 SCM scheme_get_current_midi_track (void);
 SCM scheme_get_imported_midi_tracks (void);
 SCM scheme_get_recorded_midi_duration (void);
+SCM scheme_classify (SCM data);
+SCM scheme_train (SCM num_samples, SCM in_nodes, SCM out_nodes, SCM data);
 SCM scheme_set_duration_in_ticks (SCM);
 SCM scheme_get_duration_in_ticks (void);
 SCM scheme_get_base_duration_in_ticks (void);

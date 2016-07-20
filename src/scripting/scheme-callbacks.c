@@ -31,7 +31,7 @@
 #include "display/calculatepositions.h"
 #include "source/source.h"
 #include "source/sourceaudio.h"
-
+#include "neural/classify.h"
 SCM
 scheme_call_callback (SCM optional, callback_function callback)
 {
@@ -3032,7 +3032,31 @@ scheme_get_recorded_midi_duration (void)
     return scm_from_double (duration);
   return SCM_BOOL_F;
 }
-
+SCM
+scheme_classify (SCM vals)
+{
+  gchar * data;
+  SCM ret = SCM_BOOL_F;
+    if(scm_is_string (vals))
+        {
+         gchar *weights = classify (scm_to_locale_string(vals));
+         if (weights)
+            ret = scm_from_locale_string (weights);
+         g_free (weights);
+        }
+ return ret;
+}
+SCM
+scheme_train (SCM num, SCM in, SCM out, SCM vals)
+{
+  gchar * data;
+    if(scm_is_string (vals) && scm_is_integer (num)   && scm_is_integer (in) && scm_is_integer (out)       )
+        {
+         gboolean ok = train (scm_to_int (num),  scm_to_int (in), scm_to_int (out), scm_to_locale_string(vals));
+         return SCM_BOOL (ok);
+        }
+return SCM_BOOL_F;
+}
 SCM
 scheme_get_duration_in_ticks (void)
 {
@@ -5334,6 +5358,7 @@ scheme_set_midi_thru (SCM set)  // see also d-MidiInListening this doesn't lock 
   return ret;
 }
 
+//Advances to the next note on/off and returns its tick
 SCM
 scheme_get_recorded_midi_on_tick (void)
 {
@@ -5342,21 +5367,38 @@ scheme_get_recorded_midi_on_tick (void)
     {
 #define MIDI_NOTEOFF        0x80
 #define MIDI_NOTEON     0x90
-      smf_event_t *event = smf_track_get_next_event (track);
-      if (event)
-        switch (event->midi_buffer[0] & 0xF0)
-          {
-          case MIDI_NOTEON:
-            return scm_from_int (event->time_pulses);
-          case MIDI_NOTEOFF:
-            return scm_from_int (-event->time_pulses);
-          default:
-            return SCM_BOOL_F;
-          }
+    smf_event_t *event;
+    do {
+        event = smf_track_get_next_event (track);
+        if (event)
+            switch (event->midi_buffer[0] & 0xF0)
+              {
+              case MIDI_NOTEON:
+             //  if (event->midi_buffer[1] == 0)
+             //    {
+              //       g_print ("Skipping note event %x %x %x\n", event->midi_buffer[0], event->midi_buffer[1], event->midi_buffer[2]);
+             //        break;
+              //   }  
+             //    g_print ("tick for Note %d ON event number %d being returned\n", event->midi_buffer[1], track->next_event_number -1);
+                return scm_from_int (event->time_pulses);
+              case MIDI_NOTEOFF:
+              // if (event->midi_buffer[1] == 0)
+              //   {
+              //       g_print ("Skipping note event %x %x %x\n", event->midi_buffer[0], event->midi_buffer[1], event->midi_buffer[2]);
+               //     break;
+               //  }  
+              //  g_print ("tick for Note %d Off event number %d being returned\n", event->midi_buffer[1], track->next_event_number -1);
+                return scm_from_int (-event->time_pulses);
+              default:
+                g_print ("Skipping event %x %x %x\n", event->midi_buffer[0], event->midi_buffer[1], event->midi_buffer[2]);
+                break;
+              }
+        } while (event);
     }
   return SCM_BOOL_F;
 }
 
+//Returns the current midi note on or off, only advances if not on a note
 SCM
 scheme_get_recorded_midi_note (void)
 {
@@ -5366,15 +5408,25 @@ scheme_get_recorded_midi_note (void)
       smf_event_t *event = NULL;
       if (track->next_event_number > 0 && (track->next_event_number <= track->events_array->len))
         event = g_ptr_array_index (track->events_array, track->next_event_number - 1);
-      if (event)
-        switch (event->midi_buffer[0] & 0xF0)
-          {
-          case MIDI_NOTEON:
-          case MIDI_NOTEOFF:
-            return scm_from_int (event->midi_buffer[1]);
-          default:
-            return SCM_BOOL_F;
-          }
+      while (event)
+        {
+            switch (event->midi_buffer[0] & 0xF0)
+              {
+              case MIDI_NOTEON:
+              case MIDI_NOTEOFF:
+               // if (event->midi_buffer[1] == 0)
+              //   {
+              //       g_print ("Skipping note event %x %x %x\n", event->midi_buffer[0], event->midi_buffer[1], event->midi_buffer[2]);
+              //       break;
+              //   }  
+              //   g_print ("Note %d event number %d being returned\n", event->midi_buffer[1], track->next_event_number -1);
+                return scm_from_int (event->midi_buffer[1]);
+              default:
+                g_print ("Skipping event %x %x %x\n", event->midi_buffer[0], event->midi_buffer[1], event->midi_buffer[2]);
+                    break;
+              }
+            event = smf_track_get_next_event (track);  
+        }
     }
   return SCM_BOOL_F;
 }
