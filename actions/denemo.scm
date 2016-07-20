@@ -554,7 +554,6 @@
 (define (DenemoConvert)
     (define first #f)
     (define number_of_patterns 0)
-    (define output "")
     (define num_durations 4) ;;say minim crotchet quaver semiquaver
     (define midi (list (cons 0 0) (cons 0 0) (cons 0 0)))
     (define MidiNoteStarts (make-vector 256 #f))
@@ -566,7 +565,9 @@
             (define on (car (car data)))
             (define off (cdr (car data)))
             ;(disp "on " on " off " off "\n")
-            (set! str (string-append str (number->string (- on start)) " " (number->string (+ (- off start))) " "))
+            (if (and (zero? on) (zero? off))
+                (set! str (string-append str " 0 0 "))
+                (set! str (string-append str (number->string (- on start)) " " (number->string (+ (- off start))) " ")))
             (if (not (null? (cdr data)))
                 (loop (cdr data))))
         (string-append str "\n"))
@@ -626,19 +627,18 @@
                (next-note)
 
               (let loop ()
-                (define this "")
                 (next-note)
-                (set! this (string-append this "\n" (string-from midi) "\n"))  
-                (disp "Classifying " this "\n")
-                (inject (d-Classify this))
+                (disp "Classifying " (string-from midi) "\n")
+                (inject (d-Classify (string-from midi)))
                 (set! number_of_patterns (1+ number_of_patterns))
                 (disp "Midi is " midi "\n")
                 (if (positive?  (car (caddr midi)))
                         (loop)))
             (d-PopPosition)
-            (set! output (string-append    (number->string number_of_patterns) " 6 "  (number->string num_durations) "\n" output))
             (disp "*************************\nNumber of MIDI notes detected: " num-midi"\n"))
         (d-WarningDialog "No Recorded Notes")))
+              
+
 
 (define (DenemoCreateTrainingData)
     (define first #f)
