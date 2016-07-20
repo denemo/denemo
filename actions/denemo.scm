@@ -458,8 +458,7 @@
         (if (not start)
             (begin
                 (d-PushPosition)
-                (while (and (zero? (d-GetDurationInTicks))
-                        (d-NextObject)))
+                (while (and (or (not (d-GetDurationInTicks) (zero? (d-GetDurationInTicks)))) (d-NextObject)))
                 (set! start (d-GetMidiOnTime))
                 (d-PopPosition)))
         (if start
@@ -477,8 +476,8 @@
             ;;(if (not (Appending?))
             (d-PushPosition)
             (while (and (d-PrevObject)
-                            (zero? (d-GetDurationInTicks))))   ;)
-            (while (and (zero? (d-GetDurationInTicks)) (d-NextObject)))
+                             (or (not (d-GetDurationInTicks) (zero? (d-GetDurationInTicks))))))
+            (while  (and (or (not (d-GetDurationInTicks) (zero? (d-GetDurationInTicks)))) (d-NextObject)))
             (set! stop (d-GetMidiOffTime))
             (d-PopPosition)))
     (if (and stop (> stop 0))
@@ -553,94 +552,193 @@
 (define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo
 ; DenemoConvert
 (define (DenemoConvert)
+    (define first #f)
+    (define number_of_patterns 0)
+    (define output "")
+    (define num_durations 4) ;;say minim crotchet quaver semiquaver
+    (define midi (list (cons 0 0) (cons 0 0) (cons 0 0)))
     (define MidiNoteStarts (make-vector 256 #f))
-    (defstruct Note name start duration)
-    (define Notes '())
+    (define num-midi 0)
+    (define (string-from midi)
+        (define start (car (car midi)))
+        (define str "")
+        (let loop ((data midi))
+            (define on (car (car data)))
+            (define off (cdr (car data)))
+            ;(disp "on " on " off " off "\n")
+            (set! str (string-append str (number->string (- on start)) " " (number->string (+ (- off start))) " "))
+            (if (not (null? (cdr data)))
+                (loop (cdr data))))
+        (string-append str "\n"))
+    (define (inject weights)
+        (define weight-list (string-split weights #\space))
+        (define heaviest 0)
+        (define which 0) (disp "Weights are \n" weights "\n")
+        (let loop ((count 0))
+            (define this (string->number (list-ref weight-list count)))
+            (if (> this heaviest)
+                (begin
+                    (set! heaviest this)
+                    (set! which count)))
+            (set! count (1+ count))
+            (if (< count (length weight-list))
+                (loop count)))
+        (case which
+            ((0) (d-Insert3))
+            ((1) (d-Insert2))
+            ((2) (d-Insert1))
+            ((3) (d-Insert0))))
+    
+    
+    
+    (define (next-note) ;;removes the first note from midi and puts the next one on the end
+        (define found #f)
+        (set! midi (cdr midi)) 
+        (let loop ()
+            (define note (d-GetRecordedMidiNote))
+            (if note
+                (let ((tick (d-GetRecordedMidiOnTick))) ;(disp "tick is " tick "\n")
+                      
+                    (if (not first)
+                        (set! first tick))                  
+                          
+                    (if (< tick 0)
+                        (let ((on (vector-ref MidiNoteStarts note)))
+                          (if on
+                              (begin 
+                                 (set! found #t)
+                                 (set! num-midi (1+ num-midi))
+                                 (set! midi (append! midi (list (cons on (- (- tick) first)))))
+                                 (vector-set! MidiNoteStarts note #f))
+                              (disp "with " note " and " tick "An off when not on"))) ;;; end of note off
+                        (vector-set! MidiNoteStarts note (- tick first))) ;;; end of note on
+                    (if (not found)
+                                (loop)))))
+        (if (not found)
+            (set! midi (append! midi (list (cons 0 0))))))
+
     (if (d-RewindRecordedMidi)
-        (let loop ((note #f)(tick 0))
-          (set! note (d-GetRecordedMidiNote)) ;(disp "note is " note "\n")
-          (if note
-              (begin
-                (set! tick (d-GetRecordedMidiOnTick)) ;(disp "tick is " tick "\n")
-                (if (< tick 0) ;;; note OFF
-                    (let ((on (vector-ref MidiNoteStarts note)))
-                      (if on
-                          (begin 
-                            (set! Notes (cons (list (make-Note 'name note 'start on 'duration (- (- tick) on))) Notes))
-                            (vector-set! MidiNoteStarts note #f)    
-                            (loop note tick))
-                          (disp "An off with no On\n")))
-                    (let ((on (vector-ref MidiNoteStarts note))) ;;;note ON
-                      (if on
-                          (disp "An on when already on\n")
-                          (begin
-                            (vector-set! MidiNoteStarts note tick)
-                            (loop note tick))))))
-              (begin         ;;;;;; finished processing the notes
-                (if (> (length Notes) 0)
-                        (let ()
-                            (define (add-note note)
-                              (if (Note? note)
-                                  (begin
-                                    (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey (Note.name note)) "\")")))
-                                  (disp "\tNo note to add note ~a ~a to\n" (Note.name note) (Note.duration note))))
-                            (define (insert-note name dur)
-                              (let ((base (duration::GuessBaseNoteInTicks dur)))
-                                (format #t "have ~a ~a \n" base dur)
-                                (if base
-                                    (begin
-                                      (if (> (- dur base) (- (* 2 base) dur))
-                                      (set! base (* base 2)))
-                                      (begin 
-                                    ;(format #t "Create note ~a ~a\n"  (d-GetNoteForMidiKey name)   (duration::ticks->denemo base))
-                                    (eval-string (string-append  "(d-Insert" (duration::ticks->denemo base)")"))
-                                    (d-PutNoteName (d-GetNoteForMidiKey name)))))))
-                                    
-                            (set! Notes (reverse Notes))
-                            ;;;;;; change the list of Notes into a list of chords
-                            (let loop ((index 0))
-                                ;;;;;;;;;;; overlap decides if two notes should be a chord   
-                              (define (overlap n1 n2)
-                                (if (list? n1)
-                                    (set! n1 (car n1)))
-                                (< (abs (- (Note.start n1) (Note.start n2))) 50))
-                                ;;;;;;;;;;;;;;;;;; end of overlap
-                              
-                                    ;(format #t "Number of notes ~a\n" index)         
-                              (let ((note1 (list-ref Notes index))(note2 #f))
-                                (if (> (length Notes) (+ 1 index))
-                                    (begin
-                                      (set! note2 (list-ref Notes (+ 1 index)))
-                                      (if (overlap note1 (car note2))
-                                      (begin
-                                        (list-set! Notes index (cons (car note2) note1))
-                                        (set! Notes (delq note2 Notes)))
-                                      (begin
-                                        ;(list-set! Notes index (list note1))
-                                        (set! index (+ index 1))))
-                                      (loop index))))) ;;;;;;; end of changing Notes to list of chords
+        (let ((index #f)(note (d-GetRecordedMidiNote))) ;(disp "note is " note "\n")
 
+               (d-PushPosition)
+              
+              ;;; we look ahead one notes, so the classifier gets to see one notes before and after the note being classified
+               (next-note)
 
-                            ;;;loop through the chords, getting a good duration value, the duration from one to the next and inserting
-                            (let loop ((index 0))
-                              (if (> (length Notes) (+ 1 index))
-                              (let ((chord1 (list-ref Notes index))
-                                    (chord2 #f)
-                                    (duration #f))
-                                (if (> (length Notes) (+ 1 index))
-                                    (begin
-                                        (set! chord2 (list-ref Notes (+ 1 index)))
-                                        (set! duration (- (Note.start (car chord2)) (Note.start (car chord1))))
-                                        (format #t "With duration ~a\n" duration)
-                                        (insert-note (Note.name (car chord1)) duration)
-                                        (for-each  add-note (cdr chord1))
-                                        (set! index (+ index 1))
-                                        (loop index))
-                                    (insert-note (Note.name (car chord1)) (Note.duration (car chord1)))))))
-                        
-                            (format #t "End of processing\n"))))));;;;;if rewind succeeded
-            (format #t "No notes found in recording\n")))
+              (let loop ()
+                (define this "")
+                (next-note)
+                (set! this (string-append this "\n" (string-from midi) "\n"))  
+                (disp "Classifying " this "\n")
+                (inject (d-Classify this))
+                (set! number_of_patterns (1+ number_of_patterns))
+                (disp "Midi is " midi "\n")
+                (if (positive?  (car (caddr midi)))
+                        (loop)))
+            (d-PopPosition)
+            (set! output (string-append    (number->string number_of_patterns) " 6 "  (number->string num_durations) "\n" output))
+            (disp "*************************\nNumber of MIDI notes detected: " num-midi"\n"))
+        (d-WarningDialog "No Recorded Notes")))
 
+(define (DenemoCreateTrainingData)
+    (define first #f)
+    (define number_of_patterns 0)
+    (define output "")
+    (define num_durations 4) ;;say minim crotchet quaver semiquaver
+    (define midi (list (cons 0 0) (cons 0 0) (cons 0 0)))
+    (define MidiNoteStarts (make-vector 256 #f))
+    (define num-midi 0)
+    (define num-notes 0)
+    (define (string-from midi)
+        (define start (car (car midi)))
+        (define str "")
+        (let loop ((data midi))
+            (define on (car (car data)))
+            (define off (cdr (car data)))
+            (disp "on " on " off " off "\n")
+            (set! str (string-append str (number->string (- on start)) " " (number->string (+ (- off start))) " "))
+            (if (not (null? (cdr data)))
+                (loop (cdr data))))
+        str)
+ 
+    (define (next-note) ;;removes the first note from midi and puts the next one on the end
+        (define found #f)
+        (set! midi (cdr midi)) 
+        (let loop ()
+            (define note (d-GetRecordedMidiNote))
+            (if note
+                (let ((tick (d-GetRecordedMidiOnTick))) ;(disp "tick is " tick "\n")
+                      
+                    (if (not first)
+                        (set! first tick))                  
+                          
+                    (if (< tick 0)
+                        (let ((on (vector-ref MidiNoteStarts note)))
+                          (if on
+                              (begin 
+                                 (set! found #t)
+                                 (set! num-midi (1+ num-midi))
+                                 (set! midi (append! midi (list (cons on (- (- tick) first)))))
+                                 (vector-set! MidiNoteStarts note #f))
+                              (d-WarningDialog "An off when not on"))) ;;; end of note off
+                        (vector-set! MidiNoteStarts note (- tick first))) ;;; end of note on
+                    (if (not found)
+                                (loop)))))
+        (if (not found)
+            (set! midi (append! midi (list (cons 0 0)))))
+        found)
+    (define (positioning-ok?)
+        (let ((num-midi 0)(num-notes 1)(message #f))
+        (while (and (not (Note?)) (d-NextChord)))
+        (d-PushPosition)
+        (while (d-NextChord)
+            (set! num-notes (1+ num-notes)))
+        (d-RewindRecordedMidi)
+        (while (d-GetRecordedMidiOnTick)
+            (set! num-midi (1+ num-midi)))
+        (set! num-midi (/ num-midi 2))
+        (if (not (= num-midi num-notes))
+            (set! message (string-append (_ "Different numbers of Notes and MIDI notes: ") (number->string num-notes) " =? " (number->string num-midi))))
+        (if (< num-midi 2)
+            (set! message (_ "At least three notes needed to train")))
+        (if message (d-WarningDialog message))
+        (d-PopPosition)
+        (not message)))
+        
+
+    (if (and (positioning-ok?)(d-RewindRecordedMidi))
+        (let ((index #f)(note (d-GetRecordedMidiNote))) ;(disp "note is " note "\n")
+              (d-PushPosition)
+              (while (and (not (Note?)) (d-NextChord)))
+              ;;; we look ahead two;one notes, so the classifier gets to see two;one notes before and after the note being classified
+               (next-note)
+              ; (next-note)
+               
+              (let loop ()
+                (define this "")
+                (set! num-notes (1+ num-notes))
+                ;;;(set! pattern (+ (d-GetNoteBaseDuration) (if (positive (d-GetDots))  (exact->inexact (/ 1 (d-GetDots))) 0)))
+                (set! index (d-GetNoteBaseDuration))
+                ;;;FIXME if a rest follows include that too
+                (if (next-note)
+                    (begin
+                        (set! this (string-append this "\n" (string-from midi) "\n"))
+                        (set! number_of_patterns (1+ number_of_patterns))
+                        (let loop2 ((count (1- num_durations)))
+                            (set! this (string-append this (if (= count index) "1 " "0 ")))
+                            (if (positive? count)
+                                (loop2 (1- count))))
+                        (set! output (string-append output this))
+                        (if (d-NextChord)
+                                (loop)))))
+            (d-PopPosition)
+            (if (= num-midi num-notes)
+                (d-Train number_of_patterns 6 4 output)
+                (d-WarningDialog (_ "Number of notes from cursor position onwards mis-matches number of MIDI notes")))
+            (set! output (string-append    (number->string number_of_patterns) " 6 "  (number->string num_durations) "\n" output))
+            (disp "************\n" output "\n*****************\nNumber of MIDI notes detected: " num-midi "\nNumber of notes detected: " num-notes"\n"))
+        (d-WarningDialog "No Recorded Notes")))
+              
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
