@@ -163,6 +163,10 @@ src/generated/entries.h
 src/generated/register_commands.h
 src/generated/scheme_cb.h
 src/generated/scheme.h
+src/neural/classify.c
+src/neural/classify.h
+src/neural/train.c
+src/neural/train.h
 src/printview/printview.c
 src/printview/printview.h
 src/printview/svgview.c
