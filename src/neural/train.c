@@ -20,10 +20,11 @@
  */
 
 //gcc `pkg-config --cflags --libs fann` -o train train.c
+//(d-Train 0 6 4 "")
 #include <denemo/denemo.h>
 #include <fann.h>
 #include "core/utils.h"
-static gdouble desired_error = 0.01;
+static gdouble desired_error = 0.00001;
 static gint max_neurons = 1000;
 static gint neurons_between_reports = 10;
 
