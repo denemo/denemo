@@ -1420,7 +1420,7 @@ show_midi_record_control (void)
 }
 
 gboolean
-pb_record (gchar * callback)
+pb_record (GtkWidget *not_used, gchar * callback)
 {
   if (is_playing ())
     {
@@ -1445,6 +1445,8 @@ pb_record (gchar * callback)
     }
 
   delete_imported_midi ();
+  
+  
   call_out_to_guile ("(DenemoSetPlaybackStart)");
 
 
