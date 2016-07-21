@@ -1447,7 +1447,7 @@ pb_record (GtkWidget *not_used, gchar * callback)
   delete_imported_midi ();
   
   
-  call_out_to_guile ("(DenemoSetPlaybackStart)");
+ // call_out_to_guile ("(DenemoSetPlaybackStart)");call can do this if they want it
 
 
 
