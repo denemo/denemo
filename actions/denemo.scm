@@ -558,6 +558,7 @@
     (define midi (list (cons 0 0) (cons 0 0) (cons 0 0)))
     (define MidiNoteStarts (make-vector 256 #f))
     (define num-midi 0)
+    (define note 0)
     (define (string-from midi)
         (define start (car (car midi)))
         (define str "")
@@ -596,7 +597,7 @@
         (define found #f)
         (set! midi (cdr midi)) 
         (let loop ()
-            (define note (d-GetRecordedMidiNote))
+            (set! note (d-GetRecordedMidiNote))
             (if note
                 (let ((tick (d-GetRecordedMidiOnTick))) ;(disp "tick is " tick "\n")
                       
@@ -619,7 +620,7 @@
             (set! midi (append! midi (list (cons 0 0))))))
 
     (if (d-RewindRecordedMidi)
-        (let ((index #f)(note (d-GetRecordedMidiNote))) ;(disp "note is " note "\n")
+        (let ((index #f))
 
                (d-PushPosition)
               
@@ -627,19 +628,21 @@
                (next-note)
 
               (let loop ()
+                (define this-note (d-GetNoteForMidiKey note))
                 (next-note)
                 (disp "Classifying " (string-from midi) "\n")
                 (inject (d-Classify (string-from midi)))
+                (d-PutNoteName this-note)
                 (set! number_of_patterns (1+ number_of_patterns))
-                (disp "Midi is " midi "\n")
+                ;(disp "Midi is " midi " and " this-note "\n")
                 (if (positive?  (car (caddr midi)))
                         (loop)))
             (d-PopPosition)
             (disp "*************************\nNumber of MIDI notes detected: " num-midi"\n"))
-        (d-WarningDialog "No Recorded Notes")))
+         (d-WarningDialog (_ "No MIDI Recording"))))
               
 
-
+              
 (define (DenemoCreateTrainingData)
     (define first #f)
     (define number_of_patterns 0)
@@ -685,31 +688,39 @@
                     (if (not found)
                                 (loop)))))
         (if (not found)
-            (set! midi (append! midi (list (cons 0 0)))))
-        found)
+            (let ((last (car (last-pair midi)))) 
+                (set! found (positive? (car last)))
+                (set! midi (append! midi (list  (cons (car (car midi)) (car (car midi)))))) ; put a pair which will become 0 . 0 when start is subtracted
+                (disp "Not found with last " last " and " midi "\n")
+                )
+            
+            found))
     (define (positioning-ok?)
         (let ((num-midi 0)(num-notes 1)(message #f))
-        (while (and (not (Note?)) (d-NextChord)))
-        (d-PushPosition)
-        (while (d-NextChord)
-            (set! num-notes (1+ num-notes)))
-        (d-RewindRecordedMidi)
-        (while (d-GetRecordedMidiOnTick)
-            (set! num-midi (1+ num-midi)))
-        (set! num-midi (/ num-midi 2))
-        (if (not (= num-midi num-notes))
-            (set! message (string-append (_ "Different numbers of Notes and MIDI notes: ") (number->string num-notes) " =? " (number->string num-midi))))
-        (if (< num-midi 2)
-            (set! message (_ "At least three notes needed to train")))
-        (if message (d-WarningDialog message))
-        (d-PopPosition)
-        (not message)))
+            (if (not (FirstInSelection Note?))
+                (SelectAllInStaff))
+                
+            (FirstInSelection Note?)
+            (d-PushPosition)
+            (while (NextInSelection Note?)
+                (set! num-notes (1+ num-notes)))
+            (d-RewindRecordedMidi)
+            (while (d-GetRecordedMidiOnTick)
+                (set! num-midi (1+ num-midi)))
+            (set! num-midi (/ num-midi 2))
+            (if (not (= num-midi num-notes))
+                (set! message (string-append (_ "Different numbers of Notes and MIDI notes: ") (number->string num-notes) " =? " (number->string num-midi))))
+            (if (< num-midi 2)
+                (set! message (_ "At least three notes needed to train")))
+            (if message (d-WarningDialog message))
+            (d-PopPosition)
+            (not message)))
         
 
     (if (and (positioning-ok?)(d-RewindRecordedMidi))
         (let ((index #f)(note (d-GetRecordedMidiNote))) ;(disp "note is " note "\n")
               (d-PushPosition)
-              (while (and (not (Note?)) (d-NextChord)))
+              (while (and (not (Note?)) (NextInSelection Note?)))
               ;;; we look ahead two;one notes, so the classifier gets to see two;one notes before and after the note being classified
                (next-note)
               ; (next-note)
@@ -737,8 +748,9 @@
                 (d-WarningDialog (_ "Number of notes from cursor position onwards mis-matches number of MIDI notes")))
             (set! output (string-append    (number->string number_of_patterns) " 6 "  (number->string num_durations) "\n" output))
             (disp "************\n" output "\n*****************\nNumber of MIDI notes detected: " num-midi "\nNumber of notes detected: " num-notes"\n"))
-        (d-WarningDialog "No Recorded Notes")))
+        (d-WarningDialog (_ "Make a recording of some notes, then select them to train the neural network to recognize those notes from that recording"))))
               
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
