@@ -132,15 +132,49 @@
         (ApplyToTaggedSelection (lambda () (if (onlyFor) (commandselection))))
         (commandsingle)))
         
+(define (SelectAllInStaff)
+    (d-PushPosition)
+    (while (d-PrevObject))
+    (d-SetMark)
+    (while (d-NextObject))
+    (d-SetPoint)
+    (d-PopPosition))
+                        
+(define (FirstInSelection pred)
+    (if (d-GoToMark)
+        (if (not (pred))
+            (NextInSelection pred)
+            #t)
+        #f))                       
+(define (NextInSelection pred)
+    (if (d-NextSelectedObject) 
+             (if (not (pred))
+                   (NextInSelection pred)
+                   #t)
+           #f)) 
+           
 (define NextChordInSelection (lambda () (if (d-NextSelectedObject) 
                         (if (Music?)
                                  #t
                                  (NextChordInSelection))
                         #f)))
+                    
+#! ;rewrite as
+(define (NextChordInSelection)
+    (NextInSelection Music?))
+!#
+                        
+                        
+                        
 (define FirstChordInSelection (lambda () (if (d-GoToMark)
                           (if (Music?)
                                  #t)
                           #f)))
+#! ;rewrite as
+(define (FirstChordInSelection)
+   (FirstInSelection Music?))
+!#
+
 
 ; Paste by Nils Gey, 2011
 ;; Multistaff-Pasting always adds the complete part AFTER the current measure or fills any complete set of empty measures
