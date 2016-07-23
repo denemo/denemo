@@ -447,8 +447,8 @@ record_midi (gchar * buf, gdouble time)
   smf_event_t *event = smf_event_new_from_pointer (buf, 3);
   if (event && smf_event_is_valid (event)
   && (((event->midi_buffer[0] & 0xF0) == MIDI_NOTE_ON) || (event->midi_buffer[0] & 0xF0) == MIDI_NOTE_OFF)
-  && event->midi_buffer[1]
-  //allow only note on/off, and not note 0
+    //  && event->midi_buffer[1]  if we don't allow note 0 the first note gets put into the playback queue as well as the immediate queue for some reason! FIXME
+    //allow only note on/off
   )
     {
       if (Denemo.project->movement->recorded_midi_track && ((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf)
