@@ -159,6 +159,17 @@ finish_recording (void)
     {
       Denemo.project->midi_destination ^= MIDIRECORD;
       g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) show_midi_record_control, NULL, NULL);
+      
+      //remove first note on marker for note 0
+        if (Denemo.project->movement->recorded_midi_track)
+            {
+                smf_t *dummy = smf_new ();
+                smf_event_t *event = smf_track_get_event_by_number (Denemo.project->movement->recorded_midi_track, 1);
+                safely_add_track (dummy, Denemo.project->movement->recorded_midi_track);
+                smf_event_remove_from_track (event);
+                safely_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
+                smf_delete (dummy);
+            }
     }
 }
 void
