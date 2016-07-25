@@ -23,8 +23,7 @@
 #include <denemo/denemo.h>
 #include <fann.h>
 #include "core/utils.h"
-static gdouble desired_error = 0.01;
-
+//(d-Classify " 0 0 0 268 370 624 ")
 static gchar *filename = "Training.data";
 
 gchar *classify(gchar *data)
@@ -36,8 +35,7 @@ gchar *classify(gchar *data)
     if (6 == sscanf (data, "%f%f%f%f%f%f", array_data, array_data+1, array_data+2, array_data+3, array_data+4, array_data+5))
         {
             float *output = fann_run (ann, array_data);
-            return g_strdup_printf ("%f %f %f %f", output[0], output[1], output[2], output[3]);
-            
+            return g_strdup_printf ("%.1f %.1f %.1f %.1f %.1f %.1f %.1f %.1f %.1f", output[0], output[1], output[2], output[3], output[4], output[5], output[6], output[7], output[8], output[9]);  
         }
     return NULL;
 }

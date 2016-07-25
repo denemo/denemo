@@ -20,24 +20,73 @@
  */
 
 //gcc `pkg-config --cflags --libs fann` -o train train.c
-//(d-Train 0 6 4 "")
+//(d-Train 0 6 10 "")
 #include <denemo/denemo.h>
 #include <fann.h>
 #include "core/utils.h"
-static gdouble desired_error = 0.00001;
-static gint max_neurons = 1000;
-static gint neurons_between_reports = 10;
+static gdouble desired_error = 0.025;//0.00001;
+static gint max_neurons = 400; //1000;
+static gint neurons_between_reports = 1;
+static GtkWidget *dialog = NULL;
+
+static gchar *message_head; 
+static gchar *message_tail;
 
 
-gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 4 */, gchar *data)
+static void destroy_dialog (void)
+{
+    if (dialog)
+        gtk_widget_destroy (dialog);
+    dialog = NULL;
+}
+static void create_dialog (gint epochs)
+{
+   if (Denemo.non_interactive)
+    {gchar *dummy = "dummy"; dialog = (GtkWidget*)dummy;}
+  else
+    {
+      dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), GTK_DIALOG_DESTROY_WITH_PARENT, GTK_MESSAGE_INFO, GTK_BUTTONS_CANCEL, "%s\n%d %s",message_head, epochs, message_tail);
+      g_signal_connect (dialog, "response", G_CALLBACK (destroy_dialog), NULL);
+      gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
+      gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
+      gtk_widget_show_all (dialog);
+    }  
+}
+
+static int FANN_API training_callback(struct fann *ann, struct fann_train_data *train,
+                           unsigned int max_epochs, unsigned int epochs_between_reports,
+                           float desired_error, unsigned int epochs)
+{
+
+   if (dialog!=NULL)
+    {
+     gchar *msg = g_strdup_printf ("%s\n%d %s",message_head, epochs, message_tail);
+     gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(dialog), msg);
+     g_free (msg);
+    }
+    while (gtk_events_pending ())
+        gtk_main_iteration ();
+   
+   g_print ("Epochs %8d. MSE: %.5f. Desired-MSE: %.5f\n", epochs, fann_get_MSE(ann), desired_error);
+   if (dialog == NULL)
+    return -1;
+   return 0;
+}
+
+
+gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 10 */, gchar *data)
 {
     gchar *filename = g_build_filename (get_user_data_dir (FALSE), "Training.data", NULL);
     gchar *output = g_build_filename (get_user_data_dir (FALSE), "fann_config.data", NULL);
     struct fann *ann;
-    gint number_samples = 0, in = 6, out = 4, tail = 0;
+    gint number_samples = 0, in = 6, out = 10, tail = 0;
     gchar *contents, *old_data, *new_data;
     GError *error = NULL;
-
+    
+    message_head  = _("Training in progress, click to cancel");
+    message_tail  = _("Epochs so far:");
+    create_dialog(0);
+    
      if  (g_file_test (filename, G_FILE_TEST_EXISTS))
         {                 
             g_file_get_contents (filename, &contents, NULL, &error);
@@ -82,8 +131,10 @@ gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 4 */, gchar *d
   if (g_file_test (filename, G_FILE_TEST_EXISTS))
     {
         ann = fann_create_shortcut (2, in_nodes /* 2 * number of notes of context provided, including the one to classify */ , out_nodes /* number of classifications ie neurons in the output layer*/);
+        fann_set_callback(ann, training_callback);
         fann_cascadetrain_on_file(ann, filename, max_neurons, neurons_between_reports, desired_error);
         fann_save (ann, output);
+        destroy_dialog ();
         return TRUE;
     }
     return FALSE;

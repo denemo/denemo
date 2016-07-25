@@ -552,9 +552,10 @@
 (define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo
 ; DenemoConvert
 (define (DenemoConvert)
+    (define dots-threshold 0.25) ;threshold for the dotted note weight to trigger a dot
     (define first #f)
     (define number_of_patterns 0)
-    (define num_durations 4) ;;say minim crotchet quaver semiquaver
+    (define num_durations 10) ;;tuplet dotted rest next-rest demisemiquaver semiquaver quaver crotchet minim  semibreve
     (define midi (list (cons 0 0) (cons 0 0) (cons 0 0)))
     (define MidiNoteStarts (make-vector 256 #f))
     (define num-midi 0)
@@ -572,11 +573,12 @@
             (if (not (null? (cdr data)))
                 (loop (cdr data))))
         (string-append str "\n"))
+        
     (define (inject weights)
         (define weight-list (string-split weights #\space))
         (define heaviest 0)
         (define which 0) (disp "Weights are \n" weights "\n")
-        (let loop ((count 0))
+        (let loop ((count 6)) ;;;skip over everything up to quaver for now 6, 7, 8, 9 will be 4 to 9 with semi and demisemiquavers
             (define this (string->number (list-ref weight-list count)))
             (if (> this heaviest)
                 (begin
@@ -585,11 +587,22 @@
             (set! count (1+ count))
             (if (< count (length weight-list))
                 (loop count)))
-        (case which
+                
+         (set! which (- which 6));;; because skipping over stuff above quaver       
+                
+                
+                
+         (case which
             ((0) (d-Insert3))
             ((1) (d-Insert2))
             ((2) (d-Insert1))
-            ((3) (d-Insert0))))
+            ((3) (d-Insert0))
+            ((-6)(d-Insert2))) ;;; all weights zero, use crotchet
+            
+            (if (< heaviest 0.3)
+                (d-SetNonprinting))
+        (if (> (string->number (list-ref weight-list 1)) dots-threshold)
+            (d-AddDot)))
     
     
     
@@ -640,14 +653,14 @@
             (d-PopPosition)
             (disp "*************************\nNumber of MIDI notes detected: " num-midi"\n"))
          (d-WarningDialog (_ "No MIDI Recording"))))
-              
 
-              
+
+;;;;;;CreateTraining Data
 (define (DenemoCreateTrainingData)
     (define first #f)
     (define number_of_patterns 0)
     (define output "")
-    (define num_durations 4) ;;say minim crotchet quaver semiquaver
+    (define num_durations 10)  ;;tuplet dotted rest next-rest demisemiquaver semiquaver quaver crotchet minim  semibreve
     (define midi (list (cons 0 0) (cons 0 0) (cons 0 0)))
     (define MidiNoteStarts (make-vector 256 #f))
     (define num-midi 0)
@@ -715,28 +728,42 @@
             (if message (d-WarningDialog message))
             (d-PopPosition)
             (not message)))
-        
+    (define (rest-status)
+            " 0 0");not doing rests yet
 
     (if (and (positioning-ok?)(d-RewindRecordedMidi))
         (let ((index #f)(note (d-GetRecordedMidiNote))) ;(disp "note is " note "\n")
               (d-PushPosition)
               (while (and (not (Note?)) (NextInSelection Note?)))
-              ;;; we look ahead two;one notes, so the classifier gets to see two;one notes before and after the note being classified
+              ;;; we look ahead one notes, so the classifier gets to see one note before and after the note being classified
                (next-note)
-              ; (next-note)
                
               (let loop ()
-                (define this "")
+                (define this "\n")
                 (set! num-notes (1+ num-notes))
-                ;;;(set! pattern (+ (d-GetNoteBaseDuration) (if (positive (d-GetDots))  (exact->inexact (/ 1 (d-GetDots))) 0)))
-                (set! index (d-GetNoteBaseDuration))
-                ;;;FIXME if a rest follows include that too
+                
+                
+                ;this will be the index counting from the end of the weights:
+                ;;tuplet dotted rest next-rest demisemiquaver semiquaver quaver crotchet minim  semibreve
                 (if (next-note)
                     (begin
-                        (set! this (string-append this "\n" (string-from midi) "\n"))
+                        (set! this (string-append this  (string-from midi) "\n"))
+                        
+                          ;;ignore tuplets
+                        (set! this (string-append this "0"))
+                        
+                        ;;
+                        (set! this (string-append this " " (number->string (d-GetDots))))   
+                        ;;
+                        (set! this (string-append this (rest-status))) ;; " 0 0" if no rest or " 1 0", " 0 1" for rest of this duration/rest of next duration.
+                                
+                        (set! index (d-GetNoteBaseDuration))      ;;allow 0 1 2 or 3
+
+                        (set! this (string-append this " 0 0")) ;;not doing demisemi or semi quaver       
+                                
                         (set! number_of_patterns (1+ number_of_patterns))
-                        (let loop2 ((count (1- num_durations)))
-                            (set! this (string-append this (if (= count index) "1 " "0 ")))
+                        (let loop2 ((count 3)) ;;;this will become 5 when we do demi and semis
+                            (set! this (string-append this (if (= count index) " 1" " 0")))
                             (if (positive? count)
                                 (loop2 (1- count))))
                         (set! output (string-append output this))
@@ -744,14 +771,12 @@
                                 (loop)))))
             (d-PopPosition)
             (if (= num-midi num-notes)
-                (d-Train number_of_patterns 6 4 output)
+                (d-Train number_of_patterns 6 10 output)
                 (d-WarningDialog (_ "Number of notes from cursor position onwards mis-matches number of MIDI notes")))
             (set! output (string-append    (number->string number_of_patterns) " 6 "  (number->string num_durations) "\n" output))
             (disp "************\n" output "\n*****************\nNumber of MIDI notes detected: " num-midi "\nNumber of notes detected: " num-notes"\n"))
         (d-WarningDialog (_ "Make a recording of some notes, then select them to train the neural network to recognize those notes from that recording"))))
               
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;
 (define (DenemoHasBookTitles)
