@@ -21,5 +21,6 @@
 
 #ifndef __TRAIN_H__
 #define __TRAIN_H__
+#define DENEMO_NET "denemo.net"
 gboolean train (gint num, gint in_nodes, gint out_nodes, gchar *data);
 #endif

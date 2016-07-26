@@ -23,14 +23,20 @@
 #include <denemo/denemo.h>
 #include <fann.h>
 #include "core/utils.h"
+#include "neural/train.h"
 //(d-Classify " 0 0 0 268 370 624 ")
-static gchar *filename = "Training.data";
 
 gchar *classify(gchar *data)
 {
-    gchar *theann = g_build_filename (get_user_data_dir (FALSE), "fann_config.data", NULL);
-    struct fann *ann = fann_create_from_file (theann);
-  
+    gchar *theann = g_build_filename (get_user_data_dir (FALSE), COMMANDS_DIR, DENEMO_NET, NULL);
+    struct fann *ann;
+    if (!g_file_test (theann, G_FILE_TEST_EXISTS))
+        {
+            g_free (theann);
+            theann = g_build_filename (get_system_data_dir (), COMMANDS_DIR, DENEMO_NET, NULL);
+        }
+    ann = fann_create_from_file (theann);
+
     float array_data[6];
     if (6 == sscanf (data, "%f%f%f%f%f%f", array_data, array_data+1, array_data+2, array_data+3, array_data+4, array_data+5))
         {

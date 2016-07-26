@@ -24,8 +24,10 @@
 #include <denemo/denemo.h>
 #include <fann.h>
 #include "core/utils.h"
+#include "neural/train.h"
+#define TRAINING_DATA "Training.data"
 static gdouble desired_error = 0.025;//0.00001;
-static gint max_neurons = 400; //1000;
+static gint max_neurons = 1000; //1000;
 static gint neurons_between_reports = 1;
 static GtkWidget *dialog = NULL;
 
@@ -60,7 +62,7 @@ static int FANN_API training_callback(struct fann *ann, struct fann_train_data *
 
    if (dialog!=NULL)
     {
-     gchar *msg = g_strdup_printf ("%s\n%d %s",message_head, epochs, message_tail);
+     gchar *msg = g_strdup_printf ("%s\n%d %s %.2f",message_head, epochs, message_tail, fann_get_MSE(ann) - desired_error  );
      gtk_message_dialog_set_markup (GTK_MESSAGE_DIALOG(dialog), msg);
      g_free (msg);
     }
@@ -76,15 +78,24 @@ static int FANN_API training_callback(struct fann *ann, struct fann_train_data *
 
 gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 10 */, gchar *data)
 {
-    gchar *filename = g_build_filename (get_user_data_dir (FALSE), "Training.data", NULL);
-    gchar *output = g_build_filename (get_user_data_dir (FALSE), "fann_config.data", NULL);
+    gchar *filename;
+    gchar *output = g_build_filename (get_user_data_dir (FALSE), DENEMO_NET, NULL);
     struct fann *ann;
     gint number_samples = 0, in = 6, out = 10, tail = 0;
     gchar *contents, *old_data, *new_data;
     GError *error = NULL;
     
+    
+    
+    
+    filename = g_build_filename (get_user_data_dir (FALSE), COMMANDS_DIR, TRAINING_DATA, NULL);
+    if  (!g_file_test (filename, G_FILE_TEST_EXISTS))
+        {
+             g_free (filename);
+             filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, TRAINING_DATA, NULL);
+         }
     message_head  = _("Training in progress, click to cancel");
-    message_tail  = _("Epochs so far:");
+    message_tail  = _("Epochs so far, remaining error: ");
     create_dialog(0);
     
      if  (g_file_test (filename, G_FILE_TEST_EXISTS))
@@ -107,6 +118,8 @@ gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 10 */, gchar *
             {
                 old_data = contents + tail;
                 new_data = g_strdup_printf ("%d %d %d\n%s\n%s\n", number_samples + num, in, out, old_data, data); 
+                g_free (filename);
+                filename = g_build_filename (get_user_data_dir (FALSE), COMMANDS_DIR, TRAINING_DATA, NULL);
                 g_file_set_contents (filename, new_data, -1, &error);
                 g_free (new_data);
             }
@@ -117,7 +130,9 @@ gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 10 */, gchar *
     {
          if (num>0)
             {
-                new_data = g_strdup_printf ("%d %d %d\n%s\n",  num, in, out, data); 
+                new_data = g_strdup_printf ("%d %d %d\n%s\n",  num, in, out, data);
+                g_free (filename);
+                filename = g_build_filename (get_user_data_dir (FALSE), COMMANDS_DIR, TRAINING_DATA, NULL); 
                 g_file_set_contents (filename, new_data, -1, &error);
                 g_free (new_data);
             }
