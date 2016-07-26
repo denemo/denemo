@@ -64,6 +64,7 @@ dnm_setinitialtimesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint t
 {
   staffnode *curstaff;
   take_snapshot ();
+  signal_structural_change (Denemo.project);
   if (time1 && time2 && ispow2 (time2))
     {
       if (all_staves)

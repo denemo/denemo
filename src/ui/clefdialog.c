@@ -106,6 +106,7 @@ clef_change_initial (GtkAction * action, DenemoScriptParam * param)
 void
 dnm_setinitialclef (DenemoMovement * si, DenemoStaff * curstaffstruct, enum clefs clef)
 {
+  signal_structural_change (Denemo.project);
   curstaffstruct->clef.type = clef;
   find_leftmost_staffcontext (curstaffstruct, si);
   staff_fix_note_heights (curstaffstruct);
