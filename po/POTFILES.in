@@ -219,6 +219,7 @@ actions/denemo-modules/directives.scm
 actions/denemo-modules/fonts.scm
 actions/denemo-modules/helpsystem.scm
 actions/denemo-modules/moveandsearch.scm
+actions/denemo-modules/neural.scm
 actions/denemo-modules/notationmagick.scm
 actions/denemo-modules/rhythmandmeter.scm
 actions/denemo-modules/scheme.scm
