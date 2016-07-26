@@ -7,6 +7,7 @@
     (define MidiNoteStarts (make-vector 256 #f))
     (define num-midi 0)
     (define num-notes 0)
+    (define (note-or-rest?) (or (Note?) (Rest?)))
     (define (string-from midi)
         (define start (car (car midi)))
         (define str "")
@@ -51,46 +52,73 @@
             
             found))
     (define (positioning-ok?)
-        (let ((num-midi 0)(num-notes 1)(message #f))
+        (let ((num-midi 0)(num-notes 1)(message #f)(seen-rest #f))
+            
             (if (not (FirstInSelection Note?))
                 (SelectAllInStaff))
                 
             (FirstInSelection Note?)
             (d-PushPosition)
-            (while (NextInSelection Note?)
-                (set! num-notes (1+ num-notes)))
-            (d-RewindRecordedMidi)
-            (while (d-GetRecordedMidiOnTick)
-                (set! num-midi (1+ num-midi)))
-            (set! num-midi (/ num-midi 2))
-            (if (not (= num-midi num-notes))
-                (set! message (string-append (_ "Different numbers of Notes and MIDI notes: ") (number->string num-notes) " =? " (number->string num-midi))))
-            (if (< num-midi 2)
-                (set! message (_ "At least three notes needed to train")))
-            (if message (d-WarningDialog message))
-            (d-PopPosition)
-            (not message)))
+            (let loop ()
+                (if (and (not message) (NextInSelection note-or-rest?))
+                    (if (Rest?)
+                        (begin
+                            (if seen-rest
+                                (set! message (_ "Two successive rests detected. Train the patterns on either side separately"))
+                                (set! seen-rest #t))) ;;;;;;; a check should be done that the rest has the duration of this or the following note.
+                        (begin  
+                            (set! seen-rest #f)    
+                            (set! num-notes (1+ num-notes))
+                            (loop)))))
+           (if (not message)
+                (begin
+                    (d-RewindRecordedMidi)
+                    (while (d-GetRecordedMidiOnTick)
+                        (set! num-midi (1+ num-midi)))
+                    (set! num-midi (/ num-midi 2))
+                    (if (not (= num-midi num-notes))
+                        (set! message (string-append (_ "Different numbers of Notes and MIDI notes: ") (number->string num-notes) " =? " (number->string num-midi))))
+                    (if (< num-midi 2)
+                        (set! message (_ "At least three notes needed to train")))))
+           (if message (d-WarningDialog message))
+           (d-PopPosition)
+           (not message)))
+            
+            
+            
     (define (rest-status)
-            " 0 0");not doing rests yet
-
+        (define this (d-GetNoteBaseDuration))
+        (define status " 0 0")
+        (d-PushPosition)
+        (NextInSelection note-or-rest?)
+        (if (Rest?)
+            (let ((rest-duration (d-GetNoteBaseDuration)))
+                (if (= this rest-duration)
+                    (set! status " 1 0")
+                    (begin
+                        (NextInSelection Note?)
+                        (if (= rest-duration (d-GetNoteBaseDuration))
+                            (set! status " 0 1"))))))
+        (d-PopPosition)
+            status)
+            
+            
+;;;;;; the training creating of the training data starts here.
     (if (and (positioning-ok?)(d-RewindRecordedMidi))
         (let ((index #f)(note (d-GetRecordedMidiNote))) ;(disp "note is " note "\n")
               (d-PushPosition)
               (while (and (not (Note?)) (NextInSelection Note?)))
               ;;; we look ahead one notes, so the classifier gets to see one note before and after the note being classified
                (next-note)
-               
+              ;;; now compute the string output by appending two lines for each note or note+rest in the pattern, one line is the pattern of outut weights the other the midi timings 
               (let loop ()
                 (define this "\n")
                 (set! num-notes (1+ num-notes))
-                
-                
                 ;this will be the index counting from the end of the weights:
                 ;;tuplet dotted rest next-rest demisemiquaver semiquaver quaver crotchet minim  semibreve
-                (if (next-note)
+                (if (next-note)   ;;;; this sets up midi to hold the input weights, that is, the timings for the note+rest being considered
                     (begin
                         (set! this (string-append this  (string-from midi) "\n"))
-                        
                           ;;ignore tuplets
                         (set! this (string-append this "0"))
                         
@@ -107,7 +135,7 @@
                             (if (positive? count)
                                 (loop2 (1- count))))
                         (set! output (string-append output this))
-                        (if (d-NextChord)
+                        (if (d-NextChord)  ;;;FIXME should this be next in selection???? Test by having more notes after the selection
                                 (loop)))))
             (d-PopPosition)
             (if (= num-midi num-notes)
