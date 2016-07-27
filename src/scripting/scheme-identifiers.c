@@ -1061,6 +1061,7 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (0, "Returns the ticks of the next event on the recorded MIDI track -ve if it is a NOTEOFF or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiNote", scheme_get_recorded_midi_note);
+  install_scm_function (0, "Deletes events from the recorded MIDI track from the end up to and including the last NOTE ON event", DENEMO_SCHEME_PREFIX "DeleteLastRecordedMidiNote", scheme_delete_last_recorded_midi_note);
 
   install_scm_function (0, "Rewinds the recorded MIDI track returns #f if no MIDI track recorded", DENEMO_SCHEME_PREFIX "RewindRecordedMidi", scheme_rewind_recorded_midi);
 

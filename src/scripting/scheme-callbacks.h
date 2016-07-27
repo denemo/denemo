@@ -234,6 +234,7 @@ SCM scheme_set_midi_thru (SCM);
 SCM scheme_get_recorded_midi_on_tick (void);
 SCM scheme_get_note_for_midi_key (SCM);
 SCM scheme_get_recorded_midi_note (void);
+SCM scheme_delete_last_recorded_midi_note (void);
 SCM scheme_rewind_recorded_midi (void);
 SCM scheme_get_midi (SCM bytes);
 SCM scheme_set_midi_capture (SCM);

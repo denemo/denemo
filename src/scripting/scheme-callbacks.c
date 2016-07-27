@@ -31,6 +31,8 @@
 #include "display/calculatepositions.h"
 #include "source/source.h"
 #include "source/sourceaudio.h"
+#include "ui/keysigdialog.h"
+
 #include "neural/classify.h"
 SCM
 scheme_call_callback (SCM optional, callback_function callback)
@@ -5449,6 +5451,45 @@ scheme_rewind_recorded_midi (void)
         }
       smf_rewind (track->smf);
       return SCM_BOOL_T;
+    }
+  return SCM_BOOL_F;
+}
+
+SCM scheme_delete_last_recorded_midi_note (void)
+{
+    smf_track_t *track = Denemo.project->movement->recorded_midi_track;
+  if (track)
+    {
+      if (track->smf == NULL)
+        {
+          if (Denemo.project->movement->smf)
+            {
+              smf_add_track (Denemo.project->movement->smf, track);
+              smf_rewind (Denemo.project->movement->smf);
+            }
+          else
+            return SCM_BOOL_F;
+        }
+      
+      smf_event_t *event = smf_track_get_last_event(track);
+      if (event)
+         {
+         for (; event; event = smf_track_get_last_event(track))
+            {   
+                gboolean noteon;
+                smf_event_remove_from_track(event);
+                noteon = ((event->midi_buffer[0] & 0xF0) == MIDI_NOTEON);
+                if (noteon)
+                    {
+                        GList *link = g_list_last (Denemo.project->movement->recording->notes);
+                        Denemo.project->movement->recording->notes = g_list_remove_link (Denemo.project->movement->recording->notes, link);
+                        g_free (link->data);
+                        g_list_free (link);
+                        break;
+                    }
+            }
+         return SCM_BOOL_T;
+        }
     }
   return SCM_BOOL_F;
 }
