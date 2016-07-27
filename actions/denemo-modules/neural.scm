@@ -65,8 +65,12 @@
                         (begin
                             (if seen-rest
                                 (set! message (_ "Two successive rests detected. Train the patterns on either side separately"))
-                                (set! seen-rest #t))) ;;;;;;; a check should be done that the rest has the duration of this or the following note.
+                                (begin
+                                    (set! seen-rest #t)
+                                    (loop)))) ;;;;;;; a check should be done that the rest has the duration of this or the following note.
                         (begin  
+                            (if (d-IsTied)
+                                (set! message (_ "Cannot train on tied notes")))
                             (set! seen-rest #f)    
                             (set! num-notes (1+ num-notes))
                             (loop)))))
@@ -135,7 +139,7 @@
                             (if (positive? count)
                                 (loop2 (1- count))))
                         (set! output (string-append output this))
-                        (if (d-NextChord)  ;;;FIXME should this be next in selection???? Test by having more notes after the selection
+                        (if (NextInSelection Note?)
                                 (loop)))))
             (d-PopPosition)
             (if (= num-midi num-notes)
@@ -154,6 +158,8 @@
     (define MidiNoteStarts (make-vector 256 #f))
     (define num-midi 0)
     (define note 0)
+    (define pending-rest #f)
+
     (define (string-from midi)
         (define start (car (car midi)))
         (define str "")
@@ -171,6 +177,7 @@
     (define (inject weights)
         (define weight-list (string-split weights #\space))
         (define heaviest 0)
+        (define rest #f)
         (define which 0) (disp "Weights are \n" weights "\n")
         (let loop ((count 4)) ;;; 4 to 9  demisemiquavers up to semibreve
             (define this (string->number (list-ref weight-list count)))
@@ -182,23 +189,48 @@
             (if (< count (length weight-list))
                 (loop count)))
                 
-         (set! which (- which 4));;; because skipping over non-duration weights      
-                
+         (set! which (- which 4));;; because skipping over non-duration weights  
+         
+         (if pending-rest
+            (pending-rest))
+
+        (set! rest (string->number (list-ref weight-list 2)))
+        (set! pending-rest (string->number (list-ref weight-list 3)))
+        (if (or (> rest 0.2) (> pending-rest 0.2))
+                (if (< rest pending-rest)
+                    (begin
+                        (set! rest (lambda () #f))
+                        (set! pending-rest (case which
+                                                ((5) d-InsertWholeRest)
+                                                ((4) d-InsertHalfRest)
+                                                ((3) d-InsertQuarterRest)
+                                                ((2) d-InsertEighthRest)
+                                                ((1) d-InsertSixteenthRest)
+                                                ((0) d-InsertThirtySecondRest)
+                                                ((-4) d-EnterRest))))
+                    (begin
+                        (set! rest d-EnterRest)
+                        (set! pending-rest #f)))
+                (begin
+                    (set! pending-rest #f)
+                    (set! rest (lambda () #f))))
                 
                 
          (case which
-            ((0) (d-Insert5))
-            ((1) (d-Insert4))
-            ((2) (d-Insert3))
-            ((3) (d-Insert2))
-            ((4) (d-Insert1))
-            ((5) (d-Insert0))
-            ((-4)(d-Insert2))) ;;; all weights zero, use crotchet
+            ((0)  (d-Insert5)(rest))
+            ((1)  (d-Insert4)(rest))
+            ((2)  (d-Insert3)(rest))
+            ((3)  (d-Insert2)(rest))
+            ((4)  (d-Insert1)(rest))
+            ((5)  (d-Insert0)(rest))
+            ((-4) (d-Insert2)(rest))) ;;; all duration weights zero, use crotchet
             
             (if (< heaviest 0.3)
                 (d-SetNonprinting))
         (if (> (string->number (list-ref weight-list 1)) dots-threshold)
             (d-AddDot)))
+            
+            
     
     
     
