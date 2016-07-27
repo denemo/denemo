@@ -79,7 +79,7 @@ static int FANN_API training_callback(struct fann *ann, struct fann_train_data *
 gboolean train(gint num, gint in_nodes /* 6 */, gint out_nodes /* 10 */, gchar *data)
 {
     gchar *filename;
-    gchar *output = g_build_filename (get_user_data_dir (FALSE), DENEMO_NET, NULL);
+    gchar *output = g_build_filename (get_user_data_dir (FALSE), COMMANDS_DIR, DENEMO_NET, NULL);
     struct fann *ann;
     gint number_samples = 0, in = 6, out = 10, tail = 0;
     gchar *contents, *old_data, *new_data;
