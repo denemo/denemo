@@ -611,6 +611,8 @@ audio_play (void)
 void
 midi_stop (void)
 {
+  if(!is_playing())
+    return;
   g_message ("Stopping playback");
 
   get_backend (AUDIO_BACKEND)->stop_playing ();
