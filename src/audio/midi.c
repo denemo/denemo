@@ -173,7 +173,7 @@ finish_recording (void)
     }
 }
 void
-stop_playing ()
+stop_playing (void)
 {
   update_position (NULL);
   g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) update_playbutton_callback, GINT_TO_POINTER (is_paused ()), NULL);
@@ -192,7 +192,7 @@ stop_playing ()
 }
 
 void
-toggle_paused ()
+toggle_paused (void)
 {
   if (play_until < 0.0)
     play_until = G_MAXDOUBLE;
@@ -201,13 +201,13 @@ toggle_paused ()
 }
 
 gboolean
-is_playing ()
+is_playing (void)
 {
   return playing;
 }
 
 gboolean
-is_paused ()
+is_paused (void)
 {
   return play_until < 0.0;
 }
