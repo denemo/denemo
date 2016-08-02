@@ -1,0 +1,7 @@
+(let ()
+(define result (d-GetUserInput (_ "Display Measure Number") (_ "Enter the number you wish to display as the bar number for the current bar. Does not affect the typeset score.") "1"))
+	(if (and result (string->number result))
+		(let ((baroffset (- (string->number result) (d-GetMeasure) )))
+			(d-SetMeasureNumberOffset baroffset)
+			(d-RefreshDisplay))
+		(d-WarningDialog (_ "Cancelled"))))

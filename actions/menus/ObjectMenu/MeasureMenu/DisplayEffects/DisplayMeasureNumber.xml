@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DisplayMeasureNumber</action>
+        <after>WidenMeasures</after>
+        <_label>Measure Number</_label>
+        <_tooltip>Changes the bar number displayed for this and subsequent bars. Does not affect the print out, see Set Bar Number command for that.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
