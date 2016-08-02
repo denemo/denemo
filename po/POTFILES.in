@@ -1015,6 +1015,8 @@ actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.scm
 actions/menus/ObjectMenu/MeasureMenu/CheckTupletsInMeasure.xml
 actions/menus/ObjectMenu/MeasureMenu/DeleteEmptyMeasures.scm
 actions/menus/ObjectMenu/MeasureMenu/DeleteEmptyMeasures.xml
+actions/menus/ObjectMenu/MeasureMenu/DisplayEffects/DisplayMeasureNumber.scm
+actions/menus/ObjectMenu/MeasureMenu/DisplayEffects/DisplayMeasureNumber.xml
 actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.scm
 actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.xml
 actions/menus/ObjectMenu/MeasureMenu/InsertBreakInStaff.scm
