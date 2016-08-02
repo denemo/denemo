@@ -5,6 +5,7 @@
 		(d-Directive-standalone "BarNumber")
 		(d-DirectivePut-standalone-display "BarNumber" (string-append (_ "BarNumber = ") result))
 		(d-DirectivePut-standalone-minpixels  "BarNumber"  30)
+		(d-SetMeasureNumberOffset (- (string->number result) (d-GetMeasure)))
 		(d-DirectivePut-standalone-postfix "BarNumber"  barnumberstring )
 		(d-RefreshDisplay)
 	)

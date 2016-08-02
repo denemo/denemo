@@ -7905,6 +7905,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Vibrato</_label>
         <_tooltip>Start or Stop a wavy line above the notes. The waves can be made longer/shorter via the wavelength given and can be made to swell and or diminish, several times if desired by giving one or more amplitudes. </_tooltip>
       </row>
+      <row type="scheme">
+        <action>DisplayMeasureNumber</action>
+        <after>WidenMeasures</after>
+        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
+        <_label>Measure Number</_label>
+        <_tooltip>Changes the bar number displayed for this and subsequent bars. Does not affect the print out, see Set Bar Number command for that.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
