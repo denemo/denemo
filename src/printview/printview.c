@@ -1286,7 +1286,7 @@ action_for_link (G_GNUC_UNUSED EvView * view, EvLinkAction * obj)
           DenemoTarget old_target = Denemo.project->movement->target;
           get_wysiwyg_info ()->ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));   //sets si->target
 
-          if (LeftButtonPressed && (!shift_held_down ()) && (get_wysiwyg_info ()->ObjectLocated))
+          if ( (get_wysiwyg_info ()->stage == STAGE_NONE) && LeftButtonPressed && (!shift_held_down ()) && (get_wysiwyg_info ()->ObjectLocated))
             {
               call_out_to_guile ("(d-DenemoPlayCursorToEnd)");
               return TRUE;
