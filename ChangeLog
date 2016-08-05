@@ -1,3 +1,41 @@
+
+2016-08-05
+    Bug Fixes:
+        Fix Print View update when changing initial clef/timesig
+        Fix WYSISYG beam angle alteration
+2016-07-18 Release 2.0.8
+    More Conditional Settings
+        Apply conditions to score directives
+        Create duplicate directives to be used conditionally
+        Use for page breaks between movements, margins etc
+    Lyrics Pane Improvements
+        Save directly from verse
+        Navigate verses from keyboard
+    Hidden Staff Improvements
+        Now auto-show when the cursor moves on them
+        Can be navigated with the mouse as well as keyboard
+        Settings stored with score
+    New Commands
+        Create Click-Track
+            Auto-filled with beats
+            Custom fill available
+        Create Intro
+            Handles upbeat
+        Create Multi-Measure rests in bulk
+        Create Palette Buttons for Object Instantiation
+            Chords and Standalone Directives
+            Clones fingerings, string numbers, ornaments etc
+        Swap chord notes
+            Applies to doubled notes (e.g. c c or c c#)
+            Eases editing of the notes
+            Use for fingerings, string number etc
+    Auto-open Source File
+        First link opened on file open
+    Bug Fixes
+        Nth time bar numbers match font
+        Layout sync fixed
+        Undo/Redo fixed for several bugs
+
 2016-04-20 Release 2.0.8
     Copy and Paste
         Applies to note/chord attributes
