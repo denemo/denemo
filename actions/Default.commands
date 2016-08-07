@@ -2486,6 +2486,12 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Draw the barlines only between the staves but not inside.</_tooltip>
       </row>
       <row type="scheme">
+        <action>TextAnnotation</action>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
+        <_label>Textual Annotation</_label>
+        <_tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>DaCapo</action>
         <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>D.C al fine</_label>
@@ -2501,7 +2507,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       <row type="scheme">
         <action>NoBarline</action>
         <after>ClosingBarline</after>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>(Print) Omit Barline</_label>
         <_tooltip>Skips the printing of any automatic barline here - allows line break.</_tooltip>
       </row>
@@ -3130,7 +3136,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
       </row>
       <row type="scheme">
         <action>BreathMark</action>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>Breath Mark</_label>
         <_tooltip>Inserts a Breath Mark at the cursor position</_tooltip>
       </row>
@@ -3357,7 +3363,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
       </row>
       <row type="scheme">
         <action>ChooseBarline</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Choose Barline</_label>
         <_tooltip>Choose a barline </_tooltip>
       </row>
@@ -3437,7 +3443,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
       </row>
       <row type="scheme">
         <action>ClosingBarline</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Closing Barline</_label>
         <_tooltip>Inserts a closing barline (a double bar with last one thicker).</_tooltip>
       </row>
@@ -3807,7 +3813,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
       </row>
       <row type="scheme">
         <action>DoubleBarline</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Double Bar</_label>
         <_tooltip>Insert a double barline at cursor position.</_tooltip>
       </row>
@@ -4138,7 +4144,7 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>HalfBarline</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Half Barline</_label>
         <_tooltip>Insert a barline with only half of its original size</_tooltip>
       </row>
@@ -4370,7 +4376,7 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>ForceBarline</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Insert Barline</_label>
         <_tooltip>Insert barline at cursor, Denemo's measure count is unaffected.</_tooltip>
       </row>
@@ -4999,7 +5005,6 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>Ottava</action>
-        <after>BreathMark</after>
         <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
         <_label>Ottava</_label>
         <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
@@ -5296,26 +5301,26 @@ or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatEnd</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Repeat End Barline</_label>
         <_tooltip>Insert a barline indicating the end of a repeated section.</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatEndStart</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Repeat End-Start</_label>
         <_tooltip>Inserts a barline ending one repeated section and starting another</_tooltip>
       </row>
       <row type="scheme">
         <action>RepeatStart</action>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Repeat Start Barline</_label>
         <_tooltip>Insert a barline indicating the start of a repeated section.</_tooltip>
       </row>
       <row type="scheme">
         <action>InsertFirstAndSecondTimeBars</action>
         <after>RepeatEndStart</after>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Insert 1st &amp; 2nd Time Bars</_label>
         <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
       </row>
@@ -5909,13 +5914,7 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Attaches multi-line text which can include music snippets, transposing note/chord names, fret-diagrams, with control over bold, italic font size and more. Double quotes and {} must be paired - check with the Preview button before okaying the markup. Newlines are triggered by the paragraph sign.
         </_tooltip>
       </row>
-      <row type="scheme">
-        <action>TextAnnotation</action>
-        <after>CriticalComment</after>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
-        <_label>Textual Annotation</_label>
-        <_tooltip>Allows placing arbitrary text on the score which can then be dragged in the final typeset view for fine control over positioning.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>BeamLeftThree</action>
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
@@ -6787,8 +6786,7 @@ Use this to refine the positioning, but be aware that notes in other staffs will
       </row>
       <row type="scheme">
         <action>MusicGlyph</action>
-        <after>CriticalComment</after>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>Music Glyph</_label>
         <_tooltip>Allows placing any musical glyph which can then be dragged in the final typeset view for fine control over positioning.
 The complete list of glyphs is in the LilyPond documentation.
@@ -6976,7 +6974,7 @@ then this will replace the standard ornament throughout the score.</_tooltip>
       <row type="scheme">
         <action>MultiLineTextAnnotation</action>
         <after>TextAnnotation</after>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>Multi-line Text and Music</_label>
         <_tooltip>Inserts multi-line text object which can include music snippets, Fret Diagrams and Note Names/Chord Symbols. LilyPond Markup can be used and a preview button is available to check the syntax. </_tooltip>
       </row>
@@ -7203,7 +7201,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>DoubleBarRepeatStart</action>
         <after>RepeatStart</after>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Double Bar Repeat Start</_label>
         <_tooltip>Prints a repeat start, with double bar on previous line if at a line break.</_tooltip>
       </row>
@@ -7231,14 +7229,14 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>DottedBarline</action>
         <after>HalfBarline</after>
-        <menupath>/ObjectMenu/Directives/Markings/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
         <_label>Dotted Barline</_label>
         <_tooltip>Prints dotted barline</_tooltip>
       </row>
       <row type="scheme">
         <action>InsertGraphic</action>
         <after>MusicGlyph</after>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>Insert Graphic</_label>
         <_tooltip>Inserts a graphic in the music. This should be created as an encapsulated postscript file.</_tooltip>
       </row>
@@ -7280,7 +7278,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>Caesura</action>
         <after>BreathMark</after>
-        <menupath>/ObjectMenu/Directives/Markings</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>Caesura</_label>
         <_tooltip>Prints a caesura (pause) at the cursor position.</_tooltip>
       </row>
