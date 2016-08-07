@@ -559,8 +559,12 @@ staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
         ok = canonicalize_denemo_name (name, staff->denemo_name);
       else
         g_string_assign (staff->denemo_name, "");
-      if (ok && subpart)
-        ok = canonicalize_denemo_name (subpart, staff->subpart);
+      if ((ok==0) && subpart)
+        {
+            if(staff->subpart == NULL)
+                staff->subpart = g_string_new("");
+            ok = canonicalize_denemo_name (subpart, staff->subpart);
+        }
       set_lily_name (staff->denemo_name, staff->lily_name);
       param->status = ok;
       return;
