@@ -36,14 +36,16 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
     }
   else if (minpixels)
     {
-      cairo_set_line_width (cr, 4);
+       
+     
 
-      cairo_rectangle (cr, xx, y, minpixels, STAFF_HEIGHT);
-      cairo_move_to (cr, xx + CURSOR_WIDTH, height + y - CURSOR_HEIGHT);
-
-      cairo_rel_line_to (cr, -CURSOR_WIDTH, CURSOR_HEIGHT);
-      cairo_rel_line_to (cr, CURSOR_WIDTH, CURSOR_HEIGHT);
+      cairo_rectangle (cr, xx - CURSOR_WIDTH / 2, height + y - CURSOR_MINUS - CURSOR_HEIGHT / 2, minpixels, 2 * CURSOR_HEIGHT);
+      cairo_fill (cr);
+      cairo_set_line_width (cr, 2);
+      cairo_set_source_rgba (cr, 0.6, 0.6, 0, 0.60);
+      cairo_rectangle (cr, xx + - CURSOR_WIDTH / 2, y  - CURSOR_HEIGHT * 2  , minpixels, STAFF_HEIGHT + CURSOR_HEIGHT * 4);
       cairo_stroke (cr);
+     
     }
   else
     {
