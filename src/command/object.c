@@ -734,7 +734,8 @@ create_palette_button_for_directive (GtkWidget * button, gchar * what)
   GString *script = g_string_new (get_script_for_directive (directive, what));
   gchar *name = choose_palette_by_name (TRUE, FALSE);
   DenemoObject *curObj = get_object ();
-  if (curObj && curObj->type == CHORD)  //there should be a further condition here to test if it is a chord- or note- directive else  the cloning script will arbitrarily chordize whatever is the current note when invoked
+  if (curObj && (curObj->type == CHORD)
+        && (!strcmp (what, "note")))
     {
       chord *thechord = (chord *) curObj->object;
       if (thechord->chordize)
