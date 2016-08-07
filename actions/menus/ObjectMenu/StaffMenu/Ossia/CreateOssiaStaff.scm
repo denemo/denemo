@@ -3,7 +3,7 @@
   (set! current (d-StaffProperties "query=denemo_name"))
   (d-NewStructuredStaff)
   (d-SwapStaffs)
-  (d-StaffProperties (string-append "denemo_name=" current))
+  (d-StaffProperties (string-append "denemo_name=" current "_ossia"))
   (d-DirectivePut-score-prefix "HideEmptyStaffs" 
                    "\\layout {
                                      \\context { \\RemoveEmptyStaffContext }
