@@ -2486,6 +2486,12 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Draw the barlines only between the staves but not inside.</_tooltip>
       </row>
       <row type="scheme">
+        <action>DaCapo</action>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
+        <_label>D.C al fine</_label>
+        <_tooltip>Inserts D.C. al fine marking as a standalone Denemo Directive.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>Ornament</action>
         <after>BreathMark</after>
         <menupath>/ObjectMenu/Directives/Markings/Ornaments</menupath>
@@ -7911,6 +7917,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
         <_label>Measure Number</_label>
         <_tooltip>Changes the bar number displayed for this and subsequent bars. Does not affect the print out, see Set Bar Number command for that.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Fine</action>
+        <after>DaCapo</after>
+        <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
+        <_label>Fine (i.e. end)</_label>
+        <_tooltip>Inserts Fine marking as standalone Denemo Directive.</_tooltip>
       </row>
     </map>
   </merge>

@@ -822,6 +822,10 @@ actions/menus/ObjectMenu/Directives/Markings/StandaloneFootnote.scm
 actions/menus/ObjectMenu/Directives/Markings/StandaloneFootnote.xml
 actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.scm
 actions/menus/ObjectMenu/Directives/Markings/TextAnnotation.xml
+actions/menus/ObjectMenu/Directives/Markings/TextMarks/DaCapo.scm
+actions/menus/ObjectMenu/Directives/Markings/TextMarks/DaCapo.xml
+actions/menus/ObjectMenu/Directives/Markings/TextMarks/Fine.scm
+actions/menus/ObjectMenu/Directives/Markings/TextMarks/Fine.xml
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeBalance.scm
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeBalance.xml
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeChannel.scm
