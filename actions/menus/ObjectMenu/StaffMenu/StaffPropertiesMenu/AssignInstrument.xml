@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AssignInstrument</action>
+        <after>StaffComment</after>
+        <_label>Assign Instrument</_label>
+        <_tooltip>Assigns the current staff to an instrument selected by the user.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

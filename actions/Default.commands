@@ -5914,7 +5914,6 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Attaches multi-line text which can include music snippets, transposing note/chord names, fret-diagrams, with control over bold, italic font size and more. Double quotes and {} must be paired - check with the Preview button before okaying the markup. Newlines are triggered by the paragraph sign.
         </_tooltip>
       </row>
-
       <row type="scheme">
         <action>BeamLeftThree</action>
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
@@ -7922,6 +7921,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
         <_label>Fine (i.e. end)</_label>
         <_tooltip>Inserts Fine marking as standalone Denemo Directive.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>AssignInstrument</action>
+        <after>StaffComment</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Assign Instrument</_label>
+        <_tooltip>Assigns the current staff to an instrument selected by the user.</_tooltip>
       </row>
     </map>
   </merge>
