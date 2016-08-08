@@ -338,6 +338,7 @@ key_change_initial (GtkAction * action, DenemoScriptParam * param)
           g_string_free (scheme_str, TRUE);
           if (valid)
             {
+              param->status = TRUE;
               dnm_setinitialkeysig (curstaffstruct, tokey, isminor);
               displayhelper (gui);
             }
