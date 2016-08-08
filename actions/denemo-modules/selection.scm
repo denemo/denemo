@@ -393,3 +393,10 @@
             (d-PlayMidiNote 39 255 9 200)
             (Help::TimedNotice (string-append  "<span font_desc=\"16\" foreground=\"blue\">" (_ "Copied ") copied "</span>"))))) 
         
+(define (SelectStaff)
+    (d-PushPosition)
+    (d-GoToBeginning)
+    (d-SetMark)
+    (d-GoToEnd)
+    (d-SetPoint)
+    (d-PopPosition))
