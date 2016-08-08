@@ -1,2 +1,2 @@
 ;;ToggleFine
-        (ChordAnnotation "ToggleFine" "\\markup \\italic \"fine\""    ToggleFine::params   #f "fine")
+        (ChordAnnotation "ToggleFine" "\\markup\\bold\\italic \"fine\""    ToggleFine::params   #f "fine")
