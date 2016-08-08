@@ -635,7 +635,8 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                         (d-DirectivePut-chord-postfix tag (string-append (if (and (AtRest?) (d-GetNonprinting)) "<>" "") (string-join (map-in-order set-option params))  lilypond " ")))
                                     (d-WarningDialog "Cannot complete operation - cursor moved or bad parameter list")))
             (begin  ;;;no parameters, toggle annotation off/on
-                    (ToggleChordDirective tag graphic (string-append  (if (and (AtRest?) (d-GetNonprinting)) "<>" "")  "-" lilypond) DENEMO_OVERRIDE_ABOVE display)))))
+                    (ToggleChordDirective tag graphic (string-append  (if (and (AtRest?) (d-GetNonprinting)) "<>" "")  "-" lilypond) DENEMO_OVERRIDE_ABOVE display))))
+    (d-RefreshDisplay))
                                             
 (define* (ChordOrnament tag lilypond params graphic #:optional display)
        (ChordAnnotation tag lilypond params graphic display))  
