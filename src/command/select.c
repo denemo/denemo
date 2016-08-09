@@ -38,6 +38,7 @@
  * the buffer on each staff.
  */
 
+static gboolean XesNeedRecalculating;
 static void undo (DenemoProject * gui);
 static void redo (DenemoProject * gui);
 static GList *copybuffer = NULL;        // this is a list one for each staff of lists of objects
@@ -988,7 +989,10 @@ void
 undowrapper (GtkAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
+  XesNeedRecalculating = FALSE;
   undo (gui);
+  if (XesNeedRecalculating)
+     setcurrents (Denemo.project->movement), find_xes_in_all_measures (Denemo.project->movement);
   displayhelper (gui);
 }
 
@@ -1302,18 +1306,18 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
         GList *curstaff = g_list_nth (gui->movement->thescore, chunk->position.staff -1); //g_print ("Selecting staff %d\n",  chunk->position.staff -1);
         ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), chunk->object, chunk->position.measure - 1);
         ((DenemoStaff *) curstaff->data)->nummeasures++;
-        find_xes_in_measure (Denemo.project->movement,  chunk->position.measure);
+        //find_xes_in_measure (Denemo.project->movement,  chunk->position.measure);
         cache_staff (curstaff);
         staff_fix_note_heights (curstaff->data);
         chunk->action = ACTION_MEASURE_INSERT;
-        chunk->position.measure++;
+
         chunk->object = NULL;
-        //FIXME in the next line, what position should be used???
-        Denemo.project->movement->measurewidths = g_list_insert (Denemo.project->movement->measurewidths, GINT_TO_POINTER (Denemo.project->movement->measurewidth), chunk->position.measure);
-         if (chunk->position.measure > 1)
-          chunk->position.measure--, g_print ("moving to %d\n", chunk->position.measure);
+        if (g_list_length ( ((DenemoStaff *) curstaff->data)->themeasures) > g_list_length (Denemo.project->movement->measurewidths))
+            Denemo.project->movement->measurewidths = g_list_append (Denemo.project->movement->measurewidths, GINT_TO_POINTER (Denemo.project->movement->measurewidth)); 
+          
         position_for_chunk (gui, chunk);
-        setcurrents (Denemo.project->movement);
+        XesNeedRecalculating = TRUE;
+        //setcurrents (Denemo.project->movement);
       }
       break;
     case ACTION_MEASURE_INSERT:
@@ -1543,7 +1547,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
               }
            //without this currentstaffnum is set wrongly, and moveviewport causes a crash.
            gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
-
+           XesNeedRecalculating = TRUE;
           }
         else
           {
