@@ -89,7 +89,7 @@ dnm_setinitialtimesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint t
 
 
 /**
- * Insert time sig change on either a single staff or across the
+ * Insert time sig change across the
  * entire score.
  */
 static void
@@ -102,7 +102,7 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
   gboolean replacing = FALSE;   /* if we don't use this trick, anomalous
                                  * stuff can happen when replacing a time
                                  * signature */
-
+  take_snapshot ();
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
       if (((DenemoStaff *) curstaff->data)->is_parasite)

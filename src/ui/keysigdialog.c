@@ -142,6 +142,7 @@ insert_keysig (keysig_data * kdata)
 
   if (tokey != G_MININT)
     {
+      take_snapshot ();  
       if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->checkbutton)))
         {
           for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
