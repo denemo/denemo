@@ -7,9 +7,9 @@
             (begin
                 (d-WarningDialog "The cursor is on a voice. Put line breaks in the main staff that the voice belongs to."))
 
-            (let ((choice #f))
-                (if (not (d-Directive-standalone?))
-                    (GoToMeasureEnd))
+            (begin
+                (if (and (not (Appending?)) (not (d-Directive-standalone?)))
+                    (d-WarningDialog (_ "This Line Break will have no effect if there is no barline at this point.  You can use Allow Line/Page Break to insert an invisible one if you need it")))
                 (d-DirectivePut-standalone tag)
                 (d-DirectivePut-standalone-postfix tag "\\break")
                 (d-DirectivePut-standalone-gy tag -25)

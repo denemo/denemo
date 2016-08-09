@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>LineBreak</after>
         <action>AllowLineBreak</action>
-        <_label>Allow Line Break</_label>
+        <_label>Allow Line/Page Break</_label>
         <_tooltip>Permits the typesetter to break the line at this point.</_tooltip>
       </row>
     </map>
