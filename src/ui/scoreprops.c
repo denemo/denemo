@@ -10,6 +10,7 @@
 #include "core/utils.h"
 #include "core/view.h"
 #include "command/commandfuncs.h"
+#include "command/staff.h" //  signal_structural_change (Denemo.project); surely in wrong file...
 #include "ui/dialogs.h"
 
 #define COL_NAME 0
@@ -127,7 +128,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
   gint i;
   DenemoMovement *si = gui->movement;
   //g_assert (si != NULL);
-
+ 
   dialog = gtk_dialog_new_with_buttons (_("Score properties"), GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), _("_OK"), GTK_RESPONSE_ACCEPT, _("_Cancel"), GTK_RESPONSE_REJECT, NULL);
 
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
@@ -273,6 +274,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 
     }
   g_free (setup);
+  signal_structural_change (Denemo.project);
   gtk_widget_destroy (dialog);
 }
 
