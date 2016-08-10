@@ -85,7 +85,7 @@
 ; ToggleDirective is a script to help you by creating and deleting Denemo-Directives with the same command.
 ;; return value is #t if directive was created or #f if it was deleted. This can be used as hook for further scripting.
 ;; example (ToggleDirective "staff" "prefix" "Ambitus" "\\with { \\consists \"Ambitus_engraver\" }")
-(define (ToggleDirective type field tag content . overrides) ; four strings and an arbitrary number of tags (numbers) for overrides.
+(define (ToggleDirective type field tag content . overrides) ; four strings and an arbitrary number of flags (numbers) for override field.
     (define proc-get (string-append "d-DirectiveGet-" type "-" field))
     (define proc-del (string-append "d-DirectiveDelete-" type))
     (define dis #f)

@@ -9757,14 +9757,15 @@ default" which inserts the default rehearsal mark.
  doubling the 
 \backslash
  signs.
- The you can save as a new menu item, a palette button, or use Save Script
+ Then you can save as a new menu item, a palette button, or use Save Script
  from Scheme Window to customize the command you started with.
 \end_layout
 
 \begin_layout Standard
 More ambitious programmers will need to know all the commands available.
  Besides the complete Denemo command set (the list is given in the Command
- Center window) there are the following additional Scheme procedures defined.
+ Center window) there are the following additional Scheme procedures defined
+ (see the files actions/denemo.scm and actions/denemo-modules/*.scm for more).
 \end_layout
 
 \begin_layout Subsection
@@ -9793,11 +9794,6 @@ GetCommand returns a string containing the command name for the user's keypress
 
 \begin_layout Itemize
 GetCommandFromUser
-\end_layout
-
-\begin_layout Itemize
-GetUserInput takes three strings, displays and returns the user's response
- as a string.
 \end_layout
 
 \begin_layout Itemize
@@ -10010,8 +10006,8 @@ Directives
 
 \begin_layout Itemize
 (ToggleDirective type field tag content .
- overrides) ; four strings and an arbitrary number of tags (numbers) for
- overrides.
+ overrides) ; four strings and an arbitrary number of flags (numbers) for
+ override field.
 \end_layout
 
 \begin_layout Itemize
