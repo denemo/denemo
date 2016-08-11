@@ -2433,29 +2433,25 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label> ⏜ 𝅘𝅥𝅲</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur.</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>Ottava</action>
         <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
         <_label>Ottava</_label>
         <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
       </row>
-           
-     <row type="scheme">
+      <row type="scheme">
         <action>AllowLineBreak</action>
         <after>LineBreak</after>
         <menupath>/ObjectMenu/Directives/Typesetter/PrintLayout</menupath>
         <_label>Allow Page/Line Break</_label>
         <_tooltip>Permits the typesetter to break the line at this point.</_tooltip>
-      </row>      
-      
+      </row>
       <row type="scheme">
         <action>VoiceSetting</action>
         <menupath>/ObjectMenu/Directives/Typesetter/Voices</menupath>
         <_label>Choose Voice</_label>
         <_tooltip>The Voice 1,2,3,4 commands set up the voices so that first and third voices get stems up, second and fourth voices get stems down, third and fourth voice note heads are horizontally shifted, and rests in the respective voices are automatically moved to avoid collisions. The Automatic Voice command returns all the voice settings to the neutral default directions. The Denemo display shows automatic stem directions, use StemDown and StemUp commands if you wish to affect the display. </_tooltip>
       </row>
-      
       <row type="scheme">
         <action>TabFull</action>
         <after>UnHideNotes</after>
@@ -2463,15 +2459,12 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>Full Tab Notation On</_label>
         <_tooltip>Typeset beaming etc with Tablature from the cursor position on.</_tooltip>
       </row>
-      
-      
       <row type="scheme">
         <action>CloseLilyBlock</action>
         <menupath>/ObjectMenu/Directives/Typesetter/Transposition</menupath>
         <_label>(Print) Close } a LilyPond Block</_label>
         <_tooltip>Closes a LilyPond Block (there must be a matching open, {, earlier)</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>AutoAccidentals</action>
         <after>TypesettingOff</after>
@@ -2485,7 +2478,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Ambitus (On/Off)</_label>
         <_tooltip>Toggle the ambitus engraver for this staff on or off</_tooltip>
       </row>
-
       <row type="scheme">
         <action>HideClef</action>
         <after>ClefChooser</after>
@@ -3027,7 +3019,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Allegro Assai</_label>
         <_tooltip>Gives Allegro Assai tempo indication</_tooltip>
       </row>
-
       <row type="scheme">
         <action>Upbeat</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -3415,7 +3406,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Choose Typical Time Signature</_label>
         <_tooltip>Choose from a set of typical time signatures</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ChordStaff</action>
         <after>TabStaff</after>
@@ -4120,7 +4110,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Fortissimo</_label>
         <_tooltip>Places a ff sign on the chord at the cursor</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ChangeGeneric</action>
         <after>ChangeChannel</after>
@@ -5020,7 +5009,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Open Source for Transcribing</_label>
         <_tooltip>Opens a dialog to fetch a source facsimile or manuscript. Links can be placed in the Denemo score to this source file so that the source passage for a given bar can be re-displayed when reviewing the score.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>PageBreak</action>
         <after>LineBreak</after>
@@ -6539,9 +6527,6 @@ for second and subsequent systems</_tooltip>
         <_label>Widen/Make Narrower</_label>
         <_tooltip>Makes the next tie wider/narrower by the amount given. The change is relative to the default value.</_tooltip>
       </row>
-      
- 
-      
       <row type="scheme">
         <action>Void</action>
         <after>AutoAccidentals</after>
@@ -7943,6 +7928,13 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Assign Instrument</_label>
         <_tooltip>Assigns the current staff to an instrument selected by the user.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SaveAsTemplate</action>
+        <after>SaveParts</after>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
+        <_label>Save Template</_label>
+        <_tooltip>Saves the current score as a template, offering to remove the music if desired.</_tooltip>
       </row>
     </map>
   </merge>
