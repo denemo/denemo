@@ -431,7 +431,7 @@ determine_interval (gint bass, gint harmony, gboolean * status)
   else if (inflection > 0)
     modifier = "+";
   if (harmony < bass)
-    return g_strdup_printf ("%s", "0"); //A non printing figure
+    return g_strdup_printf ("%s", "~"); //an extender - was A non printing figure
   if (interval == 3 && inflection)
     return g_strdup_printf ("%c%s", '_', modifier);
   else
