@@ -1,5 +1,7 @@
 ;;;DeleteMeasuresBeforeCursor
-(let ((choice (RadioBoxMenu (cons (_ "Cancel") #f) (cons (_ "All Staffs - Delete all measures before cursor?") 'all) (cons (_ "This Staff/Voice only?") 'this))))
+(let ((choice DeleteMeasuresBeforeCursor::params))
+	 (if (not choice)
+	 	(set! choice	(RadioBoxMenu (cons (_ "Cancel") #f) (cons (_ "All Staffs - Delete all measures from cursor?") 'all) (cons (_ "This Staff/Voice only?") 'this))))
                  (case choice
                     ((all)
                     	(d-SetSaved #f)
