@@ -279,6 +279,10 @@
         <bind>Ctrl+S</bind>
       </row>
       <row>
+        <action>SaveTemplate</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>NewMovement</action>
         <bind>M,n</bind>
       </row>
