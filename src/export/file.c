@@ -1041,6 +1041,7 @@ template_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
 {
   init_local_path ();
   default_template_path = local_template_path;
+  Denemo.project->total_edit_time = 0;
   file_saveas (SAVE_TEMPLATE);
 }
 
