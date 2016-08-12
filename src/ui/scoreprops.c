@@ -113,6 +113,7 @@ score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
 
   if (fontsize)
     {
+      signal_structural_change (Denemo.project);
       g_string_assign (Denemo.project->lilycontrol.staffsize, fontsize);
       param->status = TRUE;
       return;
