@@ -7936,6 +7936,23 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Save Template</_label>
         <_tooltip>Saves the current score as a template, offering to remove the music if desired.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>LigatureStart</action>
+        <after>EndVolta</after>
+        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <_label>Start Ligature</_label>
+        <_tooltip>Starts drawing a square bracket above the notes from the cursor. Use
+End Ligature to mark the place where the bracket should end. Used in
+transcribing mensural music notation.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>LigatureEnd</action>
+        <after>LigatureStart</after>
+        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <_label>End Ligature</_label>
+        <_tooltip>End drawing a square bracket above the notes. Must be preceded by a
+Start Ligature earlier in the same staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

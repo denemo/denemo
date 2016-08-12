@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LigatureStart</action>
+        <after>EndVolta</after>
+        <_label>Start Ligature</_label>
+        <_tooltip>Starts drawing a square bracket above the notes from the cursor. Use
+End Ligature to mark the place where the bracket should end. Used in
+transcribing mensural music notation.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
