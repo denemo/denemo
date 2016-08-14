@@ -493,7 +493,15 @@ call_stop_lilypond (void)
 static gint
 run_lilypond (gchar ** arguments)
 {
+  static gboolean old_error = FALSE;
   gint error = 0;
+  if (old_error)
+    {
+      g_string_assign (Denemo.input_filters, "");
+      gtk_widget_show (Denemo.input_label);
+      write_input_status ();
+      old_error = FALSE;  
+    }
   if (Denemo.printstatus->background == STATE_NONE)
     progressbar (_("Denemo Typesetting"), call_stop_lilypond);
   if (lily_err)
@@ -518,9 +526,14 @@ run_lilypond (gchar ** arguments)
   if (lily_err)
     {
       g_critical ("Error launching lilypond! Message is %s", lily_err->message);
+      g_string_printf (Denemo.input_filters, "%s%s%s", "<span font_desc=\"24\" foreground=\"red\">", _("Error: see LilyPond window"), "</span>");
+      gtk_widget_show (Denemo.input_label);
+      write_input_status ();
+      console_output (g_strdup_printf("Error launching lilypond! Message is %s", lily_err->message));    
       g_error_free (lily_err);
       lily_err = NULL;
       error = -1;
+      old_error = TRUE;//clear the status bar on next attempt...
     }
   if (!lilypond_launch_success)
     {
