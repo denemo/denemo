@@ -610,7 +610,13 @@ inner_main (void *files)
   }
 #endif
 
-  initprefs ();
+  initprefs (); 
+  if (Denemo.old_user_data_dir != NULL); // if Denemo.old_user_data is not NULL the user has preferred to keep their old values. Copy the templates etc...
+    {
+        gchar *templates_dir = g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
+        gchar *old_templates_dir = g_build_filename (Denemo.old_user_data_dir, "templates", NULL);
+        copy_files (old_templates_dir, templates_dir);
+    }
   init_lilypond_buffer ();
   initialize_print_status ();
   //project Initializations
