@@ -207,7 +207,7 @@ make_temp_dir (gboolean removal)
       GDir *dir = g_dir_open (tmpdir, 0, &error);
       if (!error)
         {
-          gchar *filename;
+          const gchar *filename;
           while (filename = g_dir_read_name (dir))
             {
               gchar *fullpath = g_build_filename (tmpdir, filename, NULL);
@@ -234,6 +234,44 @@ removeprintdir (void)
 {
   make_temp_dir (TRUE);
 }
+
+//copies all files in source_dir to dest_dir creating the latter if need be
+void copy_files (gchar *source_dir, gchar *dest_dir)
+{
+ GError *error = NULL;
+ GDir *thedir;
+ const gchar *thefile;
+ gsize length;
+ if (-1 == g_mkdir_with_parents (dest_dir, 0770))
+    {
+        g_warning ("Could not create %s\n", dest_dir);
+        return;
+    }
+ thedir = g_dir_open (source_dir, 0, &error);
+ if (error)
+    {
+        g_warning ("Could not open %s\n", source_dir);
+        return;
+    }
+ if (thedir)
+    {
+    while (thefile = g_dir_read_name (thedir))
+        {
+           gchar *contents;
+           gchar *path = g_build_filename (source_dir, thefile, NULL);
+           gchar *newfile = g_build_filename (dest_dir, thefile, NULL);
+           if (g_file_get_contents (path, &contents, &length, &error))
+                 g_file_set_contents (newfile, contents, length, &error);
+          if (error)
+            g_warning ("Failed to copy file %s to %s message: %s\n", thefile, newfile, error->message);
+          g_free (contents);
+          g_free (newfile);
+          g_free (path);
+        }
+    g_dir_close (thedir);
+   }
+}
+
 
 void
 add_font_directory (gchar * fontpath)
