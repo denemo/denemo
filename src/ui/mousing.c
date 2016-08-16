@@ -965,7 +965,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Click on Staff Directives."), _("This pops up the staff directives menu for editing"),
                       MouseGesture);
-                  edit_staff_properties ();//gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+                  call_out_to_guile ("(EditStaff)"); //edit_staff_properties ();//gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->staffmenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
                 }
               return TRUE;
             }
@@ -974,7 +974,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
               if (Denemo.prefs.learning)
                 MouseGestureShow(_("Click on Voice Directives."), _("This pops up the voice directives menu for editing"),
                     MouseGesture);
-              edit_voice_properties ();//gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+              call_out_to_guile ("(EditStaff)"); //edit_voice_properties ();//gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
               return TRUE;
             }
         }

@@ -1431,3 +1431,17 @@
                 (d-DirectivePut-paper-data tag data)
                 (d-DirectivePut-paper-postfix tag (string-append type ".basic-distance =  " data "\n"))))))
                 
+;;;;edit staff, called from tools icon at start of staff
+(define (EditStaff)
+        (let* ((num (number->string (d-GetStaff)))(choice (RadioBoxMenu (cons (_ "Staff Properties Editor") 'editor)
+            (if  (> (d-StaffMasterVolume) 0)
+                (cons (string-append (_ "Mute Staff") " " num) 'mute)
+                (cons  (string-append (_ "Unmute Staff") " " num) 'mute))
+            (if (d-Directive-staff? "NonPrintingStaff")
+                (cons  (string-append (_ "(Print) Show Staff") " " num) 'show)
+                (cons  (string-append (_ "(Print) Hide Staff") " " num) 'show)))))
+        (case choice
+            ((mute) (d-MuteStaff))
+            ((show) (d-NonPrintingStaff))
+            ((editor) (d-EditStaffProperties))
+            (else (d-WarningDialog (_ "Cancelled"))))))               
