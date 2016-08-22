@@ -919,7 +919,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   if (event->x < gui->leftmargin)
     {
-       if (gui->braces)
+       if (gui->braces && (gui->movement->leftmeasurenum == 1))
         {
                 gint width = BRACEWIDTH * g_list_length (gui->braces);
                 //gint count = (gui->leftmargin - event->x)/BRACEWIDTH;
@@ -931,24 +931,27 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                     if ((count>0) && (count <= g_list_length (gui->braces)))
                         {
                             DenemoBrace *brace = (DenemoBrace*)g_list_nth_data (gui->braces, count-1);
-                            gint choice = choose_option (_("Editing Staff Groups (Braces)"), _("Edit Start Brace"), _("Edit End Brace"));
-                            gint staffnum = choice?brace->startstaff:brace->endstaff;
-                            //g_print ("Count is %d for start at %d\n", count, staffnum);
-                            GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
-                            goto_movement_staff_obj (NULL, -1, staffnum, 1, 0, 0);
-                            if (menuitem)
-                                if (choice)
-                                    gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
-                                else
+                            gint choice = choose_option_or_cancel (_("Editing Staff Groups (Braces)"), _("Edit Start Brace"), _("Edit End Brace"), TRUE);
+                            if( choice>=0)
                                 {
-                                    if (staff_directive_get_tag ("BraceEnd"))
-                                        call_out_to_guile ("(d-BraceEnd)");
-                                    else
-                                        warningdialog (_( "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"));
-                                }
-                            //note the popup returns as soon as the menu is popped up, so we can't go back to the original position.
+                                    gint staffnum = choice?brace->startstaff:brace->endstaff;
+                                    //g_print ("Count is %d for start at %d\n", count, staffnum);
+                                    GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
+                                    goto_movement_staff_obj (NULL, -1, staffnum, 1, 0, 0);
+                                    if (menuitem)
+                                        if (choice)
+                                            gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+                                        else
+                                        {
+                                            if (staff_directive_get_tag ("BraceEnd"))
+                                                call_out_to_guile ("(d-BraceEnd)");
+                                            else
+                                                warningdialog (_( "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"));
+                                        }
+                                    //note the popup returns as soon as the menu is popped up, so we can't go back to the original position.
 
-                        }
+                                }
+                            }
 
                     return TRUE;
                 }
@@ -974,7 +977,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
               if (Denemo.prefs.learning)
                 MouseGestureShow(_("Click on Voice Directives."), _("This pops up the voice directives menu for editing"),
                     MouseGesture);
-              call_out_to_guile ("(EditStaff)"); //edit_voice_properties ();//gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+              edit_voice_properties ();//gtk_menu_popup (((DenemoStaff *) gui->movement->currentstaff->data)->voicemenu, NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
               return TRUE;
             }
         }
