@@ -2154,16 +2154,26 @@ confirm (gchar * primary, gchar * secondary)
 gboolean
 choose_option (gchar * title, gchar * primary, gchar * secondary)
 {
+  return choose_option_or_cancel (title, primary, secondary, FALSE) > 0;
+}
+gint
+choose_option_or_cancel (gchar * title, gchar * primary, gchar * secondary, gboolean cancel_button)
+{
   GtkWidget *dialog;
-  gboolean r;
-  dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL);
-  //g_signal_connect_swapped (dialog, "response", G_CALLBACK (gtk_widget_destroy), dialog);
+  gint r;
+  dialog = (cancel_button?
+    gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, _("Cancel"), GTK_RESPONSE_CANCEL, NULL):
+    gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), primary, GTK_RESPONSE_ACCEPT, secondary, GTK_RESPONSE_REJECT, NULL));
   gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
   gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
-  r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT);
+  r = gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
-  return r;
+  if (r==GTK_RESPONSE_ACCEPT)
+    return 1;
+  if (r==GTK_RESPONSE_REJECT)
+    return 0;
+  return -1;
 }
 
 
