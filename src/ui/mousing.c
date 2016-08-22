@@ -672,7 +672,28 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
           /* redraw to show new cursor position  */
           draw_score_area();
         }
+     return TRUE;
     }
+    
+ {
+ gboolean oldm = Denemo.hovering_over_margin;   
+ gboolean oldb = Denemo.hovering_over_brace;   
+  if (event->x < gui->leftmargin)
+    {
+       if (gui->braces && (gui->movement->leftmeasurenum == 1))
+        {
+                gint width = BRACEWIDTH * g_list_length (gui->braces);
+                Denemo.hovering_over_brace = ((gui->leftmargin - event->x) < width);
+                Denemo.hovering_over_margin = !Denemo.hovering_over_brace;
+        }
+       else
+            Denemo.hovering_over_margin = TRUE;
+    }
+  else
+     Denemo.hovering_over_brace = Denemo.hovering_over_margin = FALSE;
+  if ((oldm != Denemo.hovering_over_margin) || (oldb != Denemo.hovering_over_brace))
+    gtk_widget_queue_draw(Denemo.scorearea);
+ }
 
   if (Denemo.project->midi_destination & MIDICONDUCT)
     {

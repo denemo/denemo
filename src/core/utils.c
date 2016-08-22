@@ -727,7 +727,10 @@ draw_for_directives (cairo_t * cr, GList * directives, gint x, gint y, gboolean 
 void
 draw_staff_brace (cairo_t * cr, gboolean curly, gint x, gint y, gint height)
 {
-  cairo_set_source_rgb (cr, 0, 0, 0);
+    if(Denemo.hovering_over_brace)
+        cairo_set_source_rgb (cr, 0, 0.8, 0.1);
+    else
+        cairo_set_source_rgb (cr, 0, 0, 0);
   if (!curly)
     {
       drawfetachar_cr (cr, 0xD8, x, y);

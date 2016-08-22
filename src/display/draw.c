@@ -1561,7 +1561,12 @@ draw_score (cairo_t * cr)
         if (cr)
           {
             cairo_save (cr);
-            cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
+            {static gboolean phase;
+                if (Denemo.hovering_over_margin)
+                    cairo_set_source_rgb (cr, 0, 0.8, 0.1);
+                else 
+                    cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
+            }
             cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT /*staff edit */ );
             cairo_fill (cr);
             //cairo_restore (cr);
