@@ -1189,6 +1189,11 @@ struct DenemoRoot
   gint color;/**< the color of the background */
   gboolean hovering_over_margin;
   gboolean hovering_over_brace;
+  gboolean hovering_over_partname;
+  gboolean hovering_over_clef;
+  gboolean hovering_over_timesig;
+  gboolean hovering_over_keysharpen;
+  gboolean hovering_over_keyflatten;
   keymap *map; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   gchar *last_merged_command;/**<filename of last command merged into the menu system */
   gint last_keyval, last_keystate;/**< most recent keypress which successfully invoked a command */

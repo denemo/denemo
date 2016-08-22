@@ -501,6 +501,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   if (Denemo.scorearea == NULL)
     return FALSE;
+  if (selecting && lh_down && !Denemo.project->movement->markstaffnum)
+    selecting = lh_down = 0; //bizarrely, when calling up staff_properties_dialog_cb from mouse click on part name this combination is triggered - it presents an interesting "cursor follow the pointer" mode, which we don't normally have...
   gint allocated_height = get_widget_height (Denemo.scorearea);
   gint line_height = allocated_height * gui->movement->system_height;
   if(dragging_outside)
@@ -677,7 +679,13 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     
  {
  gboolean oldm = Denemo.hovering_over_margin;   
- gboolean oldb = Denemo.hovering_over_brace;   
+ gboolean oldb = Denemo.hovering_over_brace;
+ gboolean oldp = Denemo.hovering_over_partname;
+ gboolean oldc = Denemo.hovering_over_clef;
+ gboolean oldks = Denemo.hovering_over_keysharpen;
+ gboolean oldkf = Denemo.hovering_over_keyflatten;
+ gboolean oldt = Denemo.hovering_over_timesig;
+ Denemo.hovering_over_brace = Denemo.hovering_over_margin = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
   if (event->x < gui->leftmargin)
     {
        if (gui->braces && (gui->movement->leftmeasurenum == 1))
@@ -690,8 +698,40 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
             Denemo.hovering_over_margin = TRUE;
     }
   else
-     Denemo.hovering_over_brace = Denemo.hovering_over_margin = FALSE;
-  if ((oldm != Denemo.hovering_over_margin) || (oldb != Denemo.hovering_over_brace))
+     {
+        gint key = gui->movement->maxkeywidth;
+        gint cmajor = key ? 0 : 5;   
+       
+        if (((gint) get_click_height (gui, event->y)<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
+             {       
+                 Denemo.hovering_over_partname = TRUE;
+                 
+             }
+        else  { 
+       
+        if (event->x < (gui->leftmargin+35) - cmajor)
+            {
+                Denemo.hovering_over_clef = TRUE;
+            }
+        else if (event->x < (gui->leftmargin+35) + key + cmajor)   
+           {
+               gint offset = (gint) get_click_height (gui, event->y);
+               if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
+                    Denemo.hovering_over_keysharpen = TRUE;
+               else if (offset > 0 && (offset < STAFF_HEIGHT))
+                    Denemo.hovering_over_keyflatten = TRUE;
+            }
+        else if (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)
+           Denemo.hovering_over_timesig = TRUE;       
+        }
+    }
+  if ((oldm != Denemo.hovering_over_margin) 
+  || (oldb != Denemo.hovering_over_brace)
+  || (oldp != Denemo.hovering_over_partname)
+  || (oldc != Denemo.hovering_over_clef)
+  || (oldt != Denemo.hovering_over_timesig)
+  || (oldks != Denemo.hovering_over_keysharpen)
+  || (oldkf != Denemo.hovering_over_keyflatten))
     gtk_widget_queue_draw(Denemo.scorearea);
  }
 
@@ -878,63 +918,69 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
           "to the staff it is typeset on. Run the Staff/Voice property editor to adjust any inconsistencies."));
 
     }
+
   if ((((DenemoStaff *) gui->movement->currentstaff->data)->voicecontrol == DENEMO_PRIMARY) && (gui->movement->leftmeasurenum == 1) && (event->x > gui->leftmargin))
     {
-      if (event->x < (gui->leftmargin+35) - cmajor)
-        {
-        if (offset<-10)
+        
+        if ((offset<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
             {
                 if (Denemo.prefs.learning)
-                MouseGestureShow(_("Left on Staff name."), _("This pops up the built-in staff properties. For other properties of the current staff see the staff menu or the tools icon before the clef."),
+                MouseGestureShow(_("Left on Part name."), _("This pops up the built-in staff properties. For other properties of the current staff see the staff menu or the tools icon before the clef."),
                   MouseGesture);
+                  selecting = gui->movement->markstaffnum = 1;//lh_down = 1;
                 staff_properties_change_cb (NULL, NULL);
             }
         else
-            {
-              if (Denemo.prefs.learning)
-                MouseGestureShow(_("Left on initial Clef."), _("This pops up the initial clef menu."),
-                  MouseGesture);
-              popup_menu ("/InitialClefEditPopup");
-            }
-          return TRUE;
-        }
-      else if (event->x < (gui->leftmargin+35) + key + cmajor)
         {
-          if (left)
+          if (event->x < (gui->leftmargin+35) - cmajor)
             {
-              if (offset > 0 && (offset < STAFF_HEIGHT / 2))
+
                 {
                   if (Denemo.prefs.learning)
-                    MouseGestureShow(_("Left Click on blue."), _("This adds one sharp."),
+                    MouseGestureShow(_("Left on initial Clef."), _("This pops up the initial clef menu."),
                       MouseGesture);
-                if ((gui->movement->currentmeasure->next==NULL)  || confirm (_("Initial Key Signature Change"), _("Sharpen Keysignature?")))
-                  call_out_to_guile ("(d-SharpenInitialKeysigs)");
+                  popup_menu ("/InitialClefEditPopup");
                 }
-              else if (offset > 0 && (offset < STAFF_HEIGHT))
+              return TRUE;
+            }
+          else if (event->x < (gui->leftmargin+35) + key + cmajor)
+            {
+              if (left)
+                {
+                  if (offset > 0 && (offset < STAFF_HEIGHT / 2))
+                    {
+                      if (Denemo.prefs.learning)
+                        MouseGestureShow(_("Left Click on blue."), _("This adds one sharp."),
+                          MouseGesture);
+                    if ((gui->movement->currentmeasure->next==NULL)  || confirm (_("Initial Key Signature Change"), _("Sharpen Keysignature?")))
+                      call_out_to_guile ("(d-SharpenInitialKeysigs)");
+                    }
+                  else if (offset > 0 && (offset < STAFF_HEIGHT))
+                    {
+                      if (Denemo.prefs.learning)
+                        MouseGestureShow(_("Left Click on red."), _("This adds one flat."),
+                          MouseGesture);
+                      if ((gui->movement->currentmeasure->next==NULL) || confirm (_("Initial Key Signature Change"), _("Flatten Keysignature?")))
+                        call_out_to_guile ("(d-FlattenInitialKeysigs)");
+                    }
+                }
+              else
                 {
                   if (Denemo.prefs.learning)
-                    MouseGestureShow(_("Left Click on red."), _("This adds one flat."),
-                      MouseGesture);
-                  if ((gui->movement->currentmeasure->next==NULL) || confirm (_("Initial Key Signature Change"), _("Flatten Keysignature?")))
-                    call_out_to_guile ("(d-FlattenInitialKeysigs)");
+                    MouseGestureShow(_("Right Click on key."), _("This pops up the key signature menu."),
+                        MouseGesture);
+                  popup_menu ("/InitialKeyEditPopup");
                 }
+              return TRUE;
             }
-          else
+          else if (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)
             {
               if (Denemo.prefs.learning)
-                MouseGestureShow(_("Right Click on key."), _("This pops up the key signature menu."),
-                    MouseGesture);
-              popup_menu ("/InitialKeyEditPopup");
+                MouseGestureShow(_("Click on Time."), _("This pops up the time signature menu."),
+                        MouseGesture);
+              popup_menu ("/InitialTimeEditPopup");
+              return TRUE;
             }
-          return TRUE;
-        }
-      else if (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)
-        {
-          if (Denemo.prefs.learning)
-            MouseGestureShow(_("Click on Time."), _("This pops up the time signature menu."),
-                    MouseGesture);
-          popup_menu ("/InitialTimeEditPopup");
-          return TRUE;
         }
     }
 

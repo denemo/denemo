@@ -1040,11 +1040,13 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
               if (thestaff->subpart)
                 drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20);
               cairo_save (cr);
-              cairo_set_source_rgba (cr, 0.2, 0.8, 0.4, 0.4);
-              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 30, 12);
+              //cairo_set_source_rgba (cr, Denemo.hovering_over_partname?0:0.2, Denemo.hovering_over_partname?1:0.6, Denemo.hovering_over_partname?0:0.2, 0.4);
+              cairo_set_source_rgba (cr, Denemo.hovering_over_partname?0.3:0.8, Denemo.hovering_over_partname?1:0.8, Denemo.hovering_over_partname?0.3:0.8, 0.4);
+
+              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 90, 12);
               cairo_fill (cr);
               cairo_set_source_rgba (cr, 0.0, 0.8, 0.0, 1);
-              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 30, 12);
+              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 90, 12);
               cairo_stroke (cr);
               cairo_restore(cr);
              }
@@ -1608,13 +1610,15 @@ draw_score (cairo_t * cr)
                 gint cmajor = key ? 0 : 5;      //allow some area for keysig in C-major
                 cairo_save (cr);
 
-                cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
+                cairo_set_source_rgb (cr, 0.7, Denemo.hovering_over_clef?1.0:0.7, 0.7);
                 cairo_rectangle (cr, gui->leftmargin, y, (gui->leftmargin+35) - gui->leftmargin - cmajor, STAFF_HEIGHT);  /*clef edit */
-
+                cairo_fill (cr);
+                
+                cairo_set_source_rgb (cr, 0.7, Denemo.hovering_over_timesig?1.0:0.7, 0.7);
                 cairo_rectangle (cr, (gui->leftmargin+35) + key + cmajor, y, SPACE_FOR_TIME - cmajor, STAFF_HEIGHT);      /*timesig edit */
                 cairo_fill (cr);
 
-                cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
+                cairo_set_source_rgb (cr, Denemo.hovering_over_keysharpen?0.2:0.4, Denemo.hovering_over_keysharpen?0.2:0.4, Denemo.hovering_over_keysharpen?1.0:0.6);
                 cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y, key + 2 * cmajor, STAFF_HEIGHT / 2);       /*keysig sharpen edit */
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 0, 0, 1);
@@ -1623,7 +1627,9 @@ draw_score (cairo_t * cr)
                 cairo_stroke (cr);
 
 
-                cairo_set_source_rgb (cr, 1, 0.5, 0.5);
+                //cairo_set_source_rgb (cr, 1, 0.5, 0.5);
+                cairo_set_source_rgb (cr, Denemo.hovering_over_keyflatten?1.0:0.6, Denemo.hovering_over_keyflatten?0.2:0.4, Denemo.hovering_over_keyflatten?0.2:0.4);
+
                 cairo_rectangle (cr, (gui->leftmargin+35) - cmajor, y + STAFF_HEIGHT / 2, key + 2 * cmajor, STAFF_HEIGHT / 2);    /*keysig flatten edit */
                 cairo_fill (cr);
                 cairo_set_source_rgb (cr, 1, 0, 0);
