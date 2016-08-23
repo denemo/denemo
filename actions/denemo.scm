@@ -1433,7 +1433,7 @@
                 
 ;;;;edit staff, called from tools icon at start of staff
 (define (EditStaff)
-        (let* ((num (number->string (d-GetStaff)))(choice (RadioBoxMenu (cons (_ "Staff Properties Editor") 'editor)
+        (let* ((num (number->string (d-GetStaff)))(choice (RadioBoxMenu 
             (if  (> (d-StaffMasterVolume) 0)
                 (cons (string-append (_ "Mute Staff") " " num) 'mute)
                 (cons  (string-append (_ "Unmute Staff") " " num) 'mute))

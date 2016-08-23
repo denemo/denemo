@@ -1187,7 +1187,8 @@ struct DenemoRoot
   gint height;
   gboolean maximized;
   gint color;/**< the color of the background */
-  gboolean hovering_over_margin;
+  gboolean hovering_over_margin_up;
+  gboolean hovering_over_margin_down;
   gboolean hovering_over_brace;
   gboolean hovering_over_partname;
   gboolean hovering_over_clef;

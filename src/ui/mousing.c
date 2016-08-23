@@ -682,24 +682,27 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     }
     
  {
- gboolean oldm = Denemo.hovering_over_margin;   
+ gboolean oldmu = Denemo.hovering_over_margin_up;   
+ gboolean oldmd = Denemo.hovering_over_margin_down;   
  gboolean oldb = Denemo.hovering_over_brace;
  gboolean oldp = Denemo.hovering_over_partname;
  gboolean oldc = Denemo.hovering_over_clef;
  gboolean oldks = Denemo.hovering_over_keysharpen;
  gboolean oldkf = Denemo.hovering_over_keyflatten;
  gboolean oldt = Denemo.hovering_over_timesig;
- Denemo.hovering_over_brace = Denemo.hovering_over_margin = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
+ Denemo.hovering_over_brace = Denemo.hovering_over_margin_up = Denemo.hovering_over_margin_down = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
   if (event->x < gui->leftmargin)
     {
-       if (gui->braces && (gui->movement->leftmeasurenum == 1))
+       if (gui->braces && (gui->movement->leftmeasurenum == 1) && ((Denemo.hovering_over_brace =  ((gui->leftmargin - event->x) <  BRACEWIDTH * g_list_length (gui->braces)))))
+        ; //do nothing more hovering over brace is set
+        else
         {
-                gint width = BRACEWIDTH * g_list_length (gui->braces);
-                Denemo.hovering_over_brace = ((gui->leftmargin - event->x) < width);
-                Denemo.hovering_over_margin = !Denemo.hovering_over_brace;
+            gint offset = (gint) get_click_height (gui, event->y);
+            if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
+                Denemo.hovering_over_margin_up = TRUE;
+            else if (offset > 0 && (offset < STAFF_HEIGHT))
+                Denemo.hovering_over_margin_down = TRUE;
         }
-       else
-            Denemo.hovering_over_margin = TRUE;
     }
   else
      {
@@ -729,7 +732,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
            Denemo.hovering_over_timesig = TRUE;       
         }
     }
-  if ((oldm != Denemo.hovering_over_margin) 
+  if ((oldmu != Denemo.hovering_over_margin_up) 
+  || (oldmd != Denemo.hovering_over_margin_down)
   || (oldb != Denemo.hovering_over_brace)
   || (oldp != Denemo.hovering_over_partname)
   || (oldc != Denemo.hovering_over_clef)

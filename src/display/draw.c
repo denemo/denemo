@@ -80,7 +80,7 @@ create_tool_pixbuf (void)
 {
   GtkWidget *widget = gtk_button_new ();
   StaffPixbuf = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON, "denemo");
-  StaffPixbufSmall = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_MENU, "denemo");
+  StaffPixbufSmall = gtk_widget_render_icon (widget, GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON, "denemo");//something for highlighting!
   StaffGoBack = gtk_widget_render_icon (widget, GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON, "denemo");
   StaffGoForward = gtk_widget_render_icon (widget, GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON, "denemo");
 }
@@ -1033,21 +1033,26 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       if (!itp->line_end)
         {
           gint staffname_offset = (thestaff->voicecontrol & DENEMO_PRIMARY) ? 26 : 12;
-
+          gboolean color = (Denemo.hovering_over_partname && (si->currentstaffnum == itp->staffnum));
            if (si->leftmeasurenum == 1)//make a button of it if measure 1 is leftmost
              {
+             
+              cairo_save (cr);
+              cairo_set_source_rgb (cr, 0.8, color?1:0.8, 0.8);
+
+              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 1, 90, 15);
+              cairo_fill (cr);
+
+              
+              cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
+              if (color)
+                {
+                    cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 2, 90, 16);
+                    cairo_stroke (cr);
+                }
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ , y - staffname_offset + 10);
               if (thestaff->subpart)
                 drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20);
-              cairo_save (cr);
-              //cairo_set_source_rgba (cr, Denemo.hovering_over_partname?0:0.2, Denemo.hovering_over_partname?1:0.6, Denemo.hovering_over_partname?0:0.2, 0.4);
-              cairo_set_source_rgba (cr, Denemo.hovering_over_partname?0.3:0.8, Denemo.hovering_over_partname?1:0.8, Denemo.hovering_over_partname?0.3:0.8, 0.4);
-
-              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 90, 12);
-              cairo_fill (cr);
-              cairo_set_source_rgba (cr, 0.0, 0.8, 0.0, 1);
-              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 0, 90, 12);
-              cairo_stroke (cr);
               cairo_restore(cr);
              }
            else
@@ -1540,7 +1545,7 @@ draw_score (cairo_t * cr)
         continue;
       }
       itp.verse = verse_get_current_view (staff);
-      GdkPixbuf *StaffDirectivesPixbuf = (si->currentstaffnum == itp.staffnum) ? StaffPixbuf : StaffPixbufSmall;
+      GdkPixbuf *StaffDirectivesPixbuf = (Denemo.hovering_over_margin_up) ? StaffPixbuf : StaffPixbufSmall;
       if (si->currentstaffnum == itp.staffnum)
         y += staff_transition_offset ();
 
@@ -1560,48 +1565,35 @@ draw_score (cairo_t * cr)
       itp.in_highy = highy, itp.in_lowy = lowy;
       itp.highy = 0;            //do not pass on extra_space from one staff to the next
       if (flip_count <= 0)
-        if (cr)
+      if (cr)
           {
             cairo_save (cr);
-            {static gboolean phase;
-                if (Denemo.hovering_over_margin)
-                    cairo_set_source_rgb (cr, 0, 0.8, 0.1);
-                else 
-                    cairo_set_source_rgb (cr, 0.5, 0.5, 1.0);
-            }
-            cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT /*staff edit */ );
+            cairo_set_source_rgb (cr, 0.7, 0.7, 0.7);
+            cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT);
             cairo_fill (cr);
-            //cairo_restore (cr);
-
-
-            //  {
-
-                guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffDirectivesPixbuf));
-                guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffDirectivesPixbuf));
-              // cairo_save (cr);
-                gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffDirectivesPixbuf), 0, y);
-                cairo_rectangle (cr, 0, y, width, height);
-                cairo_fill (cr);
-
-                cairo_set_source_rgb (cr, 0, 0, 0);
-                cairo_rectangle (cr, 0, y, width, height);
-                cairo_stroke (cr);
-
-                cairo_set_source_rgb (cr, 0, 0, 0);
-                gint staffnumber = 1 + g_list_position (si->thescore,curstaff);
-                gchar *number = g_strdup_printf ("%d", staffnumber);
-                if(staffnumber>9)
-                    drawnormaltext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
-                else
-                    drawlargetext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
-                g_free (number);
-
-                cairo_restore (cr);
-
-           //  }
-
-
-
+            cairo_set_source_rgb (cr, 0.7, 1.0, 0.7);
+            if (Denemo.hovering_over_margin_up && (si->currentstaffnum == itp.staffnum))
+                cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT/2 /*staff edit */ ), cairo_fill (cr);
+            else if (Denemo.hovering_over_margin_down && (si->currentstaffnum == itp.staffnum))
+                cairo_rectangle (cr, 0, y + STAFF_HEIGHT/2, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT/2 /*staff edit */ ), cairo_fill (cr);;
+            
+           
+            
+            cairo_set_source_rgb (cr, 0, 0, 0);
+            if (Denemo.hovering_over_margin_up && (si->currentstaffnum == itp.staffnum))
+                cairo_rectangle (cr, 0, y, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT/2 /*staff edit */ ),cairo_stroke (cr);
+           else if (Denemo.hovering_over_margin_down && (si->currentstaffnum == itp.staffnum))
+                cairo_rectangle (cr, 0, y + STAFF_HEIGHT/2, 20/*BASIC LEFT_MARGIN*/, STAFF_HEIGHT/2 /*staff edit */ ), cairo_stroke (cr);
+            
+            gint staffnumber = 1 + g_list_position (si->thescore,curstaff);
+            gchar *number = g_strdup_printf ("%d", staffnumber);
+            if(staffnumber>9)
+                drawnormaltext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
+            else
+                drawlargetext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
+            g_free (number);
+            drawnormaltext_cr (cr, "⚐", 5, y + STAFF_HEIGHT/2 - 6);
+            cairo_restore (cr);
 
             if (si->leftmeasurenum == 1 && !(staff->voicecontrol & DENEMO_SECONDARY))
               {
@@ -1611,7 +1603,8 @@ draw_score (cairo_t * cr)
                 cairo_save (cr);
 
                 cairo_set_source_rgb (cr, 0.7, Denemo.hovering_over_clef?1.0:0.7, 0.7);
-                cairo_rectangle (cr, gui->leftmargin, y, (gui->leftmargin+35) - gui->leftmargin - cmajor, STAFF_HEIGHT);  /*clef edit */
+                if (si->currentstaffnum == itp.staffnum)
+                    cairo_rectangle (cr, gui->leftmargin, y, (gui->leftmargin+35) - gui->leftmargin - cmajor, STAFF_HEIGHT);  /*clef edit */
                 cairo_fill (cr);
                 
                 cairo_set_source_rgb (cr, 0.7, Denemo.hovering_over_timesig?1.0:0.7, 0.7);
