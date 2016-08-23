@@ -1040,24 +1040,24 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
               cairo_save (cr);
               cairo_set_source_rgb (cr, 0.8, color?1:0.8, 0.8);
 
-              cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 1, 90, 15);
+              cairo_rectangle (cr, gui->leftmargin + 2, y - staffname_offset - 1, 90, 15);
               cairo_fill (cr);
 
               
               cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
               if (color)
                 {
-                    cairo_rectangle (cr, gui->leftmargin, y - staffname_offset - 2, 90, 16);
+                    cairo_rectangle (cr, gui->leftmargin + 2, y - staffname_offset - 2, 90, 16);
                     cairo_stroke (cr);
                 }
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ , y - staffname_offset + 10);
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
               if (thestaff->subpart)
                 drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20);
               cairo_restore(cr);
              }
            else
              {
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 10);
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
               if (thestaff->subpart)
                 drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 20);
              }

@@ -1439,9 +1439,9 @@
                 (cons  (string-append (_ "Unmute Staff") " " num) 'mute))
             (if (d-Directive-staff? "NonPrintingStaff")
                 (cons  (string-append (_ "(Print) Show Staff") " " num) 'show)
-                (cons  (string-append (_ "(Print) Hide Staff") " " num) 'show)))))
+                (cons  (string-append (_ "(Print) Hide Staff") " " num) 'show))
+                (cons (_ "Built-in Staff Properties") 'editor))))
         (case choice
             ((mute) (d-MuteStaff))
             ((show) (d-NonPrintingStaff))
-            ((editor) (d-EditStaffProperties))
-            (else (d-WarningDialog (_ "Cancelled"))))))               
+            ((editor) (d-StaffProperties)))))
