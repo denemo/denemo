@@ -501,8 +501,12 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     return FALSE;
   if (Denemo.scorearea == NULL)
     return FALSE;
-  if (selecting && lh_down && !Denemo.project->movement->markstaffnum)
-    selecting = lh_down = 0; //bizarrely, when calling up staff_properties_dialog_cb from mouse click on part name this combination is triggered - it presents an interesting "cursor follow the pointer" mode, which we don't normally have...
+    
+  // this would avoid an interesting "cursor follow the pointer" mode, which we don't use because you would not be able to move the mouse pointer away e.g. to choose a menu without the Denemo Cursor moving...
+  //if (selecting && lh_down && !Denemo.project->movement->markstaffnum)
+  // selecting = lh_down = 0; 
+  // it should never happen, so we don't need to guard against it.
+  
   gint allocated_height = get_widget_height (Denemo.scorearea);
   gint line_height = allocated_height * gui->movement->system_height;
   if(dragging_outside)
@@ -927,8 +931,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                 if (Denemo.prefs.learning)
                 MouseGestureShow(_("Left on Part name."), _("This pops up the built-in staff properties. For other properties of the current staff see the staff menu or the tools icon before the clef."),
                   MouseGesture);
-                  selecting = gui->movement->markstaffnum = 1;//lh_down = 1;
                 staff_properties_change_cb (NULL, NULL);
+                return TRUE;
             }
         else
         {
