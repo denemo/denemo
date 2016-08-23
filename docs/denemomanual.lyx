@@ -1136,16 +1136,6 @@ When a file is loaded it opens at the point where you left off editing it.
 
 \begin_layout Section
 Denemo Main Window
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(Need new screenshots)
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Standard
@@ -1184,9 +1174,9 @@ The main window has menus and toolbars at the top, and palettes at top and/or
  right hand side.
  Which menus and palettes are shown are selected via the View menu.
  At the bottom is a status line showing which movement you are in and what
- sort of object the cursor is on.
- If there are any MIDI filters that active they will be noted at the right
- in the status bar.
+ sort of object the Denemo Cursor is on.
+ If there are any MIDI filters active or other messages they will be noted
+ at the right in the status bar.
  
 \end_layout
 
@@ -1206,6 +1196,14 @@ You can hide staffs in the display if needed using the Staffs->Display Effects
  If you need more room you can hide the menus (using the View Menu, shortcut
  Esc key), and arrange a "page view" of the input music - useful when using
  playback.
+\end_layout
+
+\begin_layout Standard
+At the start of each staff are the staff tools: the flag icon lets you set
+ whether the staff will be muted or non-printing and various other properties
+ set on the staff; below that the staff number can be clicked to edit the
+ Denemo Directives which you have installed on the staff.
+ All these are available from the Staff/Voices menu.
 \end_layout
 
 \begin_layout Subsection

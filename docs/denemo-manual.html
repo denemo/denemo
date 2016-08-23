@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-07-03"/>
+<meta name="create-date" content="2016-08-23"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -998,7 +998,7 @@ When a file is loaded it opens at the point where you left off editing it. The p
 <div class="caption">
 Figure 1 Denemo Main Window
 </div>
-<img class="figure" src="images/denemomain.png" alt="figure images/denemomain.png" style="max-width: 1224px; max-height: 675px;"/>
+<img class="figure" src="images/denemomain.png" alt="figure images/denemomain.png" style="max-width: 1014px; max-height: 614px;"/>
 
 </div>
 
@@ -1006,13 +1006,16 @@ Figure 1 Denemo Main Window
 
 </div>
 <div class="Indented">
-The main window has menus and toolbars at the top, and palettes at top and/or right hand side. Which menus and palettes are shown are selected via the View menu. At the bottom is a status line showing which movement you are in and what sort of object the cursor is on. If there are any MIDI filters that active they will be noted at the right in the status bar. 
+The main window has menus and toolbars at the top, and palettes at top and/or right hand side. Which menus and palettes are shown are selected via the View menu. At the bottom is a status line showing which movement you are in and what sort of object the Denemo Cursor is on. If there are any MIDI filters active or other messages they will be noted at the right in the status bar. 
 </div>
 <div class="Indented">
 In between is where the music input is displayed, the Denemo Display area. When zoomed out you see just the few measures you are working on. By dragging the red bar at the bottom of the score upwards you get space for more of the music. If you have many staffs they may not all fit: you can still scroll the display to see several lines of just one or two staffs for instance. 
 </div>
 <div class="Indented">
 You can hide staffs in the display if needed using the Staffs-&gt;Display Effects menu. If you need more room you can hide the menus (using the View Menu, shortcut Esc key), and arrange a "page view" of the input music - useful when using playback.
+</div>
+<div class="Indented">
+At the start of each staff are the staff tools: the flag icon lets you set whether the staff will be muted or non-printing and various other properties set on the staff; below that the staff number can be clicked to edit the Denemo Directives which you have installed on the staff. All these are available from the Staff/Voices menu.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.1">3.1</a> The Denemo Display<a class="IndexReference" name="entry-Denemo-Display-0" href="#index-Denemo-Display">↓</a> 
@@ -3172,10 +3175,10 @@ default")
 </span>
 </div>
 <div class="Indented">
-which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra backslashes are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. The you can save as a new menu item, a palette button, or use Save Script from Scheme Window to customize the command you started with.
+which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra backslashes are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need - always doubling the \ signs. Then you can save as a new menu item, a palette button, or use Save Script from Scheme Window to customize the command you started with.
 </div>
 <div class="Indented">
-More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined.
+More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined (see the files actions/denemo.scm and actions/denemo-modules/*.scm for more).
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-25.1">25.1</a> Commands Getting User Input
@@ -3195,9 +3198,6 @@ GetCommand returns a string containing the command name for the user’s keypres
 </li>
 <li>
 GetCommandFromUser
-</li>
-<li>
-GetUserInput takes three strings, displays and returns the user’s response as a string.
 </li>
 <li>
 RadioBoxMenu takes an arbitrary number of arguments, each argument is a pair, presents a menu of the first items in the pairs and returns the second item as chosen.
@@ -3359,7 +3359,7 @@ The parameters are either a string (script) which will be evaluated after moving
 (EditStaffDirective tag) 
 </li>
 <li>
-(ToggleDirective type field tag content . overrides) ; four strings and an arbitrary number of tags (numbers) for overrides.
+(ToggleDirective type field tag content . overrides) ; four strings and an arbitrary number of flags (numbers) for override field.
 </li>
 <li>
 (d-DirectivePut-standalone tag)
@@ -5437,7 +5437,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-07-03T08:45:58.816576</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-08-23T18:06:39.665481</span>
 </div>
 </div>
 </body>
