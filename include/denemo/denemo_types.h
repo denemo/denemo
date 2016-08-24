@@ -1195,6 +1195,7 @@ struct DenemoRoot
   gboolean hovering_over_timesig;
   gboolean hovering_over_keysharpen;
   gboolean hovering_over_keyflatten;
+  GList *hidden_staff_heights; /**< list of y positions of markers in display for hidden staff positions */
   keymap *map; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   gchar *last_merged_command;/**<filename of last command merged into the menu system */
   gint last_keyval, last_keystate;/**< most recent keypress which successfully invoked a command */
