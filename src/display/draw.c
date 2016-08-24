@@ -1064,8 +1064,8 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
             if(thestaff->hasfakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
             if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
             { cairo_save (cr);
-              cairo_set_source_rgb (cr, 1, 0.4, 0.4);
-              if(thestaff->hidden)  drawlargetext_cr (cr, _("Hidden when not the current staff."), gui->leftmargin +55, y - staffname_offset + 5 + 2 * STAFF_HEIGHT);
+              cairo_set_source_rgba (cr, 0.1, 0.6, 0.1, 0.5);
+              if(thestaff->hidden)  drawnormaltext_cr (cr, _("Hidden when not the current staff."), gui->leftmargin +55, y - staffname_offset - 5 + 2 * STAFF_HEIGHT);
               cairo_restore(cr);
             }
         }
@@ -1517,37 +1517,46 @@ draw_score (cairo_t * cr)
       g_slist_free (itp.hairpin_stack);//clear any cresc or dim started but not finished; these can just be off-screen, they need not be in error.
       itp.hairpin_stack = NULL;
       if(cr) if (staff->hidden && (si->currentstaffnum != itp.staffnum))
-      {
-
-
-        cairo_save (cr);
-        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 0.6);
-
-        if (itp.staffnum == si->top_staff)
+          {
+            static GString *hidden_text;
+            if (hidden_text == NULL) 
+                hidden_text = g_string_new (_("Hidden "));
+            static gint height;
+            gint top_height = 10; //height to put line indicating hidden staff when it is the top staff
+            if (height == 0)
+                height = (itp.staffnum == si->top_staff)? top_height :y - 35;
+            Denemo.hidden_staff_heights = g_list_append (Denemo.hidden_staff_heights, GINT_TO_POINTER (height));   
+            g_string_append_printf (hidden_text, "%s ", staff->denemo_name->str);
             {
-                Denemo.hidden_staff_heights = g_list_append (Denemo.hidden_staff_heights, GINT_TO_POINTER (5));
-                cairo_rectangle (cr, 200, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
-                cairo_fill (cr);
-                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
-                gchar *text = g_strdup_printf ("%s (%s)", staff->denemo_name->str, _( "Hidden"));
-                drawnormaltext_cr (cr, text, 80, 10);
-                g_free (text);
-            }
-        else {
-                gint height = y - 35;
-                Denemo.hidden_staff_heights = g_list_append (Denemo.hidden_staff_heights, GINT_TO_POINTER (height));
-                cairo_rectangle (cr, 20, height, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
-                cairo_fill (cr);
-                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
-                drawlargetext_cr (cr, staff->denemo_name->str,  80, itp.staffnum == si->top_staff? 15 : y - 35);
-                drawlargetext_cr (cr, _("Hidden"), 80, y - 10);
-            }
-
-
-
-        cairo_restore (cr);
-        continue;
-      }
+                DenemoStaff *nextstaff = curstaff->next ? ((DenemoStaff *) curstaff->next->data) : NULL;
+                if ((nextstaff==NULL) || ((!nextstaff->hidden) || (si->currentstaffnum == (1 + itp.staffnum))))
+                    {
+                        cairo_save (cr);
+                        cairo_set_source_rgba (cr, 0.0, 0.5, 0.5, 0.6);
+                        
+                        if (height == top_height) //the top and possibly other staffs are hidden
+                            {
+                                cairo_rectangle (cr, 300, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
+                                cairo_fill (cr);
+                                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
+                                drawnormaltext_cr (cr, hidden_text->str, 120, height);
+                                
+                            }
+                        else 
+                            {
+                                cairo_rectangle (cr, 20, height, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
+                                cairo_fill (cr);
+                                cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
+                                drawlargetext_cr (cr,hidden_text->str,  80, y - 35);
+                               // drawlargetext_cr (cr, _("Hidden"), 80, y - 10);
+                            }
+                       g_string_assign (hidden_text, _("Hidden "));
+                       height = 0;
+                       cairo_restore (cr);
+                    }
+                }
+            continue;
+          }
       itp.verse = verse_get_current_view (staff);
       GdkPixbuf *StaffDirectivesPixbuf = (Denemo.hovering_over_margin_up) ? StaffPixbuf : StaffPixbufSmall;
       if (si->currentstaffnum == itp.staffnum)
