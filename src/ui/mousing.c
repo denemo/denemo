@@ -751,6 +751,17 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   return TRUE;
 }
 
+static gint is_nearby (gint line_height, gint y) {
+    return !(abs (line_height-y) <4);
+    
+}
+static gint hidden_staff_line (gint line_height)
+    {
+        GList *found = g_list_find_custom (Denemo.hidden_staff_heights, GINT_TO_POINTER(line_height), (GCompareFunc)is_nearby);// if(found)g_print ("found %d for line height %d hidden line %d\t", found->data, line_height,1 + g_list_position (Denemo.hidden_staff_heights, found));
+        if (found)
+            return 1 + g_list_position (Denemo.hidden_staff_heights, found);
+        else return 0;
+    }
 
 /**
  * Mouse button press callback
@@ -831,12 +842,50 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   struct placement_info pi;
   pi.the_staff = NULL;
+  
+  {
+      gint theline = hidden_staff_line ((gint)(0.5 + event->y));
+      if (theline)
+        {
+            GList *this = gui->movement->thescore;
+            gint count = 0;
+            gint staffnum = 0;
+            while (this)
+                {
+                    DenemoStaff *thestaff = (DenemoStaff*)this->data;
+                    if (thestaff->hidden && (this != gui->movement->currentstaff))
+                        {
+                            count++;
+                            if (count == theline)
+                                {
+                                    staffnum = 1 + g_list_position (gui->movement->thescore, this); //g_print ("Looked for hidden line %d got staffnum %d\n", theline, staffnum);
+                                    break;
+                                }
+                        }
+                if (this)
+                    this = this->next;
+                }
+        //staffnum is the first of the hidden staffs belonging to the line theline 
+        
+        goto_movement_staff_obj (NULL, -1, staffnum, gui->movement->currentmeasurenum, 0, gui->lefts[line_num]);    
+        return TRUE;
+        
+        }
+         
+        
+  }
+    
+  
+  
   if (event->y < 0)
     get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
   else
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
   if (pi.the_staff == NULL)
     return TRUE;                //could not place the cursor
+    
+    
+    
   change_staff (gui->movement, pi.staff_number, pi.the_staff);
 
 

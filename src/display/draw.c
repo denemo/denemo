@@ -1405,6 +1405,8 @@ draw_score (cairo_t * cr)
   itp.currentframe = (get_playback_time()/get_playback_speed())*(si->recording?si->recording->samplerate:SAMPLERATE);
   itp.allow_duration_error = FALSE;
 
+  if (Denemo.hidden_staff_heights)  g_list_free (Denemo.hidden_staff_heights);
+  Denemo.hidden_staff_heights = NULL;
   if (gui->movement->smf)
     {
       itp.startobj = Startobj;
@@ -1523,7 +1525,7 @@ draw_score (cairo_t * cr)
 
         if (itp.staffnum == si->top_staff)
             {
-                //cairo_rectangle (cr, 0, 5, 50, 3);
+                Denemo.hidden_staff_heights = g_list_append (Denemo.hidden_staff_heights, GINT_TO_POINTER (5));
                 cairo_rectangle (cr, 200, 5, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
                 cairo_fill (cr);
                 cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
@@ -1532,7 +1534,9 @@ draw_score (cairo_t * cr)
                 g_free (text);
             }
         else {
-                cairo_rectangle (cr, 20, y - 35, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
+                gint height = y - 35;
+                Denemo.hidden_staff_heights = g_list_append (Denemo.hidden_staff_heights, GINT_TO_POINTER (height));
+                cairo_rectangle (cr, 20, height, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
                 cairo_fill (cr);
                 cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
                 drawlargetext_cr (cr, staff->denemo_name->str,  80, itp.staffnum == si->top_staff? 15 : y - 35);
