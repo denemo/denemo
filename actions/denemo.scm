@@ -1449,5 +1449,13 @@
         (case choice
             ((mute) (d-MuteStaff))
             ((show) (d-NonPrintingStaff))
-            ((display)        (d-ToggleCurrentStaffDisplay))
+            ((display) (d-ToggleCurrentStaffDisplay))
             ((editor) (d-StaffProperties)))))
+;;;
+(define (StaffsVisibility bool)
+(d-PushPosition)
+(while (d-MoveToStaffUp))
+(let loop () (d-StaffHidden (not bool))
+    (if (d-MoveToStaffDown) 
+        (loop)))
+(d-PopPosition))      

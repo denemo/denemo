@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AllStaffsHidden</action>
+        <_label>Hide All Staffs</_label>
+        <_tooltip>Makes all the staffs hidden in the display except for the one with the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

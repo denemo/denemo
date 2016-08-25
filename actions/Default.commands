@@ -4508,8 +4508,8 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>MarkupAtEnd</action>
-        <after>MovementPageBreak</after>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <after>InsertSpaceBeforeMovement</after>
+        <menupath>/ObjectMenu/MovementMenu/Titles</menupath>
         <_label>Text after Movement</_label>
         <_tooltip>Inserts the given Lilypond syntax after the current movement.</_tooltip>
       </row>
@@ -4606,10 +4606,9 @@ accidentals are usually printed over the note.</_tooltip>
       </row>
       <row type="scheme">
         <action>SetMovementTempo</action>
-        <after>SwapMovements</after>
-        <menupath>/ObjectMenu/MovementMenu</menupath>
-        <_label>MIDI Tempo</_label>
-        <_tooltip>Sets the (initial) tempo in quarter notes per minute.</_tooltip>
+        <menupath>/ObjectMenu/MovementMenu/Playback</menupath>
+        <_label>Initial Tempo</_label>
+        <_tooltip>Sets the (initial) playback tempo in quarter notes per minute.</_tooltip>
       </row>
       <row type="scheme">
         <action>Major7Minor7OrDominant7</action>
@@ -7952,6 +7951,18 @@ transcribing mensural music notation.</_tooltip>
         <_label>End Ligature</_label>
         <_tooltip>End drawing a square bracket above the notes. Must be preceded by a
 Start Ligature earlier in the same staff.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>AllStaffsHidden</action>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
+        <_label>Hide All Staffs</_label>
+        <_tooltip>Makes all the staffs hidden in the display except for the one with the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>AllStaffsVisible</action>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
+        <_label>Show All Staffs</_label>
+        <_tooltip>Makes all the staffs visible in the display.</_tooltip>
       </row>
     </map>
   </merge>

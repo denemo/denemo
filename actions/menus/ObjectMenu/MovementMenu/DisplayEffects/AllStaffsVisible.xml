@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AllStaffsVisible</action>
+        <_label>Show All Staffs</_label>
+        <_tooltip>Makes all the staffs visible in the display.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

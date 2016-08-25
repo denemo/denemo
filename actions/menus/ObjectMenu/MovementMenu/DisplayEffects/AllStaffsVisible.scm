@@ -1,0 +1,2 @@
+;;;AllStaffsHidden
+(StaffsVisibility #t)
