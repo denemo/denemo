@@ -1052,14 +1052,14 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
                 }
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
               if (thestaff->subpart)
-                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 20);
+                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 24);
               cairo_restore(cr);
              }
            else
              {
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
               if (thestaff->subpart)
-                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 20);
+                drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 24);
              }
             if(thestaff->hasfakechords)  drawnormaltext_cr (cr, _("Chord Symbols"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
             if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
