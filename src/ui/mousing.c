@@ -682,6 +682,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     }
     
  {
+ gboolean oldm = Denemo.hovering_over_movement;   
  gboolean oldmu = Denemo.hovering_over_margin_up;   
  gboolean oldmd = Denemo.hovering_over_margin_down;   
  gboolean oldb = Denemo.hovering_over_brace;
@@ -690,49 +691,70 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
  gboolean oldks = Denemo.hovering_over_keysharpen;
  gboolean oldkf = Denemo.hovering_over_keyflatten;
  gboolean oldt = Denemo.hovering_over_timesig;
- Denemo.hovering_over_brace = Denemo.hovering_over_margin_up = Denemo.hovering_over_margin_down = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
-  if (event->x < gui->leftmargin)
-    {
-       if (gui->braces && (gui->movement->leftmeasurenum == 1) && ((Denemo.hovering_over_brace =  ((gui->leftmargin - event->x) <  BRACEWIDTH * g_list_length (gui->braces)))))
-        ; //do nothing more hovering over brace is set
-        else
+ Denemo.hovering_over_movement = FALSE;
+
+ 
+ Denemo.hovering_over_movement = Denemo.hovering_over_brace = Denemo.hovering_over_margin_up = Denemo.hovering_over_margin_down = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
+
+ if (event->x<25 && event->y<25)
+      {
+            Denemo.hovering_over_movement = TRUE;
+      }
+ else {
+      if (event->x < gui->leftmargin)
         {
-            gint offset = (gint) get_click_height (gui, event->y);
-            if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
-                Denemo.hovering_over_margin_up = TRUE;
-            else if (offset > 0 && (offset < STAFF_HEIGHT))
-                Denemo.hovering_over_margin_down = TRUE;
-        }
-    }
-  else
-     {
-        gint key = gui->movement->maxkeywidth;
-        gint cmajor = key ? 0 : 5;   
-       
-        if (((gint) get_click_height (gui, event->y)<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
-             {       
-                 Denemo.hovering_over_partname = TRUE;
-                 
-             }
-        else  { 
-       
-        if (event->x < (gui->leftmargin+35) - cmajor)
+           if (gui->braces && (gui->movement->leftmeasurenum == 1) && ((Denemo.hovering_over_brace =  ((gui->leftmargin - event->x) <  BRACEWIDTH * g_list_length (gui->braces)))))
+            ; //do nothing more hovering over brace is set
+            else
             {
-                Denemo.hovering_over_clef = TRUE;
+                gint offset = (gint) get_click_height (gui, event->y);
+                if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
+                    Denemo.hovering_over_margin_up = TRUE;
+                else if (offset > 0 && (offset < STAFF_HEIGHT))
+                    Denemo.hovering_over_margin_down = TRUE;
             }
-        else if (event->x < (gui->leftmargin+35) + key + cmajor)   
-           {
-               gint offset = (gint) get_click_height (gui, event->y);
-               if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
-                    Denemo.hovering_over_keysharpen = TRUE;
-               else if (offset > 0 && (offset < STAFF_HEIGHT))
-                    Denemo.hovering_over_keyflatten = TRUE;
-            }
-        else if (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)
-           Denemo.hovering_over_timesig = TRUE;       
+        }
+      else
+         {
+            gint key = gui->movement->maxkeywidth;
+            gint cmajor = key ? 0 : 5;   
+           
+            if (((gint) get_click_height (gui, event->y)<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
+                 {   
+                    struct placement_info pi;
+                    pi.the_staff = NULL;
+                    if (event->y < 0)
+                        get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+                    else
+                        get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+
+                    if (pi.the_staff == NULL)
+                        return TRUE;  
+                    if (gui->movement->currentstaffnum == pi.staff_number)    
+                             Denemo.hovering_over_partname = TRUE;
+                 }
+            else  
+                { 
+           
+                if (event->x < (gui->leftmargin+35) - cmajor)
+                    {
+                        Denemo.hovering_over_clef = TRUE;
+                    }
+                else if (event->x < (gui->leftmargin+35) + key + cmajor)   
+                   {
+                       gint offset = (gint) get_click_height (gui, event->y);
+                       if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
+                            Denemo.hovering_over_keysharpen = TRUE;
+                       else if (offset > 0 && (offset < STAFF_HEIGHT))
+                            Denemo.hovering_over_keyflatten = TRUE;
+                    }
+                else if (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key)
+                   Denemo.hovering_over_timesig = TRUE;       
+                }
         }
     }
-  if ((oldmu != Denemo.hovering_over_margin_up) 
+  if ((oldm != Denemo.hovering_over_movement) 
+  || (oldmu != Denemo.hovering_over_margin_up) 
   || (oldmd != Denemo.hovering_over_margin_down)
   || (oldb != Denemo.hovering_over_brace)
   || (oldp != Denemo.hovering_over_partname)
@@ -831,6 +853,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   //g_debug("before %f %f\n", event->x, event->y);
   transform_coords (&event->x, &event->y);
   //g_debug("after %f %f\n", event->x, event->y);
+
+    if (Denemo.hovering_over_movement)
+        {
+          call_out_to_guile ("(EditMovement)");  
+          return TRUE;
+        }
 
 
   gtk_widget_grab_focus (widget);

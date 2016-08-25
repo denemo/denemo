@@ -1040,14 +1040,14 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
               cairo_save (cr);
               cairo_set_source_rgb (cr, 0.8, color?1:0.8, 0.8);
 
-              cairo_rectangle (cr, gui->leftmargin + 2, y - staffname_offset - 1, 90, 15);
+              cairo_rectangle (cr, gui->leftmargin + 5, y - staffname_offset - 1, 90, 15);
               cairo_fill (cr);
 
               
               cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
               if (color)
                 {
-                    cairo_rectangle (cr, gui->leftmargin + 2, y - staffname_offset - 2, 90, 16);
+                    cairo_rectangle (cr, gui->leftmargin + 5, y - staffname_offset - 2, 90, 16);
                     cairo_stroke (cr);
                 }
               drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
@@ -1425,6 +1425,22 @@ draw_score (cairo_t * cr)
     cairo_scale (cr, gui->movement->zoom, gui->movement->zoom);
   if (cr)
     cairo_translate (cr, 0.5, 0.5);
+    /*draw a flag in the corner for accessing whole-movement settings */
+ if (cr)
+        {
+         if (Denemo.hovering_over_movement)
+                {
+                    cairo_set_source_rgb (cr, 0.7, 1.0, 0.7);
+                    cairo_rectangle (cr, 0, 0, 25, 25);
+                    cairo_fill (cr);
+                }
+            cairo_set_source_rgb (cr, 0, 0, 0);
+            cairo_rectangle (cr, 0, 0, 25, 25);
+            cairo_stroke (cr);
+ 
+            drawlargetext_cr (cr, "⚐", 2, 20);
+
+        }
 
  if (cr && (si->leftmeasurenum == 1))
   {

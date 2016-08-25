@@ -1451,6 +1451,18 @@
             ((show) (d-NonPrintingStaff))
             ((display) (d-ToggleCurrentStaffDisplay))
             ((editor) (d-StaffProperties)))))
+;;;;edit staff, called from tools icon at start of staff
+(define (EditMovement)
+        (let* ((choice (RadioBoxMenu 
+            (cons (_ "Mute Staffs") 'mute)
+            (cons (_ "(Print) Show All Staffs") 'show)
+            (cons (_ "(Print) Hide All Staffs") 'hide)
+            (cons (_ "Movement Editor") 'editor))))
+        (case choice
+            ((mute) (d-MuteStaffs))
+            ((show) (StaffsVisibility #t))
+            ((hide)  (StaffsVisibility #f))
+            ((editor) (d-EditMovementProperties)))))
 ;;;
 (define (StaffsVisibility bool)
 (d-PushPosition)
