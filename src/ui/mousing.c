@@ -450,6 +450,7 @@ static void extend_selection (DragDirection direction)
 gint
 scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 {
+    Denemo.object_hovering_over = NULL;
     gint allocated_height = get_widget_height (Denemo.scorearea);
     gint allocated_width = get_widget_width (Denemo.scorearea);
   if (event->state & GDK_BUTTON1_MASK)
@@ -764,6 +765,15 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   || (oldkf != Denemo.hovering_over_keyflatten))
     gtk_widget_queue_draw(Denemo.scorearea);
  }
+
+
+  struct placement_info pi;
+   if (event->y < 0)
+    get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+  else
+    get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+  Denemo.object_hovering_over = pi.the_obj;
+ 
 
   if (Denemo.project->midi_destination & MIDICONDUCT)
     {

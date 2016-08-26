@@ -267,6 +267,22 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         cairo_fill (cr);
         cairo_restore (cr);
       }
+  if (cr) //this is the hovered over object being given a colored background
+    if ((Denemo.object_hovering_over==curobj) && (si->currentobject != curobj))
+      {
+        cairo_save (cr);
+        
+        cairo_set_source_rgba (cr, 0.5, 0.5, 0.9, 0.3);
+        cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, mudelaitem->minpixelsalloted, 0.0, 2 * M_PI);
+        cairo_fill (cr);
+        cairo_set_source_rgba (cr, 0.2, 0.2, 0.9, 1);
+        cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, mudelaitem->minpixelsalloted, 0.0, 2 * M_PI);
+        cairo_stroke (cr);
+          
+        
+        cairo_restore (cr);
+      }
+  
 
 
 // if (Denemo.project->movement->playingnow)
