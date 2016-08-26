@@ -33,6 +33,13 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
     {
       cairo_rectangle (cr, xx - (si->cursoroffend ? CURSOR_WIDTH : 0), height + y - CURSOR_HEIGHT, 2 * CURSOR_WIDTH, 2 * CURSOR_HEIGHT);
       cairo_fill (cr);
+      
+      cairo_set_source_rgba (cr, 0, 0, 0,1);
+      cairo_rectangle (cr, xx - (si->cursoroffend ? CURSOR_WIDTH : 0), height + y - CURSOR_HEIGHT, 2 * CURSOR_WIDTH, 2 * CURSOR_HEIGHT);
+      cairo_stroke (cr);
+    
+      
+      
     }
   else if (minpixels)
     {
@@ -51,6 +58,13 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
     {
       cairo_rectangle (cr, xx - CURSOR_WIDTH / 2, height + y - CURSOR_MINUS - CURSOR_HEIGHT / 2, 2 * CURSOR_WIDTH, 2 * CURSOR_HEIGHT);
       cairo_fill (cr);
+      
+      
+      cairo_set_source_rgba (cr, 0, 0, 0,1);
+      cairo_rectangle (cr, xx - CURSOR_WIDTH / 2, height + y - CURSOR_MINUS - CURSOR_HEIGHT / 2, 2 * CURSOR_WIDTH, 2 * CURSOR_HEIGHT);
+      cairo_stroke (cr);
+      
+      
     }
 
 
