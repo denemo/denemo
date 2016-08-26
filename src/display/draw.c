@@ -32,7 +32,7 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 #define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
-static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall, *StaffGoBack, *StaffGoForward;
+static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall;
 static DenemoObject *Startobj, *Endobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
@@ -81,8 +81,7 @@ create_tool_pixbuf (void)
   GtkWidget *widget = gtk_button_new ();
   StaffPixbuf = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON, "denemo");
   StaffPixbufSmall = gtk_widget_render_icon (widget, GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON, "denemo");//something for highlighting!
-  StaffGoBack = gtk_widget_render_icon (widget, GTK_STOCK_GO_BACK, GTK_ICON_SIZE_BUTTON, "denemo");
-  StaffGoForward = gtk_widget_render_icon (widget, GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON, "denemo");
+  
 }
 
 
@@ -1015,18 +1014,17 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
             draw_timesig (cr, x + 5, y, itp->time1, itp->time2, thestaff->leftmost_timesig);
           else
             {
-              guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffGoBack));
-              guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffGoBack));
               cairo_save (cr);
               if (Denemo.hovering_over_left_arrow)
                 {
+                    cairo_rectangle (cr, x, y, 30, 40);
+                    cairo_stroke (cr);
                     cairo_set_source_rgb (cr, 0.7, 1.0, 0.7);
-                    cairo_rectangle (cr, x, y, width+20, height+20);
+                    cairo_rectangle (cr, x, y, 30, 40);
                     cairo_fill (cr);
                 }
-                gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffGoBack), x, y);
-              cairo_rectangle (cr, x, y, width, height);
-              cairo_fill (cr);
+              cairo_set_source_rgb (cr, 0, 0, 0);
+              drawtext_cr  (cr, "<", x, y + 30, 42.0);
               cairo_restore (cr);
             }
         }
@@ -1254,20 +1252,19 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       if (itp->measurenum > si->rightmeasurenum)
         if (!itp->end)
           {
-            guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffGoForward));
-            guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffGoForward));
-            cairo_save (cr);
-            gint xx = get_widget_width (Denemo.scorearea) / gui->movement->zoom - width;
-            if (Denemo.hovering_over_right_arrow)
+             cairo_save (cr);
+             gint xx = get_widget_width (Denemo.scorearea) / gui->movement->zoom - 20;
+              if (Denemo.hovering_over_right_arrow)
                 {
+                    cairo_rectangle (cr, xx, y, 30, 40);
+                    cairo_stroke (cr);
                     cairo_set_source_rgb (cr, 0.7, 1.0, 0.7);
-                    cairo_rectangle (cr, xx, y, width+20, height+20);
+                    cairo_rectangle (cr, xx, y, 30, 40);
                     cairo_fill (cr);
                 }
-            gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffGoForward), xx, y);
-            cairo_rectangle (cr, xx, y, width, height);
-            cairo_fill (cr);
-            cairo_restore (cr);
+              cairo_set_source_rgb (cr, 0, 0, 0);
+              drawtext_cr  (cr, ">", xx, y + 30, 42.0);
+              cairo_restore (cr);
           }
 
   if (cr)
