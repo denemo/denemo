@@ -817,6 +817,10 @@ s may vary, for control, shift, alt etc modifiers).
 \end_layout
 
 \begin_layout Itemize
+Left-button click moves the cursor to the object indicated by the blue circle.
+\end_layout
+
+\begin_layout Itemize
 Scroll Wheel pans up/down to bring staffs out of view into the window.
 \end_layout
 
@@ -873,8 +877,6 @@ Ctrl-Shift
 \family default
  Key and Right mouse button gives the menu of directives to insert at the
  cursor.
-\backslash
-
 \end_layout
 
 \begin_layout Subsection

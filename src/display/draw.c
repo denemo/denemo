@@ -267,11 +267,20 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         cairo_fill (cr);
         cairo_restore (cr);
       }
-  if (cr) //this is the hovered over object being given a colored background
-    if ((Denemo.object_hovering_over==curobj) && (si->currentobject != curobj))
+  if (cr && (!Denemo.hovering_over_margin_up)
+         && (!Denemo.hovering_over_margin_down)
+         && (!Denemo.hovering_over_partname)
+         && (!Denemo.hovering_over_clef)
+         && (!Denemo.hovering_over_timesig)
+         && (!Denemo.hovering_over_keysharpen)
+         && (!Denemo.hovering_over_keyflatten)
+         && (!Denemo.hovering_over_movement)
+         && (!Denemo.hovering_over_right_arrow) 
+         && (!Denemo.hovering_over_left_arrow)) //this is the hovered over object being given a colored background
+    if ((Denemo.object_hovering_over==curobj) && ((si->currentobject != curobj) || ((si->currentobject == curobj) && si->cursor_appending)))
       {
         cairo_save (cr);
-        
+  // if curobj->next is NULL then we may be hovering over the barline we need to detect this in mousing.c and set object_hovering_over to a dummy barline object???, then draw here     
         cairo_set_source_rgba (cr, 0.5, 0.5, 0.9, 0.3);
         cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, mudelaitem->minpixelsalloted, 0.0, 2 * M_PI);
         cairo_fill (cr);
@@ -284,15 +293,6 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       }
   
 
-
-// if (Denemo.project->movement->playingnow)
- //   g_print("%p %p %f %f %f\n", Denemo.project->movement->playingnow, mudelaitem, Denemo.project->movement->playhead,  mudelaitem->earliest_time, mudelaitem->latest_time );
-
-  // draw playhead as (yellowish now) blue background
- //if (Denemo.project->movement->playingnow == mudelaitem)
-//  if (Denemo.project->movement->playingnow && (Denemo.project->movement->playhead >= mudelaitem->earliest_time) &&
-//        (Denemo.project->movement->playhead < mudelaitem->latest_time)) falls through a gap!!!!
-//  if (Denemo.project->movement->playingnow && (Denemo.project->movement->playhead >= mudelaitem->earliest_time))
     if(Denemo.project->movement->playingnow && itp->highlight_next_note && (((Denemo.project->movement->playhead < mudelaitem->latest_time))))
         {
             itp->highlight_next_note = FALSE;
@@ -1018,7 +1018,13 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
               guint width = gdk_pixbuf_get_width (GDK_PIXBUF (StaffGoBack));
               guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffGoBack));
               cairo_save (cr);
-              gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffGoBack), x, y);
+              if (Denemo.hovering_over_left_arrow)
+                {
+                    cairo_set_source_rgb (cr, 0.7, 1.0, 0.7);
+                    cairo_rectangle (cr, x, y, width+20, height+20);
+                    cairo_fill (cr);
+                }
+                gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffGoBack), x, y);
               cairo_rectangle (cr, x, y, width, height);
               cairo_fill (cr);
               cairo_restore (cr);
@@ -1252,6 +1258,12 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
             guint height = gdk_pixbuf_get_height (GDK_PIXBUF (StaffGoForward));
             cairo_save (cr);
             gint xx = get_widget_width (Denemo.scorearea) / gui->movement->zoom - width;
+            if (Denemo.hovering_over_right_arrow)
+                {
+                    cairo_set_source_rgb (cr, 0.7, 1.0, 0.7);
+                    cairo_rectangle (cr, xx, y, width+20, height+20);
+                    cairo_fill (cr);
+                }
             gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (StaffGoForward), xx, y);
             cairo_rectangle (cr, xx, y, width, height);
             cairo_fill (cr);

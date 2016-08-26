@@ -450,7 +450,11 @@ static void extend_selection (DragDirection direction)
 gint
 scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 {
-    Denemo.object_hovering_over = NULL;
+    if(Denemo.object_hovering_over)
+      {
+        Denemo.object_hovering_over = NULL;
+        gtk_widget_queue_draw(Denemo.scorearea);
+      }
     gint allocated_height = get_widget_height (Denemo.scorearea);
     gint allocated_width = get_widget_width (Denemo.scorearea);
   if (event->state & GDK_BUTTON1_MASK)
@@ -684,6 +688,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     
  {
  gboolean oldm = Denemo.hovering_over_movement;   
+ gboolean oldla = Denemo.hovering_over_left_arrow;   
+ gboolean oldra= Denemo.hovering_over_right_arrow;   
  gboolean oldmu = Denemo.hovering_over_margin_up;   
  gboolean oldmd = Denemo.hovering_over_margin_down;   
  gboolean oldb = Denemo.hovering_over_brace;
@@ -695,7 +701,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
  Denemo.hovering_over_movement = FALSE;
 
  
- Denemo.hovering_over_movement = Denemo.hovering_over_brace = Denemo.hovering_over_margin_up = Denemo.hovering_over_margin_down = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
+ Denemo.hovering_over_movement = Denemo.hovering_over_left_arrow = Denemo.hovering_over_right_arrow = Denemo.hovering_over_brace = Denemo.hovering_over_margin_up = Denemo.hovering_over_margin_down = Denemo.hovering_over_partname = Denemo.hovering_over_clef = Denemo.hovering_over_timesig = Denemo.hovering_over_keysharpen = Denemo.hovering_over_keyflatten = FALSE;
 
  if (event->x<25 && event->y<25)
       {
@@ -723,7 +729,6 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
             if (((gint) get_click_height (gui, event->y)<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
                  {   
                     struct placement_info pi;
-                    pi.the_staff = NULL;
                     if (event->y < 0)
                         get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
                     else
@@ -754,7 +759,36 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                 }
         }
     }
+    
+ //Detect arrow left/right
+ {
+    struct placement_info pi;
+    if (event->y < 0)
+        get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+    else
+        get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+     if(pi.the_staff)
+        {
+          if ((gui->movement->leftmeasurenum > 1) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) && (event->x > gui->leftmargin))
+            {
+             Denemo.hovering_over_left_arrow = TRUE;
+            }
+          else if (pi.nextmeasure)
+            {
+              if ((pi.at_edge) && ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend))))   
+                 Denemo.hovering_over_right_arrow = TRUE;
+             }
+        }
+ }   
+    
+    
+    
+    
+    
+    
   if ((oldm != Denemo.hovering_over_movement) 
+  || (oldla != Denemo.hovering_over_left_arrow) 
+  || (oldra != Denemo.hovering_over_right_arrow) 
   || (oldmu != Denemo.hovering_over_margin_up) 
   || (oldmd != Denemo.hovering_over_margin_down)
   || (oldb != Denemo.hovering_over_brace)
@@ -772,8 +806,10 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
   else
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+  GList *old_obj = Denemo.object_hovering_over;
   Denemo.object_hovering_over = pi.the_obj;
- 
+  if (old_obj != Denemo.object_hovering_over)
+    gtk_widget_queue_draw (Denemo.scorearea);
 
   if (Denemo.project->midi_destination & MIDICONDUCT)
     {
