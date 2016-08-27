@@ -1023,7 +1023,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
                     cairo_rectangle (cr, x, y, 30, 40);
                     cairo_fill (cr);
                 }
-              cairo_set_source_rgb (cr, 0, 0, 0);
+              cairo_set_source_rgb (cr, 0.1, 0.2, 1);
               drawtext_cr  (cr, "<", x, y + 30, 42.0);
               cairo_restore (cr);
             }
@@ -1262,7 +1262,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
                     cairo_rectangle (cr, xx, y, 30, 40);
                     cairo_fill (cr);
                 }
-              cairo_set_source_rgb (cr, 0, 0, 0);
+              cairo_set_source_rgb (cr, 0.1, 0.2, 1);
               drawtext_cr  (cr, ">", xx, y + 30, 42.0);
               cairo_restore (cr);
           }
