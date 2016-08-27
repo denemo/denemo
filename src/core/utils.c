@@ -176,7 +176,7 @@ get_user_data_dir (gboolean create)
 // If removal is FALSE, the directory will be newly
 // created or the existing temporary directory will
 // be returned.
-// If removal is TRUE, the directory gets removed.
+// If removal is TRUE, the directory gets removed and NULL is returned.
 gchar *
 make_temp_dir (gboolean removal)
 {
@@ -197,7 +197,6 @@ make_temp_dir (gboolean removal)
 #endif
           tmpdir = newdir;
         }
-      return tmpdir;
     }
   else
     {
@@ -219,6 +218,7 @@ make_temp_dir (gboolean removal)
       g_remove (tmpdir);
       tmpdir = NULL;
     }
+    return tmpdir;
 }
 
 // Return a path to a temporary directory to be used for print intermediate files

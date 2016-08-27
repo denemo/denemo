@@ -26,6 +26,7 @@
 #include "export/print.h"
 #include "export/exportmidi.h"
 #include "ui/markup.h"
+#include "ui/keysigdialog.h"
 #include "printview/svgview.h"
 #include "printview/printview.h"
 #include "display/calculatepositions.h"
