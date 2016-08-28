@@ -1,6 +1,6 @@
 ;;;NewStaffAfter
 (let ((name #f))
-    (d-AddAfter)
+    (d-NewStructuredStaff)
     (d-InstrumentName 'once)
     (set! name (d-DirectiveGet-staff-display "InstrumentName"))
     (if name    
