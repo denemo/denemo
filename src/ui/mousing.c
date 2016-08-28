@@ -494,6 +494,19 @@ scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event)
   return FALSE;                 //allow other handlers
 }
 
+static gint is_nearby (gint line_height, gint y) {
+    return !(abs (line_height-y)/Denemo.project->movement->zoom <4);
+    
+}
+
+static gint hidden_staff_line (gint line_height)
+    {
+        GList *found = g_list_find_custom (Denemo.hidden_staff_heights, GINT_TO_POINTER(line_height), (GCompareFunc)is_nearby);// if(found)g_print ("found %d for line height %d hidden line %d\t", found->data, line_height,1 + g_list_position (Denemo.hidden_staff_heights, found));
+        if (found)
+            return 1 + g_list_position (Denemo.hidden_staff_heights, found);
+        else return 0;
+    }
+    
 /**
  * Mouse motion callback
  *
@@ -502,6 +515,7 @@ gint
 scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoProject *gui = Denemo.project;
+  static gboolean hovering_over_hidden = FALSE;
   if (gui == NULL || gui->movement == NULL)
     return FALSE;
   if (Denemo.scorearea == NULL)
@@ -810,6 +824,23 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   Denemo.object_hovering_over = pi.the_obj;
   if (old_obj != Denemo.object_hovering_over)
     gtk_widget_queue_draw (Denemo.scorearea);
+    
+    
+   
+    if( hidden_staff_line ((gint)(0.5 + event->y)))
+        {
+           //if (!hovering_over_hidden) something else keeps re-setting the cursor, so just force it
+                gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_TARGET));
+            hovering_over_hidden = TRUE;
+            
+        }
+    else
+        {
+            if (hovering_over_hidden)
+                gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+            hovering_over_hidden = FALSE;
+        }
+    
 
   if (Denemo.project->midi_destination & MIDICONDUCT)
     {
@@ -819,17 +850,6 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   return TRUE;
 }
 
-static gint is_nearby (gint line_height, gint y) {
-    return !(abs (line_height-y) <4);
-    
-}
-static gint hidden_staff_line (gint line_height)
-    {
-        GList *found = g_list_find_custom (Denemo.hidden_staff_heights, GINT_TO_POINTER(line_height), (GCompareFunc)is_nearby);// if(found)g_print ("found %d for line height %d hidden line %d\t", found->data, line_height,1 + g_list_position (Denemo.hidden_staff_heights, found));
-        if (found)
-            return 1 + g_list_position (Denemo.hidden_staff_heights, found);
-        else return 0;
-    }
 
 /**
  * Mouse button press callback
@@ -916,7 +936,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 
   struct placement_info pi;
   pi.the_staff = NULL;
-  
+
+//navigate to a hidden staff if on a hidden staff line  
   {
       gint theline = hidden_staff_line ((gint)(0.5 + event->y));
       if (theline)
@@ -943,10 +964,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         
         goto_movement_staff_obj (NULL, -1, staffnum, gui->movement->currentmeasurenum, 0, gui->lefts[line_num]);    
         return TRUE;
-        
-        }
-         
-        
+        }   
   }
     
   
