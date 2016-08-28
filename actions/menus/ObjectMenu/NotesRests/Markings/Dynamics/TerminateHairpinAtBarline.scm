@@ -4,5 +4,7 @@
 (d-DirectivePut-standalone-postfix tag "<>\\!  ")
 (d-DirectivePut-standalone-display tag "<>\\!  ")
 (d-DirectivePut-standalone-minpixels tag 30)
+(d-MoveCursorRight)
+(d-ChooseBarline)
 (d-SetSaved #f)
 (d-RefreshDisplay))
