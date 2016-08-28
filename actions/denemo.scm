@@ -1454,11 +1454,13 @@
 ;;;;edit staff, called from tools icon at start of staff
 (define (EditMovement)
         (let* ((choice (RadioBoxMenu 
+            (cons (_ "Help") 'help)
             (cons (_ "Mute Staffs") 'mute)
-            (cons (_ "(Print) Show All Staffs") 'show)
-            (cons (_ "(Print) Hide All Staffs") 'hide)
+            (cons (_ "(Display) Show All Staffs") 'show)
+            (cons (_ "(Display) Hide All Other Staffs") 'hide)
             (cons (_ "Movement Editor") 'editor))))
         (case choice
+            ((help) (d-InfoDialog (_ "This sets the visibility/mute and other properties for the whole movement")))
             ((mute) (d-MuteStaffs))
             ((show) (StaffsVisibility #t))
             ((hide)  (StaffsVisibility #f))
