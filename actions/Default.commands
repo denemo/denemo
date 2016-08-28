@@ -7964,6 +7964,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Show All Staffs</_label>
         <_tooltip>Makes all the staffs visible in the display.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TerminateHairpinAtBarline</action>
+        <after>DynamicsExtraSpace</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Terminate Hairpin at Barline</_label>
+        <_tooltip>Ends a cresc.  or dim, hairpin at the barline following the current note/chord. This command inserts a standalone Denemo Directive after the note/chord at the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

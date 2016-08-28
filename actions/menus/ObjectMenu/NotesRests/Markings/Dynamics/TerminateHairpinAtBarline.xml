@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TerminateHairpinAtBarline</action>
+        <after>DynamicsExtraSpace</after>
+        <_label>Terminate Hairpin at Barline</_label>
+        <_tooltip>Ends a cresc.  or dim, hairpin at the barline following the current note/chord. This command inserts a standalone Denemo Directive after the note/chord at the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
