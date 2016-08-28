@@ -492,7 +492,7 @@ busy_cursor (GtkWidget * area)
 {
   static GdkCursor *busycursor = NULL;
   if (!busycursor)
-    busycursor = gdk_cursor_new (GDK_WATCH);
+    busycursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_WATCH);
   if (gtk_widget_get_window (Denemo.printarea))
     gdk_window_set_cursor (gtk_widget_get_window (area), busycursor);
 }
@@ -502,7 +502,7 @@ normal_cursor (GtkWidget * area)
 {
   static GdkCursor *arrowcursor = NULL;
   if (!arrowcursor)
-    arrowcursor = gdk_cursor_new (GDK_RIGHT_PTR);
+    arrowcursor = Denemo.GDK_LEFT_PTR;
   if (gtk_widget_get_window (area))
     gdk_window_set_cursor (gtk_widget_get_window (area), arrowcursor);
 }
@@ -2852,6 +2852,13 @@ initialize_keystroke_help (void)
   gtk_widget_hide (KeyStrokes);
 }
 
+void init_gdk_cursors (void) {
+    Denemo.GDK_LEFT_PTR = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_LEFT_PTR);
+    Denemo.GDK_SB_V_DOUBLE_ARROW = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_SB_V_DOUBLE_ARROW);
+    Denemo.GDK_SB_H_DOUBLE_ARROW = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_SB_H_DOUBLE_ARROW);
+    Denemo.GDK_X_CURSOR = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_X_CURSOR);
+    Denemo.GDK_TARGET = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_TARGET);
+}
 /**
  * find_dir_for_file:
  * @filename: The file to search

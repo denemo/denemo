@@ -193,11 +193,11 @@ gcd384 (gint n)
 static void
 reset_cursors (void)
 {
-  gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));
+  gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR);
   if (ObjectInfo)
-    gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_LEFT_PTR));
+    gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), Denemo.GDK_LEFT_PTR);
   if (Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_LEFT_PTR));
+    gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), Denemo.GDK_LEFT_PTR);
 }
 
 static void
@@ -1863,12 +1863,12 @@ edit_object (void)
         gtk_widget_set_sensitive (alternate_note_button, FALSE);
       gtk_widget_show_all (editwin);
       gtk_window_present (GTK_WINDOW (editwin));
-      gdk_window_set_cursor (gtk_widget_get_window (editwin), gdk_cursor_new (GDK_RIGHT_PTR));
-      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
+      gdk_window_set_cursor (gtk_widget_get_window (editwin), Denemo.GDK_LEFT_PTR);
+      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_X_CURSOR);
       if (ObjectInfo)
-        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), Denemo.GDK_X_CURSOR);
       if (Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
-        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), Denemo.GDK_X_CURSOR);
 #ifdef G_OS_WIN32
       if (ObjectInfo)
         gtk_widget_hide (ObjectInfo);   //windows doesn't handle order properly, so this can hide the object editor
@@ -2199,12 +2199,12 @@ edit_score_and_movement_properties (gboolean show_score)
     {
       gtk_widget_show_all (editscorewin);
       gtk_window_present (GTK_WINDOW (editscorewin));
-      gdk_window_set_cursor (gtk_widget_get_window (editscorewin), gdk_cursor_new (GDK_RIGHT_PTR));
-      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
+      gdk_window_set_cursor (gtk_widget_get_window (editscorewin), Denemo.GDK_LEFT_PTR);
+      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_X_CURSOR);
       if (ObjectInfo)
-        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), Denemo.GDK_X_CURSOR);
       if (Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
-        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), Denemo.GDK_X_CURSOR);
 
     }
 
@@ -2447,12 +2447,12 @@ edit_staff_and_voice_properties (gboolean show_staff)
     {
       gtk_widget_show_all (editstaffwin);
       gtk_window_present (GTK_WINDOW (editstaffwin));
-      gdk_window_set_cursor (gtk_widget_get_window (editstaffwin), gdk_cursor_new (GDK_RIGHT_PTR));
-      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_X_CURSOR));
+      gdk_window_set_cursor (gtk_widget_get_window (editstaffwin), Denemo.GDK_LEFT_PTR);
+      gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_X_CURSOR);
       if (ObjectInfo)
-        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), gdk_cursor_new (GDK_X_CURSOR));
+        gdk_window_set_cursor (gtk_widget_get_window (ObjectInfo), Denemo.GDK_X_CURSOR);
       if (Denemo.printarea && gtk_widget_get_window (Denemo.printarea))
-        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), gdk_cursor_new (GDK_X_CURSOR));
+        gdk_window_set_cursor (gtk_widget_get_window (Denemo.printarea), Denemo.GDK_X_CURSOR);
 
     }
 

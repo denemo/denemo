@@ -626,7 +626,7 @@ inner_main (void *files)
   if (!Denemo.non_interactive)
     {
       initialize_keystroke_help ();
-
+      init_gdk_cursors ();
       create_window ();
       installPalettes ();
 

@@ -296,7 +296,7 @@ assign_cursor (guint state, guint cursor_num)
   guint *cursor_state = g_new (guint, 1);
   *cursor_state = state;
   //g_print("Storing cursor %d for state 0x%x in hash table %p\n", cursor_num, state, Denemo.map->cursors );
-  GdkCursor *cursor = gdk_cursor_new (cursor_num);
+  GdkCursor *cursor = gdk_cursor_new_for_display (gdk_display_get_default (), cursor_num);
   if (cursor)
     g_hash_table_insert (Denemo.map->cursors, cursor_state, cursor);
 }
@@ -310,7 +310,7 @@ set_cursor_for (guint state)
   if (cursor)
     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), cursor);
   else
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR);       //FIXME? does this take time/hog memory
 }
 
 
@@ -463,7 +463,7 @@ scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
        last_event_x = event->x_root;
        last_event_y = event->y_root;
     }
-  gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR)); //FIXME? does this take time/hog memory
+  gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR); //FIXME? does this take time/hog memory
   return FALSE;                 //allow other handlers (specifically the pitch entry one)
 }
 
@@ -648,9 +648,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     }
 
   if (line_height - ((int) event->y - 8) % line_height < 12)
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_SB_V_DOUBLE_ARROW));
+    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_SB_V_DOUBLE_ARROW);
   else
-    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR);       //FIXME? does this take time/hog memory
 
   transform_coords (&event->x, &event->y);
   //g_debug("Marked %d\n", gui->movement->markstaffnum);
@@ -830,14 +830,14 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     if( hidden_staff_line ((gint)(0.5 + event->y)))
         {
            //if (!hovering_over_hidden) something else keeps re-setting the cursor, so just force it
-                gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_TARGET));
+                gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_TARGET);
             hovering_over_hidden = TRUE;
             
         }
     else
         {
             if (hovering_over_hidden)
-                gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+                gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR);       //FIXME? does this take time/hog memory
             hovering_over_hidden = FALSE;
         }
     
@@ -901,7 +901,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                     return TRUE;
                 } else
                 {
-                    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (left?GDK_SB_H_DOUBLE_ARROW:GDK_X_CURSOR));
+                    gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), left?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
                     left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
                      if (Denemo.prefs.learning)
                      left? MouseGestureShow(_("Left Drag Note Onset"), _("This moves the audio to synchronize the start with the score.\nYou can use the Leadin button for this too."),
@@ -1292,7 +1292,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(gui->movement->recording && (dragging_tempo || dragging_audio))
     {
             dragging_tempo = dragging_audio = FALSE;
-            gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), gdk_cursor_new (GDK_LEFT_PTR));       //FIXME? does this take time/hog memory
+            gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR);       //FIXME? does this take time/hog memory
             return TRUE;
     }
   if (dragging_separator)

@@ -299,6 +299,7 @@ typedef enum
   KeyPlusMouse = 3
 } DenemoShortcutType;
 void initialize_keystroke_help (void);
+void init_gdk_cursors (void);
 void KeyStrokeAwait (gchar * first_keypress);
 void KeyStrokeDecline (gchar * first_keypress);
 void KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type);

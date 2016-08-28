@@ -1199,6 +1199,15 @@ struct DenemoRoot
   gboolean hovering_over_left_arrow;
   gboolean hovering_over_right_arrow;
   GList *object_hovering_over;
+  
+  GdkCursor *GDK_LEFT_PTR;
+  GdkCursor *GDK_SB_V_DOUBLE_ARROW;
+  GdkCursor *GDK_SB_H_DOUBLE_ARROW;
+  GdkCursor *GDK_X_CURSOR;
+  GdkCursor *GDK_TARGET;
+  
+  
+  
   GList *hidden_staff_heights; /**< list of y positions of markers in display for hidden staff positions */
   keymap *map; /**< pointer to data describing each of the Denemo commands and their keyboard shortcuts */
   gchar *last_merged_command;/**<filename of last command merged into the menu system */
