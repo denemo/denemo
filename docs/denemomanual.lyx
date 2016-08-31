@@ -121,7 +121,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.0.10
+Updates for version 2.0.12
 \end_layout
 
 \begin_layout Standard
@@ -959,7 +959,11 @@ PgUp
 PgDown
 \family default
 ), insert duplicate, merge and delete with the Movements menu.
- A movement is a continuous piece of music with titles etc.
+ A movement is a 
+\emph on
+continuous
+\emph default
+ piece of music with titles etc.
 \end_layout
 
 \begin_layout Standard
@@ -989,6 +993,14 @@ When you have more than one movement numbered buttons appear in the score
 \end_layout
 
 \begin_layout Standard
+In the top corner of the Display is a flag icon which sets values that apply
+ to the whole movement.
+ Here you can control which staffs are visible in the display, which are
+ muted on playback, and edit any other properties of the movment.
+ 
+\end_layout
+
+\begin_layout Standard
 Within a movement there are staffs (arranged vertically).
  Each Denemo Staff has in turn a Denemo Voice
 \begin_inset Index idx
@@ -1013,6 +1025,9 @@ reference "sec:Denemo-Directives"
  The staff properties include things like the number of lines (usually 5)
  the MIDI instrument sound for playback and the amount of space allotted
  in the display for the staff.
+ Before each staff are buttons to control properties of the staff - flags
+ to set for visibility, mute, non-printing and the staff number which can
+ be clicked to edit other staff properties.
 \end_layout
 
 \begin_layout Standard
