@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetPageCount</action>
+        <after>SetPageSize</after>
+        <_label>Set Total Number of Pages</_label>
+        <_tooltip>Forces the score to be typeset onto the number of pages you choose.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
