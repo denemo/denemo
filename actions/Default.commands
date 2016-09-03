@@ -7978,6 +7978,12 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Set Total Number of Pages</_label>
         <_tooltip>Forces the score to be typeset onto the number of pages you choose.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ChordEntry</action>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <_label>Chord Entry Without Pedal</_label>
+        <_tooltip>Playing notes on the MIDI keyboard will enter all notes played as a chord until no notes are on.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

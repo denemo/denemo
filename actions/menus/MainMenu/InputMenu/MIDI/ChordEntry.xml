@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        
+        <action>ChordEntry</action>
+        <_label>Chord Entry Without Pedal</_label>
+        <_tooltip>Playing notes on the MIDI keyboard will enter all notes played as a chord until no notes are on.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

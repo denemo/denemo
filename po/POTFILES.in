@@ -470,6 +470,8 @@ actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.scm
 actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.xml
 actions/menus/MainMenu/InputMenu/MIDI/CheckPitches.scm
 actions/menus/MainMenu/InputMenu/MIDI/CheckPitches.xml
+actions/menus/MainMenu/InputMenu/MIDI/ChordEntry.scm
+actions/menus/MainMenu/InputMenu/MIDI/ChordEntry.xml
 actions/menus/MainMenu/InputMenu/MIDI/ChordsForBar.scm
 actions/menus/MainMenu/InputMenu/MIDI/ChordsForBar.xml
 actions/menus/MainMenu/InputMenu/MIDI/ChordsOverBass.scm
@@ -1858,6 +1860,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.scm
