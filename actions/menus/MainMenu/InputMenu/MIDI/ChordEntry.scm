@@ -15,7 +15,7 @@
     (define (noteOff? midi)
       (= #x80 (bit-extract midi 0 8)))
     (define (add-note note)
-      (eval-string (string-append "(d-InsertNoteInChord \"" (d-GetNoteForMidiKey note) "\")"))  
+      (d-InsertNoteInChord (d-GetNoteForMidiKey note))  
       (PlayNote (number->string note) 400))
     
     (define (GetChords)
