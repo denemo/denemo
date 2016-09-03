@@ -43,7 +43,7 @@
                ((or (zero? midi) (and  (= command #xE0) (> note 32)))
                     (d-SetBackground #xFFFFFF)
                     (disp "Abandoning getting chords\n"))
-               (else (d-PutMidi midi)))))) ;;; end of GetChords
+               (else (d-PutMidi midi)(loop)))))) ;;; end of GetChords
 
     ;;;;;;;; actual code
     (set! ChordEntry::active #t)
