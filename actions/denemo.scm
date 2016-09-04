@@ -450,6 +450,7 @@
   (begin
     (d-MasterVolume DenemoVolume::Value)))
 
+(define DenemoPutMidi d-PutMidi) ;;hook for intercepting MIDI filter output
     
 (define (DenemoSetPlaybackStart)
     (d-Stop)
