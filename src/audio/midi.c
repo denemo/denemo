@@ -611,7 +611,7 @@ midiaction (gint notenum)
                 {
                   curObj = Denemo.project->movement->currentobject->data;
                   chord *thechord = (chord *) curObj->object;
-                  is_tied = thechord->is_tied;
+                  is_tied = (!Denemo.prefs.ignore_ties) && thechord->is_tied;
 
 //#define check_midi_note(a,b,c,d) ((a->mid_c_offset==b)&&(a->enshift==c))?playnote(a,curstaffstruct->midi_channel):gdk_beep();
                   if ((Denemo.keyboard_state & CHECKING_MASK) && thechord->notes)
@@ -640,7 +640,7 @@ midiaction (gint notenum)
                     break;
                     curObj = Denemo.project->movement->currentobject->data;
                     thechord = (chord *) curObj->object;
-                    is_tied = thechord->is_tied;
+                    is_tied = (!Denemo.prefs.ignore_ties) && thechord->is_tied;
                 }
               while ((!(Denemo.keyboard_state & ADDING_MASK)) && next_editable_note () && is_tied);
             }
@@ -866,7 +866,7 @@ advance_until_time (gchar * buf)
                   gdouble thetime = get_time ();
                   Denemo.project->movement->start_player = thetime - obj->earliest_time;
 
-                  if (thechord->is_tied && cursor_to_next_note ())
+                  if ((!Denemo.prefs.ignore_ties) && thechord->is_tied && cursor_to_next_note ())
                     {
                       obj = Denemo.project->movement->currentobject->data;
                     }

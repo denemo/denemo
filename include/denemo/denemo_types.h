@@ -465,6 +465,7 @@ typedef struct DenemoPrefs
   gboolean overlays; /*< whether overlays or insert should be used with pitch entry */
   gboolean continuous; /*< whether pitch entry overlays should cross barlines */
   gboolean spillover;  /*< whether appending a note that does not fit the measure should cause a spillover to the next measure */
+  gboolean ignore_ties; /*< when entering pitches tied notes are filled in unless this is true */
   gboolean createclones;
   gint mode; /**< mode to start in */
   gboolean persistence;/**< whether Denemo should re-use settings over sessions */

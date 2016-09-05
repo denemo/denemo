@@ -139,6 +139,7 @@ initprefs ()
 
   ret->saveparts = FALSE;
   ret->spillover = TRUE;
+  ret->ignore_ties = FALSE;
   ret->createclones = FALSE;
   ret->enable_thumbnails = TRUE;
   ret->autosave = TRUE;
@@ -355,6 +356,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READBOOLXMLENTRY (enable_thumbnails)
         READBOOLXMLENTRY (continuous)
         READBOOLXMLENTRY (spillover)
+        READBOOLXMLENTRY (ignore_ties)
         READBOOLXMLENTRY (toolbar)
         READBOOLXMLENTRY (midi_in_controls)
         READBOOLXMLENTRY (playback_controls)
@@ -427,7 +429,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (overlays)
     GETBOOLPREF (enable_thumbnails)
     GETBOOLPREF (continuous)
-    GETBOOLPREF (spillover) GETBOOLPREF (toolbar) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
+    GETBOOLPREF (spillover) GETBOOLPREF (ignore_ties) GETBOOLPREF (toolbar) GETBOOLPREF (midi_in_controls) GETBOOLPREF (playback_controls) GETBOOLPREF (console_pane) GETBOOLPREF (lyrics_pane) GETBOOLPREF (visible_directive_buttons) GETBOOLPREF (rhythm_palette) GETBOOLPREF (object_palette) GETBOOLPREF (autoupdate) GETBOOLPREF (jacktransport_start_stopped) GETBOOLPREF (fluidsynth_reverb) GETBOOLPREF (fluidsynth_chorus) GETBOOLPREF (progressbardecorations) return FALSE;
 }
 
 #undef GETBOOLPREF
@@ -737,6 +739,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (saveparts)
     WRITEBOOLXMLENTRY (createclones)
     WRITEBOOLXMLENTRY (spillover)
+    WRITEBOOLXMLENTRY (ignore_ties)
     WRITEBOOLXMLENTRY (immediateplayback)
     WRITEINTXMLENTRY (measureswitchsound)
     WRITEBOOLXMLENTRY (manualtypeset)

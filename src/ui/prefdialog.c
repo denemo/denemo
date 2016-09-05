@@ -48,6 +48,7 @@ struct callbackdata
   GtkWidget *immediateplayback;
   GtkWidget *measureswitchsound;
   GtkWidget *spillover;
+  GtkWidget *ignore_ties;
   GtkWidget *manualtypeset;
   GtkWidget *typesetrefresh;
   GtkWidget *typesettype;
@@ -281,6 +282,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (immediateplayback)
     ASSIGNINT (measureswitchsound)
     ASSIGNBOOLEAN (spillover)
+    ASSIGNBOOLEAN (ignore_ties)
     ASSIGNBOOLEAN (manualtypeset)
     ASSIGNINT (typesetrefresh)
     ASSIGNINT (typesettype)
@@ -558,6 +560,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
     //  TEXTENTRY(_("Strict"), strictshortcuts)
   BOOLEANENTRY (_("Apply commands to selection if present"), applytoselection);
   BOOLEANENTRY (_("Spill notes over into next measure"), spillover);
+  BOOLEANENTRY (_("(Chord Entry) Do not fill in tied note pitches"), ignore_ties);
   BOOLEANENTRY (_("Allow Quick Setting of Shortcuts"), quickshortcuts);
 
 
