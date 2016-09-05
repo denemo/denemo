@@ -5,17 +5,17 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo-2.0.12-rc1\n"
+"Project-Id-Version: denemo-2.0.12-rc2\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
-"POT-Creation-Date: 2016-08-27 11:01+0100\n"
-"PO-Revision-Date: 2016-08-28 11:18+0800\n"
+"POT-Creation-Date: 2016-09-01 08:28+0100\n"
+"PO-Revision-Date: 2016-09-04 19:40+0800\n"
 "Last-Translator: Tianze Wang <zwpwjwtz@126.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 1.8.8\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. GtkFileFilter *filter;
@@ -31,7 +31,7 @@ msgstr "选择 SoundFont 文件"
 #: ../src/export/file.c:165 ../src/export/file.c:853 ../src/export/file.c:913
 #: ../src/export/file.c:1138 ../src/export/print.c:729
 #: ../src/printview/printview.c:1157 ../src/printview/svgview.c:720
-#: ../src/scripting/scheme-callbacks.c:4201 ../src/source/sourceaudio.c:341
+#: ../src/scripting/scheme-callbacks.c:4202 ../src/source/sourceaudio.c:341
 #: ../src/ui/clefdialog.c:139 ../src/ui/kbd-interface.c:462
 #: ../src/ui/keysigdialog.c:382 ../src/ui/playbackprops.c:57
 #: ../src/ui/prefdialog.c:414 ../src/ui/scoreprops.c:133
@@ -151,7 +151,7 @@ msgstr "播放范围（秒）："
 #: ../src/audio/playback.c:123 ../src/command/changenotehead.c:107
 #: ../src/command/lilydirectives.c:2255 ../src/command/lilydirectives.c:2729
 #: ../src/core/utils.c:2273 ../src/core/utils.c:2368 ../src/core/utils.c:2466
-#: ../src/export/print.c:729 ../src/scripting/scheme-callbacks.c:4200
+#: ../src/export/print.c:729 ../src/scripting/scheme-callbacks.c:4201
 #: ../src/ui/clefdialog.c:139 ../src/ui/kbd-interface.c:461
 #: ../src/ui/keysigdialog.c:382 ../src/ui/playbackprops.c:57
 #: ../src/ui/prefdialog.c:414 ../src/ui/scoreprops.c:133
@@ -1354,7 +1354,7 @@ msgstr "复制"
 #: ../src/command/object.c:2034 ../src/generated/entries.h:214
 #: ../src/printview/svgview.c:1229 ../src/ui/palettes.c:325
 #: ../actions/denemo-modules/directives.scm:104
-#: ../actions/denemo-modules/directives.scm:152
+#: ../actions/denemo-modules/directives.scm:152 ../actions/denemo.scm:1457
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/StartTrillSpan.scm:8
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/TextAnnotation.scm:27
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/EndVolta.scm:4
@@ -3748,7 +3748,7 @@ msgstr "速度："
 msgid "Set the (initial) tempo of the movement"
 msgstr "设置乐章的（起始）速度"
 
-#: ../src/core/view.c:4556 ../actions/denemo.scm:1457
+#: ../src/core/view.c:4556 ../actions/denemo.scm:1458
 msgid "Mute Staffs"
 msgstr "谱表静音"
 
@@ -9398,19 +9398,19 @@ msgstr "Denemo 回放视图"
 msgid "This window shows the typeset score as one long page. During playback the notes playing are highlighted"
 msgstr "此窗口将排版的乐谱显示在一页上。回放时将高亮正在播放的音符。"
 
-#: ../src/scripting/scheme-callbacks.c:176
+#: ../src/scripting/scheme-callbacks.c:177
 msgid "Set Values"
 msgstr "设置值"
 
-#: ../src/scripting/scheme-callbacks.c:192
+#: ../src/scripting/scheme-callbacks.c:193
 msgid "Check all"
 msgstr "全部选中"
 
-#: ../src/scripting/scheme-callbacks.c:195
+#: ../src/scripting/scheme-callbacks.c:196
 msgid "Un-check all"
 msgstr "取消全选"
 
-#: ../src/scripting/scheme-callbacks.c:451
+#: ../src/scripting/scheme-callbacks.c:452
 msgid ""
 "Use <Tab> to switch palette\n"
 "<Return>to activate"
@@ -9418,23 +9418,23 @@ msgstr ""
 "使用 <Tab> 来切换面板\n"
 "<Return> 来启用"
 
-#: ../src/scripting/scheme-callbacks.c:489
+#: ../src/scripting/scheme-callbacks.c:490
 msgid "Key in (part of) label"
 msgstr ""
 
-#: ../src/scripting/scheme-callbacks.c:501
+#: ../src/scripting/scheme-callbacks.c:502
 msgid "No such label"
 msgstr "无此标签"
 
-#: ../src/scripting/scheme-callbacks.c:1069
+#: ../src/scripting/scheme-callbacks.c:1070
 msgid "Destroying Customized Buttons"
 msgstr "删除自定义按钮"
 
-#: ../src/scripting/scheme-callbacks.c:1069
+#: ../src/scripting/scheme-callbacks.c:1070
 msgid "Remove buttons and other customized scheme on startup?"
 msgstr "在启动时移除按钮和其他自定义项目吗？"
 
-#: ../src/scripting/scheme-callbacks.c:1480
+#: ../src/scripting/scheme-callbacks.c:1481
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:61
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:115
@@ -9442,15 +9442,15 @@ msgstr "在启动时移除按钮和其他自定义项目吗？"
 msgid "Choose File"
 msgstr "选择文件"
 
-#: ../src/scripting/scheme-callbacks.c:3693
+#: ../src/scripting/scheme-callbacks.c:3694
 msgid "Input Required"
 msgstr "需要输入"
 
-#: ../src/scripting/scheme-callbacks.c:3699
+#: ../src/scripting/scheme-callbacks.c:3700
 msgid "Give input: "
 msgstr "指定输入："
 
-#: ../src/scripting/scheme-callbacks.c:3746
+#: ../src/scripting/scheme-callbacks.c:3747
 msgid ""
 "Please delete the font size and bold/italic indications,\n"
 "leaving just the font family name."
@@ -9458,28 +9458,28 @@ msgstr ""
 "请删除字体大小和加粗/斜体记号，\n"
 "只保留字体名称。"
 
-#: ../src/scripting/scheme-callbacks.c:3766
-#: ../src/scripting/scheme-callbacks.c:3823
+#: ../src/scripting/scheme-callbacks.c:3767
+#: ../src/scripting/scheme-callbacks.c:3824
 msgid "Choose Font"
 msgstr "选择字体"
 
-#: ../src/scripting/scheme-callbacks.c:3900
+#: ../src/scripting/scheme-callbacks.c:3901
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr "脚本错误，传递给 d-InfoDialog 的参数类型有误"
 
-#: ../src/scripting/scheme-callbacks.c:4191
+#: ../src/scripting/scheme-callbacks.c:4192
 msgid "Already in a padding dialog"
 msgstr "已经位于填充对话框"
 
-#: ../src/scripting/scheme-callbacks.c:6456
+#: ../src/scripting/scheme-callbacks.c:6457
 msgid "Time Signatures do not match, will not make voice"
 msgstr "时值记号不匹配，将不会产生音色"
 
-#: ../src/scripting/scheme-callbacks.c:6463
+#: ../src/scripting/scheme-callbacks.c:6464
 msgid "Key Signatures do not match, will not make voice"
 msgstr "调号不匹配，将不会产生音色"
 
-#: ../src/scripting/scheme-callbacks.c:6471
+#: ../src/scripting/scheme-callbacks.c:6472
 msgid "This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."
 msgstr "此音色的谱号与其所属谱表不同。此谱号将仅用于显示。"
 
@@ -10068,19 +10068,19 @@ msgstr "预览"
 msgid "Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."
 msgstr "以打印预览模式显示此文本。对于乐谱和乐章标题来说，仅显示相对于默认标题的外观。"
 
-#: ../src/ui/mousing.c:857
+#: ../src/ui/mousing.c:877
 msgid "Dragging line separator."
 msgstr "拖动行分隔符。"
 
-#: ../src/ui/mousing.c:857
+#: ../src/ui/mousing.c:877
 msgid "This will allow the display to show more music, split into lines. The typeset score is not affected."
 msgstr "显示更多分割成行的音乐。不影响乐谱排版。"
 
-#: ../src/ui/mousing.c:876
+#: ../src/ui/mousing.c:896
 msgid "Double Click Note Onset"
 msgstr "双击音符起始"
 
-#: ../src/ui/mousing.c:876
+#: ../src/ui/mousing.c:896
 msgid ""
 "This represents detected note onsets which occur\n"
 "before the start of the score.\n"
@@ -10094,11 +10094,11 @@ msgstr ""
 "则无需理会它们。\n"
 "否则，请使用鼠标左键拖动它们并同步至乐谱起始位置。"
 
-#: ../src/ui/mousing.c:887
+#: ../src/ui/mousing.c:907
 msgid "Left Drag Note Onset"
 msgstr "左键拖动音符起始"
 
-#: ../src/ui/mousing.c:887
+#: ../src/ui/mousing.c:907
 msgid ""
 "This moves the audio to synchronize the start with the score.\n"
 "You can use the Leadin button for this too."
@@ -10106,11 +10106,11 @@ msgstr ""
 "移动音频，以便同步乐谱的起始位置。\n"
 "也可以使用导入按钮进行此操作。"
 
-#: ../src/ui/mousing.c:889
+#: ../src/ui/mousing.c:909
 msgid "Right Drag Note Onset"
 msgstr "右键拖动音符起始"
 
-#: ../src/ui/mousing.c:889
+#: ../src/ui/mousing.c:909
 msgid ""
 "This changes the tempo of the score.\n"
 "Use this to synchronize the beat after setting the start"
@@ -10118,39 +10118,39 @@ msgstr ""
 "改变乐谱速度。\n"
 "用于在设置起始位置后使节拍同步"
 
-#: ../src/ui/mousing.c:969 ../src/ui/mousing.c:992 ../src/ui/mousing.c:1034
+#: ../src/ui/mousing.c:987 ../src/ui/mousing.c:1010 ../src/ui/mousing.c:1052
 msgid "Press Left."
 msgstr "按左键。"
 
-#: ../src/ui/mousing.c:969
+#: ../src/ui/mousing.c:987
 msgid "This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."
 msgstr "移动光标至屏幕外左侧的小节。相应地调整显示范围，使得这一小节出现在屏幕中。"
 
-#: ../src/ui/mousing.c:992
+#: ../src/ui/mousing.c:1010
 msgid "This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."
 msgstr "移动光标至屏幕外左侧的小节。相应地调整显示范围，使得光标位于屏幕中央。"
 
-#: ../src/ui/mousing.c:1017
+#: ../src/ui/mousing.c:1035
 msgid "Double Click on Click Track"
 msgstr "双击节拍音轨"
 
-#: ../src/ui/mousing.c:1017
+#: ../src/ui/mousing.c:1035
 msgid "This will mark the MIDI note onset."
 msgstr "标记 MIDI 音符起始处。"
 
-#: ../src/ui/mousing.c:1025
+#: ../src/ui/mousing.c:1043
 msgid "Double Click."
 msgstr "双击。"
 
-#: ../src/ui/mousing.c:1025
+#: ../src/ui/mousing.c:1043
 msgid "This gives information about the object at the cursor. Click on a notehead for information about a note in a chord."
 msgstr "显示光标处对象的信息。点击符头来获取和弦中该音符的信息。"
 
-#: ../src/ui/mousing.c:1034
+#: ../src/ui/mousing.c:1052
 msgid "This moved the cursor to the object position clicked. The cursor height becomes the clicked point."
 msgstr "移动光标至所点击对象的位置，并将光标高度设置为点击处。"
 
-#: ../src/ui/mousing.c:1046
+#: ../src/ui/mousing.c:1064
 msgid ""
 "The clef shown here affects the display only (as this voice is displayed on the staff above). You can change the display clef using the clef menu.\n"
 "Warning! you will get confused if you set the key signature or time signature of a voice different to the staff it is typeset on. Run the Staff/Voice property editor to adjust any inconsistencies."
@@ -10158,127 +10158,127 @@ msgstr ""
 "此处的谱号仅影响显示（此音色将会被排版在谱表上方）。可以使用谱号菜单来改变显示的谱号。\n"
 "警告！若将某个音色的调号和时值记号设为与其所属谱表中不同的记号，则可能引起混淆。请运行谱表/音色属性编辑器来校正可能的不一致之处。"
 
-#: ../src/ui/mousing.c:1059
+#: ../src/ui/mousing.c:1077
 msgid "Left on Part name."
 msgstr "左键单击片段名。"
 
-#: ../src/ui/mousing.c:1059
+#: ../src/ui/mousing.c:1077
 msgid "This pops up the built-in staff properties. For other properties of the current staff see the staff menu or the tools icon before the clef."
 msgstr "弹出内置的谱表属性菜单。有关当前谱表的其他属性，请见谱表菜单或谱号前的工具图表。"
 
-#: ../src/ui/mousing.c:1071
+#: ../src/ui/mousing.c:1089
 msgid "Left on initial Clef."
 msgstr "左键单击起始谱号。"
 
-#: ../src/ui/mousing.c:1071
+#: ../src/ui/mousing.c:1089
 msgid "This pops up the initial clef menu."
 msgstr "弹出起始谱号菜单。"
 
-#: ../src/ui/mousing.c:1084
+#: ../src/ui/mousing.c:1102
 msgid "Left Click on blue."
 msgstr "左键单击蓝色区域。"
 
-#: ../src/ui/mousing.c:1084
+#: ../src/ui/mousing.c:1102
 msgid "This adds one sharp."
 msgstr "添加升号。"
 
-#: ../src/ui/mousing.c:1086 ../src/ui/mousing.c:1094
+#: ../src/ui/mousing.c:1104 ../src/ui/mousing.c:1112
 msgid "Initial Key Signature Change"
 msgstr "起始调号变更"
 
-#: ../src/ui/mousing.c:1086
+#: ../src/ui/mousing.c:1104
 msgid "Sharpen Keysignature?"
 msgstr "升高调号吗？"
 
-#: ../src/ui/mousing.c:1092
+#: ../src/ui/mousing.c:1110
 msgid "Left Click on red."
 msgstr "左键单击红色区域。"
 
-#: ../src/ui/mousing.c:1092
+#: ../src/ui/mousing.c:1110
 msgid "This adds one flat."
 msgstr "添加降号。"
 
-#: ../src/ui/mousing.c:1094
+#: ../src/ui/mousing.c:1112
 msgid "Flatten Keysignature?"
 msgstr "降低调号吗？"
 
-#: ../src/ui/mousing.c:1101
+#: ../src/ui/mousing.c:1119
 msgid "Right Click on key."
 msgstr "右键单击调号。"
 
-#: ../src/ui/mousing.c:1101
+#: ../src/ui/mousing.c:1119
 msgid "This pops up the key signature menu."
 msgstr "弹出调号菜单。"
 
-#: ../src/ui/mousing.c:1110
+#: ../src/ui/mousing.c:1128
 msgid "Click on Time."
 msgstr "点击时间。"
 
-#: ../src/ui/mousing.c:1110
+#: ../src/ui/mousing.c:1128
 msgid "This pops up the time signature menu."
 msgstr "弹出时值菜单。"
 
-#: ../src/ui/mousing.c:1132
+#: ../src/ui/mousing.c:1150
 msgid "Editing Staff Groups (Braces)"
 msgstr "谱表编组（乐组）"
 
-#: ../src/ui/mousing.c:1132
+#: ../src/ui/mousing.c:1150
 msgid "Edit Start Brace"
 msgstr "编辑左括号"
 
-#: ../src/ui/mousing.c:1132
+#: ../src/ui/mousing.c:1150
 msgid "Edit End Brace"
 msgstr "编辑右括号"
 
-#: ../src/ui/mousing.c:1147
+#: ../src/ui/mousing.c:1165
 msgid "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"
 msgstr "此谱表组没有右括号，所以默认将最下面一个谱表作为谱表组结束范围。请使用 谱表/音色->谱表组 菜单来设置右括号的正确位置。"
 
-#: ../src/ui/mousing.c:1167
+#: ../src/ui/mousing.c:1185
 msgid "Click on Staff Directives."
 msgstr "点击谱表记号。"
 
-#: ../src/ui/mousing.c:1167
+#: ../src/ui/mousing.c:1185
 msgid "This pops up the staff directives menu for editing"
 msgstr "弹出用于编辑谱表记号的菜单"
 
-#: ../src/ui/mousing.c:1176
+#: ../src/ui/mousing.c:1194
 msgid "Click on Voice Directives."
 msgstr "点击音色记号。"
 
-#: ../src/ui/mousing.c:1176
+#: ../src/ui/mousing.c:1194
 msgid "This pops up the voice directives menu for editing"
 msgstr "弹出用于编辑音色记号的菜单"
 
-#: ../src/ui/mousing.c:1197
+#: ../src/ui/mousing.c:1215
 msgid "Right Click Appending."
 msgstr "右键单击附加。"
 
-#: ../src/ui/mousing.c:1197
+#: ../src/ui/mousing.c:1215
 msgid "This pops up the append menu"
 msgstr "弹出附加菜单"
 
-#: ../src/ui/mousing.c:1207
+#: ../src/ui/mousing.c:1225
 msgid "Control-Right Click."
 msgstr "Ctrl + 右键单击。"
 
-#: ../src/ui/mousing.c:1207
+#: ../src/ui/mousing.c:1225
 msgid "This pops up menu for inserting barlines and many other sorts of objects"
 msgstr "弹出插入小节线及其他对象的菜单"
 
-#: ../src/ui/mousing.c:1215
+#: ../src/ui/mousing.c:1233
 msgid "Shift-Right Click."
 msgstr "Shift + 右键单击"
 
-#: ../src/ui/mousing.c:1215
+#: ../src/ui/mousing.c:1233
 msgid "This allows editing the directives/attributes of the object at the cursor"
 msgstr "编辑光标处对象的记号/属性"
 
-#: ../src/ui/mousing.c:1230
+#: ../src/ui/mousing.c:1248
 msgid "Control-Shift-Drag."
 msgstr "Ctrl + Shift + 拖动"
 
-#: ../src/ui/mousing.c:1230
+#: ../src/ui/mousing.c:1248
 msgid ""
 "This allows dragging objects in the display.\n"
 "All sorts of directives such as staccato dots, ornaments, repeat marks etc can be dragged if the display is too cluttered.\n"
@@ -10291,7 +10291,7 @@ msgstr ""
 "不影响乐谱排版。\n"
 "点击符头，然后可以拖动其他对象附加到符头上。"
 
-#: ../src/ui/mousing.c:1239
+#: ../src/ui/mousing.c:1257
 msgid ""
 "Control-Shift-Drag is used to tidy up the Denemo display. Useful if Denemo has created a clutter with your input music.\n"
 "If you have several things attached to one object you can move them in turn by dragging them in turn.\n"
@@ -10302,35 +10302,35 @@ msgstr ""
 "如果有某个对象上附加了多个对象，可以依次拖动它们来进行移动。\n"
 "音符、连音和延音是固定不动的，但大多数对象可以被移动。此操作不影响乐谱排版！"
 
-#: ../src/ui/mousing.c:1283
+#: ../src/ui/mousing.c:1301
 msgid "Dragged line separator."
 msgstr "拖动行分隔符。"
 
-#: ../src/ui/mousing.c:1283
+#: ../src/ui/mousing.c:1301
 msgid "This allows the display to show more music, split into lines. The typeset score is not affected."
 msgstr "显示更多分割成行的音乐。不影响乐谱排版。"
 
-#: ../src/ui/mousing.c:1316
+#: ../src/ui/mousing.c:1334
 msgid "Ctrl + Mouse Wheel Up"
 msgstr "Ctrl + 向上滚动鼠标滚轮"
 
-#: ../src/ui/mousing.c:1325
+#: ../src/ui/mousing.c:1343
 msgid "Shift + Mouse Wheel Up"
 msgstr "Shift + 向上滚动鼠标滚轮"
 
-#: ../src/ui/mousing.c:1334
+#: ../src/ui/mousing.c:1352
 msgid "Unshifted + Mouse Wheel Up"
 msgstr "向上滚动鼠标滚轮"
 
-#: ../src/ui/mousing.c:1352
+#: ../src/ui/mousing.c:1370
 msgid "Ctrl + Mouse Wheel Down"
 msgstr "Ctrl + 向下滚动鼠标滚轮"
 
-#: ../src/ui/mousing.c:1364
+#: ../src/ui/mousing.c:1382
 msgid "Shift + Mouse Wheel Down"
 msgstr "Shift + 向下滚动鼠标滚轮"
 
-#: ../src/ui/mousing.c:1372
+#: ../src/ui/mousing.c:1390
 msgid "Unshifted + Mouse Wheel Down"
 msgstr "向下滚动鼠标滚轮"
 
@@ -11768,17 +11768,21 @@ msgstr "（预览）显示谱表"
 msgid "(Display) Hide Staff"
 msgstr "（显示）隐藏谱表"
 
-#: ../actions/denemo.scm:1458
-msgid "(Print) Show All Staffs"
-msgstr "（打印）显示所有谱表"
-
 #: ../actions/denemo.scm:1459
-msgid "(Print) Hide All Staffs"
-msgstr "（打印）隐藏所有谱表"
+msgid "(Display) Show All Staffs"
+msgstr "（预览）显示所有谱表"
 
 #: ../actions/denemo.scm:1460
+msgid "(Display) Hide All Other Staffs"
+msgstr "（显示）隐藏其他所有谱表"
+
+#: ../actions/denemo.scm:1461
 msgid "Movement Editor"
 msgstr "乐章编辑器"
+
+#: ../actions/denemo.scm:1463
+msgid "This sets the visibility/mute and other properties for the whole movement"
+msgstr "设置整个乐章的可见性/静音等属性"
 
 #: ../actions/editscripts/Beam.scm:6
 msgid "Customized Beaming Command - use Advanced Edit"
@@ -21210,6 +21214,18 @@ msgstr "设置逐步渐弱（渐强）记号长度"
 msgid "Inserts a directive to lengthen the following cresc or dim hairpin."
 msgstr "插入记号以设置逐步渐弱（渐强）记号的长度。"
 
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/TerminateHairpinAtBarline.scm:5
+msgid "End Hairpin"
+msgstr "逐步渐弱（渐强）结束"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/TerminateHairpinAtBarline.xml.h:1
+msgid "Terminate Hairpin at Barline"
+msgstr "在小节线处终止减弱（减强）"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/TerminateHairpinAtBarline.xml.h:2
+msgid "Ends a cresc. or dim, hairpin at the barline following the current note/chord. This command inserts a standalone Denemo Directive after the note/chord at the cursor."
+msgstr "在当前音符/和弦之后的小节线处终止减弱或减强。此命令将光标出的音符/和弦处插入一个独立的 Denemo 记号。"
+
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:12
@@ -26140,6 +26156,12 @@ msgstr "Denemo 的特别之处还在于，你可以真正使用创作的思路�
 #: ../denemo.appdata.xml.in.h:4
 msgid "Another great feature is the ability to put links in the score to the original source document that you transcribed from. Clicking on such a link opens the document for you and highlights the bar you are looking at. You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar."
 msgstr "此外，Denemo 还可以在乐谱中插入原稿文档（改编自的文档）的链接。点击此链接将会打开该文档，并高亮你所查看的小节。此功能可方便地用于恢复之前暂停的工作，或回查原稿中有疑问的小节。"
+
+#~ msgid "(Print) Show All Staffs"
+#~ msgstr "（打印）显示所有谱表"
+
+#~ msgid "(Print) Hide All Staffs"
+#~ msgstr "（打印）隐藏所有谱表"
 
 #~ msgid "Inserts blanks for the syllables from the start of the selection to the cursor."
 #~ msgstr "在选区起始处和光标之间插入空白音节。"
