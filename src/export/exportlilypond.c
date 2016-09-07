@@ -2621,7 +2621,6 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
           g_string_free (name, TRUE);
           gint start = 0, end = 0;
-#ifdef PRINT_FROM_SELECTION
           if (gui->movement->markstaffnum)
             {
               if (!(voice_count >= gui->movement->selection.firststaffmarked && voice_count <= gui->movement->selection.laststaffmarked))
@@ -2629,7 +2628,6 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
               start = gui->movement->selection.firstmeasuremarked;
               end = gui->movement->selection.lastmeasuremarked;
             }
-#endif
           if (visible_part > 0 && visible_movement > 0)
             outputStaff (gui, curstaffstruct, start, end, movement_name->str, voice_name->str, movement_count * visible_movement, voice_count * visible_part, sb);
           //g_debug("Music for staff is \n%s\n", visible_part>0?"visible":"NOT visible");
@@ -2995,13 +2993,13 @@ goto_lilypond_position (gint line, gint column)
   GtkTextIter enditer, iter;
 
   if (printview_is_stale ())
-   {// refresh_lily_cb (NULL, gui);
-   warningdialog (_("Print View is out of date"));
-   return TRUE;
+   {
+       gui->movement->markstaffnum = 0;
+       refresh_lily_cb (NULL, gui);
    }
 
-  //if (printview_is_stale ())
-   // play_note (DEFAULT_BACKEND, 0, 9, 69, 300, 100);
+  if (printview_is_stale ())
+    play_note (DEFAULT_BACKEND, 0, 9, 69, 300, 100);
   //g_print ("goto_lilypond_position called for line %d column %d\n", line, column);
 
   gtk_text_buffer_get_end_iter (Denemo.textbuffer, &enditer);

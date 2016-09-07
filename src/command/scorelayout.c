@@ -2814,11 +2814,8 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
 {
   GList *g;
   DenemoScoreblock *sb;
-#ifdef PRINT_FROM_SELECTION
   if (Denemo.project->movement->markstaffnum)
     return selection_layout ();
-#endif
-
 
   if (all_movements && partname == NULL)
     {
