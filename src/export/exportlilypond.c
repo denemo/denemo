@@ -2994,8 +2994,10 @@ goto_lilypond_position (gint line, gint column)
 
   if (printview_is_stale ())
    {
+       gint old = gui->movement->markstaffnum;
        gui->movement->markstaffnum = 0;
        refresh_lily_cb (NULL, gui);
+       gui->movement->markstaffnum = old;
    }
 
   if (printview_is_stale ())
