@@ -265,11 +265,11 @@ object_insert (DenemoProject * gui, DenemoObject * mudela_obj_new)
       // should not be needed, we are inserting the object undo->object = dnm_clone_object (mudela_obj_new);
       //do position after inserting, so we can go back to it to delete
     }
-    objnode *obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
-    if (obj && obj->prev) {
-        mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->clef;
-        mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->keysig;
-        mudela_obj_new->stemdir = (mudela_obj_new->type == STEMDIRECTIVE)?mudela_obj_new->object:((DenemoObject*)obj->prev->data)->stemdir;
+    objnode *obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x - 1);
+    if (obj) {
+        mudela_obj_new->clef = (mudela_obj_new->type == CLEF)?mudela_obj_new->object:((DenemoObject*)obj->data)->clef;
+        mudela_obj_new->keysig = (mudela_obj_new->type == KEYSIG)?mudela_obj_new->object:((DenemoObject*)obj->data)->keysig;
+        mudela_obj_new->stemdir = (mudela_obj_new->type == STEMDIRECTIVE)?mudela_obj_new->object:((DenemoObject*)obj->data)->stemdir;
 
     } else
     {
@@ -1819,10 +1819,11 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
   /* Now actually create the chord as an object (before insertion) */
   mudela_obj_new = newchord (duration, 0, 0);
   { //we have to give the obj a clef to add the note to it
-    objnode *obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x);
-    if (obj && obj->prev) {
-        mudela_obj_new->clef = ((DenemoObject*)obj->prev->data)->clef;
-        mudela_obj_new->keysig = ((DenemoObject*)obj->prev->data)->keysig;
+
+    objnode *obj = g_list_nth ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects, si->cursor_x -1);
+    if (obj) {
+        mudela_obj_new->clef = ((DenemoObject*)obj->data)->clef;
+        mudela_obj_new->keysig = ((DenemoObject*)obj->data)->keysig;
 
     } else
     {
@@ -2109,7 +2110,7 @@ void insert_chord (GList *note_data, gint duration) {
         struct twoints *data = g->data;
         addtone (Denemo.project->movement->currentobject->data, data->a, data->b);
     }
-    movecursorright (NULL, NULL);
+  movecursorright (NULL, NULL);
   displayhelper (Denemo.project);   
 }
 
