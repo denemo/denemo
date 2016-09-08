@@ -1474,3 +1474,16 @@
     (if (d-MoveToStaffDown) 
         (loop)))
 (d-PopPosition))      
+
+;;;;;
+(define (DenemoInsertChordTransposed notes root-note) ;; notes is a string e.g. "c e g" root-note is a symbol e.g 'cis,,
+    (let ((cursorNote #f)(above #f)(interval #f))
+                  (d-PutNote)
+                  (d-MoveCursorLeft)
+                  (set! cursorNote (string->symbol (d-GetNote)))
+                  (d-DeleteObject)
+                  (d-InsertChord notes)
+                  (d-MoveCursorLeft)
+                  (set! above (< (ANS::Ly2Ans cursorNote)  (ANS::Ly2Ans root-note)))
+                  (set! interval (ANS::GetInterval  (ANS::Ly2Ans root-note)  (ANS::Ly2Ans cursorNote)))
+                  (ANS::ChangeChordNotes (map (lambda (x) ((if above ANS::IntervalCalcDown ANS::IntervalCalcUp) x interval)) (ANS::GetChordNotes)))))

@@ -627,6 +627,8 @@ actions/menus/MainMenu/ViewMenu/DisplayEditingTime.scm
 actions/menus/MainMenu/ViewMenu/DisplayEditingTime.xml
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.scm
 actions/menus/MainMenu/ViewMenu/Palettes/ChoosePalette.xml
+actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.scm
+actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.xml
 actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.scm
 actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.xml
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.scm

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CreateButtonForChordType</action>
+        <after>CreateButtonForObject</after>
+        <_label>Create Button for Chord Type</_label>
+        <_tooltip>Creates a palette button which will insert the type of chord at the cursor, transposed to the cursor position when invoked. Use prepending sharp or flat to insert a chord with sharpened or flattened root note. Use for chord symbol chords.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
