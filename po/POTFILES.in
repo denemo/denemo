@@ -1842,6 +1842,8 @@ actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.xml
+actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.scm
+actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.xml
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.scm
 actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.xml
 actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm

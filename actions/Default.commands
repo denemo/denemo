@@ -7991,6 +7991,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Create Button for Chord Type</_label>
         <_tooltip>Creates a palette button which will insert the type of chord at the cursor, transposed to the cursor position when invoked. Use prepending sharp or flat to insert a chord with sharpened or flattened root note. Use for chord symbol chords.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PageNumbersWithInstrument</action>
+        <after>CenterPageNumber</after>
+        <menupath>/ObjectMenu/Score/Typesetter/Numbering</menupath>
+        <_label>Bold Page Numbers</_label>
+        <_tooltip>Page numbers typeset in a distinct font. The instrumentation is printed too, centered above each page after the first.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
