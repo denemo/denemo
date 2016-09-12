@@ -84,7 +84,7 @@ libevince_print (void)
   ev_document_model_set_inverted_colors (model, FALSE);    
     
 #ifdef G_OS_WIN32
-  infodialog ((_ "Direct Printing not available under Windows. Create PDF and print from that"));
+  infodialog (_("Direct Printing not available under Windows. Create PDF and print from that"));
   return -1;
 #endif
 
