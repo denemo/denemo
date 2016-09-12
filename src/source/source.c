@@ -68,12 +68,18 @@ overdraw (cairo_t * cr, EvView * view)
       cairo_set_source_rgba (cr, 0.5, 0.5, 1.0, 0.5);
       cairo_rectangle (cr, Mark.x * scale, Mark.y * scale, MARKER, MARKER);     //this is not right once there is space outside the document visible inside the window.
       cairo_fill (cr);
+      cairo_set_source_rgb (cr, 0, 0, 0);
+      cairo_rectangle (cr, Mark.x * scale, Mark.y * scale, MARKER, MARKER); 
+      cairo_stroke (cr);
     }
   if (OldMark.width)
     {
       cairo_set_source_rgba (cr, 1, 0.5, 0.5, 0.5);
       cairo_rectangle (cr, OldMark.x * scale, OldMark.y * scale, MARKER, MARKER);       //this is not right once there is space outside the document visible inside the window.
       cairo_fill (cr);
+      cairo_set_source_rgb (cr, 0, 0, 0);
+      cairo_rectangle (cr, OldMark.x * scale, OldMark.y * scale, MARKER, MARKER);      
+      cairo_stroke (cr);
     }
   return TRUE;
 }
