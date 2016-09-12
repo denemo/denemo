@@ -9,9 +9,9 @@
              (let ((label (d-GetUserInput (_ "Create Palette Button") (_ "Give a name for the chord") notes)))
                 (if label
                     (d-CreatePaletteButton CreateButtonForChord::palette label "Inserts chord" (string-append 
-                        "(DenemoInsertChordTransposed \"" notes "\" '" root-note ")
-                         (d-DirectivePut-chord-gx \"ChordName\" " (number->string (* -5 (string-length label))) ") 
-                         (d-DirectivePut-chord-graphic \"ChordName\" \"\n" label "\nDenemo\n20\")"))
-                     (d-WarningDialog (_ "Cancelled"))))    
+                            "(DenemoInsertChordTransposed \"" notes "\" '" root-note ")
+                             (d-DirectivePut-chord-gx \"ChordName\" " (number->string (* -5 (string-length label))) ") 
+                             (d-DirectivePut-chord-graphic \"ChordName\" \"\n" label "\nDenemo\n20\")\n(d-MoveCursorRight)"))
+                    (d-WarningDialog (_ "Cancelled"))))    
             (d-WarningDialog (_ "Cancelled"))))
     (d-WarningDialog (_ "Not on a chord"))))
