@@ -1039,10 +1039,13 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
 void
 template_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
+  DenemoProject *gui = Denemo.project;
   init_local_path ();
   default_template_path = local_template_path;
   Denemo.project->total_edit_time = 0;
   file_saveas (SAVE_TEMPLATE);
+  g_string_assign (gui->filename, "");
+  set_gui_tabname (gui, "");
 }
 
 
