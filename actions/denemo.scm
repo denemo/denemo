@@ -1487,3 +1487,19 @@
                   (set! above (< (ANS::Ly2Ans cursorNote)  (ANS::Ly2Ans root-note)))
                   (set! interval (ANS::GetInterval  (ANS::Ly2Ans root-note)  (ANS::Ly2Ans cursorNote)))
                   (ANS::ChangeChordNotes (map (lambda (x) ((if above ANS::IntervalCalcDown ANS::IntervalCalcUp) x interval)) (ANS::GetChordNotes)))))
+
+(define (DenemoGetNoteAndAccidental)
+    (define note (d-GetNote 1))
+    (define acc "")
+    (define name #f)
+    (if note
+        (begin
+            (set! name (string-upcase (substring note 0 1)))
+            (if (> (string-length note) 1)
+                (let ((char (string-ref note 1)))
+                    (if (eq? char #\e)
+                        (set! acc "♭")
+                        (if (eq? char #\i)
+                            (set! acc "♯")))))
+        (string-append name acc))
+        #f))

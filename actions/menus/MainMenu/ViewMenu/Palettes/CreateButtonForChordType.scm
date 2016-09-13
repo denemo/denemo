@@ -10,6 +10,7 @@
                 (if label
                     (d-CreatePaletteButton CreateButtonForChord::palette label "Inserts chord" (string-append 
                             "(DenemoInsertChordTransposed \"" notes "\" '" root-note ")
+                             (d-DirectivePut-chord-display \"ChordName\" (DenemoGetNoteAndAccidental))
                              (d-DirectivePut-chord-gx \"ChordName\" " (number->string (* -5 (string-length label))) ") 
                              (d-DirectivePut-chord-graphic \"ChordName\" \"\n" label "\nDenemo\n20\")\n(d-MoveCursorRight)"))
                     (d-WarningDialog (_ "Cancelled"))))    
