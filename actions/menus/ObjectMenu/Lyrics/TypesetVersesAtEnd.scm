@@ -16,6 +16,7 @@
 					(if theverse
 						(let ( (theoutput "\\markup {\\vspace #0.5 }") (thelines (string-split theverse  #\newline)))
 							(define (output-line theline)
+								(set! theline (string-map(lambda (c) (if (eq? c #\_) #\space c)) theline))
 								(set! theoutput (string-append theoutput "\n\\markup \"" theline "\"\n")))
 			
 							(for-each output-line thelines)
