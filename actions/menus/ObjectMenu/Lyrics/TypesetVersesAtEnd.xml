@@ -8,7 +8,7 @@
         <after>DeleteVerse</after>
         <action>TypesetVersesAtEnd</action>
         <_label>Typeset Verses at End</_label>
-        <_tooltip>Let's you choose a number of verses to print at the end of the piece (movement). Use a customized score layout to prevent them from appearing beneath the music in addition.</_tooltip>
+        <_tooltip>Let's you choose a number of verses to print at the end of the piece (movement), instead of underlaying the music. The verses are copied to the end so can be deleted once copied to prevent them from appearing beneath the music in addition.</_tooltip>
       </row>
     </map>
   </merge>
