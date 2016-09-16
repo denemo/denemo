@@ -20,6 +20,7 @@
 #include "ui/palettes.h"
 #include "core/utils.h"
 #include "core/view.h"
+#include "core/palettestorage.h"
 
 
 static gint
@@ -348,7 +349,13 @@ load_system_keymap_dialog_response (void)
   load_system_keymap_dialog ();
 
 }
-
+static void
+load_standard_palettes (void)
+{
+   gchar *filename = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "palettes.xml", NULL);
+   installPalettesFile (filename, TRUE);
+    
+}
 static void
 load_keymap_dialog_response (void)
 {
@@ -576,6 +583,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   GtkWidget *button_save_as;
   GtkWidget *button_load;
   GtkWidget *button_load_from;
+  GtkWidget *pal_load;
 
   GtkWidget *command_view;
   GtkWidget *binding_view;
@@ -685,24 +693,34 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   gtk_box_pack_end (GTK_BOX (outer_hbox), vbox, FALSE, TRUE, 0);
 
    {
-  GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
-   button_save = gtk_button_new_with_label (_("Save as Default Command Set"));
+    GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 8);
+    gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+    button_save = gtk_button_new_with_label (_("Save as Default Command Set"));
     gtk_box_pack_start (GTK_BOX (inner_hbox), button_save, FALSE, TRUE, 0);
-  gtk_widget_set_tooltip_text (button_save, _("Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"));
-  button_save_as = gtk_button_new_with_label (_("Save as a Custom Command Set"));
+    gtk_widget_set_tooltip_text (button_save, _("Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"));
+    button_save_as = gtk_button_new_with_label (_("Save as a Custom Command Set"));
     gtk_box_pack_start (GTK_BOX (inner_hbox), button_save_as, FALSE, TRUE, 0);
 
-  button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
+    button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
     inner_hbox = gtk_hbox_new (FALSE, 8);
-  gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+    gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
     button_load = gtk_button_new_with_label (_("Load a Standard Command Set"));
     gtk_box_pack_start (GTK_BOX (inner_hbox), button_load, FALSE, TRUE, 0);
 
-  button_load_from = gtk_button_new_with_label (_("Load a Custom Command Set"));
+    button_load_from = gtk_button_new_with_label (_("Load a Custom Command Set"));
     gtk_box_pack_start (GTK_BOX (inner_hbox), button_load_from, FALSE, TRUE, 0);
 
+
+
+    inner_hbox = gtk_hbox_new (FALSE, 8);
+
+    gtk_box_pack_start (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
+    pal_load = gtk_button_new_with_label (_("Load the Standard Palette Set"));
+    gtk_box_pack_start (GTK_BOX (inner_hbox), pal_load, FALSE, TRUE, 0);
+
    }
+
+
 
   GtkWidget *inner_hbox = gtk_hbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
@@ -797,6 +815,10 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
   g_signal_connect (G_OBJECT (button_save_as), "clicked", G_CALLBACK (save_keymap_dialog), NULL);
   g_signal_connect (G_OBJECT (button_load), "clicked", G_CALLBACK (load_system_keymap_dialog_response), NULL);
   g_signal_connect (G_OBJECT (button_load_from), "clicked", G_CALLBACK (load_keymap_dialog_response), NULL);
+
+
+  g_signal_connect (G_OBJECT (pal_load), "clicked", G_CALLBACK (load_standard_palettes), NULL);
+
 
   gtk_widget_show_all (Denemo.command_manager);
   g_signal_connect (Denemo.command_manager, "delete-event", G_CALLBACK (keymap_cleanup_command_view), &cbdata);
