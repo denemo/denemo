@@ -1,3 +1,15 @@
+2016-09-17
+    New Features
+        Specify total page count
+        Set a distinctive style for page numbers
+        Duplex View now shows page edges clearly
+        Chord Entry by MIDI keyboard without sustain pedal
+        Palette button creation for chord types
+        Reload standard palettes
+    Bug Fixes
+        Navigation from stale Print View fixed
+        InsertChord command fixed at clef change
+        Typeset Verses at End now copes with quotes, underscore, tildes
 
 2016-08-05
     Bug Fixes:
