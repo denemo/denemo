@@ -100,6 +100,21 @@
             (d-MoveToMeasureLeft)
             (or (ZeroDurationMeasure?) (FullDurationMeasure?)))
         #t))
+        
+(define (NextMeasureEmpty?)
+    (define return #f)
+    (d-PushPosition)
+    (set! return (and (d-MoveToMeasureRight) (EmptyMeasure?)))
+    (d-PopPosition)
+    return)
+        
+(define (EnsureEmptyNextMeasure all)
+ (d-PushPosition)
+ (if (not (NextMeasureEmpty?))
+    (if all
+        (d-AddMeasure)
+        (d-InsertMeasureAfter)))
+ (d-PopPosition))
                    
 ;;;;;;;;;;Duration Conversions between Denemo, Lilypond and Tick syntax.
 ;; A table of common values

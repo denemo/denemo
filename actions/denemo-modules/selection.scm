@@ -1,6 +1,7 @@
 #!
 (define-module (actions denemo-modules selection)
     #:export (
+        MoveToEndOfSelection
         NextSelectedObjectAllStaffs
         SingleAndSelectionSwitcher
         MapToSelection
@@ -14,6 +15,17 @@
     )
     #:use-module (ice-9 optargs)) !#
 
+
+
+;;; move to selection end if cursor is in selection
+(define  (MoveToEndOfSelection)
+  (if (d-IsInSelection)
+        (let loop ()
+            (d-MoveCursorRight)
+            (if (d-IsInSelection)
+                (loop)
+                (d-MoveCursorLeft)))))
+                
 (define (MoveToSelectionBeginningInThisStaff)
     (define staffPosition (d-GetStaff))
     (define rememberPosition (GetPosition))
