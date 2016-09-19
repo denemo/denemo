@@ -7998,6 +7998,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Bold Page Numbers</_label>
         <_tooltip>Page numbers typeset in a distinct font. The instrumentation is printed too, centered above each page after the first.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PercentRepeat</action>
+        <after>FillUpMeasure</after>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Insert Percent Style Repeat</_label>
+        <_tooltip>Creates a repeat from the selection, typeset in \"percent\" style.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PercentRepeat</action>
+        <after>FillUpMeasure</after>
+        <_label>Insert Percent Style Repeat</_label>
+        <_tooltip>Creates a repeat from the selection, typeset in \"percent\" style.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
