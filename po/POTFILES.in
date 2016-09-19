@@ -1327,6 +1327,8 @@ actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.xml
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.scm
 actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.xml
+actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm
+actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.scm
