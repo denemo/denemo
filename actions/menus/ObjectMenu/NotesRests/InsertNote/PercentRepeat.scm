@@ -40,7 +40,9 @@
                     (d-DirectivePut-standalone-postfix tag " %} ")
                     (d-DirectivePut-standalone-graphic tag "\n%}\nDenemo\n36")
                     (d-DirectivePut-standalone-gy tag 10)
-                    (d-MoveCursorRight))))
+                    (d-MoveCursorRight)
+                    (d-RefreshDisplay)
+                    (d-SetSaved #f))))
         (d-WarningDialog (_ "Cursor not in selection"))))
 
     
