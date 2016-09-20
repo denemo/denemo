@@ -3,17 +3,30 @@
 (if PercentRepeat::params
     (d-InfoDialog (_ "This Denemo Directive is part of a set of four creating a \"Percent Repeat\". Be sure to delete them all if you delete one of them."))
     (if (d-IsInSelection)
-        (let ((tag "PercentRepeat") (num_repeats (d-GetUserInput (_ "Percent Repeat") (_ "Give number of further repeats 1,2,...") "1")))
+        (let ((tag "PercentRepeat") (start-measurenum #f)(num_repeats (d-GetUserInput (_ "Percent Repeat") (_ "Give number of further repeats 1,2,...") "1")))
+            (d-GoToMark)
+            (set! start-measurenum (d-GetMeasure))
             (MoveToEndOfSelection)
+            (set! start-measurenum (or (not (= start-measurenum (d-GetMeasure)))
+                                        (FullDurationMeasure?)))
+            
+            
             (if num_repeats
-                (begin
+                (let ((numbering  (if start-measurenum (d-GetUserInput (_ "Percent Repeat") (_ "Give frequency of numbering 0, 1,...") "1") #f))
+                        (freq "\\set countPercentRepeats = ##f "))
+                    (if numbering
+                        (begin
+                            (set! numbering (string->number numbering))
+                            (if (and numbering (positive? numbering))
+                                (set! freq (string-append  "\\set countPercentRepeats = ##t \\set repeatCountVisibility = #(every-nth-repeat-count-visible " (number->string numbering) ") ")))))
+                        
                     (set! num_repeats (string->number num_repeats))
                     (d-Copy)
                     (d-PushPosition)
                     (d-GoToMark)
                     (d-Directive-standalone tag)
                     (d-DirectivePut-standalone-minpixels tag 40)
-                    (d-DirectivePut-standalone-postfix tag (string-append "\\repeat percent " (number->string (1+ num_repeats)) "{ "))
+                    (d-DirectivePut-standalone-postfix tag (string-append freq "\\repeat percent " (number->string (1+ num_repeats)) "{ "))
                     (d-DirectivePut-standalone-display tag (string-append "% " (number->string (1+ num_repeats))))
                     (d-DirectivePut-standalone-graphic tag (string-append "\nR{\nDenemo\n36"))
                     (d-DirectivePut-standalone-gy tag 10)
@@ -44,5 +57,3 @@
                     (d-RefreshDisplay)
                     (d-SetSaved #f))))
         (d-WarningDialog (_ "Cursor not in selection"))))
-
-    
