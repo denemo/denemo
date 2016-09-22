@@ -310,6 +310,8 @@ set_preferences (struct callbackdata *cbdata)
     }
   if (prefs->learning)
     initialize_keystroke_help ();
+  if (prefs->tooltip_timeout == 0)
+    prefs->tooltip_timeout = 2000;
   /* Now write it all to denemorc */
   writeXMLPrefs (prefs);
 }
@@ -570,8 +572,10 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   BOOLEANENTRY (_("Turn on all Tooltips"), newbie);
   BOOLEANENTRY (_("Show Shortcuts Used"), learning);
   INTENTRY_LIMITS (_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
+#ifndef FAKE_TOOLTIPS
   INTENTRY_LIMITS (_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
   INTENTRY_LIMITS (_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
+#endif
   /*
    * External (Helper) Programs
    */
