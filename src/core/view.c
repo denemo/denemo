@@ -4014,46 +4014,46 @@ GtkToggleActionEntry toggle_menu_entries[] = {
   {ToggleObjectMenu_STRING, NULL, N_("Object Menu"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
    G_CALLBACK (toggle_object_menu), TRUE}
   ,
-  {ToggleLilyText_STRING, NULL, N_("LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window"),
+  {ToggleLilyText_STRING, NULL, N_("LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window. Any errors in typesetting are shown here."),
    G_CALLBACK (toggle_lilytext), FALSE}
   ,
-  {ToggleScript_STRING, NULL, N_("Scheme Script"), NULL, N_("Show scheme script window"),
+  {ToggleScript_STRING, NULL, N_("Scheme Script"), NULL, N_("Show Scheme script window. Sequemces of commands can be recorded here\nand then executed or turned into new commaneds."),
    G_CALLBACK (toggle_scheme), FALSE}
   ,
 
-  {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, NULL,
+  {TogglePrintView_STRING, NULL, N_("Typeset Music"), NULL, N_("Shows the Print View\nwith the music typeset by the LilyPond Music Typesetter."),
    G_CALLBACK (toggle_print_view), FALSE}
   ,
 
-  {TogglePlaybackView_STRING, NULL, N_("Playback"), NULL, NULL,
+  {TogglePlaybackView_STRING, NULL, N_("Playback"), NULL, N_("Shows the PlayBack View from which a more sophisticated playback of the music is possible"),
    G_CALLBACK (toggle_playback_view), FALSE}
   ,
 
-  {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, NULL,
+  {ToggleScoreLayout_STRING, NULL, N_("Score Layout"), NULL, N_("Shows an overview of the score where various elements can be rearranged, deleted etc. to form a customized layout"),
    G_CALLBACK (toggle_score_layout), FALSE}
   ,
-  {ToggleCommandManager_STRING, NULL, N_("Command Center"), NULL, NULL,
+  {ToggleCommandManager_STRING, NULL, N_("Command Center"), NULL, N_("Shows a searchable list of all commands, enables setting of keyboard short-cuts, etc."),
    G_CALLBACK (toggle_command_manager), FALSE}
   ,
 
-  {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, NULL,
+  {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, N_("Shows any lyric verses in the Denemo Display when the cursor is on a staff with verses attached"),
    G_CALLBACK (toggle_lyrics_view), TRUE}
   ,
 
 
-  {ToggleScoreView_STRING, NULL, N_("Score"), NULL, NULL,
+  {ToggleScoreView_STRING, NULL, N_("Score"), NULL, N_("Shows/hides the music in the Denemo Display"),
    G_CALLBACK (toggle_score_view), TRUE}
   ,
 
-  {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, NULL,
+  {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, N_("Shows a bar holding the title etc of the music and buttons for selecting a movement to make currrent."),
    G_CALLBACK (toggle_scoretitles), FALSE}
   ,
 
 
-  {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, "Enable editing keybindings by pressing a key while hovering over the menu item",
+  {QuickEdits_STRING, NULL, N_("Allow Quick Shortcut Edits"), NULL, N_("Enable editing keybindings by pressing a key while hovering over the menu item"),
    G_CALLBACK (toggle_quick_edits), TRUE}
   ,
-  {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, "Start recording commands into the Scheme script text window",
+  {RecordScript_STRING, NULL, N_("Record Scheme Script"), NULL, N_("Start recording commands into the Scheme script text window"),
    G_CALLBACK (toggle_record_script), FALSE}
   ,
 
