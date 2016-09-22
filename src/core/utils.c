@@ -2692,6 +2692,35 @@ no_longer_wanted (GtkWidget * w)
   return FALSE;
 }
 
+gchar *format_tooltip (gchar *tip) {
+    gchar *this = tip;
+    if (tip==NULL)
+        return _("No Tooltip");
+    GString *out = g_string_new ("");
+
+    for (this = tip; *this; this++)
+        {
+        if (*this == '.')  //UTF8 strings never contain ASCII bytes except to represent the corresponding ASCII char
+            {
+                this++;
+                if (*this == ' ')
+                    g_string_append (out, ".\n");
+                else
+                    {
+                        this--;
+                        g_string_append_c (out, *this);
+                    }
+            }
+        else
+            g_string_append_c (out, *this);
+        
+    }
+    if ((*tip=='T') && (*(tip+1)=='r'))
+        g_print ("out is %s\n", out->str);
+    return g_string_free (out, FALSE);
+}    
+    
+    
 gboolean
 show_tooltip (GtkWidget * w, GdkEvent * ev, gchar * text)
 {
