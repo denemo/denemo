@@ -2674,20 +2674,20 @@ use_markup (GtkWidget * widget)
 }
 
 #ifdef FAKE_TOOLTIPS
-static GtkWidget *TooltipDialog = NULL;
+static GtkWidget *TooltipPopup = NULL;
 static gboolean not_wanted = TRUE;
 static gboolean not_wanted_in_this_session = FALSE;
 
 static gboolean
 no_longer_wanted (GtkWidget * w)
 {  
-  if (TooltipDialog == NULL)
+  if (TooltipPopup == NULL)
     return FALSE;
   not_wanted = TRUE;
   if (Denemo.prefs.newbie)
     not_wanted_in_this_session = FALSE;
-  GtkWidget *deleting = TooltipDialog; //to prevent recursion in popping down menu
-  TooltipDialog = NULL;
+  GtkWidget *deleting = TooltipPopup; //to prevent recursion in popping down menu
+  TooltipPopup = NULL;
   gtk_menu_popdown (GTK_MENU (deleting)); 
   return FALSE;
 }
@@ -2697,7 +2697,6 @@ gchar *format_tooltip (gchar *tip) {
     if (tip==NULL)
         return _("No Tooltip");
     GString *out = g_string_new ("");
-
     for (this = tip; *this; this++)
         {
         if (*this == '.')  //UTF8 strings never contain ASCII bytes except to represent the corresponding ASCII char
@@ -2715,8 +2714,6 @@ gchar *format_tooltip (gchar *tip) {
             g_string_append_c (out, *this);
         
     }
-    if ((*tip=='T') && (*(tip+1)=='r'))
-        g_print ("out is %s\n", out->str);
     return g_string_free (out, FALSE);
 }    
     
@@ -2735,7 +2732,7 @@ show_tooltip (GtkWidget * w, GdkEvent * ev, gchar * text)
     {
         last_widget = NULL;
         last_y = last_time = 0;
-        no_longer_wanted (TooltipDialog);
+        no_longer_wanted (TooltipPopup);
         return FALSE;
     }
   
@@ -2765,13 +2762,13 @@ show_tooltip (GtkWidget * w, GdkEvent * ev, gchar * text)
    if (text && (*text) && (last_tooltip != text))
     {
       last_tooltip = text; 
-      TooltipDialog = gtk_menu_new ();
+      TooltipPopup = gtk_menu_new ();
       GtkWidget *item = gtk_menu_item_new_with_label (text); //FIXME remove markup and break into lines - do this at creation time.
 
-      gtk_menu_shell_append (GTK_MENU_SHELL (TooltipDialog), item);
+      gtk_menu_shell_append (GTK_MENU_SHELL (TooltipPopup), item);
       g_signal_connect (G_OBJECT (item), "leave-notify-event", G_CALLBACK (no_longer_wanted), NULL);
-      gtk_widget_show_all (TooltipDialog);
-      gtk_menu_popup (GTK_MENU (TooltipDialog), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+      gtk_widget_show_all (TooltipPopup);
+      gtk_menu_popup (GTK_MENU (TooltipPopup), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
       return FALSE;
     }
   return FALSE;                 //allow normal response
