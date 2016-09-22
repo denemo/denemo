@@ -83,9 +83,9 @@ void repack_palette (DenemoPalette *pal)
     }
     gtk_widget_destroy (pal->box);
     pal->box = gtk_grid_new();
-    gchar *tooltip = g_strdup_printf("The \"%s\" Palette:\n%s", pal->name, _("To edit this palette, dock/undock, hide etc, right click on a button and choose Edit Palette."));
-    gtk_widget_set_tooltip_text (pal->box, tooltip);
-    g_free(tooltip);
+   // gchar *tooltip = g_strdup_printf("The \"%s\" Palette:\n%s", pal->name, _("To edit this palette, dock/undock, hide etc, right click on a button and choose Edit Palette."));
+   // gtk_widget_set_tooltip_text (pal->box, tooltip);
+   // g_free(tooltip);
     for (i=0, g=pal->buttons;g;i++, g=g->next)
     {
         if(pal->rows)

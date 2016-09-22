@@ -53,6 +53,7 @@
 
 static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
+static GtkWidget *midihelpbutton;
 static GtkWidget *audiorecordbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
@@ -4287,7 +4288,8 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
     {
       gtk_button_set_image (GTK_BUTTON (button), gtk_image_new_from_stock (image, GTK_ICON_SIZE_BUTTON));
     }
-  g_signal_connect (button, "clicked", G_CALLBACK (callback), NULL);
+  if (callback)
+    g_signal_connect (button, "clicked", G_CALLBACK (callback), NULL);
   gtk_box_pack_start (GTK_BOX (box), button, FALSE, TRUE, 0);
   gtk_widget_set_tooltip_text (button, tooltip);
   return button;
@@ -4476,7 +4478,7 @@ create_window (void)
 
   {
     Denemo.playback_control = gtk_vbox_new (FALSE, 1);
-    gtk_widget_set_tooltip_text (Denemo.playback_control, _("Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start" " and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."));
+    //gtk_widget_set_tooltip_text (Denemo.playback_control, _("Controls for playback. The arrows on either side of the PLAY and STOP buttons move the playback start" " and playback end markers. Loop plays in a loop - you can edit while it plays. You can also record the output and save it as .ogg or .wav file. The temperament used for playing back can be set here."));
     gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.playback_control, FALSE, TRUE, 0);
     GtkFrame *frame = (GtkFrame *) gtk_frame_new (_("Playback Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -4535,6 +4537,13 @@ create_window (void)
     if (!gtk_widget_get_parent (temperament_control))
       //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
       gtk_box_pack_start (GTK_BOX (inner), temperament_control, FALSE, FALSE, 0);
+#define PLAYBACK_HELP  _("Controls for playback.\nThe arrows on either side of the PLAY and STOP buttons move the playback start\nand playback end markers.\nLoop plays in a loop - you can edit while it plays.\nYou can also record the output and save it as .ogg or .wav file.\nThe temperament used for playing back can be set here.")
+    
+     GtkWidget* helpbutton = create_playbutton (inner, _("Help"), NULL, NULL, PLAYBACK_HELP);
+     g_signal_connect_swapped (helpbutton, "clicked", infodialog, PLAYBACK_HELP);
+      
+      
+      
     {
       GtkWidget *hbox;
       hbox = gtk_hbox_new (FALSE, 1);
@@ -4643,9 +4652,7 @@ create_window (void)
 
 
     Denemo.midi_in_control = gtk_vbox_new (FALSE, 1);
-    gtk_widget_set_tooltip_text (Denemo.midi_in_control,
-                                 _
-                                 ("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."));
+    //gtk_widget_set_tooltip_text (Denemo.midi_in_control, _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer. You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI looking for MIDI in devices (turn your device on first). When you have a MIDI controller durations are inserted without any pitch (they appear in brown) playing on the controller puts the pitches onto the durations. The Shift and Control and ALT keys can also be used for listening without entering notes, checking pitches entered and entering chords. The foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord - timing is unimportant, play the chord fast or slow."));
     gtk_box_pack_start (GTK_BOX (outer_main_vbox), Denemo.midi_in_control, FALSE, TRUE, 0);
     frame = (GtkFrame *) gtk_frame_new (_("Midi In Control"));
     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
@@ -4679,7 +4686,12 @@ create_window (void)
 
       convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
       midirecordbutton = create_playbutton (hbox, NULL, pb_record, GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
-
+      
+      
+#define MIDI_CONTROL_HELP _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\nYou may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\nlooking for MIDI in devices (turn your device on first).\nWhen you have a MIDI controller durations are inserted without any pitch (they appear in brown)\n playing on the controller puts the pitches onto the durations.\nThe Shift and Control and ALT keys can also be used for listening without entering notes,\nchecking pitches entered and entering chords.\nThe foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord\n- timing is unimportant, play the chord fast or slow.\nOr use Input → MIDI → Chord Entry Without Pedal to enter chords based on playing the notes simultaneously")
+      midihelpbutton = create_playbutton (hbox, _( "Help"), NULL, NULL, MIDI_CONTROL_HELP);
+      g_signal_connect_swapped (midihelpbutton, "clicked", infodialog, MIDI_CONTROL_HELP);
+      
       gtk_widget_show_all (Denemo.midi_in_control);
       gtk_widget_show_all (Denemo.playback_control);
       gtk_widget_hide (deletebutton);
