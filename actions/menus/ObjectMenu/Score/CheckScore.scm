@@ -61,19 +61,19 @@
                             (d-MoveToBeginning)
                             (let measure ()
                                 (if (not (LastMeasure?)) 
-                            (if (or (FullDurationMeasure?)(ZeroDurationMeasure?))
-                                        (begin
-                                            (d-MoveToMeasureRight)
-                                            (measure))
-                                        (begin
-                                             (if (positive? CheckScore::ignore)
-                                                    (begin
-                                                        (set! CheckScore::ignore (1- CheckScore::ignore))
-                                                        (d-MoveToMeasureRight)
-                                                        (measure))
-                                                    (begin
-                                                        (set! CheckScore::return (_ "Incorrect measure duration"))
-                                                        (set! CheckScore::error-position (GetPosition))))))))
+		                    (if (AcceptableDurationMeasure?)
+		                                (begin
+		                                    (d-MoveToMeasureRight)
+		                                    (measure))
+		                                (begin
+		                                     (if (positive? CheckScore::ignore)
+		                                            (begin
+		                                                (set! CheckScore::ignore (1- CheckScore::ignore))
+		                                                (d-MoveToMeasureRight)
+		                                                (measure))
+		                                            (begin
+		                                                (set! CheckScore::return (_ "Incorrect measure duration"))
+		                                                (set! CheckScore::error-position (GetPosition))))))))
                             (if (not CheckScore::return)
                                 (begin
                                    

@@ -98,7 +98,7 @@
     (if (d-MoveToMeasureRight)
         (begin
             (d-MoveToMeasureLeft)
-            (or (ZeroDurationMeasure?) (FullDurationMeasure?)))
+            (or (ZeroDurationMeasure?) (FullDurationMeasure?) (d-Directive-standalone? "!")))
         #t))
         
 (define (NextMeasureEmpty?)
