@@ -4631,16 +4631,19 @@ structural_change_chord (void)
 static void
 structural_change_clef (void)
 {
+     signal_structural_change (Denemo.project);//should be just for initial clef
 }
 
 static void
 structural_change_timesig (void)
 {
+     signal_structural_change (Denemo.project);//should be just for initial time
 }
 
 static void
 structural_change_keysig (void)
 {
+     signal_structural_change (Denemo.project);//should be just for initial key
 }
 
 static void
