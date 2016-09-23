@@ -5703,14 +5703,14 @@ for second and subsequent systems</_tooltip>
         <after>Tempo</after>
         <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
         <_label>Start Cadenza</_label>
-        <_tooltip>Turns off barlines etc for cadenza</_tooltip>
+        <_tooltip>Inserts Cadenza start at the current cursor position, which should be the start of a (Denemo) bar. Turns off automatic barlines, beaming etc and sets small sized notes for a cadenza. You can break up the cadenza in the Denemo Display into Denemo "bars" if the cadenza is too long. You will need to insert barlines or use the Allow Page/Line break command to let the typesetter break lines. Add Ignore Measure Duration Error directives in each bar if you want to use Check Score.</_tooltip>
       </row>
       <row type="scheme">
         <action>FinishCadenza</action>
         <after>CadenzaOn</after>
         <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
         <_label>End Cadenza</_label>
-        <_tooltip>Returns to normal barlines etc after a cadenza</_tooltip>
+        <_tooltip>Inserts Cadenza end at the current cursor position which should be at the start of a (Denemo) bar. See Start Cadenza for details.</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenFirstTimeBar</action>

@@ -8,7 +8,7 @@
         <after>CadenzaOn</after>
         <action>FinishCadenza</action>
         <_label>End Cadenza</_label>
-        <_tooltip>Returns to normal barlines etc after a cadenza</_tooltip>
+        <_tooltip>Inserts Cadenza end at the current cursor position which should be at the start of a (Denemo) bar. See Start Cadenza for details.</_tooltip>
       </row>
     </map>
   </merge>

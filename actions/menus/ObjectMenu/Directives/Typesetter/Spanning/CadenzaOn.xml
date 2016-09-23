@@ -8,7 +8,7 @@
         <after>Tempo</after>
         <action>CadenzaOn</action>
         <_label>Start Cadenza</_label>
-        <_tooltip>Turns off barlines etc for cadenza</_tooltip>
+        <_tooltip>Turns off automatic barlines, beaming etc and sets small sized notes for a cadenza. You can break up the cadenza in the Denemo Display into Denemo "bars" if the cadenza is too long. You will need to insert barlines or use the Allow Page/Line break command to let the typesetter break lines. Add Ignore Measure Duration Error directives in each bar if you want to use Check Score.</_tooltip>
       </row>
     </map>
   </merge>
