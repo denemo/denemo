@@ -4631,20 +4631,21 @@ structural_change_chord (void)
 static void
 structural_change_clef (void)
 {
-     signal_structural_change (Denemo.project);//should be just for initial clef
+    if (!(Denemo.project->movement->currentobject && (((DenemoObject*)(Denemo.project->movement->currentobject->data))->type == CLEF)))
+        signal_structural_change (Denemo.project);
 }
 
 static void
 structural_change_timesig (void)
 {
-     signal_structural_change (Denemo.project);//should be just for initial time
-}
+    if (!(Denemo.project->movement->currentobject && (((DenemoObject*)(Denemo.project->movement->currentobject->data))->type == TIMESIG)))
+        signal_structural_change (Denemo.project);}
 
 static void
 structural_change_keysig (void)
 {
-     signal_structural_change (Denemo.project);//should be just for initial key
-}
+    if (!(Denemo.project->movement->currentobject && (((DenemoObject*)(Denemo.project->movement->currentobject->data))->type == KEYSIG)))
+        signal_structural_change (Denemo.project);}
 
 static void
 structural_change_stemdirective (void)
