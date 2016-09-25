@@ -61,7 +61,7 @@ paste_snippet_lilypond (GtkWidget * button)
         {
           const gchar *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
           gchar *text = g_strdup_printf ("\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\\paper{top-margin=0.0 left-margin=0.0}\n}", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
-          gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
+          gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
           g_free (text);
         }
     }
@@ -91,7 +91,7 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
       if(text)
         {
             gchar *insert = g_strdup_printf("%s", text);
-            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1 /*gint len */ );
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
             g_free (text);
             g_free (insert);
         }
@@ -115,7 +115,7 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
       if(text)
         {
             gchar *insert = g_strdup_printf("%s", text);
-            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1 /*gint len */ );
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
             g_free (text);
             g_free (insert);
         }
@@ -135,7 +135,7 @@ insert_markup (GtkWidget * button, gchar *text)
   
   GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (textbuffer)
-    gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1);
+    gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
   else
     g_warning ("Denemo program error, widget hierarchy changed???");
 
@@ -155,7 +155,7 @@ markup_selection (GtkWidget * button, gchar *text)
          {
              gtk_text_buffer_insert_with_tags_by_name  (GTK_TEXT_BUFFER (textbuffer), &start, text, -1, "code", NULL);
              if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
-                gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &end, "}", -1, "code", NULL);
+                gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &end, "}", -1, "code", NULL), run_preview (textbuffer);
          }
       else
           g_warning ("Denemo program error, widget hierarchy changed???");
@@ -271,7 +271,7 @@ static void preview_text (gchar *text)
     g_free (syntax);
     g_free (lilypond);
 }
-static gboolean run_preview (GtkWidget *textbuffer)
+gboolean run_preview (GtkWidget *textbuffer)
 {
     GtkTextIter startiter, enditer;
     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
@@ -381,14 +381,20 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   gtk_widget_set_tooltip_text (button, _("Inserts markup to set the relative font size for the selected text."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-    button = gtk_button_new_with_label ("⬆");
+  button = gtk_button_new_with_label ("⬆");
   gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_vert), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-    button = gtk_button_new_with_label (_("⬌"));
+  button = gtk_button_new_with_label (_("⬌"));
   gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to insert/backup space (+/-) at the cursor."));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_horiz), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
+  button = gtk_button_new_with_label (_("Help"));
+  gtk_widget_set_tooltip_text (button, instruction);
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (infodialog), instruction);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+
 
   button = gtk_button_new_with_label (_("Preview"));
   gtk_widget_set_tooltip_text (button, _("Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."));

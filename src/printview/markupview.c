@@ -3,6 +3,7 @@
 #include <math.h>
 #include <glib/gstdio.h>
 #include "export/print.h"
+#include "ui/markup.h"
 
 static GtkWidget *DenemoMarkupArea;
 static gboolean
@@ -23,13 +24,16 @@ overdraw_print (cairo_t * cr)
       cairo_set_font_size (cr, 48.0);
       cairo_move_to (cr, 50, message_height);
       cairo_show_text (cr, _( "Cannot Typeset!"));
+      cairo_move_to (cr, 50, message_height + 50);
+      cairo_set_font_size (cr, 24.0);
+      cairo_show_text (cr, _( "Edit the markup in the pane below and then click here"));
+      
   } else
   {
       cairo_set_source_rgba (cr, 0.0, 0.5, 0.0, 0.4);
       cairo_set_font_size (cr, 48.0);
       cairo_move_to (cr, 50, message_height);
-      cairo_show_text (cr, _( "Preview"));
-      
+      cairo_show_text (cr, _( "Click to Preview"));
   }
  return TRUE;
 }
@@ -126,13 +130,21 @@ markuparea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 }
 #endif
 
+static GtkWidget *TheTopBox;
+static gint
+markuparea_button_release (void)
+{
+   GtkWidget *textbuffer = (GtkWidget*)g_object_get_data (G_OBJECT(TheTopBox), "textbuffer");
+   if (textbuffer)
+    run_preview (textbuffer);
+   return TRUE; 
+}
 
-        
-        
-        
+
 void
 install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 {
+  TheTopBox = top_vbox;
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
   ev_init ();
@@ -149,4 +161,10 @@ install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 #else
   g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "expose_event", G_CALLBACK (markuparea_draw_event), NULL);
 #endif
+ //g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "button_press_event", G_CALLBACK (markuparea_button_press), NULL); for some reason this is not received after the start
+ 
+  g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "button_release_event", G_CALLBACK (markuparea_button_release), NULL);
+
+
+
 }
