@@ -44,10 +44,10 @@ static GtkWidget *get_textbuffer_from_button (GtkWidget *button) {
     GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
     return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
 }
-static GtkWidget *get_textview_from_button (GtkWidget *button) {
-    GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
-    return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
-}
+//static GtkWidget *get_textview_from_button (GtkWidget *button) {
+//    GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
+//    return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+//}
 static void
 paste_snippet_lilypond (GtkWidget * button)
 {
@@ -69,8 +69,8 @@ paste_snippet_lilypond (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-  GtkWidget *textview = get_textview_from_button (button);
-  gtk_widget_grab_focus (textview);
+ // GtkWidget *textview = get_textview_from_button (button);
+ // gtk_widget_grab_focus (textview);
 }
 
 static void
@@ -100,8 +100,8 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-    GtkWidget *textview = get_textview_from_button (button);
-    gtk_widget_grab_focus (textview);
+//    GtkWidget *textview = get_textview_from_button (button);
+//    gtk_widget_grab_focus (textview);
 }
 static void
 paste_current_lilypond_as_fretdiagram (GtkWidget * button)
@@ -124,8 +124,8 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-  GtkWidget *textview = get_textview_from_button (button);
-  gtk_widget_grab_focus (textview);
+//  GtkWidget *textview = get_textview_from_button (button);
+//  gtk_widget_grab_focus (textview);
 }
 
 static void
@@ -139,8 +139,8 @@ insert_markup (GtkWidget * button, gchar *text)
   else
     g_warning ("Denemo program error, widget hierarchy changed???");
 
- GtkWidget *textview = get_textview_from_button (button);
- gtk_widget_grab_focus (textview);
+// GtkWidget *textview = get_textview_from_button (button);
+// gtk_widget_grab_focus (textview);
 }
 static void
 markup_selection (GtkWidget * button, gchar *text)
@@ -162,8 +162,8 @@ markup_selection (GtkWidget * button, gchar *text)
     }
   else
     warningdialog ( _("Select the text first."));
- GtkWidget *textview = get_textview_from_button (button);
- gtk_widget_grab_focus (textview);
+// GtkWidget *textview = get_textview_from_button (button);
+// gtk_widget_grab_focus (textview);
 }
 
 static void
@@ -195,8 +195,8 @@ insert_font_mag (GtkWidget * button)
             return;
             }
         markup_selection (button, out);
-        GtkWidget *textview = get_textview_from_button (button);
-        gtk_widget_grab_focus (textview);
+//        GtkWidget *textview = get_textview_from_button (button);
+//        gtk_widget_grab_focus (textview);
         g_free (out);
     }
  g_free (text);
@@ -224,8 +224,8 @@ insert_vert (GtkWidget * button)
         {
           g_warning ("Denemo program error, widget hierarchy changed???");
         }
-     GtkWidget *textview = get_textview_from_button (button);
-     gtk_widget_grab_focus (textview);
+//     GtkWidget *textview = get_textview_from_button (button);
+//     gtk_widget_grab_focus (textview);
      g_free (out);
     }
  g_free (text);
@@ -254,8 +254,8 @@ insert_horiz (GtkWidget * button)
         {
           g_warning ("Denemo program error, widget hierarchy changed???");
         }
-     GtkWidget *textview = get_textview_from_button (button);
-     gtk_widget_grab_focus (textview);
+//     GtkWidget *textview = get_textview_from_button (button);
+//     gtk_widget_grab_focus (textview);
      g_free (out);
     }
 
@@ -392,7 +392,7 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
 
   button = gtk_button_new_with_label (_("Help"));
   gtk_widget_set_tooltip_text (button, instruction);
-  g_signal_connect_swapped (button, "clicked", G_CALLBACK (infodialog), instruction);
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (warningdialog), instruction);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 
