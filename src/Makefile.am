@@ -190,6 +190,8 @@ if HAVE_EVINCE
     source/source.h \
     source/proof.c \
     source/proof.h \
+    printview/markupview.h \
+    printview/markupview.c \
     printview/printview.h \
     printview/printview.c
 endif

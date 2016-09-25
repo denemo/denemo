@@ -26,6 +26,7 @@
 
 #include "export/print.h"
 #include "printview/printview.h"
+#include "printview/markupview.h"
 #include "core/prefops.h"
 #include "export/exportlilypond.h"
 #include "core/utils.h"
@@ -709,7 +710,7 @@ void create_pdf_for_lilypond (gchar *lilypond)
   Denemo.printstatus->invalid = 0;
   g_free (Denemo.printstatus->error_file);Denemo.printstatus->error_file = NULL;
   run_lilypond_for_pdf (filename, lilyfile);
-  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printview_finished, (gpointer) (FALSE));
+  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) markupview_finished, (gpointer) (FALSE));
 #endif
 }
 /**

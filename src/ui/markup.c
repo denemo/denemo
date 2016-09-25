@@ -39,19 +39,28 @@ create_lilypond_from_text (gchar * text)
   g_string_append (ret, "}\n");
   return g_string_free (ret, FALSE);
 }
+
+static GtkWidget *get_textbuffer_from_button (GtkWidget *button) {
+    GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
+    return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+}
+static GtkWidget *get_textview_from_button (GtkWidget *button) {
+    GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
+    return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+}
 static void
 paste_snippet_lilypond (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (textbuffer)
     {
       RhythmPattern *r = (gui->currhythm) ? ((RhythmPattern *) gui->currhythm->data) : NULL;
       if (r)
         {
           const gchar *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
-          gchar *text = g_strdup_printf ("\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\n}", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
+          gchar *text = g_strdup_printf ("\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\\paper{top-margin=0.0 left-margin=0.0}\n}", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
           gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1 /*gint len */ );
           g_free (text);
         }
@@ -60,15 +69,16 @@ paste_snippet_lilypond (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-  GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+  GtkWidget *textview = get_textview_from_button (button);
   gtk_widget_grab_focus (textview);
 }
+
 static void
 paste_current_lilypond_as_fakechord (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+ 
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (textbuffer)
     {
     gchar *text = NULL;
@@ -90,15 +100,15 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-  GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
-  gtk_widget_grab_focus (textview);
+    GtkWidget *textview = get_textview_from_button (button);
+    gtk_widget_grab_focus (textview);
 }
 static void
 paste_current_lilypond_as_fretdiagram (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (textbuffer)
     {
       gchar *text = get_fretdiagram_as_markup ();
@@ -114,7 +124,7 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-  GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+  GtkWidget *textview = get_textview_from_button (button);
   gtk_widget_grab_focus (textview);
 }
 
@@ -122,22 +132,22 @@ static void
 insert_markup (GtkWidget * button, gchar *text)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (textbuffer)
     gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1);
   else
     g_warning ("Denemo program error, widget hierarchy changed???");
 
- GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+ GtkWidget *textview = get_textview_from_button (button);
  gtk_widget_grab_focus (textview);
 }
 static void
 markup_selection (GtkWidget * button, gchar *text)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   GtkTextIter start, end;
   if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
     {
@@ -152,7 +162,7 @@ markup_selection (GtkWidget * button, gchar *text)
     }
   else
     warningdialog ( _("Select the text first."));
- GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+ GtkWidget *textview = get_textview_from_button (button);
  gtk_widget_grab_focus (textview);
 }
 
@@ -160,8 +170,8 @@ static void
 insert_font_mag (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (!textbuffer)
         {
         g_warning ("Denemo program error, widget hierarchy changed???");
@@ -185,7 +195,7 @@ insert_font_mag (GtkWidget * button)
             return;
             }
         markup_selection (button, out);
-        GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+        GtkWidget *textview = get_textview_from_button (button);
         gtk_widget_grab_focus (textview);
         g_free (out);
     }
@@ -195,8 +205,8 @@ static void
 insert_vert (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   gchar *text = string_dialog_entry (gui, _( "Space Above"), _("Give space to leave above + only "), "2");
   if (text && *text)
     {
@@ -214,7 +224,7 @@ insert_vert (GtkWidget * button)
         {
           g_warning ("Denemo program error, widget hierarchy changed???");
         }
-     GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+     GtkWidget *textview = get_textview_from_button (button);
      gtk_widget_grab_focus (textview);
      g_free (out);
     }
@@ -225,8 +235,8 @@ static void
 insert_horiz (GtkWidget * button)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *hbox = gtk_widget_get_parent (button);
-  GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+  
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   gchar *text = string_dialog_entry (gui, _( "Insert Space"), _("Give space to insert +/- "), "2");
   if (text && *text)
     {
@@ -244,7 +254,7 @@ insert_horiz (GtkWidget * button)
         {
           g_warning ("Denemo program error, widget hierarchy changed???");
         }
-     GtkWidget *textview = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
+     GtkWidget *textview = get_textview_from_button (button);
      gtk_widget_grab_focus (textview);
      g_free (out);
     }
@@ -273,8 +283,8 @@ static void
 preview_markup (GtkWidget * button)
 {
     DenemoProject *gui = Denemo.project;g_print ("Preview...");
-    GtkWidget *hbox = gtk_widget_get_parent (button);
-    GtkWidget *textbuffer = (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+    
+    GtkWidget *textbuffer = get_textbuffer_from_button (button);
     run_preview (textbuffer);
 }
 
@@ -300,14 +310,18 @@ static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * ev
   return FALSE; //pass it on to the standard handler.
  }
 
-gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, char *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
+gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, gchar *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
 {
 #ifndef USE_EVINCE
           g_debug("This feature requires denemo to be built with evince");
 #else
   implement_show_print_view (FALSE);
 #endif
+  GtkWidget *top_vbox = gtk_vbox_new (FALSE, 8);
+  
+  install_markup_preview (top_vbox, instruction);
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
+  gtk_box_pack_start (GTK_BOX (top_vbox), hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
   gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond syntax.\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax following the LilyPond syntax.\n"));
 
@@ -378,14 +392,14 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   gtk_widget_set_tooltip_text (button, _("Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."));
   g_signal_connect (button, "clicked", G_CALLBACK (preview_markup), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
   gchar *text;
     if(format_only)
         text = g_strdup (initial_value); //anything else, just format the passed in string
     else
-        text = string_dialog_editor_with_widget_opt (Denemo.project, title, instruction, initial_value, hbox, modal, keypress_callback);
+        text = string_dialog_editor_with_widget_opt (Denemo.project, title, NULL, initial_value, top_vbox, modal, keypress_callback);//this call attaches "textbuffer" to top_vbox
  if (text)
     {
-      preview_text (text);
       gchar *lilypond = create_lilypond_from_text (text);
       g_string_assign (user_text, text);
       g_string_assign (marked_up_text, lilypond);
