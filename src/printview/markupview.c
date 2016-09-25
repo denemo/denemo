@@ -5,6 +5,36 @@
 #include "export/print.h"
 
 static GtkWidget *DenemoMarkupArea;
+static gboolean
+overdraw_print (cairo_t * cr)
+{
+  gint x, y;
+  gint message_height = 50;
+ // get_window_position (&x, &y);
+
+  //cairo_translate (cr, -x, -y);
+
+  //cairo_save (cr);
+
+  
+  if (Denemo.printstatus->invalid)
+  {
+      cairo_set_source_rgba (cr, 0.5, 0.0, 0.0, 0.4);
+      cairo_set_font_size (cr, 48.0);
+      cairo_move_to (cr, 50, message_height);
+      cairo_show_text (cr, _( "Cannot Typeset!"));
+  } else
+  {
+      cairo_set_source_rgba (cr, 0.0, 0.5, 0.0, 0.4);
+      cairo_set_font_size (cr, 48.0);
+      cairo_move_to (cr, 50, message_height);
+      cairo_show_text (cr, _( "Preview"));
+      
+  }
+ return TRUE;
+}
+   
+        
 static void
 set_printarea_doc (EvDocument * doc)
 {
@@ -76,7 +106,30 @@ markupview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
   set_printarea (&err);
 }
 
+#if GTK_MAJOR_VERSION==3
+static gint
+markuparea_draw_event (G_GNUC_UNUSED GtkWidget * w, cairo_t * cr)
+{
+  return overdraw_print (cr);
+}
+#else
+static gint
+markuparea_draw_event (GtkWidget * widget, GdkEventExpose * event)
+{
+  /* Setup a cairo context for rendering and clip to the exposed region. */
+  cairo_t *cr = gdk_cairo_create (event->window);
+  gdk_cairo_region (cr, event->region);
+  cairo_clip (cr);
+  overdraw_print (cr);
+  cairo_destroy (cr);
+  return TRUE;
+}
+#endif
 
+
+        
+        
+        
 void
 install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 {
@@ -89,4 +142,11 @@ install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
   gtk_box_pack_start (GTK_BOX (main_vbox), score_and_scroll_box, TRUE, TRUE, 0);  
   gtk_container_add (GTK_CONTAINER (score_and_scroll_box), DenemoMarkupArea);
   gtk_widget_show_all (main_vbox);
+  
+  
+#if GTK_MAJOR_VERSION != 2
+  g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "draw", G_CALLBACK (markuparea_draw_event), NULL);
+#else
+  g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "expose_event", G_CALLBACK (markuparea_draw_event), NULL);
+#endif
 }
