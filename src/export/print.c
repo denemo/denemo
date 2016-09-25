@@ -686,21 +686,8 @@ void create_pdf_for_lilypond (gchar *lilypond)
 #ifndef USE_EVINCE
           g_debug("This feature requires denemo to be built with evince");
 #else
-         if (Denemo.printstatus->printpid != GPID_NONE)
-    {
-      if (confirm (_("Already Typesetting"), _("Abandon this typeset?")))
-        {
-          if (Denemo.printstatus->printpid != GPID_NONE)        //It could have died while the user was making up their mind...
-            kill_process (Denemo.printstatus->printpid);
-          Denemo.printstatus->printpid = GPID_NONE;
-        }
-      else
-        {
-          warningdialog (_("Cancelled"));
-
-          return;
-        }
-    }
+    if (Denemo.printstatus->printpid != GPID_NONE)
+         return;
   get_wysiwyg_info()->stage = STAGE_NONE;
   advance_printname ();
   gchar *filename = Denemo.printstatus->printbasename[Denemo.printstatus->cycle];

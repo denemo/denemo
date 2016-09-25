@@ -271,13 +271,14 @@ static void preview_text (gchar *text)
     g_free (syntax);
     g_free (lilypond);
 }
-static void run_preview (GtkWidget *textbuffer)
+static gboolean run_preview (GtkWidget *textbuffer)
 {
     GtkTextIter startiter, enditer;
     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
     gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
     gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
     preview_text (text);
+    return FALSE; //one shot timer
 }
 static void
 preview_markup (GtkWidget * button)
@@ -288,7 +289,7 @@ preview_markup (GtkWidget * button)
     run_preview (textbuffer);
 }
 
-static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * event, GtkWidget *textbuffer)
+static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget *textbuffer)
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
@@ -307,6 +308,7 @@ static gboolean keypress_callback (G_GNUC_UNUSED GtkWidget * w, GdkEventKey * ev
           g_warning ("The character # can only be used for scheme code, paste it in if needed");
           return TRUE;
       }
+  g_timeout_add ( 100, run_preview, textbuffer);
   return FALSE; //pass it on to the standard handler.
  }
 
