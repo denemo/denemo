@@ -12,12 +12,12 @@
         (data #f)
         (modal "nonmodal"))
      (define (get-display)
-     	(set! display-text (d-GetUserInput  (_ "Text")  (_ "Give text for Denemo Display") display-text)))
+        (set! display-text (d-GetUserInput  (_ "Text")  (_ "Give text for Denemo Display") display-text)))
     (define (get-text) ;;(disp "modal is " modal " on entry")
         (if (string? text)
             (set! text (d-GetUserInputWithSnippets #f #f text 'format))
             (set! text (d-GetUserInputWithSnippets (_ "Text") 
-                (_ "Give text to appear with following note/chord - use the Preview button to see how it will print.\nThe characters \\, \", ¶, { and } have a special meaning in the text,\nNew lines will be started from the ¶ character. The backslash \\ starts some LilyPond syntax called 'markup', the others must be paired. \nTo apply italic or bold to a group of words enclose them in {} or \"\" marks, e.g. \\bold {These words are bold}.\n\"\" marks enclose text that is not to be interpreted as markup.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") 
+                (_ "Type the text in the lower pane. It will appear with note/chord at the cursor. The Preview pane will show the typeset appearance - click on it to update it if needed. You can type any text, however the characters \\, \", ¶, { and } have a special meaning in the text. New lines will be started from the ¶ character (if allowed). The backslash \\ starts some LilyPond syntax called 'markup', the {} and \"\" have to surround other text in pairs - one on its own will not typeset. The buttons will insert the markup for the commonest cases.\nFor other possible markup commands \\column, \\super, \\tiny etc, see LilyPond documentation.") 
                 (if text (car text) "") modal))))
     (define (get-scale)
                     (if (not scale)
@@ -130,15 +130,15 @@
                (begin
                     (if (not scale)
                         (get-scale))
-		 (if (not display-text)
-		 	(set! display-text (car text)))
+         (if (not display-text)
+            (set! display-text (car text)))
                     (if scale
                         (begin
                             (set! markup (cdr text))
                             (set! text (car text))
                             (set! data (assq-set! data 'text text))
                             (if display
-                            	(set! data (assq-set! data 'display display-text)))
+                                (set! data (assq-set! data 'display display-text)))
                             (set! data (assq-set! data 'scale scale))
                             (if dim 
                                 (set! data (assq-set! data 'dimensions dim))
@@ -163,7 +163,7 @@
                            
                            (if display
                                 (d-DirectivePut-standalone-display tag display-text)
-                            	(d-DirectivePut-standalone-display tag text))
+                                (d-DirectivePut-standalone-display tag text))
                             (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
                             (d-DirectivePut-standalone-prefix tag prefix)
                             (d-DirectivePut-standalone-minpixels tag 30)
