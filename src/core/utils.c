@@ -1934,22 +1934,34 @@ get_fretdiagram_as_markup (void)
   return NULL;
 }
 
-/* get a chord symbol for the chord at the cursor or before the cursor if not on the chord */
+/* get a chord symbol for the chord at the cursor or user provided note/chord if not on the chord */
 gchar *
 get_fakechord_as_markup (gchar * size, gchar * font)
 {
   DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
-  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || !(DENEMO_OBJECT_TYPE_NAME (curObj)))
+  gchar *text = NULL;
+  if (!Denemo.project || !(Denemo.project->movement))
     return NULL;
-  if ((curObj->type != CHORD) && Denemo.project->movement->currentobject->next)
-    curObj = Denemo.project->movement->currentobject->next->data;
-  if (gui->lilysync != gui->changecount)
-    refresh_lily_cb (NULL, Denemo.project);
-  if (curObj->lilypond)
+    
+  if (Denemo.project->movement->currentobject) 
     {
-      gchar *text = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, curObj->lilypond);
-      return text;
+      curObj = (DenemoObject*) (Denemo.project->movement->currentobject->data);
+     if (curObj->type == CHORD)
+            {
+              if (gui->lilysync != gui->changecount)
+                refresh_lily_cb (NULL, Denemo.project);
+                
+               text = curObj->lilypond;
+           }
+    }
+  if (!text)
+    text = string_dialog_entry (Denemo.project, _("Note/Chord Name"), _("Give Note Name a,b...g (append \"is\" for sharp, \"es\" for flat):"), "cis");
+    
+  if (text)
+    {
+      gchar *ret = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, text);
+      return ret;
     }
   return NULL;
 }
