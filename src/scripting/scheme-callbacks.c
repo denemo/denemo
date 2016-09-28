@@ -2829,7 +2829,29 @@ scheme_get_note_name (SCM optional)
 
 }
 
-
+SCM
+scheme_get_note_names_from_user (SCM num, SCM initial, SCM message)
+{
+    SCM ret = SCM_BOOL_F;
+    gint number = 1;
+    gchar *text = NULL;
+    gchar *init = NULL;
+    if (scm_is_integer(num))
+        number = scm_to_int (num);
+    if (number != 1)
+    number = 2;
+    if (scm_is_string (initial))
+        init = scm_to_locale_string (initial);
+    if (scm_is_string (message))
+        text = scm_to_locale_string (message);
+    gchar *note = notes_choice_dialog (number, init, text);
+    if (note)
+        ret = scm_from_locale_string (note);
+    g_free (text);
+    g_free (init);
+    g_free (note);
+    return ret;
+}
 
 //Insert rests to the value of the timesig and return the number of rests inserted.
 SCM

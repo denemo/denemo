@@ -1933,7 +1933,256 @@ get_fretdiagram_as_markup (void)
     }
   return NULL;
 }
+static gint note1, note2, acc1, acc2, oct1, oct2;
 
+static void set_encoding (gint val, gboolean one)
+{
+      if(val&7)
+        {
+            val = (val | (0xFFFF - 7)) & val;
+            if (one)
+                note1 = val;
+            else 
+                note2 = val;
+            return;
+        }
+    val = val>>4;
+    if(val&7)
+        {
+            val = (val | (0xFFFF - 7)) & val;
+            if (one)
+                acc1 = val;
+            else 
+                acc2 = val;
+            return;
+        }
+    val = val>>4; // a total shift of >>8 now
+    if(val&7)
+        {
+            if (one)
+                oct1 = val;
+            else 
+                oct2 = val;
+            return;
+        }
+}
+static void set_note_name_encoding1 (GtkWidget*w, gint val)
+{
+        set_encoding (val,TRUE);
+}
+static void set_note_name_encoding2 (GtkWidget*w, gint val)
+{
+        set_encoding (val, FALSE);
+}
+static gchar* note_name[]= {"A", "B","C","D","E","F","G" };
+static gchar* note_name_lc[]= {"a", "b","c","d","e","f","g" };
+static gchar* acc_name[]= {"♮", "♯","♭","𝄪","𝄫", NULL,NULL, ""};
+static gchar* acc_name_lily[]= {NULL, "is","es","isis","eses",NULL,NULL, ""};
+
+static gchar *oct_name[] = {"1", "2","3","4","5","6","7","8"};
+static gchar *oct_name_lily[] = { ",,,,", ",,,",",,", ",", "", "'", "''", "''"};
+
+static gchar *decode_values (gint nm, gint acc, gint oct)
+{
+    gchar *name = g_strdup (note_name_lc[nm - 1]);
+    gchar *accname = acc_name_lily [acc];
+    gchar *octname = oct_name_lily [oct];
+    return g_strconcat (name, accname, octname, NULL);
+}
+
+static gint decode_note (gchar *note)
+{
+  gint ret = 0;
+  if (*note)
+    {
+      gchar *c;
+      ret =  1 + tolower (*note)-'a';
+      if (ret<1 || ret>7)
+        ret = 0;
+       c = note+1; 
+      if(g_str_has_prefix (c, "eses"))
+           {c +=4;   ret += (4<<4);}
+      else if (g_str_has_prefix (c, "es"))
+         {c +=2;   ret += (2<<4);}
+      else if (g_str_has_prefix (c, "isis"))
+         {c +=5;   ret += (3<<4);}        
+     else if (g_str_has_prefix (c, "is"))
+        {c +=2;   ret += (1<<4);}
+     gint oct=0;   
+     while (*c==',')
+            {
+               oct++;
+               c++; 
+            }
+      if (oct)
+            {
+              ret += (4-oct)<<(4+4);
+            }
+    if (oct==0)   // no ,,,     
+        {
+            while (*c=='\'')
+                {
+                   oct++;
+                   c++; 
+                }
+          if (oct)
+                {
+                  ret += (4+oct)<<(4+4);
+                }            
+          else ret += (4+oct)<<(4+4);//can include in above case  
+      }    
+                  
+    }
+   g_print ("Encoded %s as 0x%x", note, ret);
+   return ret; 
+}
+gchar *
+notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gchar *meaning)
+{
+    GtkWidget *dialog;
+    gchar *text = NULL;
+    gint j;
+    gchar *title = (number_of_notes==1) ? _("Select Note") : _("Select Notes");
+    gint enc1=0, enc2=0;
+    if (initial_value)
+        {
+          gchar first[50], second[50];
+          if ((number_of_notes == 2) && ( 2 == sscanf (initial_value, "%50s%50s", first, second)))
+            {
+                
+                enc1 = decode_note (first);
+                enc2 = decode_note (second);
+                
+            }
+          else
+                if ( 1 == sscanf (initial_value, "%50s", first))
+                    {
+                        enc1 = decode_note (first);
+                    }
+         note1 = enc1 & 7;   
+         note2 = enc2 & 7;
+          
+         enc1 >>=4;
+         enc2 >>= 4;
+         acc1 = enc1 & 7;   
+         acc2 = enc2 & 7;
+         
+         enc1 >>=4;
+         enc2 >>= 4;
+         oct1 = enc1 & 7;   
+         oct2 = enc2 & 7;  
+         g_print ("Initial values are %s %s %s", note_name [note1], acc_name[acc1], oct_name[oct1]);        
+        }
+    
+    
+    dialog = gtk_dialog_new_with_buttons (title, GTK_WINDOW (Denemo.window), 
+        (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
+         _("Done"), GTK_RESPONSE_ACCEPT, 
+         _("Cancel"), GTK_RESPONSE_CANCEL,
+         NULL);
+    GtkWidget *frame;
+    GtkWidget *area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
+    GtkWidget *hbox = gtk_hbox_new (FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (area), hbox);
+    frame =  gtk_frame_new (_("Note Name"));   
+    gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, TRUE, 0);     
+    GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
+    gtk_container_add (GTK_CONTAINER (frame), vbox);
+    for (j=0;j<number_of_notes;j++)
+        {
+            if (j)
+                { 
+                    GtkWidget *label = gtk_label_new (meaning?meaning:"<---------->");
+                    gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+                    frame =  gtk_frame_new (_("Note Name"));   
+                    gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, TRUE, 0);     
+                    vbox = gtk_vbox_new (FALSE, 1);  
+                    gtk_container_add (GTK_CONTAINER (frame), vbox); 
+                }
+            GtkWidget *button;
+            void (*set_note_name_encoding)(GtkWidget*, gint)  = j? set_note_name_encoding2: set_note_name_encoding1;
+//buttons for note name   
+                
+            GtkWidget *button0 = gtk_radio_button_new_with_label_from_widget (NULL,note_name[0]);
+            gtk_box_pack_start (GTK_BOX (vbox), button0, TRUE, TRUE, 0);
+
+            if (note1==0) //no initial values set
+                {
+                    note1 = note2 = 1; //initial choice "A"
+                    acc1 = acc2 = 7; //initial choice natural
+                    oct1 = oct2 = 4; //initial choice
+                }
+
+            gint i;
+            for (i=1; i<7; i++)
+            {
+                GtkWidget *button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button0), note_name[i]);
+                if (i == ((j?note2:note1)-1)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(button), TRUE);
+//NOTE: setting this active actually causes the clicked signal to be fired! so must do it before connecting the handler
+
+                g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (set_note_name_encoding), GINT_TO_POINTER(i+1));
+
+                gtk_box_pack_start (GTK_BOX (vbox), button, TRUE, TRUE, 0);
+            }
+            g_signal_connect (G_OBJECT (button0), "clicked", G_CALLBACK (set_note_name_encoding),GINT_TO_POINTER(1));
+            
+            
+            
+//buttons for accidental
+            
+            frame =  gtk_frame_new (_("Accidental"));   
+            gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, TRUE, 0);
+            GtkWidget *accbox = gtk_vbox_new (FALSE, 1);
+            gtk_container_add (GTK_CONTAINER (frame), accbox);
+            button0 = gtk_radio_button_new_with_label_from_widget (NULL,acc_name[0]);
+            gtk_box_pack_start (GTK_BOX (accbox), button0, TRUE, TRUE, 0);
+            for (i=1; i<5; i++)
+                {
+                    GtkWidget *button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button0), acc_name[i]);
+            
+                    if ((i==0 && ((j?acc2:acc1)==7))
+                        || (i == ((j?acc2:acc1)))) 
+                            gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(button), TRUE);
+                    g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (set_note_name_encoding), GINT_TO_POINTER(i<<4));
+                    gtk_box_pack_start (GTK_BOX (accbox), button, TRUE, TRUE, 0);
+                }
+            g_signal_connect (G_OBJECT (button0), "clicked", G_CALLBACK (set_note_name_encoding),GINT_TO_POINTER(7<<4));            
+
+                
+//buttons for octave
+        if(number_of_notes == 2) //only offer octave for picking note pairs
+            {
+            frame = gtk_frame_new (_("Octave"));   
+            gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, TRUE, 0);
+            GtkWidget *octbox = gtk_vbox_new (FALSE, 1);
+            gtk_container_add (GTK_CONTAINER (frame), octbox);
+            button0 = gtk_radio_button_new_with_label_from_widget (NULL,oct_name[0]);
+            gtk_box_pack_start (GTK_BOX (octbox), button0, TRUE, TRUE, 0);
+            for (i=1; i<7; i++)
+                {
+                    GtkWidget *button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button0), oct_name[i]);
+                    if (i == ((j?oct2:oct1) -1)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(button), TRUE);
+                    g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (set_note_name_encoding), GINT_TO_POINTER((i+1)<<8));
+                    gtk_box_pack_start (GTK_BOX (octbox), button, TRUE, TRUE, 0);
+                } 
+           g_signal_connect (G_OBJECT (button0), "clicked", G_CALLBACK (set_note_name_encoding),GINT_TO_POINTER(1<<8));            
+          }
+                
+        }
+
+    gtk_widget_show_all (dialog);
+    gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+    if (result == GTK_RESPONSE_ACCEPT)
+    {
+        gchar *text1 = decode_values (note1, acc1, oct1);
+        gchar *text2 = decode_values (note2, acc2, oct2);
+        text = g_strdup_printf ("%s%s%s", text1, j==2?" ":"", j==2?text2:"");
+        g_free (text1);
+        g_free (text2);
+    }
+  gtk_widget_destroy (dialog);
+  return text;
+}
 /* get a chord symbol for the chord at the cursor or user provided note/chord if not on the chord */
 gchar *
 get_fakechord_as_markup (gchar * size, gchar * font)
@@ -1956,7 +2205,7 @@ get_fakechord_as_markup (gchar * size, gchar * font)
            }
     }
   if (!text)
-    text = string_dialog_entry (Denemo.project, _("Note/Chord Name"), _("Give Note Name a,b...g (append \"is\" for sharp, \"es\" for flat):"), "cis");
+    text = notes_choice_dialog (1, NULL, NULL);
     
   if (text)
     {

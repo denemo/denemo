@@ -340,7 +340,7 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
 
 
   button = gtk_button_new_with_label (_("Paste Note Name/Chord Symbol"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor (or user supplied note name if not on a chord) as a Note Name/Chord Symbol.\n"
+  gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor (or user supplied note name if not on a chord) as a Note Name or Chord Symbol.\n"
     "The note name is pasted as LilyPond markup.\n"
     "It will print as the note name/chord symbol in the sentence you are writing, transposed according to any global transposition you set.\n"
     "Use, for example, to specify the key of a piece in a title.\n"));

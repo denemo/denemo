@@ -29,7 +29,7 @@ install_scm_function (gint nbargs, gchar* tooltip, gchar * name, gpointer callba
       scm_c_define_gsubr (name, 2, 0, 0, callback);
       break;
     default:
-      scm_c_define_gsubr (name, 0, nbargs, 0, callback);
+      scm_c_define_gsubr (name, 0, nbargs, 0, callback);//use 3+ for more arguments, they will all be optional
       break;
   }
 
@@ -155,6 +155,10 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Displays information about the object at the cursor position.", DENEMO_SCHEME_PREFIX "DisplayObject", scheme_display_object);
   install_scm_function (0, "Prints out the cumulative time spent editing this score.\nThe time counts any period between starting to edit and saving to disk\nThe time is accumulated over different editing sessions.", DENEMO_SCHEME_PREFIX "GetEditingTime", scheme_get_editing_time);
   install_scm_function (0, "Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);
+
+
+
+  install_scm_function (3, "Takes a number 1 or 2 and initial value and a message. Returns one or two note-names in LilyPond format or #f if the user cancels", DENEMO_SCHEME_PREFIX "GetNoteNamesFromUser", scheme_get_note_names_from_user);
 
   install_scm_function (0, "Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
   install_scm_function (0, "Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);

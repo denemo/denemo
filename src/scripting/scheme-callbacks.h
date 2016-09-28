@@ -104,6 +104,7 @@ SCM scheme_get_editing_time (void);
 SCM scheme_debug_object (SCM);
 SCM scheme_display_object (void);
 SCM scheme_destroy_scheme_init (void);
+SCM scheme_get_note_names_from_user (SCM number, SCM init, SCM message);
 SCM scheme_get_note_name (SCM);
 SCM scheme_insert_rest (SCM);
 SCM scheme_insert_chord (SCM lilypondnotes, SCM duration);
