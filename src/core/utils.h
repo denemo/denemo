@@ -149,6 +149,7 @@ void set_title_bar (DenemoProject * gui);
 void score_status (DenemoProject * gui, gboolean change);
 void write_status (DenemoProject * gui);
 gboolean confirm (gchar * primary, gchar * secondary);
+gboolean confirm_first_choice (gchar *format, gchar *title, gchar * primary, gchar * secondary);
 gboolean choose_option (gchar * title, gchar * primary, gchar * secondary);
 gint choose_option_or_cancel (gchar * title, gchar * primary, gchar * secondary, gboolean cancel_button);
 void nullify_gstring (GString ** s);

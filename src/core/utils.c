@@ -2196,7 +2196,7 @@ get_fakechord_as_markup (gchar * size, gchar * font)
   if (Denemo.project->movement->currentobject) 
     {
       curObj = (DenemoObject*) (Denemo.project->movement->currentobject->data);
-     if (curObj->type == CHORD)
+     if (curObj->type == CHORD  && confirm_first_choice ("%s", _("Cursor is on a Chord"), _("Paste Chord Symbol"), _("Paste Note Name")))
             {
               if (gui->lilysync != gui->changecount)
                 refresh_lily_cb (NULL, Denemo.project);
@@ -2397,6 +2397,24 @@ write_input_status (void)
 }
 
 /**
+ * Display a message box giving two choices, return FALSE if second is chosen.
+ * 
+ */
+gboolean
+confirm_first_choice (gchar *format, gchar *title, gchar * primary, gchar * secondary)
+{
+  GtkWidget *dialog;
+  gboolean r = 0;
+
+  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, format, title, NULL);
+
+  gtk_dialog_add_buttons (GTK_DIALOG (dialog), primary,  GTK_RESPONSE_YES, secondary, GTK_RESPONSE_NO, NULL);
+  gtk_widget_show_all (dialog);
+  r = (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_YES);
+  gtk_widget_destroy (dialog);
+  return r;
+}
+/**
  * Display a message box asking primary & secondary messages
  * @return TRUE if the OK button was clicked or Enter pressed
  */
@@ -2414,7 +2432,6 @@ confirm (gchar * primary, gchar * secondary)
   gtk_widget_destroy (dialog);
   return r;
 }
-
 gboolean
 choose_option (gchar * title, gchar * primary, gchar * secondary)
 {
