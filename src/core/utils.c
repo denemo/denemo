@@ -2183,6 +2183,30 @@ notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gc
   gtk_widget_destroy (dialog);
   return text;
 }
+
+gchar *get_chord_notes (void) {
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  GString *str = g_string_new ("");   
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) thechord->notes->data))
+    return NULL;
+  else
+    {
+      GList *g;
+      for (g = thechord->notes; g; g = g->next)
+        {
+          thenote = (note *) g->data;
+          gchar *name = mid_c_offsettolily (thenote->mid_c_offset, thenote->enshift);
+          str = g_string_append (str, name);
+          if (g->next)
+            str = g_string_append (str, " ");
+        }
+ 
+    return g_string_free (str, FALSE);  
+    }
+return NULL;
+}
 /* get a chord symbol for the chord at the cursor or user provided note/chord if not on the chord */
 gchar *
 get_fakechord_as_markup (gchar * size, gchar * font)
@@ -2196,13 +2220,23 @@ get_fakechord_as_markup (gchar * size, gchar * font)
   if (Denemo.project->movement->currentobject) 
     {
       curObj = (DenemoObject*) (Denemo.project->movement->currentobject->data);
-     if (curObj->type == CHORD  && confirm_first_choice ("%s", _("Cursor is on a Chord"), _("Paste Chord Symbol"), _("Paste Note Name")))
+      gchar *chordnotes = NULL, *title = NULL;
+      
+          
+     chordnotes =  get_chord_notes();
+        
+     if (chordnotes) 
+        title = g_strdup_printf ("%s %s", _("Current Chord:"), chordnotes);
+     if (title  && !confirm_first_choice ( title, _("Paste a Note Name"), _("Paste Chord Symbol")))
             {
               if (gui->lilysync != gui->changecount)
                 refresh_lily_cb (NULL, Denemo.project);
                 
                text = curObj->lilypond;
            }
+        g_free (title);
+        g_free (chordnotes);
+        
     }
   if (!text)
     text = notes_choice_dialog (1, NULL, NULL);
@@ -2401,12 +2435,12 @@ write_input_status (void)
  * 
  */
 gboolean
-confirm_first_choice (gchar *format, gchar *title, gchar * primary, gchar * secondary)
+confirm_first_choice (gchar *title, gchar * primary, gchar * secondary)
 {
   GtkWidget *dialog;
   gboolean r = 0;
 
-  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, format, title, NULL);
+  dialog = gtk_message_dialog_new (GTK_WINDOW (Denemo.window), (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT), GTK_MESSAGE_QUESTION, GTK_BUTTONS_NONE, "%s", title, NULL);
 
   gtk_dialog_add_buttons (GTK_DIALOG (dialog), primary,  GTK_RESPONSE_YES, secondary, GTK_RESPONSE_NO, NULL);
   gtk_widget_show_all (dialog);
