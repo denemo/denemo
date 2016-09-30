@@ -106,6 +106,7 @@ markupview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
       LilyPond_stderr = -1;
     }
   Denemo.printstatus->printpid = GPID_NONE;
+  unpause_continuous_typesetting ();
   GError *err = NULL;
   set_printarea (&err);
 }

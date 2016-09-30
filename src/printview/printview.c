@@ -42,6 +42,27 @@ start_normal_cursor (void)
   normal_cursor (Denemo.printarea);
 }
 
+void unpause_continuous_typesetting (void)
+{
+ if (Denemo.printstatus->background & STATE_PAUSED)
+    {
+      if (Denemo.prefs.typesetrefresh)
+        Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
+      else
+        Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
+      Denemo.printstatus->background &= ~STATE_PAUSED;
+    }   
+}
+void pause_continuous_typesetting (void)
+{
+      if (Denemo.printstatus->updating_id)
+        {
+          Denemo.printstatus->background |= STATE_PAUSED;
+          g_source_remove (Denemo.printstatus->updating_id);    //if this is not turned off the print preview thread hangs until it is.
+          Denemo.printstatus->updating_id = 0;
+        }
+}
+ 
 /*void                user_function                      (EvPrintOperation       *evprintoperation,
                                                         GtkPrintOperationResult arg1,
                                                         gpointer                user_data)             : Run Last */
@@ -57,14 +78,8 @@ printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult 
   gchar *unesc = g_uri_unescape_string (uri, NULL);
   g_free (uri);
   set_current_scoreblock_uri (unesc);
-  if (Denemo.printstatus->background & STATE_PAUSED)
-    {
-      if (Denemo.prefs.typesetrefresh)
-        Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
-      else
-        Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
-      Denemo.printstatus->background &= ~STATE_PAUSED;
-    }
+  unpause_continuous_typesetting ();
+ 
   call_out_to_guile ("(FinalizePrint)");
 }
 
@@ -114,12 +129,8 @@ libevince_print (void)
       gtk_print_settings_set (settings, GTK_PRINT_SETTINGS_OUTPUT_URI, get_output_uri_from_scoreblock ());
       ev_print_operation_set_print_settings (printop, settings);
 
-      if (Denemo.printstatus->updating_id)
-        {
-          Denemo.printstatus->background |= STATE_PAUSED;
-          g_source_remove (Denemo.printstatus->updating_id);    //if this is not turned off the print preview thread hangs until it is.
-          Denemo.printstatus->updating_id = 0;
-        }
+      pause_continuous_typesetting ();
+
 
       ev_print_operation_run (printop, NULL);
     }
