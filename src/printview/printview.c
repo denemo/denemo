@@ -41,23 +41,27 @@ start_normal_cursor (void)
 {
   normal_cursor (Denemo.printarea);
 }
-
+static gboolean ContinuousTypesettingPaused;
 void unpause_continuous_typesetting (void)
 {
- if (Denemo.printstatus->background & STATE_PAUSED)
-    {
-      if (Denemo.prefs.typesetrefresh)
-        Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
-      else
-        Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
-    } 
+ if (ContinuousTypesettingPaused)
+     if (Denemo.printstatus->background & STATE_PAUSED)
+        {
+          if (Denemo.prefs.typesetrefresh)
+            Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
+          else
+            Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
+        }
+ ContinuousTypesettingPaused = FALSE;
  Denemo.printstatus->background &= ~STATE_PAUSED;  
 }
 void pause_continuous_typesetting (void)
 {
       Denemo.printstatus->background |= STATE_PAUSED;
+      
       if (Denemo.printstatus->updating_id)
         {
+          ContinuousTypesettingPaused = TRUE;
           g_source_remove (Denemo.printstatus->updating_id);    //if this is not turned off the print preview thread hangs until it is.
           Denemo.printstatus->updating_id = 0;
         }
