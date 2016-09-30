@@ -2172,7 +2172,8 @@ notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gc
 
     gtk_widget_show_all (dialog);
     gtk_window_present(GTK_WINDOW (dialog));
-   gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
+    gtk_window_set_urgency_hint (GTK_WINDOW (dialog), TRUE);
+    gtk_window_set_keep_above (GTK_WINDOW (dialog), TRUE);
     gint result = gtk_dialog_run (GTK_DIALOG (dialog));
     if (result == GTK_RESPONSE_ACCEPT)
     {
