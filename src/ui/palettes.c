@@ -63,11 +63,23 @@ static void destroy_all_palettes (void) {
         Denemo.palettes = NULL;//on exit an empty palettes.xml will be written
     }
 }
+static void position_palette_menu (GtkMenu *menu, gint *x, gint *y, gboolean *push_in)
+{
+    *x = *y = 0;
+    *push_in = TRUE;
+    
+}
 
 static void popupmenu (GtkWidget *menu) {
       g_signal_connect (menu, "selection-done", gtk_main_quit, NULL);
       gtk_widget_show_all (menu);
-      gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+      gtk_menu_popup (GTK_MENU (menu), NULL, NULL,
+#ifdef G_OS_WIN32
+        position_palette_menu,
+#else
+       NULL, 
+#endif       
+       NULL, 0, gtk_get_current_event_time ());
       gtk_main ();
 }
 
@@ -574,25 +586,25 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
   GList *g;
   selected_palette_name = NULL;
   if(Denemo.palettes) {
-  if(allow_custom) {
-    item = gtk_menu_item_new_with_label (_("Create Custom Palette"));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    }
-    //g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (user_palette_name), NULL);
-  for (g=Denemo.palettes;g;g=g->next)
-    {
-    DenemoPalette *pal = (DenemoPalette *)g->data;
-    if(non_showing && pal->docked && gtk_widget_get_visible (pal->box))
-        continue;//g_debug("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
-    if(non_showing && (!pal->docked) && gtk_widget_get_visible (gtk_widget_get_parent(pal->box)))
-        continue;
-    item = gtk_menu_item_new_with_label (pal->name);
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-    g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
-    }
-
-    popupmenu (menu);
-}
+                      if(allow_custom) {
+                        item = gtk_menu_item_new_with_label (_("Create Custom Palette"));
+                        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+                        }
+                        //g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (user_palette_name), NULL);
+                      for (g=Denemo.palettes;g;g=g->next)
+                        {
+                        DenemoPalette *pal = (DenemoPalette *)g->data;
+                        if(non_showing && pal->docked && gtk_widget_get_visible (pal->box))
+                            continue;//g_debug("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
+                        if(non_showing && (!pal->docked) && gtk_widget_get_visible (gtk_widget_get_parent(pal->box)))
+                            continue;
+                        item = gtk_menu_item_new_with_label (pal->name);
+                        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+                        g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
+                        }
+                        gtk_window_set_keep_above (GTK_WINDOW (menu), TRUE);
+                        popupmenu (menu);
+                    }
     if(allow_custom && (selected_palette_name==NULL))
         {
             user_palette_name ();
