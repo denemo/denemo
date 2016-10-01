@@ -1203,18 +1203,25 @@ install_svgview (GtkWidget * top_vbox)
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, FALSE, 0);
 
   GtkWidget *button = (GtkWidget*)gtk_button_new_with_label (_("Play/Stop"));
+  gtk_widget_set_tooltip_markup (button, _( "Plays the entire movement with repeats, or stops the playing once started"));
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (play_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   button = (GtkWidget*)gtk_button_new_with_label (_("All Parts"));
+  gtk_widget_set_tooltip_markup (button, _( "Typesets the currrent movement, generating sophisticated MIDI for it."));
+
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (movement_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
-   button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
+  button = (GtkWidget*)gtk_button_new_with_label (_("Current Part"));
+  gtk_widget_set_tooltip_markup (button, _( "Typesets the currrent part with the option to keep the MIDI already generated for all the parts."));
+
   g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (part_button), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
 
 
 
     button = (GtkWidget*)gtk_check_button_new_with_label (_("Simple Scrolling"));
+    gtk_widget_set_tooltip_markup (button, _( "Sets/Unsets automatic scrolling. The scrolling can still be manually adjusted if it is too fast/slow."));
+
     gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (button), TRUE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
   g_signal_connect_swapped (G_OBJECT (button), "toggled", G_CALLBACK (scroll_toggle), NULL);
@@ -1223,6 +1230,8 @@ install_svgview (GtkWidget * top_vbox)
 
 
   ClearScrollPointsButton = gtk_button_new_with_label (_("Clear Scroll Points"));
+  gtk_widget_set_tooltip_markup (ClearScrollPointsButton, _( "Clears scroll points which you have set by right clicking on notes."));
+
   g_signal_connect (G_OBJECT (ClearScrollPointsButton), "clicked", G_CALLBACK (clear_scroll_points), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), ClearScrollPointsButton, FALSE, FALSE, 0);
 
