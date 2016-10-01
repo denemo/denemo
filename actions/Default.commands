@@ -8005,6 +8005,20 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Insert Percent Style Repeat</_label>
         <_tooltip>Creates a repeat from the selection, typeset in \"percent\" style.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleChordSymbolsWithDefinitions</action>
+        <after>ChordStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Chord Symbol Staff with Definitions</_label>
+        <_tooltip>Toggles the current staff to print as chord symbols with definitions taken from movement 1</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>UseAddPrefix</action>
+        <after>AddBassInversion</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Use "add" Prefix</_label>
+        <_tooltip>Inserts the word "add" as a prefix for added notes in chord symbols after the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

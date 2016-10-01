@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>UseAddPrefix</action>
+        <after>AddBassInversion</after>
+        <_label>Use "add" Prefix</_label>
+        <_tooltip>Inserts the word "add" as a prefix for added notes in chord symbols after the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

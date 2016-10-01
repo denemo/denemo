@@ -1,0 +1,8 @@
+(let ((tag "UseAddPrefix"))
+	(d-Directive-standalone tag)
+	(d-DirectivePut-standalone-postfix tag "  \\set additionalPitchPrefix = #\"add\"  ")
+	(d-DirectivePut-standalone-display tag "add prefix")
+	(d-DirectivePut-standalone-graphic tag "\nA\nDenemo\n24")
+	(d-DirectivePut-standalone-minpixels tag 30)
+	(d-SetSaved #f)
+	(d-RefreshDisplay))

@@ -163,6 +163,8 @@ src/generated/entries.h
 src/generated/register_commands.h
 src/generated/scheme_cb.h
 src/generated/scheme.h
+src/printview/markupview.c
+src/printview/markupview.h
 src/printview/printview.c
 src/printview/printview.h
 src/printview/svgview.c
@@ -732,6 +734,8 @@ actions/menus/ObjectMenu/ChordMenu/HideLilyPond.scm
 actions/menus/ObjectMenu/ChordMenu/HideLilyPond.xml
 actions/menus/ObjectMenu/ChordMenu/ParenthesizeChord.scm
 actions/menus/ObjectMenu/ChordMenu/ParenthesizeChord.xml
+actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.scm
+actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.xml
 actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm
 actions/menus/ObjectMenu/ClefMenu/ClefChooser.xml
 actions/menus/ObjectMenu/ClefMenu/HideClef.scm
@@ -2058,6 +2062,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/TabStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/TabStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ToggleChordSymbolsWithDefinitions.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ToggleChordSymbolsWithDefinitions.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.scm
