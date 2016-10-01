@@ -2062,8 +2062,6 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/TabStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature/TabStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.xml
-actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ToggleChordSymbolsWithDefinitions.scm
-actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ToggleChordSymbolsWithDefinitions.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.scm
