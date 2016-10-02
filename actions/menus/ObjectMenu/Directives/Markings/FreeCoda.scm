@@ -8,7 +8,12 @@
                 ((help)
                    (d-DisplayCurrentObject))
                   ((delete)
-                    (d-DirectiveDelete-standalone tag))))  
-    (StandAloneDirectiveProto (cons tag "\\tweak break-visibility  #begin-of-line-invisible \\mark \\markup\\scale #'(0.75 . 0.75) { \\musicglyph #\"scripts.coda\" } ") #t LG-Coda "" )))
+                    (d-DirectiveDelete-standalone tag))))
+     (let ((choice (RadioBoxMenu
+     		(cons (_ "Show if at end of line") "begin")
+     		(cons	(_ "Show if at start of line")  "end"))))
+     		(if choice  
+    		(StandAloneDirectiveProto (cons tag 
+    		(string-append "\\tweak break-visibility  #" choice "-of-line-invisible \\mark \\markup\\scale #'(0.75 . 0.75) { \\musicglyph #\"scripts.coda\" } ")) #t LG-Coda "" )))))
 
         
