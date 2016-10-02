@@ -14,6 +14,6 @@
      		(cons	(_ "Show if at start of line")  "end"))))
      		(if choice  
     		(StandAloneDirectiveProto (cons tag 
-    		(string-append "\\tweak break-visibility  #" choice "-of-line-invisible \\mark \\markup\\scale #'(0.75 . 0.75) { \\musicglyph #\"scripts.segno\" } ")) #t LG-Segno "" )))))
+    		(string-append "\\tweak break-visibility  #" choice "-of-line-invisible \\mark \\markup\\scale #'(1 . 1) { \\musicglyph #\"scripts.segno\" } ")) #t LG-Segno "" )))))
 
         
