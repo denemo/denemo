@@ -1864,6 +1864,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.scm

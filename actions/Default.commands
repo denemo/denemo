@@ -8019,6 +8019,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Use "add" Prefix</_label>
         <_tooltip>Inserts the word "add" as a prefix for added notes in chord symbols after the cursor.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ScoreShortIndent</action>
+        <after>ScoreIndent</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <_label>Short Indent</_label>
+        <_tooltip>Sets the indent to be used on systems after the first.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
