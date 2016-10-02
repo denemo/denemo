@@ -1497,6 +1497,9 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
 {
   // !!!!! clicking on a staff tools menu item comes thru here - but if you break gdb here as the menu item is still up your mouse is grabbed.
   gboolean left = TRUE;
+  
+  signal_structural_change (Denemo.project); //FIXME this is only needed for some directives
+  
   if (event != NULL)
     left = !((event->button != 1));
   if (left && (directive->override & DENEMO_OVERRIDE_EDITOR))
