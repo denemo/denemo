@@ -1847,14 +1847,14 @@ The ? button gives the overview for this palette. Rules can be set via a dialog 
 The ? button gives the overview for this palette.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.5">4.5</a> Insert or Append Chords Palette
+<a class="toc" name="toc-Subsection-4.5">4.5</a> Insert or Append Chords Palette<a class="Label" name="sub:Insert-Chords"> </a>
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/InsertOrAppendChords.png" alt="figure images/InsertOrAppendChords.png" style="max-width: 452px; max-height: 163px;"/>
 
 </div>
 <div class="Indented">
-This palette inserts a chord of the given type using the <i>prevailing duration</i><a class="IndexReference" name="entry-prevailing-duration-0" href="#index-prevailing-duration">↓</a> with the root note for the chord given by the cursor height and any <i>pending accidental</i><a class="IndexReference" name="entry-pending-accidental-1" href="#index-pending-accidental">↓</a>. The chord is inserted and labelled in the Denemo Display with its root and chord symbol<a class="IndexReference" name="entry-chord-symbol-0" href="#index-chord-symbol">↓</a> (aka fakechord<a class="IndexReference" name="entry-fakechord-0" href="#index-fakechord">↓</a>). This is typically used on a Chord Symbols staff (see Staff Properties<a class="IndexReference" name="entry-Staff-Properties-1" href="#index-Staff-Properties">↓</a> menu).
+This palette inserts a chord of the given type using the <i>prevailing duration</i><a class="IndexReference" name="entry-prevailing-duration-0" href="#index-prevailing-duration">↓</a> with the root note for the chord given by the cursor height and any <i>pending accidental</i><a class="IndexReference" name="entry-pending-accidental-1" href="#index-pending-accidental">↓</a>. The chord is inserted and labelled in the Denemo Display with its root and chord symbol<a class="IndexReference" name="entry-chord-symbol-0" href="#index-chord-symbol">↓</a> (aka fakechord<a class="IndexReference" name="entry-Fakechords-0" href="#index-Fakechords">↓</a>). This is typically used on a Chord Symbols staff (see Staff Properties<a class="IndexReference" name="entry-Staff-Properties-1" href="#index-Staff-Properties">↓</a> menu).
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-4.6">4.6</a> Custom Ornaments<a class="IndexReference" name="entry-Custom-Ornaments-0" href="#index-Custom-Ornaments">↓</a> Palette
@@ -3065,6 +3065,9 @@ There are two quite different ways to enter chord symbols. If the chord changes 
 </div>
 <div class="Indented">
 An alternative is to set a staff to display not the chords in regular notation but the chord symbol that represents the chord. Create a staff and use Staff-&gt;Staff Properties-&gt;Chord Symbols. Then this case you enter actual chords which will be displayed as Chord Symbols. The duration of the chords will determine the positioning, enabling chord changes mid-note. The chord symbols can then be arranged above or below the melody or other representation of the piece using Staffs-&gt;Swap Staffs or creating a custom layout in the Score Layout window.
+</div>
+<div class="Indented">
+A palette is available<a class="Reference" href="#sub:Insert-Chords">4.5↑</a> for inserting chords, with this palette selected the key sequence <tt>pm7&lt;Enter&gt;,</tt> for instance, will insert/append a c, e-flat, g, b-flat chord if the cursor height is on a C, (or c-sharp, e, g-sharp, b if there is a pending sharp<a class="IndexReference" name="entry-Pending-Accidental-0" href="#index-Pending-Accidental">↓</a>).
 </div>
 <div class="Indented">
 Chord Charts can also be created - there is a Chord Charts palette for these. Compact chord charts require a patch to LilyPond - enquire on the mailing list for this.
@@ -5241,6 +5244,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Enharmonic-Range"></a>Enharmonic Range: <a class="IndexArrow" href="#entry-Enharmonic-Range-0">↑</a>, <a class="IndexArrow" href="#entry-Enharmonic-Range-1">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Fakechords"></a>Fakechords: <a class="IndexArrow" href="#entry-Fakechords-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Fakechords-seeChord-Symbols"></a>Fakechords|seeChord Symbols: <a class="IndexArrow" href="#entry-Fakechords-seeChord-Symbols-0">↑</a>
 </p>
 <p class="printindex">
@@ -5341,6 +5347,9 @@ If you are not logged in as root user, for the last step type su and your root p
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Part-Name"></a>Part Name: <a class="IndexArrow" href="#entry-Part-Name-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-Pending-Accidental"></a>Pending Accidental: <a class="IndexArrow" href="#entry-Pending-Accidental-0">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Pickup"></a>Pickup: <a class="IndexArrow" href="#entry-Pickup-0">↑</a>
@@ -5460,9 +5469,6 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-custos"></a>custos: <a class="IndexArrow" href="#entry-custos-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-fakechord"></a>fakechord: <a class="IndexArrow" href="#entry-fakechord-0">↑</a>
-</p>
-<p class="printindex">
 <a class="printindex" name="index-pending-accidental"></a>pending accidental: <a class="IndexArrow" href="#entry-pending-accidental-0">↑</a>, <a class="IndexArrow" href="#entry-pending-accidental-1">↑</a>
 </p>
 <p class="printindex">
@@ -5471,7 +5477,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-10-03T14:19:43.294952</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-10-03T14:40:30.308849</span>
 </div>
 </div>
 </body>

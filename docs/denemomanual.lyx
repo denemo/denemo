@@ -4487,6 +4487,13 @@ The ? button gives the overview for this palette.
 
 \begin_layout Subsection
 Insert or Append Chords Palette
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Insert-Chords"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4544,7 +4551,7 @@ chord symbol
 status open
 
 \begin_layout Plain Layout
-fakechord
+Fakechords
 \end_layout
 
 \end_inset
@@ -9441,6 +9448,32 @@ An alternative is to set a staff to display not the chords in regular notation
  The chord symbols can then be arranged above or below the melody or other
  representation of the piece using Staffs->Swap Staffs or creating a custom
  layout in the Score Layout window.
+\end_layout
+
+\begin_layout Standard
+A palette is available
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Insert-Chords"
+
+\end_inset
+
+ for inserting chords, with this palette selected the key sequence 
+\family typewriter
+pm7<Enter>,
+\family default
+ for instance, will insert/append a c, e-flat, g, b-flat chord if the cursor
+ height is on a C, (or c-sharp, e, g-sharp, b if there is a pending sharp
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Pending Accidental
+\end_layout
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Standard
