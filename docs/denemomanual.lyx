@@ -121,7 +121,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.0.12
+Updates for version 2.0.14
 \end_layout
 
 \begin_layout Standard
@@ -983,8 +983,17 @@ status open
 \begin_layout Plain Layout
 When you have more than one movement numbered buttons appear in the score
  titles bar for you to navigate by.
- The first thing on the status bar after any pending accidental is the movement
- number.
+ The first thing on the status bar after any pending accidental
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+pending accidental
+\end_layout
+
+\end_inset
+
+ is the movement number.
 \end_layout
 
 \end_inset
@@ -3059,7 +3068,17 @@ Ossia
 \end_layout
 
 \begin_layout Subsubsection*
-The Staff Properties Submenu
+The Staff Properties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Staff Properties
+\end_layout
+
+\end_inset
+
+ Submenu
 \end_layout
 
 \begin_layout Standard
@@ -4467,6 +4486,84 @@ The ? button gives the overview for this palette.
 \end_layout
 
 \begin_layout Subsection
+Insert or Append Chords Palette
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/InsertOrAppendChords.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This palette inserts a chord of the given type using the 
+\emph on
+prevailing duration
+\emph default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+prevailing duration
+\end_layout
+
+\end_inset
+
+ with the root note for the chord given by the cursor height and any 
+\emph on
+pending accidental
+\emph default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+pending accidental
+\end_layout
+
+\end_inset
+
+.
+ The chord is inserted and labelled in the Denemo Display with its root
+ and chord symbol
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+chord symbol
+\end_layout
+
+\end_inset
+
+ (aka fakechord
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+fakechord
+\end_layout
+
+\end_inset
+
+).
+ This is typically used on a Chord Symbols staff (see Staff Properties
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Staff Properties
+\end_layout
+
+\end_inset
+
+ menu).
+\end_layout
+
+\begin_layout Subsection
 Custom Ornaments
 \begin_inset Index idx
 status open
@@ -4856,6 +4953,18 @@ In addition you can save and load whole sets of shortcuts and commands.
  your customized commands etc then you should run the Load a Standard Command
  Set choosing Default.commands, as some commands may have moved in the menu
  system.
+ If there are new palettes in an upgraded version of Denemo then you can
+ get them merged in with your own palettes by clicking 
+\begin_inset Quotes eld
+\end_inset
+
+Load the Standard Palette Set
+\begin_inset Quotes erd
+\end_inset
+
+ - this does not overwrite any palette buttons you may have, so delete any
+ customised buttons (after duplicating, if desired) that you wish to fetch
+ from the Denemo distribution.
 \end_layout
 
 \begin_layout Section

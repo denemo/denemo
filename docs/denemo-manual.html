@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-09-11"/>
+<meta name="create-date" content="2016-10-03"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -36,7 +36,7 @@ Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
 </div>
 <div class="Indented">
 <div class="center">
-Updates for version 2.0.12
+Updates for version 2.0.14
 </div>
 
 </div>
@@ -317,34 +317,37 @@ Table of Contents
 <a class="Link" href="#toc-Subsection-4.4">Subsection 4.4: Chord Symbols Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.5">Subsection 4.5: Custom Ornaments Palette</a>
+<a class="Link" href="#toc-Subsection-4.5">Subsection 4.5: Insert or Append Chords Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.6">Subsection 4.6: Dynamics Palette</a>
+<a class="Link" href="#toc-Subsection-4.6">Subsection 4.6: Custom Ornaments Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.7">Subsection 4.7: Figured Bass Palette</a>
+<a class="Link" href="#toc-Subsection-4.7">Subsection 4.7: Dynamics Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.8">Subsection 4.8: MIDI Import Palette</a>
+<a class="Link" href="#toc-Subsection-4.8">Subsection 4.8: Figured Bass Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.9">Subsection 4.9: Ornaments Palette</a>
+<a class="Link" href="#toc-Subsection-4.9">Subsection 4.9: MIDI Import Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.10">Subsection 4.10: Piano/Organ Notation Palette</a>
+<a class="Link" href="#toc-Subsection-4.10">Subsection 4.10: Ornaments Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.11">Subsection 4.11: Polyphony Palette</a>
+<a class="Link" href="#toc-Subsection-4.11">Subsection 4.11: Piano/Organ Notation Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.12">Subsection 4.12: Repeats Palette</a>
+<a class="Link" href="#toc-Subsection-4.12">Subsection 4.12: Polyphony Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.13">Subsection 4.13: Stringed Instruments Palette</a>
+<a class="Link" href="#toc-Subsection-4.13">Subsection 4.13: Repeats Palette</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-4.14">Subsection 4.14: Tied Notes/Chords Palette</a>
+<a class="Link" href="#toc-Subsection-4.14">Subsection 4.14: Stringed Instruments Palette</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-4.15">Subsection 4.15: Tied Notes/Chords Palette</a>
 </div>
 </div>
 <div class="toc">
@@ -958,7 +961,7 @@ One score may contain several movements, which you can move between (<tt>PgUp</t
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 100%;">
-When you have more than one movement numbered buttons appear in the score titles bar for you to navigate by. The first thing on the status bar after any pending accidental is the movement number.
+When you have more than one movement numbered buttons appear in the score titles bar for you to navigate by. The first thing on the status bar after any pending accidental<a class="IndexReference" name="entry-pending-accidental-0" href="#index-pending-accidental">↓</a> is the movement number.
 </div>
 
 </div>
@@ -1004,7 +1007,7 @@ When a file is loaded it opens at the point where you left off editing it. The p
 <div class="caption">
 Figure 1 Denemo Main Window
 </div>
-<img class="figure" src="images/denemomain.png" alt="figure images/denemomain.png" style="max-width: 1016px; max-height: 618px;"/>
+<img class="figure" src="images/denemomain.png" alt="figure images/denemomain.png" style="max-width: 1693px; max-height: 1030px;"/>
 
 </div>
 
@@ -1586,7 +1589,7 @@ The Typesetter submenu for the Movements Menu holds commands that affect the cur
 Things such as the music crossing to another staff, or Ossia<a class="IndexReference" name="entry-Ossia-0" href="#index-Ossia">↓</a> staffs are contained here, along with commands for deleting parts of the staff, setting up multi-measure rests for a whole staff, muting the staff during playback, 
 </div>
 <h3 class="Subsubsection-">
-<a class="toc" name="toc-Subsubsection--29"></a>The Staff Properties Submenu
+<a class="toc" name="toc-Subsubsection--29"></a>The Staff Properties<a class="IndexReference" name="entry-Staff-Properties-0" href="#index-Staff-Properties">↓</a> Submenu
 </h3>
 <div class="Unindented">
 This covers such things as the type of staff (e.g. Normal Notation, Tablature, Chord Symbols, Fret Diagrams) as well as the staff appearance and the playback instrument, instrument name or ambitus to be typeset at the start of the staff and more.
@@ -1844,7 +1847,17 @@ The ? button gives the overview for this palette. Rules can be set via a dialog 
 The ? button gives the overview for this palette.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.5">4.5</a> Custom Ornaments<a class="IndexReference" name="entry-Custom-Ornaments-0" href="#index-Custom-Ornaments">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.5">4.5</a> Insert or Append Chords Palette
+</h2>
+<div class="Unindented">
+<img class="embedded" src="images/InsertOrAppendChords.png" alt="figure images/InsertOrAppendChords.png" style="max-width: 452px; max-height: 163px;"/>
+
+</div>
+<div class="Indented">
+This palette inserts a chord of the given type using the <i>prevailing duration</i><a class="IndexReference" name="entry-prevailing-duration-0" href="#index-prevailing-duration">↓</a> with the root note for the chord given by the cursor height and any <i>pending accidental</i><a class="IndexReference" name="entry-pending-accidental-1" href="#index-pending-accidental">↓</a>. The chord is inserted and labelled in the Denemo Display with its root and chord symbol<a class="IndexReference" name="entry-chord-symbol-0" href="#index-chord-symbol">↓</a> (aka fakechord<a class="IndexReference" name="entry-fakechord-0" href="#index-fakechord">↓</a>). This is typically used on a Chord Symbols staff (see Staff Properties<a class="IndexReference" name="entry-Staff-Properties-1" href="#index-Staff-Properties">↓</a> menu).
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-4.6">4.6</a> Custom Ornaments<a class="IndexReference" name="entry-Custom-Ornaments-0" href="#index-Custom-Ornaments">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/CustomOrnamentsPalette.png" alt="figure images/CustomOrnamentsPalette.png" style="max-width: 329px; max-height: 68px;"/>
@@ -1854,7 +1867,7 @@ The ? button gives the overview for this palette.
 Custom ornaments can be created as encapsulated postscript files using the same methods as graphic title pages. If you have a vector graphics editor (e.g. inkscape) installed and in your Preferences (Externals tab, Graphics Editor) then you can edit from within Denemo. As usual hover over the buttons for instructions.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.6">4.6</a> Dynamics<a class="IndexReference" name="entry-Dynamics-3" href="#index-Dynamics">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.7">4.7</a> Dynamics<a class="IndexReference" name="entry-Dynamics-3" href="#index-Dynamics">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/DynamicsPalette.png" alt="figure images/DynamicsPalette.png" style="max-width: 493px; max-height: 72px;"/>
@@ -1864,14 +1877,14 @@ Custom ornaments can be created as encapsulated postscript files using the same 
 The cresc - - - and dim - - - buttons start or continue textual crescendi/diminuendi - texts such as poco a poco can be inserted and the - - - can finish on a dynamic marking or an end cresc/dim marker.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.7">4.7</a> Figured Bass<a class="IndexReference" name="entry-Figured-Bass-0" href="#index-Figured-Bass">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.8">4.8</a> Figured Bass<a class="IndexReference" name="entry-Figured-Bass-0" href="#index-Figured-Bass">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/FiguredBassPalette.png" alt="figure images/FiguredBassPalette.png" style="max-width: 329px; max-height: 66px;"/>
 
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.8">4.8</a> MIDI Import Palette
+<a class="toc" name="toc-Subsection-4.9">4.9</a> MIDI Import Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/MidiImportPalette.png" alt="figure images/MidiImportPalette.png" style="max-width: 578px; max-height: 133px;"/>
@@ -1881,7 +1894,7 @@ The cresc - - - and dim - - - buttons start or continue textual crescendi/diminu
 This palette is for guided MIDI import. The instructions are in the tooltips.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.9">4.9</a> Ornaments<a class="IndexReference" name="entry-Ornaments-1" href="#index-Ornaments">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.10">4.10</a> Ornaments<a class="IndexReference" name="entry-Ornaments-1" href="#index-Ornaments">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/OrnamentsPalette.png" alt="figure images/OrnamentsPalette.png" style="max-width: 238px; max-height: 92px;"/>
@@ -1891,14 +1904,14 @@ This palette is for guided MIDI import. The instructions are in the tooltips.
 Note that there is a separate custom ornaments palette.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.10">4.10</a> Piano/Organ Notation Palette
+<a class="toc" name="toc-Subsection-4.11">4.11</a> Piano/Organ Notation Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/PianofortePalette.png" alt="figure images/PianofortePalette.png" style="max-width: 241px; max-height: 133px;"/>
 
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.11">4.11</a> Polyphony<a class="IndexReference" name="entry-Polyphony-0" href="#index-Polyphony">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.12">4.12</a> Polyphony<a class="IndexReference" name="entry-Polyphony-0" href="#index-Polyphony">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/PolyphonyPalette.png" alt="figure images/PolyphonyPalette.png" style="max-width: 479px; max-height: 179px;"/>
@@ -1908,7 +1921,7 @@ Note that there is a separate custom ornaments palette.
 These are the commands to control separate voice<a class="IndexReference" name="entry-Voice-6" href="#index-Voice">↓</a>s that appear on a single staff. The voices are best displayed on separate staffs in the Denemo display to ease the editing.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.12">4.12</a> Repeats<a class="IndexReference" name="entry-Repeats-0" href="#index-Repeats">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.13">4.13</a> Repeats<a class="IndexReference" name="entry-Repeats-0" href="#index-Repeats">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/RepeatsPalette.png" alt="figure images/RepeatsPalette.png" style="max-width: 260px; max-height: 200px;"/>
@@ -1918,7 +1931,7 @@ These are the commands to control separate voice<a class="IndexReference" name="
 The Nth time repeat can be used to hold any needed text. If an repeat alternative is less than a bar the Short Measure command can be used, and the bar number adjusted if needed.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.13">4.13</a> Stringed Instruments Palette
+<a class="toc" name="toc-Subsection-4.14">4.14</a> Stringed Instruments Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/StringedInstrumentsPalette.png" alt="figure images/StringedInstrumentsPalette.png" style="max-width: 304px; max-height: 192px;"/>
@@ -1928,7 +1941,7 @@ The Nth time repeat can be used to hold any needed text. If an repeat alternativ
 Here are commands for fingerings<a class="IndexReference" name="entry-Fingerings-1" href="#index-Fingerings">↓</a>, string numbers etc. These are attached to individual notes (place the cursor on the note).
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.14">4.14</a> Tied Notes/Chords Palette<a class="IndexReference" name="entry-Ties-1" href="#index-Ties">↓</a>
+<a class="toc" name="toc-Subsection-4.15">4.15</a> Tied Notes/Chords Palette<a class="IndexReference" name="entry-Ties-1" href="#index-Ties">↓</a>
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/TiesPalette.png" alt="figure images/TiesPalette.png" style="max-width: 260px; max-height: 181px;"/>
@@ -1941,7 +1954,7 @@ Commands to insert ties<a class="IndexReference" name="entry-Ties-2" href="#inde
 <a class="toc" name="toc-Section-5">5</a> <a class="Label" name="sub:The-Command-Center"> </a>The Command Center<a class="IndexReference" name="entry-Command-Center-0" href="#index-Command-Center">↓</a>
 </h1>
 <div class="Unindented">
-<img class="embedded" src="images/CommandCenter.png" alt="figure images/CommandCenter.png" style="width: 602px; max-width: 1205px; height: 372px; max-height: 745px;"/>
+<img class="embedded" src="images/CommandCenter.png" alt="figure images/CommandCenter.png" style="width: 619px; max-width: 1238px; height: 369px; max-height: 738px;"/>
 
 </div>
 <div class="Indented">
@@ -1954,7 +1967,7 @@ The search<a class="IndexReference" name="entry-Search-Commands-0" href="#index-
 The command center is also where you can set one-key shortcuts such as <tt>Ctrl-x</tt> and two-key shortcuts such as <tt>Shift-a</tt> followed by <tt>Shift-a</tt> (which is written as <tt>A</tt>,<tt>A</tt> next to the command). You can also look up which command responds to a given shortcut, and execute the selected command here.
 </div>
 <div class="Indented">
-In addition you can save and load whole sets of shortcuts and commands. If you have upgraded your version of Denemo and you have elected to keep your customized commands etc then you should run the Load a Standard Command Set choosing Default.commands, as some commands may have moved in the menu system.
+In addition you can save and load whole sets of shortcuts and commands. If you have upgraded your version of Denemo and you have elected to keep your customized commands etc then you should run the Load a Standard Command Set choosing Default.commands, as some commands may have moved in the menu system. If there are new palettes in an upgraded version of Denemo then you can get them merged in with your own palettes by clicking &ldquo;Load the Standard Palette Set&rdquo; - this does not overwrite any palette buttons you may have, so delete any customised buttons (after duplicating, if desired) that you wish to fetch from the Denemo distribution.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-6">6</a> Music Snippets<a class="IndexReference" name="entry-Music-Snippets-0" href="#index-Music-Snippets">↓</a><a class="Label" name="sec:Music-Snippets"> </a>
@@ -5387,6 +5400,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Staff"></a>Staff: <a class="IndexArrow" href="#entry-Staff-0">↑</a>, <a class="IndexArrow" href="#entry-Staff-1">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Staff-Properties"></a>Staff Properties: <a class="IndexArrow" href="#entry-Staff-Properties-0">↑</a>, <a class="IndexArrow" href="#entry-Staff-Properties-1">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Staff-Properties-Editor"></a>Staff Properties Editor: <a class="IndexArrow" href="#entry-Staff-Properties-Editor-0">↑</a>, <a class="IndexArrow" href="#entry-Staff-Properties-Editor-1">↑</a>
 </p>
 <p class="printindex">
@@ -5438,12 +5454,24 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Whole-Measure-Rest"></a>Whole Measure Rest: <a class="IndexArrow" href="#entry-Whole-Measure-Rest-0">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-chord-symbol"></a>chord symbol: <a class="IndexArrow" href="#entry-chord-symbol-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-custos"></a>custos: <a class="IndexArrow" href="#entry-custos-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-fakechord"></a>fakechord: <a class="IndexArrow" href="#entry-fakechord-0">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-pending-accidental"></a>pending accidental: <a class="IndexArrow" href="#entry-pending-accidental-0">↑</a>, <a class="IndexArrow" href="#entry-pending-accidental-1">↑</a>
+</p>
+<p class="printindex">
+<a class="printindex" name="index-prevailing-duration"></a>prevailing duration: <a class="IndexArrow" href="#entry-prevailing-duration-0">↑</a>
 </p>
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-09-11T12:39:13.198172</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-10-03T14:19:43.294952</span>
 </div>
 </div>
 </body>
