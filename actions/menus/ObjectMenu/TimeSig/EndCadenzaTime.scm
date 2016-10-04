@@ -14,7 +14,7 @@
             (d-InfoDialog (_ "Inserts a non-printing time signature to resume normal measured music."))
 	    (begin
 	    	(if (not (ZeroDurationMeasure?))
-	    		(d-InsertMeasureAfter))
+	    		(d-AddMeasure))
 		(d-InsertTimeSig)
 		(GoToMeasureBeginning)
 		(if (Timesignature?)
@@ -25,3 +25,4 @@
 		        (while (d-MoveToStaffDown) (insert-timesig time))
 		        (d-PopPosition)
 		        (d-SetSaved #f))))))
+
