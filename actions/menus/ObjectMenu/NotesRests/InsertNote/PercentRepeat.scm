@@ -7,12 +7,11 @@
             (d-GoToMark)
             (set! start-measurenum (d-GetMeasure))
             (MoveToEndOfSelection)
-            (set! start-measurenum (or (not (= start-measurenum (d-GetMeasure)))
-                                        (FullDurationMeasure?)))
+            (set! start-measurenum (not (= start-measurenum (d-GetMeasure))))
             
             
             (if num_repeats
-                (let ((numbering  (if start-measurenum (d-GetUserInput (_ "Percent Repeat") (_ "Give frequency of numbering 0, 1,...") "1") #f))
+                (let ((numbering  (if (and (FullDurationMeasure?)   start-measurenum) (d-GetUserInput (_ "Percent Repeat") (_ "Give frequency of numbering 0, 1,...") "1") #f))
                         (freq "\\set countPercentRepeats = ##f "))
                     (if numbering
                         (begin
@@ -31,8 +30,9 @@
                     (d-DirectivePut-standalone-graphic tag (string-append "\nR{\nDenemo\n36"))
                     (d-DirectivePut-standalone-gy tag 10)
                     (d-PopPosition)
-                    (d-MoveCursorRight)(d-MoveCursorRight);;we have inserted one object, won't work for multiple measure selection
-                    
+                    (if (not start-measurenum)
+                    	(d-MoveCursorRight))  ;;we have inserted one object so when in the same measure we move right
+                    (d-MoveCursorRight)
                     (d-Directive-standalone tag)
                     (d-DirectivePut-standalone-minpixels tag 60)
                     (d-DirectivePut-standalone-postfix tag "} %{ ")
