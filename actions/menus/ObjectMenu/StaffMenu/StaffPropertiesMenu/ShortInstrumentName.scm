@@ -15,8 +15,10 @@
             (set! current "Vln"))))
       (set! current (d-GetUserInput (_ "Short Instrument Name") (_ "Give Short Instrument Name:") current))
       (if current
-        (begin 
+        (let ((indent "0")( size (/ (string->number (d-ScoreProperties "query=fontsize")) 10.0))) 
             (d-DirectivePut-staff-display "ShortInstrumentName" current)
             (d-DirectivePut-staff-override "ShortInstrumentName"  DENEMO_OVERRIDE_GRAPHIC)
             (d-DirectivePut-staff-postfix "ShortInstrumentName"  (string-append "\\set Staff.shortInstrumentName = \"" current "\""))
+            (set! indent (max (string->number indent) (* size (string-length current))))
+            (d-ScoreShortIndent indent)
             (d-SetSaved #f))))))
