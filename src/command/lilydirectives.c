@@ -1492,7 +1492,9 @@ and allow advanced edit if right button.
 */
 static gboolean text_edit_directive_by_fn (DenemoDirective * directive, gpointer fn);
 
-static void
+static gboolean swallow_button_press (void)
+    { return TRUE;} //prevent other handlers seeing this.
+static gboolean
 button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * directive)
 {
   // !!!!! clicking on a staff tools menu item comes thru here - but if you break gdb here as the menu item is still up your mouse is grabbed.
@@ -1585,6 +1587,7 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
             }
         }
     }
+    return TRUE;
 }
 
 
@@ -1784,12 +1787,8 @@ however, at least the rest of this code expects a valid GtkWidget...
             gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
           }
           attach_textedit_widget (directive);
-          g_signal_connect (G_OBJECT (directive->widget), /*"activate" we want to use gtk_widget_activate on this */ "button-release-event", G_CALLBACK (button_callback), directive);
-
-
-          g_signal_connect (G_OBJECT (directive->widget), "activate", G_CALLBACK (button_activate_callback), directive);
-
-
+          g_signal_connect (G_OBJECT (directive->widget),  "button-release-event", G_CALLBACK (button_callback), directive);
+          g_signal_connect (G_OBJECT (directive->widget),  "button-press-event", G_CALLBACK (swallow_button_press), directive);
 
           if (box)
             {
