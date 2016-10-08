@@ -6528,10 +6528,10 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>Void</action>
-        <after>AutoAccidentals</after>
-        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
-        <_label>Hide Next</_label>
-        <_tooltip>On printing the next music item will be omitted from the score. Use with conditional directives to leave out music for certain layouts.</_tooltip>
+        <after>DenemoDurationInTicks</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>(Print) Void Object</_label>
+        <_tooltip>On typesetting the current object will be evaluated, but otherwise ignored.</_tooltip>
       </row>
       <row type="scheme">
         <action>CheckAndPrint</action>
@@ -8025,6 +8025,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
         <_label>Short Indent</_label>
         <_tooltip>Sets the indent to be used on systems after the first.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>DenemoDurationInTicks</action>
+        <after>EditAll</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>(Display) Set Object Duration</_label>
+        <_tooltip>Sets the duration of the object at the cursor for display purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting.</_tooltip>
       </row>
     </map>
   </merge>

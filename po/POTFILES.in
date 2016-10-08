@@ -257,6 +257,8 @@ actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.scm
 actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.xml
 actions/menus/MainMenu/EditMenu/Delete/StagedDelete.scm
 actions/menus/MainMenu/EditMenu/Delete/StagedDelete.xml
+actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.scm
+actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.xml
 actions/menus/MainMenu/EditMenu/EditAll.scm
 actions/menus/MainMenu/EditMenu/EditAll.xml
 actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.scm
@@ -325,6 +327,8 @@ actions/menus/MainMenu/EditMenu/Select/ToggleNonprintingSelection.scm
 actions/menus/MainMenu/EditMenu/Select/ToggleNonprintingSelection.xml
 actions/menus/MainMenu/EditMenu/ShowLastChange.scm
 actions/menus/MainMenu/EditMenu/ShowLastChange.xml
+actions/menus/MainMenu/EditMenu/Void.scm
+actions/menus/MainMenu/EditMenu/Void.xml
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.scm
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.xml
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrMinor.scm
