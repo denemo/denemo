@@ -2970,7 +2970,7 @@ scheme_set_duration_in_ticks (SCM duration)
     }
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
     return SCM_BOOL_F;
-  if (thedur > 0)
+  if (thedur >= 0)
     {
       curObj->basic_durinticks = curObj->durinticks = thedur;
       if (curObj->type == CHORD)
