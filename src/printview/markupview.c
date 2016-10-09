@@ -169,3 +169,81 @@ install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 
 
 }
+
+gchar *Prior, *Post;
+static void preview_text (gchar *text)
+{
+   
+    gchar *syntax = g_strconcat (Prior, text, Post, NULL);
+    create_pdf_for_lilypond (syntax);
+    g_free (syntax);
+
+}
+gboolean run_preview (GtkWidget *textbuffer)
+{
+    GtkTextIter startiter, enditer;
+    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
+    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
+    gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
+    pause_continuous_typesetting ();
+    preview_text (text);
+    return FALSE; //one shot timer
+}
+
+static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget *textbuffer)
+{
+  g_timeout_add ( 100, (GSourceFunc)run_preview, textbuffer);
+  return FALSE; //pass it on to the standard handler.
+ }
+
+gchar *get_markup_from_user (gchar *instruction, gchar *prior_context, gchar *post_context, gchar *initial_markup)
+{
+  Prior = prior_context;
+  Post = post_context;
+  gchar *ret = NULL;
+  GtkWidget *textview = gtk_text_view_new ();
+  GtkWidget *w = gtk_dialog_new_with_buttons (_("Denemo Markup Editor"),
+                                                   GTK_WINDOW (Denemo.window),
+                                                   GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                   GTK_STOCK_OK,
+                                                   GTK_RESPONSE_ACCEPT,
+                                                   GTK_STOCK_CANCEL, GTK_RESPONSE_REJECT,
+                                                   NULL);
+ GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (w));
+ 
+  //gtk_window_set_default_size (GTK_WINDOW (w), 600, 400);
+  //gtk_window_set_position (GTK_WINDOW (w), GTK_WIN_POS_MOUSE);
+ // g_signal_connect (G_OBJECT (w), "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), w);
+  GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+  gtk_container_add (GTK_CONTAINER (content_area), main_vbox);
+  install_markup_preview (main_vbox, "type markup");
+  
+  GtkWidget *label = gtk_label_new(instruction);
+  gtk_box_pack_start (GTK_BOX (main_vbox), label, FALSE, TRUE, 0);
+  GtkWidget *sw = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (sw), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gtk_box_pack_start (GTK_BOX (main_vbox), sw, TRUE, TRUE, 0);
+  gtk_container_add (GTK_CONTAINER (sw), textview);
+  
+  GtkTextBuffer *textbuffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (textview));
+  gtk_text_buffer_set_text (textbuffer, initial_markup, -1);
+  
+  g_object_set_data (G_OBJECT (textview), "textbuffer", textbuffer);
+  g_signal_connect_after (G_OBJECT (textview), "key-release-event", G_CALLBACK (keypress_callback), textbuffer);
+  
+ 
+  
+  gtk_widget_show_all (w);
+  run_preview (textbuffer);
+  gint result = gtk_dialog_run (GTK_DIALOG (w));
+  if (result==GTK_RESPONSE_ACCEPT)
+      {
+          GtkTextIter startiter, enditer;
+          gtk_text_buffer_get_start_iter (textbuffer, &startiter);
+          gtk_text_buffer_get_end_iter (textbuffer, &enditer);
+          gchar *text = gtk_text_buffer_get_text (textbuffer, &startiter, &enditer, FALSE);
+          ret = text;
+      }
+  gtk_widget_destroy (w);
+  return ret;
+}

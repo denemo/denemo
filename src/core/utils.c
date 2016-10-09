@@ -2748,6 +2748,10 @@ string_dialog_editor_with_widget (DenemoProject * gui, gchar * wlabel, gchar * d
   return string_dialog_editor_with_widget_opt (gui, wlabel, direction, PreValue, widget, TRUE, keypress_callback);
 }
 
+gchar *get_multiline_input (gchar *title, gchar *instruction, gchar *initial)
+{
+    return string_dialog_editor_with_widget (Denemo.project, title, instruction, initial, NULL, NULL);
+}
 static gboolean
 option_choice (GtkWidget * widget, gchar ** response)
 {

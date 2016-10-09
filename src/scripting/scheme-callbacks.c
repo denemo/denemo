@@ -2852,6 +2852,48 @@ scheme_get_note_names_from_user (SCM num, SCM initial, SCM message)
     g_free (note);
     return ret;
 }
+SCM
+scheme_get_multiline_user_input (SCM title, SCM instruction, SCM initial)
+{
+    SCM ret = SCM_BOOL_F;
+    gchar *tl = _("Text Input");
+    gchar *ins = _("Give Text");
+    gchar *init = "";
+    
+    if (scm_is_string (title))
+        tl = scm_to_locale_string (title); 
+    if (scm_is_string (instruction))
+        ins = scm_to_locale_string (instruction); 
+    if (scm_is_string (initial))
+        init = scm_to_locale_string (initial);
+    gchar *val = get_multiline_input (tl, ins, init);
+    if (val)
+        ret = scm_from_locale_string (val);
+    g_free (val);
+    return ret;
+}
+SCM
+scheme_get_markup_from_user (SCM ins, SCM prior, SCM post, SCM initial) 
+{
+    SCM ret = SCM_BOOL_F;
+    gchar *prior_context = "\score {<<";
+    gchar *post_context = ">>}";
+    gchar *instruction = _("Give LilyPond Syntax");
+    gchar *initial_markup = "";
+    if (scm_is_string (ins))
+        instruction = scm_to_locale_string (ins); 
+    if (scm_is_string (prior))
+        prior_context = scm_to_locale_string (prior); 
+    if (scm_is_string (post))
+        post_context = scm_to_locale_string (post); 
+    if (scm_is_string (initial))
+        initial_markup = scm_to_locale_string (initial);
+    gchar *val = get_markup_from_user (instruction, prior_context, post_context, initial_markup);
+    if (val)
+        ret = scm_from_locale_string (val);
+    g_free (val);
+    return ret;
+}
 
 //Insert rests to the value of the timesig and return the number of rests inserted.
 SCM

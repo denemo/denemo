@@ -159,6 +159,8 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (3, "Takes a number 1 or 2 and initial value and a message. Returns one or two note-names in LilyPond format or #f if the user cancels", DENEMO_SCHEME_PREFIX "GetNoteNamesFromUser", scheme_get_note_names_from_user);
+  install_scm_function (3, "Takes a title, instruction and initial value. Returns user input #f if the user cancels", DENEMO_SCHEME_PREFIX "GetMultilineUserInput", scheme_get_multiline_user_input);
+  install_scm_function (4, "Takes an instruction, prior lilypond context, post lilypond context and intial value. Returns markup from user which is checked in the given contexts #f if the user cancels", DENEMO_SCHEME_PREFIX "GetMarkupFromUser", scheme_get_markup_from_user);
 
   install_scm_function (0, "Returns the name of the (highest) note in any chord at the cursor position, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteName", scheme_get_note_name);
   install_scm_function (0, "Insert a rest at the cursor in the prevailing duration, or if given a integer, in that duration, setting the prevailing duration. If MIDI in is active, the cursor stays on the rest after inserting it, else it moves right.", DENEMO_SCHEME_PREFIX "InsertRest", scheme_insert_rest);

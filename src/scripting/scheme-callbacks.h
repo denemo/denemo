@@ -105,6 +105,8 @@ SCM scheme_debug_object (SCM);
 SCM scheme_display_object (void);
 SCM scheme_destroy_scheme_init (void);
 SCM scheme_get_note_names_from_user (SCM number, SCM init, SCM message);
+SCM scheme_get_multiline_user_input (SCM title, SCM instruction, SCM initial);
+SCM scheme_get_markup_from_user (SCM instruction, SCM prior, SCM post, SCM initial) ;
 SCM scheme_get_note_name (SCM);
 SCM scheme_insert_rest (SCM);
 SCM scheme_insert_chord (SCM lilypondnotes, SCM duration);
