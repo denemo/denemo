@@ -13,6 +13,9 @@
 
 #define SECTION_UTF8_STRING "§"
 #define PILCROW_UTF8_STRING "¶"
+
+static gboolean run_preview (GtkWidget *textbuffer);
+
 static gchar *
 create_lilypond_from_text (gchar * text)
 {
@@ -271,7 +274,7 @@ static void preview_text (gchar *text)
     g_free (syntax);
     g_free (lilypond);
 }
-gboolean run_preview (GtkWidget *textbuffer)
+static gboolean run_preview (GtkWidget *textbuffer)
 {
     GtkTextIter startiter, enditer;
     gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
@@ -286,8 +289,7 @@ gboolean run_preview (GtkWidget *textbuffer)
 static void
 preview_markup (GtkWidget * button)
 {
-    DenemoProject *gui = Denemo.project;g_print ("Preview...");
-    
+    DenemoProject *gui = Denemo.project;
     GtkWidget *textbuffer = get_textbuffer_from_button (button);
     run_preview (textbuffer);
 }
