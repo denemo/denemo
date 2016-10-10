@@ -5,6 +5,10 @@
 #include "export/print.h"
 #include "ui/markup.h"
 
+gboolean finished = FALSE;
+gint changes = 0;
+
+
 static GtkWidget *DenemoMarkupArea;
 static gboolean
 overdraw_print (cairo_t * cr)
@@ -26,14 +30,8 @@ overdraw_print (cairo_t * cr)
       cairo_show_text (cr, _( "Cannot Typeset!"));
       cairo_move_to (cr, 50, message_height + 50);
       cairo_set_font_size (cr, 24.0);
-      cairo_show_text (cr, _( "Edit the markup in the pane below and then click here"));
-      
-  } else
-  {
-      cairo_set_source_rgba (cr, 0.0, 0.5, 0.0, 0.4);
-      cairo_set_font_size (cr, 48.0);
-      cairo_move_to (cr, 50, message_height);
-      cairo_show_text (cr, _( "Click to Preview"));
+      cairo_show_text (cr, _( "Edit the LilyPond syntax in the pane below or cancel"));
+
   }
  return TRUE;
 }
@@ -86,6 +84,8 @@ set_printarea (GError ** err)
 void
 markupview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 {
+    changes = 0;
+    finished = TRUE;
 #if GLIB_CHECK_VERSION(2,34,0)
   {
     GError *err = NULL;
@@ -109,6 +109,8 @@ markupview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
   unpause_continuous_typesetting ();
   GError *err = NULL;
   set_printarea (&err);
+  if (Denemo.printstatus->invalid)
+    changes++;
 }
 
 #if GTK_MAJOR_VERSION==3
@@ -131,21 +133,11 @@ markuparea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 }
 #endif
 
-static GtkWidget *TheTopBox;
-static gint
-markuparea_button_release (void)
-{
-   GtkWidget *textbuffer = (GtkWidget*)g_object_get_data (G_OBJECT(TheTopBox), "textbuffer");
-   if (textbuffer)
-    run_preview (textbuffer);
-   return TRUE; 
-}
 
 
 void
 install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 {
-  TheTopBox = top_vbox;
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
   ev_init ();
@@ -162,11 +154,6 @@ install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 #else
   g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "expose_event", G_CALLBACK (markuparea_draw_event), NULL);
 #endif
- //g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "button_press_event", G_CALLBACK (markuparea_button_press), NULL); for some reason this is not received after the start
- 
-  g_signal_connect_after (G_OBJECT (DenemoMarkupArea), "button_release_event", G_CALLBACK (markuparea_button_release), NULL);
-
-
 
 }
 
@@ -181,18 +168,23 @@ static void preview_text (gchar *text)
 }
 gboolean run_preview (GtkWidget *textbuffer)
 {
-    GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
-    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
-    gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
-    pause_continuous_typesetting ();
-    preview_text (text);
-    return FALSE; //one shot timer
+    
+    if (finished && changes)
+        {
+        GtkTextIter startiter, enditer;
+        gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
+        gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
+        gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
+        pause_continuous_typesetting ();
+        finished = FALSE;
+        preview_text (text);
+        }
+    return TRUE; //continuous timer
 }
 
 static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget *textbuffer)
 {
-  g_timeout_add ( 100, (GSourceFunc)run_preview, textbuffer);
+  changes++;
   return FALSE; //pass it on to the standard handler.
  }
 
@@ -228,8 +220,12 @@ gchar *get_lilypond_syntax_from_user (gchar* title, gchar *instruction, gchar *p
     g_signal_connect_after (G_OBJECT (textview), "key-release-event", G_CALLBACK (keypress_callback), textbuffer);
 
     gtk_widget_show_all (dialog);
-    run_preview (textbuffer);
+    //run_preview (textbuffer);
+    finished = TRUE;
+    changes = 1;
+    gint timer_id =  g_timeout_add ( 100, (GSourceFunc)run_preview, textbuffer);
     gint result = gtk_dialog_run (GTK_DIALOG (dialog));
+    g_source_remove (timer_id);
     if (result==GTK_RESPONSE_ACCEPT)
       {
           GtkTextIter startiter, enditer;

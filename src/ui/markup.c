@@ -321,8 +321,7 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
 {
 #ifndef USE_EVINCE
           g_debug("This feature requires denemo to be built with evince");
-#else
-  implement_show_print_view (FALSE);
+    return FALSE;
 #endif
   GtkWidget *top_vbox = gtk_vbox_new (FALSE, 8);
   
