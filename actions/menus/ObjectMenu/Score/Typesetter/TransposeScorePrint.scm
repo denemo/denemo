@@ -41,10 +41,10 @@
     (define acc2 (get-accidental note))
     (/ (- acc2 acc1) 2))
     
-
+ 
 (if (and TransposeScorePrint::params (not (equal?  TransposeScorePrint::params "edit")))
     (set! Transpose::Interval TransposeScorePrint::params)
-    (set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
+    (set! Transpose::Interval (d-GetLilyPondSyntaxFromUser  (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
      for example \"c g\" means transpose 5th up.
     Note names are in Dutch!!! a,b,c ... are the same but
     \"es\" = flat, so e.g. bes means b-flat
@@ -54,7 +54,8 @@
     e.g. c c' means octave up.
     You do not have to start with c
     e.g. d e means a tone higher.
-    ") Transpose::Interval)))
+    ")  (string-append  "\\score {<< {<c' e' g'>} >>} _\\markup\\huge \"" (_ "Will be transposed to:")  "\"   \\score{<<\\transpose ")     " {<c' e' g'>} >>}"     
+     Transpose::Interval )))
 (if Transpose::Interval
   (let ((base #f)(note (string-tokenize Transpose::Interval)) (choice (RadioBoxMenu
                      (cons "Global (includes quoted music)\n(and any layout)"   'global)   
