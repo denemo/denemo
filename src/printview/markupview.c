@@ -188,6 +188,8 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
   return FALSE; //pass it on to the standard handler.
  }
 
+//This is a modal get, however the routine in markup.c to get markup can be run non-modally, so if the user then ran this routine while the other was running things would go badly wrong FIXM£
+//The two routines need to be designed together, the other allows a collection of buttons to be present injecting text into the text editor.
 gchar *get_lilypond_syntax_from_user (gchar* title, gchar *instruction, gchar *prior_context, gchar *post_context, gchar *initial_markup)
 {
     Prior = prior_context;
