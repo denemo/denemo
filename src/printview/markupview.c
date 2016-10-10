@@ -196,7 +196,7 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
   return FALSE; //pass it on to the standard handler.
  }
 
-gchar *get_markup_from_user (gchar* title, gchar *instruction, gchar *prior_context, gchar *post_context, gchar *initial_markup)
+gchar *get_lilypond_syntax_from_user (gchar* title, gchar *instruction, gchar *prior_context, gchar *post_context, gchar *initial_markup)
 {
     Prior = prior_context;
     Post = post_context;

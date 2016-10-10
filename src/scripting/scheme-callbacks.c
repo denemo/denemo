@@ -2873,13 +2873,16 @@ scheme_get_multiline_user_input (SCM title, SCM instruction, SCM initial)
     return ret;
 }
 SCM
-scheme_get_markup_from_user (SCM ins, SCM prior, SCM post, SCM initial) 
+scheme_get_lilypond_syntax_from_user (SCM tit, SCM ins, SCM prior, SCM post, SCM initial) 
 {
     SCM ret = SCM_BOOL_F;
+    gchar *title = _("LilyPond Syntax");
     gchar *prior_context = "\score {<<";
     gchar *post_context = ">>}";
     gchar *instruction = _("Give LilyPond Syntax");
     gchar *initial_markup = "";
+    if (scm_is_string (tit))
+        title = scm_to_locale_string (tit);
     if (scm_is_string (ins))
         instruction = scm_to_locale_string (ins); 
     if (scm_is_string (prior))
@@ -2888,7 +2891,7 @@ scheme_get_markup_from_user (SCM ins, SCM prior, SCM post, SCM initial)
         post_context = scm_to_locale_string (post); 
     if (scm_is_string (initial))
         initial_markup = scm_to_locale_string (initial);
-    gchar *val = get_markup_from_user (instruction, prior_context, post_context, initial_markup);
+    gchar *val = get_lilypond_syntax_from_user (title, instruction, prior_context, post_context, initial_markup);
     if (val)
         ret = scm_from_locale_string (val);
     g_free (val);
