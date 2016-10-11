@@ -54,7 +54,7 @@
     e.g. c c' means octave up.
     You do not have to start with c
     e.g. d e means a tone higher.
-    ")  (string-append  "\\score {<< {<c' e' g'>} >>} _\\markup\\huge \"" (_ "Will be transposed to:")  "\"   \\score{<<\\transpose ")     " {<c' e' g'>} >>}"     
+    ")  (string-append  "\\score {<< {\\clef treble \\key c \\major c' d' e' f' g' a' b'} >>} _\\markup\\huge \"" (_ "Will be transposed to:")  "\"   \\score{<<\\transpose ")     " {\\clef treble \\key c \\major c'^\\markup\\huge{C} d'^\\markup\\huge{D} e'^\\markup\\huge{E} f'^\\markup\\huge{F} g'^\\markup\\huge{G} a'^\\markup\\huge{A} b'^\\markup\\huge{B}} >>}"     
      Transpose::Interval )))
 (if Transpose::Interval
   (let ((base #f)(note (string-tokenize Transpose::Interval)) (choice (RadioBoxMenu
