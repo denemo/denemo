@@ -21,7 +21,7 @@
 #include <string.h>
 
 typedef enum DIRECTIVE_TYPE
-{ DIRECTIVE_OBJECT = 0, DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6 } DIRECTIVE_TYPE;
+{ DIRECTIVE_OBJECT = 0, DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6, DIRECTIVE_CLEF = 7} DIRECTIVE_TYPE;
 
 static GList *OldCurrentObject; //current object when object editor was left
 static GtkWidget *TheEditorWidget = NULL;
@@ -702,14 +702,36 @@ set_false (GtkWidget * button, gboolean * bool)
     score_status (Denemo.project, TRUE);
   *bool = FALSE;
 }
+static void
+chuck_object_editor (void)
+{
+  if (TheEditorWidget)
+    gtk_widget_destroy (TheEditorWidget);
+  else
+    g_warning ("Call to chuck editor window, but it is not set\n");
+  TheEditorWidget = NULL;
+  OldCurrentObject = Denemo.project->movement->currentobject;
+}
 
+static gboolean
+recover_object_editor (void)
+{
+  if (OldCurrentObject == Denemo.project->movement->currentobject)
+    {
+      edit_object ();
+      return TRUE;
+    }
+  else
+    reset_cursors ();
+  return FALSE;
+}
 typedef gboolean fn_type (gchar *);
 static void
 advanced_edit_type_directive (GtkWidget * button, gpointer fn)
 {
   DenemoDirective *directive = (DenemoDirective *) g_object_get_data (G_OBJECT (button), "directive");
   GList **directives = (GList **) g_object_get_data (G_OBJECT (button), "directives");
-  gtk_widget_hide (gtk_widget_get_toplevel (button));
+  chuck_object_editor();
   if (!(((fn_type *) fn) (directive->tag->str)))
     {
       if (directives)
@@ -720,7 +742,7 @@ advanced_edit_type_directive (GtkWidget * button, gpointer fn)
       score_status (Denemo.project, TRUE);
     }
   else
-    show_window (button);       //gtk_widget_show (gtk_widget_get_toplevel (button));
+     recover_object_editor ();
 
 }
 
@@ -763,11 +785,14 @@ create_palette_button_for_directive (GtkWidget * button, gchar * what)
     }
   g_string_free (script, TRUE);
 }
-
+static void dummy_rerun (void)
+{
+    g_warning ("No action");
+}
 static gpointer
 get_rerun (gchar * field)
 {
-  gpointer rerun = NULL;
+  gpointer rerun = dummy_rerun;
   if (!strcmp (field, "movementcontrol"))
     rerun = edit_movement_properties;
   else if (!strcmp (field, "scoreheader"))
@@ -781,6 +806,12 @@ get_rerun (gchar * field)
   else if (!strcmp (field, "paper"))
     rerun = edit_score_properties;
   else if (!strcmp (field, "staff"))
+    rerun = edit_staff_properties;
+  else if (!strcmp (field, "clef"))
+    rerun = edit_staff_properties;
+  else if (!strcmp (field, "timesig"))
+    rerun = edit_staff_properties;
+  else if (!strcmp (field, "keysig"))
     rerun = edit_staff_properties;
   else if (!strcmp (field, "voice"))
     rerun = edit_voice_properties;
@@ -857,29 +888,7 @@ delete_directive (GtkWidget * button, gpointer fn)
 }
 
 
-static void
-chuck_object_editor (void)
-{
-  if (TheEditorWidget)
-    gtk_widget_destroy (TheEditorWidget);
-  else
-    g_warning ("Call to chuck editor window, but it is not set\n");
-  TheEditorWidget = NULL;
-  OldCurrentObject = Denemo.project->movement->currentobject;
-}
 
-static gboolean
-recover_object_editor (void)
-{
-  if (OldCurrentObject == Denemo.project->movement->currentobject)
-    {
-      edit_object ();
-      return TRUE;
-    }
-  else
-    reset_cursors ();
-  return FALSE;
-}
 
 static void
 call_edit_on_action (GtkWidget * button, DIRECTIVE_TYPE score_edit)
@@ -1052,6 +1061,31 @@ seek_standalone_directive (GtkWidget * button, gchar * tag)
 }
 
 static void
+make_type_directive_conditional (gchar *type, gchar * tag)
+{
+  gchar *script = g_strdup_printf ("(SetDirectiveConditional #f (cons \"%s\" \"%s\"))", type, tag);
+  chuck_object_editor ();
+  call_out_to_guile (script);
+  g_free (script);
+  recover_object_editor ();
+}
+static void
+make_clef_directive_conditional (gchar * tag)
+{
+  make_type_directive_conditional ("clef", tag);
+}
+static void
+make_keysig_directive_conditional (gchar * tag)
+{
+  make_type_directive_conditional ("keysig", tag);
+}
+static void
+make_timesig_directive_conditional (gchar * tag)
+{
+  make_type_directive_conditional ("timesig", tag);
+}
+
+static void
 make_chord_directive_conditional (gchar * tag)
 {
   gchar *script = g_strdup_printf ("(d-ChooseCondition (cons \"%s\" #f))", tag);
@@ -1084,6 +1118,7 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
   gpointer rerun;
   const gchar *field;
   rerun = g_object_get_data (G_OBJECT (button), "rerun");
+  if (!rerun) rerun = dummy_rerun;
   field = (const gchar *) g_object_get_data (G_OBJECT (button), "field");
   if (directive && directive->tag)
     {
@@ -1118,6 +1153,12 @@ install_conditional_button (GtkWidget * hbox, DenemoDirective * directive, gchar
   else if (!strcmp (field, "paper"))
     rerun = edit_score_properties;
   else if (!strcmp (field, "staff"))
+    rerun = edit_staff_properties;
+  else if (!strcmp (field, "clef"))
+    rerun = edit_staff_properties;
+  else if (!strcmp (field, "timesig"))
+    rerun = edit_staff_properties;
+  else if (!strcmp (field, "keysig"))
     rerun = edit_staff_properties;
   else if (!strcmp (field, "voice"))
     rerun = edit_voice_properties;
@@ -1280,13 +1321,20 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           }
       }
-      if ((type == EDIT_NOTE) || (type == EDIT_CHORD))
+      if ((type == EDIT_NOTE) || (type == EDIT_CHORD) || (type == EDIT_CLEF)|| (type == EDIT_KEY)|| (type == EDIT_TIMESIG))
         {
           button = gtk_button_new_with_label (_("Conditional"));
           get_color (&color, 0.0, 0.0, 0.5, 1.0);
           gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
           if (type == EDIT_CHORD)
             g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (make_chord_directive_conditional), (gpointer) directive->tag->str);
+          else
+           if (type == EDIT_CLEF)
+            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (make_clef_directive_conditional), (gpointer) directive->tag->str);
+          if (type == EDIT_KEY)
+            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (make_keysig_directive_conditional), (gpointer) directive->tag->str);
+          if (type == EDIT_TIMESIG)
+            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (make_timesig_directive_conditional), (gpointer) directive->tag->str);
           else
             g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (make_note_directive_conditional), (gpointer) directive->tag->str);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -2403,6 +2451,12 @@ edit_staff_and_voice_properties (gboolean show_staff)
       GtkWidget *label = gtk_label_new (_("Time Signature Directives"));
       gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
       place_buttons_for_directives ((GList **) & (thestaff->timesig.directives), inner_box, DIRECTIVE_TIMESIG, "timesig");
+    }
+  if (thestaff->clef.directives)
+    {
+      GtkWidget *label = gtk_label_new (_("Clef Directives"));
+      gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+      place_buttons_for_directives ((GList **) & (thestaff->clef.directives), inner_box, DIRECTIVE_CLEF, "clef");
     }
 
 
