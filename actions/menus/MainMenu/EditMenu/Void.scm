@@ -1,4 +1,5 @@
-(let ((tag "Void"))
+
+	(let ((tag "Void"))
 (cond
 	((Music?)
 		(if (d-Directive-chord? tag)
@@ -11,6 +12,7 @@
 		(if (d-Directive-standalone? tag)
 			(d-DirectiveDelete-standalone tag)
 			(begin
+				(d-DirectivePut-standalone tag)
 				(d-DirectivePut-standalone-prefix tag "\\void ")
 				(d-DirectivePut-standalone-display tag "Void")))
 		(d-SetSaved #f))
