@@ -115,8 +115,8 @@
                 (set! dimensions (string-append "\\with-dimensions #'(-" dim " . " dim ") #'(-" dim " . " dim ")")))
                         
             (if (not dimensions)
-                        (set! dimensions ""))
-             (if (not direction)
+                (set! dimensions ""))
+            (if (not direction)
                 (set! direction "^"))      
             (if (string? text)
                 (begin
@@ -129,51 +129,51 @@
             (if text 
                (begin
                     (if (not scale)
-                        (get-scale))
-         (if (not display-text)
-            (set! display-text (car text)))
-                    (if scale
+                        (set! scale "1"))
+                    (if (not display-text)
+                    (set! display-text (car text)))
+                            (if scale
+                                (begin
+                                    (set! markup (cdr text))
+                                    (set! text (car text))
+                                    (set! data (assq-set! data 'text text))
+                                    (if display
+                                        (set! data (assq-set! data 'display display-text)))
+                                    (set! data (assq-set! data 'scale scale))
+                                    (if dim 
+                                        (set! data (assq-set! data 'dimensions dim))
+                                        (set! data (assq-remove! data 'dimensions)))
+                                    (set! data (assq-set! data 'direction direction))
+                                    (if x-offset
+                                     (set! data (assq-set! data 'x-offset x-offset)))
+                                    (if y-offset
+                                     (set! data (assq-set! data 'y-offset y-offset)))
+                                               
+                                    (if (not (d-Directive-standalone? tag))
+                                        (d-DirectivePut-standalone tag))
+                                   ;; (d-DirectivePut-standalone-data tag (format #f "'~s" data))
+                                   (let ((text (string-append "(list (cons 'text \"" (scheme-escape text) "\")(cons 'scale \"" scale "\")" (if dim (string-append "(cons 'dimensions  \"" dim "\")") "")
+                                                              "(cons 'direction \"" direction "\")"
+                                                               (if display (string-append "(cons 'display  \"" (scheme-escape display-text) "\")") "")
+                                                              (if x-offset (string-append "(cons 'x-offset \"" x-offset "\")") "")
+                                                              (if y-offset (string-append "(cons 'y-offset \"" y-offset "\")") "") ")")))
+                                        (d-DirectivePut-standalone-data tag text))
+                                   
+                                   
+                                   
+                                   (if display
+                                        (d-DirectivePut-standalone-display tag display-text)
+                                        (d-DirectivePut-standalone-display tag text))
+                                    (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
+                                    (d-DirectivePut-standalone-prefix tag prefix)
+                                    (d-DirectivePut-standalone-minpixels tag 30)
+                                    (d-RefreshDisplay)
+                                    (d-SetSaved #f))))
                         (begin
-                            (set! markup (cdr text))
-                            (set! text (car text))
-                            (set! data (assq-set! data 'text text))
-                            (if display
-                                (set! data (assq-set! data 'display display-text)))
-                            (set! data (assq-set! data 'scale scale))
-                            (if dim 
-                                (set! data (assq-set! data 'dimensions dim))
-                                (set! data (assq-remove! data 'dimensions)))
-                            (set! data (assq-set! data 'direction direction))
-                            (if x-offset
-                             (set! data (assq-set! data 'x-offset x-offset)))
-                            (if y-offset
-                             (set! data (assq-set! data 'y-offset y-offset)))
-                                       
-                            (if (not (d-Directive-standalone? tag))
-                                (d-DirectivePut-standalone tag))
-                           ;; (d-DirectivePut-standalone-data tag (format #f "'~s" data))
-                           (let ((text (string-append "(list (cons 'text \"" (scheme-escape text) "\")(cons 'scale \"" scale "\")" (if dim (string-append "(cons 'dimensions  \"" dim "\")") "")
-                                                      "(cons 'direction \"" direction "\")"
-                                                       (if display (string-append "(cons 'display  \"" (scheme-escape display-text) "\")") "")
-                                                      (if x-offset (string-append "(cons 'x-offset \"" x-offset "\")") "")
-                                                      (if y-offset (string-append "(cons 'y-offset \"" y-offset "\")") "") ")")))
-                                (d-DirectivePut-standalone-data tag text))
-                           
-                           
-                           
-                           (if display
-                                (d-DirectivePut-standalone-display tag display-text)
-                                (d-DirectivePut-standalone-display tag text))
-                            (d-DirectivePut-standalone-postfix tag (string-append direction "\\markup"dimensions"\\scale #'(" scale " . " scale ")\\column{" markup "}"))
-                            (d-DirectivePut-standalone-prefix tag prefix)
-                            (d-DirectivePut-standalone-minpixels tag 30)
-                            (d-RefreshDisplay)
-                            (d-SetSaved #f))))
-                (begin
-                    (if (not params)
-                        (let ((confirm (d-GetUserInput (d-DirectiveGet-standalone-display tag) (_ "Delete this text?") (_ "y"))))
-                         (if (and confirm (equal? confirm (_ "y")))
-                            (begin
-                                (d-DirectiveDelete-standalone tag)
-                                (d-SetSaved #f))
-                            (d-InfoDialog (_ "Cancelled"))))))))))
+                            (if (not params)
+                                (let ((confirm (d-GetUserInput (d-DirectiveGet-standalone-display tag) (_ "Delete this text?") (_ "y"))))
+                                 (if (and confirm (equal? confirm (_ "y")))
+                                    (begin
+                                        (d-DirectiveDelete-standalone tag)
+                                        (d-SetSaved #f))
+                                    (d-InfoDialog (_ "Cancelled"))))))))))
