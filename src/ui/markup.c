@@ -14,6 +14,8 @@
 #define SECTION_UTF8_STRING "§"
 #define PILCROW_UTF8_STRING "¶"
 
+static gint changes = 0;
+static gint id = 0;
 static gboolean run_preview (GtkWidget *textbuffer);
 
 static gchar *
@@ -64,7 +66,7 @@ paste_snippet_lilypond (GtkWidget * button)
         {
           const gchar *clefname = get_prevailing_clef_as_lilypond (), *keysigname = get_prevailing_keysig_as_lilypond (), *timesigname = get_prevailing_timesig_as_lilypond ();
           gchar *text = g_strdup_printf ("\\raise #0.5 \\score{\n\\DenemoGlobalTranspose {{%s}{%s}{%s}%s}\\layout{indent=0.0}\\paper{top-margin=0.0 left-margin=0.0}\n}", clefname, keysigname, timesigname, r->lilypond?r->lilypond->str:"");
-          gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
+          gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
           g_free (text);
         }
     }
@@ -94,7 +96,7 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
       if(text)
         {
             gchar *insert = g_strdup_printf("%s", text);
-            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
             g_free (text);
             g_free (insert);
         }
@@ -118,7 +120,7 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
       if(text)
         {
             gchar *insert = g_strdup_printf("%s", text);
-            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
             g_free (text);
             g_free (insert);
         }
@@ -138,7 +140,7 @@ insert_markup (GtkWidget * button, gchar *text)
   
   GtkWidget *textbuffer = get_textbuffer_from_button (button);
   if (textbuffer)
-    gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), run_preview (textbuffer);
+    gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
   else
     g_warning ("Denemo program error, widget hierarchy changed???");
 
@@ -158,7 +160,7 @@ markup_selection (GtkWidget * button, gchar *text)
          {
              gtk_text_buffer_insert_with_tags_by_name  (GTK_TEXT_BUFFER (textbuffer), &start, text, -1, "code", NULL);
              if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
-                gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &end, "}", -1, "code", NULL), run_preview (textbuffer);
+                gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &end, "}", -1, "code", NULL), changes++;
          }
       else
           g_warning ("Denemo program error, widget hierarchy changed???");
@@ -222,6 +224,7 @@ insert_vert (GtkWidget * button)
 
             gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));
             gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &cursor, " ",    -1,  "ineditable",NULL);
+            changes++;
         }
        else
         {
@@ -252,6 +255,7 @@ insert_horiz (GtkWidget * button)
 
             gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));
             gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &cursor, " ",    -1,  "ineditable",NULL);
+            changes++;
         }
        else
         {
@@ -276,21 +280,26 @@ static void preview_text (gchar *text)
 }
 static gboolean run_preview (GtkWidget *textbuffer)
 {
-    GtkTextIter startiter, enditer;
-    gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
-    gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
-    gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
-    
-    pause_continuous_typesetting ();
+    if (changes)
+        {
+            changes = 0;
+            GtkTextIter startiter, enditer;
+            gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
+            gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
+            gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
+            
+            pause_continuous_typesetting ();
 
-    preview_text (text);
-    return FALSE; //one shot timer
+            preview_text (text);
+    }
+    return TRUE; //continuous timer
 }
 static void
 preview_markup (GtkWidget * button)
 {
     DenemoProject *gui = Denemo.project;
     GtkWidget *textbuffer = get_textbuffer_from_button (button);
+    changes++;//force recalculation.
     run_preview (textbuffer);
 }
 
@@ -298,6 +307,9 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
+  if (id==0)
+    id = g_timeout_add ( 300, (GSourceFunc)run_preview, textbuffer);
+  changes++;
   if (event->keyval == GDK_KEY_Return)
     {
   //gchar *key = g_strdup_printf ("%c", gdk_keyval_to_unicode (event->keyval));
@@ -313,7 +325,7 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
           g_warning ("The character # can only be used for scheme code, paste it in if needed");
           return TRUE;
       }
-  g_timeout_add ( 100, run_preview, textbuffer);
+ 
   return FALSE; //pass it on to the standard handler.
  }
 
@@ -326,6 +338,7 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   GtkWidget *top_vbox = gtk_vbox_new (FALSE, 8);
   
   install_markup_preview (top_vbox, instruction);
+
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (top_vbox), hbox, FALSE, TRUE, 0);
   GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
@@ -410,6 +423,9 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
         text = g_strdup (initial_value); //anything else, just format the passed in string
     else
         text = string_dialog_editor_with_widget_opt (Denemo.project, title, NULL, initial_value, top_vbox, modal, keypress_callback);//this call attaches "textbuffer" to top_vbox
+ if(id)
+    g_source_remove (id);
+ id = 0;
  if (text)
     {
       gchar *lilypond = create_lilypond_from_text (text);
