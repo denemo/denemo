@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
@@ -9,7 +17,7 @@
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
-      <staffno>1</staffno>
+      <staffno>2</staffno>
       <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
@@ -35,6 +43,7 @@
       <voice id="id2">
         <voice-info>
           <voice-name>Harp</voice-name>
+          <subpart>lh</subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -90,6 +99,7 @@
       <voice id="id3">
         <voice-info>
           <voice-name>Harp</voice-name>
+          <subpart>rh</subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
