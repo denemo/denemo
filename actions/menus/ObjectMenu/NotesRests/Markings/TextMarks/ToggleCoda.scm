@@ -1,2 +1,2 @@
 ;;;ToggleCoda
-        (ChordAnnotation "ToggleCoda" "\\coda"    ToggleCoda::params    LG-Coda)
+        (ChordAnnotation "ToggleCoda" "\\coda "    ToggleCoda::params    LG-Coda)

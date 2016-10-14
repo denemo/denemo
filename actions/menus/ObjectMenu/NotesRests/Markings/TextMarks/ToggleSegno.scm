@@ -1,2 +1,2 @@
 ;;;ToggleSegno
-        (ChordAnnotation "ToggleSegno" "\\segno"    ToggleSegno::params    LG-Segno)
+        (ChordAnnotation "ToggleSegno" "\\segno "    ToggleSegno::params    LG-Segno)
