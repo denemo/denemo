@@ -512,11 +512,17 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                                 
                     ((equal? target-type "Chord")
                             (let ((menu ""))
-                                (set! menu (list  (cons (_ "Up/Down") do-direction) (cons (_ "Padding") do-padding) (cons (_ "Offset Position") do-offset)))   
+                                (set! menu (list  (cons (_ "Up/Down") do-direction) (cons (_ "Padding") do-padding)))
                                 ;;; FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
                                 ;;;need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
-                                ;;; beaming does this and dragging rests
-                                              
+                                ;;; beaming does not come here, it is on Note target-type this 
+                                ;;;dragging rests is target = (CHORD, #f, #f) comes here
+                                ;; ornaments come here target =  (Chord #f ToggleMordent) for example
+                                
+                                (set! menu (cons (cons (_ "Offset Position") (if tag do-center-relative-offset do-offset)) menu))
+                                    
+                                    
+                                      
                                 (set! menu (cons (cons (_ "Object Editor") d-EditCursorObject) menu))
                                 (set! menu (cons (cons (_ "Object Inspector") d-DisplayCurrentObject) menu))
                                 (set! menu   (cons (cons (_ "Play From Here") d-DenemoPlayCursorToEnd) menu))  
