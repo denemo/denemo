@@ -5382,7 +5382,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <after>ScoreTagline</after>
         <menupath>/ObjectMenu/Score/Titles</menupath>
         <_label>Score Version</_label>
-        <_tooltip>Prints a tiny text in top right corner of the first page.</_tooltip>
+        <_tooltip>Prints a tiny text in top left corner of the first page and optionally on subsequent pages. The score layout name can also be optionally included. If only on first page it comes below the title.</_tooltip>
       </row>
       <row type="scheme">
         <action>SearchBookmark</action>
