@@ -97,7 +97,7 @@
                     (set! text (d-GetUserInput (_ "Nth Time Bar Text") (_ "Give text: ") text))
                    )
                 ((size)
-                    (if (not size) (set! size "1.3"))
+                    (if (not size) (set! size "1"))
                     (set! size (d-GetUserInput (_ "Nth Time Bar Text") (_ "Give size: ") size)))
                 ((bold)
                     (set! bold (not bold)))
@@ -123,7 +123,7 @@
                     (d-Directive-standalone tag)
                     (d-DirectivePut-standalone-data tag (format #f "'~s" data))
                     (if (not size)
-                        (set! size "1.5"))
+                        (set! size "1"))
                     (d-DirectivePut-standalone-minpixels  tag 50)
                     (d-DirectivePut-standalone-postfix tag (string-append "
                     \\set Score.repeatCommands = " (create-volta size italic bold text)))
