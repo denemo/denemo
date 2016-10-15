@@ -280,8 +280,14 @@ static void preview_text (gchar *text)
 }
 static gboolean run_preview (GtkWidget *textbuffer)
 {
-    if (changes)
-        {
+    static gint counter = 0;
+    if (changes && (counter==10))
+        counter = 0;
+    if (!changes)
+        counter++;
+    if (changes || (counter==10))
+        {   if (changes)
+                counter = 0;
             changes = 0;
             GtkTextIter startiter, enditer;
             gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
