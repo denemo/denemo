@@ -147,14 +147,16 @@ insert_markup (GtkWidget * button, gchar *text)
 // GtkWidget *textview = get_textview_from_button (button);
 // gtk_widget_grab_focus (textview);
 }
+
+//static GtkTextIter StartSelection, EndSelection; 
 static void
 markup_selection (GtkWidget * button, gchar *text)
 {
   DenemoProject *gui = Denemo.project;
-  
-  GtkWidget *textbuffer = get_textbuffer_from_button (button);
   GtkTextIter start, end;
-  if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
+  GtkWidget *textbuffer =  (GtkWidget *) g_object_get_data (G_OBJECT (gtk_widget_get_parent(button)), "textbuffer");
+  //gtk_text_buffer_select_range (GTK_TEXT_BUFFER(textbuffer), &StartSelection, &EndSelection);
+   if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
     {
       if (textbuffer)
          {
@@ -163,12 +165,10 @@ markup_selection (GtkWidget * button, gchar *text)
                 gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &end, "}", -1, "code", NULL), changes++;
          }
       else
-          g_warning ("Denemo program error, widget hierarchy changed???");
-    }
-  else
-    warningdialog ( _("Select the text first."));
-// GtkWidget *textview = get_textview_from_button (button);
-// gtk_widget_grab_focus (textview);
+          g_critical ("Denemo program error, widget hierarchy changed???");
+      }
+ else
+  warningdialog ( _("Select the text first."));
 }
 
 static void
@@ -334,6 +334,128 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
  
   return FALSE; //pass it on to the standard handler.
  }
+ 
+ 
+static void adjust_selection (GtkWidget *w, gchar  *syntax) 
+{
+ GtkTextIter start, end;
+  GtkWidget *textbuffer =  (GtkWidget *) g_object_get_data (G_OBJECT (gtk_widget_get_parent(w)), "textbuffer");
+ 
+  if (gtk_text_buffer_get_selection_bounds (GTK_TEXT_BUFFER (textbuffer), &start, &end))
+    {
+        gchar *text = string_dialog_entry (Denemo.project, syntax, _("Give amount "), "0");
+          if (text && *text)
+            {
+                gchar *out = g_strdup_printf ("%s #%s {", syntax, text);
+                gtk_text_buffer_select_range (GTK_TEXT_BUFFER (textbuffer), &start, &end);//the dialog has destroyed the selection
+                markup_selection (w, out);
+                g_free (out);  
+            }
+          g_free (text);
+ }
+}
+ 
+//pops up a menu of adjustments to make to the selection
+static void
+popup_adjust_menu ( GtkWidget *textbuffer)
+{
+    GtkWidget *menu = gtk_menu_new ();
+    g_object_set_data (G_OBJECT (menu), "textbuffer", (gpointer)textbuffer);
+
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Raise"));
+    gtk_widget_set_tooltip_text (menuitem, _("raises the selection by the amount given."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (adjust_selection), "\\raise ");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+    
+    
+    menuitem = gtk_menu_item_new_with_label (_("Font Magnification"));
+    gtk_widget_set_tooltip_text (menuitem,  _("Inserts markup to set the relative font size for the selected text."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (adjust_selection), "\\fontsize ");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+    
+    
+          
+    gtk_widget_show_all (menu);    
+
+    if (gtk_text_buffer_get_has_selection (GTK_TEXT_BUFFER (textbuffer)))
+        {
+         gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+        }
+    else
+        warningdialog ( _("Select the text first."));
+}
+
+//pops up a menu of styles to be applied to the selection
+static void
+popup_style_menu (GtkWidget *button)
+{
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *textbuffer = get_textbuffer_from_button (button);
+
+
+    
+    g_object_set_data (G_OBJECT (menu), "textbuffer", (gpointer)textbuffer);
+    
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Adjust Selection by Value"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pop up a menu of adjustements to be made to the selection."));
+    g_signal_connect_swapped (menuitem, "activate", G_CALLBACK (popup_adjust_menu), textbuffer);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    
+    menuitem = gtk_menu_item_new_with_label (_("Bold"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to make the selected text bold."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\bold {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Italic"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to make the selected text italic."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\italic {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Upright"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to make the selected text not italic."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\upright {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Un-Bold"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to make the selected text not bold."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\medium {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Superscript"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to make the selected text as superscript."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\super {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Subscript"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to make the selected text as subscript."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\sub {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Column"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to place the selected text in a column. You can nest lines inside columns."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\column {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Line"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to place the selected text in a line."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\line {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+    menuitem = gtk_menu_item_new_with_label (_("Box"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts markup to place the selected text in a box."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (markup_selection), "\\box {");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+       
+      
+    gtk_widget_show_all (menu);    
+
+    if (gtk_text_buffer_get_has_selection (GTK_TEXT_BUFFER (textbuffer)))
+        {
+         gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+        }
+    else
+        warningdialog ( _("Select the text first."));
+}
 
 gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, gchar *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
 {
@@ -380,15 +502,6 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 
-  button = gtk_button_new_with_label (_("Bold"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the selected text bold."));
-  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\bold {");
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
-  button = gtk_button_new_with_label (_("Italic"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to make the selected text italic."));
-  g_signal_connect (button, "clicked", G_CALLBACK (markup_selection), "\\italic {");
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("“"));
   gtk_widget_set_tooltip_text (button, _("Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
@@ -400,10 +513,12 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "”");
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  button = gtk_button_new_with_label (_("size"));
-  gtk_widget_set_tooltip_text (button, _("Inserts markup to set the relative font size for the selected text."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_font_mag), NULL);
+  button = gtk_button_new_with_label (_("Selection"));
+  gtk_widget_set_tooltip_text (button, _("Pops up a menu to apply some style to the selection."));
+  g_signal_connect (button, "clicked", G_CALLBACK (popup_style_menu), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
+  
   button = gtk_button_new_with_label ("⬆");
   gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_vert), NULL);
