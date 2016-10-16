@@ -1977,7 +1977,7 @@ static void set_note_name_encoding2 (GtkWidget*w, gint val)
 static gchar* note_name[]= {"A", "B","C","D","E","F","G" };
 static gchar* note_name_lc[]= {"a", "b","c","d","e","f","g" };
 static gchar* acc_name[]= {"♮", "♯","♭","𝄪","𝄫", NULL,NULL, ""};
-static gchar* acc_name_lily[]= {NULL, "is","es","isis","eses",NULL,NULL, ""};
+static gchar* acc_name_lily[]= {"", "is","es","isis","eses",NULL,NULL, ""};
 
 static gchar *oct_name[] = {"1", "2","3","4","5","6","7","8"};
 static gchar *oct_name_lily[] = { ",,,,", ",,,",",,", ",", "", "'", "''", "''"};
@@ -1986,7 +1986,7 @@ static gchar *decode_values (gint nm, gint acc, gint oct)
 {
     gchar *name = g_strdup (note_name_lc[nm - 1]);
     gchar *accname = acc_name_lily [acc];
-    gchar *octname = oct_name_lily [oct];
+    gchar *octname = oct_name_lily [oct]; //g_print ("decoded %d %d %d %s %s %s\n",nm, acc, oct, name, accname, octname);
     return g_strconcat (name, accname, octname, NULL);
 }
 
@@ -2033,7 +2033,7 @@ static gint decode_note (gchar *note)
       }    
                   
     }
-   g_print ("Encoded %s as 0x%x", note, ret);
+  // g_print ("Encoded %s as 0x%x", note, ret);
    return ret; 
 }
 gchar *
@@ -2071,7 +2071,7 @@ notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gc
          enc2 >>= 4;
          oct1 = enc1 & 7;   
          oct2 = enc2 & 7;  
-         g_print ("Initial values are %s %s %s", note_name [note1], acc_name[acc1], oct_name[oct1]);        
+         //g_print ("Initial values are %s %s %s", note_name [note1], acc_name[acc1], oct_name[oct1]);        
         }
     
     
@@ -2092,7 +2092,7 @@ notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gc
         {
             if (j)
                 { 
-                    GtkWidget *label = gtk_label_new (meaning?meaning:"<---------->");
+                    GtkWidget *label = gtk_label_new (meaning?meaning:"----------->");
                     gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
                     frame =  gtk_frame_new (_("Note Name"));   
                     gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, TRUE, 0);     
@@ -2178,8 +2178,8 @@ notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gc
     if (result == GTK_RESPONSE_ACCEPT)
     {
         gchar *text1 = decode_values (note1, acc1, oct1);
-        gchar *text2 = decode_values (note2, acc2, oct2);
-        text = g_strdup_printf ("%s%s%s", text1, j==2?" ":"", j==2?text2:"");
+        gchar *text2 = decode_values (note2, acc2, oct2); 
+        text = g_strdup_printf ("%s%s%s", text1, number_of_notes==2?" ":"", number_of_notes==2?text2:"");//g_print ("Octave 2 is %d  %s so %s\n", oct2, text2, text);
         g_free (text1);
         g_free (text2);
     }
