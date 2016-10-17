@@ -561,12 +561,12 @@ popup_insert_menu (GtkWidget *button)
     g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fretdiagram), NULL);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
 
-    menuitem = gtk_menu_item_new_with_label (_("“"));
+    menuitem = gtk_menu_item_new_with_label (_("Insert “"));
     gtk_widget_set_tooltip_text (menuitem, _("Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
     g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "“");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
 
-    menuitem = gtk_menu_item_new_with_label (_("”"));
+    menuitem = gtk_menu_item_new_with_label (_("Insert ”"));
     gtk_widget_set_tooltip_text (menuitem, _("Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
     g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "”");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
