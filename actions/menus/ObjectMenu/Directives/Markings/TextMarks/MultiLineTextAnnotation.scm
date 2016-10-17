@@ -17,7 +17,7 @@
         (if (string? text)
             (set! text (d-GetUserInputWithSnippets #f #f text 'format))
             (set! text (d-GetUserInputWithSnippets (_ "Text") 
-                (_ "Type the text in the lower pane. It will appear with note/chord at the cursor. The Preview pane will show the typeset appearance - click on it to update it if needed. You can type any text, however the characters \\, \", ¶, { and } have a special meaning in the text. New lines will be started from the ¶ character (if allowed). The backslash \\ starts some LilyPond syntax called 'markup', the {} and \"\" have to surround other text in pairs - one on its own will not typeset. The buttons will insert the markup for the commonest cases.\nFor other possible markup commands \\column, \\super, \\tiny etc, see LilyPond documentation.") 
+                (_ "Type the text in the lower pane. The preview pane above will show the typeset appearance. You can type any text, however the characters \\, \", ¶, { and } have a special meaning in the text. New lines will be started from the ¶ character (if allowed). The backslash \\ starts some LilyPond syntax called 'markup', the {} and \"\" have to surround other text in pairs - one on its own will not typeset. The Insert menu and Selection menu contains pre-packaged markup for various effects.\nFor other possible markup commands \\column, \\circle, \\tiny etc, see LilyPond documentation.") 
                 (if text (car text) "") modal))))
     (define (get-scale)
                     (if (not scale)

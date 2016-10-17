@@ -316,7 +316,7 @@ static void preview_text (gchar *text)
     g_free (lilypond);
 }
 static gboolean run_preview (GtkWidget *textbuffer)
-{
+{//g_print (".");
     static gint counter = 0;
     if (changes && (counter==10))
         counter = 0;
