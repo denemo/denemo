@@ -282,7 +282,6 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Interactively gets a curve from the user in the print view window. Returns a list of pairs of numbers, the control points of the curve.", DENEMO_SCHEME_PREFIX "GetCurve", scheme_get_curve);
   install_scm_function (0, "Interactively gets two positions from the user in the print view window. Returns pair of pairs numbers.", DENEMO_SCHEME_PREFIX "GetPositions", scheme_get_positions);
 
-  install_scm_function (4, "Takes 4 parameters and makes http transaction with www.denemo.org", DENEMO_SCHEME_PREFIX "HTTP", scheme_http);
 
   install_scm_function (4, "Move to given Movement, voice measure and object position. Takes 4 parameters integers starting from 1, use #f for no change. Returns #f if it fails", DENEMO_SCHEME_PREFIX "GoToPosition", scheme_goto_position);
 

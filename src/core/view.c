@@ -38,7 +38,6 @@
 #include "source/source.h"
 #include "command/commandfuncs.h"
 #include "display/calculatepositions.h"
-#include "core/http.h"
 #include "ui/texteditors.h"
 #include "core/prefops.h"
 #include "audio/audiointerface.h"

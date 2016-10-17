@@ -90,8 +90,6 @@ src/core/external.c
 src/core/external.h
 src/core/graphicseditor.c
 src/core/graphicseditor.h
-src/core/http.c
-src/core/http.h
 src/core/importxml.c
 src/core/importxml.h
 src/core/kbd-custom.c

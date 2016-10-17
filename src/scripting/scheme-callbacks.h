@@ -194,7 +194,6 @@ SCM scheme_get_offset (void);
 SCM scheme_get_control_point (SCM);
 SCM scheme_get_curve (void);
 SCM scheme_get_positions (SCM);
-SCM scheme_http (SCM hname, SCM page, SCM other, SCM poststr);
 SCM scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object);
 SCM scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp);
 SCM scheme_set_palette_shape (SCM palette, SCM horizontal, SCM limit);

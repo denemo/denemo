@@ -14,7 +14,6 @@
 #include "core/utils.h"
 #include "core/view.h"
 #include "core/graphicseditor.h"
-#include "core/http.h"
 #include "core/keymapio.h"
 #include "audio/pitchentry.h"
 #include "command/lilydirectives.h"
@@ -718,48 +717,6 @@ scheme_get_target_info (void)
   return scm_list_n (type, grob, tag, SCM_UNDEFINED);
 }
 
-SCM
-scheme_http (SCM hname, SCM page, SCM other, SCM poststr)
-{
-  char *name = NULL, *thepage = NULL, *oth = NULL, *post = NULL;
-
-  if (scm_is_string (hname))
-    {
-      name = scm_to_locale_string (hname);
-    }
-  if (scm_is_string (page))
-    {
-      thepage = scm_to_locale_string (page);
-    }
-  if (scm_is_string (other))
-    {
-      oth = scm_to_locale_string (other);
-    }
-  if (scm_is_string (poststr))
-    {
-      post = scm_to_locale_string (poststr);
-    }
-
-  if (name && thepage && post && oth)
-    {
-      gchar *ret = (gchar *) post_denemodotorg (name, thepage, oth, post);
-      SCM scm = scm_from_locale_string (ret);
-      g_free (ret);
-      free (name);
-      free (thepage);
-      free (oth);
-      free (post);
-      return scm;
-    }
-  else
-    {
-      free (name);
-      free (thepage);
-      free (oth);
-      free (post);
-      return SCM_BOOL (FALSE);
-    }
-}
 
 //FIXME inelegant!
 static gint

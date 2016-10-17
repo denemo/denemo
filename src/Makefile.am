@@ -69,8 +69,6 @@ denemo_SOURCES = \
   core/exportxml.h \
   core/graphicseditor.c \
   core/graphicseditor.h \
-  core/http.c \
-  core/http.h \
   core/importxml.c \
   core/importxml.h \
   core/kbd-custom.c \
