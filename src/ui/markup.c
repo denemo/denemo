@@ -49,16 +49,20 @@ static GtkWidget *get_textbuffer_from_button (GtkWidget *button) {
     GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
     return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
 }
+static GtkWidget *get_textbuffer_from_menuitem (GtkWidget *menuitem) {
+    GtkWidget *hbox = gtk_widget_get_parent  (menuitem); 
+    return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textbuffer");
+}
 //static GtkWidget *get_textview_from_button (GtkWidget *button) {
 //    GtkWidget *hbox = gtk_widget_get_parent (gtk_widget_get_parent (button)); 
 //    return (GtkWidget *) g_object_get_data (G_OBJECT (hbox), "textview");
 //}
 static void
-paste_snippet_lilypond (GtkWidget * button)
+paste_snippet_lilypond (GtkWidget * menuitem)
 {
   DenemoProject *gui = Denemo.project;
   
-  GtkWidget *textbuffer = get_textbuffer_from_button (button);
+  GtkWidget *textbuffer = get_textbuffer_from_menuitem (menuitem);
   if (textbuffer)
     {
       RhythmPattern *r = (gui->currhythm) ? ((RhythmPattern *) gui->currhythm->data) : NULL;
@@ -77,23 +81,63 @@ paste_snippet_lilypond (GtkWidget * button)
  // GtkWidget *textview = get_textview_from_button (button);
  // gtk_widget_grab_focus (textview);
 }
+/* get a chord symbol for the chord at the cursor or user provided note/chord if not on the chord or at_cursor false */
+static gchar *
+get_fakechord_as_markup (gchar * size, gchar * font, gboolean at_cursor)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoObject *curObj;
+  gchar *text = NULL;
+  if (!Denemo.project || !(Denemo.project->movement))
+    return NULL;
+    
+  if (at_cursor)
+    {
+      if (Denemo.project->movement->currentobject) 
+        {
+          curObj = (DenemoObject*) (Denemo.project->movement->currentobject->data);
+          gchar *chordnotes = NULL, *title = NULL;
+         chordnotes =  get_chord_notes();
+            
+         if (chordnotes) 
+            title = g_strdup_printf ("%s %s", _("Current Chord:"), chordnotes);
 
+            if (gui->lilysync != gui->changecount)
+            refresh_lily_cb (NULL, Denemo.project);
+
+            text = curObj->lilypond;
+               
+            g_free (title);
+            g_free (chordnotes);
+        }
+    else
+        warningdialog (_( "Cursor not on chord"));
+    } 
+  else
+        text = notes_choice_dialog (1, NULL, NULL);
+  if (text)
+    {
+      gchar *ret = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, text);
+      return ret;
+    }
+  return NULL;
+}
 static void
-paste_current_lilypond_as_fakechord (GtkWidget * button)
+paste_current_lilypond_as_fakechord (GtkWidget * menuitem, gboolean at_cursor)
 {
   DenemoProject *gui = Denemo.project;
  
-  GtkWidget *textbuffer = get_textbuffer_from_button (button);
+  GtkWidget *textbuffer = get_textbuffer_from_menuitem (menuitem);
   if (textbuffer)
     {
     gchar *text = NULL;
     gchar *size = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a relative font size +/- "), "4");
     gchar *font = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a font name "), "Times Bold");
     if (font && *font && size && *size)
-        text = get_fakechord_as_markup (size, font);
-      g_free (size);
-      g_free (font);
-      if(text)
+        text = get_fakechord_as_markup (size, font, at_cursor);
+    g_free (size);
+    g_free (font);
+    if(text)
         {
             gchar *insert = g_strdup_printf("%s", text);
             gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
@@ -101,19 +145,17 @@ paste_current_lilypond_as_fakechord (GtkWidget * button)
             g_free (insert);
         }
     }
-  else
+    else
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-//    GtkWidget *textview = get_textview_from_button (button);
-//    gtk_widget_grab_focus (textview);
 }
 static void
-paste_current_lilypond_as_fretdiagram (GtkWidget * button)
+paste_current_lilypond_as_fretdiagram (GtkWidget * menuitem)
 {
   DenemoProject *gui = Denemo.project;
   
-  GtkWidget *textbuffer = get_textbuffer_from_button (button);
+  GtkWidget *textbuffer = get_textbuffer_from_menuitem (menuitem);
   if (textbuffer)
     {
       gchar *text = get_fretdiagram_as_markup ();
@@ -129,23 +171,18 @@ paste_current_lilypond_as_fretdiagram (GtkWidget * button)
     {
       g_warning ("Denemo program error, widget hierarchy changed???");
     }
-//  GtkWidget *textview = get_textview_from_button (button);
-//  gtk_widget_grab_focus (textview);
 }
 
 static void
-insert_markup (GtkWidget * button, gchar *text)
+insert_markup (GtkWidget * menuitem, gchar *text)
 {
   DenemoProject *gui = Denemo.project;
   
-  GtkWidget *textbuffer = get_textbuffer_from_button (button);
+  GtkWidget *textbuffer = get_textbuffer_from_menuitem (menuitem);
   if (textbuffer)
     gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
   else
     g_warning ("Denemo program error, widget hierarchy changed???");
-
-// GtkWidget *textview = get_textview_from_button (button);
-// gtk_widget_grab_focus (textview);
 }
 
 //static GtkTextIter StartSelection, EndSelection; 
@@ -354,7 +391,30 @@ static void adjust_selection (GtkWidget *w, gchar  *syntax)
           g_free (text);
  }
 }
- 
+static void insert_glyph_from_user (GtkWidget * menuitem)
+{
+  DenemoProject *gui = Denemo.project;
+  
+  GtkWidget *textbuffer = get_textbuffer_from_menuitem (menuitem);
+  if (textbuffer)
+    {
+      gchar *text =  string_dialog_entry (gui, _( "Music Glyphs"), _("Give a name of glyph (see LilyPond Documentation for these) "), "rests.2");
+      if(text)
+        {
+            gchar *insert = g_strdup_printf("\\musicglyph #\"%s\" ", text);
+            GtkTextIter cursor;
+            gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), insert, -1), changes++;
+            gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));
+            gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &cursor, " ",    -1,  "ineditable",NULL);
+            g_free (text);
+            g_free (insert);
+        }
+    }
+  else
+    {
+      g_warning ("Denemo program error, widget hierarchy changed???");
+    }
+}
 //pops up a menu of adjustments to make to the selection
 static void
 popup_adjust_menu ( GtkWidget *textbuffer)
@@ -457,6 +517,82 @@ popup_style_menu (GtkWidget *button)
         warningdialog ( _("Select the text first."));
 }
 
+
+//pops up a menu of objects to be inserted at cursor
+static void
+popup_insert_menu (GtkWidget *button)
+{
+    GtkWidget *menu = gtk_menu_new ();
+    GtkWidget *textbuffer = get_textbuffer_from_button (button);
+    g_object_set_data (G_OBJECT (menu), "textbuffer", (gpointer)textbuffer);
+    GtkWidget *menuitem;
+
+    menuitem = gtk_menu_item_new_with_label (_("Paste Current Snippet"));
+    gtk_widget_set_tooltip_text (menuitem,  _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond syntax.\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax following the LilyPond syntax.\n"));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (paste_snippet_lilypond), NULL);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+
+
+    menuitem = gtk_menu_item_new_with_label  (_("Paste Note Name"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pastes user supplied note name in a choice of font style and size.\n"
+    "The note name is pasted as LilyPond markup.\n"
+    "It will print as the note name in the sentence you are writing, transposed according to any global transposition you set.\n"
+    "Use, for example, to specify the key of a piece in a title.\n"));
+
+    g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fakechord), GINT_TO_POINTER(FALSE));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+
+
+     menuitem = gtk_menu_item_new_with_label  (_("Paste Chord Symbol"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pastes chord symbol for the chord at the cursor in a choice of font style and size.\n"
+    "The chord is pasted as LilyPond markup.\n"
+    "It will print as the chord symbol (fakechord) in the sentence you are writing, transposed according to any global transposition you set.\n"));
+
+    g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fakechord), GINT_TO_POINTER(TRUE));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+
+    menuitem = gtk_menu_item_new_with_label (_("Paste Fret Diagram"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pastes the chord at the cursor as a Fret Diagram\n"
+    "The music appears here in the LilyPond syntax.\n"
+    "It will print as fret diagram in the sentence you are writing, transposed according to the global transposition set.\n"));
+
+    g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fretdiagram), NULL);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+    menuitem = gtk_menu_item_new_with_label (_("“"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "“");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+    menuitem = gtk_menu_item_new_with_label (_("”"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "”");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+    menuitem = gtk_menu_item_new_with_label (_("Segno"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts Segno sign at the cursor position in the text."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "\\musicglyph #\"scripts.segno\"");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+    menuitem = gtk_menu_item_new_with_label (_("Coda"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts Coda sign at the cursor position in the text."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "\\musicglyph #\"scripts.coda\"");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+    menuitem = gtk_menu_item_new_with_label (_("LilyPond Glyph"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts LilyPond music glyph at the cursor position in the text."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_glyph_from_user), NULL);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+  
+  
+    gtk_widget_show_all (menu);    
+    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME); 
+}  
+
+
+
 gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* title, gchar *instruction, gchar *initial_value, gboolean modal, gboolean format_only)
 {
 #ifndef USE_EVINCE
@@ -469,11 +605,16 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
 
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (top_vbox), hbox, FALSE, TRUE, 0);
-  GtkWidget *button = gtk_button_new_with_label (_("Paste Current Snippet"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond syntax.\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax following the LilyPond syntax.\n"));
-
-  g_signal_connect (button, "clicked", G_CALLBACK (paste_snippet_lilypond), NULL);
+  
+  
+  
+  
+  
+  GtkWidget *button = gtk_button_new_with_label (_("Insert"));
+  gtk_widget_set_tooltip_text (button, _("Menu of special characters and graphics to insert at the cursor position"));
+  g_signal_connect (button, "clicked", G_CALLBACK (popup_insert_menu), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
   button = gtk_button_new_with_label (_("Next Snippet"));
   gtk_widget_set_tooltip_text (button, _("Makes the next Snippet the one that can be pasted.\nTo see the music snippets you need to check View → Snippets\nThe one selected is in bold black."));
   GtkAction *action = gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/SelectDuration/NextRhythm");
@@ -484,34 +625,11 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 
-  button = gtk_button_new_with_label (_("Paste Note Name/Chord Symbol"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the note or chord at the cursor (or user supplied note name if not on a chord) as a Note Name or Chord Symbol.\n"
-    "The note name is pasted as LilyPond markup.\n"
-    "It will print as the note name/chord symbol in the sentence you are writing, transposed according to any global transposition you set.\n"
-    "Use, for example, to specify the key of a piece in a title.\n"));
-
-  g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond_as_fakechord), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-
-  button = gtk_button_new_with_label (_("Paste Fret Diagram"));
-  gtk_widget_set_tooltip_text (button, _("Pastes the chord at the cursor as a Fret Diagram\n"
-    "The music appears here in the LilyPond syntax.\n"
-    "It will print as fret diagram in the sentence you are writing, transposed according to the global transposition set.\n"));
-
-  g_signal_connect (button, "clicked", G_CALLBACK (paste_current_lilypond_as_fretdiagram), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
 
+ 
 
-  button = gtk_button_new_with_label (_("“"));
-  gtk_widget_set_tooltip_text (button, _("Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "“");
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  button = gtk_button_new_with_label (_("”"));
-  gtk_widget_set_tooltip_text (button, _("Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_markup), "”");
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("Selection"));
   gtk_widget_set_tooltip_text (button, _("Pops up a menu to apply some style to the selection."));

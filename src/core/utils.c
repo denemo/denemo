@@ -2210,47 +2210,7 @@ gchar *get_chord_notes (void) {
     }
 return NULL;
 }
-/* get a chord symbol for the chord at the cursor or user provided note/chord if not on the chord */
-gchar *
-get_fakechord_as_markup (gchar * size, gchar * font)
-{
-  DenemoProject *gui = Denemo.project;
-  DenemoObject *curObj;
-  gchar *text = NULL;
-  if (!Denemo.project || !(Denemo.project->movement))
-    return NULL;
-    
-  if (Denemo.project->movement->currentobject) 
-    {
-      curObj = (DenemoObject*) (Denemo.project->movement->currentobject->data);
-      gchar *chordnotes = NULL, *title = NULL;
-      
-          
-     chordnotes =  get_chord_notes();
-        
-     if (chordnotes) 
-        title = g_strdup_printf ("%s %s", _("Current Chord:"), chordnotes);
-     if (title  && !confirm_first_choice ( title, _("Paste a Note Name"), _("Paste Chord Symbol")))
-            {
-              if (gui->lilysync != gui->changecount)
-                refresh_lily_cb (NULL, Denemo.project);
-                
-               text = curObj->lilypond;
-           }
-        g_free (title);
-        g_free (chordnotes);
-        
-    }
-  if (!text)
-    text = notes_choice_dialog (1, NULL, NULL);
-    
-  if (text)
-    {
-      gchar *ret = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, text);
-      return ret;
-    }
-  return NULL;
-}
+
 
 /****************
  * write the status bar
