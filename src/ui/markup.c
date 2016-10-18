@@ -21,7 +21,7 @@ static gboolean run_preview (GtkWidget *textbuffer);
 static gchar *
 create_lilypond_from_text (gchar * text)
 {
-  GString *ret = g_string_new ("\\line\\large{");
+  GString *ret = g_string_new ("\\line{");
   gunichar section = g_utf8_get_char (PILCROW_UTF8_STRING);
   gchar *this;
   for(this = text;*this; this = g_utf8_next_char (this))
@@ -31,7 +31,7 @@ create_lilypond_from_text (gchar * text)
             continue;//don't show old paragraph marks used in previous version.
         if (thechar == section)
             {
-              g_string_append (ret, "}\\line\\large{");
+              g_string_append (ret, "}\\line{");
             } else
             {
                 gchar *end = g_utf8_offset_to_pointer  (this, 1);
