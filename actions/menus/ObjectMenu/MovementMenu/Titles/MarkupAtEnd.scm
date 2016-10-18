@@ -16,7 +16,7 @@
         (if themarkup
             (begin
                 (set! data 
-                (string-append "(list (cons 'text \" "  (scheme-escape (car themarkup))  "\"))"))
+                    (string-append "(list (cons 'text \" "  (scheme-escape (car themarkup))  "\"))"))
                 (d-DirectivePut-movementcontrol-data tag  data)
                 (set! themarkup (cdr themarkup))
                 (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\column { " themarkup " }"))
