@@ -2138,7 +2138,7 @@ edit_score_and_movement_properties (gboolean show_score)
   gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movement Properties Editor"));
   gtk_window_set_transient_for (GTK_WINDOW (editscorewin), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
-  gtk_window_set_default_size (GTK_WINDOW (editscorewin), 600, window_height);
+  gtk_window_set_default_size (GTK_WINDOW (editscorewin), 1000, window_height);
 
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
