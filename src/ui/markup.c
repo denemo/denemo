@@ -180,7 +180,12 @@ insert_markup (GtkWidget * menuitem, gchar *text)
   
   GtkWidget *textbuffer = get_textbuffer_from_menuitem (menuitem);
   if (textbuffer)
-    gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
+    { 
+        GtkTextIter cursor;
+        gtk_text_buffer_insert_at_cursor (GTK_TEXT_BUFFER (textbuffer), text, -1), changes++;
+        gtk_text_buffer_get_iter_at_mark (GTK_TEXT_BUFFER (textbuffer), &cursor, gtk_text_buffer_get_insert (GTK_TEXT_BUFFER(textbuffer)));
+        gtk_text_buffer_insert_with_tags_by_name (GTK_TEXT_BUFFER (textbuffer), &cursor, " ",    -1,  "ineditable",NULL);
+    }
   else
     g_warning ("Denemo program error, widget hierarchy changed???");
 }
@@ -391,6 +396,23 @@ static void adjust_selection (GtkWidget *w, gchar  *syntax)
           g_free (text);
  }
 }
+
+static void adjust_insert (GtkWidget *w, gchar  *syntax) 
+{
+    GtkWidget *textbuffer =  (GtkWidget *) g_object_get_data (G_OBJECT (gtk_widget_get_parent(w)), "textbuffer");
+ 
+    gchar *text = string_dialog_entry (Denemo.project, syntax, _("Give amount "), "0");
+    if (text && *text)
+        {
+            gchar *out = g_strdup_printf ("%s%s", syntax, text);
+           
+            insert_markup (w, out);
+            g_free (out);  
+        }
+    g_free (text);
+}
+
+
 static void insert_glyph_from_user (GtkWidget * menuitem)
 {
   DenemoProject *gui = Denemo.project;
@@ -444,6 +466,37 @@ popup_adjust_menu ( GtkWidget *textbuffer)
     else
         warningdialog ( _("Select the text first."));
 }
+//pops up a menu of inserts requring a value
+static void
+popup_insert_by_value_menu ( GtkWidget *textbuffer)
+{
+    GtkWidget *menu = gtk_menu_new ();
+    g_object_set_data (G_OBJECT (menu), "textbuffer", (gpointer)textbuffer);
+
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Horizontal Space (+/-)"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts a spacer (+) or shifts the rest of the line rightwards (-) by amount given"));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (adjust_insert), "\\hspace #");
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+    
+    
+        menuitem = gtk_menu_item_new_with_label  (_("Paste Note Name"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pastes user supplied note name in a choice of font style and size.\n"
+    "The note name is pasted as LilyPond markup.\n"
+    "It will print as the note name in the sentence you are writing, transposed according to any global transposition you set.\n"
+    "Use, for example, to specify the key of a piece in a title.\n"));
+
+    g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fakechord), GINT_TO_POINTER(FALSE));
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+
+    menuitem = gtk_menu_item_new_with_label (_("LilyPond Glyph"));
+    gtk_widget_set_tooltip_text (menuitem, _("Inserts LilyPond music glyph at the cursor position in the text."));
+    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_glyph_from_user), NULL);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
+      
+    
+    gtk_widget_show_all (menu);    
+    gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);     
+}
 
 //pops up a menu of styles to be applied to the selection
 static void
@@ -456,8 +509,8 @@ popup_style_menu (GtkWidget *button)
     
     g_object_set_data (G_OBJECT (menu), "textbuffer", (gpointer)textbuffer);
     
-    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Adjust Selection by Value"));
-    gtk_widget_set_tooltip_text (menuitem, _("Pop up a menu of adjustements to be made to the selection."));
+    GtkWidget *menuitem = gtk_menu_item_new_with_label (_("Adjust Selection (with value)"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pop up a menu of adjustments to be made to the selection with a value you give."));
     g_signal_connect_swapped (menuitem, "activate", G_CALLBACK (popup_adjust_menu), textbuffer);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
     
@@ -527,20 +580,19 @@ popup_insert_menu (GtkWidget *button)
     g_object_set_data (G_OBJECT (menu), "textbuffer", (gpointer)textbuffer);
     GtkWidget *menuitem;
 
+
+    menuitem = gtk_menu_item_new_with_label (_("Insert (with value)"));
+    gtk_widget_set_tooltip_text (menuitem, _("Pop up a menu of insertions that require a value to insert."));
+    g_signal_connect_swapped (menuitem, "activate", G_CALLBACK (popup_insert_by_value_menu), textbuffer);
+    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
+    
     menuitem = gtk_menu_item_new_with_label (_("Paste Current Snippet"));
     gtk_widget_set_tooltip_text (menuitem,  _("Pastes the music captured in the currently selected Snippet into the text at the cursor.\nThe music appears here in the LilyPond syntax.\nIt will print as typeset music embedded in the sentence you are writing.\nYou can edit the syntax following the LilyPond syntax.\n"));
     g_signal_connect (menuitem, "activate", G_CALLBACK (paste_snippet_lilypond), NULL);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
 
 
-    menuitem = gtk_menu_item_new_with_label  (_("Paste Note Name"));
-    gtk_widget_set_tooltip_text (menuitem, _("Pastes user supplied note name in a choice of font style and size.\n"
-    "The note name is pasted as LilyPond markup.\n"
-    "It will print as the note name in the sentence you are writing, transposed according to any global transposition you set.\n"
-    "Use, for example, to specify the key of a piece in a title.\n"));
 
-    g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fakechord), GINT_TO_POINTER(FALSE));
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
 
 
 
@@ -561,12 +613,12 @@ popup_insert_menu (GtkWidget *button)
     g_signal_connect (menuitem, "activate", G_CALLBACK (paste_current_lilypond_as_fretdiagram), NULL);
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
 
-    menuitem = gtk_menu_item_new_with_label (_("Insert “"));
+    menuitem = gtk_menu_item_new_with_label (_("Insert “ Open Quotes"));
     gtk_widget_set_tooltip_text (menuitem, _("Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
     g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "“");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
 
-    menuitem = gtk_menu_item_new_with_label (_("Insert ”"));
+    menuitem = gtk_menu_item_new_with_label (_("Insert ” Close Quotes"));
     gtk_widget_set_tooltip_text (menuitem, _("Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."));
     g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "”");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
@@ -581,11 +633,7 @@ popup_insert_menu (GtkWidget *button)
     g_signal_connect (menuitem, "activate", G_CALLBACK (insert_markup), "\\musicglyph #\"scripts.coda\"");
     gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
 
-    menuitem = gtk_menu_item_new_with_label (_("LilyPond Glyph"));
-    gtk_widget_set_tooltip_text (menuitem, _("Inserts LilyPond music glyph at the cursor position in the text."));
-    g_signal_connect (menuitem, "activate", G_CALLBACK (insert_glyph_from_user), NULL);
-    gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem); 
-  
+
   
     gtk_widget_show_all (menu);    
     gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME); 
@@ -606,10 +654,6 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   GtkWidget *hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (top_vbox), hbox, FALSE, TRUE, 0);
   
-  
-  
-  
-  
   GtkWidget *button = gtk_button_new_with_label (_("Insert"));
   gtk_widget_set_tooltip_text (button, _("Menu of special characters and graphics to insert at the cursor position"));
   g_signal_connect (button, "clicked", G_CALLBACK (popup_insert_menu), NULL);
@@ -624,13 +668,6 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
     gtk_widget_set_sensitive (button, FALSE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-
-
-
- 
-
-
-
   button = gtk_button_new_with_label (_("Selection"));
   gtk_widget_set_tooltip_text (button, _("Pops up a menu to apply some style to the selection."));
   g_signal_connect (button, "clicked", G_CALLBACK (popup_style_menu), NULL);
@@ -641,10 +678,7 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"));
   g_signal_connect (button, "clicked", G_CALLBACK (insert_vert), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-  button = gtk_button_new_with_label (_("⬌"));
-  gtk_widget_set_tooltip_text (button, _("Inserts the markup needed to insert/backup space (+/-) at the cursor."));
-  g_signal_connect (button, "clicked", G_CALLBACK (insert_horiz), NULL);
-  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
 
   button = gtk_button_new_with_label (_("Help"));
   gtk_widget_set_tooltip_text (button, instruction);
