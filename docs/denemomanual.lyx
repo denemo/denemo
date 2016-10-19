@@ -8110,9 +8110,35 @@ name "sub:Multi-line-Text-and"
 
 \begin_layout Standard
 The most general command is Directives->Markings->Multi-line Text and Music.
- As the name implies, you can not only insert simple text but also control
- the italic, bold, superscript, font-size etc, as well as inserting actual
- notated music, fret-diagrams in the sentences.
+ As the name implies, this is used to create markings that can include new
+ lines, as well as music snippets
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Music-Snippets"
+
+\end_inset
+
+, chord symbols, musical signs etc.
+ 
+\end_layout
+
+\begin_layout Standard
+The Preview Pane at the top shows the final effect - it is updated as you
+ type and a Preview button is provided if it fails to update.
+ 
+\end_layout
+
+\begin_layout Standard
+The new lines can be simply introduced by using the ¶ mark, which is inserted
+ when you press Enter.
+ For more control over new lines and columns you should delete these and
+ use the commands in the Selection menu.
+\end_layout
+
+\begin_layout Standard
+You can not only insert simple text but also control the italic, bold, superscri
+pt, font-size etc, as well as inserting actual notated music, fret-diagrams
+ in the sentences.
  These work by inserting 
 \begin_inset Quotes eld
 \end_inset
@@ -8126,21 +8152,34 @@ markup
 bold, 
 \backslash
 italic etc - to indicate what appearance is desired.
- In the example illustrated here, the markup 
+ The Insert button gives a menu of things to insert at the text cursor position,
+ while the Selection button gives a menu of commands to alter the text selected.
+ If any particular markup is not in the menu then you can type it in - the
+ markup 
+\begin_inset Quotes eld
+\end_inset
+
+
 \backslash
-bold has been replaced with 
-\backslash
-dynamic to access the special font used for dynamics.
- Many other markup commands are available, documented in the LilyPond manual.
+dynamic f
+\begin_inset Quotes erd
+\end_inset
+
+ will insert a 
+\emph on
+forte
+\emph default
+ sign by accessing the special font used for dynamics.
+ For other markup commands are available, documented in the LilyPond manual.
 \end_layout
 
 \begin_layout Standard
-The Bold, Italic and Size buttons work on the selected text.
- Note that the markup commands are generated automatically in a distinctive
+Note that the markup commands are generated automatically in a distinctive
  font, monospaced and bold.
- This is not essential, but helps to remind you that it is a special syntax.
- Take care when editing this as errors can make trouble when typesetting
- it is essential that the braces {} form pairs, for example.
+ This is not essential, but helps to remind you that it is a special syntax,
+ you can just type in the syntax yourself.
+ Take care when editing as errors can make trouble when typesetting: it
+ is essential that the braces {} form pairs, for example.
 \end_layout
 
 \begin_layout Standard
@@ -8150,25 +8189,24 @@ By right-clicking in the Denemo Display on standalone markup objects you
 \end_layout
 
 \begin_layout Standard
-A Preview button is provided so that you can see the effect of the markup.
- Buttons are provided to create effects such as bold, italic and the insertion
- of note names (so that things like B-minor in a title will transpose when
- the score is transposed) - these buttons remember the LilyPond markup language
- for you, so you don't need to look it up.
- There are also commands to insert fret diagrams etc.
+Use Insert->Insert (with value)->Paste Note Name for the insertion of automatica
+lly-transposing note names (so that things like B-minor in a title will
+ transpose when the score is transposed) .
+ The Insert menu also allows to insert fret diagrams etc.
 \end_layout
 
 \begin_layout Standard
-As a final check, Preview is run automatically as you finish - if it does
- not typeset correctly edit it again to remove the error or delete it -
- don't leave it as you score will not typeset with bad markup in it.
+As a final check, click Preview before you finish - if it does not typeset
+ correctly edit it again to remove the error or delete it - don't leave
+ it as you score will not typeset with bad markup in it.
 \end_layout
 
 \begin_layout Standard
 The text when it appears in the final typeset score can be edited via right-clic
 k for the position or content.
  This same interface is also used if you edit the text of titles or the
- text to show on a page intentionally left blank
+ text to show between/after movements (e.g.
+ on a page intentionally left blank
 \begin_inset Index idx
 status open
 
@@ -8178,9 +8216,8 @@ Blank Page
 
 \end_inset
 
-, but in these cases the text will be on a single line (unless the 
-\backslash
-column markup is used).
+), but in these cases the text will be on a single line (unless the Selection->C
+olumn and Selection->Line are used to create multi-column/line text explicitly).
 \end_layout
 
 \begin_layout Subsubsection
@@ -8200,11 +8237,23 @@ In the Directives->Markings->Spanning Directives->Typesetter>Spanning menus
 
 \begin_layout Subsubsection
 Rehearsal Marks
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Rehearsal Marks
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
 The Directives->Markings subdirectory also holds the Rehearsal Marks commands.
- These can be custom text or default, and can be used as bookmark
+ Marks have a special property that they only appear once at the top of
+ the system, even though they can be placed in each part.
+ Theu can be custom text or default, and can be used as bookmark
 \begin_inset Index idx
 status open
 
@@ -8215,6 +8264,8 @@ Bookmark
 \end_inset
 
 s for navigation.
+ The custom text marks can be edited using the full Multi-Line Text and
+ Music interface.
 \end_layout
 
 \begin_layout Section

@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-10-03"/>
+<meta name="create-date" content="2016-10-19"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -2713,26 +2713,35 @@ For simple use Directives-&gt;Markings-&gt;Textual Annotation command may suffic
 <a class="toc" name="toc-Subsubsection-18.9.2">18.9.2</a> Multi-line Text and Music<a class="Label" name="sub:Multi-line-Text-and"> </a>
 </h3>
 <div class="Unindented">
-<img class="embedded" src="images/MultiLine.png" alt="figure images/MultiLine.png" style="width: 20cm; max-width: 1307px; height: auto; max-height: 439px;"/>
+<img class="embedded" src="images/MultiLine.png" alt="figure images/MultiLine.png" style="width: 20cm; max-width: 718px; height: auto; max-height: 496px;"/>
 
 </div>
 <div class="Indented">
-The most general command is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, you can not only insert simple text but also control the italic, bold, superscript, font-size etc, as well as inserting actual notated music, fret-diagrams in the sentences. These work by inserting &ldquo;markup&rdquo;, that is the text is interspersed with markup commands - \bold, \italic etc - to indicate what appearance is desired. In the example illustrated here, the markup \bold has been replaced with \dynamic to access the special font used for dynamics. Many other markup commands are available, documented in the LilyPond manual.
+The most general command is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, this is used to create markings that can include new lines, as well as music snippets<a class="Reference" href="#sec:Music-Snippets">6↑</a>, chord symbols, musical signs etc. 
 </div>
 <div class="Indented">
-The Bold, Italic and Size buttons work on the selected text. Note that the markup commands are generated automatically in a distinctive font, monospaced and bold. This is not essential, but helps to remind you that it is a special syntax. Take care when editing this as errors can make trouble when typesetting it is essential that the braces {} form pairs, for example.
+The Preview Pane at the top shows the final effect - it is updated as you type and a Preview button is provided if it fails to update. 
+</div>
+<div class="Indented">
+The new lines can be simply introduced by using the ¶ mark, which is inserted when you press Enter. For more control over new lines and columns you should delete these and use the commands in the Selection menu.
+</div>
+<div class="Indented">
+You can not only insert simple text but also control the italic, bold, superscript, font-size etc, as well as inserting actual notated music, fret-diagrams in the sentences. These work by inserting &ldquo;markup&rdquo;, that is the text is interspersed with markup commands - \bold, \italic etc - to indicate what appearance is desired. The Insert button gives a menu of things to insert at the text cursor position, while the Selection button gives a menu of commands to alter the text selected. If any particular markup is not in the menu then you can type it in - the markup &ldquo;\dynamic f&rdquo; will insert a <i>forte</i> sign by accessing the special font used for dynamics. For other markup commands are available, documented in the LilyPond manual.
+</div>
+<div class="Indented">
+Note that the markup commands are generated automatically in a distinctive font, monospaced and bold. This is not essential, but helps to remind you that it is a special syntax, you can just type in the syntax yourself. Take care when editing as errors can make trouble when typesetting: it is essential that the braces {} form pairs, for example.
 </div>
 <div class="Indented">
 By right-clicking in the Denemo Display on standalone markup objects you can edit the text and many other aspects of the object, such as how it displays itself in the Denemo Display.
 </div>
 <div class="Indented">
-A Preview button is provided so that you can see the effect of the markup. Buttons are provided to create effects such as bold, italic and the insertion of note names (so that things like B-minor in a title will transpose when the score is transposed) - these buttons remember the LilyPond markup language for you, so you don’t need to look it up. There are also commands to insert fret diagrams etc.
+Use Insert-&gt;Insert (with value)-&gt;Paste Note Name for the insertion of automatically-transposing note names (so that things like B-minor in a title will transpose when the score is transposed) . The Insert menu also allows to insert fret diagrams etc.
 </div>
 <div class="Indented">
-As a final check, Preview is run automatically as you finish - if it does not typeset correctly edit it again to remove the error or delete it - don’t leave it as you score will not typeset with bad markup in it.
+As a final check, click Preview before you finish - if it does not typeset correctly edit it again to remove the error or delete it - don’t leave it as you score will not typeset with bad markup in it.
 </div>
 <div class="Indented">
-The text when it appears in the final typeset score can be edited via right-click for the position or content. This same interface is also used if you edit the text of titles or the text to show on a page intentionally left blank<a class="IndexReference" name="entry-Blank-Page-1" href="#index-Blank-Page">↓</a>, but in these cases the text will be on a single line (unless the \column markup is used).
+The text when it appears in the final typeset score can be edited via right-click for the position or content. This same interface is also used if you edit the text of titles or the text to show between/after movements (e.g. on a page intentionally left blank<a class="IndexReference" name="entry-Blank-Page-1" href="#index-Blank-Page">↓</a>), but in these cases the text will be on a single line (unless the Selection-&gt;Column and Selection-&gt;Line are used to create multi-column/line text explicitly).
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-18.9.3">18.9.3</a> Text Spanning 
@@ -2741,10 +2750,10 @@ The text when it appears in the final typeset score can be edited via right-clic
 In the Directives-&gt;Markings-&gt;Spanning Directives-&gt;Typesetter&gt;Spanning menus are commands that cause markings that span a passage of music, such as Cadenza and Piano Sustain pedal marks, ottava markings, and extended trill marks. Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting a first time bar, r,2 starting a second time bar and r,e for ending either. The Nth time bar can be used to hold any text needed (i.e. use this for a first time bar if the indication should be other that 1.).
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-18.9.4">18.9.4</a> Rehearsal Marks
+<a class="toc" name="toc-Subsubsection-18.9.4">18.9.4</a> Rehearsal Marks<a class="IndexReference" name="entry-Rehearsal-Marks-0" href="#index-Rehearsal-Marks">↓</a>
 </h3>
 <div class="Unindented">
-The Directives-&gt;Markings subdirectory also holds the Rehearsal Marks commands. These can be custom text or default, and can be used as bookmark<a class="IndexReference" name="entry-Bookmark-1" href="#index-Bookmark">↓</a>s for navigation.
+The Directives-&gt;Markings subdirectory also holds the Rehearsal Marks commands. Marks have a special property that they only appear once at the top of the system, even though they can be placed in each part. Theu can be custom text or default, and can be used as bookmark<a class="IndexReference" name="entry-Bookmark-1" href="#index-Bookmark">↓</a>s for navigation. The custom text marks can be edited using the full Multi-Line Text and Music interface.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-19">19</a> <a class="Label" name="sec:A-Survey-of-Input-Methods"> </a>A Survey of the Input Methods
@@ -5376,6 +5385,9 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-Print-View"></a>Print View: <a class="IndexArrow" href="#entry-Print-View-0">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Rehearsal-Marks"></a>Rehearsal Marks: <a class="IndexArrow" href="#entry-Rehearsal-Marks-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Repeats"></a>Repeats: <a class="IndexArrow" href="#entry-Repeats-0">↑</a>
 </p>
 <p class="printindex">
@@ -5477,7 +5489,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-10-03T14:40:30.308849</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-10-19T14:52:33.826904</span>
 </div>
 </div>
 </body>
