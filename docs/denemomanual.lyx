@@ -4568,6 +4568,8 @@ Staff Properties
 \end_inset
 
  menu).
+ You can create additional chord types for this palette using the command
+ View->Palettes->Create Button for Chord Type.
 \end_layout
 
 \begin_layout Subsection
