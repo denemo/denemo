@@ -1158,6 +1158,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNotehead
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsSlash.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.scm

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PolymetricStaffs</action>
+        <after>HideEmptyStaffs</after>
+        <_label>Polymetric Staffs (Off/On)</_label>
+        <_tooltip>Turns on/off independent time signatures and barline on the staffs. Use for polymetric notation.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

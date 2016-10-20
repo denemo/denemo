@@ -8033,6 +8033,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>(Display) Set Object Duration</_label>
         <_tooltip>Sets the duration of the object at the cursor for display purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PolymetricStaffs</action>
+        <after>HideEmptyStaffs</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Polymetric Staffs (Off/On)</_label>
+        <_tooltip>Turns on/off independent time signatures and barline on the staffs. Use for polymetric notation.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
