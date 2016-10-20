@@ -8040,6 +8040,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Polymetric Staffs (Off/On)</_label>
         <_tooltip>Turns on/off independent time signatures and barline on the staffs. Use for polymetric notation.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>HiddenMeasure</action>
+        <after>InsertBreakInStaff</after>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Hidden Measure</_label>
+        <_tooltip>Inserts a dummy whole measure rest. The measure is not seen by the LilyPond typesetter, it just takes up space in the display. Use for polymetric music to even up the staff lengths for the display.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

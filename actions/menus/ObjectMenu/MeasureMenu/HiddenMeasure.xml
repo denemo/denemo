@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>HiddenMeasure</action>
+        <after>InsertBreakInStaff</after>
+        <_label>Hidden Measure</_label>
+        <_tooltip>Inserts a dummy whole measure rest. The measure is not seen by the LilyPond typesetter, it just takes up space in the display. Use for polymetric music to even up the staff lengths for the display.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
