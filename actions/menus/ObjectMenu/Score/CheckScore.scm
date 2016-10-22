@@ -51,7 +51,7 @@
                         (d-CheckTimeSignatures #t)
                         (set! CheckScore::return CheckTimeSignatures::return)))            
                                
-        (if (not CheckScore::return)
+        (if (and (not CheckScore::return) (not (d-Directive-layout? "PolymetricStaffs")))
               (begin
                 (while (d-MoveToStaffUp))  
                   (let staff ()
