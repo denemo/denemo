@@ -3036,6 +3036,27 @@ custos
 
  at the end of lines, note head style to apply to the whole movement, behavior
  of staffs that are resting for an entire system etc.
+ Also here is a command to allow 
+\emph on
+polymetric staffs
+\emph default
+
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Polymetric Staffs
+\end_layout
+
+\end_inset
+
+.
+ When set time signatures can differ between staffs, and barlines do not
+ have to align across an entire system.
+ Denemo's display copes with showing polymetric staffs on the whole, though
+ you may need to use Measures->Hidden Measure to even up staffs in the display
+ and mark measures with Measures->Ignore Measure Duration Error to prevent
+ them being colored in the display.
 \end_layout
 
 \begin_layout Subsubsection
