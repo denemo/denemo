@@ -10,16 +10,16 @@
               \\Score
               \\remove \"Timing_translator\"
               \\remove \"Default_bar_line_engraver\"
-              %\\remove \"Repeat_acknowledge_engraver\"
-              %\\remove \"Volta_engraver\"
+              \\remove \"Repeat_acknowledge_engraver\"
+              \\remove \"Volta_engraver\"
             }
 
             \\context{
               \\Staff
               \\consists \"Timing_translator\"
               \\consists \"Default_bar_line_engraver\"
-              %\\consists \"Repeat_acknowledge_engraver\"
-              %\\consists \"Volta_engraver\"
+              \\consists \"Repeat_acknowledge_engraver\"
+              \\consists \"Volta_engraver\"
             }")
         (d-WarningDialog (_ "Staffs can have differing time signatures")))))
                                    
