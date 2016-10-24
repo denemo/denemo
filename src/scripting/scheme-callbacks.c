@@ -28,6 +28,7 @@
 #include "ui/keysigdialog.h"
 #include "printview/svgview.h"
 #include "printview/printview.h"
+#include "printview/markupview.h"
 #include "display/calculatepositions.h"
 #include "source/source.h"
 #include "source/sourceaudio.h"
