@@ -648,7 +648,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
 
   BOOLEANENTRY (_("Play back entered notes immediately"), immediateplayback);
-  INTENTRY_LIMITS (_("MIDI key sound on measure end"), measureswitchsound, 0, 127);
+  INTENTRY_LIMITS (_("MIDI key sound on measure end\n  (0 = Off)"), measureswitchsound, 0, 127);
   INTENTRY_LIMITS (_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
   INTENTRY_LIMITS (_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
 
