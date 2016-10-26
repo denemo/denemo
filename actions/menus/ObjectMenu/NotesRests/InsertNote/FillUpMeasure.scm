@@ -29,7 +29,7 @@
 		    (loop)))))		        
 		        
     (if (FullDurationMeasure?)
-        (d-AddDuplicateMeasure)
+        (d-AddDuplicateMeasure 'play)
         (if (ZeroDurationMeasure?)
             (d-PutNote #f)
             (begin
