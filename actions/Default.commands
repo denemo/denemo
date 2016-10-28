@@ -8047,6 +8047,20 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Hidden Measure</_label>
         <_tooltip>Inserts a dummy whole measure rest. The measure is not seen by the LilyPond typesetter, it just takes up space in the display. Use for polymetric music to even up the staff lengths for the display.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>OpenParenthesizeChord</action>
+        <after>ParenthesizeChord</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Open Parenthesis (Off/On)</_label>
+        <_tooltip>Prints an open parenthesis before the chord at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CloseParenthesizeChord</action>
+        <after>OpenParenthesizeChord</after>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
+        <_label>Close Parenthesis (Off/On)</_label>
+        <_tooltip>Prints a close parenthesis after the chord at the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

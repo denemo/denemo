@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CloseParenthesizeChord</action>
+        <after>OpenParenthesizeChord</after>
+        <_label>Close Parenthesis (Off/On)</_label>
+        <_tooltip>Prints a close parenthesis after the chord at the cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

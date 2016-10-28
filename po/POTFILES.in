@@ -726,6 +726,8 @@ actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/ChangePrintDurationLonga.
 actions/menus/ObjectMenu/ChordMenu/ChangePrintDuration/init.scm
 actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm
 actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.xml
+actions/menus/ObjectMenu/ChordMenu/CloseParenthesizeChord.scm
+actions/menus/ObjectMenu/ChordMenu/CloseParenthesizeChord.xml
 actions/menus/ObjectMenu/ChordMenu/CompactChordScale.scm
 actions/menus/ObjectMenu/ChordMenu/CompactChordScale.xml
 actions/menus/ObjectMenu/ChordMenu/Directives/DeleteLilyPondOnChord.scm
@@ -734,6 +736,8 @@ actions/menus/ObjectMenu/ChordMenu/Directives/InsertChordDirective.scm
 actions/menus/ObjectMenu/ChordMenu/Directives/InsertChordDirective.xml
 actions/menus/ObjectMenu/ChordMenu/HideLilyPond.scm
 actions/menus/ObjectMenu/ChordMenu/HideLilyPond.xml
+actions/menus/ObjectMenu/ChordMenu/OpenParenthesizeChord.scm
+actions/menus/ObjectMenu/ChordMenu/OpenParenthesizeChord.xml
 actions/menus/ObjectMenu/ChordMenu/ParenthesizeChord.scm
 actions/menus/ObjectMenu/ChordMenu/ParenthesizeChord.xml
 actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.scm
