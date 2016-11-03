@@ -8970,7 +8970,17 @@ tion.
 \begin_layout Standard
 Select the File->Open menu and the item Open a Source for Transcribing.
  Select the PDF containing the music to be transcribed from.
- The PDF is opened in a Source View window.
+ The PDF is opened in a Source View
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Source View
+\end_layout
+
+\end_inset
+
+ window.
  Right-click in this window at the point that your transcription will start.
  This will create a link - a Denemo Directive Object - in your score at
  the Denemo cursor position, shown as arrow icon.
@@ -9010,13 +9020,39 @@ Note that when Denemo locates a position in the source PDF it always puts
  before using it to insert links.
  Note also that the links refer to the page with the zoom value that obtains
  when you create the link.
- It will re-open with this same zoom factor, but if you change zoom the
- links will not match until you zoom back.
+ It will re-open with this same zoom factor.
+ The link will continue to position itself as you zoom, but if you zoom
+ out so far that the space outside the page becomes visible the links will
+ not match until you zoom back.
 \end_layout
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+You can also 
+\begin_inset Quotes eld
+\end_inset
+
+mask out
+\begin_inset Quotes erd
+\end_inset
+
+ areas of the source view that you don't want to see while you are transcribing.
+ This is particularly useful if you are transcribing just one part on a
+ multi-part system.
+ You mask out the staffs up to the one you want to follow and the ones from
+ after that up to the same part in the next system and so on.
+ To do this you drag down over the material you want to exclude - it turns
+ gray leaving the part you are interested in easy to see at a glance.
+ You can remove any one of these grayed-out areas - or all of them - by
+ clicking 
+\emph on
+inside
+\emph default
+ them whereon you get a menu of choices.
 \end_layout
 
 \begin_layout Section
