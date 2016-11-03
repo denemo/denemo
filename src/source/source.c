@@ -22,14 +22,17 @@
 #include "core/utils.h"
 #include <evince-view.h>
 
+static gboolean Dragging;
+static GdkPoint DragStart, DragEnd;
 
 typedef struct fileview
 {
   gchar *filename;
   EvView *view;
+  GList *highlights;//data are GdkRectangle*
 } fileview;
 
-static GList *theviews = NULL;
+static GList *FileViews = NULL;
 static void
 set_window_position (EvView * view, gint x, gint y, gint page)
 {
@@ -47,7 +50,6 @@ get_window_position (EvView * view, gint * x, gint * y, gint * page, gdouble * s
   *y = gtk_adjustment_get_value (adj);
   EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
   *scale = ev_document_model_get_scale (model);
-
   *page = ev_document_model_get_page (model);
 }
 
@@ -55,14 +57,71 @@ get_window_position (EvView * view, gint * x, gint * y, gint * page, gdouble * s
 #define MARKER (24)
 static GdkRectangle Mark;
 static GdkRectangle OldMark;
+
+static void
+get_window_size (EvView* view, gint * w, gint * h)
+{
+  GdkWindow *window;
+  GtkWidget *top_vbox = gtk_widget_get_toplevel (GTK_WIDGET (view));
+  if (!GTK_IS_LAYOUT (top_vbox))
+    window = gtk_widget_get_window (GTK_WIDGET (top_vbox));
+  else
+    window = gtk_layout_get_bin_window (GTK_LAYOUT (top_vbox));
+  if (window)
+    {
+      EvDocumentModel *model;
+      model = g_object_get_data (G_OBJECT (view), "model"); //there is no ev_view_get_model(), when there is use it
+      gdouble scale = ev_document_model_get_scale (model);
+      
+#if GTK_MAJOR_VERSION==2
+      gdk_drawable_get_size (window, w, h);
+#else
+      *w = gdk_window_get_width (window);
+      *h = gdk_window_get_height (window);
+#endif
+      *w *= scale;
+      *h *= scale;
+    }
+}
+
+
+
+
 static gboolean
-overdraw (cairo_t * cr, EvView * view)
+overdraw (cairo_t * cr, GtkWidget* view)
 {
   gint x, y, page;
   gdouble scale;
-  get_window_position (view, &x, &y, &page, &scale);
+  get_window_position ((EvView*)view, &x, &y, &page, &scale);
   // cairo_scale( cr, Denemo.project->movement->preview_zoom, Denemo.project->movement->preview_zoom );
   cairo_translate (cr, -x, -y);
+  fileview *theview = g_object_get_data (G_OBJECT(view), "fileview");
+  GList *Highlights = theview->highlights;
+  if (Highlights)
+    {
+        GList *g;
+        for (g=Highlights;g;g = g->next)
+            {
+                GdkRectangle *r = (GdkRectangle*)g->data;
+                cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+               cairo_rectangle (cr, r->x * scale, r->y * scale, abs(r->width)* scale, abs(r->height)* scale);
+               // cairo_rectangle (cr, r->x , r->y , abs(r->width), abs(r->height));
+                cairo_fill (cr); // cairo_clip (cr);//
+            }
+    }
+  if (Dragging)
+    {
+      cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+      cairo_rectangle (cr, DragStart.x * scale, DragStart.y * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);
+      //cairo_rectangle (cr, DragStart.x , DragStart.y , abs(DragStart.x-DragEnd.x), abs(DragStart.y-DragEnd.y));
+      cairo_fill (cr);
+      cairo_set_source_rgb (cr, 0, 0, 0);
+      cairo_rectangle (cr, DragStart.x * scale, DragStart.y * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);   
+      //cairo_rectangle (cr, DragStart.x, DragStart.y, abs(DragStart.x-DragEnd.x), abs(DragStart.y-DragEnd.y));   
+      cairo_stroke (cr);
+    }
+  
+
   if (Mark.width)
     {
       cairo_set_source_rgba (cr, 0.5, 0.5, 1.0, 0.5);
@@ -81,41 +140,156 @@ overdraw (cairo_t * cr, EvView * view)
       cairo_rectangle (cr, OldMark.x * scale, OldMark.y * scale, MARKER, MARKER);      
       cairo_stroke (cr);
     }
+    
   return TRUE;
 }
 
 #if GTK_MAJOR_VERSION==3
-gint
-draw_event (EvView * widget, cairo_t * cr)
+static gint
+draw_event (GtkWidget * view, cairo_t * cr)
 {
-  return overdraw (cr, widget);
+  return overdraw (cr, view);
 }
+
 #else
-gint
-draw_event (EvView * widget, GdkEventExpose * event)
+static gint
+draw_event (GtkWidget * view, GdkEventExpose * event)
 {
   /* Setup a cairo context for rendering and clip to the exposed region. */
   cairo_t *cr = gdk_cairo_create (event->window);
   gdk_cairo_region (cr, event->region);
   cairo_clip (cr);
-  overdraw (cr, widget);
+  overdraw (cr, view);
   cairo_destroy (cr);
   return TRUE;
 }
+
 #endif
 
+static GList *locate_highlight (GtkWidget *view, gint x, gint y)
+{
+    fileview *theview = g_object_get_data (G_OBJECT(view), "fileview");
+    GList *g;
+    for (g = theview->highlights; g; g = g->next)
+        {
+            GdkRectangle *rect = (GdkRectangle *)g->data;
+            if (x > rect->x && (x< rect->x+rect->width) && (y> rect->y) && (y < rect->y + rect->height))
+                return g;
+        }
+  return NULL;  
+}
 
+static void remove_highlight (GtkWidget *menu, GList *highlight)
+{
+    if (highlight)
+        {
+            fileview *theview = g_object_get_data (G_OBJECT(menu), "fileview");
+            g_free (highlight->data);
+            theview->highlights = g_list_delete_link (theview->highlights, highlight); 
+        }         
+}
+
+static void remove_highlights (GtkWidget *view)
+{
+    fileview *theview = g_object_get_data (G_OBJECT(view), "fileview");
+    g_list_free_full (theview->highlights, g_free);
+    theview->highlights = NULL;
+}
+
+static void help (void)
+ {
+     infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display.\nTo shade in gray parts of the source that you don't want to see drag over the area.\nUse this for transcribing from a score with many parts to ease following the part from system to system.\nClick on a grayed-out patch to remove it."));
+ }
+        
+static gboolean
+motion_notify (EvView * view, GdkEventMotion * event)
+{
+ if (Dragging)
+    {gint x, y, page;
+      gdouble scale;
+      get_window_position (view, &x, &y, &page, &scale);
+      x += event->x;
+      y += event->y;
+      DragEnd.x = x/scale;
+      //DragEnd.x = x;///scale;
+      DragEnd.y = y/scale;
+      //DragEnd.y = y;//y/scale;
+      gtk_widget_queue_draw (GTK_WIDGET (view));
+    }
+  return TRUE;  
+}
+static gint
+button_release (EvView * view, GdkEventButton * event)
+{
+    fileview *theview = g_object_get_data (G_OBJECT(view), "fileview");
+    if (Dragging && ((abs(DragEnd.x-DragStart.x)>5) || (abs(DragEnd.y-DragStart.y)>5))) //do not allow very small patches, difficult to remove
+        {
+          GdkRectangle *r = g_malloc (sizeof (GdkRectangle));
+          r->x = DragStart.x;
+          r->y = DragStart.y;
+          r->width = abs (DragStart.x-DragEnd.x);
+          r->height = abs (DragStart.y-DragEnd.y);
+          theview->highlights = g_list_append (theview->highlights, r);
+        }
+    else {
+        static gboolean once;
+        if (!once)
+            help();
+            
+        once = TRUE;
+    }
+    Dragging = FALSE;
+    gtk_widget_queue_draw (GTK_WIDGET (view));
+    return TRUE;  
+}
+
+    
+static void popup_highlight_menu (GtkWidget *view, GList *highlight, GdkEventButton *event)
+{
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *item = gtk_menu_item_new_with_label (_("Help"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (help), NULL);
+
+  item = gtk_menu_item_new_with_label (_("Remove this Shading"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_object_set_data (G_OBJECT (item), "fileview", g_object_get_data (G_OBJECT (view), "fileview"));
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (remove_highlight), highlight);
+
+  item = gtk_menu_item_new_with_label (_("Remove all Shading"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (remove_highlights), view);
+  gtk_widget_show_all (menu);
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, event->time);
+}
 
 static gint
 button_press (EvView * view, GdkEventButton * event)
 {
   if (event->button == 1)
-    {static gboolean done_once = FALSE;
-        if(!done_once)
-            {
-                done_once = TRUE;
-                infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display."));
-            }
+    {
+      gint x, y, page;
+      gdouble scale;
+      get_window_position (view, &x, &y, &page, &scale);
+
+      x += event->x;
+      y += event->y;
+      
+      GList *highlight = locate_highlight (GTK_WIDGET(view), (gint)(x/scale), (gint)(y/scale));
+      
+      if (highlight)
+        {
+            popup_highlight_menu (GTK_WIDGET(view), highlight, event); 
+        }
+    else
+        {
+      
+          DragStart.x = x/scale;
+          DragStart.y = y/scale;
+          DragEnd.x = DragStart.x;
+          DragEnd.y = DragEnd.y;
+          Dragging = TRUE; 
+        }
     }
   else
     {
@@ -127,17 +301,29 @@ button_press (EvView * view, GdkEventButton * event)
       gchar *filename = g_object_get_data (G_OBJECT (view), "filename");
       x += event->x;
       y += event->y;
-      gchar *escaped = g_strescape(filename, "");
-      gchar *text = g_strdup_printf ("(InsertLink \"%s:%d:%d:%d\")", escaped, (gint) (x / scale), (gint) (y / scale), page);
-      g_free(escaped);
-      Mark.x = (x - MARKER / 2) / scale;
-      Mark.y = (y - MARKER / 2) / scale;
-      Mark.width = Mark.height = MARKER;
-      if (!gdk_rectangle_intersect (&Mark, &candidate, NULL))
-        OldMark = candidate;
-      gtk_widget_queue_draw (GTK_WIDGET (view));
-      call_out_to_guile (text);
-      switch_back_to_main_window ();
+      
+            GList *highlight = locate_highlight (GTK_WIDGET(view), (gint)(x/scale), (gint)(y/scale));
+      
+      if (highlight)
+        {
+            popup_highlight_menu (GTK_WIDGET(view), highlight, event); 
+        }
+    else
+        {
+      
+      
+          gchar *escaped = g_strescape(filename, "");
+          gchar *text = g_strdup_printf ("(InsertLink \"%s:%d:%d:%d\")", escaped, (gint) (x / scale), (gint) (y / scale), page);
+          g_free(escaped);
+          Mark.x = (x - MARKER / 2) / scale;
+          Mark.y = (y - MARKER / 2) / scale;
+          Mark.width = Mark.height = MARKER;
+          if (!gdk_rectangle_intersect (&Mark, &candidate, NULL))
+            OldMark = candidate;
+          gtk_widget_queue_draw (GTK_WIDGET (view));
+          call_out_to_guile (text);
+          switch_back_to_main_window ();
+      }
     }
   return FALSE;
 }
@@ -189,7 +375,7 @@ get_view (gchar * filename)
   EvView *view = NULL;
   GList *g;
   filename = locate_file (filename);
-  for (g = theviews; g; g = g->next)
+  for (g = FileViews; g; g = g->next)
     if (!strcmp (((fileview *) g->data)->filename, filename))
       return (((fileview *) g->data)->view);
   file = g_file_new_for_commandline_arg (filename);
@@ -201,6 +387,10 @@ get_view (gchar * filename)
       return NULL;
     }
   OldMark.width = Mark.width = 0;
+  
+  //g_list_free_full (Highlights, g_free);
+  //Highlights = NULL;
+  
   view = (EvView *) ev_view_new ();
   EvDocumentModel *model = ev_document_model_new_with_document (doc);
   //ev_document_model_set_continuous(model, FALSE);
@@ -211,34 +401,30 @@ get_view (gchar * filename)
 
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
 
-#if 0
-  if (Denemo.project->source_scale)
-    {
-      ! ! ! !nooooo, get_window_position is getting the vadj, hadj settings, ie where it is scrolled to we need to get the position of the root window top vbox on the desk top, and its width and height, possibly the scale will follow ... ! ! ! ! ! ! ! !this is the gtk window widget not the gdk window ! gtk_window_move (GtkWindow * window, gint x, gint y);
-      gtk_window_get_position (GtkWindow * window, gint * root_x, gint * root_y);
-      nooo set_window_position (view, gui->source_x, gui->source_y, gui->source_page);
-    scale}
-  else
-    gtk_widget_set_size_request (GTK_WIDGET (top_vbox), 600, 750);
-#else
 
   g_idle_add ((GSourceFunc) position_source_window, view);
-//gtk_window_move (GTK_WINDOW(top_vbox), Denemo.project->source_x, Denemo.project->source_y);
-//gtk_widget_set_size_request(GTK_WIDGET(top_vbox), 600, 750);
+  
   if (Denemo.project->source_scale)
     gtk_window_set_default_size (GTK_WINDOW (top_vbox), Denemo.project->source_width, Denemo.project->source_height);
   else
     gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
-#endif
 
   g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (gtk_widget_hide), NULL);
+
 
 #if GTK_MAJOR_VERSION==3
   g_signal_connect_after (G_OBJECT (view), "draw", G_CALLBACK (draw_event), NULL);
 #else
   g_signal_connect_after (G_OBJECT (view), "expose_event", G_CALLBACK (draw_event), NULL);
 #endif
+
+
+
   g_signal_connect (G_OBJECT (view), "button_press_event", G_CALLBACK (button_press), NULL);
+  g_signal_connect (G_OBJECT (view), "button_release_event", G_CALLBACK (button_release), NULL);
+  g_signal_connect (G_OBJECT (view), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
+
+  
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
   GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
@@ -269,10 +455,11 @@ get_view (gchar * filename)
 
   gtk_widget_show_all (top_vbox);
 
-  fileview *theview = (fileview *) g_malloc (sizeof (fileview));
+  fileview *theview = (fileview *) g_malloc0 (sizeof (fileview));
   theview->filename = g_strdup (filename);
   theview->view = view;
-  theviews = g_list_append (theviews, theview);
+  g_object_set_data (G_OBJECT (view), "fileview", theview);
+  FileViews = g_list_append (FileViews, theview);
 
   return view;
 }
@@ -307,9 +494,9 @@ open_source (gchar * filename, gint x, gint y, gint page)
 gboolean
 source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
 {
-  if (theviews == NULL)
+  if (FileViews == NULL)
     return FALSE;
-  EvView *view = ((fileview *) theviews->data)->view;
+  EvView *view = ((fileview *) FileViews->data)->view;
   GtkWindow *top = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (view));
   if(gtk_widget_get_visible(GTK_WIDGET(top)))
   {
