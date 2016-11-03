@@ -730,6 +730,13 @@ void add_after_touch (gchar * buf)
    if (Denemo.prefs.damping)
     {
       static gdouble times[0x7F]; //takes no account of channel, really only good for one channel.
+      //HACK IN kill pitch bend and "modulation" wheel here
+      if (command == MIDI_PITCH_BEND)
+        {g_print ("Dropping pitch bend\n"); *buf=0; return;} 
+      if (command == 0xB0)
+        {g_print ("Dropping controller change message\n"); *buf=0;  return;} 
+        
+        
       if (command == MIDI_NOTE_ON)
         {
           times[notenumber] = get_time ();
