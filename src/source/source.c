@@ -102,22 +102,22 @@ overdraw (cairo_t * cr, GtkWidget* view)
         GList *g;
         for (g=Highlights;g;g = g->next)
             {
-                GdkRectangle *r = (GdkRectangle*)g->data;
-                cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+               GdkRectangle *r = (GdkRectangle*)g->data;
+               cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
                cairo_rectangle (cr, r->x * scale, r->y * scale, abs(r->width)* scale, abs(r->height)* scale);
                // cairo_rectangle (cr, r->x , r->y , abs(r->width), abs(r->height));
-                cairo_fill (cr); // cairo_clip (cr);//
+               cairo_fill (cr); // cairo_clip (cr);//
             }
     }
   if (Dragging)
     {
+        gdouble xx = MIN (DragStart.x, DragEnd.x);
+        gdouble yy = MIN (DragStart.y, DragEnd.y);
       cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
-      cairo_rectangle (cr, DragStart.x * scale, DragStart.y * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);
-      //cairo_rectangle (cr, DragStart.x , DragStart.y , abs(DragStart.x-DragEnd.x), abs(DragStart.y-DragEnd.y));
+      cairo_rectangle (cr, xx * scale, yy * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);
       cairo_fill (cr);
       cairo_set_source_rgb (cr, 0, 0, 0);
-      cairo_rectangle (cr, DragStart.x * scale, DragStart.y * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);   
-      //cairo_rectangle (cr, DragStart.x, DragStart.y, abs(DragStart.x-DragEnd.x), abs(DragStart.y-DragEnd.y));   
+      cairo_rectangle (cr, xx * scale, yy * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);   
       cairo_stroke (cr);
     }
   
@@ -225,8 +225,8 @@ button_release (EvView * view, GdkEventButton * event)
     if (Dragging && ((abs(DragEnd.x-DragStart.x)>5) || (abs(DragEnd.y-DragStart.y)>5))) //do not allow very small patches, difficult to remove
         {
           GdkRectangle *r = g_malloc (sizeof (GdkRectangle));
-          r->x = DragStart.x;
-          r->y = DragStart.y;
+          r->x = MIN(DragStart.x, DragEnd.x);
+          r->y = MIN(DragStart.y, DragEnd.y);
           r->width = abs (DragStart.x-DragEnd.x);
           r->height = abs (DragStart.y-DragEnd.y);
           theview->highlights = g_list_append (theview->highlights, r);
