@@ -28585,7 +28585,6 @@ msgstr "もうひとつの素晴らしい機能は、楽譜から複写元の文
 #~ msgstr "サイズ"
 
 #, fuzzy
-#~| msgid "Inserts the chord at the cursor."
 #~ msgid "Inserts the markup needed to insert/backup space (+/-) at the cursor."
 #~ msgstr "現在のカーソル位置に和音を挿入する"
 
