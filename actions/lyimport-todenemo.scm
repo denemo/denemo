@@ -363,29 +363,29 @@
                            (if (eqv? (caadr current_object) 'x_REST) 
                                (let ((thedur (cadr current_object)))
                             (disp "x_REST thedur initially " thedur "which is a list " (list? thedur) "\n")
-                             ;(format #t "x_REST !!!! \n\n\ndur is ~a length !!~a!!~%"  thedur (list-ref thedur 2))
-                             ;!!!!!!!!!! (x_REST r ) for a single r without duration what is the non-printing item?
-                             (if (pair? (list-ref thedur 2))                                
+                             
+                      
+                             
+                             (if (and (> (length thedur) 1) (pair? (list-ref thedur 2)))                                
                               (begin
-                              (set! thedur  (list-ref thedur 2))                              
-                              (disp "Then set to " thedur "\n\n")(format #t "x_REST with dur is ~a~%"  thedur)
-                              (if (and (not lyimport::PrevailingDuration) (not (list? thedur)))
-                                        (set! lyimport::PrevailingDuration (list 4 0)))
-                                    (if (list? thedur)
-                                        (set! lyimport::PrevailingDuration thedur))
-                              (disp "For rest Prevailing duration " lyimport::PrevailingDuration "\n")
+                                  (set! thedur  (list-ref thedur 2))                              
+                                  (disp "Then set to " thedur "\n\n")(format #t "x_REST with dur is ~a~%"  thedur)
+                                  (if (and (not lyimport::PrevailingDuration) (not (list? thedur)))
+                                            (set! lyimport::PrevailingDuration (list 4 0)))
+                                        (if (list? thedur)
+                                            (set! lyimport::PrevailingDuration thedur))
+                                  (disp "For rest Prevailing duration " lyimport::PrevailingDuration "\n")
                               
-                              (if (number? (car thedur))
-                                   (string-append "(set! lyimport::nonotes #f)" (do-duration-rest thedur) (do-dots thedur))
-                                 
-                                   (let loop ((count  (string->number (list-ref thedur 2))))
-                                 ;(format #t "Looping ~a~%" count)
-                                 (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
-                                 (if (zero? count) ""
-                                     (string-append ;(do-duration (car thedur)) 
-                                       "(set! lyimport::nonotes #f)" (do-duration-rest (car thedur)) (do-dots (car thedur)) (loop (- count 1)) postfix ))))))
+                                  (if (number? (car thedur))
+                                       (string-append "(set! lyimport::nonotes #f)" (do-duration-rest thedur) (do-dots thedur))
+                                     
+                                       (let loop ((count  (string->number (list-ref thedur 2))))
+                                         ;(format #t "Looping ~a~%" count)
+                                         (if (not (integer? count)) ";Cannot handle a fraction duration as multiplier\n"
+                                         (if (zero? count) ""
+                                             (string-append ;(do-duration (car thedur)) 
+                                               "(set! lyimport::nonotes #f)" (do-duration-rest (car thedur)) (do-dots (car thedur)) (loop (- count 1)) postfix ))))))
                               (begin ;; rest in current duration
-                              ;;; need prevailing duration
                                   ;;; need prevailing duration
                                 (if (not lyimport::PrevailingDuration)
                                         (set! lyimport::PrevailingDuration (list 4 0)))  
@@ -449,7 +449,7 @@
                 (else (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")"))
                 )))
             
-       ((eqv? (car current_object) 'x_MMREST) (let ((count (string->number  (list-ref (cadr current_object) 2))))
+       ((eqv? (car current_object) 'x_MMREST) (let ((count (if (< (length (cadr current_object)) 3) 1 (string->number  (list-ref (cadr current_object) 2)))))
                     (string-concatenate (make-list count 
                                 "(d-InsertWholeMeasureRest)"))))
        ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
