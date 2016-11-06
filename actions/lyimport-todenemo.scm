@@ -449,7 +449,9 @@
                 (else (string-append "(d-DirectivePut-standalone-postfix \"Barline\" \"\\\\bar \\\"" (cdr current_object) "\\\"\")"))
                 )))
             
-       ((eqv? (car current_object) 'x_MMREST) "(d-InsertWholeMeasureRest)")
+       ((eqv? (car current_object) 'x_MMREST) (let ((count (string->number  (list-ref (cadr current_object) 2))))
+                    (string-concatenate (make-list count 
+                                "(d-InsertWholeMeasureRest)"))))
        ((eqv? (car current_object) 'x_CHANGE) ";Context Change ignored\n")
        ((eqv? (car current_object) 'x_RELATIVE) (begin
                               ;(format #t "Working with Relative music  ~a~%"  current_object)                            
