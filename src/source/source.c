@@ -231,13 +231,13 @@ button_release (EvView * view, GdkEventButton * event)
           r->height = abs (DragStart.y-DragEnd.y);
           theview->highlights = g_list_append (theview->highlights, r);
         }
-    else {
-        static gboolean once;
-        if (!once)
-            help();
-            
-        once = TRUE;
-    }
+   else if (event->button==1)
+        {
+            static gboolean once;
+            if (!once)
+                help ();
+            once = TRUE;
+        }
     Dragging = FALSE;
     gtk_widget_queue_draw (GTK_WIDGET (view));
     return TRUE;  
@@ -287,7 +287,7 @@ button_press (EvView * view, GdkEventButton * event)
           DragStart.x = x/scale;
           DragStart.y = y/scale;
           DragEnd.x = DragStart.x;
-          DragEnd.y = DragEnd.y;
+          DragEnd.y = DragStart.y;
           Dragging = TRUE; 
         }
     }
