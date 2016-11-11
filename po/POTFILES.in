@@ -1922,6 +1922,8 @@ actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.scm
 actions/menus/ObjectMenu/Score/Typesetter/SetBeamExceptions.xml
 actions/menus/ObjectMenu/Score/Typesetter/StaccatoStaccatissimo.scm
 actions/menus/ObjectMenu/Score/Typesetter/StaccatoStaccatissimo.xml
+actions/menus/ObjectMenu/Score/Typesetter/TieWaitForNote.scm
+actions/menus/ObjectMenu/Score/Typesetter/TieWaitForNote.xml
 actions/menus/ObjectMenu/Score/Typesetter/TinyStaffAllMovements.scm
 actions/menus/ObjectMenu/Score/Typesetter/TinyStaffAllMovements.xml
 actions/menus/ObjectMenu/Score/Typesetter/ToggleCurveControl.scm
