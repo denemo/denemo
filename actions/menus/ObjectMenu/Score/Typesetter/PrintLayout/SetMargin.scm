@@ -36,12 +36,12 @@
             (if (not value)
                 (set! value "20"))
             (case choice
-                    ((left) (set! value (d-GetUserInput (_ "Left Margin") "Give Left Margin (mm)" value)))
-                    ((inner) (set! value (d-GetUserInput (_ "Inner Margin") "Give Inner Margin (mm)" value)))
-                    ((outer) (set! value (d-GetUserInput (_ "Outer Margin") "Give Outer Margin (mm)" value)))
-                    ((right) (set! value (d-GetUserInput (_ "Right Margin") "Give Right Margin (mm)" value)))
-                    ((top) (set! value (d-GetUserInput (_ "Top Margin") "Give Top Margin (mm)" value)))
-                    ((bottom) (set! value (d-GetUserInput (_ "Bottom Margin") "Give Bottom Margin (mm)" value))))
+                    ((left) (set! value (DenemoGetUserNumberAsString (_ "Left Margin") "Give Left Margin (mm)" value)))
+                    ((inner) (set! value (DenemoGetUserNumberAsString (_ "Inner Margin") "Give Inner Margin (mm)" value)))
+                    ((outer) (set! value (DenemoGetUserNumberAsString (_ "Outer Margin") "Give Outer Margin (mm)" value)))
+                    ((right) (set! value (DenemoGetUserNumberAsString (_ "Right Margin") "Give Right Margin (mm)" value)))
+                    ((top) (set! value (DenemoGetUserNumberAsString (_ "Top Margin") "Give Top Margin (mm)" value)))
+                    ((bottom) (set! value (DenemoGetUserNumberAsString (_ "Bottom Margin") "Give Bottom Margin (mm)" value))))
             (if value
                 (set-value tag margin value)))
                 

@@ -1506,3 +1506,9 @@
                             (set! acc "♯")))))
         (string-append name acc))
         #f))
+
+(define* (DenemoGetUserNumberAsString #:optional (title "") (prompt "") (initial ""))
+    (let ((val (d-GetUserInput title prompt initial)))
+        (if (and val (string->number val))
+            val
+            #f)))
