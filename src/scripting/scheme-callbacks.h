@@ -169,6 +169,8 @@ SCM scheme_next_chord_in_measure (SCM);
 SCM scheme_prev_chord_in_measure (SCM);
 SCM scheme_next_note (SCM);
 SCM scheme_prev_note (SCM);
+SCM scheme_scroll_left (void);
+SCM scheme_scroll_right (void);
 SCM scheme_create_snippet_from_object (SCM);
 SCM scheme_select_snippet (SCM);
 SCM scheme_insert_snippet (SCM, SCM);

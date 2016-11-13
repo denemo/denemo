@@ -571,6 +571,10 @@ actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.scm
 actions/menus/MainMenu/NavigationMenu/MIDI/PreviousNoteOnset.xml
 actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.scm
 actions/menus/MainMenu/NavigationMenu/MIDI/UnmarkNoteOnset.xml
+actions/menus/MainMenu/NavigationMenu/MoveViewportLeft.scm
+actions/menus/MainMenu/NavigationMenu/MoveViewportLeft.xml
+actions/menus/MainMenu/NavigationMenu/MoveViewportRight.scm
+actions/menus/MainMenu/NavigationMenu/MoveViewportRight.xml
 actions/menus/MainMenu/NavigationMenu/Seek/FindEditPoint.scm
 actions/menus/MainMenu/NavigationMenu/Seek/FindEditPoint.xml
 actions/menus/MainMenu/NavigationMenu/Seek/FindNextLowerNote.scm
@@ -2032,8 +2036,6 @@ actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GrandStaffStart.scm
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GrandStaffStart.xml
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GroupStaffStart.scm
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/GroupStaffStart.xml
-actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.scm
-actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffStart.scm
 actions/menus/ObjectMenu/StaffMenu/StaffGroupings/PianoStaffStart.xml
 actions/menus/ObjectMenu/StaffMenu/StaffMultiMeasureRests.scm
@@ -2054,6 +2056,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/MidiInstrumentName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/PianoStaffName.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/PianoStaffName.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.scm

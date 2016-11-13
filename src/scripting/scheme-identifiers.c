@@ -230,10 +230,9 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Takes a LilyPond note name, and adds that note to the chord", DENEMO_SCHEME_PREFIX "InsertNoteInChord", scheme_insert_note_in_chord);
 
-
   install_scm_function (0, "Moves the note at the cursor by the number of diatonic steps passed in", DENEMO_SCHEME_PREFIX "DiatonicShift", scheme_diatonic_shift);
-  install_scm_function (0, "Moves the cursor to the right returning #t if this was possible", DENEMO_SCHEME_PREFIX "NextObject", scheme_next_object);
-  install_scm_function (0, "Moves the cursor to the left returning #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevObject", scheme_prev_object);
+  install_scm_function (0, "Moves the cursor to the object to the right returning #t if this was possible", DENEMO_SCHEME_PREFIX "NextObject", scheme_next_object);
+  install_scm_function (0, "Moves the cursor to object to the left returning #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevObject", scheme_prev_object);
   install_scm_function (0, "Moves the cursor to the next object in the current measure, returning #f if there were no more objects to the left in the current measure", DENEMO_SCHEME_PREFIX "NextObjectInMeasure", scheme_next_object_in_measure);
   install_scm_function (0, "Moves the cursor to the previous object in the current measure, returning #f if the cursor was on the first object", DENEMO_SCHEME_PREFIX "PrevObjectInMeasure", scheme_prev_object_in_measure);
   install_scm_function (0, "Moves the cursor to the next object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "NextSelectedObject", scheme_next_selected_object);
@@ -247,6 +246,10 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Moves the cursor the next object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextNote", scheme_next_note);
   install_scm_function (0, "Moves the cursor the previous object of type CHORD which is not a rest in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "PrevNote", scheme_prev_note);
+
+  install_scm_function (0, "Moves the view port (the Denemo Display) to the left, leaving the cursor on the same object as long as it is still in view.", DENEMO_SCHEME_PREFIX "ScrollLeft", scheme_scroll_left);
+  install_scm_function (0, "Moves the view port (the Denemo Display) to the right, leaving the cursor on the same object as long as it is still in view.", DENEMO_SCHEME_PREFIX "ScrollRight", scheme_scroll_right);
+
   install_scm_function (0, "Creates a music Snippet comprising the object at the cursor Returns #f if not possible, otherwise an identifier for that snippet", DENEMO_SCHEME_PREFIX "CreateSnippetFromObject", scheme_create_snippet_from_object);
 
   install_scm_function (0, "Selects music Snippet from passed id Returns #f if not possible", DENEMO_SCHEME_PREFIX "SelectSnippet", scheme_select_snippet);

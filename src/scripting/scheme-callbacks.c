@@ -6746,6 +6746,19 @@ scheme_prev_note (SCM optional)
 {
   return SCM_BOOL (cursor_to_prev_note ());
 }
+SCM
+scheme_scroll_left (void)
+{
+  scroll_left ();
+  return SCM_BOOL_T;
+}
+
+SCM
+scheme_scroll_right (void)
+{
+  scroll_right ();
+  return SCM_BOOL_T;
+}
 
 void
 update_scheme_snippet_ids (void)

@@ -3366,7 +3366,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Brace End</_label>
         <_tooltip>Add or remove end of staff group marks, or move them to an adjacent staff.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>DeleteStaffGroupings</action>
         <after>PianoStaffName</after>
@@ -5533,13 +5532,13 @@ to the notes of the current chord.</_tooltip>
         <_tooltip>Prints shortened form of instrument name before this staff
 for second and subsequent systems</_tooltip>
       </row>
-       <row type="scheme">
+      <row type="scheme">
         <action>PianoStaffName</action>
-         <after>ShortInstrumentName</after>
+        <after>ShortInstrumentName</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Piano Staff Name</_label>
         <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
-      </row>     
+      </row>
       <row type="scheme">
         <action>ShortMeasure</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -8005,13 +8004,6 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_tooltip>Creates a repeat from the selection, typeset in \"percent\" style.</_tooltip>
       </row>
       <row type="scheme">
-        <action>ToggleChordSymbolsWithDefinitions</action>
-        <after>ChordStaff</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
-        <_label>Chord Symbol Staff with Definitions</_label>
-        <_tooltip>Toggles the current staff to print as chord symbols with definitions taken from movement 1</_tooltip>
-      </row>
-      <row type="scheme">
         <action>UseAddPrefix</action>
         <after>AddBassInversion</after>
         <menupath>/ObjectMenu/ChordMenu</menupath>
@@ -8066,6 +8058,20 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Ties Extend to Matching Note</_label>
         <_tooltip>Ties will extend over intermediate notes until the note tied to occurs. Use for written-out arpeggio styles.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MoveViewportRight</action>
+        <after>DenemoLink</after>
+        <menupath>/MainMenu/NavigationMenu</menupath>
+        <_label>Move Display Right</_label>
+        <_tooltip>Moves the view port (the Denemo Display) to the right, leaving the cursor on the same object as long as it is still in view.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MoveViewportLeft</action>
+        <after>MoveViewportRight</after>
+        <menupath>/MainMenu/NavigationMenu</menupath>
+        <_label>Move Display Left</_label>
+        <_tooltip>Moves the view port (the Denemo Display) to the left, leaving the cursor on the same object as long as it is still in view.</_tooltip>
       </row>
     </map>
   </merge>
