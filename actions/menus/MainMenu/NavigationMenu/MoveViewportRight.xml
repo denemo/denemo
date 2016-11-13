@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MoveViewportRight</action>
+        <after>DenemoLink</after>
+        <_label>Move Display Right</_label>
+        <_tooltip>Moves the view port (the Denemo Display) to the right, leaving the cursor on the same object as long as it is still in view.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
