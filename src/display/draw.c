@@ -37,7 +37,7 @@ static DenemoObject *Startobj, *Endobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
 
-
+static gboolean last_tied = FALSE;
 void
 initialize_playhead (void)
 {
@@ -524,7 +524,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
         if (si->currentstaffnum == itp->staffnum && itp->verse && thechord->notes)
           {
-            static gboolean last_tied = FALSE;
+            
             if ((!last_tied) && (!itp->slur_stack)
                             && !find_directive (thechord->directives, "MoveRest"))
               {
@@ -1411,6 +1411,8 @@ draw_score (cairo_t * cr)
   DenemoMovement *si = gui->movement;
   gint line_height = get_widget_height (Denemo.scorearea) * gui->movement->system_height / gui->movement->zoom;
   static gint flip_count;       //passed to a timer to indicate which stage of animation of page turn should be used when re-drawing, -1 means not animating 0+ are the stages
+  
+  last_tied = FALSE;
   /* Initialize some fields in itp */
 
   //g_debug("Printing for %d\n", flip_count);
@@ -1699,6 +1701,7 @@ draw_score (cairo_t * cr)
         {
 
           gint count = count_syllables (staff, si->leftmeasurenum);
+          //g_print ("Count syllables from %d yields %d last_tied \n", si->leftmeasurenum, count, last_tied);
           if (count < 0)
             {
               count = -count;
