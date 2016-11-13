@@ -3366,13 +3366,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Brace End</_label>
         <_tooltip>Add or remove end of staff group marks, or move them to an adjacent staff.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>PianoStaffName</action>
-        <after>PianoStaffEnd</after>
-        <menupath>/ObjectMenu/StaffMenu/StaffGroupings</menupath>
-        <_label>Piano Staff Name</_label>
-        <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>DeleteStaffGroupings</action>
         <after>PianoStaffName</after>
@@ -5539,6 +5533,13 @@ to the notes of the current chord.</_tooltip>
         <_tooltip>Prints shortened form of instrument name before this staff
 for second and subsequent systems</_tooltip>
       </row>
+       <row type="scheme">
+        <action>PianoStaffName</action>
+         <after>ShortInstrumentName</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Piano Staff Name</_label>
+        <_tooltip>Prints the name given at the start of the Piano staff which must be where the cursor is. Remove instrument names on the individual staffs by setting them blank.</_tooltip>
+      </row>     
       <row type="scheme">
         <action>ShortMeasure</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -6393,7 +6394,6 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>NonPrintingStaff</action>
-        <after>ShortInstrumentName</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Non Printing Staff</_label>
         <_tooltip>Turns the on/off whether this staff will be typeset. The staff still displays normally but will be dropped for the print view.</_tooltip>
@@ -7624,7 +7624,6 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>SetStaffRangeFromChord</action>
-        <after>ShortInstrumentName</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Set Staff Range</_label>
         <_tooltip>Sets the highest and lowest notes playable on the current staff to the highest and lowest pitches of the chord at the cursor.</_tooltip>
@@ -7666,7 +7665,7 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>MidiInstrumentName</action>
-        <after>ShortInstrumentName</after>
+        <after>PianoStaffName</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>MIDI Instrument</_label>
         <_tooltip>Sets the MIDI instrument for this staff for use in the Playback View</_tooltip>
