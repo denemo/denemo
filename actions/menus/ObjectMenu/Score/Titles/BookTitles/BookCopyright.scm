@@ -1,4 +1,5 @@
 ;;BookCopyright
-(if BookCopyright::params
-        (BookTitles::Do "Copyright" "copyright" BookCopyright::params #f)
-        (BookTitles::Do "Copyright" "copyright" (string-append "Copyright © "  (if (getlogin) (getlogin) "") " " (strftime "%Y" (localtime (current-time))))  (_ "Give copyright notice or blank out to delete: ")))
+(let ((edit (d-Directive-scoreheader? "BookCopyright")))
+    (if BookCopyright::params
+        (BookTitles::Do "Copyright" "copyright" BookCopyright::params #f edit)
+        (BookTitles::Do "Copyright" "copyright" (_ "My Copyright")  (_ "Give name for copyright etc or blank out to delete: ") edit)))
