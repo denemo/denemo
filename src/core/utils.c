@@ -529,7 +529,7 @@ normal_cursor (GtkWidget * area)
 static void
 windows_draw_text (cairo_t * cr, const char *font, const char *text, double x, double y, double size, gboolean invert)
 {
-  y -= size;
+  y -= size + 10;
   size *= 0.75;
   PangoLayout *layout;
   PangoFontDescription *desc;
