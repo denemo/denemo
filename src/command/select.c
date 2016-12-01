@@ -271,7 +271,7 @@ copytobuffer (DenemoMovement * si)
             {
               if (!((j == si->selection.lastmeasuremarked)))
                 {
-                  g_debug ("Insert measurebreak obj in copybuffer");
+                  g_print ("Insert measurebreak obj in copybuffer %d %d", j, k);
                   /* ???outdated comment??? That is, there's another measure, the cursor is in appending
                      position, or the selection spans multiple staffs, in which
                      case another measure boundary should be added.  */
@@ -700,6 +700,8 @@ in_selection (DenemoMovement * si)
             {
               if (si->currentmeasurenum == si->selection.lastmeasuremarked)
                 {
+                  if (si->cursor_appending) 
+                    return FALSE;
                   if ((si->cursor_x >= si->selection.firstobjmarked) && (si->cursor_x <= si->selection.lastobjmarked))
                     return TRUE;
                   else
