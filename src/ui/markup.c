@@ -83,7 +83,7 @@ paste_snippet_lilypond (GtkWidget * menuitem)
 }
 /* get a chord symbol for the chord at the cursor or user provided note/chord if not on the chord or at_cursor false */
 static gchar *
-get_fakechord_as_markup (gchar * size, gchar * font, gboolean at_cursor)
+get_fakechord_as_markup (gchar * font, gboolean at_cursor)
 {
   DenemoProject *gui = Denemo.project;
   DenemoObject *curObj;
@@ -117,7 +117,7 @@ get_fakechord_as_markup (gchar * size, gchar * font, gboolean at_cursor)
         text = notes_choice_dialog (1, NULL, NULL);
   if (text)
     {
-      gchar *ret = g_strdup_printf ("\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n\\override ChordName.font-size = #%s %s}\n\\layout{indent=0.0}\n}\n", font, size, text);
+      gchar *ret = g_strdup_printf ("\\hspace  #-0.5 \\scale #'(0.975 . 0.975)\\score{\n\\DenemoGlobalTranspose\n\\new ChordNames {\n\\override ChordName.font-name = #'\"%s\"\n%s %%note-name to insert, in Dutch\n}\n\\layout{indent=0.0}}\n", font, text);
       return ret;
     }
   return NULL;
@@ -131,11 +131,9 @@ paste_current_lilypond_as_fakechord (GtkWidget * menuitem, gboolean at_cursor)
   if (textbuffer)
     {
     gchar *text = NULL;
-    gchar *size = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a relative font size +/- "), "4");
-    gchar *font = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a font name "), "Times Bold");
-    if (font && *font && size && *size)
-        text = get_fakechord_as_markup (size, font, at_cursor);
-    g_free (size);
+    gchar *font = string_dialog_entry (gui, _( "Note/Chord Name"), _("Give a font name "), "Times");
+    if (font && *font)
+        text = get_fakechord_as_markup (font, at_cursor);
     g_free (font);
     if(text)
         {
