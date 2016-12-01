@@ -1178,7 +1178,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                   }
                 else
                   {             /* non printing rest */
-                    g_string_append_printf (ret, "\\skip ");
+                    g_string_append_printf (ret, "s");
                     NAVANC (TARGET_CHORD, 0);
                     outputret;
                     directives_insert_prefix_editable (pchord->directives, &open_braces, &prevduration, iter, FALSE, lily_for_obj, TARGET_CHORD, movement_count, measurenum, voice_count, objnum, 0, sbid);
