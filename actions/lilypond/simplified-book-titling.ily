@@ -422,7 +422,7 @@ titledPiece =
       \when-property #'header:poet     
           \vspace #6
       \when-notproperty #'header:poet  \vspace #2
-      \fill-line { \fontsize #10 \fromproperty #'header:title }
+      \fill-line { \scale #'(4 . 4) \fromproperty #'header:title }
       \vspace #1
       \fill-line { \postscript #"-20 0 moveto 40 0 rlineto stroke" }
       \vspace #6
