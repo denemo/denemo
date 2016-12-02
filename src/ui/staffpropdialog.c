@@ -221,8 +221,9 @@ set_properties (struct callbackdata *cbdata)
     staffstruct->field = \
     (gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->field)));
 
-  /* rename of set staff/voice name */
-  canonicalize_denemo_name ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)), staffstruct->denemo_name);
+  /* rename of part name */
+  if(canonicalize_denemo_name ((gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->denemo_name)), staffstruct->denemo_name))
+    warningdialog (_("Only alphanumeric characters are allowed - part name unchanged"));
   if(cbdata->subpart)
     {
      if(staffstruct->subpart==NULL)
@@ -440,8 +441,8 @@ staff_properties_change (void)
 #endif
   /* Print appearance tab */
   NEWPAGE (_("Typeset Appearance"));
-  TEXTENTRY (_("Part name:"), denemo_name);
-  gtk_widget_set_tooltip_text (hbox, _( "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part."));
+  TEXTENTRY (_("Part name (a-z,0-9):"), denemo_name);
+  gtk_widget_set_tooltip_text (hbox, _( "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part. Only alphabetic characters, space and numerals are allowed"));
   TEXTENTRY (_("Sub Part name:"), subpart);
   gtk_widget_set_tooltip_text (hbox, _( "If a single part (e.g. piano) has more than one staff they should be named here."));
 
