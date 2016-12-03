@@ -21,7 +21,7 @@
                         (let loop ((count 0))
                             (set! voicenames (cons 
                                 (cons (unique-staff-name)  (cons  (unique-staff-name)
-                                          (string-append "{" (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond) "\\" (d-GetVoiceIdentifier) " } \\void ")))
+                                          (cons (if (d-Directive-staff? "DynamicsStaff") "(d-DynamicsStaff 'noninteractive)" #f) (string-append "{" (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond) "\\" (d-GetVoiceIdentifier) " } \\void "))))
                                                  voicenames))      
                             (if (d-MoveToStaffDown)
                                 (loop (1+ count))))
@@ -35,8 +35,10 @@
                     (begin
                         (set! cuename (RadioBoxMenuList cuename))
                         (if cuename
-                            (begin
-                                (d-DirectivePut-voice-prefix tag (cdr cuename))
+                            (let ((dynamics-staff (cadr cuename)))
+                                (if dynamics-staff
+                                    (eval-string dynamics-staff))
+                                (d-DirectivePut-voice-prefix tag (cddr cuename))    
                                 (d-DirectivePut-voice-override tag  (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_GRAPHIC))
                                 (d-DirectivePut-voice-display tag (car cuename))
                                 (d-SetColorOfStaff #xF0202000)
@@ -47,10 +49,15 @@
                                 (d-DirectivePut-timesig-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
                                 (d-MoveToBeginning)
                                 (d-Directive-standalone tag)
-                                (d-DirectivePut-standalone-display tag (_ "Right click to update clef/time/key"))
-                                (d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_DYNAMIC);;to update clef etc
+                                (if (not dynamics-staff) 
+                                    (begin
+                                        (d-DirectivePut-standalone-display tag (_ "Right click to update clef/time/key"))
+                                        ;;to update clef etc
+                                        (d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_DYNAMIC)))
                                 (d-DirectivePut-standalone-minpixels tag 50)
                                 (d-DirectivePut-standalone-graphic tag (string-append "\n"
                                 (_ "Music here is mirrored from ") (d-DirectiveGet-voice-display tag) "\nDenemo\n20"))
+                                ;;;(d-ToggleCurrentStaffDisplay) dynamics staffs don't display well when hidden
                                 (d-SetSaved #f))))))))
+
 
