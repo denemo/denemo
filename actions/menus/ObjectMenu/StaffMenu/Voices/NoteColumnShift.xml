@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>ShiftOn</after>
         <action>NoteColumnShift</action>
-        <_label>Force Note Shift</_label>
-        <_tooltip>On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use with Voice Presets to ensure this chord is in a different voice.</_tooltip>
+        <_label>Change Note Shift</_label>
+        <_tooltip>On printing the current note/chord will be shifted from notes in other voices by the amount you give. Use this to alter which voice is shifted leftwards/rightwards.</_tooltip>
       </row>
     </map>
   </merge>
