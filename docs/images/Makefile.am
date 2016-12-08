@@ -50,5 +50,6 @@ CustomOrnamentsPalette.png \
 MidiImportPalette.png \
 PaletteEntry.png \
 DenemoDirectives.png \
-RepeatsPalette.png
+RepeatsPalette.png \
+InsertOrAppendChords.png 
 
