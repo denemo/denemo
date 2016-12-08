@@ -3701,7 +3701,7 @@ Chord Symbols
 \begin_inset Quotes eld
 \end_inset
 
-fakechords
+fake chords
 \begin_inset Quotes erd
 \end_inset
 
@@ -3710,7 +3710,7 @@ fakechords
 status open
 
 \begin_layout Plain Layout
-Fakechords|see
+Fake Chords|see
 \begin_inset ERT
 status collapsed
 
@@ -4562,17 +4562,39 @@ pending accidental
 status open
 
 \begin_layout Plain Layout
-chord symbol
+Chord Symbols
 \end_layout
 
 \end_inset
 
- (aka fakechord
+ (aka fakechords
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-Fakechords
+Fake Chords|see
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Chord Symbols
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_inset
@@ -9250,7 +9272,7 @@ reference "sub:Physical-Transposition"
 \end_layout
 
 \begin_layout Standard
-The commands to tranpose a score are in the Score->Typesetter menu.
+The commands to transpose a score are in the Score->Typesetter menu.
  
 \begin_inset Quotes eld
 \end_inset
@@ -9539,7 +9561,40 @@ Chord Symbols
 \end_layout
 
 \begin_layout Standard
-There are two quite different ways to enter chord symbols.
+There are two quite different ways to enter chord symbols (also known as
+ Chord Names
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Chord Names |see
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+{
+\end_layout
+
+\end_inset
+
+Chord Symbols
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+, Fake Chords).
  If the chord changes do not happen mid-way through notes then you can use
  Notes/Rests->Markings->Chord Symbols to attach chord symbols to the notes
  themselves.
