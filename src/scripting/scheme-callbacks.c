@@ -2835,7 +2835,7 @@ scheme_get_lilypond_syntax_from_user (SCM tit, SCM ins, SCM prior, SCM post, SCM
 {
     SCM ret = SCM_BOOL_F;
     gchar *title = _("LilyPond Syntax");
-    gchar *prior_context = "\score {<<";
+    gchar *prior_context = "\\score {<<";
     gchar *post_context = ">>}";
     gchar *instruction = _("Give LilyPond Syntax");
     gchar *initial_markup = "";
