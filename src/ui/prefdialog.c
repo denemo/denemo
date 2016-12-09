@@ -571,7 +571,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   BOOLEANENTRY (_("Treat Return key as Movable Shortcut"), return_key_is_special);
   BOOLEANENTRY (_("Turn on all Tooltips"), newbie);
   BOOLEANENTRY (_("Show Shortcuts Used"), learning);
-  INTENTRY_LIMITS (_("Tooltip timeout in ms. (0 to use system preference)"), tooltip_timeout, 0, 1000000);
+  INTENTRY_LIMITS (_("Tooltip timeout in ms. (0 for default, -1 to use GTK tooltips - restart needed)"), tooltip_timeout, -1, 1000000);
 #ifndef FAKE_TOOLTIPS
   INTENTRY_LIMITS (_("Tooltip browse timeout in ms"), tooltip_browse_timeout, 0, 1000000);
   INTENTRY_LIMITS (_("Tooltip browse mode timeout in ms"), tooltip_browse_mode_timeout, 0, 1000000);
