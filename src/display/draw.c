@@ -32,7 +32,6 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 #define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
-static GdkPixbuf *StaffPixbuf, *StaffPixbufSmall;
 static DenemoObject *Startobj, *Endobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
@@ -75,14 +74,6 @@ set_start_and_end_objects_for_draw (void)
     }
 }
 
-static void
-create_tool_pixbuf (void)
-{
-  GtkWidget *widget = gtk_button_new ();
-  StaffPixbuf = gtk_widget_render_icon (widget, GTK_STOCK_PROPERTIES, GTK_ICON_SIZE_BUTTON, "denemo");
-  StaffPixbufSmall = gtk_widget_render_icon (widget, GTK_STOCK_GO_FORWARD, GTK_ICON_SIZE_BUTTON, "denemo");//something for highlighting!
-  
-}
 
 
 /**
@@ -100,7 +91,6 @@ scorearea_configure_event (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEv
     {
       MidiDrawObject = g_list_append(NULL, newchord (0, 0, 0));
       chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
-      create_tool_pixbuf ();
       init = TRUE;
     }
 
@@ -1601,7 +1591,6 @@ draw_score (cairo_t * cr)
             continue;
           }
       itp.verse = verse_get_current_view (staff);
-      GdkPixbuf *StaffDirectivesPixbuf = (Denemo.hovering_over_margin_up) ? StaffPixbuf : StaffPixbufSmall;
       if (si->currentstaffnum == itp.staffnum)
         y += staff_transition_offset ();
 
