@@ -1868,9 +1868,7 @@ draw_callback (cairo_t * cr)
   /* Clear with an appropriate background color. */
   if (Denemo.project->input_source != INPUTKEYBOARD && Denemo.project->input_source != INPUTMIDI && (Denemo.prefs.overlays || (Denemo.project->input_source == INPUTAUDIO)) && pitch_entry_active (gui))
     {
-      GdkColor col;
-      gdk_color_parse ("lightblue", &col);
-      gdk_cairo_set_source_color (cr, &col);
+      cairo_set_source_rgb (cr, 0xAD/255.0, 0xD8/255.0, 0xE6/255.0);  //light blue
     }
   else if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
     {

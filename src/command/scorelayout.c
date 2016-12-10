@@ -468,18 +468,6 @@ duplicate_lilypond_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * s
   customize_scoreblock (sb, NULL);
 }
 
-#if 0
-//having buttons that affect the score itself is confusing
-//Mark the passed widget as being for standard layouts only
-static void
-mark_as_non_custom (GtkWidget * button)
-{
-  GdkColor color;
-  if (gdk_color_parse ("#B0A090", &color))
-    gtk_widget_modify_bg (button, GTK_STATE_NORMAL, &color);
-  g_object_set_data (G_OBJECT (button), "standard", (gpointer) 1);
-}
-#endif
 
 static GtkWidget *
 get_options_button (DenemoScoreblock * sb, gboolean custom)
@@ -1780,13 +1768,22 @@ movement_part_name (gint movement, gchar * partname)
 }
 
 static GtkWidget *
-get_colored_event_box (GtkWidget * vbox, gchar * colorstring)
+get_event_box (GtkWidget * vbox)
 {
   GtkWidget *event_box = gtk_event_box_new ();
   gtk_box_pack_start (GTK_BOX (vbox), event_box, FALSE, TRUE, 0);
+#if GTK_MAJOR_VERSION == 2
   GdkColor color;
-  if (gdk_color_parse (colorstring, &color))
+  if (gdk_color_parse ("#BBFFCC", &color))
     gtk_widget_modify_bg (event_box, GTK_STATE_NORMAL, &color);
+#else 
+    GdkRGBA color;
+    color.red = 0xBB/255.0;
+    color.green = 0xFF/255.0;
+    color.blue = 0xCC/255.0;
+    color.alpha = 1.0;
+   gtk_widget_override_background_color (event_box, GTK_STATE_NORMAL, &color);
+#endif
   return event_box;
 }
 
@@ -1929,7 +1926,7 @@ create_scorewide_block (GtkWidget * vbox, DenemoScoreblock * sb)
 {
   GtkWidget *frame = gtk_frame_new (NULL);
   GtkWidget *reload_button = get_reload_button (frame);
-  GtkWidget *event_box = get_colored_event_box (vbox, "#BBFFCC");       // event_box is packed into vbox
+  GtkWidget *event_box = get_event_box (vbox);       // event_box is packed into vbox
   gtk_container_add (GTK_CONTAINER (event_box), frame);
   fill_scorewide_frame (frame, reload_button, sb);
   gtk_widget_show_all (vbox);
