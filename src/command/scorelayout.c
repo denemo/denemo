@@ -212,11 +212,11 @@ add_lilypond (GtkWidget * w, gchar * prefix, gchar * postfix)
 }
 
 static gchar *
-get_voicetag (gint movementnum, gint voice_count)
+get_voicetag (gint movementnum, gint voice_count) //same as voicename now!!!!!!!!!!!
 {
   GString *str = g_string_new ("");
   GString *name = g_string_new ("");
-  g_string_printf (str, "Voice%d Mvmnt%d", voice_count, movementnum);
+  g_string_printf (str, "Mvmnt%d Voice%d", movementnum, voice_count);
   set_lily_name (str, name);
   g_string_free (str, TRUE);
   return g_string_free (name, FALSE);
