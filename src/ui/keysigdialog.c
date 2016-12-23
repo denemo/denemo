@@ -361,6 +361,7 @@ button_response (GtkWidget * dialog, gint response_id, keysig_data * data)
             deleteobject (NULL, NULL);
           insert_keysig (data);
         }
+      cache_all ();// this may be overkill, but if a keysig change is being placed immediately after a clef change then the object does not have a clef cached on it.        
       score_status (gui, TRUE);
       displayhelper (gui);
     }
