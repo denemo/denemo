@@ -15,11 +15,31 @@
         </cursor-binding>
       </cursors>
       <row type="builtin">
+        <action>NewScore</action>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <_label>New</_label>
+        <_tooltip>Start a new musical score for a named instrument/voice.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>NewWindow</action>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <_label>New Tab</_label>
+        <_tooltip>Create working area (tab with an empty score in it)</_tooltip>
+      </row>
+
+      <row type="builtin">
         <action>Open</action>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open</_label>
         <_tooltip>Open a file containing a music score for editing</_tooltip>
       </row>
+      <row type="builtin">
+        <action>Save</action>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
+        <_label>Save</_label>
+        <_tooltip>Save the score. The score is saved to disk in XML format.</_tooltip>
+      </row>
+
       <row type="scheme">
         <action>BookmarkNamed</action>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
@@ -1218,27 +1238,8 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <_label>Empty Score</_label>
         <_tooltip>Start a new musical score</_tooltip>
       </row>
-      <row type="builtin">
-        <action>NewScore</action>
-        <menupath>/MainMenu/FileMenu</menupath>
-        <_label>New</_label>
-        <_tooltip>Start a new musical score for a named instrument/voice.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ImportLilypond</action>
-        <_label>Import Lilypond (Limited)</_label>
-        <_tooltip>Import a Lilypond file</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ImportMidi</action>
-        <_label>Import Midi (Limited)</_label>
-        <_tooltip>Try to Import a Midi file</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ImportMusicXml</action>
-        <_label>Import MusicXml</_label>
-        <_tooltip>Import a MusicXml file</_tooltip>
-      </row>
+
+
       <row type="builtin">
         <action>AddStaffs</action>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
@@ -1261,12 +1262,6 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open In New</_label>
         <_tooltip>Open a file containing a music score for editing in a separate working area (tab)</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>Save</action>
-        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
-        <_label>Save</_label>
-        <_tooltip>Save the score. The score is saved to disk in XML format.</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveAs</action>
@@ -1303,12 +1298,6 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Save Template</_label>
         <_tooltip>Save the score as a template for re-use as a starting point for new scores</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>NewWindow</action>
-        <menupath>/MainMenu/FileMenu</menupath>
-        <_label>New Tab</_label>
-        <_tooltip>Create working area (tab with an empty score in it)</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertMovementBefore</action>
@@ -1358,6 +1347,25 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <_label>Export MIDI</_label>
         <_tooltip>Export the score as a MIDI file</_tooltip>
       </row>
+      <row type="builtin">
+        <action>ImportLilypond</action>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <_label>Import Lilypond (Limited)</_label>
+        <_tooltip>Import a Lilypond file</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>ImportMidi</action>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <_label>Import Midi (Limited)</_label>
+        <_tooltip>Try to Import a Midi file</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>ImportMusicXml</action>
+        <menupath>/MainMenu/FileMenu/Import</menupath>
+        <_label>Import MusicXml</_label>
+        <_tooltip>Import a MusicXml file</_tooltip>
+      </row>      
+      
       <row type="builtin">
         <action>PrintView</action>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
