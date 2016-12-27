@@ -141,9 +141,9 @@ void closewrapper (GtkAction * action, DenemoScriptParam * param);
 void morecommands (GtkAction * action, DenemoScriptParam * param);
 void mycommands (GtkAction * action, DenemoScriptParam * param);
 void fetchcommands (GtkAction * action, DenemoScriptParam * param);
-void toggle_edit_mode (GtkAction * action, DenemoScriptParam * param);
-void toggle_rest_mode (GtkAction * action, DenemoScriptParam * param);
-void toggle_rhythm_mode (GtkAction * action, DenemoScriptParam * param);
+
+
+
 void create_rhythm_cb (GtkAction * action, DenemoScriptParam * param);
 void delete_rhythm_cb (GtkAction * action, DenemoScriptParam * param);
 void midi_in_adjust (gint value);
@@ -151,4 +151,6 @@ gboolean insert_nth_rhythm (gint n);
 void create_rhythm (RhythmPattern * r, gboolean from_selection);
 GError *execute_script_file (gchar * filename);
 void popup_help_for_action (GtkAction * action);
+void save_accels (void);
+
 #endif

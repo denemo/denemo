@@ -163,12 +163,6 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankOneHundredTwenty
 /*InsertBlankTwoHundredFiftySixthNote insert_blankchord_8key*/
 SCM scheme_InsertBlankTwoHundredFiftySixthNote(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertBlankTwoHundredFiftySixthNote", scheme_InsertBlankTwoHundredFiftySixthNote);
-/*ToggleRestMode rest_toggle_key*/
-SCM scheme_ToggleRestMode(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRestMode", scheme_ToggleRestMode);
-/*ToggleBlankMode toggle_blank*/
-SCM scheme_ToggleBlankMode(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleBlankMode", scheme_ToggleBlankMode);
 /*InsertDuplet duplet_insert*/
 SCM scheme_InsertDuplet(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "InsertDuplet", scheme_InsertDuplet);
@@ -940,15 +934,7 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "MyCommands", scheme_MyComma
 /*FetchCommands fetchcommands*/
 SCM scheme_FetchCommands(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "FetchCommands", scheme_FetchCommands);
-/*ToggleEdit toggle_edit_mode*/
-SCM scheme_ToggleEdit(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleEdit", scheme_ToggleEdit);
-/*ToggleRest toggle_rest_mode*/
-SCM scheme_ToggleRest(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRest", scheme_ToggleRest);
-/*ToggleRhythm toggle_rhythm_mode*/
-SCM scheme_ToggleRhythm(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ToggleRhythm", scheme_ToggleRhythm);
+
 /*ClearOverlay clear_overlay*/
 SCM scheme_ClearOverlay(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ClearOverlay", scheme_ClearOverlay);

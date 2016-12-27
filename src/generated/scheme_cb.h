@@ -163,12 +163,7 @@ SCM scheme_InsertBlankOneHundredTwentyEighthNote (SCM optional) {
 SCM scheme_InsertBlankTwoHundredFiftySixthNote (SCM optional) {
   return scheme_call_callback(optional, insert_blankchord_8key);
 }
-SCM scheme_ToggleRestMode (SCM optional) {
-  return scheme_call_callback(optional, rest_toggle_key);
-}
-SCM scheme_ToggleBlankMode (SCM optional) {
-  return scheme_call_callback(optional, toggle_blank);
-}
+
 SCM scheme_InsertDuplet (SCM optional) {
   return scheme_call_callback(optional, duplet_insert);
 }
@@ -940,15 +935,7 @@ SCM scheme_MyCommands (SCM optional) {
 SCM scheme_FetchCommands (SCM optional) {
   return scheme_call_callback(optional, fetchcommands);
 }
-SCM scheme_ToggleEdit (SCM optional) {
-  return scheme_call_callback(optional, toggle_edit_mode);
-}
-SCM scheme_ToggleRest (SCM optional) {
-  return scheme_call_callback(optional, toggle_rest_mode);
-}
-SCM scheme_ToggleRhythm (SCM optional) {
-  return scheme_call_callback(optional, toggle_rhythm_mode);
-}
+
 SCM scheme_ClearOverlay (SCM optional) {
   return scheme_call_callback(optional, clear_overlay);
 }

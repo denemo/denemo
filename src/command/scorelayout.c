@@ -298,7 +298,7 @@ static void
 open_lilypond_window_callback (void)
 {
   if (Denemo.textwindow && !gtk_widget_get_visible (Denemo.textwindow))
-    activate_action ("/MainMenu/ViewMenu/ToggleLilyText");
+    set_toggle ("ToggleLilyText", TRUE);
 }
 
 static void
@@ -2470,7 +2470,7 @@ iterate_custom_layout (gboolean init)
       if (!Denemo.non_interactive)
         {
           if (!gtk_widget_get_visible (Denemo.project->score_layout))
-            activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
+            set_toggle ("ToggleScoreLayout", TRUE);
           set_notebook_page (sb->widget);
         }
       return TRUE;

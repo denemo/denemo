@@ -15,50 +15,172 @@
         </cursor-binding>
       </cursors>
       <row type="builtin">
+        <action>Open</action>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
+        <_label>Open</_label>
+        <_tooltip>Open a file containing a music score for editing</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>BookmarkNamed</action>
+        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
+        <_label>Add Named Bookmark</_label>
+        <_tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>DeleteObject</action>
+        <menupath>/MainMenu/EditMenu/Delete</menupath>
+        <_label>Delete Object</_label>
+        <_tooltip>Delete the object at the cursor</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>ToggleReduceToDrawingArea</action>
+        <menupath>/MainMenu/ViewMenu</menupath>
+        <_label>Hide/Show Menus</_label>
+        <_tooltip>Hides/Shows menus, panes etc. The ones shown are those checked in the view menu.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>SharpenEnharmonicSet</action>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <_label>Shift Accidentals Sharpwise</_label>
+        <_tooltip>Shifts the set of accidentals one step sharper</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>Play</action>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Play</_label>
+        <_tooltip>Playback from start marker to end marker (Set these markers in the playback controls)</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>MoreCommands</action>
+        <menupath>/MainMenu/MoreMenu</menupath>
+        <_label>More Commands</_label>
+        <_tooltip>Allows choosing standard extra commands/menu items</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Ab-Pentascale</action>
+        <menupath>/MainMenu/Educational/AuralTraining/Identify-Scale-Note</menupath>
+        <_label>Ab Pentascale</_label>
+        <_tooltip>Identify Scale Notes that are sounded</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>Help</action>
+        <menupath>/MainMenu/HelpMenu</menupath>
+        <_label>Browse Manual</_label>
+        <_tooltip>Opens a browser on the user manual</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>EditScoreProperties</action>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Score Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the score properties.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>EditMovementProperties</action>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>Movement Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the movement properties.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>EditStaffProperties</action>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Staff Properties Editor</_label>
+        <_tooltip>Opens a dialog to edit the current staff properties.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>InitialClef</action>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <_label>Initial Clef</_label>
+        <_tooltip>Change the initial clef of the current staff</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>InitialKey</action>
+        <menupath>/ObjectMenu/Key</menupath>
+        <_label>Initial Key</_label>
+        <_tooltip>Set the initial key signature of the current staff</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>InitialTimeSig</action>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Inital Time Signature</_label>
+        <_tooltip>Set the initial time signature of the current staff</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>MoveToMeasureLeft</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Move to Measure Left</_label>
+        <_tooltip>Moves the cursor to the first object in the next measure leaving selection, if any, unchanged</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>AddA</action>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <_label>Add A</_label>
+        <_tooltip>Adds note A to the chord at cursor
+Cursor height determines which octave</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>A</action>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
+        <_label>Change/Append A</_label>
+        <_tooltip>Changes the note the cursor is on to the note A.
+If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Ottava</action>
+        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <_label>Ottava</_label>
+        <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>AddVerse</action>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Add Lyric Verse</_label>
+        <_tooltip>Add a verse of lyrics</_tooltip>
+      </row>
+      <row type="builtin">
         <action>CursorLeft</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Cursor Left</_label>
         <_tooltip>Moves the cursor one object left, altering the selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveCursorLeft</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move Cursor Left</_label>
         <_tooltip>Moves the cursor one object left, without altering the selection</_tooltip>
       </row>
       <row type="builtin">
         <action>CursorDown</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Cursor Down</_label>
         <_tooltip>Moves the cursor one scale step down</_tooltip>
       </row>
       <row type="builtin">
         <action>CursorUp</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Cursor Up</_label>
         <_tooltip>Moves the cursor one scale step up</_tooltip>
       </row>
       <row type="builtin">
         <action>CursorRight</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Cursor Right</_label>
         <_tooltip>Moves the cursor one object right, altering the selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveCursorRight</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move Cursor Right</_label>
         <_tooltip>Moves the cursor one object right, without altering the selection</_tooltip>
       </row>
       <row type="builtin">
         <action>GoToMark</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>To Mark</_label>
         <_tooltip>Moves the cursor to the Mark without altering the selection</_tooltip>
       </row>
       <row type="builtin">
         <action>SwapPointAndMark</action>
-        <menupath>MainMenu/EditMenu/Select</menupath>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Swap Ends of Selection</_label>
         <_tooltip>Swaps the active end of the selection</_tooltip>
       </row>
@@ -69,134 +191,115 @@
       </row>
       <row type="builtin">
         <action>PushPosition</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Push Position</_label>
         <_tooltip>Pushes the current cursor position onto a stack</_tooltip>
       </row>
       <row type="builtin">
         <action>PopPosition</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Pop Position</_label>
         <_tooltip>Pops a position from the stack of cursor positions, moving the cursor there</_tooltip>
       </row>
       <row type="builtin">
         <action>PopPushPosition</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Pop and Push Position</_label>
         <_tooltip>Pops a position from the stack of cursor positions, pushes the current position, then moves the cursor to the popped position</_tooltip>
       </row>
       <row type="builtin">
-        <action>ToggleReduceToDrawingArea</action>
-        <menupath>MainMenu/ViewMenu</menupath>
-        <_label>Hide/Show Menus</_label>
-        <_tooltip>Hides/Shows menus, panes etc. The ones shown are those checked in the view menu.</_tooltip>
-      </row>
-      <row type="builtin">
         <action>StaffUp</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Staff Up</_label>
         <_tooltip>Moves the cursor to the staff above, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>StaffDown</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Staff Down</_label>
         <_tooltip>Moves the cursor to the staff below, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToStaffUp</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move to Staff Up</_label>
         <_tooltip>Moves the cursor to the staff above without altering selection. On the top staff it adds space above the staffs.</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToStaffDown</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move to Staff Down</_label>
         <_tooltip>Moves the cursor to the staff below  without altering selection</_tooltip>
       </row>
       <row type="builtin">
         <action>MeasureLeft</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Selection Measure Left</_label>
         <_tooltip>Moves the cursor to the first object in the next measure, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MeasureRight</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Selection Measure Right</_label>
         <_tooltip>Moves the cursor to the first object in the previous measure, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
-        <action>MoveToMeasureLeft</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
-        <_label>Move to Measure Left</_label>
-        <_tooltip>Moves the cursor to the first object in the next measure leaving selection, if any, unchanged</_tooltip>
-      </row>
-      <row type="builtin">
         <action>MoveToMeasureRight</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Move to Measure Right</_label>
         <_tooltip>Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged</_tooltip>
       </row>
       <row type="builtin">
-        <action>A</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
-        <_label>Change/Append A</_label>
-        <_tooltip>Changes the note the cursor is on to the note A.
-If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
-      </row>
-      <row type="builtin">
         <action>B</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Change/Append B</_label>
         <_tooltip>Changes the note the cursor is on to the note B.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>C</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Change/Append C</_label>
         <_tooltip>Changes the note the cursor is on to the note C.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>D</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Change/Append D</_label>
         <_tooltip>Changes the note the cursor is on to the note D.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>E</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Change/Append E</_label>
         <_tooltip>Changes the note the cursor is on to the note E.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>F</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Change/Append F</_label>
         <_tooltip>Changes the note the cursor is on to the note F.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>G</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Change/Append G</_label>
         <_tooltip>Changes the note the cursor is on to the note G.
 If the cursor is in the appending position, appends a note using the prevailing duration.</_tooltip>
       </row>
       <row type="builtin">
         <action>OctaveUp</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Octave Up</_label>
         <_tooltip>Changes the note at the cursor to an octave higher</_tooltip>
       </row>
       <row type="builtin">
         <action>OctaveDown</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Octave Down</_label>
         <_tooltip>Changes the note at the cursor to an octave lower</_tooltip>
       </row>
@@ -247,91 +350,91 @@ If the cursor is in the appending position, appends a note using the prevailing 
       </row>
       <row type="builtin">
         <action>InsertWholeRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄻</_label>
         <_tooltip>Insert 𝄻 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertHalfRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄼</_label>
         <_tooltip>Insert 𝄼 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertQuarterRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄽</_label>
         <_tooltip>Insert 𝄽 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertEighthRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄾</_label>
         <_tooltip>Insert 𝄾 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSixteenthRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄿</_label>
         <_tooltip>Insert 𝄿 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertThirtysecondRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝅀</_label>
         <_tooltip>Insert 𝅀 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSixtyfourthRest</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝅁</_label>
         <_tooltip>Insert 𝅁 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankWholeNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄻 Spacer</_label>
         <_tooltip>Insert a non-printing 𝄻 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankHalfNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄼 Spacer</_label>
         <_tooltip>Insert a non-printing 𝄼 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankQuarterNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄽 Spacer</_label>
         <_tooltip>Insert a non-printing 𝄽 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankEighthNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄾 Spacer</_label>
         <_tooltip>Insert a non-printing 𝄾 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankSixteenthNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝄿 Spacer</_label>
         <_tooltip>Insert a non-printing 𝄿 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankThirtysecondNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝅀 Spacer</_label>
         <_tooltip>Insert a non-printing 𝅀 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankSixtyfourthNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝅁 Spacer</_label>
         <_tooltip>Insert a non-printing 𝅁 rest</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertBlankOneHundredTwentyEighthNote</action>
-        <menupath>ObjectMenu/NotesRests/RestEntry</menupath>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Insert a 𝅂 Spacer</_label>
         <_tooltip>Insert a non-printing 𝅂 rest</_tooltip>
       </row>
@@ -341,97 +444,87 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_tooltip>Insert a non-printing 𝅃 rest</_tooltip>
       </row>
       <row type="builtin">
-        <action>ToggleRestMode</action>
-        <_label>Toggle Rest Mode</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ToggleBlankMode</action>
-        <_label>Toggle Blank Mode</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
-      </row>
-      <row type="builtin">
         <action>InsertDuplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Duplet</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertTriplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Triplet</_label>
         <_tooltip>Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two</_tooltip>
       </row>
       <row type="builtin">
         <action>StartTriplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Start Triplet</_label>
         <_tooltip>Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object.</_tooltip>
       </row>
       <row type="builtin">
         <action>EndTuplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>End Tuplet</_label>
         <_tooltip>Inserts an End Tuplet object, which terminates a tuplet started earlier in this measure.</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertQuadtuplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Quadruplet</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertQuintuplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Quintuplet</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSextuplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Sextuplet</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertSeptuplet</action>
-        <menupath>ObjectMenu/NotesRests/Tuplets</menupath>
+        <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Septuplet</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>AddNoteToChord</action>
-        <menupath>ObjectMenu/ChordMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
         <_label>Add note</_label>
         <_tooltip>Add a note to the current chord
 The cursor position determines which note to add</_tooltip>
       </row>
       <row type="builtin">
         <action>RemoveNoteFromChord</action>
-        <menupath>ObjectMenu/ChordMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu</menupath>
         <_label>Remove note</_label>
         <_tooltip>Remove a note from the current chord, based on the cursor position</_tooltip>
       </row>
       <row type="builtin">
         <action>Sharpen</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Sharpen</_label>
         <_tooltip>Sharpen the note at the cursor</_tooltip>
       </row>
       <row type="builtin">
         <action>Flatten</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Flatten</_label>
         <_tooltip>Flatten the note at the cursor</_tooltip>
       </row>
       <row type="builtin">
         <action>PendingSharpen</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Sharpen Next Note</_label>
         <_tooltip>Increases the sharpness of the next entered note. The status bar shows the current state.</_tooltip>
       </row>
       <row type="builtin">
         <action>PendingFlatten</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Flatten Next Note</_label>
         <_tooltip>Increases the flatness of the next entered note. The status bar shows the current state.</_tooltip>
       </row>
@@ -447,103 +540,97 @@ The cursor position determines which note to add</_tooltip>
       </row>
       <row type="builtin">
         <action>AddDot</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Add Dot</_label>
         <_tooltip>Lengthen the chord, note or rest at the cursor by dotting it.</_tooltip>
       </row>
       <row type="builtin">
         <action>RemoveDot</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Remove Dot</_label>
         <_tooltip>Reduce the dotting of the chord note or rest at the cursor.</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertTiedNote</action>
-        <menupath>ObjectMenu/NotesRests/EditNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
         <_label>Tied note</_label>
         <_tooltip>Inserts a duplicate of the current note, tied</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleTie</action>
-        <menupath>ObjectMenu/NotesRests/TiedNotes</menupath>
+        <menupath>/ObjectMenu/NotesRests/TiedNotes</menupath>
         <_label>Tie (Off/On)</_label>
         <_tooltip>Ties/unties the note at the cursor. The following note should be the same pitch.</_tooltip>
       </row>
       <row type="builtin">
-        <action>DeleteObject</action>
-        <menupath>MainMenu/EditMenu/Delete</menupath>
-        <_label>Delete Object</_label>
-        <_tooltip>Delete the object at the cursor</_tooltip>
-      </row>
-      <row type="builtin">
         <action>DeletePreviousObject</action>
-        <menupath>MainMenu/EditMenu/Delete</menupath>
+        <menupath>/MainMenu/EditMenu/Delete</menupath>
         <_label>Delete Previous Object</_label>
         <_tooltip>Delete to the left of the cursor.</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertMeasure</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Insert Measure Before</_label>
         <_tooltip>Insert a blank measure before the current one (in all staffs)</_tooltip>
       </row>
       <row type="builtin">
         <action>AddMeasure</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Insert Measure After</_label>
         <_tooltip>Insert a blank measure after the current one (in all staffs)</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertMeasureBefore</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Staff Insert Measure Before</_label>
         <_tooltip>Insert a blank measure before the current one (in current staff)</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertMeasureAfter</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Staff Insert Measure After</_label>
         <_tooltip>Insert a blank measure in current staff after the current measure</_tooltip>
       </row>
       <row type="builtin">
         <action>AppendMeasure</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Staff Append Measure</_label>
         <_tooltip>Append an empty measure at the end of the current staff</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteMeasure</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Staff Delete Measure</_label>
         <_tooltip>Delete the current measure in this staff, leaving the staff short</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteMeasureAllStaffs</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Delete Measure All Staffs</_label>
         <_tooltip>Delete the current measure in all staffs</_tooltip>
       </row>
       <row type="builtin">
         <action>ShrinkMeasures</action>
-        <menupath>ObjectMenu/MeasureMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
         <_label>Shrink Measure</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>WidenMeasures</action>
-        <menupath>ObjectMenu/MeasureMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
         <_label>Widen Measures</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>ShorterStaffs</action>
-        <menupath>ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
         <_label>Shorter Staffs</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>TallerStaffs</action>
-        <menupath>ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
         <_label>Taller Staffs</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
@@ -1019,68 +1106,68 @@ The cursor position determines which note to add</_tooltip>
       </row>
       <row type="builtin">
         <action>SetMark</action>
-        <menupath>MainMenu/EditMenu/Select</menupath>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Set Mark</_label>
         <_tooltip>Sets the start point for a selection,
 the end point of the selection is unaltered</_tooltip>
       </row>
       <row type="builtin">
         <action>UnsetMark</action>
-        <menupath>MainMenu/EditMenu/Select</menupath>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Unset Mark</_label>
         <_tooltip>Gets rid of the selection.</_tooltip>
       </row>
       <row type="builtin">
         <action>SetPoint</action>
-        <menupath>MainMenu/EditMenu/Select</menupath>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Set Point</_label>
         <_tooltip>Extends the selection to the current cursor position</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleBeginSlur</action>
-        <menupath>ObjectMenu/NotesRests/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
         <_label>Begin Slur (Off/On)</_label>
         <_tooltip>Insert/delete begin slur on this note</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleEndSlur</action>
-        <menupath>ObjectMenu/NotesRests/Slurs</menupath>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
         <_label>End Slur (Off/On)</_label>
         <_tooltip>Insert/delete end slur on this note</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleStartCrescendo</action>
-        <menupath>ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Start Crescendo (Off/On)</_label>
         <_tooltip>Marks/Unmarks the chord or note at the cursor as the start of a crescendo.</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleEndCrescendo</action>
-        <menupath>ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>End Crescendo (Off/On)</_label>
         <_tooltip>Marks/Unmarks the chord or note at the cursor as the end of a crescendo.</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleStartDiminuendo</action>
-        <menupath>ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Start Diminuendo (Off/On)</_label>
         <_tooltip>Marks/Unmarks the chord or note at the cursor as the start of a diminuendo.</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleEndDiminuendo</action>
-        <menupath>ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>End Diminuendo (Off/On)</_label>
         <_tooltip>Marks/Unmarks the chord or note at the cursor as the end of a diminuendo.</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleGrace</action>
-        <menupath>ObjectMenu/NotesRests/GraceNotes</menupath>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
         <_label>Grace Note Off/On</_label>
         <_tooltip>Makes the note at the cursor an appogiatura grace note, if it is one, makes it normal</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleAcciaccatura</action>
-        <menupath>ObjectMenu/NotesRests/GraceNotes</menupath>
+        <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
         <_label>Acciaccatura Off/On</_label>
         <_tooltip>Makes the note at the cursor an acciaccatura grace note, if it is one, makes it normal</_tooltip>
       </row>
@@ -1096,13 +1183,13 @@ the end point of the selection is unaltered</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertRhythm</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert Snippet</_label>
         <_tooltip>Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert.</_tooltip>
       </row>
       <row type="builtin">
         <action>NextRhythm</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Next Snippet</_label>
         <_tooltip>Make next snippet
 the current snippet.
@@ -1110,25 +1197,19 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
       </row>
       <row type="builtin">
         <action>AppendMeasureAllStaffs</action>
-        <menupath>ObjectMenu/MeasureMenu</menupath>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Append Measure All Staffs</_label>
         <_tooltip>Appends a blank measure to every staff in this movement</_tooltip>
       </row>
       <row type="builtin">
         <action>ExecuteScheme</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Execute Scheme</_label>
         <_tooltip>Execute the scheme code from the scripting window</_tooltip>
       </row>
       <row type="builtin">
-        <action>SharpenEnharmonicSet</action>
-        <menupath>MainMenu/InputMenu/MIDI</menupath>
-        <_label>Shift Accidentals Sharpwise</_label>
-        <_tooltip>Shifts the set of accidentals one step sharper</_tooltip>
-      </row>
-      <row type="builtin">
         <action>FlattenEnharmonicSet</action>
-        <menupath>MainMenu/InputMenu/MIDI</menupath>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <_label>Shift Accidentals Flatwise</_label>
         <_tooltip>Shifts the set of accidentals one step flatter</_tooltip>
       </row>
@@ -1139,15 +1220,9 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
       </row>
       <row type="builtin">
         <action>NewScore</action>
-        <menupath>MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu</menupath>
         <_label>New</_label>
         <_tooltip>Start a new musical score for a named instrument/voice.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>Open</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
-        <_label>Open</_label>
-        <_tooltip>Open a file containing a music score for editing</_tooltip>
       </row>
       <row type="builtin">
         <action>ImportLilypond</action>
@@ -1166,13 +1241,13 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
       </row>
       <row type="builtin">
         <action>AddStaffs</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Add Staffs</_label>
         <_tooltip>Add staffs from a Denemo file</_tooltip>
       </row>
       <row type="builtin">
         <action>AddMovements</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Add Movement</_label>
         <_tooltip>Add movements from a Denemo file</_tooltip>
       </row>
@@ -1183,109 +1258,109 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
       </row>
       <row type="builtin">
         <action>OpenNewWindow</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open In New</_label>
         <_tooltip>Open a file containing a music score for editing in a separate working area (tab)</_tooltip>
       </row>
       <row type="builtin">
         <action>Save</action>
-        <menupath>MainMenu/FileMenu/SaveMenu</menupath>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Save</_label>
         <_tooltip>Save the score. The score is saved to disk in XML format.</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveAs</action>
-        <menupath>MainMenu/FileMenu/SaveMenu</menupath>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Save As</_label>
         <_tooltip>Save the score under a new name</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveCopy</action>
-        <menupath>MainMenu/FileMenu/SaveMenu</menupath>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Create Copy</_label>
         <_tooltip>Save a copy of the score</_tooltip>
       </row>
       <row type="builtin">
         <action>OpenTemplate</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open Standard Template</_label>
         <_tooltip>Start a new score from a built-in template file</_tooltip>
       </row>
       <row type="builtin">
         <action>OpenExample</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open Example</_label>
         <_tooltip>Start a new score from a built-in example</_tooltip>
       </row>
       <row type="builtin">
         <action>OpenMyTemplate</action>
-        <menupath>MainMenu/FileMenu/OpenMenu</menupath>
+        <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open Custom Template</_label>
         <_tooltip>Start a new score from one of your own template files</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveTemplate</action>
-        <menupath>MainMenu/FileMenu/SaveMenu</menupath>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Save Template</_label>
         <_tooltip>Save the score as a template for re-use as a starting point for new scores</_tooltip>
       </row>
       <row type="builtin">
         <action>NewWindow</action>
-        <menupath>MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu</menupath>
         <_label>New Tab</_label>
         <_tooltip>Create working area (tab with an empty score in it)</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertMovementBefore</action>
-        <menupath>ObjectMenu/MovementMenu/InsertMovement</menupath>
+        <menupath>/ObjectMenu/MovementMenu/InsertMovement</menupath>
         <_label>Insert Movement Before</_label>
         <_tooltip>Insert a new movement before the current one</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertMovementAfter</action>
-        <menupath>ObjectMenu/MovementMenu/InsertMovement</menupath>
+        <menupath>/ObjectMenu/MovementMenu/InsertMovement</menupath>
         <_label>Insert Movement After</_label>
         <_tooltip>Insert a new movement after the current one</_tooltip>
       </row>
       <row type="builtin">
         <action>NewMovement</action>
-        <menupath>ObjectMenu/MovementMenu/InsertMovement</menupath>
+        <menupath>/ObjectMenu/MovementMenu/InsertMovement</menupath>
         <_label>New Movement</_label>
         <_tooltip>Create a new movement, using any default template</_tooltip>
       </row>
       <row type="builtin">
         <action>SaveParts</action>
-        <menupath>MainMenu/FileMenu/SaveMenu</menupath>
+        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Save Parts</_label>
         <_tooltip>Save Parts: each staff becomes a file in lilypond format</_tooltip>
       </row>
       <row type="builtin">
         <action>ExportMUDELA</action>
-        <menupath>MainMenu/FileMenu/Export</menupath>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Export Lilypond</_label>
         <_tooltip>Export the score as a lilypond file</_tooltip>
       </row>
       <row type="builtin">
         <action>ExportPDF</action>
-        <menupath>MainMenu/FileMenu/Export</menupath>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Export PDF</_label>
         <_tooltip>Export the score as a PDF document file</_tooltip>
       </row>
       <row type="builtin">
         <action>ExportPNG</action>
-        <menupath>MainMenu/FileMenu/Export</menupath>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Export Score as PNG</_label>
         <_tooltip>Export the score as a PNG image file</_tooltip>
       </row>
       <row type="builtin">
         <action>ExportMIDI</action>
-        <menupath>MainMenu/FileMenu/Export</menupath>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Export MIDI</_label>
         <_tooltip>Export the score as a MIDI file</_tooltip>
       </row>
       <row type="builtin">
         <action>PrintView</action>
-        <menupath>MainMenu/FileMenu/PrintMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print Preview</_label>
         <_tooltip>Typesets the score
 If you have a score layout selected it will use that
@@ -1295,79 +1370,79 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
       </row>
       <row type="builtin">
         <action>PrintSelection</action>
-        <menupath>MainMenu/FileMenu/PrintMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print Selection</_label>
         <_tooltip>Displays selected music from score in your pdf viewer</_tooltip>
       </row>
       <row type="builtin">
         <action>PrintExcerptPreview</action>
-        <menupath>MainMenu/FileMenu/Export</menupath>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Export Selection as PNG</_label>
         <_tooltip>Displays a musical excerpt in your image viewer</_tooltip>
       </row>
       <row type="builtin">
         <action>PrintMovement</action>
-        <menupath>MainMenu/FileMenu/PrintMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print Movement</_label>
         <_tooltip>Typesets the current movement and opens a print dialog</_tooltip>
       </row>
       <row type="builtin">
         <action>Print</action>
-        <menupath>MainMenu/FileMenu/PrintMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print</_label>
         <_tooltip>Typesets the score using LilyPond and opens a print dialog</_tooltip>
       </row>
       <row type="builtin">
         <action>PrintPart</action>
-        <menupath>MainMenu/FileMenu/PrintMenu</menupath>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Print Part</_label>
         <_tooltip>Typesets the current part (the one containing the cursor).</_tooltip>
       </row>
       <row type="builtin">
         <action>Close</action>
-        <menupath>MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu</menupath>
         <_label>Close Score</_label>
         <_tooltip>Close the current score. Other scores (tabs) will stay open</_tooltip>
       </row>
       <row type="builtin">
         <action>Quit</action>
-        <menupath>MainMenu/FileMenu</menupath>
+        <menupath>/MainMenu/FileMenu</menupath>
         <_label>Quit</_label>
         <_tooltip>Quit the Denemo program - closes tabs one at a time.</_tooltip>
       </row>
       <row type="builtin">
         <action>Undo</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Undo</_label>
         <_tooltip>Undoes one (more) step of your edits to the current score.</_tooltip>
       </row>
       <row type="builtin">
         <action>Redo</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Redo</_label>
         <_tooltip>Redoes the next of the steps you have Undone</_tooltip>
       </row>
       <row type="builtin">
         <action>Copy</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Copy</_label>
         <_tooltip>Copy the music selected to the Denemo clipboard</_tooltip>
       </row>
       <row type="builtin">
         <action>Cut</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Cut</_label>
         <_tooltip>Cut the music selected to the Denemo clipboard</_tooltip>
       </row>
       <row type="builtin">
         <action>Paste</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Paste</_label>
         <_tooltip>Paste the Denemo clipboard into the score where the cursor is positioned</_tooltip>
       </row>
       <row type="builtin">
         <action>PasteClipboard</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Paste LilyPond notes</_label>
         <_tooltip>Paste LilyPond notes from the text clipboard
 This will import music written as LilyPond syntax
@@ -1375,8 +1450,7 @@ You open the LilyPond file in a texteditor, copy the stretch of notes (control-c
       </row>
       <row type="builtin">
         <action>PasteComment</action>
-        <after>PasteClipboard</after>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Paste a Comment</_label>
         <_tooltip>Paste the text clipboard as a comment inserted at the cursor.</_tooltip>
       </row>
@@ -1392,7 +1466,7 @@ You open the LilyPond file in a texteditor, copy the stretch of notes (control-c
       </row>
       <row type="builtin">
         <action>Preferences</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Change Preferences</_label>
         <_tooltip>Set and save your preferences for how Denemo operates on startup.
 Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
@@ -1409,7 +1483,7 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
       </row>
       <row type="builtin">
         <action>SwapStaffs</action>
-        <menupath>ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Swap Staffs</_label>
         <_tooltip>Swap this staff with the one higher up.
 Be aware that if you have inserted directives to move a voice to another staff
@@ -1417,67 +1491,67 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>SplitVoices</action>
-        <menupath>ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Split Voices</_label>
         <_tooltip>Split off the next voice as a separate staff</_tooltip>
       </row>
       <row type="builtin">
         <action>JoinVoices</action>
-        <menupath>ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Join Voices</_label>
         <_tooltip>Merge this staff as a voice on the previous staff</_tooltip>
       </row>
       <row type="builtin">
         <action>SwapMovements</action>
-        <menupath>ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Swap Movements</_label>
         <_tooltip>Swap this movement with the one before</_tooltip>
       </row>
       <row type="builtin">
         <action>VoiceUp</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Voice Up</_label>
         <_tooltip>Go to the higher numbered voice on staff, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>VoiceDown</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Voice Down</_label>
         <_tooltip>Go to the lower numbered voice on this staff, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToVoiceUp</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move to Voice Up</_label>
         <_tooltip>Go to the higher numbered voice on staff without altering selection</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToVoiceDown</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move to Voice Down</_label>
         <_tooltip>Go to the lower numbered voice on this staff without altering selection</_tooltip>
       </row>
       <row type="builtin">
         <action>AddBefore</action>
-        <menupath>ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add Staff Before</_label>
         <_tooltip>Inserts a new staff before the current staff</_tooltip>
       </row>
       <row type="builtin">
         <action>AddAfter</action>
-        <menupath>ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add Staff After</_label>
         <_tooltip>Inserts/Adds a new staff after the current staff</_tooltip>
       </row>
       <row type="builtin">
         <action>AddInitial</action>
-        <menupath>ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add Initial Staff</_label>
         <_tooltip>Inserts a new staff at the top of the score</_tooltip>
       </row>
       <row type="builtin">
         <action>AddLast</action>
-        <menupath>ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add Last Staff</_label>
         <_tooltip>Inserts a new staff at the end of the score</_tooltip>
       </row>
@@ -1488,7 +1562,7 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteStaff</action>
-        <menupath>ObjectMenu/StaffMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Delete Current Staff</_label>
         <_tooltip>Deletes the current staff</_tooltip>
       </row>
@@ -1504,139 +1578,97 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>StaffProperties</action>
-        <menupath>ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Built-in Staff Properties</_label>
         <_tooltip>Change the built-in properties of the current staff</_tooltip>
       </row>
       <row type="builtin">
-        <action>InitialClef</action>
-        <menupath>ObjectMenu/ClefMenu</menupath>
-        <_label>Initial Clef</_label>
-        <_tooltip>Change the initial clef of the current staff</_tooltip>
-      </row>
-      <row type="builtin">
         <action>InsertClef</action>
-        <menupath>ObjectMenu/ClefMenu</menupath>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
         <_label>Clef Change</_label>
         <_tooltip>Insert/Edit a change of clef at the cursor</_tooltip>
       </row>
       <row type="builtin">
-        <action>InitialKey</action>
-        <menupath>ObjectMenu/Key</menupath>
-        <_label>Initial Key</_label>
-        <_tooltip>Set the initial key signature of the current staff</_tooltip>
-      </row>
-      <row type="builtin">
         <action>InsertKey</action>
-        <menupath>ObjectMenu/Key</menupath>
+        <menupath>/ObjectMenu/Key</menupath>
         <_label>Key Signature Change</_label>
         <_tooltip>Insert/Edit a key change at the cursor position</_tooltip>
       </row>
       <row type="builtin">
-        <action>InitialTimeSig</action>
-        <menupath>ObjectMenu/TimeSig</menupath>
-        <_label>Inital Time Signature</_label>
-        <_tooltip>Set the initial time signature of the current staff</_tooltip>
-      </row>
-      <row type="builtin">
         <action>InsertTimeSig</action>
-        <menupath>ObjectMenu/TimeSig</menupath>
+        <menupath>/ObjectMenu/TimeSig</menupath>
         <_label>Time Signature Change</_label>
         <_tooltip>Edit/Insert a time signature change for the current measure</_tooltip>
       </row>
       <row type="builtin">
         <action>ChangeNotehead</action>
-        <menupath>ObjectMenu/NotesRests/NoteheadControl</menupath>
+        <menupath>/ObjectMenu/NotesRests/NoteheadControl</menupath>
         <_label>Set Notehead</_label>
         <_tooltip>Change the type of notehead for the current note</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertStem</action>
-        <menupath>ObjectMenu/NotesRests/StemControl</menupath>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
         <_label>Auto Stemming</_label>
         <_tooltip>Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction</_tooltip>
       </row>
       <row type="builtin">
-        <action>AddVerse</action>
-        <menupath>ObjectMenu/Lyrics</menupath>
-        <_label>Add Lyric Verse</_label>
-        <_tooltip>Add a verse of lyrics</_tooltip>
-      </row>
-      <row type="builtin">
         <action>DeleteVerse</action>
-        <menupath>ObjectMenu/Lyrics</menupath>
+        <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Delete Verse</_label>
         <_tooltip>Deletes current verse of lyrics from current voice</_tooltip>
       </row>
       <row type="builtin">
         <action>EditFiguredBass</action>
-        <menupath>ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
         <_label>Insert/Edit Figured Bass</_label>
         <_tooltip>Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteFiguredBass</action>
-        <menupath>ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
         <_label>Delete Figures</_label>
         <_tooltip>Delete the figured bass on the current staff</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteChordSymbols</action>
-        <menupath>ObjectMenu/NotesRests/Markings/ChordSymbols</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/ChordSymbols</menupath>
         <_label>Delete Chord Symbols</_label>
         <_tooltip>Delete the chord symbols on the current staff</_tooltip>
       </row>
       <row type="builtin">
         <action>HideFiguredBass</action>
-        <menupath>ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
         <_label>Hide Figures (Print)</_label>
         <_tooltip>Hide the figured bass on the current staff on printing</_tooltip>
       </row>
       <row type="builtin">
         <action>ShowFiguredBass</action>
-        <menupath>ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
         <_label>Show Figures (Print)</_label>
         <_tooltip>Show the figured bass on the current staff on printing</_tooltip>
       </row>
       <row type="builtin">
         <action>EditChords</action>
-        <menupath>ObjectMenu/NotesRests/Markings/ChordSymbols</menupath>
+        <menupath>/ObjectMenu/NotesRests/Markings/ChordSymbols</menupath>
         <_label>Edit Chord Symbols</_label>
         <_tooltip>Allows chord symbols to be added to the current note. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation</_tooltip>
       </row>
       <row type="builtin">
         <action>EditObject</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Edit at Cursor</_label>
         <_tooltip>Edit in the context of the object at the cursor.</_tooltip>
       </row>
       <row type="builtin">
         <action>EditCursorObject</action>
-        <menupath>MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Run Object Editor</_label>
         <_tooltip>Opens a dialog to edit the object at the cursor.</_tooltip>
       </row>
       <row type="builtin">
-        <action>EditScoreProperties</action>
-        <menupath>ObjectMenu/Score</menupath>
-        <_label>Score Properties Editor</_label>
-        <_tooltip>Opens a dialog to edit the score properties.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>EditMovementProperties</action>
-        <menupath>ObjectMenu/MovementMenu</menupath>
-        <_label>Movement Properties Editor</_label>
-        <_tooltip>Opens a dialog to edit the movement properties.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>EditStaffProperties</action>
-        <menupath>ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
-        <_label>Staff Properties Editor</_label>
-        <_tooltip>Opens a dialog to edit the current staff properties.</_tooltip>
-      </row>
-      <row type="builtin">
         <action>EditVoiceProperties</action>
-        <menupath>ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Voice Properties Editor</_label>
         <_tooltip>Opens a dialog to edit the voice properties of the current staff.</_tooltip>
       </row>
@@ -1647,13 +1679,13 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>EditStaffDirective</action>
-        <menupath>ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Edit Staff Directives</_label>
         <_tooltip>Edit any directives attached to staff.</_tooltip>
       </row>
       <row type="builtin">
         <action>EditVoiceDirective</action>
-        <menupath>ObjectMenu/StaffMenu/Voices</menupath>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Edit Voice Directives</_label>
         <_tooltip>Edit any directives attached to voice.</_tooltip>
       </row>
@@ -1689,61 +1721,55 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>GoToMeasure</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Go to Measure</_label>
         <_tooltip>Opens a dialog for going to a numbered measure</_tooltip>
       </row>
       <row type="builtin">
         <action>GoToBeginning</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Go to Beginning</_label>
         <_tooltip>Cursor to start of staff/voice, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>GoToEnd</action>
-        <menupath>MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Go to End</_label>
         <_tooltip>Cursor to end of staff/voice, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToBeginning</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move to Staff/Voice Beginning</_label>
         <_tooltip>Cursor to start of staff/voice, without extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToEnd</action>
-        <menupath>MainMenu/NavigationMenu/Cursor</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Move to Staff/Voice End</_label>
         <_tooltip>Cursor to end of staff/voice, without extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>NextMovement</action>
-        <menupath>ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Next Movement</_label>
         <_tooltip>Go to the next movement</_tooltip>
       </row>
       <row type="builtin">
         <action>PreviousMovement</action>
-        <menupath>ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Previous Movement</_label>
         <_tooltip>Go to the previous movement</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteMovement</action>
-        <menupath>ObjectMenu/MovementMenu</menupath>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
         <_label>Delete Movement</_label>
         <_tooltip>Delete the current movement</_tooltip>
       </row>
       <row type="builtin">
-        <action>Play</action>
-        <menupath>MainMenu/PlaybackMenu</menupath>
-        <_label>Play</_label>
-        <_tooltip>Playback from start marker to end marker (Set these markers in the playback controls)</_tooltip>
-      </row>
-      <row type="builtin">
         <action>Stop</action>
-        <menupath>MainMenu/PlaybackMenu</menupath>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
         <_label>Stop</_label>
         <_tooltip>Stop Playback</_tooltip>
       </row>
@@ -1753,32 +1779,20 @@ these may need re-making.</_tooltip>
         <_tooltip>Allows you to specify properties used in playing back (midi)</_tooltip>
       </row>
       <row type="builtin">
-        <action>Help</action>
-        <menupath>MainMenu/HelpMenu</menupath>
-        <_label>Browse Manual</_label>
-        <_tooltip>Opens a browser on the user manual</_tooltip>
-      </row>
-      <row type="builtin">
         <action>About</action>
-        <menupath>MainMenu/HelpMenu</menupath>
+        <menupath>/MainMenu/HelpMenu</menupath>
         <_label>About</_label>
         <_tooltip>Gives the version number etc of this program</_tooltip>
       </row>
       <row type="builtin">
         <action>Shortcuts</action>
-        <menupath>MainMenu/HelpMenu</menupath>
+        <menupath>/MainMenu/HelpMenu</menupath>
         <_label>Shortcuts</_label>
         <_tooltip>Gives a list of shortcuts currently available. Explains how to set them too.</_tooltip>
       </row>
       <row type="builtin">
-        <action>MoreCommands</action>
-        <menupath>MainMenu/MoreMenu</menupath>
-        <_label>More Commands</_label>
-        <_tooltip>Allows choosing standard extra commands/menu items</_tooltip>
-      </row>
-      <row type="builtin">
         <action>MyCommands</action>
-        <menupath>MainMenu/MoreMenu</menupath>
+        <menupath>/MainMenu/MoreMenu</menupath>
         <_label>My Commands</_label>
         <_tooltip>Allows choosing extra commands/menu items from your own collection of extras</_tooltip>
       </row>
@@ -1789,23 +1803,8 @@ these may need re-making.</_tooltip>
 Use More Commands after this has finished</_tooltip>
       </row>
       <row type="builtin">
-        <action>ToggleEdit</action>
-        <_label>Toggle Edit Mode</_label>
-        <_tooltip>Toggle between current mode and edit mode</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ToggleRest</action>
-        <_label>Toggle Rest Mode</_label>
-        <_tooltip>Toggle between note entry and rest entry</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ToggleRhythm</action>
-        <_label>Toggle Audible Feedback</_label>
-        <_tooltip>Toggle audible feedback on/off</_tooltip>
-      </row>
-      <row type="builtin">
         <action>ClearOverlay</action>
-        <menupath>MainMenu/EditMenu/Delete</menupath>
+        <menupath>/MainMenu/EditMenu/Delete</menupath>
         <_label>Clear Overlay</_label>
         <_tooltip>Clear the list of pitches that overlay the notes</_tooltip>
       </row>
@@ -1821,7 +1820,7 @@ Use More Commands after this has finished</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertA</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert A</_label>
         <_tooltip>Inserts note A before note at cursor
 Cursor determines which octave
@@ -1835,13 +1834,6 @@ Cursor determines which octave
 Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
-        <action>AddA</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
-        <_label>Add A</_label>
-        <_tooltip>Adds note A to the chord at cursor
-Cursor height determines which octave</_tooltip>
-      </row>
-      <row type="builtin">
         <action>ChangeToA</action>
         <_label>Change to A</_label>
         <_tooltip>Changes note at cursor to nearest note A
@@ -1849,13 +1841,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToA</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to A</_label>
         <_tooltip>Moves cursor to nearest note A</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertB</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert B</_label>
         <_tooltip>Inserts note B before note at cursor
 Cursor determines which octave
@@ -1870,7 +1862,7 @@ Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
         <action>AddB</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
         <_label>Add B</_label>
         <_tooltip>Adds note B to the chord at cursor
 Cursor height determines which octave</_tooltip>
@@ -1883,13 +1875,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToB</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to B</_label>
         <_tooltip>Moves cursor to nearest note B</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertC</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert C</_label>
         <_tooltip>Inserts note C before note at cursor
 Cursor determines which octave
@@ -1904,7 +1896,7 @@ Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
         <action>AddC</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
         <_label>Add C</_label>
         <_tooltip>Adds note C to the chord at cursor
 Cursor height determines which octave</_tooltip>
@@ -1917,13 +1909,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToC</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to C</_label>
         <_tooltip>Moves cursor to nearest note C</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertD</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert D</_label>
         <_tooltip>Inserts note D before note at cursor
 Cursor determines which octave
@@ -1938,7 +1930,7 @@ Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
         <action>AddD</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
         <_label>Add D</_label>
         <_tooltip>Adds note D to the chord at cursor
 Cursor height determines which octave</_tooltip>
@@ -1951,13 +1943,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToD</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to D</_label>
         <_tooltip>Moves cursor to nearest note D</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertE</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert E</_label>
         <_tooltip>Inserts note E before note at cursor
 Cursor determines which octave
@@ -1972,7 +1964,7 @@ Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
         <action>AddE</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
         <_label>Add E</_label>
         <_tooltip>Adds note E to the chord at cursor
 Cursor height determines which octave</_tooltip>
@@ -1985,13 +1977,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToE</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to E</_label>
         <_tooltip>Moves cursor to nearest note E</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertF</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert F</_label>
         <_tooltip>Inserts note F before note at cursor
 Cursor determines which octave
@@ -2006,7 +1998,7 @@ Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
         <action>AddF</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
         <_label>Add F</_label>
         <_tooltip>Adds note F to the chord at cursor
 Cursor height determines which octave</_tooltip>
@@ -2019,13 +2011,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToF</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to F</_label>
         <_tooltip>Moves cursor to nearest note F</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertG</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
         <_label>Insert G</_label>
         <_tooltip>Inserts note G before note at cursor
 Cursor determines which octave
@@ -2040,7 +2032,7 @@ Note is inserted in the prevailing rhythm</_tooltip>
       </row>
       <row type="builtin">
         <action>AddG</action>
-        <menupath>ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
+        <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
         <_label>Add G</_label>
         <_tooltip>Adds note G to the chord at cursor
 Cursor height determines which octave</_tooltip>
@@ -2053,13 +2045,13 @@ Rhythm is unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>MoveToG</action>
-        <menupath>MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
+        <menupath>/MainMenu/NavigationMenu/Cursor/CursorToNote</menupath>
         <_label>Move to G</_label>
         <_tooltip>Moves cursor to nearest note G</_tooltip>
       </row>
       <row type="builtin">
         <action>0</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅝</_label>
         <_tooltip>When appending, appends a 𝅝 
 With the cursor on a note inserts a 𝅝  before the current note
@@ -2073,7 +2065,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert0</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅝</_label>
         <_tooltip>Insert a 𝅝</_tooltip>
       </row>
@@ -2085,13 +2077,13 @@ Sets prevailing rhythm to 𝅝</_tooltip>
       </row>
       <row type="builtin">
         <action>Set0</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅝</_label>
         <_tooltip>Set the prevailing duration to 𝅝 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>1</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅗𝅥</_label>
         <_tooltip>When appending, appends a 𝅗𝅥 
 With the cursor on a note inserts a 𝅗𝅥  before the current note
@@ -2105,7 +2097,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert1</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅗𝅥</_label>
         <_tooltip>Insert a 𝅗𝅥</_tooltip>
       </row>
@@ -2117,13 +2109,13 @@ Sets prevailing rhythm to 𝅗𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Set1</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅗𝅥</_label>
         <_tooltip>Set the prevailing duration to 𝅗𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>2</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅘𝅥</_label>
         <_tooltip>When appending, appends a 𝅘𝅥 
 With the cursor on a note inserts a 𝅘𝅥  before the current note
@@ -2137,7 +2129,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert2</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅘𝅥</_label>
         <_tooltip>Insert a 𝅘𝅥</_tooltip>
       </row>
@@ -2149,13 +2141,13 @@ Sets prevailing rhythm to 𝅘𝅥</_tooltip>
       </row>
       <row type="builtin">
         <action>Set2</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅘𝅥</_label>
         <_tooltip>Set the prevailing duration to 𝅘𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>3</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅘𝅥𝅮</_label>
         <_tooltip>When appending, appends a 𝅘𝅥𝅮 
 With the cursor on a note inserts a 𝅘𝅥𝅮  before the current note
@@ -2169,7 +2161,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert3</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅘𝅥𝅮</_label>
         <_tooltip>Insert a 𝅘𝅥𝅮</_tooltip>
       </row>
@@ -2181,13 +2173,13 @@ Sets prevailing rhythm to 𝅘𝅥𝅮</_tooltip>
       </row>
       <row type="builtin">
         <action>Set3</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅘𝅥𝅮</_label>
         <_tooltip>Set the prevailing duration to 𝅘𝅥𝅮 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>4</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅘𝅥𝅯</_label>
         <_tooltip>When appending, appends a 𝅘𝅥𝅯 
 With the cursor on a note inserts a 𝅘𝅥𝅯  before the current note
@@ -2201,7 +2193,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert4</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅘𝅥𝅯</_label>
         <_tooltip>Insert a 𝅘𝅥𝅯</_tooltip>
       </row>
@@ -2213,13 +2205,13 @@ Sets prevailing rhythm to 𝅘𝅥𝅯</_tooltip>
       </row>
       <row type="builtin">
         <action>Set4</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅘𝅥𝅯</_label>
         <_tooltip>Set the prevailing duration to 𝅘𝅥𝅯 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>5</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅘𝅥𝅰</_label>
         <_tooltip>When appending, appends a 𝅘𝅥𝅰 
 With the cursor on a note inserts a 𝅘𝅥𝅰  before the current note
@@ -2233,7 +2225,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert5</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅘𝅥𝅰</_label>
         <_tooltip>Insert a 𝅘𝅥𝅰</_tooltip>
       </row>
@@ -2245,13 +2237,13 @@ Sets prevailing rhythm to 𝅘𝅥𝅰</_tooltip>
       </row>
       <row type="builtin">
         <action>Set5</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅘𝅥𝅰</_label>
         <_tooltip>Set the prevailing duration to 𝅘𝅥𝅰 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>6</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅘𝅥𝅱</_label>
         <_tooltip>When appending, appends a 𝅘𝅥𝅱 
 With the cursor on a note inserts a 𝅘𝅥𝅱  before the current note
@@ -2265,7 +2257,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert6</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅘𝅥𝅱</_label>
         <_tooltip>Insert a 𝅘𝅥𝅱</_tooltip>
       </row>
@@ -2277,13 +2269,13 @@ Sets prevailing rhythm to 𝅘𝅥𝅱</_tooltip>
       </row>
       <row type="builtin">
         <action>Set6</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅘𝅥𝅱</_label>
         <_tooltip>Set the prevailing duration to 𝅘𝅥𝅱 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="builtin">
         <action>7</action>
-        <menupath>ObjectMenu/NotesRests/EditDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Insert/Append a 𝅘𝅥𝅲</_label>
         <_tooltip>When appending, appends a 𝅘𝅥𝅲 
 With the cursor on a note inserts a 𝅘𝅥𝅲  before the current note
@@ -2297,7 +2289,7 @@ If MIDI-in is active, the note will be pitchless (displays yellow, percussion-so
       </row>
       <row type="builtin">
         <action>Insert7</action>
-        <menupath>ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>𝅘𝅥𝅲</_label>
         <_tooltip>Insert a 𝅘𝅥𝅲</_tooltip>
       </row>
@@ -2309,7 +2301,7 @@ Sets prevailing rhythm to 𝅘𝅥𝅲</_tooltip>
       </row>
       <row type="builtin">
         <action>Set7</action>
-        <menupath>ObjectMenu/NotesRests/SelectDuration</menupath>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
         <_label>Set Prevailing Duration to 𝅘𝅥𝅲</_label>
         <_tooltip>Set the prevailing duration to 𝅘𝅥𝅲 (subsequent notes entered will have this duration)</_tooltip>
       </row>
@@ -2432,12 +2424,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/NotesRests/EditDuration/Slurred</menupath>
         <_label> ⏜ 𝅘𝅥𝅲</_label>
         <_tooltip>Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>Ottava</action>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
-        <_label>Ottava</_label>
-        <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
       </row>
       <row type="scheme">
         <action>AllowLineBreak</action>
@@ -2740,12 +2726,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Balance. Typically used for a stereo signal tweak without changing the pan itself. Like a CD player. </_tooltip>
       </row>
       <row type="scheme">
-        <action>Ab-Pentascale</action>
-        <menupath>/MainMenu/Educational/AuralTraining/Identify-Scale-Note</menupath>
-        <_label>Ab Pentascale</_label>
-        <_tooltip>Identify Scale Notes that are sounded</_tooltip>
-      </row>
-      <row type="scheme">
         <action>AccentSelectionSwitcher</action>
         <after>ToggleAccent</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
@@ -2911,12 +2891,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/ChordMenu/AddBelowTop</menupath>
         <_label>Add Minor 7th below top</_label>
         <_tooltip>Add a minor seventh as chordnote relative to the highest note downwards.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>BookmarkNamed</action>
-        <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
-        <_label>Add Named Bookmark</_label>
-        <_tooltip>Adds a Denemo bookmark combined with a custom Lilypond Rehearsal Mark</_tooltip>
       </row>
       <row type="scheme">
         <action>BookmarkNonPrinting</action>
@@ -3301,6 +3275,13 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <menupath>/ObjectMenu/Score</menupath>
         <_label>Check Score</_label>
         <_tooltip>Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CheckScoreSkipping</action>
+        <after>CheckScore</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Check Score Skipping Some Errors</_label>
+        <_tooltip>Checks the score ignoring the first so many errors. Use this to skip errors that are ok to leave in.</_tooltip>
       </row>
       <row type="scheme">
         <action>RefreshDynamicDirectives</action>
@@ -7724,13 +7705,6 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Directives/Conditional-Directives</menupath>
         <_label>Reset for All Layours</_label>
         <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>CheckScoreSkipping</action>
-        <after>CheckScore</after>
-        <menupath>/ObjectMenu/Score</menupath>
-        <_label>Check Score Skipping Some Errors</_label>
-        <_tooltip>Checks the score ignoring the first so many errors. Use this to skip errors that are ok to leave in.</_tooltip>
       </row>
       <row type="scheme">
         <action>CenterPageNumber</action>

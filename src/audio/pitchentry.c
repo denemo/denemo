@@ -570,27 +570,6 @@ enharmonic_step (gboolean sharp)
     sharpen (PR_label);
   else
     flatten (PR_label);
-
-  if(Denemo.non_interactive)
-    return;
-
-  GtkAction *sharpaction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet");
-  GtkAction *flataction = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/FlattenEnharmonicSet");
-
-  sharpestname = nameof (sharp_degree);
-  flattestname = nameof (flat_degree);
-  gchar *label = g_strdup_printf ("(%s) Step Sharper", sharpestname);
-  GValue a = { 0 };
-  g_value_init (&a, G_TYPE_STRING);
-  g_value_set_string (&a, label);
-  g_object_set_property (G_OBJECT (sharpaction), "label", &a);
-  g_free (label);
-  label = g_strdup_printf ("(%s) Step Flatter", flattestname);
-  g_value_set_string (&a, label);
-  g_object_set_property (G_OBJECT (flataction), "label", &a);
-  g_free (label);
-  g_free (sharpestname);
-  g_free (flattestname);
 }
 
 void
@@ -1194,7 +1173,7 @@ window_destroy_callback (void)
 {
   if (PR_gui == NULL)
     return FALSE;
-  activate_action ("/MainMenu/InputMenu/KeyboardOnly");
+  activate_action ("KeyboardOnly");//FIXME will not set radio buttons
   PR_window = NULL;
   clear_tone_store (NULL, Denemo.project);
   return FALSE;
@@ -1403,18 +1382,28 @@ get_enharmonic_frame (void)
       gtk_container_add (GTK_CONTAINER (frame), hbox);
       GtkWidget *label = gtk_label_new ("");
       PR_label = label;
-      GtkWidget *button = gtk_button_new_with_label (_("flatten "));
+      
+      label = gtk_label_new ("");
+      gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+      gtk_label_set_markup (GTK_LABEL (label), "<span font_desc=\"18\" foreground=\"red\">♭ ◄</span>"); //FIXME 18 should be relative to Denemo.prefs.fontsize
+      GtkWidget *button = gtk_button_new ();
+      gtk_container_add (GTK_CONTAINER(button), label); 
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-      gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/FlattenEnharmonicSet"));
+      g_signal_connect (button, "clicked", G_CALLBACK(set_flatter), NULL);
+      
       gchar *names = notenames (PR_temperament);
-
-      gtk_label_set_markup (GTK_LABEL (label), names);
+      //label = gtk_label_new ("");
+      gtk_label_set_markup (GTK_LABEL (PR_label), names);
       g_free (names);
-      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (hbox), PR_label, FALSE, TRUE, 0);
 
-      button = gtk_button_new_with_label (_("sharpen"));
+      label = gtk_label_new ("");
+      gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+      gtk_label_set_markup (GTK_LABEL (label), "<span font_desc=\"18\" foreground=\"blue\">► ♯</span>");
+      button = gtk_button_new ();
+      gtk_container_add (GTK_CONTAINER(button), label); 
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
-      gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/InputMenu/MIDI/SharpenEnharmonicSet"));
+      g_signal_connect (button, "clicked", G_CALLBACK(set_sharper), NULL);
     }
   GtkWidget *cont = gtk_widget_get_parent (frame);
   if (cont)

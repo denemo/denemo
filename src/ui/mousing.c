@@ -1088,7 +1088,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Left on initial Clef."), _("This pops up the initial clef menu."),
                       MouseGesture);
-                  popup_menu ("/InitialClefEditPopup");
+                  popup_menu ("ClefMenu");
                 }
               return TRUE;
             }
@@ -1118,7 +1118,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                   if (Denemo.prefs.learning)
                     MouseGestureShow(_("Right Click on key."), _("This pops up the key signature menu."),
                         MouseGesture);
-                  popup_menu ("/InitialKeyEditPopup");
+                  popup_menu ("Key");
                 }
               return TRUE;
             }
@@ -1127,7 +1127,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
               if (Denemo.prefs.learning)
                 MouseGestureShow(_("Click on Time."), _("This pops up the time signature menu."),
                         MouseGesture);
-              popup_menu ("/InitialTimeEditPopup");
+              popup_menu ("/TimeSig");
               return TRUE;
             }
         }
@@ -1152,22 +1152,22 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                                 {
                                     gint staffnum = choice?brace->startstaff:brace->endstaff;
                                     //g_print ("Count is %d for start at %d\n", count, staffnum);
-                                    GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
+                                    //GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "StaffGroupings");
                                     goto_movement_staff_obj (NULL, -1, staffnum, 1, 0, 0);
-                                    if (menuitem)
-                                        if (choice)
-                                            gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
+                                    
+                                    if (choice)
+                                        popup_menu ("StaffGroupings");
+                                    else
+                                    {
+                                        if (staff_directive_get_tag ("BraceEnd"))
+                                            call_out_to_guile ("(d-BraceEnd)");
                                         else
-                                        {
-                                            if (staff_directive_get_tag ("BraceEnd"))
-                                                call_out_to_guile ("(d-BraceEnd)");
-                                            else
-                                                warningdialog (_( "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"));
-                                        }
+                                            warningdialog (_( "This staff grouping has no End Brace so it finishes on the lowest staff. Use the Staffs/Voices->Staff Groupings menu to place an End Brace on the desired staff"));
+                                    }
                                     //note the popup returns as soon as the menu is popped up, so we can't go back to the original position.
 
                                 }
-                            }
+                        }
 
                     return TRUE;
                 }
@@ -1216,7 +1216,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                         MouseGesture);
 
            }
-          popup_menu ("/NoteAppendPopup");
+          popup_menu ("InsertDuration");
           return TRUE;
         }
 
@@ -1224,8 +1224,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
             if (Denemo.prefs.learning)
                     MouseGestureShow(_("Control-Right Click."), _("This pops up menu for inserting barlines and many other sorts of objects"),
                         MouseGesture);
-            gtk_menu_popup (GTK_MENU (gtk_widget_get_parent(gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Directives/Markings"))),
-                            NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+            popup_menu ("Markings");
             return TRUE;
         }
       if ((GDK_SHIFT_MASK & event->state) == GDK_SHIFT_MASK) {

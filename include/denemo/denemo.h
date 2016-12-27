@@ -60,9 +60,6 @@ extern "C" {
   //use this to detect bad access to G_OBJECT
 #define g_object_set_data(a,b,c) (G_IS_OBJECT((a))? g_object_set_data((a),(b),(c)):((gpointer)fprintf(stderr,"Bad G_OBJECT at %s line %d\n",__FILE__, __LINE__), NULL))
 #define g_object_get_data(a,b) (G_IS_OBJECT(a)? g_object_get_data((a),(b)):((gpointer)fprintf(stderr,"Bad G_OBJECT at %s line %d\n",__FILE__, __LINE__), NULL))
-#define gtk_action_get_name(a) (GTK_IS_ACTION(a)? gtk_action_get_name(a):((gpointer)fprintf(stderr,"Bad GTK_ACTION at %s line %d\n",__FILE__, __LINE__), NULL))
-
-
 #endif
 #if 0
   // use these to test for bad frees.
@@ -104,6 +101,20 @@ extern gchar *format_tooltip (gchar*);
 #define denemo_widget_set_tooltip_text(w,t) {gtk_widget_set_tooltip_text(w,t);} //#define denemo_widget_set_tooltip_text gtk_widget_set_tooltip_text
 #endif
 
+#define GtkAction DenemoAction
+#define gtk_ui_manager_new denemo_menusystem_new
+#define gtk_ui_manager_get_widget(m, p) denemo_menusystem_get_widget(p)
+#define gtk_ui_manager_get_action(m, p) denemo_menusystem_get_action(p)
+#define gtk_action_activate(a)  denemo_action_activate(a)
+
+#define gtk_action_new(name, label, tooltip, i) denemo_action_new(name, label, tooltip)
+#define gtk_action_group_get_action(D, name) denemo_menusystem_get_action(name)
+#define gtk_action_get_name(a) denemo_action_get_name(a)
+#define gtk_action_get_tooltip(a) denemo_action_get_tooltip(a)
+#define gtk_action_group_add_action(action_group, action) denemo_action_group_add_action(action)
+#define gtk_action_group_add_actions denemo_action_group_add_actions
+#define gtk_action_get_proxies(a) denemo_action_get_proxies(a)
+#define GtkStock gchar*
 
 #if GTK_MAJOR_VERSION == 2
 #else

@@ -35,6 +35,7 @@
 #include "core/view.h"
 #include "core/keymapio.h"
 #include "core/utils.h"
+#include "core/menusystem.h"
 
 #define DENEMO_TWO_KEY_SEPARATOR ","
 #if 0                           //GTK_MINOR_VERSION < 10
@@ -659,7 +660,7 @@ free_keymap (keymap * the_keymap)
 void register_command_row(keymap* the_keymap, command_row* command){
 
   gint *idx = g_malloc(sizeof(gint));
-  *idx = g_hash_table_size (the_keymap->commands);
+  *idx = g_hash_table_size (the_keymap->commands);//g_print ("Adding %s number %d\n", command->name, *idx);
   //This code is only relevant to developers, to check that no action
   //entry masks another. Users cannot add actions. THIS IS CHANGING NOW...
   if (g_hash_table_lookup (the_keymap->commands, idx) != NULL)
@@ -713,32 +714,6 @@ command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNU
   return strcmp (names[0], names[1]);
 }*/
 
-void
-alphabeticalize_commands (keymap * the_keymap)
-{
-    /* alphabeticalizing the commands causes saving new commands by the user to fail */
-    return;
-/*
-  g_debug ("alphabeticalizing the commands");
-  gint i, n;
-  guint *value;
-  const gchar *command_name;
-  GtkTreeModel *model = GTK_TREE_MODEL (the_keymap->commands);
-  GtkTreeSortable *sortable = GTK_TREE_SORTABLE (the_keymap->commands);
-  n = gtk_tree_model_iter_n_children (model, NULL);
-  gtk_tree_sortable_set_sort_func (sortable, 0, command_iter_sort, NULL, NULL);
-  gtk_tree_sortable_set_sort_column_id (sortable, 0, GTK_SORT_ASCENDING);
-  for (i = 0; i < n; i++)
-    {
-      command_name = lookup_name_from_idx (the_keymap, i);
-      value = (guint *) g_hash_table_lookup (the_keymap->idx_from_name, command_name);
-      if (value)
-        *value = i;
-      else
-        g_warning ("Error in keymap read");
-    }
-*/
-}
 
 //False if command_id is an invalid index or keymap is null, true otherwise
 //TODO keymap should not be NULL
@@ -1134,7 +1109,7 @@ update_accel_labels (keymap * the_keymap, guint command_id)
 
   //For all widgets proxying the action, change the label
   action = gtk_action_group_get_action(Denemo.action_group, row->name);
-  GSList *h = gtk_action_get_proxies (action);
+  GList *h = action?denemo_action_get_proxies (action):NULL;
   for (; h; h = h->next)
     {
       GtkWidget *widget = h->data;
@@ -1409,11 +1384,10 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu * menu)
 #endif
 
 gint
-keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
+keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, DenemoAction *action)
 {
   guint keyval;
   GdkModifierType modifiers;
-  GtkAction *action = NULL;
   keymap *the_keymap = Denemo.map;
   GtkMenu *menu = GTK_MENU (grab_widget);
 
@@ -1422,17 +1396,6 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
 //Esc and arrows for navigating menus
       return FALSE;
     }
-
-
-#if GTK_MAJOR_VERSION == 3
-//JEREMIAH PLEASE TEST!!
-  if (GTK_IS_ACTIVATABLE (gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (menu))))
-    action = gtk_activatable_get_related_action ((GtkActivatable*) gtk_menu_shell_get_selected_item (GTK_MENU_SHELL (menu)));
-#else
-  if (GTK_MENU_SHELL (menu)->active_menu_item)
-    action = gtk_widget_get_action (GTK_MENU_SHELL (menu)->active_menu_item);   //note this is not gtk_menu_get_active(menu) except after a selection has been made, we want the menu item that the pointer has moved to before it is selected.
-#endif
-
 
   //If this menu item has no action we give up
   if (!action)
@@ -1445,7 +1408,7 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
   modifiers = dnm_sanitize_key_state (event);
   keyval = event->keyval;
 
-  gint idx = lookup_command_from_name (the_keymap, gtk_action_get_name (action));
+  gint idx = lookup_command_from_name (the_keymap, gtk_action_get_name (action));//g_assert(gtk_action_get_name(action), action->name);
   //If this menu item  action is not registered in the
   //keymap, we give up
   if (idx == -1)
@@ -1461,19 +1424,6 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event)
   //Add the keybinding
   add_keybinding_to_idx (the_keymap, keyval, modifiers, idx, POS_FIRST);
   return TRUE;
-}
-
-gboolean
-idx_has_callback (keymap * the_keymap, guint command_id)
-{
-  if (command_id == -1)
-    return FALSE;
-  gboolean res = TRUE;
-  command_row *row;
-  if (!keymap_get_command_row (the_keymap, &row, command_id))
-    return FALSE;
-  res = (gboolean) (intptr_t) row->callback;
-  return res;
 }
 
 
@@ -1928,7 +1878,7 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
 
       keymap_get_command_row (Denemo.map, &row, command_id);
       const GtkAction *action = lookup_action_from_idx (Denemo.map, command_id);
-      if (GTK_IS_ACTION (action))
+      //if (GTK_IS_ACTION (action))
         {
           set_visibility_for_action ((GtkAction *)action, row->hidden);
         }
@@ -2125,26 +2075,6 @@ row_deleted_handler (GtkTreeModel * model, GtkTreePath * arg1, gpointer user_dat
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
   if (cbdata->command_id != -1)
     update_accel_labels (Denemo.map, cbdata->command_id);
-}
-
-//Performs cleanup on the keymap when a command view is closed
-gboolean
-keymap_cleanup_command_view (keyboard_dialog_data * data)
-{
-#if 0
-  GtkTreeModel *model;
-  model = gtk_tree_view_get_model (data->binding_view);
-  if (model)
-    {
-      g_signal_handlers_disconnect_by_func (model, row_deleted_handler, data);
-    }
-
-   Denemo.command_manager = NULL;
-   return FALSE;//allow window to be destroyed
-#endif
-   activate_action ("/MainMenu/ViewMenu/" "ToggleCommandManager");
-  return TRUE;
-
 }
 const gchar *
 get_menu_label (gchar *name)

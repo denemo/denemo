@@ -34,6 +34,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
   xmlChar *type = NULL;
   xmlNodePtr head = cur;
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
+  //this first pass finds the <action> of this <row> and does get_or_create_command() on it, then for scheme ones it runs get_command()
     for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
@@ -47,15 +48,17 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
               // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node.
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
               gchar* name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              command = get_or_create_command(name);
+              command = get_or_create_command(name); //g_print ("in parseScripts called get_or_create_command row with action name %s\n", command->name);
               command->fallback = fallback;
               command->locations = NULL;
 
               if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
                 command->script_type = get_command_type(type);
+               
             }
         }
     }
+//second pass gets the other fields in this <row> and fills in command with them
   cur = head;
   for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
@@ -80,7 +83,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
           command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
     }
-  create_command(command);
+  create_command(command);//g_print ("calling create_command for %s\n", command->name);
   xmlFree(type);
 }
 
@@ -117,7 +120,7 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
         {
           if (name)
             command_number = lookup_command_from_name (the_keymap, (gchar *) name);
-          //g_debug("Found bind node for action %s %d\n", name, command_number);
+          //g_print("Found bind node for action %s %d\n", name, command_number);
           if (cur->xmlChildrenNode == NULL)
             {
               g_warning ("Empty <bind><\\bind> found in commandset file");
@@ -208,12 +211,84 @@ parseCursors (xmlDocPtr doc, xmlNodePtr cur)
         }
     }
 }
-
+static xmlDocPtr docx;
+static int compare_nodes (xmlNodePtr *a, xmlNodePtr *b)
+{
+    xmlNodePtr ptr1, ptr2;
+    char *type1="", *menupath1="", *label1="";
+    char *type2="", *menupath2="", *label2="";
+    
+    type1 = xmlGetProp( (*a), COMMANDXML_TAG_TYPE);
+   // g_print ("Found type1 %s for %p vs %p\n", type1, *a, *b);
+    if ((!type1) && (!type2)) return 0;
+     if (!type1) return -1;
+     
+    if (!type2) return 1;
+    
+    for (ptr1 = (*a)->xmlChildrenNode;ptr1;ptr1 = ptr1->next)
+        {
+        if (0 == xmlStrcmp (ptr1->name, COMMANDXML_TAG_MENUPATH))
+            menupath1 =  xmlNodeListGetString (docx, ptr1->xmlChildrenNode, 1);
+          else if (0 == xmlStrcmp (ptr1->name, COMMANDXML_TAG_LABEL))
+             label1 =  xmlNodeListGetString (docx, ptr1->xmlChildrenNode, 1);
+         }
+    type2 = xmlGetProp((*b), COMMANDXML_TAG_TYPE);
+    for (ptr2 = (*b)->xmlChildrenNode;ptr2;ptr2 = ptr2->next)
+        {
+          if (0 == xmlStrcmp (ptr2->name, COMMANDXML_TAG_MENUPATH))
+            menupath2 =  xmlNodeListGetString (docx, ptr2->xmlChildrenNode, 1);
+          else if (0 == xmlStrcmp (ptr2->name, COMMANDXML_TAG_LABEL))
+             label2 =  xmlNodeListGetString (docx, ptr2->xmlChildrenNode, 1);
+         }    
+    //g_print (" |%s| |%s| |%s| vs |%s| |%s| |%s|\n", type1, menupath1, label1, type2, menupath2, label2);
+  //  if (!strcmp (type1, type2))
+   //     {
+            if (!strcmp (menupath1, menupath2))
+                return strcmp (label1, label2);
+            else
+                return strcmp (menupath1, menupath2); //the other way round they are in reverse, but come before menu items, this way they are in order but come after menu items!!!
+            
+  //     }
+ //   else
+  //      {
+  //          if (!strcmp (type1, "scheme"))
+   //             return 1;
+   //         else
+   //             return -1;
+            
+  //      }
+}
 static void
 parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath)
 {
+    docx = doc;
   xmlNodePtr ncur;
+  
+#ifdef DEVELOPER
+//HERE WE CAN qsort the ncur->children by the menupath tag they hold  
+  // make an array of them first.
+   gint i=0, num_nodes;
+   xmlNodePtr ptr=cur->xmlChildrenNode;
+   while (ptr = ptr->next) i++;
+   //g_print ("Number of <key> entries %d\n", i);
+   num_nodes = i;
+   xmlNodePtr *array = g_malloc (sizeof (xmlNodePtr) * num_nodes);
+   //g_print ("first %s %s\n", cur->xmlChildrenNode->name, xmlGetProp( (cur->xmlChildrenNode), COMMANDXML_TAG_TYPE)); 
+   for (i=0, ptr=cur->xmlChildrenNode;i<num_nodes;i++, ptr = ptr->next)
+    array[i] = ptr; 
+    //g_print ("last written index %d\n", i-1);
+   qsort (array, num_nodes, sizeof (xmlNodePtr), (__compar_fn_t)compare_nodes);
+   
+   //this won't work - you have to take each xmlNodePtr from the array and set its next field to the next.
+   
+   for (i=0,  cur->xmlChildrenNode = array[0];i<num_nodes-1;i++)
+    array[i]->next = array[i+1];
+    array[num_nodes-1]->next = NULL;
+   //g_print ("last read index %d\n", i-1);
+#endif //DEVELOPER
 
+
+   
   //Parse commands first
   for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
     {
@@ -323,13 +398,7 @@ load_xml_keymap (gchar * filename)
     }
 
   xmlFreeDoc (doc);
-  {static gboolean init=FALSE;
-  if (!init)
-    {
-    alphabeticalize_commands (Denemo.map);
-    init = TRUE;
-    }
-  }
+
   {
     //if this is a new-style .commands file, we need to load the keybindings separately
     gchar *name = g_strdup (filename);
@@ -462,7 +531,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
-
+//g_print ("Storing %s at %d\n", name, i);
       basename = gtk_action_get_name (action);
 
       if(!is_action_name_builtin(name))
@@ -501,10 +570,14 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_AFTER, (xmlChar *) row->after);
       if (row->deleted)              //store as hidden in commands file
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_HIDDEN, (xmlChar *) "true");
-
+      gchar *menupath;
       if (row->menupath)
-        xmlNewTextChild (child, NULL, COMMANDXML_TAG_MENUPATH, (xmlChar *) row->menupath);
-
+        menupath = row->menupath;
+      else
+        menupath = get_menupath_for_name (name);
+      if (menupath)
+        xmlNewTextChild (child, NULL, COMMANDXML_TAG_MENUPATH, (xmlChar *) menupath);
+        
       gchar *label = (gchar *) lookup_label_from_idx (the_keymap, i);
       if (label)
         xmlNewTextChild (child, NULL, COMMANDXML_TAG_LABEL, (xmlChar *) label);
@@ -572,123 +645,6 @@ save_xml_keybindings (gchar * filename)
   return ret;
 }
 
-/*
-static void
-show_type (GtkWidget * widget, gchar * message)
-{
-  g_message ("%s%s", message, widget ? g_type_name (G_TYPE_FROM_INSTANCE (widget)) : "NULL widget");
-}
-*/
-/* not used */
-/*
-static gint
-create_dir_for_menu (gchar * str)
-{
-  gchar *thismenu = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", str, NULL);
-  if (!g_file_test (thismenu, G_FILE_TEST_IS_DIR))
-    {
-      return g_mkdir_with_parents (thismenu, 0770);
-    }
-  return 0;
-}
-*/
-
-/* parse an entry in denemoui.xml recursively
-   set menupath as attribute of widgets
- */
-static gint
-parseMenu (xmlNodePtr rootElem, gchar * path, DenemoProject * gui)
-{
-  for (rootElem = rootElem->xmlChildrenNode; rootElem; rootElem = rootElem->next)
-    {
-      if (0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENUBAR) ||
-          0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENU) ||
-          0 == xmlStrcmp (rootElem->name, MENUXML_TAG_TOOLBAR))
-        /* ignoring popup menus */
-        {
-          gchar *name = (gchar *) xmlGetProp (rootElem, MENUXML_PROP_NAME);
-          if (name == NULL)
-            name = (gchar *) xmlGetProp (rootElem, MENUXML_PROP_ACTION);
-
-          if (name)
-            {
-              gchar *str = g_strdup_printf ("%s%s%s", path, "/", name);
-              GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str);
-              if (widget)
-                {
-                  g_object_set_data (G_OBJECT (widget), "menupath", str);
-                  // we do this in menu_click when needed create_dir_for_menu(str);//FIXME we only need do this once for a given denemoui.xml
-                  //show_type(widget, "The type is ");
-                  //g_debug("set %p %s\n",widget, str);
-                  parseMenu (rootElem, str, gui);
-                }
-              else
-                g_warning ("no object for %s", str);
-            }
-
-        }
-      if (0 == xmlStrcmp (rootElem->name, MENUXML_TAG_MENUITEM))
-        {
-          gchar *name = (gchar *) xmlGetProp (rootElem, MENUXML_PROP_ACTION);
-          if (name)
-            {
-              gchar *str = g_strdup_printf ("%s%s%s", path, "/", name);
-              GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, str);
-              g_free (str);
-              //show_type(widget, "The type is ");
-              //g_debug("set %p %s\n",widget, path);
-              if (widget)
-                {
-                  g_object_set_data (G_OBJECT (widget), "menupath", g_strdup (path));
-                }
-            }
-          g_free (name);
-        }
-    }
-  return 0;
-}
-
-/*
- * attaches the menu hierarchy path to each menuitem widget in the passed file (denemoui.xml)
- * returns 0 on success
- * negative on failure
- */
-gint
-parse_paths (gchar * filename, DenemoProject * gui)
-{
-  gint ret = -1;
-  xmlDocPtr doc;
-  xmlNodePtr rootElem;
-  if (filename == NULL)
-    return ret;
-  doc = xmlParseFile (filename);
-
-  if (doc == NULL)
-    {
-      g_warning ("Could not read XML file %s", filename);
-      return ret;
-    }
-
-  rootElem = xmlDocGetRootElement (doc);
-  if (rootElem == NULL)
-    {
-      g_warning ("Empty Document");
-      xmlFreeDoc (doc);
-      return ret;
-    }
-
-  if (xmlStrcmp (rootElem->name, (const xmlChar *) "ui"))
-    {
-      g_warning ("Document has wrong type");
-      xmlFreeDoc (doc);
-      return ret;
-    }
-
-  parseMenu (rootElem, "", gui);
-  ret = 0;
-  xmlFreeDoc (doc);
-  return ret;
-}
 
 gint
 save_command_metadata (gchar * filename, gchar * myname, gchar * mylabel, gchar * mytooltip, gchar * after)

@@ -1,4 +1,5 @@
-/******** generated automatically from generate_source. See generate_source.c */
+/******** built-in commands */
+
 {"CursorLeft", NULL, N_("Selection Cursor Left"), "",N_("Moves the cursor one object left, altering the selection if any"),G_CALLBACK (cursorleft)},
 {"MoveCursorLeft", NULL, N_("Move Cursor Left"), "",N_("Moves the cursor one object left, without altering the selection"),G_CALLBACK (movecursorleft)},
 {"CursorDown", NULL, N_("Cursor Down"), "",N_("Moves the cursor one scale step down"),G_CALLBACK (cursordown)},
@@ -54,8 +55,6 @@
 {"InsertBlankSixtyfourthNote", NULL, N_("Insert a 𝅁 Spacer"), "",N_("Insert a non-printing 𝅁 rest"),G_CALLBACK (insert_blankchord_6key)},
 {"InsertBlankOneHundredTwentyEighthNote", NULL, N_("Insert a 𝅂 Spacer"), "",N_("Insert a non-printing 𝅂 rest"),G_CALLBACK (insert_blankchord_7key)},
 {"InsertBlankTwoHundredFiftySixthNote", NULL, N_("Insert a 𝅃 Spacer"), "",N_("Insert a non-printing 𝅃 rest"),G_CALLBACK (insert_blankchord_8key)},
-{"ToggleRestMode", NULL, N_("Toggle Rest Mode"), "",N_("No Tooltip yet"),G_CALLBACK (rest_toggle_key)},
-{"ToggleBlankMode", NULL, N_("Toggle Blank Mode"), "",N_("No Tooltip yet"),G_CALLBACK (toggle_blank)},
 {"InsertDuplet", NULL, N_("Insert Duplet"), "",N_("No Tooltip yet"),G_CALLBACK (duplet_insert)},
 {"InsertTriplet", NULL, N_("Insert Triplet"), "",N_("Inserts a Start Triplet object and an End Tuplet object and places the cursor between these two"),G_CALLBACK (triplet_insert)},
 {"StartTriplet", NULL, N_("Start Triplet"), "",N_("Inserts an Start Triplet object, which makes the notes following take 2/3 of their written duration. Later in this measure there should be an End Tuplet object."),G_CALLBACK (triplet_start)},
@@ -342,9 +341,7 @@
 {"OpenRecent", GTK_STOCK_OPEN, N_("Open Recent"), "",N_("Open previously used files")},
 {"Import", GTK_STOCK_OPEN, N_("Import File"), "",N_("Menu:\nImport the supported file formats")},
 {"Export", NULL, N_("Export As"), "",N_("Menu:\nExport the music to another file format.\nThese file formats will not support all the features of the score.")},
-{"ToggleEdit", NULL, N_("Toggle Edit Mode"), "",N_("Toggle between current mode and edit mode"),G_CALLBACK (toggle_edit_mode)},
-{"ToggleRest", NULL, N_("Toggle Rest Mode"), "",N_("Toggle between note entry and rest entry"),G_CALLBACK (toggle_rest_mode)},
-{"ToggleRhythm", NULL, N_("Toggle Audible Feedback"), "",N_("Toggle audible feedback on/off"),G_CALLBACK (toggle_rhythm_mode)},
+
 {"ClearOverlay", NULL, N_("Clear Overlay"), "",N_("Clear the list of pitches that overlay the notes"),G_CALLBACK (clear_overlay)},
 {"CreateRhythm", NULL, N_("Create Snippet"), "",N_("Copy selection as music snippet or rhythm pattern for notes to follow as they are entered"),G_CALLBACK (create_rhythm_cb)},
 {"DeleteRhythm", NULL, N_("Delete Snippet"), "",N_("Delete the selected music snippet/rhythm pattern"),G_CALLBACK (delete_rhythm_cb)},
@@ -602,4 +599,4 @@ G_CALLBACK (SetDur8)},
   {"ChangeToG", NULL, "Change current note to G", NULL, "Changes current note to the G nearest cursor or (if no current note) inserts the note G\nCursor determines which octave\nNote is inserted in the prevailing rhythm",
    G_CALLBACK (ChangeToG)},
   {"MoveToG", NULL, "Move cursor to step G", NULL, "Moves the cursor to the G nearest cursor\nCurrent cursor position determines which octave.",
-   G_CALLBACK (MoveToG)},
+   G_CALLBACK (MoveToG)}

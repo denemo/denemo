@@ -211,7 +211,7 @@ static void get_script_for_button (GtkWidget *button) {
     gchar *script = g_object_get_data (G_OBJECT(button), "script");
     appendSchemeText (script);
     gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
-    if(!sensitive) activate_action ("/MainMenu/ViewMenu/ToggleScript");
+    if(!sensitive) set_toggle ("ToggleScript", TRUE);
 }
 
 static void put_script_for_button (GtkWidget *button) {

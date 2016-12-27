@@ -112,7 +112,7 @@ gint add_keybinding_to_named_command (keymap * the_keymap, gint keyval, GdkModif
 gint add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id, ListPosition pos);
 gint keymap_update_accel (keymap * the_keymap, GtkAction * action, guint keyval, GdkModifierType modifiers);
 
-gint keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event);
+gint keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, DenemoAction *action);
 
 GtkAction *lookup_action_from_name (gchar * command_name);
 const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_id);
@@ -120,8 +120,6 @@ const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_id);
 
 gboolean execute_callback_from_idx (keymap * the_keymap, guint command_id);
 gboolean execute_callback_from_name (const gchar * command_name);
-
-gboolean idx_has_callback (keymap * the_keymap, guint command_id);
 
 void dump_command_info (keymap * the_keymap, gint command_id);
 guint dnm_sanitize_key_state (GdkEventKey * event);

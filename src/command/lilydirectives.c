@@ -2485,23 +2485,23 @@ edit_object_type (GtkAction * action, DenemoScriptParam * param)
       return;
     case CLEF:
       {
-        popup_menu ("/ClefEditPopup");
+        popup_menu ("ClefMenu");
       }
       return;
     case KEYSIG:
       {
-        popup_menu ("/KeyEditPopup");
+        popup_menu ("Key");
       }
       return;
     case TIMESIG:
       {
-        popup_menu ("/TimeEditPopup");
+        popup_menu ("TimeSig");
       }
       return;
     case CHORD:
       {
 
-          popup_menu ("/NoteEditPopupDirectives");
+          popup_menu ("NotesRests");
 
 
       }
@@ -2523,7 +2523,7 @@ edit_object_type (GtkAction * action, DenemoScriptParam * param)
       }
       return;
     case TUPOPEN:
-      popup_menu ("/TupletPopup");
+      popup_menu ("Tuplets");
       return;
     case TUPCLOSE:
       infodialog (_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker."));

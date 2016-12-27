@@ -901,7 +901,7 @@ scheme_hide_menus (SCM hide)
 {
   if (Denemo.project->view != DENEMO_MENU_VIEW)
     {
-      activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+      set_toggle (ToggleScoreTitles_STRING, FALSE);
       ToggleReduceToDrawingArea (NULL, NULL);
       return SCM_BOOL (TRUE);
     }
@@ -911,7 +911,7 @@ scheme_hide_menus (SCM hide)
   if (!Denemo.non_interactive)
     {
       toggle_to_drawing_area (show);
-      activate_action ("/MainMenu/ViewMenu/" ToggleScoreTitles_STRING);
+      set_toggle (ToggleScoreTitles_STRING, FALSE);
     }
   return SCM_BOOL (TRUE);
 }

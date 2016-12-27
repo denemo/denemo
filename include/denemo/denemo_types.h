@@ -70,6 +70,19 @@ typedef enum DenemoGraphicType
     DENEMO_PATTERN,
     DENEMO_FONT
   } DenemoGraphicType;
+typedef enum DenemoActionType
+  {
+    DENEMO_SCHEME = 0,
+    DENEMO_MENU_ITEM
+  } DenemoActionType;
+    
+typedef struct DenemoAction {
+    gchar *name;
+    gchar *label;
+    gchar *tooltip;
+    DenemoActionType type;
+    gpointer callback;
+} DenemoAction; 
 
 typedef struct DenemoGlyph
 {
@@ -673,9 +686,9 @@ typedef enum
 
 
 typedef enum InputSource {
-  INPUTKEYBOARD,
-  INPUTAUDIO,
-  INPUTMIDI
+  INPUTKEYBOARD = 0,
+  INPUTAUDIO = 2,
+  INPUTMIDI = 1
 } InputSource;
 
 typedef enum MidiDestination {

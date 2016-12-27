@@ -1,6 +1,7 @@
 #include "core/keyboard.h"
 #include "core/kbd-custom.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -119,102 +120,59 @@ get_state (gchar * key)
   return ret;
 }
 */
-/* add ui elements for menupath if missing */
-static void
-instantiate_menus (gchar * menupath)
-{
-  //g_info("Instantiate menus for %s\n", menupath);
 
-  gchar *up1 = g_path_get_dirname (menupath);
-  gchar *name = g_path_get_basename (menupath);
-  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, up1);
-  if (!strcmp (up1, "/"))
-    {
-      g_critical ("bad menu path");
-      return;
-    }
-  if (widget == NULL)
-    instantiate_menus (up1);
-  GList *groups = gtk_ui_manager_get_action_groups (Denemo.ui_manager);
-  GtkActionGroup *action_group = GTK_ACTION_GROUP (groups->data);       //FIXME assuming the one we want is first
-  if (NULL == gtk_action_group_get_action (action_group, name))
-    {
-      gchar *tooltip = g_strconcat (_("Menu:\nnamed \""), name, _("\" located at "), menupath, _(" in the menu system"), NULL);
-      GtkAction *action = gtk_action_new (name, name, tooltip, NULL);
-      g_free (tooltip);
-      gtk_action_group_add_action (action_group, action);
-
-      gint idx = lookup_command_from_name (Denemo.map, gtk_action_get_name (action));
-      command_row* row = NULL;
-      keymap_get_command_row(Denemo.map, &row, idx);
-      if(row)
-        row->menupath = up1;
-    }
-  gtk_ui_manager_add_ui (Denemo.ui_manager, gtk_ui_manager_new_merge_id (Denemo.ui_manager), up1, name, name, GTK_UI_MANAGER_MENU, FALSE);
-  //g_debug("Adding %s to %s\n", name, up1);
-  // widget = gtk_ui_manager_get_widget(Denemo.ui_manager, menupath);
-  //show_type (widget, "for menupath widget is ");
-
-}
 
 void
 set_visibility_for_action (GtkAction * action, gboolean visible)
 {
-  if (GTK_IS_ACTION (action))
-    {
-      GSList *h = gtk_action_get_proxies (action);
-      for (; h; h = h->next)
-        {
-          if (visible)
-            gtk_widget_show (h->data);
-          else
-            gtk_widget_hide (h->data);
-        }
-      command_row* row = NULL;
-      const gchar* name = gtk_action_get_name(action);
-      gint id = lookup_command_from_name (Denemo.map, name);
-      if(id < 0)
-        g_warning("Invalid command name:'%s' id:'%i'", name, id);
-      else
-      {
-        keymap_get_command_row (Denemo.map, &row, id);
-        row->hidden = !visible;
-        }
-    }
 
+  GSList *h = gtk_action_get_proxies (action);
+  for (; h; h = h->next)
+    {
+      if (visible)
+        gtk_widget_show (h->data);
+      else
+        gtk_widget_hide (h->data);
+    }
+  command_row* row = NULL;
+  const gchar* name = gtk_action_get_name(action);
+  gint id = lookup_command_from_name (Denemo.map, name);
+  if(id < 0)
+    g_warning("Invalid command name:'%s' id:'%i'", name, id);
+  else
+  {
+    keymap_get_command_row (Denemo.map, &row, id);
+    row->hidden = !visible;
+    }
 }
 
 void
 hide_action_of_name (gchar * name)
 {
   GtkAction *action = lookup_action_from_name (name);
-  set_visibility_for_action (action, FALSE);
-}
+ if(action)
+    set_visibility_for_action (action, FALSE);
+  else g_warning ("Action %s not created yet\n", name);}
 
 void
 show_action_of_name (gchar * name)
 {
   GtkAction *action = lookup_action_from_name (name);
-  set_visibility_for_action (action, TRUE);
+  if(action)
+    set_visibility_for_action (action, TRUE);
+  else g_warning ("Action %s not created yet\n", name);
 }
 
 void
 add_ui (gchar * menupath, gchar * after, gchar * name)
 {
-  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, menupath);
+  GtkWidget *widget = denemo_menusystem_get_widget (menupath); 
   if (widget == NULL)
     instantiate_menus (menupath);
-  gchar *menupath_item = g_build_filename (menupath, after, NULL);
-  GtkAction *sibling = gtk_ui_manager_get_action (Denemo.ui_manager, menupath_item);
-#ifdef DEBUG
-  static gboolean once = TRUE;
-  if ((after != NULL) && (sibling == NULL) && once)
-    g_warning ("Cannot place %s after %s as requested, because I haven't seen %s yet. To fix this delete the %s command save the command set, quit and restart Denemo, then re-install %s by right clicking on the %s item and choosing More Commands and finally saving command set again.", name, after, after, name, name, after);
-#endif
-  gtk_ui_manager_add_ui (Denemo.ui_manager, gtk_ui_manager_new_merge_id (Denemo.ui_manager), sibling ? menupath_item : menupath, name, name, GTK_UI_MANAGER_AUTO, FALSE);
-  g_free (menupath_item);
+  denemo_menusystem_add_command (menupath, name, after);
 }
 
+//Called while parsing Default.commands etc
 void
 create_command(command_row *command)
 {
@@ -230,8 +188,8 @@ create_command(command_row *command)
       else
       {
         gchar *icon_name = get_icon_for_name (command->name, command->label);
-        action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);
-        gtk_action_group_add_action (Denemo.action_group, action);
+        action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);g_assert(action);
+        denemo_action_group_add_action (action);
       }
     }
 
@@ -259,10 +217,12 @@ create_command(command_row *command)
       add_ui (command->menupath, command->after, command->name);
     }
 
+#ifdef EXTRA_WORK
     if(!Denemo.non_interactive){
       if (new_command)
-        g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL);
+        g_signal_connect (G_OBJECT (action), "activate", G_CALLBACK (activate_script), NULL); 
     }
+#endif
     // Note the script should *not* be in Default.cmdset
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
@@ -272,11 +232,17 @@ create_command(command_row *command)
   else { //built-in
     if(!Denemo.non_interactive)
         {
-        action = lookup_action_from_name (command->name);
+        //action = lookup_action_from_name (command->name);
+        
+        register_command (command->name, command->label, command->tooltip, command->callback);
+        
+        
         if(command->locations)
             {
-                action = lookup_action_from_name (command->name);
-                command->menupath = (gchar *) command->locations->data;
+                //action = lookup_action_from_name (command->name);
+             command->menupath = (gchar *) command->locations->data; //only doing one location for now FIXME
+             if(!Denemo.non_interactive)
+                    add_ui (command->menupath, NULL, command->name);
             }
         }
       if (command->hidden && !Denemo.non_interactive)

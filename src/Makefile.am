@@ -87,6 +87,7 @@ denemo_SOURCES = \
   core/utils.h \
   core/view.c \
   core/view.h \
+  core/entries.h \
   display/accwidths.h \
   display/calculatepositions.c \
   display/calculatepositions.h \
@@ -134,7 +135,6 @@ denemo_SOURCES = \
   export/print.c \
   export/print.h \
   export/xmldefs.h \
-  generated/entries.h \
   generated/register_commands.h \
   generated/scheme_cb.h \
   generated/scheme.h \
@@ -172,7 +172,9 @@ denemo_SOURCES = \
   ui/tomeasuredialog.c \
   ui/tupletdialog.c \
   ui/markup.c \
-  ui/markup.h
+  ui/markup.h \
+  core/menusystem.c \
+  core/menusystem.h
   
 nodist_denemo_SOURCES = pathconfig.h
 

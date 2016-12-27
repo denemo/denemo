@@ -130,7 +130,7 @@ show_playback_view (void)
 {
     GtkWidget *w = gtk_widget_get_toplevel (Denemo.playbackview);
     if (!gtk_widget_get_visible (w))
-        activate_action ("/MainMenu/ViewMenu/" TogglePlaybackView_STRING);
+        set_toggle (TogglePlaybackView_STRING, TRUE);
     else
         gtk_window_present (GTK_WINDOW (w));
 }
@@ -1123,7 +1123,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
 static gint
 hide_playback_on_delete (void)
 {
-  activate_action ("/MainMenu/ViewMenu/" TogglePlaybackView_STRING);
+  set_toggle (TogglePlaybackView_STRING, FALSE);
   return TRUE;
 }
 

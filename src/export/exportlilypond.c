@@ -190,7 +190,7 @@ void
 make_scoreblock_editable (void)
 {
   if (!gtk_widget_get_visible (Denemo.project->score_layout))
-    activate_action ("/MainMenu/ViewMenu/ToggleScoreLayout");
+    set_toggle ("ToggleScoreLayout", TRUE);
   create_custom_lilypond_scoreblock ();
   force_lily_refresh (Denemo.project);
 }
@@ -2872,7 +2872,7 @@ export_lilypond_parts (char *filename, DenemoProject * gui)
 static gboolean
 lilywindow_closed ()
 {
-  activate_action ("/MainMenu/ViewMenu/ToggleLilyText");
+  set_toggle ("ToggleLilyText", FALSE);
   return TRUE;
 }
 
