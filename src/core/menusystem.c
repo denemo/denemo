@@ -1459,6 +1459,9 @@ void finalize_menusystem(void)
       g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK(create_rhythm_cb), NULL);
       GtkWidget *rhythm_toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
       gtk_container_add (GTK_CONTAINER (rhythm_toolbar), button);
+      
+      gtk_widget_show_all (denemo_menusystem_get_widget ("/MainMenu/InputMenu"));
+      
       gtk_widget_show_all (rhythm_toolbar);
       gtk_widget_show_all (gtk_widget_get_toplevel (Denemo.script_view));
       gtk_widget_hide (gtk_widget_get_toplevel (Denemo.script_view));
