@@ -54,7 +54,7 @@ create_scheme_identfiers (void)
      The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
      not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
    */
-#include "generated/scheme.h"
+#include "scripting/scheme.h"
   init_denemo_notenames ();
 
   install_scm_function (0, "Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);

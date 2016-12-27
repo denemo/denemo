@@ -19,7 +19,7 @@
 #include "command/lilydirectives.h"
 #include "audio/playback.h"
 #include "audio/audiointerface.h"
-#include "generated/scheme_cb.h"
+
 #include "export/audiofile.h"
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
@@ -33,6 +33,7 @@
 #include "source/source.h"
 #include "source/sourceaudio.h"
 
+#include "scripting/scheme_cb.h"
 SCM
 scheme_call_callback (SCM optional, callback_function callback)
 {
