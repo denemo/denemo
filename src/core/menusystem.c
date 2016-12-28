@@ -1078,7 +1078,11 @@ static popup (GtkWidget *menuitem, GtkWidget *menu)
 
 DenemoAction *denemo_action_new (const gchar *name, const gchar *label, const gchar *tooltip)
 {
-    g_assert (Actions);
+    if (!Actions)
+        {
+            g_critical ("No Actions in %s", __FILE__);
+            return;
+        }
     DenemoAction *action = (DenemoAction *)g_malloc (sizeof (DenemoAction));
     action->name = g_strdup(name);
     action->label = g_strdup(label);
@@ -1129,7 +1133,11 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
     else
         {
         GtkWidget *item, *parent = denemo_menusystem_get_widget (path);
-        g_assert (parent);
+        if (!parent)
+            {
+                g_critical ("No menu in %s", __FILE__);
+                return;
+            }        
         gchar *label = get_label_for_name (name);
         if (label==NULL) label = name;
         item = gtk_menu_item_new_with_label (label);
@@ -1191,8 +1199,11 @@ void denemo_menusystem_add_command (gchar *path, gchar *name, gchar *after)
 {
     DenemoAction *action = denemo_menusystem_get_action (name);
     GtkWidget *item, *parent = denemo_menusystem_get_widget (path);
-    g_assert (parent);
-    gchar *label = get_label_for_name (name);
+    if (!parent)
+        {
+            g_critical ("No menu in %s", __FILE__);
+            return;
+        }    gchar *label = get_label_for_name (name);
     if(label==NULL) 
         label = name;
     item = gtk_menu_item_new_with_label (label);
@@ -1243,7 +1254,11 @@ void denemo_action_group_add_actions (void)
 static void denemo_action_group_add_toggle_actions (void)
 {  
     GtkWidget *item, *parent = denemo_menusystem_get_widget ("/MainMenu/ViewMenu");
-    g_assert (parent);
+    if (!parent)
+        {
+            g_critical ("No menu in %s", __FILE__);
+            return;
+        }
     gint i;
     for (i=G_N_ELEMENTS (toggle_menu_entries)-1;i>=0;i--)
         {
@@ -1275,7 +1290,11 @@ void set_toggle (gchar *name, gboolean value)
 void denemo_action_group_add_radio_actions (void)
 {
    GtkWidget *item, *parent = denemo_menusystem_get_widget ("/MainMenu/InputMenu");
-   g_assert (parent);
+    if (!parent)
+        {
+            g_critical ("No menu in %s", __FILE__);
+            return;
+        }
    gint i;
    GSList *group = NULL;
 
