@@ -673,46 +673,10 @@ void register_command_row(keymap* the_keymap, command_row* command){
     //insert the command name in the index reference
     g_hash_table_insert (the_keymap->idx_from_name, g_strdup (command->name), idx);
 
-    //g_debug ("Inserting command %i: %s %s %s %p", *idx, command->name, command->label, command->tooltip, command->callback);
+   // g_print ("Inserting command %i: %s %s %s %p", *idx, command->name, command->label, command->tooltip, command->callback, command->menupath);
   }
 }
 
-/* Used for compatibility with register_command.h */
-void
-register_command (gchar * name, gchar * label, gchar * tooltip, gpointer callback)
-{
-  command_row* command = g_malloc(sizeof(command_row));
-  command_row_init(command);
-  command->name = name;
-  command->label = label;
-  command->tooltip = tooltip;
-  command->callback = callback;
-  register_command_row(Denemo.map, command);
-}
-
-/* UNUSED
-static gint
-command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNUC_UNUSED gpointer user_data)
-{
-  GtkTreeIter *iters[2];
- // KeymapCommandType type;
-  gpointer action;
-  const gchar *names[2];
-  gint i;
-  iters[0] = a;
-  iters[1] = b;
-  for (i = 0; i < 2; i++)
-    {
-     // gtk_tree_model_get (model, iters[i],
-     //COL_TYPE, &type,
-     COL_ACTION, &action, -1);
-
-     // names[i] = denemo_action_get_name (action);
-
-    gtk_tree_model_get (model, iters[i], COL_LABEL, names+i, -1);
-    }
-  return strcmp (names[0], names[1]);
-}*/
 
 
 //False if command_id is an invalid index or keymap is null, true otherwise

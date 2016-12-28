@@ -9,8 +9,8 @@ find_command_dir(gint idx, gchar* filename)
   command_row* row = NULL;
   keymap_get_command_row(Denemo.map, &row, idx);
 
-  if(!row->menupath)
-    g_debug("Command %s has no menupath", filename);
+ // if(!row->menupath)
+ //   g_print("Command %s has no menupath", filename);
 
   GList* dirs = NULL;
   dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", row->menupath, NULL));
@@ -83,7 +83,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
           command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
         }
     }
-  create_command(command);//g_print ("calling create_command for %s\n", command->name);
+  create_command(command);//g_print ("calling create_command for %s path %s\n", command->name, command->menupath);
   xmlFree(type);
 }
 

@@ -188,7 +188,7 @@ create_command(command_row *command)
       else
       {
         gchar *icon_name = get_icon_for_name (command->name, command->label);
-        action = denemo_action_new (command->name, command->label, command->tooltip);g_assert(action);
+        action = denemo_action_new (command->name, command->label, command->tooltip);
         denemo_action_group_add_action (action);
       }
     }
@@ -234,16 +234,27 @@ create_command(command_row *command)
         {
         //action = lookup_action_from_name (command->name);
         
-        register_command (command->name, command->label, command->tooltip, command->callback);
+        //register_command (command->name, command->label, command->tooltip, command->callback);
         
         
         if(command->locations)
             {
                 //action = lookup_action_from_name (command->name);
              command->menupath = (gchar *) command->locations->data; //only doing one location for now FIXME
+             //g_print ("Command %s has %s menupath\n", command->name, command->menupath);
              if(!Denemo.non_interactive)
                     add_ui (command->menupath, NULL, command->name);
+                    
+                    
+                    
+                    
             }
+            
+            register_command_row (Denemo.map, command);
+            
+            
+        //else
+            //g_warning ("Command %s has no menupath\n", command->name);
         }
       if (command->hidden && !Denemo.non_interactive)
           {

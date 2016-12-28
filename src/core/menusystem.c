@@ -1478,7 +1478,7 @@ else create menu and a menuitem that will popup the menu when activated and in a
 void
 instantiate_menus (gchar * menupath)
 {
-  //g_info("Instantiate menus for %s\n", menupath);
+  //g_print("Instantiate menus for %s\n", menupath);
 
   gchar *up1 = g_path_get_dirname (menupath);
   gchar *name = g_path_get_basename (menupath);
@@ -1499,7 +1499,7 @@ instantiate_menus (gchar * menupath)
 
       gint idx = lookup_command_from_name (Denemo.map, name);
       command_row* row = NULL;
-      keymap_get_command_row(Denemo.map, &row, idx);
+      keymap_get_command_row(Denemo.map, &row, idx);//g_print ("For %s get idx %d and row %p\n", name, idx, row);
       if(row)
         row->menupath = up1;
     }
