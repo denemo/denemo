@@ -524,7 +524,7 @@ g_warning ("Staff fix note heights called uselessly?");
  * @return none
  */
 void
-staff_new_initial (GtkAction * action, DenemoScriptParam * param)
+staff_new_initial (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   while (project->movement->currentstaff && project->movement->currentstaff->prev)
@@ -539,7 +539,7 @@ staff_new_initial (GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-staff_new_before (GtkAction * action, DenemoScriptParam * param)
+staff_new_before (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   (void) signal_structural_change (project);
@@ -565,7 +565,7 @@ staff_new_before (GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-staff_new_after (GtkAction * action, DenemoScriptParam * param)
+staff_new_after (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   if (!signal_structural_change (project))
@@ -587,7 +587,7 @@ staff_new_after (GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-staff_new_last (GtkAction * action, DenemoScriptParam * param)
+staff_new_last (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   while (project->movement->currentstaff && project->movement->currentstaff->next)
@@ -602,7 +602,7 @@ staff_new_last (GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-staff_new_voice (GtkAction * action, DenemoScriptParam * param)
+staff_new_voice (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   staff_new (project, NEWVOICE, DENEMO_NONE);

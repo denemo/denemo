@@ -110,12 +110,12 @@ typedef enum
 gint add_keybinding_to_idx (keymap * the_keymap, gint keyval, GdkModifierType state, guint command_id, ListPosition pos);
 gint add_keybinding_to_named_command (keymap * the_keymap, gint keyval, GdkModifierType state, const gchar * command_name, ListPosition pos);
 gint add_named_binding_to_idx (keymap * the_keymap, gchar * kb_name, guint command_id, ListPosition pos);
-gint keymap_update_accel (keymap * the_keymap, GtkAction * action, guint keyval, GdkModifierType modifiers);
+gint keymap_update_accel (keymap * the_keymap, DenemoAction * action, guint keyval, GdkModifierType modifiers);
 
 gint keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, DenemoAction *action);
 
-GtkAction *lookup_action_from_name (gchar * command_name);
-const GtkAction *lookup_action_from_idx (keymap * keymap, gint command_id);
+DenemoAction *lookup_action_from_name (gchar * command_name);
+const DenemoAction *lookup_action_from_idx (keymap * keymap, gint command_id);
 const gchar *lookup_menu_path_from_idx (keymap * keymap, gint command_id);
 
 gboolean execute_callback_from_idx (keymap * the_keymap, guint command_id);
@@ -131,7 +131,7 @@ void load_default_keymap_file (void);
 void load_system_keymap_dialog (void);
 void save_keymap_dialog (void);
 void load_keymap_dialog_location (gchar * location);
-void save_default_keymap_file_wrapper (GtkAction * action, DenemoScriptParam * param);
+void save_default_keymap_file_wrapper (DenemoAction * action, DenemoScriptParam * param);
 
 void save_default_keymap_file (void);
 

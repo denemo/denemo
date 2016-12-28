@@ -959,7 +959,7 @@ scheme_script_callback (SCM script, SCM params)
                 }
               else if (!Denemo.non_interactive)
                 {
-                  GtkAction *action = lookup_action_from_name (name);
+                  DenemoAction *action = lookup_action_from_name (name);
                   ret = SCM_BOOL (activate_script (action, NULL));
                 }
               else
@@ -4182,7 +4182,7 @@ scheme_get_relative_font_size (void)
   return scm_from_locale_stringn (clean, strlen (clean));
 }
 
-void get_clipboard (GtkAction * action, DenemoScriptParam * param);
+void get_clipboard (DenemoAction * action, DenemoScriptParam * param);
 /* return a string from the X selection */
 SCM
 scheme_get_text_selection (void)

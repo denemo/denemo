@@ -508,7 +508,7 @@ staff_properties_change (void)
 
 
 void
-staff_properties_change_cb (GtkAction * action, DenemoScriptParam * param)
+staff_properties_change_cb (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_4PARAMS (action, param, denemo_name, device_port, midi_prognum, midi_channel);
   DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;

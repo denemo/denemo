@@ -327,7 +327,7 @@ run_file_association (gchar * filename)
 void
 popup_menu (gchar * name)
 {
-  GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, name);
+  GtkWidget *menu = denemo_menusystem_get_widget (name);
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
 }
 

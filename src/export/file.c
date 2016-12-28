@@ -706,7 +706,7 @@ template_open (DenemoProject * gui, TemplateType local, gchar * filename)
 }
 
 static void
-open_with_check(TemplateType dir, GtkAction * action, DenemoScriptParam * param){
+open_with_check(TemplateType dir, DenemoAction * action, DenemoScriptParam * param){
   GET_1PARAM(action, param, filename);
   if (Denemo.project->notsaved){
     if (filename==NULL && confirmbox (Denemo.project)){
@@ -722,7 +722,7 @@ open_with_check(TemplateType dir, GtkAction * action, DenemoScriptParam * param)
  * Open system template file callback function
  */
 void
-system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
+system_template_open_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   open_with_check (SYSTEM, action, param);
 }
@@ -731,7 +731,7 @@ system_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
  * Open system template file callback function
  */
 void
-system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
+system_example_open_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   open_with_check (EXAMPLE, action, param);
 }
@@ -740,7 +740,7 @@ system_example_open_with_check (GtkAction * action, DenemoScriptParam * param)
  * Open local template file callback function
  */
 void
-local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
+local_template_open_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   open_with_check (LOCAL, action, param);
 }
@@ -751,7 +751,7 @@ local_template_open_with_check (GtkAction * action, DenemoScriptParam * param)
  * otherwise opens the file
  */
 void
-file_open_with_check (GtkAction * action, DenemoScriptParam * param)
+file_open_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, filename);
   if (query)
@@ -769,14 +769,14 @@ file_open_with_check (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-file_import_lilypond_with_check (GtkAction * action, DenemoScriptParam * param)
+file_import_lilypond_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM(action, param, filename);
   param->status = !file_import_lilypond (Denemo.project, FALSE, REPLACE_SCORE, filename);
 }
 
 void
-file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
+file_import_midi_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
     GET_2PARAMS(action, param, filename, guided);
     if(guided)
@@ -786,7 +786,7 @@ file_import_midi_with_check (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
+file_import_musicxml_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM(action, param, filename);
   param->status = !file_import_musicxml (Denemo.project, FALSE, REPLACE_SCORE, filename);
@@ -803,7 +803,7 @@ file_import_musicxml_with_check (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-file_add_movements (GtkAction * action, DenemoScriptParam * param)
+file_add_movements (DenemoAction * action, DenemoScriptParam * param)
 {
 ADD (ADD_MOVEMENTS)}
 
@@ -812,7 +812,7 @@ ADD (ADD_MOVEMENTS)}
  *
  */
 void
-file_add_staffs (GtkAction * action, DenemoScriptParam * param)
+file_add_staffs (DenemoAction * action, DenemoScriptParam * param)
 {
 ADD (ADD_STAFFS)}
 
@@ -1013,7 +1013,7 @@ file_import_musicxml (DenemoProject * gui, DenemoSaveType template, ImportType t
  * saved.
  */
 void
-file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
+file_saveaswrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, filename);
   DenemoProject *gui = Denemo.project;
@@ -1037,7 +1037,7 @@ file_saveaswrapper (GtkAction * action, DenemoScriptParam * param)
  * Wrapper function to save the current file as template
  */
 void
-template_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+template_save (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   init_local_path ();
@@ -1053,7 +1053,7 @@ template_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
  * Wrapper function to save the current file as a copy
  */
 void
-file_copy_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+file_copy_save (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   init_local_path ();
   file_saveas (SAVE_COPY);
@@ -1064,7 +1064,7 @@ file_copy_save (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPara
  *
  */
 void
-file_savewrapper (GtkAction * action, DenemoScriptParam * param)
+file_savewrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   GET_1PARAM (action, param, filename);
@@ -1193,7 +1193,7 @@ FILE_SAVE_DIALOG (_("Save As"), template)}
  *
  */
 void
-file_newwrapper (GtkAction * action, DenemoScriptParam * param)
+file_newwrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoScriptParam dummy;
   dummy.string = NULL;
@@ -1282,7 +1282,7 @@ replace_existing_file_dialog (const gchar * filename, gint format_id)
  * Save parts to individual files
  */
 void
-file_savepartswrapper (GtkAction * action, DenemoScriptParam * param)
+file_savepartswrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   if (gui->filename->len == 0)
@@ -1342,7 +1342,7 @@ lilypond_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar
 }
 
 void
-paste_clipboard (GtkAction * action, DenemoScriptParam * param)
+paste_clipboard (DenemoAction * action, DenemoScriptParam * param)
 {
   if (Denemo.project != g_list_last (Denemo.projects)->data)
     {
@@ -1380,7 +1380,7 @@ comment_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar 
     g_free (comment);
 }
 void
-paste_comment (GtkAction * action, DenemoScriptParam * param)
+paste_comment (DenemoAction * action, DenemoScriptParam * param)
 {
     if(param && param->string && param->string->len)
         comment_selection_received (NULL, param->string->str);
@@ -1391,7 +1391,7 @@ paste_comment (GtkAction * action, DenemoScriptParam * param)
         }
 }
 static void
-export_interface(GtkAction* action, DenemoScriptParam* param, gint format_id){
+export_interface(DenemoAction* action, DenemoScriptParam* param, gint format_id){
   GET_1PARAM(action, param, filename);
   if (filename==NULL)
     file_export(format_id);
@@ -1407,7 +1407,7 @@ export_interface(GtkAction* action, DenemoScriptParam* param, gint format_id){
  *
  */
 void
-export_mudela_action (GtkAction * action, DenemoScriptParam * param)
+export_mudela_action (DenemoAction * action, DenemoScriptParam * param)
 {
   export_interface (action, param, MUDELA_FORMAT);
 }
@@ -1417,7 +1417,7 @@ export_mudela_action (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-export_pdf_action (GtkAction * action, DenemoScriptParam * param)
+export_pdf_action (DenemoAction * action, DenemoScriptParam * param)
 {
   export_interface (action, param, PDF_FORMAT);
 }
@@ -1427,7 +1427,7 @@ export_pdf_action (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-export_png_action (GtkAction * action, DenemoScriptParam * param)
+export_png_action (DenemoAction * action, DenemoScriptParam * param)
 {
   export_interface (action, param, PNG_FORMAT);
 }
@@ -1437,7 +1437,7 @@ export_png_action (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-export_ABC_action (GtkAction * action, DenemoScriptParam * param)
+export_ABC_action (DenemoAction * action, DenemoScriptParam * param)
 {
   export_interface (action, param, ABC_FORMAT);
 }
@@ -1447,7 +1447,7 @@ export_ABC_action (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-export_midi_action (GtkAction * action, DenemoScriptParam * param)
+export_midi_action (DenemoAction * action, DenemoScriptParam * param)
 {
   export_interface (action, param, MIDI_FORMAT);
 }

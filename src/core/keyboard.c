@@ -123,10 +123,10 @@ get_state (gchar * key)
 
 
 void
-set_visibility_for_action (GtkAction * action, gboolean visible)
+set_visibility_for_action (DenemoAction * action, gboolean visible)
 {
 
-  GSList *h = gtk_action_get_proxies (action);
+  GSList *h = denemo_action_get_proxies (action);
   for (; h; h = h->next)
     {
       if (visible)
@@ -135,7 +135,7 @@ set_visibility_for_action (GtkAction * action, gboolean visible)
         gtk_widget_hide (h->data);
     }
   command_row* row = NULL;
-  const gchar* name = gtk_action_get_name(action);
+  const gchar* name = denemo_action_get_name(action);
   gint id = lookup_command_from_name (Denemo.map, name);
   if(id < 0)
     g_warning("Invalid command name:'%s' id:'%i'", name, id);
@@ -149,7 +149,7 @@ set_visibility_for_action (GtkAction * action, gboolean visible)
 void
 hide_action_of_name (gchar * name)
 {
-  GtkAction *action = lookup_action_from_name (name);
+  DenemoAction *action = lookup_action_from_name (name);
  if(action)
     set_visibility_for_action (action, FALSE);
   else g_warning ("Action %s not created yet\n", name);}
@@ -157,7 +157,7 @@ hide_action_of_name (gchar * name)
 void
 show_action_of_name (gchar * name)
 {
-  GtkAction *action = lookup_action_from_name (name);
+  DenemoAction *action = lookup_action_from_name (name);
   if(action)
     set_visibility_for_action (action, TRUE);
   else g_warning ("Action %s not created yet\n", name);
@@ -176,7 +176,7 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
 void
 create_command(command_row *command)
 {
-  GtkAction* action = NULL;
+  DenemoAction* action = NULL;
   if (command->script_type == COMMAND_SCHEME)
   {
     gboolean new_command = (g_hash_table_lookup(Denemo.map->idx_from_name, command->name) == NULL);
@@ -188,7 +188,7 @@ create_command(command_row *command)
       else
       {
         gchar *icon_name = get_icon_for_name (command->name, command->label);
-        action = gtk_action_new (command->name, command->label, command->tooltip, icon_name);g_assert(action);
+        action = denemo_action_new (command->name, command->label, command->tooltip);g_assert(action);
         denemo_action_group_add_action (action);
       }
     }

@@ -112,7 +112,7 @@ insertfigure (gboolean filter, gpointer data)
 
 
 void
-delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
+delete_figured_bass (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
@@ -141,7 +141,7 @@ delete_figured_bass (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-hide_figured_bass (GtkAction * action, DenemoScriptParam * param)
+hide_figured_bass (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
@@ -150,7 +150,7 @@ hide_figured_bass (GtkAction * action, DenemoScriptParam * param)
 
 /* turn on figured bass if any figures are present */
 void
-show_figured_bass (GtkAction * action, DenemoScriptParam * param)
+show_figured_bass (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
@@ -176,7 +176,7 @@ show_figured_bass (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-figure_insert (GtkAction * action, DenemoScriptParam * param)
+figure_insert (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   gchar *string = NULL;

@@ -1536,14 +1536,14 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
               /* if there is an action of this tag with scheme script, run it again
                  else do text edit of the directives fields
                */
-              GtkAction *action;
+              DenemoAction *action;
               if (left && ((action = lookup_action_from_name ((gchar *) directive->tag->str)) != NULL) && (directive->override & DENEMO_OVERRIDE_TAGEDIT))
-                gtk_action_activate (action);
+                denemo_action_activate (action);
               else
                 {
                   if (left && action)
                     {
-                      gchar *name = (gchar *) gtk_action_get_name (action);
+                      gchar *name = (gchar *) denemo_action_get_name (action);
                       gint idx = lookup_command_from_name (Denemo.map, name);
                       if (idx > 0)
                         {
@@ -1564,7 +1564,7 @@ button_callback (GtkWidget * widget, GdkEventButton * event, DenemoDirective * d
                                     }
                                 }
                             else
-                                gtk_action_activate (action);
+                                denemo_action_activate (action);
                         }
                     }
                   else
@@ -2470,7 +2470,7 @@ unpopulate_menu (GtkWidget * menu)
 
 // edit the object at the cursor based on its type
 void
-edit_object_type (GtkAction * action, DenemoScriptParam * param)
+edit_object_type (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoObject *obj = get_object ();
   if (obj == NULL)
@@ -2866,10 +2866,11 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
   g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (upload_edit_script_cb), directive->tag->str);
 #endif
+#ifdef EXTRA_WORK
   button = gtk_check_button_new_with_label (_("Show Current Script"));
   gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
-  gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
-
+ this should set_toggle scheme or some such... gtk_activatable_set_related_action (GTK_ACTIVATABLE (button), gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ViewMenu/ToggleScript"));
+#endif
   gtk_widget_show_all (dialog);
   gint response = gtk_dialog_run (GTK_DIALOG (dialog));
   //g_debug("Got response %d\n", response);
@@ -2963,7 +2964,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
   gchar *filename = get_editscript_filename (directive->tag->str);
   if (filename == NULL)
     {
-      GtkAction *action;
+      DenemoAction *action;
       gchar *eol;
       gboolean chopped = FALSE;
       for (eol = directive->tag->str; *eol; eol++)
@@ -3010,7 +3011,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
  * callback for EditDirective on directive attached to an object.
  */
 void
-edit_object_directive (GtkAction * action, DenemoScriptParam * param)
+edit_object_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive;
@@ -3047,7 +3048,7 @@ edit_object_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for DeleteDirective
  */
 void
-delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param)
+delete_chord_or_note_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive;
@@ -3258,7 +3259,7 @@ select_voice_directive (void)
  * callback for EditVoiceDirective
  */
 void
-edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
+edit_voice_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_voice_directive ();
@@ -3277,7 +3278,7 @@ edit_voice_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditStaffDirective
  */
 void
-edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
+edit_staff_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_staff_directive ();
@@ -3296,7 +3297,7 @@ edit_staff_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditClefDirective
  */
 void
-edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
+edit_clef_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_clef_directive ();
@@ -3315,7 +3316,7 @@ edit_clef_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditKeysigDirective
  */
 void
-edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
+edit_keysig_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_keysig_directive ();
@@ -3335,7 +3336,7 @@ edit_keysig_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditTimesigDirective
  */
 void
-edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
+edit_timesig_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_timesig_directive ();
@@ -3354,7 +3355,7 @@ edit_timesig_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditTupletDirective
  */
 void
-edit_tuplet_directive (GtkAction * action, DenemoScriptParam * param)
+edit_tuplet_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_tuplet_directive ();
@@ -3372,7 +3373,7 @@ edit_tuplet_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditStemdirectiveDirective
  */
 void
-edit_stemdirective_directive (GtkAction * action, DenemoScriptParam * param)
+edit_stemdirective_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   //g_debug("Edit directive called\n");
   DenemoDirective *directive = select_stemdirective_directive ();
@@ -3390,7 +3391,7 @@ edit_stemdirective_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditScoreDirective
  */
 void
-edit_score_directive (GtkAction * action, DenemoScriptParam * param)
+edit_score_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   signal_structural_change (Denemo.project);
 #define ScoreDirectives  _("ScoreDirectives")
@@ -3455,7 +3456,7 @@ edit_score_directive (GtkAction * action, DenemoScriptParam * param)
  * callback for EditMovementDirective
  */
 void
-edit_movement_directive (GtkAction * action, DenemoScriptParam * param)
+edit_movement_directive (DenemoAction * action, DenemoScriptParam * param)
 {
   signal_structural_change (Denemo.project);
 

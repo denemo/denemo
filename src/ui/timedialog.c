@@ -151,7 +151,7 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
  * Calls timesig_change with the INSERT argument
  */
 void
-timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
+timesig_change_insert (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, timesigname);
   DenemoProject *gui = Denemo.project;
@@ -184,7 +184,7 @@ timesig_change_insert (GtkAction * action, DenemoScriptParam * param)
  * Calls timesig_change with the CHANGEINITIAL argument
  */
 void
-timesig_change_initial (GtkAction * action, DenemoScriptParam * param)
+timesig_change_initial (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, timesigname);
   DenemoProject *gui = Denemo.project;

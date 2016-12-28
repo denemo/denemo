@@ -16,7 +16,7 @@
 
 
 void
-toggle_grace (GtkAction * action, DenemoScriptParam * param)
+toggle_grace (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
@@ -37,7 +37,7 @@ toggle_grace (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param)
+toggle_acciaccatura (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;

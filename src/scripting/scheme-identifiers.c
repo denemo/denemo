@@ -52,7 +52,7 @@ create_scheme_identfiers (void)
 
   /* create scheme functions d-<name> for all the menuitem callbacks of <name> that are not check/radio items
      The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
-     not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the GtkAction*, passed as NULL.
+     not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the DenemoAction*, passed as NULL.
    */
 #include "scripting/scheme.h"
   init_denemo_notenames ();

@@ -15,7 +15,7 @@
 
 #include <denemo/denemo.h>
 
-void set_visibility_for_action (GtkAction * action, gboolean visible);
+void set_visibility_for_action (DenemoAction * action, gboolean visible);
 gint parse_paths (gchar * filename, DenemoProject * gui);
 void add_ui (gchar * menupath, gchar * after, gchar * name);
 void show_action_of_name (gchar * name);

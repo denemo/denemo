@@ -101,21 +101,15 @@ extern gchar *format_tooltip (gchar*);
 #define denemo_widget_set_tooltip_text(w,t) {gtk_widget_set_tooltip_text(w,t);} //#define denemo_widget_set_tooltip_text gtk_widget_set_tooltip_text
 #endif
 
-#define GtkAction DenemoAction
-#define gtk_ui_manager_new denemo_menusystem_new
-#define gtk_ui_manager_get_widget(m, p) denemo_menusystem_get_widget(p)
-#define gtk_ui_manager_get_action(m, p) denemo_menusystem_get_action(p)
-#define gtk_action_activate(a)  denemo_action_activate(a)
 
-#define gtk_action_new(name, label, tooltip, i) denemo_action_new(name, label, tooltip)
-#define gtk_action_group_get_action(D, name) denemo_menusystem_get_action(name)
-#define gtk_action_get_name(a) denemo_action_get_name(a)
-#define gtk_action_get_tooltip(a) denemo_action_get_tooltip(a)
-#define gtk_action_group_add_action(action_group, action) denemo_action_group_add_action(action)
-#define gtk_action_group_add_actions denemo_action_group_add_actions
-#define gtk_action_get_proxies(a) denemo_action_get_proxies(a)
 #define GtkStock gchar*
 
+
+#if ((GTK_MAJOR_VERSION == 2) && (GTK_MINOR_VERSION>=16))
+#define gtk_misc_set_alignment(a,x,y) (gtk_label_set_xalign(GTK_LABEL(a),x),gtk_label_set_yalign(GTK_LABEL(a),y))
+#else
+//#define gtk_misc_set_alignment(a,x,y) (gtk_widget_set_halign(GTK_WIDGET(a),GTK_ALIGN_CENTER),gtk_widget_set_WIDGET(GTK_LABEL(a),GTK_ALIGN_CENTER))
+#endif
 #if GTK_MAJOR_VERSION == 2
 #else
 //we always have homogeneous FALSE which is the default

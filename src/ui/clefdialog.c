@@ -68,7 +68,7 @@ get_clef_from_name (gchar * name)
  * calls clef change with the INSERT argument
  */
 void
-clef_change_insert (GtkAction * action, DenemoScriptParam * param)
+clef_change_insert (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, clefname);
   DenemoProject *gui = Denemo.project;
@@ -88,7 +88,7 @@ clef_change_insert (GtkAction * action, DenemoScriptParam * param)
  * calls clef change with the CHANGEINITIAL argument
  */
 void
-clef_change_initial (GtkAction * action, DenemoScriptParam * param)
+clef_change_initial (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, clefname);
   DenemoProject *gui = Denemo.project;

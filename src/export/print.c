@@ -958,7 +958,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
 
 /* callback to print current part (staff) of score */
 void
-printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+printpart_cb (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
 #ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
@@ -979,7 +979,7 @@ printpart_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam 
 }
 
 void
-printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+printselection_cb (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
 #ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
@@ -995,7 +995,7 @@ printselection_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptP
 }
 
 void
-printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+printexcerptpreview_cb (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
   DenemoProject *gui = Denemo.project;
   if (!gui->movement->markstaffnum)   //If no selection has been made
@@ -1010,7 +1010,7 @@ printexcerptpreview_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoSc
 
 /* callback to print whole of score */
 void
-printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+printall_cb (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
 #ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
@@ -1021,7 +1021,7 @@ printall_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
 
 /* callback to print movement of score */
 void
-printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+printmovement_cb (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 { return_on_windows_if_printing;
 #ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
@@ -1031,7 +1031,7 @@ printmovement_cb (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptPa
 }
 
 void
-show_print_view (GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param){
+show_print_view (DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param){
 #ifndef USE_EVINCE
   g_debug("This feature requires denemo to be built with evince");
 #else

@@ -48,7 +48,7 @@ DenemoObject *curmudelaobj = \
  * is easy to alternate rhythms.
  */
 void
-nextrhythm (GtkAction* action, DenemoScriptParam* param)
+nextrhythm (DenemoAction* action, DenemoScriptParam* param)
 {
   if (!Denemo.project->rhythms)
     return;
@@ -377,7 +377,7 @@ gomeasureleft (DenemoScriptParam * param, gboolean extend_selection)
  *
  */
 void
-measureleft (GtkAction* action, DenemoScriptParam * param)
+measureleft (DenemoAction* action, DenemoScriptParam * param)
 {
   gomeasureleft (param, TRUE);
 }
@@ -413,19 +413,19 @@ gomeasureright (DenemoScriptParam * param, gboolean extend_selection)
 }
 
 void
-measureright (GtkAction* action, DenemoScriptParam * param)
+measureright (DenemoAction* action, DenemoScriptParam * param)
 {
   gomeasureright (param, TRUE);
 }
 
 void
-movetomeasureright (GtkAction* action, DenemoScriptParam * param)
+movetomeasureright (DenemoAction* action, DenemoScriptParam * param)
 {
   gomeasureright (param, FALSE);
 }
 
 void
-movetomeasureleft (GtkAction* action, DenemoScriptParam * param)
+movetomeasureleft (DenemoAction* action, DenemoScriptParam * param)
 {
   gomeasureleft (param, FALSE);
 }
@@ -436,7 +436,7 @@ movetomeasureleft (GtkAction* action, DenemoScriptParam * param)
  * return TRUE if movements are swapped
  */
 gboolean
-swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+swapmovements (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   (void) signal_structural_change (gui);
@@ -473,7 +473,7 @@ swapmovements (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam
  *
  */
 gboolean
-swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+swapstaffs (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   (void) signal_structural_change (gui);
@@ -512,7 +512,7 @@ swapstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * 
  *
  */
 gboolean
-splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+splitstaffs (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
 
@@ -543,7 +543,7 @@ splitstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam *
  *
  */
 gboolean
-joinstaffs (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+joinstaffs (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
 
@@ -692,28 +692,28 @@ govoicedown (DenemoScriptParam * param, gboolean extend_selection)
 }
 
 gboolean
-movetovoicedown (GtkAction* action, DenemoScriptParam * param)
+movetovoicedown (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return govoicedown (param, FALSE);
 }
 
 gboolean
-voicedown (GtkAction* action, DenemoScriptParam * param)
+voicedown (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return govoicedown (param, TRUE);
 }
 
 gboolean
-movetovoiceup (GtkAction* action, DenemoScriptParam * param)
+movetovoiceup (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return govoiceup (param, FALSE);
 }
 
 gboolean
-voiceup (GtkAction* action, DenemoScriptParam * param)
+voiceup (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return govoiceup (param, TRUE);
@@ -773,28 +773,28 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
 }
 
 gboolean
-movetostaffdown (GtkAction* action, DenemoScriptParam * param)
+movetostaffdown (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return gostaffdown (param, FALSE);
 }
 
 gboolean
-staffdown (GtkAction* action, DenemoScriptParam * param)
+staffdown (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return gostaffdown (param, TRUE);
 }
 
 gboolean
-movetostaffup (GtkAction* action, DenemoScriptParam * param)
+movetostaffup (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return gostaffup (param, FALSE);
 }
 
 gboolean
-staffup (GtkAction* action, DenemoScriptParam * param)
+staffup (DenemoAction* action, DenemoScriptParam * param)
 {
 
   return gostaffup (param, TRUE);
@@ -923,7 +923,7 @@ move_right (DenemoScriptParam * param, gboolean extend_selection)
  * sets param->status TRUE if cursor could still move right, and returns that value.
  */
 gboolean
-cursorright (GtkAction* action, DenemoScriptParam * param)
+cursorright (DenemoAction* action, DenemoScriptParam * param)
 {
   return move_right (param, TRUE);
 }
@@ -933,20 +933,20 @@ cursorright (GtkAction* action, DenemoScriptParam * param)
  * sets param->status TRUE if cursor could still move left, and returns that value.
  */
 gboolean
-cursorleft (GtkAction* action, DenemoScriptParam * param)
+cursorleft (DenemoAction* action, DenemoScriptParam * param)
 {
   return move_left (param, TRUE);
 }
 
 // cursor move without altering selection
 gboolean
-movecursorright (GtkAction* action, DenemoScriptParam * param)
+movecursorright (DenemoAction* action, DenemoScriptParam * param)
 {
   return move_right (param, FALSE);
 }
 
 gboolean
-movecursorleft (GtkAction* action, DenemoScriptParam * param)
+movecursorleft (DenemoAction* action, DenemoScriptParam * param)
 {
   return move_left (param, FALSE);
 }
@@ -1349,7 +1349,7 @@ cursor_to_prev_note (void)
  * Move the cursor up one diatonic step
  */
 void
-cursorup (GtkAction* action, DenemoScriptParam * param)
+cursorup (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoScriptParam dummy;
@@ -1369,7 +1369,7 @@ cursorup (GtkAction* action, DenemoScriptParam * param)
  * Move the cursor down one diatonic step
  */
 void
-cursordown (GtkAction* action, DenemoScriptParam * param)
+cursordown (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoScriptParam dummy;
@@ -1628,7 +1628,7 @@ edit_pitch (gint note_value, gint enshift)
 }
 
 void
-insert_rhythm_pattern (GtkAction* action, DenemoScriptParam* param)
+insert_rhythm_pattern (DenemoAction* action, DenemoScriptParam* param)
 {
 
   if (Denemo.project->rhythms==NULL)
@@ -2350,7 +2350,7 @@ dnm_insertmeasures (DenemoMovement * si, gint number)
 
  */
 void
-insertmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
+insertmeasureafter (DenemoAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoMovement *si = Denemo.project->movement;
   take_snapshot ();
@@ -2369,7 +2369,7 @@ insertmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 
  */
 void
-addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
+addmeasureafter (DenemoAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoMovement *si = Denemo.project->movement;
   take_snapshot ();
@@ -2391,7 +2391,7 @@ addmeasureafter (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 
  */
 void
-insertmeasurebefore (GtkAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
+insertmeasurebefore (DenemoAction* action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoMovement *si = Denemo.project->movement;
   si->currentmeasure = addmeasures (si, si->currentmeasurenum - 1, 1, 0);
@@ -2446,11 +2446,11 @@ appendmeasurestoentirescore (DenemoMovement * si, gint number)
 /**
  * Delete staff wrapper to delete the preceding staff
  *
- * @param action pointer to the GtkAction event
+ * @param action pointer to the DenemoAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
-delete_staff_before (GtkAction * action, DenemoScriptParam * param)
+delete_staff_before (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   if (staffup (action, param))
@@ -2462,11 +2462,11 @@ delete_staff_before (GtkAction * action, DenemoScriptParam * param)
 /**
  * Delete staff wrapper to delete the next staff
  *
- * @param action pointer to the GtkAction event
+ * @param action pointer to the DenemoAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
-delete_staff_after (GtkAction * action, DenemoScriptParam * param)
+delete_staff_after (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   if (staffdown (action, param))
@@ -2478,11 +2478,11 @@ delete_staff_after (GtkAction * action, DenemoScriptParam * param)
 /**
  * Delete staff wrapper to delete current staff
  *
- * @param action pointer to the GtkAction event
+ * @param action pointer to the DenemoAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
-delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+delete_staff_current (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   staff_delete (gui, TRUE);
@@ -2499,7 +2499,7 @@ delete_staff_current (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScri
  * function.
  */
 void
-deletemeasure (GtkAction* action, DenemoScriptParam* param)
+deletemeasure (DenemoAction* action, DenemoScriptParam* param)
 {
   dnm_deletemeasure (Denemo.project->movement);
   isoffleftside (Denemo.project);
@@ -2515,7 +2515,7 @@ deletemeasure (GtkAction* action, DenemoScriptParam* param)
 
  */
 void
-deletemeasureallstaffs (GtkAction* action, DenemoScriptParam* param)
+deletemeasureallstaffs (DenemoAction* action, DenemoScriptParam* param)
 {
   DenemoMovement *si = Denemo.project->movement;
   //take_snapshot(); this does not prevent the multiple undo steps needed
@@ -2593,7 +2593,7 @@ delete_object_helper (DenemoMovement * si)
  *
  */
 void
-deleteobject (GtkAction* action, DenemoScriptParam* param)
+deleteobject (DenemoAction* action, DenemoScriptParam* param)
 {
   dnm_deleteobject (Denemo.project->movement);
 }
@@ -2628,7 +2628,7 @@ dnm_deleteobject (DenemoMovement * si)
       DenemoDirective *directive = (lilydirective *) curmudelaobj->object;
       DenemoScriptParam param;
       param.string = g_string_new ("delete");
-      GtkAction *action = directive->tag?lookup_action_from_name (directive->tag->str):NULL;
+      DenemoAction *action = directive->tag?lookup_action_from_name (directive->tag->str):NULL;
       if (action && (Denemo.keyboard_state != GDK_MOD2_MASK /*NumLock */ ))
         {
           activate_script (action, &param);
@@ -2769,7 +2769,7 @@ tolastobject (DenemoProject * gui)
 
 /* Make note tied/untied */
 void
-toggle_tie (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+toggle_tie (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
@@ -2844,7 +2844,7 @@ gotohome (gboolean extend_selection)
  * @return none
 */
 void
-tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+tohome (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   gotohome (TRUE);
 }
@@ -2857,7 +2857,7 @@ tohome (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * para
  * @return none
 */
 void
-toend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
+toend (G_GNUC_UNUSED DenemoAction * action, DenemoScriptParam * param)
 {
   gotoend (param, TRUE);
 }
@@ -2872,7 +2872,7 @@ toend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
  * @return none
 */
 void
-movetostart (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
+movetostart (G_GNUC_UNUSED DenemoAction * action, DenemoScriptParam * param)
 {
   gotohome (FALSE);
   if (param)
@@ -2886,7 +2886,7 @@ movetostart (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
  * @return none
 */
 void
-movetoend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
+movetoend (G_GNUC_UNUSED DenemoAction * action, DenemoScriptParam * param)
 {
   gotoend (param, FALSE);
   if (param)
@@ -2904,7 +2904,7 @@ movetoend (G_GNUC_UNUSED GtkAction * action, DenemoScriptParam * param)
  * @return none
  */
 void
-stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+stem_directive_insert (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   object_insert (gui, dnm_stem_directive_new (DENEMO_STEMBOTH));
@@ -2922,7 +2922,7 @@ stem_directive_insert (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScr
  * @return none
  */
 void
-toggle_begin_slur (GtkAction* action, DenemoScriptParam* param)
+toggle_begin_slur (DenemoAction* action, DenemoScriptParam* param)
 {
   DenemoMovement *si = Denemo.project->movement;
   declarecurmudelaobj;
@@ -2959,7 +2959,7 @@ caution (DenemoMovement * si)
  * @return none
  */
 void
-toggle_end_slur (GtkAction* action, DenemoScriptParam * param)
+toggle_end_slur (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
   declarecurmudelaobj;
@@ -2983,7 +2983,7 @@ toggle_end_slur (GtkAction* action, DenemoScriptParam * param)
  * @return none
  */
 void
-toggle_start_crescendo (GtkAction* action, DenemoScriptParam * param)
+toggle_start_crescendo (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
@@ -3004,7 +3004,7 @@ toggle_start_crescendo (GtkAction* action, DenemoScriptParam * param)
  * @return none
  */
 void
-toggle_end_crescendo (GtkAction* action, DenemoScriptParam * param)
+toggle_end_crescendo (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
@@ -3025,7 +3025,7 @@ toggle_end_crescendo (GtkAction* action, DenemoScriptParam * param)
  * @return none
  */
 void
-toggle_start_diminuendo (GtkAction* action, DenemoScriptParam * param)
+toggle_start_diminuendo (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;
@@ -3046,7 +3046,7 @@ toggle_start_diminuendo (GtkAction* action, DenemoScriptParam * param)
  * @return none
  */
 void
-toggle_end_diminuendo (GtkAction* action, DenemoScriptParam * param)
+toggle_end_diminuendo (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = (DenemoMovement *) Denemo.project->movement;
   declarecurmudelaobj;

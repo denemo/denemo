@@ -40,22 +40,22 @@ gboolean text_edit_score_directive (gchar * tag);// and all the others ... paper
 void set_action_script_for_tag (gchar * tag, gchar * script);
 gchar *get_action_script (gchar * name);
 
-void edit_object_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_clef_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_keysig_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_timesig_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_staff_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_voice_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_score_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_movement_directive (GtkAction * action, DenemoScriptParam * param);
-void edit_object_type (GtkAction * action, DenemoScriptParam * param);       //FIXME move to ???
+void edit_object_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_clef_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_keysig_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_timesig_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_staff_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_voice_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_score_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_movement_directive (DenemoAction * action, DenemoScriptParam * param);
+void edit_object_type (DenemoAction * action, DenemoScriptParam * param);       //FIXME move to ???
 
 gboolean low_level_directive_edit (DenemoDirective *directive);
 
 
-void standalone_directive (GtkAction * action, DenemoScriptParam * param);
+void standalone_directive (DenemoAction * action, DenemoScriptParam * param);
 void put_standalone_directive (gchar *tag, gint pixelwidth);
-void delete_chord_or_note_directive (GtkAction * action, DenemoScriptParam * param);
+void delete_chord_or_note_directive (DenemoAction * action, DenemoScriptParam * param);
 gchar *get_editscript_filename (gchar * tag);
 
 DenemoDirective *get_movementcontrol_directive (gchar * tag);

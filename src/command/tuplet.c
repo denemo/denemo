@@ -50,50 +50,50 @@ tuplet_close_new ()
 }
 
 void
-duplet_insert (GtkAction* action, DenemoScriptParam *param)
+duplet_insert (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.project, DUPLET);
 }
 
 void
-triplet_insert (GtkAction* action, DenemoScriptParam *param)
+triplet_insert (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.project, TRIPLET);
 }
 
 void
-triplet_start (GtkAction* action, DenemoScriptParam *param)
+triplet_start (DenemoAction* action, DenemoScriptParam *param)
 {
   insertion_point (Denemo.project->movement);
   object_insert (Denemo.project, tuplet_open_new (2, 3));
 }
 
 void
-tuplet_end (GtkAction* action, DenemoScriptParam *param)
+tuplet_end (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, tuplet_close_new ());
 }
 
 void
-insert_quadtuplet (GtkAction* action, DenemoScriptParam *param)
+insert_quadtuplet (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.project, QUADTUPLET);
 }
 
 void
-quintuplet_insert (GtkAction* action, DenemoScriptParam *param)
+quintuplet_insert (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.project, QUINTUPLET);
 }
 
 void
-sextuplet_insert (GtkAction* action, DenemoScriptParam *param)
+sextuplet_insert (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.project, SEXTUPLET);
 }
 
 void
-septuplet_insert (GtkAction* action, DenemoScriptParam *param)
+septuplet_insert (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_inserttuplet (Denemo.project, SEPTUPLET);
 }

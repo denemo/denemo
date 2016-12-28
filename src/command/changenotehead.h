@@ -12,6 +12,6 @@
 
 void insertnotehead (DenemoMovement * si, gchar * noteheadstring);
 gint texttohead (gchar * text);
-void set_notehead (GtkAction * action, DenemoScriptParam * param);
+void set_notehead (DenemoAction * action, DenemoScriptParam * param);
 
 #endif

@@ -707,7 +707,7 @@ command_iter_sort (GtkTreeModel * model, GtkTreeIter * a, GtkTreeIter * b, G_GNU
      //COL_TYPE, &type,
      COL_ACTION, &action, -1);
 
-     // names[i] = gtk_action_get_name (action);
+     // names[i] = denemo_action_get_name (action);
 
     gtk_tree_model_get (model, iters[i], COL_LABEL, names+i, -1);
     }
@@ -920,7 +920,7 @@ lookup_command_from_name (keymap * keymap, const gchar * command_name)
 
 //do not free the result
 //returns NULL if not found
-const GtkAction *
+const DenemoAction *
 lookup_action_from_idx (keymap * keymap, gint command_id)
 {
     if (command_id == -1)
@@ -928,7 +928,7 @@ lookup_action_from_idx (keymap * keymap, gint command_id)
   command_row* row;
   if (!keymap_get_command_row (keymap, &row, command_id))
     return NULL;
-  GtkAction* action = gtk_action_group_get_action(Denemo.action_group, row->name);
+  DenemoAction* action = denemo_menusystem_get_action ( row->name);
   return action;
 }
 
@@ -1048,18 +1048,6 @@ keymap_get_accel (keymap * the_keymap, guint command_id)
 }
 #endif
 
-#if 0
-static gint
-findActionGroupByName (gconstpointer a, gconstpointer b)
-{
-  GtkActionGroup *action_group = GTK_ACTION_GROUP (a);
-  const gchar *searched_name = (const gchar *) b;
-  return strcmp (gtk_action_group_get_name (action_group), b);
-}
-#endif
-
-
-
 /* Updates the label of the widgets proxying an action with the bindings
  * present in the keymap.
  */
@@ -1068,7 +1056,7 @@ update_accel_labels (keymap * the_keymap, guint command_id)
 {
   if(Denemo.non_interactive)
     return;
-  GtkAction *action;
+  DenemoAction *action;
   command_row *row;
 
   //Getting the accel
@@ -1108,7 +1096,7 @@ update_accel_labels (keymap * the_keymap, guint command_id)
   g_free (escape_base);
 
   //For all widgets proxying the action, change the label
-  action = gtk_action_group_get_action(Denemo.action_group, row->name);
+  action = denemo_menusystem_get_action ( row->name);
   GList *h = action?denemo_action_get_proxies (action):NULL;
   for (; h; h = h->next)
     {
@@ -1408,7 +1396,7 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, D
   modifiers = dnm_sanitize_key_state (event);
   keyval = event->keyval;
 
-  gint idx = lookup_command_from_name (the_keymap, gtk_action_get_name (action));//g_assert(gtk_action_get_name(action), action->name);
+  gint idx = lookup_command_from_name (the_keymap, denemo_action_get_name (action));//g_assert(denemo_action_get_name(action), action->name);
   //If this menu item  action is not registered in the
   //keymap, we give up
   if (idx == -1)
@@ -1428,10 +1416,10 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, D
 
 
 
-GtkAction *
+DenemoAction *
 lookup_action_from_name (gchar * command_name)
 {
-  return gtk_action_group_get_action (Denemo.action_group, command_name);
+  return denemo_menusystem_get_action (command_name);
 }
 
 gboolean
@@ -1446,18 +1434,18 @@ gboolean
 execute_callback_from_name (const gchar * command_name)
 {
   gint idx = lookup_command_from_name(Denemo.map, command_name);
-  GtkAction *action = lookup_action_from_name ((gchar *) command_name);
-  gboolean builtin = is_action_name_builtin((gchar*) gtk_action_get_name(action));
+  DenemoAction *action = lookup_action_from_name ((gchar *) command_name);
+  gboolean builtin = is_action_name_builtin((gchar*) denemo_action_get_name(action));
 
   if (!builtin){
     gchar* text = get_scheme_from_idx (idx);
     if(text)
       call_out_to_guile (text);
     else
-      gtk_action_activate (action);
+      denemo_action_activate (action);
   }
   else
-    gtk_action_activate (action);
+    denemo_action_activate (action);
   return TRUE;
 }
 
@@ -1692,7 +1680,7 @@ save_keymap_dialog (void)
  *
  */
 void
-save_default_keymap_file_wrapper (GtkAction * action, DenemoScriptParam * param)
+save_default_keymap_file_wrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   save_default_keymap_file ();
 }
@@ -1759,7 +1747,7 @@ command_name_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRender
   gpointer action;
   const gchar *name;
   gtk_tree_model_get (model, iter, COL_TYPE, &type, COL_ACTION, &action, -1);
-  name = gtk_action_get_name (action);
+  name = denemo_action_get_name (action);
 
   g_object_set (renderer, "text", name, NULL);
 }
@@ -1877,10 +1865,10 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
           }
 
       keymap_get_command_row (Denemo.map, &row, command_id);
-      const GtkAction *action = lookup_action_from_idx (Denemo.map, command_id);
+      const DenemoAction *action = lookup_action_from_idx (Denemo.map, command_id);
       //if (GTK_IS_ACTION (action))
         {
-          set_visibility_for_action ((GtkAction *)action, row->hidden);
+          set_visibility_for_action ((DenemoAction *)action, row->hidden);
         }
     }
 }
@@ -2166,7 +2154,7 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
                       COL_NAME, &name,
                       -1);
                       hidden = row->hidden;
-  action = gtk_action_group_get_action(Denemo.action_group, name);
+  action = denemo_menusystem_get_action (name);
   //getting the new command_id
   array = gtk_tree_path_get_indices (path);
   cbdata->command_id = array[0];
@@ -2187,7 +2175,7 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
       pango_parse_markup (tooltip, -1, 0, NULL, &plain, 0, NULL);//strip out any markup
       gchar *text = NULL;
       if (plain)
-        text = g_strdup_printf (_( "%sCommand: %s\n%s\nLocation: %s\nInternal Name: %s"), hidden?_("WARNING!!:\nThis command is hidden.\nMost likely you want to continue your search for a better command.\nHidden commands are either for LilyPond users or low-level interfaces for more user-friendly versions.\n"):"", label, plain, menupath, gtk_action_get_name(action));
+        text = g_strdup_printf (_( "%sCommand: %s\n%s\nLocation: %s\nInternal Name: %s"), hidden?_("WARNING!!:\nThis command is hidden.\nMost likely you want to continue your search for a better command.\nHidden commands are either for LilyPond users or low-level interfaces for more user-friendly versions.\n"):"", label, plain, menupath, denemo_action_get_name(action));
       g_free (plain);
 
       if (text)

@@ -408,7 +408,7 @@ button_release_callback (GtkWidget * w, mouse_gesture * g)
 
 typedef struct ModifierAction
 {
-  GtkAction *action;
+  DenemoAction *action;
   gint modnum;                  /* GdkModifierType number 0...12 */
   mouse_gesture gesture;        /* if this is for press move or release */
   gboolean left;                /* if this is for left or right mouse button */
@@ -438,19 +438,19 @@ setMouseAction (ModifierAction * info)
 {
   GString *modname = mouse_shortcut_name (info->modnum, info->gesture, info->left);
   gint command_idx = lookup_command_for_keybinding_name (Denemo.map, modname->str);
-  GtkAction *current_action = NULL;
+  DenemoAction *current_action = NULL;
   gchar *title = NULL;
   gchar *prompt = NULL;
   if (command_idx >= 0)
     {
-      current_action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);
+      current_action = (DenemoAction *) lookup_action_from_idx (Denemo.map, command_idx);
       title = g_strdup_printf (_("The Command %s Responds to this Shortcut"), lookup_name_from_idx (Denemo.map, command_idx));
       prompt = g_strdup_printf (_("Lose the shortcut %s for this?"), modname->str);
     }
   if (current_action == NULL || confirm (title, prompt))
     {
       remove_keybinding_from_name (Denemo.map, modname->str);   //by_name
-      const gchar *name = gtk_action_get_name (info->action);
+      const gchar *name = denemo_action_get_name (info->action);
       command_idx = lookup_command_from_name (Denemo.map, name);
       if (command_idx >= 0)
         add_named_binding_to_idx (Denemo.map, modname->str, command_idx, POS_LAST);
@@ -478,7 +478,7 @@ mouse_shortcut_dialog (ModifierAction * info)
   gtk_container_add (GTK_CONTAINER (content_area), hbox);
   gtk_container_add (GTK_CONTAINER (hbox), vbox);
 
-  gchar *name = (gchar *) gtk_action_get_name (info->action);
+  gchar *name = (gchar *) denemo_action_get_name (info->action);
   gchar *prompt = g_strdup_printf (_("Setting mouse shortcut for %s"), name);
   GtkWidget *label = gtk_label_new (prompt);
   g_free (prompt);
@@ -531,7 +531,7 @@ mouse_shortcut_dialog (ModifierAction * info)
 
 
 static void
-createMouseShortcut (GtkAction * action)
+createMouseShortcut (DenemoAction * action)
 {
   static ModifierAction info;
   info.action = action;
@@ -552,7 +552,7 @@ static void createMouseShortcut_from_data (keyboard_dialog_data *data) {
   gint command_idx = lookup_command_from_name (Denemo.map, cname);
     if(command_idx != -1)
         {
-        GtkAction *action = (GtkAction *) lookup_action_from_idx (Denemo.map, command_idx);
+        DenemoAction *action = (DenemoAction *) lookup_action_from_idx (Denemo.map, command_idx);
         createMouseShortcut (action);
         }
 }
@@ -574,7 +574,7 @@ static gboolean hide_command_view (void)
 }
   
 void
-configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
+configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
 {
   GtkWidget *frame;
   GtkWidget *vbox, *outer_hbox;
@@ -831,7 +831,7 @@ configure_keyboard_dialog_init_idx (GtkAction * dummy, gint command_idx)
 }
 
 void
-configure_keyboard_dialog (GtkAction * action, DenemoScriptParam * param)
+configure_keyboard_dialog (DenemoAction * action, DenemoScriptParam * param)
 {
   configure_keyboard_dialog_init_idx (action, -1);
 }

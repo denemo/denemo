@@ -35,32 +35,32 @@ void delete_selection (void);
 
 gboolean mark_status (void);
 
-void set_mark (GtkAction * action, DenemoScriptParam * param);
+void set_mark (DenemoAction * action, DenemoScriptParam * param);
 
-void unset_mark (GtkAction * action, DenemoScriptParam * param);
-void set_point (GtkAction * action, DenemoScriptParam * param);
+void unset_mark (DenemoAction * action, DenemoScriptParam * param);
+void set_point (DenemoAction * action, DenemoScriptParam * param);
 
-void copywrapper (GtkAction * action, DenemoScriptParam * param);
+void copywrapper (DenemoAction * action, DenemoScriptParam * param);
 
-void cutwrapper (GtkAction * action, DenemoScriptParam * param);
+void cutwrapper (DenemoAction * action, DenemoScriptParam * param);
 
-void pastewrapper (GtkAction * action, DenemoScriptParam * param);
+void pastewrapper (DenemoAction * action, DenemoScriptParam * param);
 
 
 
 void calcmarkboundaries (DenemoMovement * si);
 
-void saveselwrapper (GtkAction * action, DenemoScriptParam * param);
-void undowrapper (GtkAction * action, DenemoScriptParam * param);
-void redowrapper (GtkAction * action, DenemoScriptParam * param);
+void saveselwrapper (DenemoAction * action, DenemoScriptParam * param);
+void undowrapper (DenemoAction * action, DenemoScriptParam * param);
+void redowrapper (DenemoAction * action, DenemoScriptParam * param);
 void update_undo_info (DenemoMovement * si, DenemoUndoData * undo);
 void update_redo_info (DenemoMovement * si, DenemoUndoData * redo);
 void store_for_undo_change (DenemoMovement * si, DenemoObject * obj);
 gboolean take_snapshot (void);
 void stage_undo (DenemoMovement * si, action_type type);
 
-void goto_mark (GtkAction * action, DenemoScriptParam * param);
-void goto_selection_start (GtkAction * action, DenemoScriptParam * param);
+void goto_mark (DenemoAction * action, DenemoScriptParam * param);
+void goto_selection_start (DenemoAction * action, DenemoScriptParam * param);
 
 DenemoPosition *pop_position (void);
 void push_position (void);
@@ -72,7 +72,7 @@ void save_selection (DenemoMovement * si);
 void restore_selection (DenemoMovement * si);
 gboolean in_selection (DenemoMovement * si);
 
-void swap_point_and_mark (GtkAction * action, DenemoScriptParam * param);
+void swap_point_and_mark (DenemoAction * action, DenemoScriptParam * param);
 
 GList *pop_off_clipboard (void);
 

@@ -247,7 +247,7 @@ key_from_string (GString * scheme_string, gint * tokey, gint * isminor)
  * and returns the key in it
  */
 void
-key_change_insert (GtkAction * action, DenemoScriptParam * param)
+key_change_insert (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, keyname);
   DenemoProject *gui = Denemo.project;
@@ -311,7 +311,7 @@ get_prevailing_keysig_name (void)
  *  calls key_change with the CHANGEINITIAL argument
  */
 void
-key_change_initial (GtkAction * action, DenemoScriptParam * param)
+key_change_initial (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, keyname);
   DenemoProject *gui = Denemo.project;

@@ -27,13 +27,13 @@ void make_scoreblock_editable (void);
 /* generate lilypond text for the object passed in - the string should
    be g_freed by the caller when finished with*/
 gchar *generate_lily (objnode * obj);
-void refresh_lily_cb (GtkAction * action, DenemoProject * gui);
+void refresh_lily_cb (DenemoAction * action, DenemoProject * gui);
 void force_lily_refresh (DenemoProject * gui);
-void toggle_lily_visible_cb (GtkAction * action, gpointer param);
+void toggle_lily_visible_cb (DenemoAction * action, gpointer param);
 
-void custom_lily_cb (GtkAction * action, gpointer param);
+void custom_lily_cb (DenemoAction * action, gpointer param);
 
-void delete_lily_cb (GtkAction * action, gpointer param);
+void delete_lily_cb (DenemoAction * action, gpointer param);
 void set_lily_error (gint line, gint column);
 void highlight_lily_error ();
 gboolean goto_lilypond_position (gint line, gint column);

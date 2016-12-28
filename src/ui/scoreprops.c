@@ -95,7 +95,7 @@ setpaperconfig (papersetupcb * cbdata, DenemoProject * gui)
  * Create and run a modal score properties dialog.
  */
 void
-score_properties_dialog (GtkAction * action, DenemoScriptParam * param)
+score_properties_dialog (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
 
@@ -314,7 +314,7 @@ struct callbackdata
  *
  */
 void
-movement_props_dialog (GtkAction * action, DenemoScriptParam * param)
+movement_props_dialog (DenemoAction * action, DenemoScriptParam * param)
 {
 
 }

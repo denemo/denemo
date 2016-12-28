@@ -43,15 +43,15 @@ void staff_show_which_accidentals (DenemoStaff * thestaff);
 
 void staff_fix_note_heights (DenemoStaff * thestaff);
 
-void staff_new_initial (GtkAction * action, DenemoScriptParam * param);
+void staff_new_initial (DenemoAction * action, DenemoScriptParam * param);
 
-void staff_new_before (GtkAction * action, DenemoScriptParam * param);
+void staff_new_before (DenemoAction * action, DenemoScriptParam * param);
 
-void staff_new_after (GtkAction * action, DenemoScriptParam * param);
+void staff_new_after (DenemoAction * action, DenemoScriptParam * param);
 
-void staff_new_voice (GtkAction * action, DenemoScriptParam * param);
+void staff_new_voice (DenemoAction * action, DenemoScriptParam * param);
 
-void staff_new_last (GtkAction * action, DenemoScriptParam * param);
+void staff_new_last (DenemoAction * action, DenemoScriptParam * param);
 
 void staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all);
 

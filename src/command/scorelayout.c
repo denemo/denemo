@@ -100,7 +100,7 @@ navigate_to_location (GtkWidget * w, guint location)
 static void
 popup_staff_groups_menu (GtkWidget * button)
 {
-  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/StaffMenu/StaffGroupings");
+  GtkWidget *menuitem = denemo_menusystem_get_widget ("StaffGroupings");
   if (get_standard_scoreblock (button))
     {
       if (menuitem)
@@ -1007,7 +1007,7 @@ popup_movement_menu (GtkWidget * w, GtkWidget * vbox)
 static void
 popup_movement_titles_menu (GtkWidget * button)
 {
-  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/MovementMenu/Titles/BookTitles");
+  GtkWidget *menuitem = denemo_menusystem_get_widget ("BookTitles");
   if (get_standard_scoreblock (button))
     {
       if (menuitem)
@@ -1077,7 +1077,7 @@ install_pre_movement_widgets (GtkWidget * vbox, DenemoMovement * si, gboolean st
 static void
 popup_score_titles_menu (GtkWidget * button)
 {
-  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/Score/Titles/BookTitles");
+  GtkWidget *menuitem = denemo_menusystem_get_widget ("BookTitles");
   if (get_standard_scoreblock (button))
     {
       if (menuitem)
@@ -1479,17 +1479,7 @@ add_staff_widget (DenemoStaff * staff, GtkWidget * hbox)
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (remove_parent_element), hbox);
 }
 
-/* UNUSED
-static void
-popup_initial_clef_menu (GtkWidget * button)
-{
-  GtkWidget *menuitem = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu/ClefMenu");
-  if (menuitem)
-    gtk_menu_popup (GTK_MENU (gtk_menu_item_get_submenu (GTK_MENU_ITEM (menuitem))), NULL, NULL, NULL, NULL, 0, GDK_CURRENT_TIME);
-  else
-    g_warning ("No such menu path");
-}
-*/
+
 
 static void
 install_staff_with_voices (GList ** pstaffs, GtkWidget ** pvbox, gchar * partname, GList ** pstafflist, gint * pvoice_count, gint staff_count, gint movementnum, gint * pstaff_group_nesting, gboolean standard, gboolean append_only)

@@ -532,7 +532,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
 //g_print ("Storing %s at %d\n", name, i);
-      basename = gtk_action_get_name (action);
+      basename = denemo_action_get_name (action);
 
       if(!is_action_name_builtin(name))
       {

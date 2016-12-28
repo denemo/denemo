@@ -7,7 +7,7 @@
  */
 #ifndef HELP_H
 #define HELP_H
-void about (GtkAction * action, DenemoScriptParam* param);
-void browse_manual (GtkAction * action, DenemoScriptParam* param);
+void about (DenemoAction * action, DenemoScriptParam* param);
+void browse_manual (DenemoAction * action, DenemoScriptParam* param);
 void display_shortcuts (void);
 #endif

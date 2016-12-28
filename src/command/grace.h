@@ -15,7 +15,7 @@
 
 DenemoObject *newgracestart ();
 DenemoObject *newgraceend ();
-void toggle_grace (GtkAction * action, DenemoScriptParam * param);
-void toggle_acciaccatura (GtkAction * action, DenemoScriptParam * param);
+void toggle_grace (DenemoAction * action, DenemoScriptParam * param);
+void toggle_acciaccatura (DenemoAction * action, DenemoScriptParam * param);
 
 #endif //GRACEOPS_H

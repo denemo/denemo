@@ -19,7 +19,7 @@
  *
  */
 void
-about (GtkAction * action, DenemoScriptParam* callback_data)
+about (DenemoAction * action, DenemoScriptParam* callback_data)
 {
   GtkWidget *dialog;
   const char *authors[] = { "Richard Shann", "Jeremiah Benham", "Matthew Hiller", "Adam Tee", "Nils Gey", NULL };
@@ -50,7 +50,7 @@ NO WARRANTY; see the file COPYING for details."));
  * If param contains a url it opens that
  */
 void
-browse_manual (GtkAction * action, DenemoScriptParam * param)
+browse_manual (DenemoAction * action, DenemoScriptParam * param)
 {
   GET_1PARAM (action, param, url);
   gboolean retval;

@@ -27,7 +27,7 @@ dnm_newtimesigobj (gint time1, gint time2)
  * Wrapper function to create new 4/4 time sig and insert into the score
  */
 void
-newtimesig44 (GtkAction* action, DenemoScriptParam *param)
+newtimesig44 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (4, 4));
 }
@@ -36,7 +36,7 @@ newtimesig44 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 2/4 time sig and insert into the score
  */
 void
-newtimesig24 (GtkAction* action, DenemoScriptParam *param)
+newtimesig24 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (2, 4));
 }
@@ -45,7 +45,7 @@ newtimesig24 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 3/4 time sig and insert into the score
  */
 void
-newtimesig34 (GtkAction* action, DenemoScriptParam *param)
+newtimesig34 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (3, 4));
 }
@@ -54,7 +54,7 @@ newtimesig34 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 6/4 time sig and insert into the score
  */
 void
-newtimesig64 (GtkAction* action, DenemoScriptParam *param)
+newtimesig64 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (6, 4));
 }
@@ -63,7 +63,7 @@ newtimesig64 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 5/4 time sig and insert into the score
  */
 void
-newtimesig54 (GtkAction* action, DenemoScriptParam *param)
+newtimesig54 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (5, 4));
 }
@@ -72,7 +72,7 @@ newtimesig54 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 3/8 time sig and insert into the score
  */
 void
-newtimesig38 (GtkAction* action, DenemoScriptParam *param)
+newtimesig38 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (3, 8));
 }
@@ -81,7 +81,7 @@ newtimesig38 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 6/8 time sig and insert into the score
  */
 void
-newtimesig68 (GtkAction* action, DenemoScriptParam *param)
+newtimesig68 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (6, 8));
 }
@@ -90,7 +90,7 @@ newtimesig68 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 9/8 time sig and insert into the score
  */
 void
-newtimesig98 (GtkAction* action, DenemoScriptParam *param)
+newtimesig98 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (9, 8));
 }
@@ -99,7 +99,7 @@ newtimesig98 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 12/8 time sig and insert into the score
  */
 void
-newtimesig128 (GtkAction* action, DenemoScriptParam *param)
+newtimesig128 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (12, 8));
 }
@@ -108,7 +108,7 @@ newtimesig128 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 2/2 time sig and insert into the score
  */
 void
-newtimesig22 (GtkAction* action, DenemoScriptParam *param)
+newtimesig22 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (2, 2));
 }
@@ -117,7 +117,7 @@ newtimesig22 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 3/2 time sig and insert into the score
  */
 void
-newtimesig32 (GtkAction* action, DenemoScriptParam *param)
+newtimesig32 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (3, 2));
 }
@@ -126,14 +126,14 @@ newtimesig32 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new 4/2 time sig and insert into the score
  */
 void
-newtimesig42 (GtkAction* action, DenemoScriptParam *param)
+newtimesig42 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, dnm_newtimesigobj (4, 2));
 }
 
 
 void
-settimesig22 (GtkAction* action, DenemoScriptParam *param)
+settimesig22 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -141,7 +141,7 @@ settimesig22 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig42 (GtkAction* action, DenemoScriptParam *param)
+settimesig42 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -149,7 +149,7 @@ settimesig42 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig32 (GtkAction* action, DenemoScriptParam *param)
+settimesig32 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -157,7 +157,7 @@ settimesig32 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig44 (GtkAction* action, DenemoScriptParam *param)
+settimesig44 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -165,7 +165,7 @@ settimesig44 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig54 (GtkAction* action, DenemoScriptParam *param)
+settimesig54 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -173,7 +173,7 @@ settimesig54 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig24 (GtkAction* action, DenemoScriptParam *param)
+settimesig24 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -181,7 +181,7 @@ settimesig24 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig34 (GtkAction* action, DenemoScriptParam *param)
+settimesig34 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -189,7 +189,7 @@ settimesig34 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig68 (GtkAction* action, DenemoScriptParam *param)
+settimesig68 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -197,7 +197,7 @@ settimesig68 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig128 (GtkAction* action, DenemoScriptParam *param)
+settimesig128 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -205,7 +205,7 @@ settimesig128 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig38 (GtkAction* action, DenemoScriptParam *param)
+settimesig38 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -213,7 +213,7 @@ settimesig38 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig98 (GtkAction* action, DenemoScriptParam *param)
+settimesig98 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -221,7 +221,7 @@ settimesig98 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-settimesig64 (GtkAction* action, DenemoScriptParam *param)
+settimesig64 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)

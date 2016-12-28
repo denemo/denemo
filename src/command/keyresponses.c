@@ -333,7 +333,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
  * Reduce the measure width by 10 pixels
  */
 void
-adjust_measure_less_width_key (GtkAction* action, DenemoScriptParam *param)
+adjust_measure_less_width_key (DenemoAction* action, DenemoScriptParam *param)
 {
   adjustmeasurewidth (Denemo.project->movement, -10);
 }
@@ -342,7 +342,7 @@ adjust_measure_less_width_key (GtkAction* action, DenemoScriptParam *param)
  * Enlarge the measure width by 10 pixels
  */
 void
-adjust_measure_more_width_key (GtkAction* action, DenemoScriptParam *param)
+adjust_measure_more_width_key (DenemoAction* action, DenemoScriptParam *param)
 {
   adjustmeasurewidth (Denemo.project->movement, 10);
 }
@@ -351,7 +351,7 @@ adjust_measure_more_width_key (GtkAction* action, DenemoScriptParam *param)
  * Reduce the staff height by 10 pixels
  */
 void
-adjust_staff_less_height_key (GtkAction* action, DenemoScriptParam *param)
+adjust_staff_less_height_key (DenemoAction* action, DenemoScriptParam *param)
 {
   adjuststaffheight (Denemo.project->movement, -10);
 }
@@ -360,7 +360,7 @@ adjust_staff_less_height_key (GtkAction* action, DenemoScriptParam *param)
  * Enlarge the staff height by 10 pixels
  */
 void
-adjust_staff_more_height_key (GtkAction* action, DenemoScriptParam *param)
+adjust_staff_more_height_key (DenemoAction* action, DenemoScriptParam *param)
 {
   adjuststaffheight (Denemo.project->movement, 10);
 
@@ -396,7 +396,7 @@ go_to_key(gchar note, DenemoScriptParam *param)
  *
  */
 void
-go_to_A_key (GtkAction* action, DenemoScriptParam *param)
+go_to_A_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.project, 5);
@@ -407,7 +407,7 @@ go_to_A_key (GtkAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_B_key (GtkAction* action, DenemoScriptParam *param)
+go_to_B_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.project, 6);
@@ -418,7 +418,7 @@ go_to_B_key (GtkAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_C_key (GtkAction* action, DenemoScriptParam *param)
+go_to_C_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.project, 0);
@@ -429,7 +429,7 @@ go_to_C_key (GtkAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_D_key (GtkAction* action, DenemoScriptParam *param)
+go_to_D_key (DenemoAction* action, DenemoScriptParam *param)
 {
   shiftcursor (Denemo.project, 1);
 }
@@ -439,7 +439,7 @@ go_to_D_key (GtkAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_E_key (GtkAction* action, DenemoScriptParam *param)
+go_to_E_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.project, 2);
@@ -450,7 +450,7 @@ go_to_E_key (GtkAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_F_key (GtkAction* action, DenemoScriptParam *param)
+go_to_F_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.project, 3);
@@ -461,7 +461,7 @@ go_to_F_key (GtkAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_G_key (GtkAction* action, DenemoScriptParam *param)
+go_to_G_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
   shiftcursor (Denemo.project, 4);
@@ -514,7 +514,7 @@ octave_shift_key (DenemoScriptParam *param, gint amount)
  * Move cursor an octave up
  */
 void
-octave_up_key (GtkAction* action, DenemoScriptParam *param)
+octave_up_key (DenemoAction* action, DenemoScriptParam *param)
 {
   octave_shift_key (param, 7);
 }
@@ -526,7 +526,7 @@ octave_up_key (GtkAction* action, DenemoScriptParam *param)
  * Move cursor an octave down
  */
 void
-octave_down_key (GtkAction* action, DenemoScriptParam *param)
+octave_down_key (DenemoAction* action, DenemoScriptParam *param)
 {
   octave_shift_key (param, -7);
 }
@@ -548,43 +548,18 @@ default_mode (DenemoScriptParam *param)
 
 
 
-/**
- * Toggle into rest mode
- *
- */
-void
-rest_toggle_key (GtkAction* action, DenemoScriptParam *param)
-{
-  GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Rest");
-  gtk_action_activate (mode);
-  displayhelper (Denemo.project);
-  score_status(Denemo.project, TRUE);
-}
-
-/**
- * Toggle blank mode FIXME bitfields!!!
- *
- */
-void
-toggle_blank (GtkAction* action, DenemoScriptParam *param)
-{
-  GtkAction *mode = gtk_ui_manager_get_action (Denemo.ui_manager, "/MainMenu/ModeMenu/Blank");
-  gtk_action_activate (mode);
-  displayhelper (Denemo.project);
-  score_status(Denemo.project, TRUE);
-}
 
 /**
  * Add measure to end of staff / score
  */
 void
-append_measure_key (GtkAction* action, DenemoScriptParam *param)
+append_measure_key (DenemoAction* action, DenemoScriptParam *param)
 {
   appendmeasures (Denemo.project->movement, 1);
 }
 
 void
-append_measure_score (GtkAction* action, DenemoScriptParam *param)
+append_measure_score (DenemoAction* action, DenemoScriptParam *param)
 {
   appendmeasurestoentirescore (Denemo.project->movement, 1);
 }
@@ -593,7 +568,7 @@ append_measure_score (GtkAction* action, DenemoScriptParam *param)
  * Insert measure at the current
  */
 void
-insert_measure_key (GtkAction* action, DenemoScriptParam *param)
+insert_measure_key (DenemoAction* action, DenemoScriptParam *param)
 {
   dnm_insertmeasures (Denemo.project->movement, 1);
 }
@@ -607,55 +582,55 @@ insert_chord_xkey (gint duration, DenemoScriptParam *param)
 }
 
 void
-insert_chord_0key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_0key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(0, param);
 }
 
 void
-insert_chord_1key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_1key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(1, param);
 }
 
 void
-insert_chord_2key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_2key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(2, param);
 }
 
 void
-insert_chord_3key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_3key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(3, param);
 }
 
 void
-insert_chord_4key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_4key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(4, param);
 }
 
 void
-insert_chord_5key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_5key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(5, param);
 }
 
 void
-insert_chord_6key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_6key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(6, param);
 }
 
 void
-insert_chord_7key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_7key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(7, param);
 }
 
 void
-insert_chord_8key (GtkAction* action, DenemoScriptParam *param)
+insert_chord_8key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_chord_xkey(8, param);
 }
@@ -670,55 +645,55 @@ insert_rest_xkey(gint duration, DenemoScriptParam* param)
 
 
 void
-insert_rest_0key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_0key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(0, param);
 }
 
 void
-insert_rest_1key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_1key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(1, param);
 }
 
 void
-insert_rest_2key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_2key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(2, param);
 }
 
 void
-insert_rest_3key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_3key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(3, param);
 }
 
 void
-insert_rest_4key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_4key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(4, param);
 }
 
 void
-insert_rest_5key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_5key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(5, param);
 }
 
 void
-insert_rest_6key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_6key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(6, param);
 }
 
 void
-insert_rest_7key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_7key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(7, param);
 }
 
 void
-insert_rest_8key (GtkAction* action, DenemoScriptParam *param)
+insert_rest_8key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_rest_xkey(8, param);
 }
@@ -732,67 +707,67 @@ insert_blankchord_xkey (gint duration, DenemoScriptParam *param)
 }
 
 void
-insert_blankchord_0key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_0key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(0, param);
 }
 
 void
-insert_blankchord_1key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_1key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(1, param);
 }
 
 void
-insert_blankchord_2key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_2key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(2, param);
 }
 
 void
-insert_blankchord_3key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_3key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(3, param);
 }
 
 void
-insert_blankchord_4key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_4key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(4, param);
 }
 
 void
-insert_blankchord_5key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_5key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(5, param);
 }
 
 void
-insert_blankchord_6key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_6key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(6, param);
 }
 
 void
-insert_blankchord_7key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_7key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(7, param);
 }
 
 void
-insert_blankchord_8key (GtkAction* action, DenemoScriptParam *param)
+insert_blankchord_8key (DenemoAction* action, DenemoScriptParam *param)
 {
   insert_blankchord_xkey(8, param);
 }
 
 gboolean
-add_tone_key (GtkAction* action, DenemoScriptParam *param)
+add_tone_key (DenemoAction* action, DenemoScriptParam *param)
 {
   return insert_chordnote (Denemo.project);
 }
 
 gboolean
-remove_tone_key (GtkAction* action, DenemoScriptParam *param)
+remove_tone_key (DenemoAction* action, DenemoScriptParam *param)
 {
   return delete_chordnote (Denemo.project);
 }
@@ -801,7 +776,7 @@ remove_tone_key (GtkAction* action, DenemoScriptParam *param)
 // deletes the object before the cursor. If the measure is empty it moves to the end of the previous measure and calls itself.
 // after deleting an object it backs-up on any rhythm pattern being followed.
 void
-deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
+deletepreviousobject (DenemoAction* action, DenemoScriptParam *param)
 {
 
   /* remove the object preceding the cursor, within the current measure */
@@ -860,7 +835,7 @@ deletepreviousobject (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-sharpen_key (GtkAction* action, DenemoScriptParam *param)
+sharpen_key (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
@@ -871,13 +846,13 @@ sharpen_key (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-stem_up (GtkAction* action, DenemoScriptParam *param)
+stem_up (DenemoAction* action, DenemoScriptParam *param)
 {
   sharpen_key (action, param);
 }
 
 void
-flatten_key (GtkAction* action, DenemoScriptParam *param)
+flatten_key (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
@@ -888,7 +863,7 @@ flatten_key (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-pending_sharpen (GtkAction* action, DenemoScriptParam *param)
+pending_sharpen (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->movement->pending_enshift++;
   if (Denemo.project->movement->pending_enshift > 2)
@@ -898,7 +873,7 @@ pending_sharpen (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-pending_flatten (GtkAction* action, DenemoScriptParam *param)
+pending_flatten (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->movement->pending_enshift--;
   if (Denemo.project->movement->pending_enshift < -2)
@@ -908,14 +883,14 @@ pending_flatten (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-stem_down (GtkAction* action, DenemoScriptParam *param)
+stem_down (DenemoAction* action, DenemoScriptParam *param)
 {
   flatten_key (action, param);
 }
 
 /* insert a duplicate note and tie to it */
 void
-tie_notes_key (GtkAction* action, DenemoScriptParam *param)
+tie_notes_key (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curObj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
@@ -946,20 +921,20 @@ tie_notes_key (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-add_dot_key (GtkAction* action, DenemoScriptParam *param)
+add_dot_key (DenemoAction* action, DenemoScriptParam *param)
 {
   changedots (Denemo.project->movement, 1);
 }
 
 void
-remove_dot_key (GtkAction* action, DenemoScriptParam *param)
+remove_dot_key (DenemoAction* action, DenemoScriptParam *param)
 {
   changedots (Denemo.project->movement, -1);
 }
 
 
 void
-force_cautionary (GtkAction* action, DenemoScriptParam *param)
+force_cautionary (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoObject *theobj = Denemo.project->movement->currentobject ? (DenemoObject *) Denemo.project->movement->currentobject->data : NULL;
   if (theobj && theobj->type == CHORD)
@@ -967,7 +942,7 @@ force_cautionary (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-change_pitch (GtkAction* action, DenemoScriptParam *param)
+change_pitch (DenemoAction* action, DenemoScriptParam *param)
 {
   if (Denemo.project->mode & INPUTEDIT)
     {
@@ -1094,243 +1069,243 @@ void Add(gchar note){
   displayhelper(Denemo.project);
 }
 
-void Dur0(GtkAction *action, gpointer param) {
+void Dur0(DenemoAction *action, gpointer param) {
   Dur(0);
 }
-void ChangeDur0(GtkAction *action, gpointer param){
+void ChangeDur0(DenemoAction *action, gpointer param){
   ChangeDur(0);
 }
-void InsertDur0(GtkAction *action, gpointer param){
+void InsertDur0(DenemoAction *action, gpointer param){
   InsertDur(0);
 }
-void InsertRest0(GtkAction *action, gpointer param){
+void InsertRest0(DenemoAction *action, gpointer param){
   InsertRest(0);
 }
-void SetDur0(GtkAction *action, gpointer param){
+void SetDur0(DenemoAction *action, gpointer param){
   SetDur(0);
 }
-void Dur1(GtkAction *action, gpointer param) {
+void Dur1(DenemoAction *action, gpointer param) {
   Dur(1);
 }
-void ChangeDur1(GtkAction *action, gpointer param){
+void ChangeDur1(DenemoAction *action, gpointer param){
   ChangeDur(1);
 }
-void InsertDur1(GtkAction *action, gpointer param){
+void InsertDur1(DenemoAction *action, gpointer param){
   InsertDur(1);
 }
-void InsertRest1(GtkAction *action, gpointer param){
+void InsertRest1(DenemoAction *action, gpointer param){
   InsertRest(1);
 }
-void SetDur1(GtkAction *action, gpointer param){
+void SetDur1(DenemoAction *action, gpointer param){
   SetDur(1);
 }
-void Dur2(GtkAction *action, gpointer param) {
+void Dur2(DenemoAction *action, gpointer param) {
   Dur(2);
 }
-void ChangeDur2(GtkAction *action, gpointer param){
+void ChangeDur2(DenemoAction *action, gpointer param){
   ChangeDur(2);
 }
-void InsertDur2(GtkAction *action, gpointer param){
+void InsertDur2(DenemoAction *action, gpointer param){
   InsertDur(2);
 }
-void InsertRest2(GtkAction *action, gpointer param){
+void InsertRest2(DenemoAction *action, gpointer param){
   InsertRest(2);
 }
-void SetDur2(GtkAction *action, gpointer param){
+void SetDur2(DenemoAction *action, gpointer param){
   SetDur(2);
 }
-void Dur3(GtkAction *action, gpointer param) {
+void Dur3(DenemoAction *action, gpointer param) {
   Dur(3);
 }
-void ChangeDur3(GtkAction *action, gpointer param){
+void ChangeDur3(DenemoAction *action, gpointer param){
   ChangeDur(3);
 }
-void InsertDur3(GtkAction *action, gpointer param){
+void InsertDur3(DenemoAction *action, gpointer param){
   InsertDur(3);
 }
-void InsertRest3(GtkAction *action, gpointer param){
+void InsertRest3(DenemoAction *action, gpointer param){
   InsertRest(3);
 }
-void SetDur3(GtkAction *action, gpointer param){
+void SetDur3(DenemoAction *action, gpointer param){
   SetDur(3);
 }
-void Dur4(GtkAction *action, gpointer param) {
+void Dur4(DenemoAction *action, gpointer param) {
   Dur(4);
 }
-void ChangeDur4(GtkAction *action, gpointer param){
+void ChangeDur4(DenemoAction *action, gpointer param){
   ChangeDur(4);
 }
-void InsertDur4(GtkAction *action, gpointer param){
+void InsertDur4(DenemoAction *action, gpointer param){
   InsertDur(4);
 }
-void InsertRest4(GtkAction *action, gpointer param){
+void InsertRest4(DenemoAction *action, gpointer param){
   InsertRest(4);
 }
-void SetDur4(GtkAction *action, gpointer param){
+void SetDur4(DenemoAction *action, gpointer param){
   SetDur(4);
 }
-void Dur5(GtkAction *action, gpointer param) {
+void Dur5(DenemoAction *action, gpointer param) {
   Dur(5);
 }
-void ChangeDur5(GtkAction *action, gpointer param){
+void ChangeDur5(DenemoAction *action, gpointer param){
   ChangeDur(5);
 }
-void InsertDur5(GtkAction *action, gpointer param){
+void InsertDur5(DenemoAction *action, gpointer param){
   InsertDur(5);
 }
-void InsertRest5(GtkAction *action, gpointer param){
+void InsertRest5(DenemoAction *action, gpointer param){
   InsertRest(5);
 }
-void SetDur5(GtkAction *action, gpointer param){
+void SetDur5(DenemoAction *action, gpointer param){
   SetDur(5);
 }
-void Dur6(GtkAction *action, gpointer param) {
+void Dur6(DenemoAction *action, gpointer param) {
   Dur(6);
 }
-void ChangeDur6(GtkAction *action, gpointer param){
+void ChangeDur6(DenemoAction *action, gpointer param){
   ChangeDur(6);
 }
-void InsertDur6(GtkAction *action, gpointer param){
+void InsertDur6(DenemoAction *action, gpointer param){
   InsertDur(6);
 }
-void InsertRest6(GtkAction *action, gpointer param){
+void InsertRest6(DenemoAction *action, gpointer param){
   InsertRest(6);
 }
-void SetDur6(GtkAction *action, gpointer param){
+void SetDur6(DenemoAction *action, gpointer param){
   SetDur(6);
 }
-void Dur7(GtkAction *action, gpointer param) {
+void Dur7(DenemoAction *action, gpointer param) {
   Dur(7);
 }
-void ChangeDur7(GtkAction *action, gpointer param){
+void ChangeDur7(DenemoAction *action, gpointer param){
   ChangeDur(7);
 }
-void InsertDur7(GtkAction *action, gpointer param){
+void InsertDur7(DenemoAction *action, gpointer param){
   InsertDur(7);
 }
-void InsertRest7(GtkAction *action, gpointer param){
+void InsertRest7(DenemoAction *action, gpointer param){
   InsertRest(7);
 }
-void SetDur7(GtkAction *action, gpointer param){
+void SetDur7(DenemoAction *action, gpointer param){
   SetDur(7);
 }
-void Dur8(GtkAction *action, gpointer param) {
+void Dur8(DenemoAction *action, gpointer param) {
   Dur(8);
 }
-void ChangeDur8(GtkAction *action, gpointer param){
+void ChangeDur8(DenemoAction *action, gpointer param){
   ChangeDur(8);
 }
-void InsertDur8(GtkAction *action, gpointer param){
+void InsertDur8(DenemoAction *action, gpointer param){
   InsertDur(8);
 }
-void InsertRest8(GtkAction *action, gpointer param){
+void InsertRest8(DenemoAction *action, gpointer param){
   InsertRest(8);
 }
-void SetDur8(GtkAction *action, gpointer param){
+void SetDur8(DenemoAction *action, gpointer param){
   SetDur(8);
 }
-void InsertA(GtkAction *action, gpointer param){
+void InsertA(DenemoAction *action, gpointer param){
   Insert('A');
 }
-void AddNoteA(GtkAction *action, gpointer param){
+void AddNoteA(DenemoAction *action, gpointer param){
   AddNote('A');
 }
-void AddA(GtkAction *action, gpointer param){
+void AddA(DenemoAction *action, gpointer param){
   Add('A');
 }
-void ChangeToA(GtkAction *action, gpointer param){
+void ChangeToA(DenemoAction *action, gpointer param){
   ChangeTo('A');
 }
-void MoveToA(GtkAction *action, gpointer param){
+void MoveToA(DenemoAction *action, gpointer param){
   MoveTo('A');
 }
-void InsertB(GtkAction *action, gpointer param){
+void InsertB(DenemoAction *action, gpointer param){
   Insert('B');
 }
-void AddNoteB(GtkAction *action, gpointer param){
+void AddNoteB(DenemoAction *action, gpointer param){
   AddNote('B');
 }
-void AddB(GtkAction *action, gpointer param){
+void AddB(DenemoAction *action, gpointer param){
   Add('B');
 }
-void ChangeToB(GtkAction *action, gpointer param){
+void ChangeToB(DenemoAction *action, gpointer param){
   ChangeTo('B');
 }
-void MoveToB(GtkAction *action, gpointer param){
+void MoveToB(DenemoAction *action, gpointer param){
   MoveTo('B');
 }
-void InsertC(GtkAction *action, gpointer param){
+void InsertC(DenemoAction *action, gpointer param){
   Insert('C');
 }
-void AddNoteC(GtkAction *action, gpointer param){
+void AddNoteC(DenemoAction *action, gpointer param){
   AddNote('C');
 }
-void AddC(GtkAction *action, gpointer param){
+void AddC(DenemoAction *action, gpointer param){
   Add('C');
 }
-void ChangeToC(GtkAction *action, gpointer param){
+void ChangeToC(DenemoAction *action, gpointer param){
   ChangeTo('C');
 }
-void MoveToC(GtkAction *action, gpointer param){
+void MoveToC(DenemoAction *action, gpointer param){
   MoveTo('C');
 }
-void InsertD(GtkAction *action, gpointer param){
+void InsertD(DenemoAction *action, gpointer param){
   Insert('D');
 }
-void AddNoteD(GtkAction *action, gpointer param){
+void AddNoteD(DenemoAction *action, gpointer param){
   AddNote('D');
 }
-void AddD(GtkAction *action, gpointer param){
+void AddD(DenemoAction *action, gpointer param){
   Add('D');
 }
-void ChangeToD(GtkAction *action, gpointer param){
+void ChangeToD(DenemoAction *action, gpointer param){
   ChangeTo('D');
 }
-void MoveToD(GtkAction *action, gpointer param){
+void MoveToD(DenemoAction *action, gpointer param){
   MoveTo('D');
 }
-void InsertE(GtkAction *action, gpointer param){
+void InsertE(DenemoAction *action, gpointer param){
   Insert('E');
 }
-void AddNoteE(GtkAction *action, gpointer param){
+void AddNoteE(DenemoAction *action, gpointer param){
   AddNote('E');
 }
-void AddE(GtkAction *action, gpointer param){
+void AddE(DenemoAction *action, gpointer param){
   Add('E');
 }
-void ChangeToE(GtkAction *action, gpointer param){
+void ChangeToE(DenemoAction *action, gpointer param){
   ChangeTo('E');
 }
-void MoveToE(GtkAction *action, gpointer param){
+void MoveToE(DenemoAction *action, gpointer param){
   MoveTo('E');
 }
-void InsertF(GtkAction *action, gpointer param){
+void InsertF(DenemoAction *action, gpointer param){
   Insert('F');
 }
-void AddNoteF(GtkAction *action, gpointer param){
+void AddNoteF(DenemoAction *action, gpointer param){
   AddNote('F');
 }
-void AddF(GtkAction *action, gpointer param){
+void AddF(DenemoAction *action, gpointer param){
   Add('F');
 }
-void ChangeToF(GtkAction *action, gpointer param){
+void ChangeToF(DenemoAction *action, gpointer param){
   ChangeTo('F');
 }
-void MoveToF(GtkAction *action, gpointer param){
+void MoveToF(DenemoAction *action, gpointer param){
   MoveTo('F');
 }
-void InsertG(GtkAction *action, gpointer param){
+void InsertG(DenemoAction *action, gpointer param){
   Insert('G');
 }
-void AddNoteG(GtkAction *action, gpointer param){
+void AddNoteG(DenemoAction *action, gpointer param){
   AddNote('G');
 }
-void AddG(GtkAction *action, gpointer param){
+void AddG(DenemoAction *action, gpointer param){
   Add('G');
 }
-void ChangeToG(GtkAction *action, gpointer param){
+void ChangeToG(DenemoAction *action, gpointer param){
   ChangeTo('G');
 }
-void MoveToG(GtkAction *action, gpointer param){
+void MoveToG(DenemoAction *action, gpointer param){
   MoveTo('G');
 }

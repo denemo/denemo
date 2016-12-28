@@ -26,7 +26,7 @@ clef_new (enum clefs type)
  * Wrapper function to create new treble clef and insert into the score
  */
 void
-clef_new_treble (GtkAction* action, DenemoScriptParam *param)
+clef_new_treble (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_TREBLE_CLEF));
 }
@@ -35,7 +35,7 @@ clef_new_treble (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new bass clef and insert into the score
  */
 void
-clef_new_bass (GtkAction* action, DenemoScriptParam *param)
+clef_new_bass (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_BASS_CLEF));
 }
@@ -44,7 +44,7 @@ clef_new_bass (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new alto clef and insert into the score
  */
 void
-clef_new_alto (GtkAction* action, DenemoScriptParam *param)
+clef_new_alto (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_ALTO_CLEF));
 }
@@ -53,7 +53,7 @@ clef_new_alto (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new treble_8 clef and insert into the score
  */
 void
-clef_new_g8 (GtkAction* action, DenemoScriptParam *param)
+clef_new_g8 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_G_8_CLEF));
 }
@@ -62,7 +62,7 @@ clef_new_g8 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new bass_8 clef and insert into the score
  */
 void
-clef_new_f8 (GtkAction* action, DenemoScriptParam *param)
+clef_new_f8 (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_F_8_CLEF));
 }
@@ -71,7 +71,7 @@ clef_new_f8 (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new tenor clef and insert into the score
  */
 void
-clef_new_tenor (GtkAction* action, DenemoScriptParam *param)
+clef_new_tenor (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_TENOR_CLEF));
 }
@@ -80,7 +80,7 @@ clef_new_tenor (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new soprano clef and insert into the score
  */
 void
-clef_new_soprano (GtkAction* action, DenemoScriptParam *param)
+clef_new_soprano (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_SOPRANO_CLEF));
 }
@@ -89,14 +89,14 @@ clef_new_soprano (GtkAction* action, DenemoScriptParam *param)
  * Wrapper function to create new french clef and insert into the score
  */
 void
-clef_new_french (GtkAction* action, DenemoScriptParam *param)
+clef_new_french (DenemoAction* action, DenemoScriptParam *param)
 {
   object_insert (Denemo.project, clef_new (DENEMO_FRENCH_CLEF));
 }
 
 
 void
-clef_set_treble (GtkAction* action, DenemoScriptParam *param)
+clef_set_treble (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -104,7 +104,7 @@ clef_set_treble (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_bass (GtkAction* action, DenemoScriptParam *param)
+clef_set_bass (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -112,7 +112,7 @@ clef_set_bass (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_g8 (GtkAction* action, DenemoScriptParam *param)
+clef_set_g8 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -120,7 +120,7 @@ clef_set_g8 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_f8 (GtkAction* action, DenemoScriptParam *param)
+clef_set_f8 (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -128,7 +128,7 @@ clef_set_f8 (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_alto (GtkAction* action, DenemoScriptParam *param)
+clef_set_alto (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -136,7 +136,7 @@ clef_set_alto (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_tenor (GtkAction* action, DenemoScriptParam *param)
+clef_set_tenor (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -144,7 +144,7 @@ clef_set_tenor (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_soprano (GtkAction* action, DenemoScriptParam *param)
+clef_set_soprano (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)
@@ -152,7 +152,7 @@ clef_set_soprano (GtkAction* action, DenemoScriptParam *param)
 }
 
 void
-clef_set_french (GtkAction* action, DenemoScriptParam *param)
+clef_set_french (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoStaff *curstaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (curstaff)

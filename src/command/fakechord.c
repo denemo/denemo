@@ -150,7 +150,7 @@ insertfakechord (GtkWidget * widget, gpointer data)
   return FALSE;
 }
 void
-delete_fakechords (GtkAction * action, DenemoScriptParam * param)
+delete_fakechords (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
@@ -185,7 +185,7 @@ delete_fakechords (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-fakechord_insert (GtkAction * action, DenemoScriptParam * param)
+fakechord_insert (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   gchar *string;

@@ -29,6 +29,7 @@ DenemoAction *denemo_action_new (const gchar *name, const gchar *label, const gc
 gchar *denemo_action_get_name (DenemoAction *action);
 gchar *denemo_action_get_tooltip (DenemoAction *action);
 GList* denemo_action_get_proxies (DenemoAction *action);
+void denemo_action_activate (DenemoAction *action);
 void finalize_menusystem(void);
 void instantiate_menus (gchar * menupath);
 gchar *get_menupath_for_name (gchar *name);

@@ -114,12 +114,12 @@ GPid previewerpid;
 
 WysiwygInfo* get_wysiwyg_info();
 void initialize_print_status (void);
-void printall_cb (GtkAction * action, DenemoScriptParam * param);
-void printmovement_cb (GtkAction * action, DenemoScriptParam * param);
-void printpart_cb (GtkAction * action, DenemoScriptParam * param);
-void printselection_cb (GtkAction * action, DenemoScriptParam * param);
+void printall_cb (DenemoAction * action, DenemoScriptParam * param);
+void printmovement_cb (DenemoAction * action, DenemoScriptParam * param);
+void printpart_cb (DenemoAction * action, DenemoScriptParam * param);
+void printselection_cb (DenemoAction * action, DenemoScriptParam * param);
 
-void printexcerptpreview_cb (GtkAction * action, DenemoScriptParam * param);
+void printexcerptpreview_cb (DenemoAction * action, DenemoScriptParam * param);
 gchar *get_lily_version_string (void);
 void export_pdf (gchar * filename, DenemoProject * gui);
 void export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui);
@@ -130,6 +130,6 @@ gboolean stop_lilypond ();
 void process_lilypond_errors (gchar * filename);
 gchar *get_printfile_pathbasename (void);
 void create_pdf (gboolean part_only, gboolean all_movements);
-void show_print_view (GtkAction * action, DenemoScriptParam * param);
+void show_print_view (DenemoAction * action, DenemoScriptParam * param);
 void create_svg (gboolean part_only, gboolean all_movements);
 #endif /*PRINT_H */

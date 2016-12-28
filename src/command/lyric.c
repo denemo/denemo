@@ -510,7 +510,7 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 }
 
 void
-add_verse (GtkAction * action, DenemoScriptParam * param)
+add_verse (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   DenemoMovement *movement = project->movement;
@@ -525,7 +525,7 @@ add_verse (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-delete_verse (GtkAction * action, DenemoScriptParam * param)
+delete_verse (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;

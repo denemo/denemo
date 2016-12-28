@@ -137,9 +137,9 @@ change_input_type (GtkCheckMenuItem * item, gint val)
 }
 
 static void
-placeInPalette (GtkWidget * widget, GtkAction * action)
+placeInPalette (GtkWidget * widget, DenemoAction * action)
 {
-  gchar *name = (gchar *) gtk_action_get_name (action);
+  gchar *name = (gchar *) denemo_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
   if (idx > 0)
     place_action_in_palette (idx, name);
@@ -184,9 +184,9 @@ appendSchemeText_cb (GtkWidget * widget, gchar * text)
    The save is to the user's menu hierarchy on disk
 */
 static void
-saveMenuItem (GtkWidget * widget, GtkAction * action)
+saveMenuItem (GtkWidget * widget, DenemoAction * action)
 {
-  gchar *name = (gchar *) gtk_action_get_name (action);
+  gchar *name = (gchar *) denemo_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
 
   command_row *row = NULL;
@@ -362,10 +362,10 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
  *
  */
 static void
-toggle_rhythm_toolbar (GtkAction * action, gpointer param)
+toggle_rhythm_toolbar (DenemoAction * action, gpointer param)
 {
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
+  widget = denemo_menusystem_get_widget ("/RhythmToolBar");
   //g_debug("Callback for %s\n", g_type_name(G_TYPE_FROM_INSTANCE(widget)));
   if ((!action) || gtk_widget_get_visible (widget))
     {
@@ -390,10 +390,10 @@ toggle_rhythm_toolbar (GtkAction * action, gpointer param)
  *
  */
 void
-toggle_toolbar (GtkAction * action, gpointer param)
+toggle_toolbar (DenemoAction * action, gpointer param)
 {
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ToolBar");
+  widget = denemo_menusystem_get_widget ("/ToolBar");
   if ((!action) || gtk_widget_get_visible (widget))
     gtk_widget_hide (widget);
   else
@@ -408,7 +408,7 @@ toggle_toolbar (GtkAction * action, gpointer param)
  *
  */
 void
-toggle_playback_controls (GtkAction * action, gpointer param)
+toggle_playback_controls (DenemoAction * action, gpointer param)
 {
   GtkWidget *widget;
   widget = Denemo.playback_control;
@@ -426,7 +426,7 @@ toggle_playback_controls (GtkAction * action, gpointer param)
  *
  */
 void
-toggle_midi_in_controls (GtkAction * action, gpointer param)
+toggle_midi_in_controls (DenemoAction * action, gpointer param)
 {
   GtkWidget *widget;
   widget = Denemo.midi_in_control;
@@ -445,7 +445,7 @@ toggle_midi_in_controls (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_quick_edits (GtkAction * action, gpointer param)
+toggle_quick_edits (DenemoAction * action, gpointer param)
 {
  //Denemo.prefs.quickshortcuts = !Denemo.prefs.quickshortcuts;
  
@@ -458,7 +458,7 @@ toggle_quick_edits (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_print_view (GtkAction * action, gpointer param)
+toggle_print_view (DenemoAction * action, gpointer param)
 {
   if (Denemo.non_interactive)
     return;
@@ -484,7 +484,7 @@ toggle_print_view (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_playback_view (GtkAction * action, gpointer param)
+toggle_playback_view (DenemoAction * action, gpointer param)
 {
   if (Denemo.non_interactive)
     return;
@@ -507,7 +507,7 @@ toggle_playback_view (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_score_layout (GtkAction * action, gpointer param)
+toggle_score_layout (DenemoAction * action, gpointer param)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
@@ -535,7 +535,7 @@ toggle_score_layout (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_command_manager (GtkAction * action, gpointer param)
+toggle_command_manager (DenemoAction * action, gpointer param)
 {
   if (Denemo.command_manager == NULL)
     {
@@ -558,7 +558,7 @@ toggle_command_manager (GtkAction * action, gpointer param)
  *
  */
 void
-toggle_lyrics_view (GtkAction * action, gpointer param)
+toggle_lyrics_view (DenemoAction * action, gpointer param)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
@@ -597,13 +597,13 @@ toggle_lyrics_view (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_object_menu (GtkAction * action, gpointer param)
+toggle_object_menu (DenemoAction * action, gpointer param)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
 #else
   GtkWidget *widget;
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ObjectMenu");
+  widget = denemo_menusystem_get_widget ("/ObjectMenu");
   if (!widget)
     return;                     // internal error - out of step with menu_entries...
   if ((!action) || gtk_widget_get_visible (widget))
@@ -624,7 +624,7 @@ toggle_object_menu (GtkAction * action, gpointer param)
  *  the text if needed
  */
 static void
-toggle_lilytext (GtkAction * action, gpointer param)
+toggle_lilytext (DenemoAction * action, gpointer param)
 {
   DenemoProject *project = Denemo.project;
   //if(!project->textview)
@@ -663,7 +663,7 @@ toggle_scheme (void)
  *
  */
 static void
-toggle_score_view (GtkAction * action, gpointer param)
+toggle_score_view (DenemoAction * action, gpointer param)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
@@ -685,7 +685,7 @@ toggle_score_view (GtkAction * action, gpointer param)
  *
  */
 static void
-toggle_scoretitles (GtkAction * action, gpointer param)
+toggle_scoretitles (DenemoAction * action, gpointer param)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
@@ -799,16 +799,12 @@ load_command_from_location (GtkWidget * w, gchar * filepath)
 
 */
 static gboolean
-menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
+menu_click (GtkWidget * widget, GdkEventButton * event, DenemoAction * action)
 {
   keymap *the_keymap = Denemo.map;
-  const gchar *func_name = gtk_action_get_name (action);
-  //g_debug("widget name %s action name %s accel path %s\n", gtk_widget_get_name(widget), func_name, gtk_action_get_accel_path (action));
+  const gchar *func_name = denemo_action_get_name (action);
 
-  // GSList *h = gtk_action_get_proxies (action);
   //g_print("In menu click action is %p name is %s button %d\n",action, func_name, event->button);
-
-
 
   gint idx = lookup_command_from_name (the_keymap, func_name);
   command_row *row = NULL;
@@ -892,7 +888,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
     {
       gchar *scheme = get_scheme_from_idx (idx);
       if (!scheme)
-        g_warning ("Could not get script for %s", gtk_action_get_name (action));
+        g_warning ("Could not get script for %s", denemo_action_get_name (action));
       else
         {
           item = gtk_menu_item_new_with_label (_("Get Script into Scheme Window"));
@@ -955,7 +951,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 }
 
 //static gboolean
-//thecallback (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
+//thecallback (GtkWidget * widget, GdkEventButton * event, DenemoAction * action)
 //{
   //if (event->button == 1 && !(event->state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)))
     //return FALSE;
@@ -967,7 +963,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, GtkAction * action)
 
 
 static void
-attach_right_click_callback (GtkWidget * widget, GtkAction * action)
+attach_right_click_callback (GtkWidget * widget, DenemoAction * action)
 {
   gtk_widget_add_events (widget, (GDK_BUTTON_RELEASE_MASK));      //will not work because label are NO_WINDOW
   g_signal_connect (G_OBJECT (widget), "button-release-event", G_CALLBACK (menu_click), action);
@@ -998,7 +994,7 @@ dnm_key_snooper (GtkWidget *grab_widget, GdkEventKey * event)
 }
 
 static void
-attach_key_snooper (GtkWidget * widget, GtkAction * action)
+attach_key_snooper (GtkWidget * widget, DenemoAction * action)
 {
   show_type (widget, "attaching to type ");
   GdkWindow *window = gtk_widget_get_window (widget);
@@ -1017,7 +1013,7 @@ attach_key_snooper (GtkWidget * widget, GtkAction * action)
     * (was proxy_connected())
 */
 static void
-attach_accels_and_callbacks (GtkAction * action, GtkWidget * proxy)
+attach_accels_and_callbacks (DenemoAction * action, GtkWidget * proxy)
 {
   int command_idx;
   command_row *row;
@@ -1025,7 +1021,7 @@ attach_accels_and_callbacks (GtkAction * action, GtkWidget * proxy)
  // attach_key_snooper (proxy, action);
  //  g_signal_connect (G_OBJECT (proxy), "button-press-event", G_CALLBACK (thecallback), action);
  //show_type (proxy, "the type is");
-  const gchar *tooltip = gtk_action_get_tooltip (action);
+  const gchar *tooltip = denemo_action_get_tooltip (action);
   const gchar *additional_text;
   
   g_object_set_data (G_OBJECT (proxy), "action", action);
@@ -1041,7 +1037,7 @@ attach_accels_and_callbacks (GtkAction * action, GtkWidget * proxy)
 
   if (Denemo.map == NULL)
     return;
-  command_idx = lookup_command_from_name (Denemo.map, gtk_action_get_name (action));
+  command_idx = lookup_command_from_name (Denemo.map, denemo_action_get_name (action));
 
   if (command_idx > -1)
     {
@@ -1430,7 +1426,7 @@ static void create_toolbar_items (void)
     g_signal_connect_swapped (item, "clicked", G_CALLBACK (toolbar_move_to_end_callback), NULL);
 #if 0
  toggle_toolbar   
-  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/ToolBar");  
+  GtkWidget *widget = denemo_menusystem_get_widget ("/ToolBar");  
   
      <toolitem action="NewScore"/>
     <toolitem action="Open"/>
@@ -1457,7 +1453,7 @@ void finalize_menusystem(void)
       
       gtk_widget_set_tooltip_text (button, _("Copy selection as music snippet or rhythm pattern for notes to follow as they are entered"));
       g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK(create_rhythm_cb), NULL);
-      GtkWidget *rhythm_toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
+      GtkWidget *rhythm_toolbar = denemo_menusystem_get_widget ("/RhythmToolBar");
       gtk_container_add (GTK_CONTAINER (rhythm_toolbar), button);
       
       gtk_widget_show_all (denemo_menusystem_get_widget ("/MainMenu/InputMenu"));
@@ -1496,9 +1492,9 @@ instantiate_menus (gchar * menupath)
   if (NULL == denemo_menusystem_get_action (name))
     {//g_print("Menu %s has no action\n", name);
       gchar *tooltip = g_strconcat (_("Menu:\nnamed \""), name, _("\" located at "), menupath, _(" in the menu system"), NULL);
-      GtkAction *action = gtk_action_new (name, name, tooltip, NULL);
+      DenemoAction *action = denemo_action_new (name, name, tooltip);
       g_free (tooltip);
-      gtk_action_group_add_action (action_group, action);
+      denemo_action_group_add_action (action);
 
       gint idx = lookup_command_from_name (Denemo.map, name);
       command_row* row = NULL;

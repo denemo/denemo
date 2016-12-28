@@ -637,7 +637,7 @@ mark_boundaries_helper (DenemoMovement * si, gint mark_staff, gint mark_measure,
  *
  */
 void
-set_mark (GtkAction* action, DenemoScriptParam * param)
+set_mark (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
   si->selection_is_copied = FALSE;
@@ -655,7 +655,7 @@ set_mark (GtkAction* action, DenemoScriptParam * param)
  *
  */
 void
-set_point (GtkAction* action, DenemoScriptParam * param)
+set_point (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
   if (si->markstaffnum)
@@ -679,7 +679,7 @@ mark_status (void)
  *
  */
 void
-unset_mark (GtkAction* action, DenemoScriptParam * param)
+unset_mark (DenemoAction* action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
   si->markstaffnum = 0;
@@ -770,7 +770,7 @@ restore_selection (DenemoMovement * si)
  *
  */
 void
-goto_mark (GtkAction * action, DenemoScriptParam * param)
+goto_mark (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoScriptParam local_param;
   local_param.status = TRUE;
@@ -799,7 +799,7 @@ goto_mark (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-goto_selection_start (GtkAction * action, DenemoScriptParam * param)
+goto_selection_start (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
   if (!action)
@@ -872,11 +872,11 @@ push_given_position (DenemoPosition * pos)
  *  copywrapper
  *  Wrapper function for the copy command
  *
- * @param action pointer to the GTKAction event
+ * @param action pointer to the DenemoAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
-copywrapper (GtkAction * action, DenemoScriptParam * param)
+copywrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   copytobuffer (gui->movement);
@@ -886,11 +886,11 @@ copywrapper (GtkAction * action, DenemoScriptParam * param)
  * cutwrapper
  * Wrapper function for the cut command
  *
- * @param action pointer to the GTKAction event
+ * @param action pointer to the DenemoAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
-cutwrapper (GtkAction * action, DenemoScriptParam * param)
+cutwrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   cuttobuffer (gui->movement, TRUE);
@@ -911,10 +911,10 @@ delete_selection (void)
  * Wrapper function for the paste command
  *
  * @param gui pointer to the DenemoProject structure
- * @param action pointer to the GtkAction event
+ * @param action pointer to the DenemoAction event
  */
 void
-pastewrapper (GtkAction * action, DenemoScriptParam * param)
+pastewrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   stage_undo (Denemo.project->movement, ACTION_STAGE_END);        //undo is a queue (ie stack) so we push the end first
 
@@ -933,11 +933,11 @@ pastewrapper (GtkAction * action, DenemoScriptParam * param)
  * saveselwrapper
  * Wrapper function for the Save selection command
  *
- * @param action pointer to the GtkAction event
+ * @param action pointer to the DenemoAction event
  * @param gui pointer to the DenemoProject structure
  */
 void
-saveselwrapper (GtkAction * action, DenemoScriptParam * param)
+saveselwrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   saveselection (gui->movement);
@@ -959,7 +959,7 @@ calcmarkboundaries (DenemoMovement * si)
 }
 
 void
-swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
+swap_point_and_mark (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoMovement *si = Denemo.project->movement;
   gint temp = si->currentstaffnum;
@@ -988,7 +988,7 @@ swap_point_and_mark (GtkAction * action, DenemoScriptParam * param)
  * widget - unused
  */
 void
-undowrapper (GtkAction * action, DenemoScriptParam * param)
+undowrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   XesNeedRecalculating = FALSE;
@@ -1008,7 +1008,7 @@ undowrapper (GtkAction * action, DenemoScriptParam * param)
  * widget - unused
  */
 void
-redowrapper (GtkAction * action, DenemoScriptParam * param)
+redowrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   redo (gui);

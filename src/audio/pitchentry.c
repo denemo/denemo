@@ -573,13 +573,13 @@ enharmonic_step (gboolean sharp)
 }
 
 void
-set_sharper (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+set_sharper (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   enharmonic_step (TRUE);
 }
 
 void
-set_flatter (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+set_flatter (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
 {
   enharmonic_step (FALSE);
 }
@@ -810,7 +810,7 @@ clear_tone_store (G_GNUC_UNUSED GtkButton * button, DenemoProject * gui)
 }
 
 void
-clear_overlay (G_GNUC_UNUSED GtkAction * action, G_GNUC_UNUSED DenemoScriptParam* param)
+clear_overlay (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam* param)
 {
   DenemoProject *gui = Denemo.project;
   clear_tone_store (NULL, gui);
@@ -1841,7 +1841,7 @@ stop_pitch_input (void)
 }
 
 void
-clear_overlay (GtkAction * action, DenemoScriptParam* param)
+clear_overlay (DenemoAction * action, DenemoScriptParam* param)
 {
 }
 #endif

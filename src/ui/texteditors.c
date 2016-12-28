@@ -22,9 +22,9 @@
 #include "scripting/scheme-callbacks.h"
 #include "core/menusystem.h"
 
-static void find_cb (GtkAction * action, gpointer user_data);
+static void find_cb (DenemoAction * action, gpointer user_data);
 
-static void replace_cb (GtkAction * action, gpointer user_data);
+static void replace_cb (DenemoAction * action, gpointer user_data);
 
 /* returns newly allocated string containing current Scheme in the script_view
  caller must free
@@ -149,7 +149,7 @@ appendSchemeText (gchar * text)
 }
 
 static gint
-hide_scheme (GtkAction * action, GdkEvent * event, GtkWidget * w)
+hide_scheme (DenemoAction * action, GdkEvent * event, GtkWidget * w)
 {
 
   if(Denemo.ScriptRecording) {
@@ -332,7 +332,7 @@ scheme_changed_cb (GtkSourceBuffer *buffer){
 
 
 static void
-toggle_record_script (GtkAction * action, gpointer param)
+toggle_record_script (DenemoAction * action, gpointer param)
 {
   if (!gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view)))
     toggle_scheme ();
@@ -611,13 +611,13 @@ do_search_replace (GtkTextView * view, gboolean replace)
 }
 
 static void
-find_cb (GtkAction * action, gpointer user_data)
+find_cb (DenemoAction * action, gpointer user_data)
 {
   do_search_replace (user_data, FALSE);
 }
 
 static void
-replace_cb (GtkAction * action, gpointer user_data)
+replace_cb (DenemoAction * action, gpointer user_data)
 {
   do_search_replace (user_data, TRUE);
 }

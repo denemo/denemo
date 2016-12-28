@@ -54,7 +54,7 @@ set_tempo (void)
  * the name ext_... is anachronistic, Fluidsynth or Jack are normally used.
  */
 void
-ext_midi_playback (GtkAction * action, DenemoScriptParam * param)
+ext_midi_playback (DenemoAction * action, DenemoScriptParam * param)
 {
   if(Denemo.non_interactive)
     return;
@@ -86,7 +86,7 @@ restart_play (void)
 }
 
 void
-stop_midi_playback (GtkAction * action, DenemoScriptParam* param)
+stop_midi_playback (DenemoAction * action, DenemoScriptParam* param)
 {
 
   if (is_paused ())

@@ -159,7 +159,7 @@ void set_movement_selector (DenemoProject *gui)
 }
 
 static void
-new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
+new_movement (DenemoAction * action, DenemoScriptParam * param, gboolean before)
 {
   DenemoProject *gui = Denemo.project;
   gint pos = g_list_index (gui->movements, gui->movement);
@@ -181,7 +181,7 @@ new_movement (GtkAction * action, DenemoScriptParam * param, gboolean before)
 
 
 static void
-append_movement (GtkAction * action, gpointer param, gboolean populate)
+append_movement (DenemoAction * action, gpointer param, gboolean populate)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *source_movement = gui->movement;
@@ -224,7 +224,7 @@ append_movement (GtkAction * action, gpointer param, gboolean populate)
 
 //copies staff structure to new movement
 void
-append_new_movement (GtkAction * action, DenemoScriptParam * param)
+append_new_movement (DenemoAction * action, DenemoScriptParam * param)
 {
   append_movement (action, param, TRUE);
 }
@@ -240,13 +240,13 @@ append_blank_movement (void)
 
 
 void
-insert_movement_before (GtkAction * action, DenemoScriptParam * param)
+insert_movement_before (DenemoAction * action, DenemoScriptParam * param)
 {
   new_movement (action, param, TRUE);
 }
 
 void
-insert_movement_after (GtkAction * action, DenemoScriptParam * param)
+insert_movement_after (DenemoAction * action, DenemoScriptParam * param)
 {
   new_movement (action, param, FALSE);
 }
@@ -275,7 +275,7 @@ reset_movement_numbers (DenemoProject * gui)
 }
 
 void
-delete_movement (GtkAction * action, DenemoScriptParam* param)
+delete_movement (DenemoAction * action, DenemoScriptParam* param)
 {
   DenemoProject *gui = Denemo.project;
   terminate_playback ();
@@ -423,7 +423,7 @@ get_object_by_position (gint movementnum, gint staffnum, gint measurenum, gint o
 }
 
 void
-PopPosition (GtkAction * action, DenemoScriptParam * param)
+PopPosition (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoPosition *pos = pop_position ();
   DenemoScriptParam dummy;
@@ -444,13 +444,13 @@ PopPosition (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-PushPosition (GtkAction * action, DenemoScriptParam * param)
+PushPosition (DenemoAction * action, DenemoScriptParam * param)
 {
   push_position ();
 }
 
 void
-PopPushPosition (GtkAction * action, DenemoScriptParam * param)
+PopPushPosition (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoPosition *pos = pop_position ();
   DenemoScriptParam dummy;
@@ -478,7 +478,7 @@ PopPushPosition (GtkAction * action, DenemoScriptParam * param)
  * @return none
 */
 void
-next_movement (GtkAction * action, DenemoScriptParam * param)
+next_movement (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   terminate_playback ();
@@ -534,7 +534,7 @@ next_movement (GtkAction * action, DenemoScriptParam * param)
  * @return none
 */
 void
-prev_movement (GtkAction * action, DenemoScriptParam * param)
+prev_movement (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   terminate_playback ();

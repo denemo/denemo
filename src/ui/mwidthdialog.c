@@ -43,7 +43,7 @@ set_mwidth (GtkWidget * widget, gpointer data)
  *
  */
 void
-score_mwidth_change (GtkAction * action, gpointer param)
+score_mwidth_change (DenemoAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   GtkWidget *dialog;

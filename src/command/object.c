@@ -895,7 +895,7 @@ call_edit_on_action (GtkWidget * button, DIRECTIVE_TYPE score_edit)
 {
   //gtk_widget_destroy (gtk_widget_get_toplevel (button));
   DenemoScriptParam param;
-  GtkAction *action = (GtkAction *) g_object_get_data (G_OBJECT (button), "action");
+  DenemoAction *action = (DenemoAction *) g_object_get_data (G_OBJECT (button), "action");
   //GList *currentobject = Denemo.project->movement->currentobject;
   chuck_object_editor ();
   param.string = g_string_new ("edit");
@@ -1198,7 +1198,7 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
     {
       DenemoDirective *directive = directives->data;
       const gchar *label = get_label_for_command (directive->tag->str);
-      GtkAction *action = lookup_action_from_name (directive->tag->str);
+      DenemoAction *action = lookup_action_from_name (directive->tag->str);
       gchar *name = label ? (gchar *) label : directive->tag->str;
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
       gchar *display = directive->display ? directive->display->str : "";
@@ -1794,7 +1794,7 @@ edit_object (void)
       {
         DenemoDirective *directive = (DenemoDirective *) curObj->object;
         const gchar *label = get_label_for_command (directive->tag->str);
-        GtkAction *action = lookup_action_from_name (directive->tag->str);
+        DenemoAction *action = lookup_action_from_name (directive->tag->str);
         gchar *name = label ? (gchar *) label : directive->tag->str;
         const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
         gchar *filename = get_editscript_filename (directive->tag->str);
@@ -2014,7 +2014,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
     {
       DenemoDirective *directive = g->data;
       const gchar *label = get_label_for_command (directive->tag->str);
-      GtkAction *action = lookup_action_from_name (directive->tag->str);
+      DenemoAction *action = lookup_action_from_name (directive->tag->str);
       gchar *name = label ? (gchar *) label : directive->tag->str;
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
       gchar *filename = get_editscript_filename (directive->tag->str);

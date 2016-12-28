@@ -18,7 +18,7 @@
 #include "core/utils.h"
 
 void
-tomeasurenum (GtkAction * action, gpointer param)
+tomeasurenum (DenemoAction * action, gpointer param)
 {
 
   DenemoProject *gui = Denemo.project;

@@ -45,7 +45,7 @@
 #define EXTRA_ACCELS "extra.accels"
 #define INIT_SCM "init.scm"
 
-void newview (GtkAction * action, DenemoScriptParam * param);
+void newview (DenemoAction * action, DenemoScriptParam * param);
 void free_movements (DenemoProject * gui);      /* frees all movement data (i.e. the DenemoMovement objects) from gui, leaving gui interface intact */
 void addhistorymenuitem (gchar * filename);
 
@@ -67,11 +67,11 @@ void highlight_audio_record ();
 gboolean loadGraphicItem (gchar * name, DenemoGraphic ** pgraphic);
 
 
-GtkAction *activate_action (gchar * path);
+DenemoAction *activate_action (gchar * path);
 
 GError *execute_script_file (gchar * filename);
 
-gboolean activate_script (GtkAction * action, DenemoScriptParam * param);
+gboolean activate_script (DenemoAction * action, DenemoScriptParam * param);
 void create_scheme_function_for_script (gchar * name);
 void *inner_main (void *data);
 
@@ -83,7 +83,7 @@ void execute_init_scripts (gchar * menupath);
 
 void denemo_scheme_init (void);
 
-void execute_scheme (GtkAction * action, DenemoScriptParam * param);
+void execute_scheme (DenemoAction * action, DenemoScriptParam * param);
 
 gchar modifier_code (gpointer fn);
 gboolean code_is_a_duration (gchar code);
@@ -98,7 +98,7 @@ void set_master_tempo (DenemoMovement * si, gdouble tempo);
 
 void toggle_to_drawing_area (gboolean show);
 
-void ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param);
+void ToggleReduceToDrawingArea (DenemoAction * action, DenemoScriptParam * param);
 
 gchar *get_midi_control_command (guchar type, guchar value);
 gchar *get_midi_pitch_bend_command (gint value);
@@ -132,25 +132,25 @@ gboolean append_rhythm (RhythmPattern * r, gpointer fn);
 gint insert_pattern_in_toolbar (RhythmPattern * r, gboolean highlight);
 void select_rhythm_pattern (RhythmPattern * r);
 
-void toggle_toolbar (GtkAction * action, gpointer param);
-void toggle_playback_controls (GtkAction * action, gpointer param);
-void toggle_midi_in_controls (GtkAction * action, gpointer param);
-void openinnew (GtkAction * action, DenemoScriptParam * param);
-gboolean close_gui_with_check (GtkAction * action, DenemoScriptParam * param);
-void closewrapper (GtkAction * action, DenemoScriptParam * param);
-void morecommands (GtkAction * action, DenemoScriptParam * param);
-void mycommands (GtkAction * action, DenemoScriptParam * param);
-void fetchcommands (GtkAction * action, DenemoScriptParam * param);
+void toggle_toolbar (DenemoAction * action, gpointer param);
+void toggle_playback_controls (DenemoAction * action, gpointer param);
+void toggle_midi_in_controls (DenemoAction * action, gpointer param);
+void openinnew (DenemoAction * action, DenemoScriptParam * param);
+gboolean close_gui_with_check (DenemoAction * action, DenemoScriptParam * param);
+void closewrapper (DenemoAction * action, DenemoScriptParam * param);
+void morecommands (DenemoAction * action, DenemoScriptParam * param);
+void mycommands (DenemoAction * action, DenemoScriptParam * param);
+void fetchcommands (DenemoAction * action, DenemoScriptParam * param);
 
 
 
-void create_rhythm_cb (GtkAction * action, DenemoScriptParam * param);
-void delete_rhythm_cb (GtkAction * action, DenemoScriptParam * param);
+void create_rhythm_cb (DenemoAction * action, DenemoScriptParam * param);
+void delete_rhythm_cb (DenemoAction * action, DenemoScriptParam * param);
 void midi_in_adjust (gint value);
 gboolean insert_nth_rhythm (gint n);
 void create_rhythm (RhythmPattern * r, gboolean from_selection);
 GError *execute_script_file (gchar * filename);
-void popup_help_for_action (GtkAction * action);
+void popup_help_for_action (DenemoAction * action);
 void save_accels (void);
 
 #endif

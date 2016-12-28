@@ -2203,7 +2203,7 @@ merge_lily_strings (DenemoProject * gui)
 
 /* UNUSED
 void
-merge_lily_cb (GtkAction * action, DenemoProject * gui)
+merge_lily_cb (DenemoAction * action, DenemoProject * gui)
 {
   merge_lily_strings (gui);
 }
@@ -2214,7 +2214,7 @@ merge_lily_cb (GtkAction * action, DenemoProject * gui)
    conditions (see output_score_to_buffer()).
 */
 void
-refresh_lily_cb (GtkAction * action, DenemoProject * gui)
+refresh_lily_cb (DenemoAction * action, DenemoProject * gui)
 {
   if (Denemo.textbuffer)
     {
@@ -2239,7 +2239,7 @@ force_lily_refresh (DenemoProject * gui)
 }
 
 void
-delete_lily_cb (GtkAction * action, gpointer param)
+delete_lily_cb (DenemoAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   GtkTextChildAnchor *anchor = gui->lilystart;
@@ -2257,7 +2257,7 @@ delete_lily_cb (GtkAction * action, gpointer param)
 
 
 void
-toggle_lily_visible_cb (GtkAction * action, gpointer param)
+toggle_lily_visible_cb (DenemoAction * action, gpointer param)
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter start, end;

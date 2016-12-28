@@ -34,7 +34,7 @@
 #define RecordScript_STRING  "RecordScript"
 #define ReadOnly_STRING  "ReadOnly"
 
-typedef void (*callback_function) (GtkAction *, DenemoScriptParam *);
+typedef void (*callback_function) (DenemoAction *, DenemoScriptParam *);
 
 SCM scheme_call_callback (SCM optional, callback_function callback);
 

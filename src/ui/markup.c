@@ -10,6 +10,7 @@
 #include "printview/printview.h"
 #include "core/view.h"
 #include "scripting/scheme-callbacks.h"
+#include "core/menusystem.h"
 
 #define SECTION_UTF8_STRING "§"
 #define PILCROW_UTF8_STRING "¶"
@@ -659,9 +660,9 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
   
   button = gtk_button_new_with_label (_("Next Snippet"));
   gtk_widget_set_tooltip_text (button, _("Makes the next Snippet the one that can be pasted.\nTo see the music snippets you need to check View → Snippets\nThe one selected is in bold black."));
-  GtkAction *action = gtk_ui_manager_get_action (Denemo.ui_manager, "/ObjectMenu/NotesRests/SelectDuration/NextRhythm");
+  DenemoAction *action = denemo_menusystem_get_action ( "NextRhythm");
   if (action)
-    g_signal_connect_swapped (button, "clicked", G_CALLBACK (gtk_action_activate), action);
+    g_signal_connect_swapped (button, "clicked", G_CALLBACK (denemo_action_activate), action);
   else
     gtk_widget_set_sensitive (button, FALSE);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);

@@ -8,8 +8,8 @@
 #define LYRIC_H
 
 #include <denemo/denemo.h>
-void add_verse (GtkAction * action, DenemoScriptParam * param);
-void delete_verse (GtkAction * action, DenemoScriptParam * param);
+void add_verse (DenemoAction * action, DenemoScriptParam * param);
+void delete_verse (DenemoAction * action, DenemoScriptParam * param);
 void reset_lyrics (DenemoStaff * staff, gint count);
 gchar *get_text_from_view (GtkWidget * textview);
 guint add_verse_to_staff (DenemoMovement * si, DenemoStaff * staff);

@@ -212,7 +212,7 @@ execute_script_file (gchar * filename)
 
 
 void
-execute_scheme (GtkAction * action, DenemoScriptParam * param)
+execute_scheme (DenemoAction * action, DenemoScriptParam * param)
 {
   if (Denemo.ScriptRecording)
     denemo_action_activate (denemo_menusystem_get_action (RecordScript_STRING));
@@ -719,7 +719,7 @@ selection_received (GtkClipboard * clipboard, const gchar * text, DenemoScriptPa
 /* get the X selection into the param->string */
 
 void
-get_clipboard (GtkAction * action, DenemoScriptParam * param)
+get_clipboard (DenemoAction * action, DenemoScriptParam * param)
 {
   GtkClipboard *clipboard = gtk_clipboard_get (GDK_SELECTION_CLIPBOARD);
   gtk_clipboard_request_text (clipboard, (GtkClipboardTextReceivedFunc) selection_received, param);
@@ -857,7 +857,7 @@ free_movements (DenemoProject * project)
 *
 */
 void
-closewrapper (GtkAction * action, DenemoScriptParam * param)
+closewrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   if (!Denemo.non_interactive)
     {
@@ -911,7 +911,7 @@ delete_callback (GtkWidget * widget, GdkEvent * event)
  * callback to fetch up-to-date system commands from internet, denemo.org hardwired at present
  */
 void
-fetchcommands (GtkAction * action, DenemoScriptParam * param)
+fetchcommands (DenemoAction * action, DenemoScriptParam * param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, NULL);
@@ -952,7 +952,7 @@ fetchcommands (GtkAction * action, DenemoScriptParam * param)
  * if user has a local (possibly updated) set in ~/.denemo/downloads then that directory is used.
  */
 void
-morecommands (GtkAction * action, DenemoScriptParam * param)
+morecommands (DenemoAction * action, DenemoScriptParam * param)
 {
   static gchar *location = NULL;
   location = g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", NULL);
@@ -978,7 +978,7 @@ morecommands (GtkAction * action, DenemoScriptParam * param)
  *
  */
 void
-mycommands (GtkAction * action, DenemoScriptParam * param)
+mycommands (DenemoAction * action, DenemoScriptParam * param)
 {
   static gchar *location = NULL;
   if (location == NULL)
@@ -1001,7 +1001,7 @@ mycommands (GtkAction * action, DenemoScriptParam * param)
  * Creates new view then opens file in the view
  */
 void
-openinnew (GtkAction * action, DenemoScriptParam * param)
+openinnew (DenemoAction * action, DenemoScriptParam * param)
 {
   newtab ();
   file_open_with_check (NULL, param);
@@ -1018,7 +1018,7 @@ openinnew (GtkAction * action, DenemoScriptParam * param)
  * return FALSE if project was not closed, else TRUE
  */
 gboolean
-close_gui_with_check (GtkAction * action, DenemoScriptParam * param)
+close_gui_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   Denemo.prefs.mode = Denemo.project->mode;
@@ -1790,7 +1790,7 @@ insert_pattern_in_toolbar (RhythmPattern * r, gboolean highlight)
       g_warning ("No clipboard for this pattern, cannot add");
       return -1;
     }
-  GtkWidget *toolbar = gtk_ui_manager_get_widget (Denemo.ui_manager, "/RhythmToolBar");
+  GtkWidget *toolbar = denemo_menusystem_get_widget ("/RhythmToolBar");
   gtk_toolbar_insert (GTK_TOOLBAR (toolbar), GTK_TOOL_ITEM (r->button), -1);
   gtk_widget_show_all (GTK_WIDGET (r->button));
 
@@ -2105,7 +2105,7 @@ create_rhythm (RhythmPattern * r, gboolean from_selection)
 
 */
 void
-create_rhythm_cb (GtkAction * action, DenemoScriptParam * param)
+create_rhythm_cb (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
 
@@ -2234,7 +2234,7 @@ static void show_type (GtkWidget * widget, gchar * message);
 
 
 
-static void attach_right_click_callback (GtkWidget * widget, GtkAction * action);
+static void attach_right_click_callback (GtkWidget * widget, DenemoAction * action);
 
 /* the callback for menu items that are scripts. The script is attached to the action,
 tagged as "scheme".
@@ -2243,17 +2243,17 @@ The script may be empty, in which case it is fetched from actions/menus...
 This call also ensures that the right-click callback is attached to all the proxies of the action, as there are problems trying to do this earlier, and it defines a scheme variable to give the name of the script being executed.
 */
 gboolean
-activate_script (GtkAction * action, DenemoScriptParam * param)
+activate_script (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
-  gchar *name = (gchar *) gtk_action_get_name (action);
+  gchar *name = (gchar *) denemo_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
   gboolean ret = FALSE;
 
     {
       //FIXME use define_scheme_variable for this
       //define a global variable in Scheme (CurrentScript) to give the name of the currently executing script
-      const gchar *name = gtk_action_get_name (action);
+      const gchar *name = denemo_action_get_name (action);
       gchar *current_script = g_strdup_printf ("(define CurrentScript \"%s\")\n", name);
 
       /*note that scripts must copy their name from CurrentScript into local storage before calling other scripts if they
@@ -2269,7 +2269,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
       g_free (current_script);
 
       gchar *text = get_scheme_from_idx (idx);
-      if (!is_action_name_builtin ((gchar *) gtk_action_get_name (action)))
+      if (!is_action_name_builtin ((gchar *) denemo_action_get_name (action)))
         {
           if (text)
             {
@@ -2279,7 +2279,7 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
             }
           else
             {
-              g_warning ("Could not get script for %s", gtk_action_get_name (action));
+              g_warning ("Could not get script for %s", denemo_action_get_name (action));
               ret = FALSE;
             }
         }
@@ -2296,9 +2296,9 @@ activate_script (GtkAction * action, DenemoScriptParam * param)
 /*pop up the help for passed command as info dialog
  */
 void
-popup_help_for_action (GtkAction * action)
+popup_help_for_action (DenemoAction * action)
 {
-  const gchar *name = gtk_action_get_name (action);
+  const gchar *name = denemo_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
   gchar *tooltip = idx >= 0 ? (gchar *) lookup_tooltip_from_idx (Denemo.map, idx) : "A menu for ...";
 
@@ -2311,9 +2311,9 @@ popup_help_for_action (GtkAction * action)
 
 
 static void
-placeOnButtonBar (GtkWidget * widget, GtkAction * action)
+placeOnButtonBar (GtkWidget * widget, DenemoAction * action)
 {
-  gchar *name = (gchar *) gtk_action_get_name (action);
+  gchar *name = (gchar *) denemo_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
   if (idx > 0)
     {
@@ -2386,9 +2386,9 @@ upload_scripts (gchar * name, gchar * script, gchar * init_script, gchar * comma
 */
 #ifdef UPLOAD_TO_DENEMO_DOT_ORG
 static void
-uploadMenuItem (GtkWidget * widget, GtkAction * action)
+uploadMenuItem (GtkWidget * widget, DenemoAction * action)
 {
-  gchar *name = (gchar *) gtk_action_get_name (action);
+  gchar *name = (gchar *) denemo_action_get_name (action);
   gint idx = lookup_command_from_name (Denemo.map, name);
 
   command_row *row = NULL;
@@ -2789,9 +2789,9 @@ loadGraphicItem (gchar * name, DenemoGraphic ** xbm)
 /* save the current graphic
 */
 static void
-saveGraphicItem (GtkWidget * widget, GtkAction * action)
+saveGraphicItem (GtkWidget * widget, DenemoAction * action)
 {
-  gchar *name = (gchar *) gtk_action_get_name (action);
+  gchar *name = (gchar *) denemo_action_get_name (action);
   gchar *pngname = g_strconcat (name, ".png", NULL);
   gchar *filename = g_build_filename (locatebitmapsdir (), pngname,
                                       NULL);
@@ -2947,7 +2947,7 @@ delete_rhythm_pattern (RhythmPattern * r)
  *
  */
 void
-delete_rhythm_cb (GtkAction * action, DenemoScriptParam * param)
+delete_rhythm_cb (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *project = Denemo.project;
   if ((project->mode & (INPUTEDIT)) == 0)
@@ -2964,7 +2964,7 @@ delete_rhythm_cb (GtkAction * action, DenemoScriptParam * param)
  */
 /* UNUSED
 static void
-attach_action_to_widget (GtkWidget * widget, GtkAction * action, DenemoProject * project)
+attach_action_to_widget (GtkWidget * widget, DenemoAction * action, DenemoProject * project)
 {
   g_object_set_data (G_OBJECT (widget), "action", action);
 }
@@ -2989,13 +2989,13 @@ dummy (void)
 
 
 
-GtkAction *
+DenemoAction *
 activate_action (gchar * path)
 {
-  GtkAction *a;
+  DenemoAction *a;
   a = denemo_menusystem_get_action (path);
   if (a)
-    gtk_action_activate (a);
+    denemo_action_activate (a);
   else
     g_warning ("No command at %s - should this be in denemoui.xml?", path);
   return a;
@@ -3252,15 +3252,15 @@ create_window (void)
 // the keymap is *NOT* yet created. We create actions here for all the built-ins. Then when init_keymap() is called the built-ins can pickup their callback functions from the actions.
 //non built-in actions will be created later.
 //the toggle and radio actions and the popup menus will need extra work #ifdef EXTRA_WORK
-  //Denemo.action_group = gtk_action_group_new ()
-  gtk_ui_manager_new ();//creates ActionWidgets hash table the keymap is not yet created
+  
+  denemo_menusystem_new ();//creates ActionWidgets hash table the keymap is not yet created
 
-  gtk_action_group_add_actions ();
+  denemo_action_group_add_actions ();
 
 #ifdef EXTRA_WORK
   {
     //pops up with menu items for the directives attached to the current note
-    GtkWidget *menu = gtk_ui_manager_get_widget (Denemo.ui_manager, "/NoteEditPopupDirectives");
+    GtkWidget *menu = denemo_menusystem_get_widget ("/NoteEditPopupDirectives");
     g_signal_connect (menu, "deactivate", G_CALLBACK (unpopulate_menu), NULL);
   }
 #endif
@@ -3643,7 +3643,7 @@ create_window (void)
 
 
   create_scheme_window ();
-  //gtk_widget_hide (gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu/HiddenMenu"));
+  //gtk_widget_hide (denemo_menusystem_get_widget ("/MainMenu/HiddenMenu"));
   if (!Denemo.non_interactive)
     gtk_widget_show (Denemo.window);
  
@@ -3663,7 +3663,7 @@ create_window (void)
 
 
 void
-newview (GtkAction * action, DenemoScriptParam * param)
+newview (DenemoAction * action, DenemoScriptParam * param)
 {
   newtab ();
   Denemo.project->movement->undo_guard = 1;     //do not collect undo for initialization of score
@@ -3672,7 +3672,7 @@ newview (GtkAction * action, DenemoScriptParam * param)
 }
 
 void
-new_score_cb (GtkAction * action, DenemoScriptParam * param)
+new_score_cb (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoScriptParam dummy;
   dummy.string = NULL;
@@ -3729,17 +3729,17 @@ hide_score_layout_on_delete (void)
   return TRUE;
 }
 
-static void toggle_rhythm_toolbar (GtkAction * action, gpointer param);
-static void toggle_entry_toolbar (GtkAction * action, gpointer param);
-static void toggle_object_menu (GtkAction * action, gpointer param);
+static void toggle_rhythm_toolbar (DenemoAction * action, gpointer param);
+static void toggle_entry_toolbar (DenemoAction * action, gpointer param);
+static void toggle_object_menu (DenemoAction * action, gpointer param);
 
 /* UNUSED
-static void toggle_main_menu (GtkAction * action, gpointer param);
+static void toggle_main_menu (DenemoAction * action, gpointer param);
 */
-static void toggle_print_view (GtkAction * action, gpointer param);
-static void toggle_score_layout (GtkAction * action, gpointer param);
-static void toggle_command_manager (GtkAction * action, gpointer param);
-static void toggle_scoretitles (GtkAction * action, gpointer param);
+static void toggle_print_view (DenemoAction * action, gpointer param);
+static void toggle_score_layout (DenemoAction * action, gpointer param);
+static void toggle_command_manager (DenemoAction * action, gpointer param);
+static void toggle_scoretitles (DenemoAction * action, gpointer param);
 
 static void
 toggle_page_view (void)
@@ -3816,7 +3816,7 @@ toggle_to_drawing_area (gboolean show)
 
 
 #define TOG(name, item, menu)\
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
+  widget = denemo_menusystem_get_widget (name);\
   static gboolean item=TRUE;\
   if(hide)\
     item = gtk_widget_get_visible (widget);\
@@ -3824,7 +3824,7 @@ toggle_to_drawing_area (gboolean show)
     ACCUM, activate_action(menu);
 
 #define TOG2(name, item)\
-  widget = gtk_ui_manager_get_widget (Denemo.ui_manager, name);\
+  widget = denemo_menusystem_get_widget (name);\
   static gboolean item=TRUE;\
   if(hide)\
     item = gtk_widget_get_visible (widget);\
@@ -3857,9 +3857,9 @@ toggle_to_drawing_area (gboolean show)
 }
 
 void
-ToggleReduceToDrawingArea (GtkAction * action, DenemoScriptParam * param)
+ToggleReduceToDrawingArea (DenemoAction * action, DenemoScriptParam * param)
 {
-  GtkWidget *widget = gtk_ui_manager_get_widget (Denemo.ui_manager, "/MainMenu");
+  GtkWidget *widget = denemo_menusystem_get_widget ("/MainMenu");
   gboolean visibile = gtk_widget_get_visible (widget);
   if (Denemo.project->view == DENEMO_MENU_VIEW && !visibile)
     {
