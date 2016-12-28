@@ -1260,7 +1260,7 @@ static void denemo_action_group_add_toggle_actions (void)
             return;
         }
     gint i;
-    for (i=G_N_ELEMENTS (toggle_menu_entries)-1;i>=0;i--)
+    for ( i=0;i<G_N_ELEMENTS (toggle_menu_entries);i++)
         {
         DenemoAction *action = denemo_action_new (toggle_menu_entries[i].name, toggle_menu_entries[i].label, toggle_menu_entries[i].tooltip);
         action->type = DENEMO_MENU_ITEM;
@@ -1268,7 +1268,7 @@ static void denemo_action_group_add_toggle_actions (void)
         item = gtk_check_menu_item_new_with_label (toggle_menu_entries[i].label);gtk_widget_show (item);
         gtk_widget_show (item);
         toggle_menu_entries[i].item = item;
-        gtk_menu_shell_prepend (GTK_MENU_SHELL (parent), item);
+        gtk_menu_shell_insert (GTK_MENU_SHELL (parent), item, i+1); //placed after the tear-off item.
         g_signal_connect (item, "activate", G_CALLBACK (toggle_menu_entries[i].callback), NULL);
         }  
 }
@@ -1443,24 +1443,6 @@ static void create_toolbar_items (void)
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
     g_signal_connect_swapped (item, "clicked", G_CALLBACK (toolbar_move_to_end_callback), NULL);
-#if 0
- toggle_toolbar   
-  GtkWidget *widget = denemo_menusystem_get_widget ("/ToolBar");  
-  
-     <toolitem action="NewScore"/>
-    <toolitem action="Open"/>
-    <toolitem action="Save"/>
-    <separator/>
-    <toolitem action="Print"/>
-    <toolitem action="PrintView"/>
-    <separator/>
-    <toolitem action="Cut"/>
-    <toolitem action="Copy"/>
-    <separator/>
-     <!--<toolitem action="GoToMeasure"/> -->
-    <toolitem action="MoveToBeginning"/>
-    <toolitem action="MoveToEnd"/>
-#endif
 }
 
 void finalize_menusystem(void)
