@@ -1298,7 +1298,7 @@ void denemo_action_group_add_radio_actions (void)
    gint i;
    GSList *group = NULL;
 
-    for (i=G_N_ELEMENTS (input_menu_entries)-1;i>=0;i--)
+    for (i=0;i<G_N_ELEMENTS (input_menu_entries);i++)
         {
         DenemoAction *action = denemo_action_new (input_menu_entries[i].name, input_menu_entries[i].label, input_menu_entries[i].tooltip);
         action->type = DENEMO_MENU_ITEM;
@@ -1306,7 +1306,7 @@ void denemo_action_group_add_radio_actions (void)
         item = gtk_radio_menu_item_new_with_label (group, input_menu_entries[i].label);
         
         group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
-        gtk_menu_shell_prepend (GTK_MENU_SHELL (parent), item);
+        gtk_menu_shell_insert (GTK_MENU_SHELL (parent), item, i+1);//placed after the tear-off item.
           
         g_signal_connect (item, "toggled", G_CALLBACK(change_input_type), GINT_TO_POINTER(i));
         
