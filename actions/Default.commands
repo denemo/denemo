@@ -1221,12 +1221,16 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <_label>Append Measure All Staffs</_label>
         <_tooltip>Appends a blank measure to every staff in this movement</_tooltip>
       </row>
-      <row type="builtin">
-        <action>ExecuteScheme</action>
+      
+        <row type="builtin">
+        <action>Preferences</action>
         <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Execute Scheme</_label>
-        <_tooltip>Execute the scheme code from the scripting window</_tooltip>
+        <_label>Change Preferences</_label>
+        <_tooltip>Set and save your preferences for how Denemo operates on startup.
+Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
       </row>
+
+ 
       <row type="builtin">
         <action>FlattenEnharmonicSet</action>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
@@ -1473,13 +1477,6 @@ You open the LilyPond file in a texteditor, copy the stretch of notes (control-c
         <_tooltip>Save the selected music. Not sure if this is working</_tooltip>
       </row>
       <row type="builtin">
-        <action>Preferences</action>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Change Preferences</_label>
-        <_tooltip>Set and save your preferences for how Denemo operates on startup.
-Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
-      </row>
-      <row type="builtin">
         <action>SaveAccels</action>
         <_label>Save Command Set</_label>
         <_tooltip>Save the current commands and keyboard shortcuts as the default</_tooltip>
@@ -1668,12 +1665,7 @@ these may need re-making.</_tooltip>
         <_label>Edit at Cursor</_label>
         <_tooltip>Edit in the context of the object at the cursor.</_tooltip>
       </row>
-      <row type="builtin">
-        <action>EditCursorObject</action>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Run Object Editor</_label>
-        <_tooltip>Opens a dialog to edit the object at the cursor.</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>EditVoiceProperties</action>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
@@ -3402,6 +3394,15 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Chords for Bar</_label>
         <_tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar with added chord(s). As you do this it notates the chords on a staff above. When the bar is finished it re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</_tooltip>
       </row>
+      
+           
+      <row type="builtin">
+        <action>ExecuteScheme</action>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Execute Scheme</_label>
+        <_tooltip>Execute the scheme code from the scripting window</_tooltip>
+      </row>
+      
       <row type="scheme">
         <action>NotationMagick-RandomWithinClefRangeChromatic</action>
         <menupath>/MainMenu/EditMenu/NotationMagick/SingleRandomNote</menupath>
@@ -5547,6 +5548,12 @@ for second and subsequent systems</_tooltip>
         <_label>Show Hidden Palettes</_label>
         <_tooltip>Un-hides all non-empty palettes.</_tooltip>
       </row>
+      <row type="builtin">
+        <action>EditCursorObject</action>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Run Object Editor</_label>
+        <_tooltip>Opens a dialog to edit the object at the cursor.</_tooltip>
+      </row>
       <row type="scheme">
         <action>ShowLastChange</action>
         <after>PasteComment</after>
@@ -7094,6 +7101,7 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Activate Palette Button</_label>
         <_tooltip>Allows you "click" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help.</_tooltip>
       </row>
+
       <row type="scheme">
         <action>AccidentalStyle</action>
         <after>ScoreIndent</after>
@@ -7485,6 +7493,7 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Insert Nth Snippet</_label>
         <_tooltip>Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted</_tooltip>
       </row>
+
       <row type="scheme">
         <action>ConvertIncorrectSlursToTies</action>
         <after>ToggleNoteDownTie</after>
