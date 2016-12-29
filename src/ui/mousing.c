@@ -1127,7 +1127,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
               if (Denemo.prefs.learning)
                 MouseGestureShow(_("Click on Time."), _("This pops up the time signature menu."),
                         MouseGesture);
-              popup_menu ("/TimeSig");
+              popup_menu ("TimeSig");
               return TRUE;
             }
         }
