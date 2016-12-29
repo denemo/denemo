@@ -474,8 +474,9 @@ load_preferences (void)
   set_toggle (ToggleToolbar_STRING, Denemo.prefs.toolbar);
 
  
-  
-  Denemo.prefs.lyrics_pane = TRUE;      //ignore pref, does not work.
+  //  set_toggle (ToggleLyricsView_STRING, Denemo.prefs.lyrics_pane);
+
+  //Denemo.prefs.lyrics_pane = TRUE;      //ignore pref, does not work.
  
  
   set_toggle (ToggleRhythmToolbar_STRING, Denemo.prefs.rhythm_palette);

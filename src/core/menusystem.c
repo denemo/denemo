@@ -585,8 +585,8 @@ toggle_lyrics_view (DenemoAction * action, gpointer param)
           if ((height > last_height))
             gtk_paned_set_position (GTK_PANED (parent), height - last_height);
         }
-      if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
-        Denemo.prefs.lyrics_pane = gtk_widget_get_visible (widget);
+     // if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
+     //   Denemo.prefs.lyrics_pane = gtk_widget_get_visible (widget);
     }
 #endif
 }
@@ -733,18 +733,18 @@ ToggleMenuEntry toggle_menu_entries[] = {
    G_CALLBACK (toggle_lyrics_view), TRUE}
   ,
    {ToggleRhythmToolbar_STRING, NULL, N_("Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
-   G_CALLBACK (toggle_rhythm_toolbar), TRUE}
+   G_CALLBACK (toggle_rhythm_toolbar), FALSE}
   ,
       
     
   {ToggleToolbar_STRING, NULL, N_("Tools"), NULL, N_("Show/hide a toolbar for general operations on music files"),
-   G_CALLBACK (toggle_toolbar), TRUE}
+   G_CALLBACK (toggle_toolbar), FALSE}
   ,
   {TogglePlaybackControls_STRING, NULL, N_("Playback Control"), NULL, N_("Show/hide playback controls"),
-   G_CALLBACK (toggle_playback_controls), TRUE}
+   G_CALLBACK (toggle_playback_controls), FALSE}
   ,
   {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
-   G_CALLBACK (toggle_midi_in_controls), TRUE}
+   G_CALLBACK (toggle_midi_in_controls), FALSE}
   ,
 
   {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, N_("Shows a bar holding the title etc of the music and buttons for selecting a movement to make currrent."),
@@ -752,7 +752,7 @@ ToggleMenuEntry toggle_menu_entries[] = {
   ,
 
   {ToggleObjectMenu_STRING, NULL, N_("Object Menu"), NULL, N_("Show/hide a menu which is arranged by objects\nThe actions available for note objects change with the mode"),
-   G_CALLBACK (toggle_object_menu), TRUE}
+   G_CALLBACK (toggle_object_menu), FALSE}
   ,
   {ToggleLilyText_STRING, NULL, N_("LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window. Any errors in typesetting are shown here."),
    G_CALLBACK (toggle_lilytext), FALSE}
@@ -765,7 +765,7 @@ ToggleMenuEntry toggle_menu_entries[] = {
 
 
   {ToggleScoreView_STRING, NULL, N_("Score"), NULL, N_("Shows/hides the music in the Denemo Display"),
-   G_CALLBACK (toggle_score_view), TRUE}
+   G_CALLBACK (toggle_score_view), FALSE}
  
 };
 
@@ -1265,7 +1265,10 @@ static void denemo_action_group_add_toggle_actions (void)
         DenemoAction *action = denemo_action_new (toggle_menu_entries[i].name, toggle_menu_entries[i].label, toggle_menu_entries[i].tooltip);
         action->type = DENEMO_MENU_ITEM;
         action->callback = toggle_menu_entries[i].callback;
-        item = gtk_check_menu_item_new_with_label (toggle_menu_entries[i].label);gtk_widget_show (item);
+        item = gtk_check_menu_item_new_with_label (toggle_menu_entries[i].label);
+       // toggle_menu_entries[i].item = item;
+       gtk_check_menu_item_set_active (item, toggle_menu_entries[i].initial);
+       
         gtk_widget_show (item);
         toggle_menu_entries[i].item = item;
         gtk_menu_shell_insert (GTK_MENU_SHELL (parent), item, i+1); //placed after the tear-off item.
@@ -1464,7 +1467,7 @@ void finalize_menusystem(void)
       gtk_widget_hide (gtk_widget_get_toplevel (Denemo.script_view));
       
       gtk_widget_hide (rhythm_toolbar);//So that preference starts with off
-     
+     //gtk_widget_hide (denemo_menusystem_get_widget (ToggleLyricsView_STRING));
       gtk_widget_show (Denemo.menubar);
       //gtk_widget_show (denemo_menusystem_get_widget ("/ObjectMenu"));
       gtk_widget_hide (denemo_menusystem_get_widget ("/ObjectMenu"));

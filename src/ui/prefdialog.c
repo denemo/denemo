@@ -75,7 +75,7 @@ struct callbackdata
   GtkWidget *playback_controls;
 
   GtkWidget *console_pane;
-  GtkWidget *lyrics_pane;
+ // GtkWidget *lyrics_pane;
   GtkWidget *visible_directive_buttons;
   GtkWidget *autoupdate;
 
@@ -249,17 +249,25 @@ set_preferences (struct callbackdata *cbdata)
 #ifdef _HAVE_JACK_
 //  ASSIGNBOOLEAN(jacktransport)
 //  ASSIGNBOOLEAN(jacktransport_start_stopped)
-  ASSIGNCOMBO (jack_connect_ports_l) ASSIGNCOMBO (jack_connect_ports_r) ASSIGNCOMBO (jack_connect_midi_in_port) ASSIGNCOMBO (jack_connect_midi_out_port)
+  ASSIGNCOMBO (jack_connect_ports_l)
+    ASSIGNCOMBO (jack_connect_ports_r)
+    ASSIGNCOMBO (jack_connect_midi_in_port)
+    ASSIGNCOMBO (jack_connect_midi_out_port)
 #endif
 #ifdef _HAVE_PORTAUDIO_
-    ASSIGNCOMBO (portaudio_device) ASSIGNINT (portaudio_sample_rate) ASSIGNINT (portaudio_period_size)
+    ASSIGNCOMBO (portaudio_device)
+    ASSIGNINT (portaudio_sample_rate)
+    ASSIGNINT (portaudio_period_size)
     ASSIGNINT (maxrecordingtime)
 #endif
 #ifdef _HAVE_PORTMIDI_
-    ASSIGNCOMBO (portmidi_input_device) ASSIGNCOMBO (portmidi_output_device)
+    ASSIGNCOMBO (portmidi_input_device)
+    ASSIGNCOMBO (portmidi_output_device)
 #endif
 #ifdef _HAVE_FLUIDSYNTH_
-    ASSIGNTEXT (fluidsynth_soundfont) ASSIGNBOOLEAN (fluidsynth_reverb) ASSIGNBOOLEAN (fluidsynth_chorus)
+    ASSIGNTEXT (fluidsynth_soundfont)
+    ASSIGNBOOLEAN (fluidsynth_reverb)
+    ASSIGNBOOLEAN (fluidsynth_chorus)
 #endif
     ASSIGNDOUBLE (display_refresh)
     ASSIGNINT (animation_steps)
@@ -298,10 +306,22 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (return_key_is_special)
     ASSIGNBOOLEAN (newbie)
     ASSIGNBOOLEAN (learning)
-    ASSIGNBOOLEAN (startmidiin) ASSIGNBOOLEAN (applytoselection) ASSIGNBOOLEAN (quickshortcuts) ASSIGNBOOLEAN (autosave)
+    ASSIGNBOOLEAN (startmidiin)
+    ASSIGNBOOLEAN (applytoselection)
+    ASSIGNBOOLEAN (quickshortcuts)
+    ASSIGNBOOLEAN (autosave)
      ASSIGNINT (autosave_timeout)
      ASSIGNINT (compression)
-     ASSIGNBOOLEAN (midi_in_controls) ASSIGNBOOLEAN (playback_controls) ASSIGNBOOLEAN (console_pane) ASSIGNBOOLEAN (lyrics_pane) ASSIGNBOOLEAN (visible_directive_buttons) ASSIGNBOOLEAN (autoupdate) ASSIGNBOOLEAN (toolbar) ASSIGNBOOLEAN (rhythm_palette) ASSIGNBOOLEAN (object_palette) ASSIGNBOOLEAN (saveparts)
+     ASSIGNBOOLEAN (midi_in_controls)
+    ASSIGNBOOLEAN (playback_controls)
+    ASSIGNBOOLEAN (console_pane)
+//    ASSIGNBOOLEAN (lyrics_pane)
+    ASSIGNBOOLEAN (visible_directive_buttons)
+    ASSIGNBOOLEAN (autoupdate)
+    ASSIGNBOOLEAN (toolbar)
+    ASSIGNBOOLEAN (rhythm_palette)
+    ASSIGNBOOLEAN (object_palette)
+    ASSIGNBOOLEAN (saveparts)
     //g_debug ("Timeout %d \n", prefs->autosave_timeout);
     if (midi_in_device_was_default && strcmp (prefs->portmidi_input_device->str, "default"))
     {
@@ -543,7 +563,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   BOOLEANENTRY (_("Display Controls for Playback"), playback_controls);
 
   BOOLEANENTRY (_("Display console pane"), console_pane);
-  BOOLEANENTRY (_("Display lyrics pane"), lyrics_pane);
+  //BOOLEANENTRY (_("Display lyrics pane"), lyrics_pane);
   BOOLEANENTRY (_("Display titles, controls etc"), visible_directive_buttons);
 
   BOOLEANENTRY (_("Display Music Snippets"), rhythm_palette);
