@@ -3025,9 +3025,27 @@ addhistorymenuitem (gchar * filename)
         init = TRUE;
         }
   GtkWidget *menu = denemo_menusystem_get_widget ("/MainMenu/FileMenu/OpenMenu/OpenRecent");
-
+  {
+    static gboolean positioned = FALSE;
+    if (!positioned)
+        {
+        GList *g;
+        GtkWidget *open_menu = denemo_menusystem_get_widget ("/MainMenu/FileMenu/OpenMenu");
+        GList *children = gtk_container_get_children (GTK_CONTAINER(open_menu));
+        for (g=children;g;g=g->next)
+            {
+                if (menu == gtk_menu_item_get_submenu (GTK_MENU_ITEM(g->data)))
+                    { 
+                        gtk_menu_reorder_child ( GTK_MENU(open_menu), GTK_WIDGET(g->data), 1);
+                        positioned = TRUE;
+                        break;
+                    }
+            }
+            g_list_free (children);
+        }
+  }
   item = gtk_menu_item_new_with_label (filename);
-  gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 0);
+  gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 1);//after the tear-off item
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (openrecent), g_strdup (filename)); //FIXME
   gtk_widget_show (item);
 }
