@@ -26,7 +26,6 @@
         <_label>New Tab</_label>
         <_tooltip>Create working area (tab with an empty score in it)</_tooltip>
       </row>
-
       <row type="builtin">
         <action>Open</action>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
@@ -39,7 +38,6 @@
         <_label>Save</_label>
         <_tooltip>Save the score. The score is saved to disk in XML format.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>BookmarkNamed</action>
         <menupath>/MainMenu/NavigationMenu/Bookmarks</menupath>
@@ -1221,16 +1219,13 @@ Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
         <_label>Append Measure All Staffs</_label>
         <_tooltip>Appends a blank measure to every staff in this movement</_tooltip>
       </row>
-      
-        <row type="builtin">
+      <row type="builtin">
         <action>Preferences</action>
         <menupath>/MainMenu/EditMenu</menupath>
         <_label>Change Preferences</_label>
         <_tooltip>Set and save your preferences for how Denemo operates on startup.
 Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
       </row>
-
- 
       <row type="builtin">
         <action>FlattenEnharmonicSet</action>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
@@ -1242,8 +1237,6 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <_label>Empty Score</_label>
         <_tooltip>Start a new musical score</_tooltip>
       </row>
-
-
       <row type="builtin">
         <action>AddStaffs</action>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
@@ -1368,8 +1361,7 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <menupath>/MainMenu/FileMenu/Import</menupath>
         <_label>Import MusicXml</_label>
         <_tooltip>Import a MusicXml file</_tooltip>
-      </row>      
-      
+      </row>
       <row type="builtin">
         <action>PrintView</action>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
@@ -1665,7 +1657,6 @@ these may need re-making.</_tooltip>
         <_label>Edit at Cursor</_label>
         <_tooltip>Edit in the context of the object at the cursor.</_tooltip>
       </row>
-
       <row type="builtin">
         <action>EditVoiceProperties</action>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
@@ -3394,15 +3385,12 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Chords for Bar</_label>
         <_tooltip>Plays the context of the current bar. Then listens for you to play each note in current bar with added chord(s). As you do this it notates the chords on a staff above. When the bar is finished it re-plays the bar. Allows you to repeat (pitch bend down) or go on to next bar (pitch bend up).</_tooltip>
       </row>
-      
-           
       <row type="builtin">
         <action>ExecuteScheme</action>
         <menupath>/MainMenu/EditMenu</menupath>
         <_label>Execute Scheme</_label>
         <_tooltip>Execute the scheme code from the scripting window</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>NotationMagick-RandomWithinClefRangeChromatic</action>
         <menupath>/MainMenu/EditMenu/NotationMagick/SingleRandomNote</menupath>
@@ -3448,13 +3436,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Coda (Off/On)</_label>
         <_tooltip>No Tooltip yet</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>ChordComment</action>
-        <after>ParenthesizeNote</after>
-        <menupath>/ObjectMenu/NotesRests</menupath>
-        <_label>Comment</_label>
-        <_tooltip>Attach a textual comment to the chord at the cursor</_tooltip>
       </row>
       <row type="scheme">
         <action>MvntComment</action>
@@ -3691,6 +3672,18 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
         <_label>Delete Beaming Directive</_label>
         <_tooltip>Deletes a ] or [ (end or start beam) directive on the current chord.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertNoteDirective</action>
+        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
+        <_label>Attach/Edit LilyPond to Note</_label>
+        <_tooltip>Inserts LilyPond syntax you give before and after the note at the cursor height, also allows editing/deleting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChordComment</action>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <_label>Comment</_label>
+        <_tooltip>Attach a textual comment to the chord at the cursor</_tooltip>
       </row>
       <row type="scheme">
         <action>DeleteEmptyMeasures</action>
@@ -7101,7 +7094,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Activate Palette Button</_label>
         <_tooltip>Allows you "click" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>AccidentalStyle</action>
         <after>ScoreIndent</after>
@@ -7493,7 +7485,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Insert Nth Snippet</_label>
         <_tooltip>Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ConvertIncorrectSlursToTies</action>
         <after>ToggleNoteDownTie</after>
@@ -7512,12 +7503,6 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu</menupath>
         <_label>Delete Text Annotations</_label>
         <_tooltip>Deletes standalone text annotations from the cursor to the end of the staff.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>InsertNoteDirective</action>
-        <menupath>/ObjectMenu/NotesRests/Directives</menupath>
-        <_label>Attach/Edit LilyPond to Note</_label>
-        <_tooltip>Inserts LilyPond syntax you give before and after the note at the cursor height, also allows editing/deleting.</_tooltip>
       </row>
       <row type="scheme">
         <action>InsertChordDirective</action>
@@ -8063,6 +8048,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/MainMenu/NavigationMenu</menupath>
         <_label>Move Display Left</_label>
         <_tooltip>Moves the view port (the Denemo Display) to the left, leaving the cursor on the same object as long as it is still in view.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>HelpForRepeats</action>
+        <after>CheckTupletsInMeasure</after>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <_label>Help for Repeats</_label>
+        <_tooltip>Explains the different ways of creating repeats.</_tooltip>
       </row>
     </map>
   </merge>

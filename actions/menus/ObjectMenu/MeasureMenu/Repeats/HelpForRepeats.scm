@@ -1,0 +1,1 @@
+(d-InfoDialog (_ "Repeats are usually inserted using commands to insert repeat barlines and to insert first/second/nth time bar markings from the Directives menu - look these up in the Command Center. This menu is just for those that want the normal LilyPond syntax for repeats - use right-click->More Commands to un-hide these."))
