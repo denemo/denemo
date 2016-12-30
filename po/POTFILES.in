@@ -84,6 +84,7 @@ src/core/binreloc.h
 src/core/cache.c
 src/core/cache.h
 src/core/denemo_types.c
+src/core/entries.h
 src/core/exportxml.c
 src/core/exportxml.h
 src/core/external.c
@@ -99,6 +100,8 @@ src/core/keyboard.h
 src/core/keymapio.c
 src/core/keymapio.h
 src/core/main.c
+src/core/menusystem.c
+src/core/menusystem.h
 src/core/palettestorage.c
 src/core/palettestorage.h
 src/core/prefops.c
@@ -157,10 +160,6 @@ src/export/print.h
 src/export/screenshot.c
 src/export/screenshot.h
 src/export/xmldefs.h
-src/generated/entries.h
-src/generated/register_commands.h
-src/generated/scheme_cb.h
-src/generated/scheme.h
 src/printview/markupview.c
 src/printview/markupview.h
 src/printview/printview.c
@@ -169,6 +168,8 @@ src/printview/svgview.c
 src/printview/svgview.h
 src/scripting/scheme-callbacks.c
 src/scripting/scheme-callbacks.h
+src/scripting/scheme_cb.h
+src/scripting/scheme.h
 src/scripting/scheme-identifiers.c
 src/scripting/scheme-identifiers.h
 src/source/proof.c
@@ -1061,6 +1062,8 @@ actions/menus/ObjectMenu/MeasureMenu/Repeats/EndSecondTimeBar.scm
 actions/menus/ObjectMenu/MeasureMenu/Repeats/EndSecondTimeBar.xml
 actions/menus/ObjectMenu/MeasureMenu/Repeats/FirstTimeBar.scm
 actions/menus/ObjectMenu/MeasureMenu/Repeats/FirstTimeBar.xml
+actions/menus/ObjectMenu/MeasureMenu/Repeats/HelpForRepeats.scm
+actions/menus/ObjectMenu/MeasureMenu/Repeats/HelpForRepeats.xml
 actions/menus/ObjectMenu/MeasureMenu/Repeats/OpenRepeat.scm
 actions/menus/ObjectMenu/MeasureMenu/Repeats/OpenRepeat.xml
 actions/menus/ObjectMenu/MeasureMenu/Repeats/SecondTimeBar.scm
