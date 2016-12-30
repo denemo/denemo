@@ -139,6 +139,8 @@ denemo_SOURCES = \
   scripting/scheme-callbacks.h \
   scripting/scheme-identifiers.c \
   scripting/scheme-identifiers.h \
+  scripting/scheme_cb.h \
+  scripting/scheme.h \
   source/sourceaudio.c \
   source/sourceaudio.h \
   printview/svgview.h \
