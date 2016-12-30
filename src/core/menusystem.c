@@ -1081,7 +1081,7 @@ DenemoAction *denemo_action_new (const gchar *name, const gchar *label, const gc
     if (!Actions)
         {
             g_critical ("No Actions in %s", __FILE__);
-            return;
+            return NULL;
         }
     DenemoAction *action = (DenemoAction *)g_malloc (sizeof (DenemoAction));
     action->name = g_strdup(name);
