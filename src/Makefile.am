@@ -135,9 +135,6 @@ denemo_SOURCES = \
   export/print.c \
   export/print.h \
   export/xmldefs.h \
-  generated/register_commands.h \
-  generated/scheme_cb.h \
-  generated/scheme.h \
   scripting/scheme-callbacks.c \
   scripting/scheme-callbacks.h \
   scripting/scheme-identifiers.c \
