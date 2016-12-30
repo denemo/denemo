@@ -1267,7 +1267,7 @@ static void denemo_action_group_add_toggle_actions (void)
         action->callback = toggle_menu_entries[i].callback;
         item = gtk_check_menu_item_new_with_label (toggle_menu_entries[i].label);
        // toggle_menu_entries[i].item = item;
-       gtk_check_menu_item_set_active (item, toggle_menu_entries[i].initial);
+        gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(item), toggle_menu_entries[i].initial);
        
         gtk_widget_show (item);
         toggle_menu_entries[i].item = item;
@@ -1377,10 +1377,21 @@ static toolbar_print_callback (void)
 //show_print_view(NULL, NULL);} 
 static toolbar_move_to_start_callback (void)
     {movetostart (NULL, NULL);}    
- static toolbar_move_to_end_callback (void)
+static toolbar_move_to_end_callback (void)
     {movetoend (NULL, NULL);}    
     
+    
+static void initialize_toggle_settings (void)
+    {   
 
+    gint i;
+    for ( i=0;i<G_N_ELEMENTS (toggle_menu_entries);i++)
+        {
+        if (!strcmp(toggle_menu_entries[i].name, ToggleScoreTitles_STRING))
+            toggle_menu_entries[i].initial = Denemo.prefs.visible_directive_buttons;
+            //FIXME others
+        }     
+    }  
     
     
 static void create_toolbar_items (void)
@@ -1450,6 +1461,8 @@ static void create_toolbar_items (void)
 
 void finalize_menusystem(void)
   {
+      initialize_toggle_settings ();
+      
       denemo_action_group_add_toggle_actions ();
       denemo_action_group_add_radio_actions ();
       
@@ -1467,6 +1480,13 @@ void finalize_menusystem(void)
       gtk_widget_hide (gtk_widget_get_toplevel (Denemo.script_view));
       
       gtk_widget_hide (rhythm_toolbar);//So that preference starts with off
+     //gtk_widget_show (denemo_menusystem_get_widget (ToggleScoreTitles_STRING));
+     if(Denemo.prefs.visible_directive_buttons)
+       gtk_widget_show (Denemo.project->buttonboxes);
+    else
+       gtk_widget_hide (Denemo.project->buttonboxes);
+        
+      //toggle_scoretitles (NULL, NULL);
      //gtk_widget_hide (denemo_menusystem_get_widget (ToggleLyricsView_STRING));
       gtk_widget_show (Denemo.menubar);
       //gtk_widget_show (denemo_menusystem_get_widget ("/ObjectMenu"));

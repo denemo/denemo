@@ -1,6 +1,7 @@
 #include "core/keymapio.h"
 #include "core/kbd-custom.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "ui/mousing.h"
 
 static gchar*
@@ -15,7 +16,7 @@ find_command_dir(gint idx, gchar* filename)
   GList* dirs = NULL;
   dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", row->menupath, NULL));
   dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", row->menupath, NULL));
+  //dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", row->menupath, NULL));
   dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", row->menupath, NULL));
 
   return find_dir_for_file (filename, dirs);
@@ -27,6 +28,32 @@ get_command_type(xmlChar* type)
   return 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME) ? COMMAND_SCHEME : COMMAND_BUILTIN;
 }
 
+static gboolean check_script_exists (gchar *menupath, gchar *name)
+{
+  gboolean ok;
+  gchar *filename =  g_strconcat (name, ".scm", NULL);
+  gchar *filepath = g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", menupath, filename, NULL);
+  
+  if (!g_file_test (filepath, G_FILE_TEST_EXISTS))
+    {
+        g_free (filepath);
+        filepath = g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", menupath, filename, NULL);
+          if (!g_file_test (filepath, G_FILE_TEST_EXISTS))
+            {
+            g_free (filepath);
+            filepath = g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", menupath, filename, NULL);
+             if (!g_file_test (filepath, G_FILE_TEST_EXISTS))
+                {
+                    g_free (filepath);
+                    g_free (filename);
+                    return FALSE;
+                }
+            }
+        }
+  g_free (filename);
+  g_free (filepath);
+  return TRUE;
+}
 static void
 parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
 {
@@ -34,7 +61,44 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
   xmlChar *type = NULL;
   xmlNodePtr head = cur;
   type = xmlGetProp(cur, COMMANDXML_TAG_TYPE);
-  //this first pass finds the <action> of this <row> and does get_or_create_command() on it, then for scheme ones it runs get_command()
+//first pass check script exists 
+  if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
+    {
+    gchar* name=NULL, *menupath=NULL;
+    for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
+        {
+        if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
+            {
+              if (cur->xmlChildrenNode == NULL)
+                {
+                  g_warning ("Empty action node found in keymap file");
+                  return;
+                }
+              else
+                {
+                  name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);   
+                 }
+            }          
+        else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
+            {
+                menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+            }
+        if (name && menupath)
+                {
+                    if (check_script_exists (menupath, name))
+                        break;
+                    else
+                        {
+                           g_warning ("Script %s%s.scm not found", menupath, name);
+                           return;
+                        }
+                }
+        }
+    }
+ 
+  
+   cur = head;
+  //this second pass finds the <action> of this <row> and does get_or_create_command() on it, then for scheme ones it runs get_command()
     for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
@@ -58,7 +122,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
             }
         }
     }
-//second pass gets the other fields in this <row> and fills in command with them
+//third pass gets the other fields in this <row> and fills in command with them
   cur = head;
   for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
     {
