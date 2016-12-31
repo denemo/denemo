@@ -2258,7 +2258,7 @@ select_directive (gchar * instr, GList * directives)
                                                    _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    NULL);
 
-  GtkWidget *cancelbutton = gtk_dialog_add_button (dialog,_("Cancel"), GTK_RESPONSE_REJECT);
+  GtkWidget *cancelbutton = gtk_dialog_add_button (GTK_DIALOG(dialog),_("Cancel"), GTK_RESPONSE_REJECT);
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *content_area;
   if(g_list_length(directives)>Denemo.prefs.max_menu_size) //this doesn't avoid menu running off screen but allows the user to cancel in that case

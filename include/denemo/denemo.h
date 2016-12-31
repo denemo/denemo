@@ -70,12 +70,16 @@ extern "C" {
 #define g_string_free(a, b) (((GString*)(a))->str)
 #endif
 
+
+#define gtk_widget_reparent(w,p) (g_object_ref(G_OBJECT(w)),gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(w)), w),gtk_container_add(GTK_CONTAINER(p), w),g_object_unref(G_OBJECT(w)))
+
+
 #if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 10))
 #define FAKE_TOOLTIPS 1
 #endif
 
 #ifdef FAKE_TOOLTIPS
-extern gchar *format_tooltip (gchar*);
+extern gchar *format_tooltip (const gchar*);
 #define FAKE_TOOLTIPS_MASK GDK_POINTER_MOTION_MASK  //GDK_ENTER_NOTIFY_MASK
 #define FAKE_TOOLTIPS_SIGNAL "motion-notify-event" //""enter-notify-event" 
 
@@ -105,11 +109,8 @@ extern gchar *format_tooltip (gchar*);
 #define GtkStock gchar*
 
 
-#if ((GTK_MAJOR_VERSION == 2) && (GTK_MINOR_VERSION>=16))
-#define gtk_misc_set_alignment(a,x,y) (gtk_label_set_xalign(GTK_LABEL(a),x),gtk_label_set_yalign(GTK_LABEL(a),y))
-#else
-//#define gtk_misc_set_alignment(a,x,y) (gtk_widget_set_halign(GTK_WIDGET(a),GTK_ALIGN_CENTER),gtk_widget_set_WIDGET(GTK_LABEL(a),GTK_ALIGN_CENTER))
-#endif
+#define gtk_misc_set_alignment(a,x,y) 
+
 #if GTK_MAJOR_VERSION == 2
 #else
 //we always have homogeneous FALSE which is the default

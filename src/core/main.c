@@ -443,17 +443,6 @@ main (int argc, char *argv[])
 
   files = process_command_line (argc, argv, gtk_status);
 
-  //if (!g_thread_supported ())
-  //    g_thread_init (NULL);
-
-  if(!Denemo.non_interactive){
-    //gdk_threads_init ();
-  //  gdk_threads_enter ();
-  }
-//#ifdef G_OS_WIN32
-//  /* workaround necessary for compilation on Cygwin */
-//  g_set_print_handler ((GPrintFunc)printf);
-//#endif
 
   /* initialization of directory relocatability */
   initdir ();
@@ -461,15 +450,12 @@ main (int argc, char *argv[])
   check_if_upgrade();
   init_environment();
 
-  rsvg_init ();
 
   localization_init();
 
   //register_stock_items ();
   scm_with_guile (inner_main, files);
 
- // if(!Denemo.non_interactive)
-  //  gdk_threads_leave ();
 
   return 0;
 }

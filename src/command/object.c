@@ -630,7 +630,12 @@ display_current_object_callback (void)
           GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
           gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
           GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+          
+#if GTK_MAJOR_VERSION==2       
           gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+#else          
+          gtk_container_add (GTK_CONTAINER(scrolled_window), inner_box);
+#endif          
           GtkWidget *label = gtk_label_new ("");
           gtk_label_set_selectable (GTK_LABEL (label), TRUE);
 
@@ -2180,7 +2185,12 @@ edit_score_and_movement_properties (gboolean show_score)
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+  
+#if GTK_MAJOR_VERSION==2       
+          gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+#else          
+          gtk_container_add (GTK_CONTAINER(scrolled_window), inner_box);
+#endif   
 
   button = gtk_button_new_with_label (_("Edit Built-in Score Properties"));
   g_signal_connect (button, "clicked", G_CALLBACK (call_score_properties_dialog), NULL);
@@ -2211,8 +2221,12 @@ edit_score_and_movement_properties (gboolean show_score)
   scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
   inner_box = gtk_vbox_new (FALSE, 0);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
-
+          
+#if GTK_MAJOR_VERSION==2       
+          gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+#else          
+          gtk_container_add (GTK_CONTAINER(scrolled_window), inner_box);
+#endif    
   GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
 
@@ -2387,7 +2401,12 @@ edit_staff_and_voice_properties (gboolean show_staff)
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+          
+#if GTK_MAJOR_VERSION==2       
+          gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+#else          
+          gtk_container_add (GTK_CONTAINER(scrolled_window), inner_box);
+#endif    
   GtkWidget *inner_hbox;
   inner_hbox = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (inner_box), inner_hbox, FALSE, TRUE, 0);
@@ -2477,8 +2496,12 @@ edit_staff_and_voice_properties (gboolean show_staff)
   scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
   inner_box = gtk_vbox_new (FALSE, 0);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
-
+          
+#if GTK_MAJOR_VERSION==2       
+          gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
+#else          
+          gtk_container_add (GTK_CONTAINER(scrolled_window), inner_box);
+#endif    
   GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
 

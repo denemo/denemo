@@ -141,7 +141,7 @@ setcurrentobject (DenemoMovement * si, gint cursorpos)
 void
 clearbuffer (void)
 {
-  g_list_foreach (copybuffer, freeobjlist, NULL);
+  g_list_foreach (copybuffer, (GFunc)freeobjlist, NULL);
   g_list_free (copybuffer);
   copybuffer = NULL;
   staffsinbuffer = 0;

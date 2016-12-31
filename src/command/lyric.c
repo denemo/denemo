@@ -56,7 +56,7 @@ next_verse (void)
 {
   DenemoStaff *thestaff = Denemo.project->movement->currentstaff->data;
   GtkWidget *w = thestaff->verse_views->data;
-  GtkNotebook *notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
+  GtkNotebook *notebook = (GtkNotebook *)gtk_widget_get_parent (gtk_widget_get_parent (w));
   gtk_notebook_next_page (notebook);
 }
 

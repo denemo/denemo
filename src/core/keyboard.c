@@ -126,7 +126,7 @@ void
 set_visibility_for_action (DenemoAction * action, gboolean visible)
 {
 
-  GSList *h = denemo_action_get_proxies (action);
+  GList *h = denemo_action_get_proxies (action);
   for (; h; h = h->next)
     {
       if (visible)

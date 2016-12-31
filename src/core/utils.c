@@ -22,6 +22,7 @@
 #include "export/print.h"
 #include "core/kbd-custom.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "command/lilydirectives.h"
 #include "command/object.h"
 #include "command/scorelayout.h"
@@ -2971,7 +2972,7 @@ no_longer_wanted (GtkWidget * w)
   return FALSE;
 }
 
-gchar *format_tooltip (gchar *tip) {
+gchar *format_tooltip (const gchar *tip) {
     gchar *this = tip;
     if (tip==NULL)
         return _("No Tooltip");

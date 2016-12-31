@@ -341,6 +341,6 @@ void get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a);
 #endif
 
 
-
+gchar *format_tooltip (const gchar *tip);
 
 #endif /* UTILS_H */

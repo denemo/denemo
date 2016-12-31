@@ -27,6 +27,7 @@
 #include "command/score.h"
 #include "command/processstaffname.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 
 
 
@@ -2119,7 +2120,14 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
-  gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW ((*psb)->widget), vbox);
+ 
+#if GTK_MAJOR_VERSION==2       
+           gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW ((*psb)->widget), vbox);
+#else          
+          gtk_container_add (GTK_CONTAINER((*psb)->widget), vbox);
+#endif   
+  
+  
   GtkWidget *options = get_options_button (*psb, FALSE);
   gtk_box_pack_start (GTK_BOX (vbox), options, FALSE, FALSE, 0);
   //now create a hierarchy of widgets representing the score
