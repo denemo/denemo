@@ -2814,14 +2814,25 @@ saveGraphicItem (GtkWidget * widget, DenemoAction * action)
 
 
 static void
-color_rhythm_button (RhythmPattern * r, const gchar * color)
+color_rhythm_button (RhythmPattern * r, const gchar * color) // only black and gray
 {
   if ((r == NULL) || (r->button == NULL))
     return;
+
+  
+#if GTK_MAJOR_VERSION==2
   GdkColor thecolor;
   gdk_color_parse (color, &thecolor);
   gtk_widget_modify_fg (gtk_tool_button_get_label_widget (GTK_TOOL_BUTTON (r->button)), GTK_STATE_NORMAL, &thecolor);
   //bg does not work, and setting the label in a GtkEvent box gave a problem on some build - R.Rankin patched for this and so we have to use fg
+#else
+  GdkRGBA gray = { 0.8, 0.8, 0.8, 1.0 };      
+  GdkRGBA black = { 0., 0., 0., 1.0 };
+  if (!strcmp (color, "gray"))     
+    gtk_widget_override_color (gtk_tool_button_get_label_widget (GTK_TOOL_BUTTON (r->button)), GTK_STATE_NORMAL, &gray);
+  else
+    gtk_widget_override_color (gtk_tool_button_get_label_widget (GTK_TOOL_BUTTON (r->button)), GTK_STATE_NORMAL, &black);
+#endif  
 }
 
 void
