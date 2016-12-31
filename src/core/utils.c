@@ -2973,11 +2973,11 @@ no_longer_wanted (GtkWidget * w)
 }
 
 gchar *format_tooltip (const gchar *tip) {
-    gchar *this = tip;
+    gchar *this = (gchar*)tip;
     if (tip==NULL)
         return _("No Tooltip");
     GString *out = g_string_new ("");
-    for (this = tip; *this; this++)
+    for (this = (gchar*)tip; *this; this++)
         {
         if (*this == '.')  //UTF8 strings never contain ASCII bytes except to represent the corresponding ASCII char
             {
@@ -2996,7 +2996,7 @@ gchar *format_tooltip (const gchar *tip) {
     }
     return g_string_free (out, FALSE);
 }    
-    
+
     
 gboolean
 show_tooltip (GtkWidget * w, GdkEvent * ev, gchar * text)
