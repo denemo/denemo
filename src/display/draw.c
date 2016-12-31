@@ -514,8 +514,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
         if (si->currentstaffnum == itp->staffnum && itp->verse && thechord->notes)
           {
-            
-            if ((!last_tied) && (!itp->slur_stack)
+            if ((!thechord->is_grace) && (!last_tied) && (!itp->slur_stack)
                             && !find_directive (thechord->directives, "MoveRest"))
               {
                 gchar *syllable = (gchar *) next_syllable ();
