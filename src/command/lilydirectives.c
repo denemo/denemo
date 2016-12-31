@@ -21,6 +21,7 @@
 #include "core/utils.h"
 #include "core/prefops.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "ui/texteditors.h"
 //#if GTK_MAJOR_VERSION==2
 //#define GDK_KEY_Escape GDK_Escape
@@ -2255,15 +2256,14 @@ select_directive (gchar * instr, GList * directives)
                                                    GTK_WINDOW (Denemo.window),
                                                    (GtkDialogFlags) (GTK_DIALOG_MODAL | GTK_DIALOG_DESTROY_WITH_PARENT),
                                                    _("_OK"), GTK_RESPONSE_ACCEPT,
-                                                   _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
 
-
+  GtkWidget *cancelbutton = gtk_dialog_add_button (dialog,_("Cancel"), GTK_RESPONSE_REJECT);
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
   GtkWidget *content_area;
   if(g_list_length(directives)>Denemo.prefs.max_menu_size) //this doesn't avoid menu running off screen but allows the user to cancel in that case
     {
-    content_area = gtk_dialog_get_action_area (GTK_DIALOG (dialog));
+    content_area = gtk_widget_get_parent (cancelbutton); //get the action area - this will break if GTK decides to implement the dialog widget in some strange fashion
     gtk_box_pack_start (GTK_BOX (content_area), vbox, FALSE, TRUE, 0);
     } else
     {
@@ -2414,19 +2414,6 @@ gboolean choose_tag_at_cursor (gchar **ptag) {
     *ptag = pdirective?pdirective->tag->str:NULL;
     return g_strcmp0 (what, "chord");
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 static void
 populate_menu_for_directive (GtkWidget * menu, DenemoDirective * directive)
