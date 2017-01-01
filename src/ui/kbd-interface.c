@@ -690,8 +690,9 @@ configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
 
   gtk_box_pack_start (GTK_BOX (inner_vbox), label,  TRUE, TRUE, 0);
   gtk_box_pack_start (GTK_BOX (inner_vbox), binding_view,  FALSE, TRUE, 0);
-  delbutton = gtk_button_new_from_stock (GTK_STOCK_REMOVE);
-    gtk_box_pack_start (GTK_BOX (inner_vbox), delbutton, FALSE, TRUE, 0);
+
+  delbutton = gtk_button_new_with_label (_("Remove Shortcut"));
+  gtk_box_pack_start (GTK_BOX (inner_vbox), delbutton, FALSE, TRUE, 0);
 }
   }
 
@@ -732,18 +733,15 @@ configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
   gtk_box_pack_end (GTK_BOX (vbox), inner_hbox, FALSE, TRUE, 0);
     GtkWidget *inner_vbox = gtk_vbox_new (FALSE, 1);
   gtk_box_pack_end (GTK_BOX (inner_hbox), inner_vbox, FALSE, TRUE, 0);
-  addbutton = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label (GTK_BUTTON (addbutton), _("Add 1-Key Shortcut"));
+  addbutton = gtk_button_new_with_label (_("Add 1-Key Shortcut"));
   gtk_widget_set_tooltip_text (addbutton, _("Create a single keypress (with modifier keys - Control, Shift ... - if needed) as a keyboard shortcut for the currently selected command."));
   gtk_box_pack_end (GTK_BOX (inner_vbox), addbutton, FALSE, TRUE, 0);
 
-  add2button = gtk_button_new_from_stock (GTK_STOCK_ADD);
-  gtk_button_set_label (GTK_BUTTON (add2button), _("Add 2-Key Shortcut"));
+  add2button = gtk_button_new_with_label ( _("Add 2-Key Shortcut"));
   gtk_widget_set_tooltip_text (add2button, _("Create a two keypress sequence as a keyboard shortcut for the currently selected command."));
   gtk_box_pack_end (GTK_BOX (inner_vbox), add2button, FALSE, TRUE, 0);
 
-  lookbutton = gtk_button_new_from_stock (GTK_STOCK_FIND);
-  gtk_button_set_label (GTK_BUTTON (lookbutton), _("Find Command for Shortcut"));
+  lookbutton = gtk_button_new_with_label ( _("Find Command for Shortcut"));
   gtk_widget_set_tooltip_text (lookbutton, _("Finds the command (if any) for a (one key) Keyboard Shortcut\n"
                                               "Click button then press the key shortcut you are looking for."));
   gtk_box_pack_end (GTK_BOX (inner_vbox), lookbutton, FALSE, TRUE, 0);
