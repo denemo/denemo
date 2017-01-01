@@ -1,949 +1,949 @@
 SCM scheme_CursorLeft (SCM optional) {
-  return scheme_call_callback(optional, cursorleft);
+  return scheme_call_callback(optional, (callback_function)cursorleft);
 }
 SCM scheme_MoveCursorLeft (SCM optional) {
-  return scheme_call_callback(optional, movecursorleft);
+  return scheme_call_callback(optional, (callback_function)movecursorleft);
 }
 SCM scheme_CursorDown (SCM optional) {
-  return scheme_call_callback(optional, cursordown);
+  return scheme_call_callback(optional, (callback_function)cursordown);
 }
 SCM scheme_CursorUp (SCM optional) {
-  return scheme_call_callback(optional, cursorup);
+  return scheme_call_callback(optional, (callback_function)cursorup);
 }
 SCM scheme_CursorRight (SCM optional) {
-  return scheme_call_callback(optional, cursorright);
+  return scheme_call_callback(optional, (callback_function)cursorright);
 }
 SCM scheme_MoveCursorRight (SCM optional) {
-  return scheme_call_callback(optional, movecursorright);
+  return scheme_call_callback(optional, (callback_function)movecursorright);
 }
 SCM scheme_GoToMark (SCM optional) {
-  return scheme_call_callback(optional, goto_mark);
+  return scheme_call_callback(optional, (callback_function)goto_mark);
 }
 SCM scheme_SwapPointAndMark (SCM optional) {
-  return scheme_call_callback(optional, swap_point_and_mark);
+  return scheme_call_callback(optional, (callback_function)swap_point_and_mark);
 }
 SCM scheme_GoToSelectionStart (SCM optional) {
-  return scheme_call_callback(optional, goto_selection_start);
+  return scheme_call_callback(optional, (callback_function)goto_selection_start);
 }
 SCM scheme_PushPosition (SCM optional) {
-  return scheme_call_callback(optional, PushPosition);
+  return scheme_call_callback(optional, (callback_function)PushPosition);
 }
 SCM scheme_PopPosition (SCM optional) {
-  return scheme_call_callback(optional, PopPosition);
+  return scheme_call_callback(optional, (callback_function)PopPosition);
 }
 SCM scheme_PopPushPosition (SCM optional) {
-  return scheme_call_callback(optional, PopPushPosition);
+  return scheme_call_callback(optional, (callback_function)PopPushPosition);
 }
 SCM scheme_ToggleReduceToDrawingArea (SCM optional) {
-  return scheme_call_callback(optional, ToggleReduceToDrawingArea);
+  return scheme_call_callback(optional, (callback_function)ToggleReduceToDrawingArea);
 }
 SCM scheme_StaffUp (SCM optional) {
-  return scheme_call_callback(optional, staffup);
+  return scheme_call_callback(optional, (callback_function)staffup);
 }
 SCM scheme_StaffDown (SCM optional) {
-  return scheme_call_callback(optional, staffdown);
+  return scheme_call_callback(optional, (callback_function)staffdown);
 }
 SCM scheme_MoveToStaffUp (SCM optional) {
-  return scheme_call_callback(optional, movetostaffup);
+  return scheme_call_callback(optional, (callback_function)movetostaffup);
 }
 SCM scheme_MoveToStaffDown (SCM optional) {
-  return scheme_call_callback(optional, movetostaffdown);
+  return scheme_call_callback(optional, (callback_function)movetostaffdown);
 }
 SCM scheme_MeasureLeft (SCM optional) {
-  return scheme_call_callback(optional, measureleft);
+  return scheme_call_callback(optional, (callback_function)measureleft);
 }
 SCM scheme_MeasureRight (SCM optional) {
-  return scheme_call_callback(optional, measureright);
+  return scheme_call_callback(optional, (callback_function)measureright);
 }
 SCM scheme_MoveToMeasureLeft (SCM optional) {
-  return scheme_call_callback(optional, movetomeasureleft);
+  return scheme_call_callback(optional, (callback_function)movetomeasureleft);
 }
 SCM scheme_MoveToMeasureRight (SCM optional) {
-  return scheme_call_callback(optional, movetomeasureright);
+  return scheme_call_callback(optional, (callback_function)movetomeasureright);
 }
 SCM scheme_A (SCM optional) {
-  return scheme_call_callback(optional, go_to_A_key);
+  return scheme_call_callback(optional, (callback_function)go_to_A_key);
 }
 SCM scheme_B (SCM optional) {
-  return scheme_call_callback(optional, go_to_B_key);
+  return scheme_call_callback(optional, (callback_function)go_to_B_key);
 }
 SCM scheme_C (SCM optional) {
-  return scheme_call_callback(optional, go_to_C_key);
+  return scheme_call_callback(optional, (callback_function)go_to_C_key);
 }
 SCM scheme_D (SCM optional) {
-  return scheme_call_callback(optional, go_to_D_key);
+  return scheme_call_callback(optional, (callback_function)go_to_D_key);
 }
 SCM scheme_E (SCM optional) {
-  return scheme_call_callback(optional, go_to_E_key);
+  return scheme_call_callback(optional, (callback_function)go_to_E_key);
 }
 SCM scheme_F (SCM optional) {
-  return scheme_call_callback(optional, go_to_F_key);
+  return scheme_call_callback(optional, (callback_function)go_to_F_key);
 }
 SCM scheme_G (SCM optional) {
-  return scheme_call_callback(optional, go_to_G_key);
+  return scheme_call_callback(optional, (callback_function)go_to_G_key);
 }
 SCM scheme_OctaveUp (SCM optional) {
-  return scheme_call_callback(optional, octave_up_key);
+  return scheme_call_callback(optional, (callback_function)octave_up_key);
 }
 SCM scheme_OctaveDown (SCM optional) {
-  return scheme_call_callback(optional, octave_down_key);
+  return scheme_call_callback(optional, (callback_function)octave_down_key);
 }
 SCM scheme_WholeNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_0key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_0key);
 }
 SCM scheme_HalfNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_1key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_1key);
 }
 SCM scheme_QuarterNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_2key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_2key);
 }
 SCM scheme_EighthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_3key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_3key);
 }
 SCM scheme_SixteenthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_4key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_4key);
 }
 SCM scheme_ThirtysecondNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_5key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_5key);
 }
 SCM scheme_SixtyfourthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_6key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_6key);
 }
 SCM scheme_OneHundredTwentyEighthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_7key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_7key);
 }
 SCM scheme_TwoHundredFiftySixthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_chord_8key);
+  return scheme_call_callback(optional, (callback_function)insert_chord_8key);
 }
 SCM scheme_InsertWholeRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_0key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_0key);
 }
 SCM scheme_InsertHalfRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_1key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_1key);
 }
 SCM scheme_InsertQuarterRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_2key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_2key);
 }
 SCM scheme_InsertEighthRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_3key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_3key);
 }
 SCM scheme_InsertSixteenthRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_4key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_4key);
 }
 SCM scheme_InsertThirtysecondRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_5key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_5key);
 }
 SCM scheme_InsertSixtyfourthRest (SCM optional) {
-  return scheme_call_callback(optional, insert_rest_6key);
+  return scheme_call_callback(optional, (callback_function)insert_rest_6key);
 }
 SCM scheme_InsertBlankWholeNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_0key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_0key);
 }
 SCM scheme_InsertBlankHalfNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_1key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_1key);
 }
 SCM scheme_InsertBlankQuarterNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_2key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_2key);
 }
 SCM scheme_InsertBlankEighthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_3key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_3key);
 }
 SCM scheme_InsertBlankSixteenthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_4key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_4key);
 }
 SCM scheme_InsertBlankThirtysecondNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_5key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_5key);
 }
 SCM scheme_InsertBlankSixtyfourthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_6key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_6key);
 }
 SCM scheme_InsertBlankOneHundredTwentyEighthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_7key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_7key);
 }
 SCM scheme_InsertBlankTwoHundredFiftySixthNote (SCM optional) {
-  return scheme_call_callback(optional, insert_blankchord_8key);
+  return scheme_call_callback(optional, (callback_function)insert_blankchord_8key);
 }
 
 SCM scheme_InsertDuplet (SCM optional) {
-  return scheme_call_callback(optional, duplet_insert);
+  return scheme_call_callback(optional, (callback_function)duplet_insert);
 }
 SCM scheme_InsertTriplet (SCM optional) {
-  return scheme_call_callback(optional, triplet_insert);
+  return scheme_call_callback(optional, (callback_function)triplet_insert);
 }
 SCM scheme_StartTriplet (SCM optional) {
-  return scheme_call_callback(optional, triplet_start);
+  return scheme_call_callback(optional, (callback_function)triplet_start);
 }
 SCM scheme_EndTuplet (SCM optional) {
-  return scheme_call_callback(optional, tuplet_end);
+  return scheme_call_callback(optional, (callback_function)tuplet_end);
 }
 SCM scheme_InsertQuadtuplet (SCM optional) {
-  return scheme_call_callback(optional, insert_quadtuplet);
+  return scheme_call_callback(optional, (callback_function)insert_quadtuplet);
 }
 SCM scheme_InsertQuintuplet (SCM optional) {
-  return scheme_call_callback(optional, quintuplet_insert);
+  return scheme_call_callback(optional, (callback_function)quintuplet_insert);
 }
 SCM scheme_InsertSextuplet (SCM optional) {
-  return scheme_call_callback(optional, sextuplet_insert);
+  return scheme_call_callback(optional, (callback_function)sextuplet_insert);
 }
 SCM scheme_InsertSeptuplet (SCM optional) {
-  return scheme_call_callback(optional, septuplet_insert);
+  return scheme_call_callback(optional, (callback_function)septuplet_insert);
 }
 SCM scheme_AddNoteToChord (SCM optional) {
-  return scheme_call_callback(optional, add_tone_key);
+  return scheme_call_callback(optional, (callback_function)add_tone_key);
 }
 SCM scheme_RemoveNoteFromChord (SCM optional) {
-  return scheme_call_callback(optional, remove_tone_key);
+  return scheme_call_callback(optional, (callback_function)remove_tone_key);
 }
 SCM scheme_Sharpen (SCM optional) {
-  return scheme_call_callback(optional, sharpen_key);
+  return scheme_call_callback(optional, (callback_function)sharpen_key);
 }
 SCM scheme_Flatten (SCM optional) {
-  return scheme_call_callback(optional, flatten_key);
+  return scheme_call_callback(optional, (callback_function)flatten_key);
 }
 SCM scheme_PendingSharpen (SCM optional) {
-  return scheme_call_callback(optional, pending_sharpen);
+  return scheme_call_callback(optional, (callback_function)pending_sharpen);
 }
 SCM scheme_PendingFlatten (SCM optional) {
-  return scheme_call_callback(optional, pending_flatten);
+  return scheme_call_callback(optional, (callback_function)pending_flatten);
 }
 SCM scheme_StemUp (SCM optional) {
-  return scheme_call_callback(optional, stem_up);
+  return scheme_call_callback(optional, (callback_function)stem_up);
 }
 SCM scheme_StemDown (SCM optional) {
-  return scheme_call_callback(optional, stem_down);
+  return scheme_call_callback(optional, (callback_function)stem_down);
 }
 SCM scheme_AddDot (SCM optional) {
-  return scheme_call_callback(optional, add_dot_key);
+  return scheme_call_callback(optional, (callback_function)add_dot_key);
 }
 SCM scheme_RemoveDot (SCM optional) {
-  return scheme_call_callback(optional, remove_dot_key);
+  return scheme_call_callback(optional, (callback_function)remove_dot_key);
 }
 SCM scheme_InsertTiedNote (SCM optional) {
-  return scheme_call_callback(optional, tie_notes_key);
+  return scheme_call_callback(optional, (callback_function)tie_notes_key);
 }
 SCM scheme_ToggleTie (SCM optional) {
-  return scheme_call_callback(optional, toggle_tie);
+  return scheme_call_callback(optional, (callback_function)toggle_tie);
 }
 SCM scheme_DeleteObject (SCM optional) {
-  return scheme_call_callback(optional, deleteobject);
+  return scheme_call_callback(optional, (callback_function)deleteobject);
 }
 SCM scheme_DeletePreviousObject (SCM optional) {
-  return scheme_call_callback(optional, deletepreviousobject);
+  return scheme_call_callback(optional, (callback_function)deletepreviousobject);
 }
 SCM scheme_InsertMeasure (SCM optional) {
-  return scheme_call_callback(optional, insert_measure_key);
+  return scheme_call_callback(optional, (callback_function)insert_measure_key);
 }
 SCM scheme_AddMeasure (SCM optional) {
-  return scheme_call_callback(optional, addmeasureafter);
+  return scheme_call_callback(optional, (callback_function)addmeasureafter);
 }
 SCM scheme_InsertMeasureBefore (SCM optional) {
-  return scheme_call_callback(optional, insertmeasurebefore);
+  return scheme_call_callback(optional, (callback_function)insertmeasurebefore);
 }
 SCM scheme_InsertMeasureAfter (SCM optional) {
-  return scheme_call_callback(optional, insertmeasureafter);
+  return scheme_call_callback(optional, (callback_function)insertmeasureafter);
 }
 SCM scheme_AppendMeasure (SCM optional) {
-  return scheme_call_callback(optional, append_measure_key);
+  return scheme_call_callback(optional, (callback_function)append_measure_key);
 }
 SCM scheme_DeleteMeasure (SCM optional) {
-  return scheme_call_callback(optional, deletemeasure);
+  return scheme_call_callback(optional, (callback_function)deletemeasure);
 }
 SCM scheme_DeleteMeasureAllStaffs (SCM optional) {
-  return scheme_call_callback(optional, deletemeasureallstaffs);
+  return scheme_call_callback(optional, (callback_function)deletemeasureallstaffs);
 }
 SCM scheme_ShrinkMeasures (SCM optional) {
-  return scheme_call_callback(optional, adjust_measure_less_width_key);
+  return scheme_call_callback(optional, (callback_function)adjust_measure_less_width_key);
 }
 SCM scheme_WidenMeasures (SCM optional) {
-  return scheme_call_callback(optional, adjust_measure_more_width_key);
+  return scheme_call_callback(optional, (callback_function)adjust_measure_more_width_key);
 }
 SCM scheme_ShorterStaffs (SCM optional) {
-  return scheme_call_callback(optional, adjust_staff_less_height_key);
+  return scheme_call_callback(optional, (callback_function)adjust_staff_less_height_key);
 }
 SCM scheme_TallerStaffs (SCM optional) {
-  return scheme_call_callback(optional, adjust_staff_more_height_key);
+  return scheme_call_callback(optional, (callback_function)adjust_staff_more_height_key);
 }
 SCM scheme_InsertTrebleClef (SCM optional) {
-  return scheme_call_callback(optional, clef_new_treble);
+  return scheme_call_callback(optional, (callback_function)clef_new_treble);
 }
 SCM scheme_InsertBassClef (SCM optional) {
-  return scheme_call_callback(optional, clef_new_bass);
+  return scheme_call_callback(optional, (callback_function)clef_new_bass);
 }
 SCM scheme_Insertg8clef (SCM optional) {
-  return scheme_call_callback(optional, clef_new_g8);
+  return scheme_call_callback(optional, (callback_function)clef_new_g8);
 }
 SCM scheme_InsertAltoClef (SCM optional) {
-  return scheme_call_callback(optional, clef_new_alto);
+  return scheme_call_callback(optional, (callback_function)clef_new_alto);
 }
 SCM scheme_InsertTenorClef (SCM optional) {
-  return scheme_call_callback(optional, clef_new_tenor);
+  return scheme_call_callback(optional, (callback_function)clef_new_tenor);
 }
 SCM scheme_InsertSopranoClef (SCM optional) {
-  return scheme_call_callback(optional, clef_new_soprano);
+  return scheme_call_callback(optional, (callback_function)clef_new_soprano);
 }
 SCM scheme_SetInitialTrebleClef (SCM optional) {
-  return scheme_call_callback(optional, clef_set_treble);
+  return scheme_call_callback(optional, (callback_function)clef_set_treble);
 }
 SCM scheme_SetInitialBassClef (SCM optional) {
-  return scheme_call_callback(optional, clef_set_bass);
+  return scheme_call_callback(optional, (callback_function)clef_set_bass);
 }
 SCM scheme_SetInitialg8clef (SCM optional) {
-  return scheme_call_callback(optional, clef_set_g8);
+  return scheme_call_callback(optional, (callback_function)clef_set_g8);
 }
 SCM scheme_SetInitialAltoClef (SCM optional) {
-  return scheme_call_callback(optional, clef_set_alto);
+  return scheme_call_callback(optional, (callback_function)clef_set_alto);
 }
 SCM scheme_SetInitialTenorClef (SCM optional) {
-  return scheme_call_callback(optional, clef_set_tenor);
+  return scheme_call_callback(optional, (callback_function)clef_set_tenor);
 }
 SCM scheme_SetInitialSopranoClef (SCM optional) {
-  return scheme_call_callback(optional, clef_set_soprano);
+  return scheme_call_callback(optional, (callback_function)clef_set_soprano);
 }
 SCM scheme_Insert22Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig22);
+  return scheme_call_callback(optional, (callback_function)newtimesig22);
 }
 SCM scheme_Insert32Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig32);
+  return scheme_call_callback(optional, (callback_function)newtimesig32);
 }
 SCM scheme_Insert42Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig42);
+  return scheme_call_callback(optional, (callback_function)newtimesig42);
 }
 SCM scheme_Insert44Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig44);
+  return scheme_call_callback(optional, (callback_function)newtimesig44);
 }
 SCM scheme_Insert34Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig34);
+  return scheme_call_callback(optional, (callback_function)newtimesig34);
 }
 SCM scheme_Insert24Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig24);
+  return scheme_call_callback(optional, (callback_function)newtimesig24);
 }
 SCM scheme_Insert64Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig64);
+  return scheme_call_callback(optional, (callback_function)newtimesig64);
 }
 SCM scheme_Insert38Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig38);
+  return scheme_call_callback(optional, (callback_function)newtimesig38);
 }
 SCM scheme_Insert68Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig68);
+  return scheme_call_callback(optional, (callback_function)newtimesig68);
 }
 SCM scheme_Insert128Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig128);
+  return scheme_call_callback(optional, (callback_function)newtimesig128);
 }
 SCM scheme_Insert98Time (SCM optional) {
-  return scheme_call_callback(optional, newtimesig98);
+  return scheme_call_callback(optional, (callback_function)newtimesig98);
 }
 SCM scheme_Set22Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig22);
+  return scheme_call_callback(optional, (callback_function)settimesig22);
 }
 SCM scheme_Set32Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig32);
+  return scheme_call_callback(optional, (callback_function)settimesig32);
 }
 SCM scheme_Set42Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig42);
+  return scheme_call_callback(optional, (callback_function)settimesig42);
 }
 SCM scheme_Set44Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig44);
+  return scheme_call_callback(optional, (callback_function)settimesig44);
 }
 SCM scheme_Set34Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig34);
+  return scheme_call_callback(optional, (callback_function)settimesig34);
 }
 SCM scheme_Set24Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig24);
+  return scheme_call_callback(optional, (callback_function)settimesig24);
 }
 SCM scheme_Set64Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig64);
+  return scheme_call_callback(optional, (callback_function)settimesig64);
 }
 SCM scheme_Set38Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig38);
+  return scheme_call_callback(optional, (callback_function)settimesig38);
 }
 SCM scheme_Set68Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig68);
+  return scheme_call_callback(optional, (callback_function)settimesig68);
 }
 SCM scheme_Set128Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig128);
+  return scheme_call_callback(optional, (callback_function)settimesig128);
 }
 SCM scheme_Set98Time (SCM optional) {
-  return scheme_call_callback(optional, settimesig98);
+  return scheme_call_callback(optional, (callback_function)settimesig98);
 }
 SCM scheme_InsertCmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_cmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_cmaj);
 }
 SCM scheme_InsertGmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_gmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_gmaj);
 }
 SCM scheme_InsertDmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_dmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_dmaj);
 }
 SCM scheme_InsertAmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_amaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_amaj);
 }
 SCM scheme_InsertEmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_emaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_emaj);
 }
 SCM scheme_InsertBmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_bmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_bmaj);
 }
 SCM scheme_InsertFSharpmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_fsharpmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_fsharpmaj);
 }
 SCM scheme_InsertCSharpmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_csharpmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_csharpmaj);
 }
 SCM scheme_InsertFmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_fmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_fmaj);
 }
 SCM scheme_InsertBflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_bflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_bflatmaj);
 }
 SCM scheme_InsertEflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_eflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_eflatmaj);
 }
 SCM scheme_InsertAflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_aflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_aflatmaj);
 }
 SCM scheme_InsertDflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_dflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_dflatmaj);
 }
 SCM scheme_InsertGflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_gflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_gflatmaj);
 }
 SCM scheme_InsertCflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_cflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_new_cflatmaj);
 }
 SCM scheme_InsertAmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_amin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_amin);
 }
 SCM scheme_InsertEmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_emin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_emin);
 }
 SCM scheme_InsertBmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_bmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_bmin);
 }
 SCM scheme_InsertFSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_fsharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_fsharpmin);
 }
 SCM scheme_InsertCSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_csharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_csharpmin);
 }
 SCM scheme_InsertGSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_gsharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_gsharpmin);
 }
 SCM scheme_InsertDSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_dsharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_dsharpmin);
 }
 SCM scheme_InsertASharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_asharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_asharpmin);
 }
 SCM scheme_InsertDmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_dmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_dmin);
 }
 SCM scheme_InsertGmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_gmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_gmin);
 }
 SCM scheme_InsertCmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_cmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_cmin);
 }
 SCM scheme_InsertFmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_fmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_fmin);
 }
 SCM scheme_InsertBflatmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_bflatmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_bflatmin);
 }
 SCM scheme_InsertEflatmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_eflatmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_eflatmin);
 }
 SCM scheme_InsertAflatmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_new_aflatmin);
+  return scheme_call_callback(optional, (callback_function)keysig_new_aflatmin);
 }
 SCM scheme_SetInitialCmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_cmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_cmaj);
 }
 SCM scheme_SetInitialGmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_gmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_gmaj);
 }
 SCM scheme_SetInitialDmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_dmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_dmaj);
 }
 SCM scheme_SetInitialAmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_amaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_amaj);
 }
 SCM scheme_SetInitialEmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_emaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_emaj);
 }
 SCM scheme_SetInitialBmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_bmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_bmaj);
 }
 SCM scheme_SetInitialFSharpmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_fsharpmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_fsharpmaj);
 }
 SCM scheme_SetInitialCSharpmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_csharpmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_csharpmaj);
 }
 SCM scheme_SetInitialFmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_fmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_fmaj);
 }
 SCM scheme_SetInitialBflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_bflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_bflatmaj);
 }
 SCM scheme_SetInitialEflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_eflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_eflatmaj);
 }
 SCM scheme_SetInitialAflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_aflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_aflatmaj);
 }
 SCM scheme_SetInitialDflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_dflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_dflatmaj);
 }
 SCM scheme_SetInitialGflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_gflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_gflatmaj);
 }
 SCM scheme_SetInitialCflatmaj (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_cflatmaj);
+  return scheme_call_callback(optional, (callback_function)keysig_set_cflatmaj);
 }
 SCM scheme_SetInitialAmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_amin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_amin);
 }
 SCM scheme_SetInitialEmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_emin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_emin);
 }
 SCM scheme_SetInitialBmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_bmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_bmin);
 }
 SCM scheme_SetInitialFSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_fsharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_fsharpmin);
 }
 SCM scheme_SetInitialCSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_csharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_csharpmin);
 }
 SCM scheme_SetInitialGSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_gsharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_gsharpmin);
 }
 SCM scheme_SetInitialDSharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_dsharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_dsharpmin);
 }
 SCM scheme_SetInitialASharpmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_asharpmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_asharpmin);
 }
 SCM scheme_SetInitialDmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_dmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_dmin);
 }
 SCM scheme_SetInitialGmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_gmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_gmin);
 }
 SCM scheme_SetInitialCmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_cmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_cmin);
 }
 SCM scheme_SetInitialFmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_fmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_fmin);
 }
 SCM scheme_SetInitialBflatmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_bflatmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_bflatmin);
 }
 SCM scheme_SetInitialEflatmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_eflatmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_eflatmin);
 }
 SCM scheme_SetInitialAflatmin (SCM optional) {
-  return scheme_call_callback(optional, keysig_set_aflatmin);
+  return scheme_call_callback(optional, (callback_function)keysig_set_aflatmin);
 }
 SCM scheme_SetMark (SCM optional) {
-  return scheme_call_callback(optional, set_mark);
+  return scheme_call_callback(optional, (callback_function)set_mark);
 }
 SCM scheme_UnsetMark (SCM optional) {
-  return scheme_call_callback(optional, unset_mark);
+  return scheme_call_callback(optional, (callback_function)unset_mark);
 }
 SCM scheme_SetPoint (SCM optional) {
-  return scheme_call_callback(optional, set_point);
+  return scheme_call_callback(optional, (callback_function)set_point);
 }
 SCM scheme_ToggleBeginSlur (SCM optional) {
-  return scheme_call_callback(optional, toggle_begin_slur);
+  return scheme_call_callback(optional, (callback_function)toggle_begin_slur);
 }
 SCM scheme_ToggleEndSlur (SCM optional) {
-  return scheme_call_callback(optional, toggle_end_slur);
+  return scheme_call_callback(optional, (callback_function)toggle_end_slur);
 }
 SCM scheme_ToggleStartCrescendo (SCM optional) {
-  return scheme_call_callback(optional, toggle_start_crescendo);
+  return scheme_call_callback(optional, (callback_function)toggle_start_crescendo);
 }
 SCM scheme_ToggleEndCrescendo (SCM optional) {
-  return scheme_call_callback(optional, toggle_end_crescendo);
+  return scheme_call_callback(optional, (callback_function)toggle_end_crescendo);
 }
 SCM scheme_ToggleStartDiminuendo (SCM optional) {
-  return scheme_call_callback(optional, toggle_start_diminuendo);
+  return scheme_call_callback(optional, (callback_function)toggle_start_diminuendo);
 }
 SCM scheme_ToggleEndDiminuendo (SCM optional) {
-  return scheme_call_callback(optional, toggle_end_diminuendo);
+  return scheme_call_callback(optional, (callback_function)toggle_end_diminuendo);
 }
 SCM scheme_ToggleGrace (SCM optional) {
-  return scheme_call_callback(optional, toggle_grace);
+  return scheme_call_callback(optional, (callback_function)toggle_grace);
 }
 SCM scheme_ToggleAcciaccatura (SCM optional) {
-  return scheme_call_callback(optional, toggle_acciaccatura);
+  return scheme_call_callback(optional, (callback_function)toggle_acciaccatura);
 }
 SCM scheme_ForceCaution (SCM optional) {
-  return scheme_call_callback(optional, force_cautionary);
+  return scheme_call_callback(optional, (callback_function)force_cautionary);
 }
 SCM scheme_ChangePitch (SCM optional) {
-  return scheme_call_callback(optional, change_pitch);
+  return scheme_call_callback(optional, (callback_function)change_pitch);
 }
 SCM scheme_InsertRhythm (SCM optional) {
-  return scheme_call_callback(optional, insert_rhythm_pattern);
+  return scheme_call_callback(optional, (callback_function)insert_rhythm_pattern);
 }
 SCM scheme_NextRhythm (SCM optional) {
-  return scheme_call_callback(optional, nextrhythm);
+  return scheme_call_callback(optional, (callback_function)nextrhythm);
 }
 SCM scheme_AppendMeasureAllStaffs (SCM optional) {
-  return scheme_call_callback(optional, append_measure_score);
+  return scheme_call_callback(optional, (callback_function)append_measure_score);
 }
 SCM scheme_ExecuteScheme (SCM optional) {
-  return scheme_call_callback(optional, execute_scheme);
+  return scheme_call_callback(optional, (callback_function)execute_scheme);
 }
 SCM scheme_SharpenEnharmonicSet (SCM optional) {
-  return scheme_call_callback(optional, set_sharper);
+  return scheme_call_callback(optional, (callback_function)set_sharper);
 }
 SCM scheme_FlattenEnharmonicSet (SCM optional) {
-  return scheme_call_callback(optional, set_flatter);
+  return scheme_call_callback(optional, (callback_function)set_flatter);
 }
 SCM scheme_New (SCM optional) {
-  return scheme_call_callback(optional, file_newwrapper);
+  return scheme_call_callback(optional, (callback_function)file_newwrapper);
 }
 SCM scheme_NewScore (SCM optional) {
-  return scheme_call_callback(optional, new_score_cb);
+  return scheme_call_callback(optional, (callback_function)new_score_cb);
 }
 SCM scheme_Open (SCM optional) {
-  return scheme_call_callback(optional, file_open_with_check);
+  return scheme_call_callback(optional, (callback_function)file_open_with_check);
 }
 SCM scheme_ImportLilypond (SCM optional) {
-  return scheme_call_callback(optional, file_import_lilypond_with_check);
+  return scheme_call_callback(optional, (callback_function)file_import_lilypond_with_check);
 }
 SCM scheme_ImportMidi (SCM optional) {
-  return scheme_call_callback(optional, file_import_midi_with_check);
+  return scheme_call_callback(optional, (callback_function)file_import_midi_with_check);
 }
 SCM scheme_ImportMusicXml (SCM optional) {
-  return scheme_call_callback(optional, file_import_musicxml_with_check);
+  return scheme_call_callback(optional, (callback_function)file_import_musicxml_with_check);
 }
 SCM scheme_AddStaffs (SCM optional) {
-  return scheme_call_callback(optional, file_add_staffs);
+  return scheme_call_callback(optional, (callback_function)file_add_staffs);
 }
 SCM scheme_AddMovements (SCM optional) {
-  return scheme_call_callback(optional, file_add_movements);
+  return scheme_call_callback(optional, (callback_function)file_add_movements);
 }
 SCM scheme_MovementProps (SCM optional) {
-  return scheme_call_callback(optional, movement_props_dialog);
+  return scheme_call_callback(optional, (callback_function)movement_props_dialog);
 }
 SCM scheme_OpenNewWindow (SCM optional) {
-  return scheme_call_callback(optional, openinnew);
+  return scheme_call_callback(optional, (callback_function)openinnew);
 }
 SCM scheme_Save (SCM optional) {
-  return scheme_call_callback(optional, file_savewrapper);
+  return scheme_call_callback(optional, (callback_function)file_savewrapper);
 }
 SCM scheme_SaveAs (SCM optional) {
-  return scheme_call_callback(optional, file_saveaswrapper);
+  return scheme_call_callback(optional, (callback_function)file_saveaswrapper);
 }
 SCM scheme_SaveCopy (SCM optional) {
-  return scheme_call_callback(optional, file_copy_save);
+  return scheme_call_callback(optional, (callback_function)file_copy_save);
 }
 SCM scheme_OpenTemplate (SCM optional) {
-  return scheme_call_callback(optional, system_template_open_with_check);
+  return scheme_call_callback(optional, (callback_function)system_template_open_with_check);
 }
 SCM scheme_OpenExample (SCM optional) {
-  return scheme_call_callback(optional, system_example_open_with_check);
+  return scheme_call_callback(optional, (callback_function)system_example_open_with_check);
 }
 SCM scheme_OpenMyTemplate (SCM optional) {
-  return scheme_call_callback(optional, local_template_open_with_check);
+  return scheme_call_callback(optional, (callback_function)local_template_open_with_check);
 }
 SCM scheme_SaveTemplate (SCM optional) {
-  return scheme_call_callback(optional, template_save);
+  return scheme_call_callback(optional, (callback_function)template_save);
 }
 SCM scheme_NewWindow (SCM optional) {
-  return scheme_call_callback(optional, newview);
+  return scheme_call_callback(optional, (callback_function)newview);
 }
 SCM scheme_InsertMovementBefore (SCM optional) {
-  return scheme_call_callback(optional, insert_movement_before);
+  return scheme_call_callback(optional, (callback_function)insert_movement_before);
 }
 SCM scheme_InsertMovementAfter (SCM optional) {
-  return scheme_call_callback(optional, insert_movement_after);
+  return scheme_call_callback(optional, (callback_function)insert_movement_after);
 }
 SCM scheme_NewMovement (SCM optional) {
-  return scheme_call_callback(optional, append_new_movement);
+  return scheme_call_callback(optional, (callback_function)append_new_movement);
 }
 SCM scheme_SaveParts (SCM optional) {
-  return scheme_call_callback(optional, file_savepartswrapper);
+  return scheme_call_callback(optional, (callback_function)file_savepartswrapper);
 }
 SCM scheme_ExportMUDELA (SCM optional) {
-  return scheme_call_callback(optional, export_mudela_action);
+  return scheme_call_callback(optional, (callback_function)export_mudela_action);
 }
 SCM scheme_ExportPDF (SCM optional) {
-  return scheme_call_callback(optional, export_pdf_action);
+  return scheme_call_callback(optional, (callback_function)export_pdf_action);
 }
 SCM scheme_ExportPNG (SCM optional) {
-  return scheme_call_callback(optional, export_png_action);
+  return scheme_call_callback(optional, (callback_function)export_png_action);
 }
 SCM scheme_ExportMIDI (SCM optional) {
-  return scheme_call_callback(optional, export_midi_action);
+  return scheme_call_callback(optional, (callback_function)export_midi_action);
 }
 SCM scheme_PrintView (SCM optional) {
-  return scheme_call_callback(optional, show_print_view);
+  return scheme_call_callback(optional, (callback_function)show_print_view);
 }
 SCM scheme_PrintSelection (SCM optional) {
-  return scheme_call_callback(optional, printselection_cb);
+  return scheme_call_callback(optional, (callback_function)printselection_cb);
 }
 SCM scheme_PrintExcerptPreview (SCM optional) {
-  return scheme_call_callback(optional, printexcerptpreview_cb);
+  return scheme_call_callback(optional, (callback_function)printexcerptpreview_cb);
 }
 SCM scheme_PrintMovement (SCM optional) {
-  return scheme_call_callback(optional, printmovement_cb);
+  return scheme_call_callback(optional, (callback_function)printmovement_cb);
 }
 SCM scheme_Print (SCM optional) {
-  return scheme_call_callback(optional, printall_cb);
+  return scheme_call_callback(optional, (callback_function)printall_cb);
 }
 SCM scheme_PrintPart (SCM optional) {
-  return scheme_call_callback(optional, printpart_cb);
+  return scheme_call_callback(optional, (callback_function)printpart_cb);
 }
 SCM scheme_Close (SCM optional) {
-  return scheme_call_callback(optional, close_gui_with_check);
+  return scheme_call_callback(optional, (callback_function)close_gui_with_check);
 }
 SCM scheme_Quit (SCM optional) {
-  return scheme_call_callback(optional, closewrapper);
+  return scheme_call_callback(optional, (callback_function)closewrapper);
 }
 SCM scheme_Undo (SCM optional) {
-  return scheme_call_callback(optional, undowrapper);
+  return scheme_call_callback(optional, (callback_function)undowrapper);
 }
 SCM scheme_Redo (SCM optional) {
-  return scheme_call_callback(optional, redowrapper);
+  return scheme_call_callback(optional, (callback_function)redowrapper);
 }
 SCM scheme_Copy (SCM optional) {
-  return scheme_call_callback(optional, copywrapper);
+  return scheme_call_callback(optional, (callback_function)copywrapper);
 }
 SCM scheme_Cut (SCM optional) {
-  return scheme_call_callback(optional, cutwrapper);
+  return scheme_call_callback(optional, (callback_function)cutwrapper);
 }
 SCM scheme_Paste (SCM optional) {
-  return scheme_call_callback(optional, pastewrapper);
+  return scheme_call_callback(optional, (callback_function)pastewrapper);
 }
 SCM scheme_PasteClipboard (SCM optional) {
-  return scheme_call_callback(optional, paste_clipboard);
+  return scheme_call_callback(optional, (callback_function)paste_clipboard);
 }
 SCM scheme_PasteComment (SCM optional) {
-  return scheme_call_callback(optional, paste_comment);
+  return scheme_call_callback(optional, (callback_function)paste_comment);
 }
 SCM scheme_ScoreProperties (SCM optional) {
-  return scheme_call_callback(optional, score_properties_dialog);
+  return scheme_call_callback(optional, (callback_function)score_properties_dialog);
 }
 SCM scheme_SaveSelection (SCM optional) {
-  return scheme_call_callback(optional, saveselwrapper);
+  return scheme_call_callback(optional, (callback_function)saveselwrapper);
 }
 SCM scheme_Preferences (SCM optional) {
-  return scheme_call_callback(optional, preferences_change);
+  return scheme_call_callback(optional, (callback_function)preferences_change);
 }
 SCM scheme_SaveAccels (SCM optional) {
-  return scheme_call_callback(optional, save_default_keymap_file_wrapper);
+  return scheme_call_callback(optional, (callback_function)save_default_keymap_file_wrapper);
 }
 SCM scheme_CommandManagement (SCM optional) {
-  return scheme_call_callback(optional, configure_keyboard_dialog);
+  return scheme_call_callback(optional, (callback_function)configure_keyboard_dialog);
 }
 SCM scheme_SwapStaffs (SCM optional) {
-  return scheme_call_callback(optional, swapstaffs);
+  return scheme_call_callback(optional, (callback_function)swapstaffs);
 }
 SCM scheme_SplitVoices (SCM optional) {
-  return scheme_call_callback(optional, splitstaffs);
+  return scheme_call_callback(optional, (callback_function)splitstaffs);
 }
 SCM scheme_JoinVoices (SCM optional) {
-  return scheme_call_callback(optional, joinstaffs);
+  return scheme_call_callback(optional, (callback_function)joinstaffs);
 }
 SCM scheme_SwapMovements (SCM optional) {
-  return scheme_call_callback(optional, swapmovements);
+  return scheme_call_callback(optional, (callback_function)swapmovements);
 }
 SCM scheme_VoiceUp (SCM optional) {
-  return scheme_call_callback(optional, voiceup);
+  return scheme_call_callback(optional, (callback_function)voiceup);
 }
 SCM scheme_VoiceDown (SCM optional) {
-  return scheme_call_callback(optional, voicedown);
+  return scheme_call_callback(optional, (callback_function)voicedown);
 }
 SCM scheme_MoveToVoiceUp (SCM optional) {
-  return scheme_call_callback(optional, movetovoiceup);
+  return scheme_call_callback(optional, (callback_function)movetovoiceup);
 }
 SCM scheme_MoveToVoiceDown (SCM optional) {
-  return scheme_call_callback(optional, movetovoicedown);
+  return scheme_call_callback(optional, (callback_function)movetovoicedown);
 }
 SCM scheme_AddBefore (SCM optional) {
-  return scheme_call_callback(optional, staff_new_before);
+  return scheme_call_callback(optional, (callback_function)staff_new_before);
 }
 SCM scheme_AddAfter (SCM optional) {
-  return scheme_call_callback(optional, staff_new_after);
+  return scheme_call_callback(optional, (callback_function)staff_new_after);
 }
 SCM scheme_AddInitial (SCM optional) {
-  return scheme_call_callback(optional, staff_new_initial);
+  return scheme_call_callback(optional, (callback_function)staff_new_initial);
 }
 SCM scheme_AddLast (SCM optional) {
-  return scheme_call_callback(optional, staff_new_last);
+  return scheme_call_callback(optional, (callback_function)staff_new_last);
 }
 SCM scheme_DeleteBefore (SCM optional) {
-  return scheme_call_callback(optional, delete_staff_before);
+  return scheme_call_callback(optional, (callback_function)delete_staff_before);
 }
 SCM scheme_DeleteStaff (SCM optional) {
-  return scheme_call_callback(optional, delete_staff_current);
+  return scheme_call_callback(optional, (callback_function)delete_staff_current);
 }
 SCM scheme_DeleteAfter (SCM optional) {
-  return scheme_call_callback(optional, delete_staff_after);
+  return scheme_call_callback(optional, (callback_function)delete_staff_after);
 }
 SCM scheme_AddVoice (SCM optional) {
-  return scheme_call_callback(optional, staff_new_voice);
+  return scheme_call_callback(optional, (callback_function)staff_new_voice);
 }
 SCM scheme_StaffProperties (SCM optional) {
-  return scheme_call_callback(optional, staff_properties_change_cb);
+  return scheme_call_callback(optional, (callback_function)staff_properties_change_cb);
 }
 SCM scheme_InitialClef (SCM optional) {
-  return scheme_call_callback(optional, clef_change_initial);
+  return scheme_call_callback(optional, (callback_function)clef_change_initial);
 }
 SCM scheme_InsertClef (SCM optional) {
-  return scheme_call_callback(optional, clef_change_insert);
+  return scheme_call_callback(optional, (callback_function)clef_change_insert);
 }
 SCM scheme_InitialKey (SCM optional) {
-  return scheme_call_callback(optional, key_change_initial);
+  return scheme_call_callback(optional, (callback_function)key_change_initial);
 }
 SCM scheme_InsertKey (SCM optional) {
-  return scheme_call_callback(optional, key_change_insert);
+  return scheme_call_callback(optional, (callback_function)key_change_insert);
 }
 SCM scheme_InitialTimeSig (SCM optional) {
-  return scheme_call_callback(optional, timesig_change_initial);
+  return scheme_call_callback(optional, (callback_function)timesig_change_initial);
 }
 SCM scheme_InsertTimeSig (SCM optional) {
-  return scheme_call_callback(optional, timesig_change_insert);
+  return scheme_call_callback(optional, (callback_function)timesig_change_insert);
 }
 SCM scheme_ChangeNotehead (SCM optional) {
-  return scheme_call_callback(optional, set_notehead);
+  return scheme_call_callback(optional, (callback_function)set_notehead);
 }
 SCM scheme_InsertStem (SCM optional) {
-  return scheme_call_callback(optional, stem_directive_insert);
+  return scheme_call_callback(optional, (callback_function)stem_directive_insert);
 }
 SCM scheme_AddVerse (SCM optional) {
-  return scheme_call_callback(optional, add_verse);
+  return scheme_call_callback(optional, (callback_function)add_verse);
 }
 SCM scheme_DeleteVerse (SCM optional) {
-  return scheme_call_callback(optional, delete_verse);
+  return scheme_call_callback(optional, (callback_function)delete_verse);
 }
 SCM scheme_EditFiguredBass (SCM optional) {
-  return scheme_call_callback(optional, figure_insert);
+  return scheme_call_callback(optional, (callback_function)figure_insert);
 }
 SCM scheme_DeleteFiguredBass (SCM optional) {
-  return scheme_call_callback(optional, delete_figured_bass);
+  return scheme_call_callback(optional, (callback_function)delete_figured_bass);
 }
 SCM scheme_DeleteChordSymbols (SCM optional) {
-  return scheme_call_callback(optional, delete_fakechords);
+  return scheme_call_callback(optional, (callback_function)delete_fakechords);
 }
 SCM scheme_HideFiguredBass (SCM optional) {
-  return scheme_call_callback(optional, hide_figured_bass);
+  return scheme_call_callback(optional, (callback_function)hide_figured_bass);
 }
 SCM scheme_ShowFiguredBass (SCM optional) {
-  return scheme_call_callback(optional, show_figured_bass);
+  return scheme_call_callback(optional, (callback_function)show_figured_bass);
 }
 SCM scheme_EditChords (SCM optional) {
-  return scheme_call_callback(optional, fakechord_insert);
+  return scheme_call_callback(optional, (callback_function)fakechord_insert);
 }
 SCM scheme_EditObject (SCM optional) {
-  return scheme_call_callback(optional, edit_object_type);
+  return scheme_call_callback(optional, (callback_function)edit_object_type);
 }
 SCM scheme_EditCursorObject (SCM optional) {
-  return scheme_call_callback(optional, edit_object);
+  return scheme_call_callback(optional, (callback_function)edit_object);
 }
 SCM scheme_EditScoreProperties (SCM optional) {
-  return scheme_call_callback(optional, edit_score_properties);
+  return scheme_call_callback(optional, (callback_function)edit_score_properties);
 }
 SCM scheme_EditMovementProperties (SCM optional) {
-  return scheme_call_callback(optional, edit_movement_properties);
+  return scheme_call_callback(optional, (callback_function)edit_movement_properties);
 }
 SCM scheme_EditStaffProperties (SCM optional) {
-  return scheme_call_callback(optional, edit_staff_properties);
+  return scheme_call_callback(optional, (callback_function)edit_staff_properties);
 }
 SCM scheme_EditVoiceProperties (SCM optional) {
-  return scheme_call_callback(optional, edit_voice_properties);
+  return scheme_call_callback(optional, (callback_function)edit_voice_properties);
 }
 SCM scheme_EditDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_object_directive);
+  return scheme_call_callback(optional, (callback_function)edit_object_directive);
 }
 SCM scheme_EditStaffDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_staff_directive);
+  return scheme_call_callback(optional, (callback_function)edit_staff_directive);
 }
 SCM scheme_EditVoiceDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_voice_directive);
+  return scheme_call_callback(optional, (callback_function)edit_voice_directive);
 }
 SCM scheme_EditScoreDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_score_directive);
+  return scheme_call_callback(optional, (callback_function)edit_score_directive);
 }
 SCM scheme_EditMovementDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_movement_directive);
+  return scheme_call_callback(optional, (callback_function)edit_movement_directive);
 }
 SCM scheme_EditClefDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_clef_directive);
+  return scheme_call_callback(optional, (callback_function)edit_clef_directive);
 }
 SCM scheme_EditTimesigDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_timesig_directive);
+  return scheme_call_callback(optional, (callback_function)edit_timesig_directive);
 }
 SCM scheme_EditKeysigDirective (SCM optional) {
-  return scheme_call_callback(optional, edit_keysig_directive);
+  return scheme_call_callback(optional, (callback_function)edit_keysig_directive);
 }
 SCM scheme_DeleteDirective (SCM optional) {
-  return scheme_call_callback(optional, delete_chord_or_note_directive);
+  return scheme_call_callback(optional, (callback_function)delete_chord_or_note_directive);
 }
 SCM scheme_GoToMeasure (SCM optional) {
-  return scheme_call_callback(optional, tomeasurenum);
+  return scheme_call_callback(optional, (callback_function)tomeasurenum);
 }
 SCM scheme_GoToBeginning (SCM optional) {
-  return scheme_call_callback(optional, tohome);
+  return scheme_call_callback(optional, (callback_function)tohome);
 }
 SCM scheme_GoToEnd (SCM optional) {
-  return scheme_call_callback(optional, toend);
+  return scheme_call_callback(optional, (callback_function)toend);
 }
 SCM scheme_MoveToBeginning (SCM optional) {
-  return scheme_call_callback(optional, movetostart);
+  return scheme_call_callback(optional, (callback_function)movetostart);
 }
 SCM scheme_MoveToEnd (SCM optional) {
-  return scheme_call_callback(optional, movetoend);
+  return scheme_call_callback(optional, (callback_function)movetoend);
 }
 SCM scheme_NextMovement (SCM optional) {
-  return scheme_call_callback(optional, next_movement);
+  return scheme_call_callback(optional, (callback_function)next_movement);
 }
 SCM scheme_PreviousMovement (SCM optional) {
-  return scheme_call_callback(optional, prev_movement);
+  return scheme_call_callback(optional, (callback_function)prev_movement);
 }
 SCM scheme_DeleteMovement (SCM optional) {
-  return scheme_call_callback(optional, delete_movement);
+  return scheme_call_callback(optional, (callback_function)delete_movement);
 }
 SCM scheme_Play (SCM optional) {
-  return scheme_call_callback(optional, ext_midi_playback);
+  return scheme_call_callback(optional, (callback_function)ext_midi_playback);
 }
 SCM scheme_Stop (SCM optional) {
-  return scheme_call_callback(optional, stop_midi_playback);
+  return scheme_call_callback(optional, (callback_function)stop_midi_playback);
 }
 SCM scheme_PlaybackProperties (SCM optional) {
-  return scheme_call_callback(optional, playback_properties_change);
+  return scheme_call_callback(optional, (callback_function)playback_properties_change);
 }
 SCM scheme_Help (SCM optional) {
-  return scheme_call_callback(optional, browse_manual);
+  return scheme_call_callback(optional, (callback_function)browse_manual);
 }
 SCM scheme_About (SCM optional) {
-  return scheme_call_callback(optional, about);
+  return scheme_call_callback(optional, (callback_function)about);
 }
 SCM scheme_Shortcuts (SCM optional) {
-  return scheme_call_callback(optional, display_shortcuts);
+  return scheme_call_callback(optional, (callback_function)display_shortcuts);
 }
 SCM scheme_MoreCommands (SCM optional) {
-  return scheme_call_callback(optional, morecommands);
+  return scheme_call_callback(optional, (callback_function)morecommands);
 }
 SCM scheme_MyCommands (SCM optional) {
-  return scheme_call_callback(optional, mycommands);
+  return scheme_call_callback(optional, (callback_function)mycommands);
 }
 SCM scheme_FetchCommands (SCM optional) {
-  return scheme_call_callback(optional, fetchcommands);
+  return scheme_call_callback(optional, (callback_function)fetchcommands);
 }
 
 SCM scheme_ClearOverlay (SCM optional) {
-  return scheme_call_callback(optional, clear_overlay);
+  return scheme_call_callback(optional, (callback_function)clear_overlay);
 }
 SCM scheme_CreateRhythm (SCM optional) {
-  return scheme_call_callback(optional, create_rhythm_cb);
+  return scheme_call_callback(optional, (callback_function)create_rhythm_cb);
 }
 SCM scheme_DeleteRhythm (SCM optional) {
-  return scheme_call_callback(optional, delete_rhythm_cb);
+  return scheme_call_callback(optional, (callback_function)delete_rhythm_cb);
 }
 SCM scheme_InsertA (SCM optional) {
 InsertA (NULL, NULL);
