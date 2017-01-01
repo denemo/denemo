@@ -241,8 +241,13 @@ static void set_image_for_button (GtkWidget *button, gchar *name)
         //g_debug("or rather destroy %p, is %d \n", child_widget, GTK_IS_WIDGET(child_widget));
         gtk_widget_destroy (child_widget);
     }
-    GdkPixbuf *pb = //gdk_pixbuf_new_from_file(icon, NULL); Works on GNU/Linux but not windows - pixbuf loader not working...
-                    rsvg_pixbuf_from_file (icon, NULL);
+    
+    GdkPixbuf *pb = 
+#ifdef G_OS_WIN32    
+    rsvg_pixbuf_from_file (icon, NULL);
+#else                          
+     gdk_pixbuf_new_from_file(icon, NULL);// Works on GNU/Linux but not windows - pixbuf loader not working...
+#endif
     if(pb)
         gtk_button_set_image(GTK_BUTTON(button),gtk_image_new_from_pixbuf(pb));
     else
@@ -602,7 +607,7 @@ gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
                         gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
                         g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
                         }
-                        gtk_window_set_keep_above (GTK_WINDOW (menu), TRUE);
+                        //gtk_window_set_keep_above (GTK_WINDOW (menu), TRUE); this was an attempt to get the menu visble on Windows, but GtkMenu is not a GtkWindow...
                         popupmenu (menu);
                     }
     if(allow_custom && (selected_palette_name==NULL))
