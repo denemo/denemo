@@ -96,9 +96,9 @@ extern gchar *format_tooltip (const gchar*);
     g_signal_connect (w, FAKE_TOOLTIPS_SIGNAL, G_CALLBACK (show_tooltip), format_tooltip(t)): \
     gtk_widget_set_tooltip_markup(w, t)
 
-#define gtk_widget_get_tooltip_text(w) (Denemo.prefs.tooltip_timeout >= 0)? \
+#define gtk_widget_get_tooltip_text(w) ((Denemo.prefs.tooltip_timeout >= 0)? \
     (gchar*)g_object_get_data (G_OBJECT(w), "tooltip"): \
-    gtk_widget_get_tooltip_text(w)
+    gtk_widget_get_tooltip_text(w))
 
 #define denemo_widget_set_tooltip_text(w,t) {gtk_widget_set_tooltip_text(w,t);}
 #else
