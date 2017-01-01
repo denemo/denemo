@@ -270,7 +270,7 @@ void queue_redraw_all ();
  */
 void queue_redraw_playhead ();
 
-extern GStaticMutex smfmutex;
+extern GMutex smfmutex;
 
 gboolean have_midi (void);
 

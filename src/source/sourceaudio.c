@@ -176,9 +176,9 @@ open_source_audio (gchar * filename)
 
 
           temp->volume = 1.0;
-          g_static_mutex_lock (&smfmutex);
+          g_mutex_lock (&smfmutex);
           Denemo.project->movement->recording = temp;
-          g_static_mutex_unlock (&smfmutex);
+          g_mutex_unlock (&smfmutex);
           update_leadin_widget (-1.0);
           if (sfinfo.channels != 2)
             warningdialog (_("Audio is not stereo - expect bad things!"));

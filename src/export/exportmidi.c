@@ -897,7 +897,7 @@ static void load_smf ( DenemoMovement *si, smf_t *smf)
     gboolean midi_track = FALSE;
 
 
-    g_static_mutex_lock (&smfmutex);
+    g_mutex_lock (&smfmutex);
     if (Denemo.project->movement->recorded_midi_track)
       {
         if (si->smf && (((smf_track_t *) Denemo.project->movement->recorded_midi_track)->smf == si->smf))
@@ -913,7 +913,7 @@ static void load_smf ( DenemoMovement *si, smf_t *smf)
 
 
     si->smfsync = si->changecount;
-    g_static_mutex_unlock (&smfmutex);
+    g_mutex_unlock (&smfmutex);
   }
 
 

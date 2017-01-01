@@ -1502,9 +1502,9 @@ delete_recording (void)
   if (Denemo.project->movement && Denemo.project->movement->recording)
     {
       DenemoRecording *temp = Denemo.project->movement->recording;
-      g_static_mutex_lock (&smfmutex);
+      g_mutex_lock (&smfmutex);
       Denemo.project->movement->recording = NULL;
-      g_static_mutex_unlock (&smfmutex);
+      g_mutex_unlock (&smfmutex);
       if (temp->sndfile)
         sf_close (temp->sndfile);
       g_free (temp->filename);

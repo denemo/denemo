@@ -46,9 +46,9 @@ point_to_empty_movement (DenemoProject * gui)
 
   if (!Denemo.non_interactive && (gui->movement) && gui->movement->lyricsbox)
         gtk_widget_hide (gui->movement->lyricsbox);
-  g_static_mutex_lock (&smfmutex);
+  g_mutex_lock (&smfmutex);
   gui->movement = newscore;
-  g_static_mutex_unlock (&smfmutex);
+  g_mutex_unlock (&smfmutex);
   if(!Denemo.non_interactive)
     gtk_widget_show (gui->movement->buttonbox);
 

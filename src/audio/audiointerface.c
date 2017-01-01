@@ -54,8 +54,8 @@ static event_queue_t *event_queues[NUM_BACKENDS] = { NULL };
 
 
 static GThread *queue_thread;
-static GCond *queue_cond;
-static GMutex *queue_mutex;
+static GCond queue_cond;
+static GMutex queue_mutex;
 
 static double playback_start_time;
 // FIXME: synchronize access from multiple threads
@@ -234,8 +234,8 @@ audio_initialize (DenemoPrefs * config)
   quit_thread = FALSE;
   redraw_event = NULL;
 
-  queue_cond = g_cond_new ();
-  queue_mutex = g_mutex_new ();
+  //&queue_cond = g_cond_new (); since GLib 2.32 no longer needed, static declaration is enough
+  //&queue_mutex = g_mutex_new (); since GLib 2.32 no longer needed, static declaration is enough
   event_queues[AUDIO_BACKEND] = event_queue_new (PLAYBACK_QUEUE_SIZE, IMMEDIATE_QUEUE_SIZE, 0, MIXER_QUEUE_SIZE
 #ifdef _HAVE_RUBBERBAND_
 , RUBBERBAND_QUEUE_SIZE
@@ -297,8 +297,8 @@ audio_shutdown ()
       destroy (MIDI_BACKEND);
     }
 
-  g_cond_free (queue_cond);
-  g_mutex_free (queue_mutex);
+ //g_cond_free (&queue_cond); since GLib 2.32 no longer needed, static declaration is enough
+ //g_mutex_free (&queue_mutex); since GLib 2.32 no longer needed, static declaration is enough
 
   return 0;
 }
@@ -432,18 +432,18 @@ read_event_from_rubberband_queue (backend_type_t backend, unsigned char *event_b
   return rubberband_queue_read_output (get_event_queue (backend), event_buffer, event_length);
 }
 #endif
-GStaticMutex smfmutex = G_STATIC_MUTEX_INIT;
+GMutex smfmutex;// = G_STATIC_MUTEX_INIT;
 static gpointer
 queue_thread_func (gpointer data)
 {
-  g_mutex_lock (queue_mutex);
+  g_mutex_lock (&queue_mutex);
 
   for (;;)
     {
       if (!g_atomic_int_get (&signalled))
         {
           gint64 end_time = g_get_monotonic_time () +  (QUEUE_TIMEOUT * G_TIME_SPAN_SECOND)/1000000;
-          g_cond_wait_until (queue_cond, queue_mutex, end_time);
+          g_cond_wait_until (&queue_cond, &queue_mutex, end_time);
           signalled = FALSE;
         }
 
@@ -471,14 +471,14 @@ queue_thread_func (gpointer data)
 
 
       //printf("playback_time=%f, until_time=%f\n", playback_time, until_time);
-          g_static_mutex_lock (&smfmutex);
+          g_mutex_lock (&smfmutex);
           while ((event = get_smf_event (until_time)))
             {
               write_event_to_queue (AUDIO_BACKEND, event);//g_print ("queue gets 0x%hhX 0x%hhX 0x%hhX\n", *(event->midi_buffer+0), *(event->midi_buffer+1), *(event->midi_buffer+2));
 
               write_event_to_queue (MIDI_BACKEND, event);
             }
-          g_static_mutex_unlock (&smfmutex);
+          g_mutex_unlock (&smfmutex);
         }
 
       if (audio_is_playing ())
@@ -509,7 +509,7 @@ queue_thread_func (gpointer data)
         }
     }
 
-  g_mutex_unlock (queue_mutex);
+  g_mutex_unlock (&queue_mutex);
 
   return NULL;
 }
@@ -518,21 +518,21 @@ queue_thread_func (gpointer data)
 static void
 signal_queue ()
 {
-  g_mutex_lock (queue_mutex);
+  g_mutex_lock (&queue_mutex);
   g_atomic_int_set (&signalled, TRUE);
-  g_cond_signal (queue_cond);
-  g_mutex_unlock (queue_mutex);
+  g_cond_signal (&queue_cond);
+  g_mutex_unlock (&queue_mutex);
 }
 
 
 static gboolean
 try_signal_queue ()
 {
-  if (g_mutex_trylock (queue_mutex))
+  if (g_mutex_trylock (&queue_mutex))
     {
       g_atomic_int_set (&signalled, TRUE);
-      g_cond_signal (queue_cond);
-      g_mutex_unlock (queue_mutex);
+      g_cond_signal (&queue_cond);
+      g_mutex_unlock (&queue_mutex);
       return TRUE;
     }
   else
@@ -862,3 +862,4 @@ setTuningTarget (double pitch)
 {
 }
 #endif
+

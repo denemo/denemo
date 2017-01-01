@@ -426,9 +426,9 @@ void new_midi_recording (void) {
     {
       //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
       recording = Denemo.project->movement->recording;
-      g_static_mutex_lock (&smfmutex);
+      g_mutex_lock (&smfmutex);
       Denemo.project->movement->recording = NULL;
-      g_static_mutex_unlock (&smfmutex);
+      g_mutex_unlock (&smfmutex);
       g_free (recording->filename);
       g_free (recording);
       g_list_free_full (recording->notes, g_free);

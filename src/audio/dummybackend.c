@@ -22,7 +22,7 @@ static int const PLAYBACK_INTERVAL = 100000;
 
 
 static GThread *process_thread = NULL;
-static GCond *process_cond = NULL;
+static GCond process_cond;
 static gboolean quit_thread = FALSE;
 
 static gboolean dummy_audio = FALSE;
@@ -34,13 +34,13 @@ static double playback_start_time;
 static gpointer
 process_thread_func (gpointer data)
 {
-  GMutex *mutex = g_mutex_new ();
+  static GMutex mutex;
   gint64 end_time;
-  g_mutex_lock (mutex);
+  g_mutex_lock (&mutex);
   for (;;)
     {
       end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SECOND)/1000000;
-      g_cond_wait_until (process_cond, mutex, end_time);
+      g_cond_wait_until (&process_cond, &mutex, end_time);
 
       if (g_atomic_int_get (&quit_thread))
         {
@@ -80,8 +80,7 @@ process_thread_func (gpointer data)
             }
         }
     }
-  g_mutex_unlock (mutex);
-  g_mutex_free (mutex);
+  g_mutex_unlock (&mutex);
   return NULL;
 }
 
@@ -91,7 +90,6 @@ start_process_thread ()
 {
   if (!process_thread)
     {
-      process_cond = g_cond_new ();
       process_thread = g_thread_try_new ("Dummy process", process_thread_func, NULL, NULL);
     }
 }
@@ -108,7 +106,7 @@ stop_process_thread ()
   if (process_thread)
     {
       g_atomic_int_set (&quit_thread, TRUE);
-      g_cond_signal (process_cond);
+      g_cond_signal (&process_cond);
       g_thread_join (process_thread);
 
       process_thread = NULL;
