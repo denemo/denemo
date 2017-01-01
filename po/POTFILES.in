@@ -157,8 +157,6 @@ src/export/importmusicxml.c
 src/export/importmusicxml.h
 src/export/print.c
 src/export/print.h
-src/export/screenshot.c
-src/export/screenshot.h
 src/export/xmldefs.h
 src/printview/markupview.c
 src/printview/markupview.h

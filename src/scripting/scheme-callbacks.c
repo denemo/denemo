@@ -1097,60 +1097,7 @@ scheme_load_commandset (SCM name)
   return SCM_BOOL_F;
 }
 
-#ifdef _WITH_X11_
-#if 1                           //GTK3 Test
-SCM
-scheme_user_screenshot (SCM type, SCM position)
-{
-  GList **sources;
-  SCM ret = SCM_BOOL_F;
-  gint pos = -1;
-  if ((!SCM_UNBNDP (position)) && scm_is_integer (position))
-    pos = scm_to_int (position);
 
-  if (scm_is_false (type))
-    sources = &Denemo.project->movement->sources;
-  else
-    sources = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->sources;
-  scheme_hide_window (SCM_BOOL_T);
-  GdkRectangle *rect = screenshot_find_rectangle ();
-  if (rect)
-    {
-      //g_debug("%d %d %d %d\n", rect->x, rect->y, rect->width, rect->height);
-      GdkPixbuf *screenshot = screenshot_get_pixbuf (gdk_get_default_root_window (), rect);
-      if (screenshot)
-        {
-          *sources = g_list_insert (*sources, GINT_TO_POINTER (screenshot), pos);       //-1 appends
-          ret = SCM_BOOL_T;
-        }
-    }
-  scheme_hide_window (SCM_BOOL_F);
-
-  return ret;
-}
-
-SCM
-scheme_delete_screenshot (SCM type)
-{
-  GList **sources;
-  if (scm_is_false (type))
-    sources = &Denemo.project->movement->sources;
-  else
-    sources = &((DenemoStaff *) Denemo.project->movement->currentstaff->data)->sources;
-  if (*sources)
-    {
-      GList *g = g_list_nth (*sources, Denemo.project->movement->currentmeasurenum - 1);
-      if (g)
-        {
-          *sources = g_list_remove_link (*sources, g);
-          //FIXME free g->data and g
-          return SCM_BOOL_T;
-        }
-    }
-  return SCM_BOOL_F;
-}
-#endif
-#endif //_WITH_X11_
 SCM
 scheme_push_clipboard (SCM optional)
 {

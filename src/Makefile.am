@@ -177,11 +177,6 @@ denemo_SOURCES = \
   
 nodist_denemo_SOURCES = pathconfig.h
 
-if WITH_X11
-  denemo_SOURCES += \
-    export/screenshot.c \
-    export/screenshot.h
-endif
 
 if HAVE_EVINCE
   denemo_SOURCES += \

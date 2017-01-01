@@ -1160,10 +1160,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Adjust start time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackStart", scheme_adjust_playback_start);
 
   install_scm_function (0, "Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackEnd", scheme_adjust_playback_end);
-#ifdef _WITH_X11_
-  install_scm_function (1, "Takes a parameter #t or #f and optional position: Get a screenshot from the user and append or insert it in a list (one per measure) either applying across the staffs or to the current staff.", DENEMO_SCHEME_PREFIX "UserScreenshot", scheme_user_screenshot);
-  install_scm_function (0, "Takes a parameter #t or #f: Delete a screenshot for the current measure, either across staffs or for current staff.", DENEMO_SCHEME_PREFIX "DeleteScreenshot", scheme_delete_screenshot);
-#endif /*_WITH_X11_*/
+
   install_scm_function (0, "Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX "PushClipboard", scheme_push_clipboard);
 
   install_scm_function (0, "Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returns #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX "PopClipboard", scheme_pop_clipboard);

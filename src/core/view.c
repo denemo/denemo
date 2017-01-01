@@ -32,9 +32,6 @@
 #include "core/keyboard.h"
 #include "export/exportmidi.h"
 #include "audio/midi.h"
-#ifdef _WITH_X11_
-#include "export/screenshot.h"
-#endif
 #include "source/source.h"
 #include "command/commandfuncs.h"
 #include "display/calculatepositions.h"
