@@ -1155,11 +1155,17 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
             g_hash_table_insert (ActionWidgets, g_strdup (name), current);
         }
         
+#define  G_GNUC_BEGIN_IGNORE_DEPRECATION 
       
-      
-       
+       //we will need to add a menu item that creates a palette (whose name is the menupath) for the items of the menu, and code in the palettes.c to display such palettes in a sub-menu when choosing etc
         gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), w);
+        
         item = gtk_tearoff_menu_item_new ();
+        
+#define  G_GNUC_END_IGNORE_DEPRECATION            
+        
+        
+        
         gtk_menu_shell_append (GTK_MENU_SHELL (w), item);
         gtk_widget_show (item);
         
