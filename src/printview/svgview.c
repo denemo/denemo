@@ -616,7 +616,7 @@ set_playback_view (void)
 
     compute_timings (g_path_get_dirname(filename), create_positions (filename));
 
-#if 1 //def G_OS_WIN32
+#ifdef G_OS_WIN32
     GError *err = NULL;
     err = NULL;
     //if (Denemo.prefs.dynamic_compression == 88)
