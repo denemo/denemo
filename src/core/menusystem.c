@@ -1144,6 +1144,9 @@ static void create_palette_for_menu (GtkWidget *menu)
             DenemoAction *action = (DenemoAction *)g_object_get_data (G_OBJECT(item), "action");
             if (action==NULL)
                continue;//skip submenus
+               gint command_idx = lookup_command_from_name (Denemo.map, denemo_action_get_name (action));
+               if ((command_idx>-1) && lookup_hidden_from_idx (Denemo.map, command_idx))
+                    continue;
             script = g_strdup_printf ("(d-%s)", action->name);
             palette_add_button (pal, action->label, action->tooltip, script);
             }
