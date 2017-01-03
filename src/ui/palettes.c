@@ -80,7 +80,7 @@ static void popupmenu (GtkWidget *menu) {
        NULL, 
 #endif       
        NULL, 0, gtk_get_current_event_time ());
-      gtk_main ();
+      gtk_main ();//this works with the "selection-done" signal above; I haven't used this in other menu popups, I did this at the outset of creating palettes.
 }
 
 void repack_palette (DenemoPalette *pal)
@@ -582,41 +582,65 @@ static void user_palette_name (void)
     selected_palette_name = name;
 }
 
-
-gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
+static void set_flag (gboolean *flag)
 {
+    *flag = TRUE;
+}
 
+//recursive:
+static gchar *choose_palette_by_name_and_type (gboolean allow_custom, gboolean non_showing, gboolean non_menus)
+{
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item;
   GList *g;
   selected_palette_name = NULL;
+  gboolean menu_palette_wanted = FALSE;
   if(Denemo.palettes) {
-                      if(allow_custom) {
-                        item = gtk_menu_item_new_with_label (_("Create Custom Palette"));
+      gboolean menu_palettes_present = FALSE;
+      if(allow_custom) {
+        item = gtk_menu_item_new_with_label (_("Create Custom Palette"));
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+        }
+
+      for (g=Denemo.palettes;g;g=g->next)
+        {
+        DenemoPalette *pal = (DenemoPalette *)g->data;
+        if(non_showing && pal->docked && gtk_widget_get_visible (pal->box))
+            continue;//g_debug("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
+        if(non_showing && (!pal->docked) && gtk_widget_get_visible (gtk_widget_get_parent(pal->box)))
+            continue;
+        if (pal->menu && non_menus)
+            {
+                menu_palettes_present = TRUE;
+                continue; //we include them via a button to pop them up
+            }
+        if ((!pal->menu) && (!non_menus))
+            continue; //we don't want the non-menu buttons
+        item = gtk_menu_item_new_with_label (pal->name);
+        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+        g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
+        }
+        if (menu_palettes_present)
+            {
+                        item = gtk_menu_item_new_with_label (_("Palettes from Menus"));
                         gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-                        }
-                        //g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (user_palette_name), NULL);
-                      for (g=Denemo.palettes;g;g=g->next)
-                        {
-                        DenemoPalette *pal = (DenemoPalette *)g->data;
-                        if(non_showing && pal->docked && gtk_widget_get_visible (pal->box))
-                            continue;//g_debug("palette %s is %d\n", pal->name,  gtk_widget_get_visible (pal->box));//continue;
-                        if(non_showing && (!pal->docked) && gtk_widget_get_visible (gtk_widget_get_parent(pal->box)))
-                            continue;
-                        item = gtk_menu_item_new_with_label (pal->name);
-                        gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-                        g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (palette_selected), (gpointer) pal->name);
-                        }
-                        //gtk_window_set_keep_above (GTK_WINDOW (menu), TRUE); this was an attempt to get the menu visble on Windows, but GtkMenu is not a GtkWindow...
-                        popupmenu (menu);
-                    }
+                        g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_flag), &menu_palette_wanted);
+                
+            }
+        popupmenu (menu);
+    }
+    if (non_menus && menu_palette_wanted)
+        return choose_palette_by_name_and_type (FALSE, non_showing, FALSE);
     if(allow_custom && (selected_palette_name==NULL))
         {
             user_palette_name ();
-        }
+        } g_print ("selected %s\n", selected_palette_name);
     return selected_palette_name;
 }
-
+gchar *choose_palette_by_name (gboolean allow_custom, gboolean non_showing)
+{
+ return  choose_palette_by_name_and_type (allow_custom, non_showing, TRUE);
+}
 gchar *get_palette_name (gboolean allow_custom)
 {
     return choose_palette_by_name (allow_custom, FALSE);

@@ -1113,6 +1113,56 @@ static gchar *get_label_for_name (gchar *name)
         }
    return NULL;
 }
+
+static gchar *get_palette_name_from_list (GList *g)
+{
+   g = g_list_last (g);
+   GString *gs = g_string_new((gchar*)g->data);
+   for (g=g->prev;g;g=g->prev)
+        {
+            g_string_append_printf (gs, " <- %s", g->data);
+        }
+ return g_string_free (gs, FALSE);   
+}
+
+static void create_palette_for_menu (GtkWidget *menu)
+{
+   GList *g, *children = gtk_container_get_children (GTK_CONTAINER(menu));
+   GList *palette_names = (GList*)g_object_get_data (G_OBJECT(menu), "labels");
+   gint number = g_list_length (children);
+   gchar *palette_name = get_palette_name_from_list (palette_names); 
+    DenemoPalette *pal = get_palette (palette_name);
+    if(pal==NULL)
+        {
+        pal = set_palate_shape (palette_name, FALSE, (number/10) + 1);//strangely named function
+
+        pal->menu = TRUE;
+        for (g=children;g;g=g->next)
+            {
+            GtkWidget *item = (GtkWidget*)g->data;
+            gchar *script;
+            DenemoAction *action = (DenemoAction *)g_object_get_data (G_OBJECT(item), "action");
+            if (action==NULL)
+               continue;//skip submenus
+            script = g_strdup_printf ("(d-%s)", action->name);
+            palette_add_button (pal, action->label, action->tooltip, script);
+            }
+        g_list_free (children); 
+        }
+    else
+        gtk_widget_show (gtk_widget_get_parent (pal->box)), gtk_widget_show (pal->box);
+}
+
+static GList *clone_list (GList *g)
+{
+    GList *h;
+    for (h=NULL;g;g=g->next)
+        {
+            h = g_list_append (h, g->data);
+        }
+    return h;
+}
+
 /*
  *  if path is "/MainMenu" or /ObjectMenu creates a menubar
     otherwise creates a menu item that pops up a menu 
@@ -1125,9 +1175,9 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
     if (path==NULL)
         {
             if (!strcmp(name, "/MainMenu") || (!strcmp(name, "/ObjectMenu")))
-               w = gtk_menu_bar_new ();
+               w = gtk_menu_bar_new (), g_object_set_data (G_OBJECT(w), "labels", g_list_append (NULL, _("Main Menu")));
             else
-               w = gtk_toolbar_new ();
+               w = gtk_toolbar_new (), g_object_set_data (G_OBJECT(w), "labels", g_list_append (NULL,_("Object Menu")));
             path = g_strdup(name);
         }
     else
@@ -1139,6 +1189,7 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
                 return;
             }        
         gchar *label = get_label_for_name (name);
+        
         if (label==NULL) label = name;
         item = gtk_menu_item_new_with_label (label);
         gtk_widget_show (item);
@@ -1146,30 +1197,30 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
         w = gtk_menu_new ();
         gtk_widget_show (w);
         g_signal_connect (G_OBJECT (w), "key-press-event", G_CALLBACK(dnm_key_snooper), NULL);
-
+        GList *labels = g_object_get_data (G_OBJECT(parent), "labels");
+        g_object_set_data (G_OBJECT(w), "labels", g_list_append(clone_list(labels), label));
       
       GList *current = (GList*)g_hash_table_lookup (ActionWidgets, name);
       if(current==NULL)
         {
-            current = g_list_append (current, w); //g_print ("created widget for name %s\n", name);
+            current = g_list_append (current, w);//g_print ("created widget for name %s\n", name);
             g_hash_table_insert (ActionWidgets, g_strdup (name), current);
         }
         
-#define  G_GNUC_BEGIN_IGNORE_DEPRECATION 
-      
-       //we will need to add a menu item that creates a palette (whose name is the menupath) for the items of the menu, and code in the palettes.c to display such palettes in a sub-menu when choosing etc
+     
         gtk_menu_item_set_submenu (GTK_MENU_ITEM(item), w);
+
         
-        item = gtk_tearoff_menu_item_new ();
-        
-#define  G_GNUC_END_IGNORE_DEPRECATION            
-        
-        
-        
+        //we need to add a menu item that creates a palette (whose name is the menupath) for the items of the menu, and code in the palettes.c to display such palettes in a sub-menu when choosing etc       
+        //item = gtk_menu_item_new_with_label ("8>< 8>< 8>< 8>< 8>< 8>< 8>< 8>< 8>< 8>< 8><");
+        item = gtk_menu_item_new_with_label ("---------------------------------------------");
+        gtk_widget_set_tooltip_text (item, _("Tear off this menu as a palette"));
         gtk_menu_shell_append (GTK_MENU_SHELL (w), item);
-        gtk_widget_show (item);
-        
-        path = g_build_filename (path, name, NULL); //g_print("manu %s\n", path);
+        g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK(create_palette_for_menu), w);
+        gtk_widget_show (item);  
+
+        path = g_build_filename (path, name, NULL); //g_print("menu %s\n", path);
+        g_object_set_data (G_OBJECT(w), "menupath", path);
         }
     GList *current = (GList*)g_hash_table_lookup (ActionWidgets, path);
     current = g_list_append (current, w);
@@ -1197,6 +1248,21 @@ static gint get_item_position (GtkWidget *menu, gchar *name)
         }
     return position;      
 }
+
+
+static void relabel_tear_off (GtkWidget *menu, gint length)
+{
+   GList *children = gtk_container_get_children (GTK_CONTAINER (menu));
+  // g_print ("length %d\n", length);
+   if (children)
+        {
+            GtkMenuItem *tearoff = (GtkMenuItem*)children->data;
+            gchar *label =  g_strnfill((gsize)length*2, '-'); //g_print ("label is %s\n", label);
+            gtk_menu_item_set_label (tearoff, label);  
+            g_list_free (children);
+            g_free (label);        
+        }
+}
 /*
  * if name is in entries.h create a menu item that calls the callback on activate signal
  * otherwise create menuitem that calls activate_action
@@ -1212,6 +1278,13 @@ void denemo_menusystem_add_command (gchar *path, gchar *name, gchar *after)
         }    gchar *label = get_label_for_name (name);
     if(label==NULL) 
         label = name;
+    gint length = strlen (label);
+    gint curw = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (parent), "width"));
+    if (length > curw)
+        {
+            relabel_tear_off (parent, length);
+            g_object_set_data (G_OBJECT (parent), "width", GINT_TO_POINTER (length));
+        }
     item = gtk_menu_item_new_with_label (label);
     gtk_widget_show (item);
     g_object_set_data (G_OBJECT (item), "menupath", path); //FIXME is this in use???

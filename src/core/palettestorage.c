@@ -57,6 +57,7 @@ save_palette (xmlNodePtr parent, DenemoPalette *pal)
     newXMLIntProp (parent, "row-wise", pal->rows);
     newXMLIntProp (parent, "limit", pal->limit);
     newXMLIntProp (parent, "dock", pal->docked);
+    if (pal->menu) newXMLIntProp (parent, "menu", pal->menu);
 
     newXMLIntProp (parent, "hidden", pal->docked?!gtk_widget_get_visible(pal->box): !gtk_widget_get_visible(pal->window));
     GList *g;
@@ -151,6 +152,7 @@ static void install_palette (xmlNodePtr palette, gboolean hide)
     gboolean dock =  getXMLIntProp (palette, (xmlChar *) "dock");
     gint limit =  getXMLIntProp (palette, (xmlChar *) "limit");
     DenemoPalette *pal = create_palette (name, dock, row_wise);
+    pal->menu = (getXMLIntProp (palette, (xmlChar *) "menu")>0); // -1 is returned if not present
     set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack
     installButtons (palette, pal);
     if (hide) hidden = TRUE;
