@@ -1261,7 +1261,9 @@ static void relabel_tear_off (GtkWidget *menu, gint length)
         {
             GtkMenuItem *tearoff = (GtkMenuItem*)children->data;
             gchar *label =  g_strnfill((gsize)length*2, '-'); //g_print ("label is %s\n", label);
-            gtk_menu_item_set_label (tearoff, label);  
+            gchar *scissor = g_strconcat ("✂", label, NULL);
+            gtk_menu_item_set_label (tearoff, scissor);
+            g_free (scissor);  
             g_list_free (children);
             g_free (label);        
         }
