@@ -78,6 +78,11 @@ extern "C" {
 #define FAKE_TOOLTIPS 1
 #endif
 
+#if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 22))
+#define gtk_menu_popup(m) gtk_menu_popup_at_pointer(m, NULL)
+#endif
+
+
 #ifdef FAKE_TOOLTIPS
 extern gchar *format_tooltip (const gchar*);
 #define FAKE_TOOLTIPS_MASK GDK_POINTER_MOTION_MASK  //GDK_ENTER_NOTIFY_MASK
