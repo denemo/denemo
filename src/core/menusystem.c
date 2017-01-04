@@ -1403,14 +1403,7 @@ void denemo_action_group_add_radio_actions (void)
         }
 }
                                       
-void denemo_action_group_add_action (DenemoAction *action) //called from create_comand for scheme scripts and from instantiate_menus for the menus that will popup stuff. Not clear if it needs to do anything...
-{
-  
-   // if(g_list_length (proxies)>1) g_critical ("Not coping with multiple widgets");
-    //any script is actually kept in the keymap structure so nothing is needed here???
-}
-                                
-                                
+                    
 DenemoAction *denemo_menusystem_get_action (gchar *name)  
 {
   return  (DenemoAction*)g_hash_table_lookup (Actions, name);
@@ -1602,7 +1595,7 @@ instantiate_menus (gchar * menupath)
       gchar *tooltip = g_strconcat (_("Menu:\nnamed \""), name, _("\" located at "), menupath, _(" in the menu system"), NULL);
       DenemoAction *action = denemo_action_new (name, name, tooltip);
       g_free (tooltip);
-      denemo_action_group_add_action (action);
+      //denemo_action_group_add_action (action);
 
       gint idx = lookup_command_from_name (Denemo.map, name);
       command_row* row = NULL;

@@ -189,7 +189,7 @@ create_command(command_row *command)
       {
         gchar *icon_name = get_icon_for_name (command->name, command->label);
         action = denemo_action_new (command->name, command->label, command->tooltip);
-        denemo_action_group_add_action (action);
+       // denemo_action_group_add_action (action);
       }
     }
 
