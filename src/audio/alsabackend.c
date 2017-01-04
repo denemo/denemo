@@ -32,7 +32,7 @@ static int out_port_id;
 static snd_midi_event_t *parser;
 
 static GThread *process_thread;
-static GCond *process_cond;
+static GCond process_cond;
 static gboolean quit_thread = FALSE;
 
 static gboolean reset = FALSE;
@@ -43,14 +43,14 @@ static double playback_start_time;
 static gpointer
 process_thread_func (gpointer data)
 {
-  GMutex *mutex = g_mutex_new ();
+  static GMutex mutex;
   gint64 end_time;
-  g_mutex_lock (mutex);
+  g_mutex_lock (&mutex);
 
   for (;;)
     {
       end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SECOND)/1000000;
-      g_cond_wait_until (process_cond, mutex, end_time);
+      g_cond_wait_until (&process_cond, mutex, end_time);
       if (g_atomic_int_get (&quit_thread))
         {
           break;
@@ -114,7 +114,7 @@ process_thread_func (gpointer data)
           update_playback_time (TIMEBASE_PRIO_MIDI, playback_time);
         }
     }
-  g_mutex_free (mutex);
+  g_mutex_unlock (&mutex);
   return NULL;
 }
 
@@ -161,7 +161,7 @@ alsa_seq_initialize (DenemoPrefs * config)
   snd_midi_event_no_status (parser, 1);
 
 
-  process_cond = g_cond_new ();
+  //process_cond = g_cond_new ();since GLib 2.32 no longer needed, static declaration is enough
 
   process_thread =  g_thread_try_new ("ALSA process", process_thread_func, NULL, NULL);
 
@@ -175,10 +175,10 @@ alsa_seq_destroy ()
   g_message ("Destroying ALSA sequencer MIDI backend");
 
   g_atomic_int_set (&quit_thread, TRUE);
-  g_cond_signal (process_cond);
+  g_cond_signal (&process_cond);
   g_thread_join (process_thread);
 
-  g_cond_free (process_cond);
+ // g_cond_free (process_cond);since GLib 2.32 no longer needed, static declaration is enough
 
 
   snd_midi_event_free (parser);
