@@ -1325,7 +1325,7 @@ gchar *get_menupath_for_name (gchar *name)
 
 
 //this is called early on, before the keymap has been set up
-void denemo_action_group_add_actions (void)
+void denemo_menusystem_add_actions (void)
 {
     gint i;
     for (i=0;i<G_N_ELEMENTS (menu_entries);i++)

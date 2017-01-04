@@ -3282,7 +3282,7 @@ create_window (void)
   
   denemo_menusystem_new ();//creates ActionWidgets hash table the keymap is not yet created
 
-  denemo_action_group_add_actions ();
+  denemo_menusystem_add_actions ();
 
 #ifdef EXTRA_WORK
   {
