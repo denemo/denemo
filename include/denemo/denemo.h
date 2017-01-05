@@ -82,6 +82,7 @@ extern "C" {
 #define gtk_menu_popup(m) gtk_menu_popup_at_pointer(m, NULL)
 #endif
 
+#define gdk_cursor_new(t) gdk_cursor_new_for_display(gdk_display_get_default (),t)
 
 #ifdef FAKE_TOOLTIPS
 extern gchar *format_tooltip (const gchar*);
