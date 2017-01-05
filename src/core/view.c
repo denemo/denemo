@@ -1222,7 +1222,7 @@ update_tempo_widget (gdouble value)
   gdouble bpm = gtk_adjustment_get_value (master_tempo_adj);    //g_debug("bpm %f and correction %f\n", bpm, value);
   bpm += value;
   gtk_adjustment_set_value (master_tempo_adj, bpm);
-  gtk_adjustment_changed (master_tempo_adj);
+  //gtk_adjustment_changed (master_tempo_adj);
   Denemo.project->movement->smfsync = G_MAXINT;
 }
 
@@ -3193,7 +3193,7 @@ set_master_volume (DenemoMovement * si, gdouble volume)
   if (master_vol_adj)
     {
       gtk_adjustment_set_value (master_vol_adj, volume);
-      gtk_adjustment_changed (master_vol_adj);
+      //gtk_adjustment_changed (master_vol_adj);
     }
 }
 
@@ -3212,7 +3212,7 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
   if (master_tempo_adj)
     {
       gtk_adjustment_set_value (master_tempo_adj, tempo * si->tempo);
-      gtk_adjustment_changed (master_tempo_adj);
+      //gtk_adjustment_changed (master_tempo_adj);
     }
 }
 

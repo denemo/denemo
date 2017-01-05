@@ -33,7 +33,7 @@ update_hscrollbar (DenemoProject * gui)
   gtk_adjustment_set_page_size (adj, page_size);
   gtk_adjustment_set_page_increment (adj, page_size);
   gtk_adjustment_set_value (adj, gui->movement->leftmeasurenum);
-  gtk_adjustment_changed (adj);
+  //gtk_adjustment_changed (adj);
   //g_debug("steps %d Difference %d\n",transition_steps, (gint)(left-gui->movement->leftmeasurenum));
   set_viewport_transition ((gint) (gui->movement->leftmeasurenum) - left);
 }
@@ -60,7 +60,7 @@ update_vscrollbar (DenemoProject * gui)
   gtk_adjustment_set_page_increment (adj, gui->movement->bottom_staff - gui->movement->top_staff + 1.0);
   gtk_adjustment_set_value (adj, gui->movement->top_staff);
 
-  gtk_adjustment_changed (adj);
+  //gtk_adjustment_changed (adj);
   //gtk_range_slider_update (GTK_RANGE (Denemo.vscrollbar));
 }
 
