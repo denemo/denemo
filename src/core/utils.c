@@ -13,6 +13,7 @@
 #include <fontconfig/fontconfig.h>
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
+#include <glib.h>
 #include <stdlib.h>
 #include "display/accwidths.h"
 #include <denemo/denemo.h>
@@ -3422,7 +3423,13 @@ shift_held_down (void)
 #if GTK_MAJOR_VERSION == 2
   gdk_window_get_pointer (win, NULL, NULL, &mask);
 #else
+
+#if GTK_MINOR_VERSION < 20
   gdk_window_get_device_position (win, gdk_device_manager_get_client_pointer (gdk_display_get_device_manager (gdk_display_get_default ())), NULL, NULL, &mask);
+#else
+  gdk_window_get_device_position (win, gdk_seat_get_pointer (gdk_display_get_default_seat (gdk_display_get_default ())), NULL, NULL, &mask);
+#endif
+
 #endif
   return (mask & GDK_SHIFT_MASK);
 }
