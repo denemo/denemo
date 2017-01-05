@@ -3762,6 +3762,24 @@ static void toggle_score_layout (DenemoAction * action, gpointer param);
 static void toggle_command_manager (DenemoAction * action, gpointer param);
 static void toggle_scoretitles (DenemoAction * action, gpointer param);
 
+
+#if ((GTK_MAJOR_VERSION>3)||((GTK_MAJOR_VERSION==3) &&  (GTK_MINOR_VERSION>=22)))
+static gint denemo_get_screen_width (void)
+{
+GdkRectangle r;
+gdk_monitor_get_workarea (gdk_display_get_primary_monitor (gdk_display_get_default ()), &r);
+return r->width;    
+}
+static gint denemo_get_screen_height (void)
+{
+GdkRectangle r;
+gdk_monitor_get_workarea (gdk_display_get_primary_monitor (gdk_display_get_default ()), &r);
+return r->height;    
+}
+#define gdk_screen_get_width (s) denemo_get_screen_width()
+#define gdk_screen_get_height (s) denemo_get_screen_height()
+#endif
+
 static void
 toggle_page_view (void)
 {
