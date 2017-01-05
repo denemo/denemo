@@ -17,6 +17,86 @@
 #include "command/lilydirectives.h"
 static GtkWidget *DummyVerse;   /* a non-existent verse */
 static gint SkipCount = 0;      //count of syllables to be skipped
+
+
+gboolean
+denemo_pango_scan_string (const char **pos, GString *out)
+{
+  const char *p = *pos;
+
+  while (g_ascii_isspace (*p))
+    p++;
+
+  if (G_UNLIKELY (!*p))
+    return FALSE;
+  else if (*p == '"')
+    {
+      gboolean quoted = FALSE;
+      g_string_truncate (out, 0);
+
+      p++;
+
+      while (TRUE)
+    {
+      if (quoted)
+        {
+          int c = *p;
+
+          switch (c)
+        {
+        case '\0':
+          return FALSE;
+        case 'n':
+          c = '\n';
+          break;
+        case 't':
+          c = '\t';
+          break;
+        default:
+          break;
+        }
+
+          quoted = FALSE;
+          g_string_append_c (out, c);
+        }
+      else
+        {
+          switch (*p)
+        {
+        case '\0':
+          return FALSE;
+        case '\\':
+          quoted = TRUE;
+          break;
+        case '"':
+          p++;
+          goto done;
+        default:
+          g_string_append_c (out, *p);
+          break;
+        }
+        }
+      p++;
+    }
+    done:
+      ;
+    }
+  else
+    {
+      g_string_truncate (out, 0);
+
+      while (*p && !g_ascii_isspace (*p))
+    {
+      g_string_append_c (out, *p);
+      p++;
+    }
+    }
+
+  *pos = p;
+
+  return TRUE;
+}
+
 GtkWidget *
 verse_get_current_view (DenemoStaff * staff)
 {
@@ -153,16 +233,16 @@ scan_syllable (gchar ** next, GString * gs)
       g_string_assign (gs, "(skip)");
       return TRUE;
     }
-  result = pango_scan_string ((const char **) next, gs);
+  result = denemo_pango_scan_string ((const char **) next, gs);
   if (result && (*gs->str == '\\') && (*(gs->str + 1) != '\\') && (*(gs->str + 1) != '\"'))
     {
       //if it is \repeat unfold n \skip 1 put the number n into SkipCount and return a space indicator
       if (!strcmp (gs->str, "\\repeat"))
         {
-          result = pango_scan_string ((const char **) next, gs);
+          result = denemo_pango_scan_string ((const char **) next, gs);
           if (result && (!strcmp (gs->str, "unfold")))
             {
-              result = pango_scan_string ((const char **) next, gs);
+              result = denemo_pango_scan_string ((const char **) next, gs);
               if (result)
                 SkipCount = atoi (gs->str);
               while (**next && **next != '\n')
