@@ -1333,10 +1333,10 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
               GtkWidget *layout = gtk_drawing_area_new ();
               gtk_widget_set_tooltip_text (layout, _("This brace connects together several staffs - you can delete it for a customized layout."));
 
-#if GTK_MAJOR_VERSION != 2
-              g_signal_connect (G_OBJECT (layout), "draw", G_CALLBACK (draw_staff_brace_for_layout), directive->tag->str);
-#else
+#if GTK_MAJOR_VERSION == 2
               g_signal_connect (G_OBJECT (layout), "expose_event", G_CALLBACK (draw_staff_brace_gtk2), directive->tag->str);
+#else
+              g_signal_connect (G_OBJECT (layout), "draw", G_CALLBACK (draw_staff_brace_for_layout), directive->tag->str);
 #endif
 
               gint width = 20, height = 100;
