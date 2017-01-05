@@ -3449,4 +3449,33 @@ get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a)
   color->blue = b;
   color->alpha = a;
 }
+
+void set_background_color(GtkWidget *w, gchar *color)
+{
+GtkCssProvider *gcp;
+GtkStyleContext *gsc;
+gsc = gtk_widget_get_style_context(w);
+const gchar *type = g_type_name (G_TYPE_FROM_INSTANCE (w));
+gchar *str = g_strdup_printf ("%s {background-color: %s;}", type, color);
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+g_free (str);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+
+void set_foreground_color(GtkWidget *w, gchar *color)
+{
+GtkCssProvider *gcp;
+GtkStyleContext *gsc;
+gsc = gtk_widget_get_style_context(w);
+const gchar *type = g_type_name (G_TYPE_FROM_INSTANCE (w));
+gchar *str = g_strdup_printf ("%s {color: %s;}", type, color);
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+g_free (str);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+
 #endif

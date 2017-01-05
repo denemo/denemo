@@ -338,8 +338,10 @@ gboolean shift_held_down (void);
 void get_color (GdkColor * color, gdouble r, gdouble g, gdouble b, gdouble a);
 #else
 void get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a);
+#define gtk_widget_override_background_color(w,f,c) {gchar *color = gdk_rgba_to_string(c);set_background_color(w,color);g_free(color);}
 #endif
-
+void set_foreground_color(GtkWidget *w, gchar *color);
+void set_background_color(GtkWidget *w, gchar *color);
 
 gchar *format_tooltip (const gchar *tip);
 

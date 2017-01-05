@@ -988,7 +988,7 @@ general_edit_popup (GtkWidget * button, EditObjectType type)
 //the popup does not work on windows...
 #else
   if (type == EDIT_CHORD)
-    popup_menu ("/NoteEditPopup");
+    popup_menu ("NotesRests");
   else
 #endif
     infodialog (_("To add or remove built-in attributes right click on the object in the display window"));
@@ -1136,14 +1136,18 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
   G_CALLBACK (rerun) ();
 }
 
+
 static void
 install_conditional_button (GtkWidget * hbox, DenemoDirective * directive, gchar * field)
 {
-
   GdkRGBA color;
   GtkWidget *button = gtk_button_new_with_label (_("Conditional"));
+#if GTK_MAJOR_VERSION == 2  
   get_color (&color, 0.0, 0.0, 0.5, 1.0);
   gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+#else
+    set_foreground_color (button, "rgb(0, 0, 128)");//dark blue
+#endif
   gpointer rerun = NULL;
   if (!strcmp (field, "movementcontrol"))
     rerun = edit_movement_properties;
@@ -1277,11 +1281,13 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
 
       //gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
       GtkWidget *button = gtk_button_new_with_label (_("Delete"));
-      GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+      //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
 
-      GdkRGBA color;
-      get_color (&color, 1.0, 0.0, 0.0, 1.0);
-      gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+      //GdkRGBA color;
+      //get_color (&color, 1.0, 0.0, 0.0, 1.0);
+      //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+      set_foreground_color (button, "rgb(255,0,0)");
+      
       g_object_set_data (G_OBJECT (button), "directives", (gpointer) pdirectives);
       g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
       g_signal_connect (button, "clicked", G_CALLBACK (delete_directive), func);
@@ -1320,8 +1326,9 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
         if (func)
           {
             button = gtk_button_new_with_label (_("Next ➡"));
-            get_color (&color, 0.0, 0.7, 0.7, 1.0);
-            gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+            //get_color (&color, 0.0, 0.7, 0.7, 1.0);
+            //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (button, "rgb(0,180,180)");
             g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (func), (gpointer) label);
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           }
@@ -1329,8 +1336,12 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
       if ((type == EDIT_NOTE) || (type == EDIT_CHORD) || (type == EDIT_CLEF)|| (type == EDIT_KEY)|| (type == EDIT_TIMESIG))
         {
           button = gtk_button_new_with_label (_("Conditional"));
-          get_color (&color, 0.0, 0.0, 0.5, 1.0);
-          gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+#if GTK_MAJOR_VERSION == 2  
+  get_color (&color, 0.0, 0.0, 0.5, 1.0);
+  gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+#else
+    set_foreground_color (button, "rgb(0, 0, 128)");//dark blue
+#endif
           if (type == EDIT_CHORD)
             g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (make_chord_directive_conditional), (gpointer) directive->tag->str);
           else
@@ -1345,8 +1356,9 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
           button = gtk_button_new_with_label (_("Copy"));
-          get_color (&color, 0.0, 0.4, 0.5, 1.0);
-          gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          //get_color (&color, 0.0, 0.4, 0.5, 1.0);
+          //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          set_foreground_color (button,  "rgb(0,110,128)");
           if (type == EDIT_CHORD)
             g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (copy_chord_directive_to_clipboard), (gpointer) directive->tag->str);
           else
@@ -1359,8 +1371,9 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
       if (tooltip)
         {
           button = gtk_button_new_with_label (_("Help"));
-          get_color (&color, 0.0, 0.7, 0.7, 1.0);       //color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
-          gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          //get_color (&color, 0.0, 0.7, 0.7, 1.0);       //color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
+          //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          set_foreground_color (button, "rgb(0,255,180)");
           g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (display_help), (gpointer) tooltip);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
         }
@@ -1405,8 +1418,12 @@ place_chord_attributes (GtkWidget * vbox, chord * thechord)
   gtk_widget_set_sensitive (expander, TRUE);
   gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
   GdkRGBA color;
+#if GTK_MAJOR_VERSION == 2
   get_color (&color, 0.1, 0.1, 0.8, 1.0);
   gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+#else
+  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
+#endif 
   gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
   gtk_container_add (GTK_CONTAINER (expander), inner_box);
@@ -1506,8 +1523,23 @@ edit_object (void)
   GtkWidget *editwin = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   TheEditorWidget = editwin;
   GdkRGBA color;
+#if GTK_MAJOR_VERSION == 2  
   get_color (&color, 1.0, 1.0, 1.0, 1.0);       //.red = color.green = color.blue = color.alpha = 1.0;
   gtk_widget_override_background_color (editwin, GTK_STATE_FLAG_NORMAL, &color);
+  
+#else 
+{
+GtkCssProvider *gcp;
+GtkStyleContext *gsc;
+gsc = gtk_widget_get_style_context(GTK_WIDGET (editwin));
+gchar *str = "GtkWindow {background-color: #ffffff;}"; 
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+#endif
+  
   gtk_window_set_modal (GTK_WINDOW (editwin), TRUE);
   gtk_window_set_title (GTK_WINDOW (editwin), _("Denemo Object Editor"));
   gtk_window_set_transient_for (GTK_WINDOW (editwin), GTK_WINDOW (Denemo.window));
@@ -1553,13 +1585,15 @@ edit_object (void)
           {
             GtkWidget *frame = gtk_frame_new (thechord->notes ? _("Attached to the chord:") : _("Attached to the rest:"));
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);     //color.red = 0.8;color.green = color.blue = 0.1; color.alpha = 1;
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);     //color.red = 0.8;color.green = color.blue = 0.1; color.alpha = 1;
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-            get_color (&color, 0.1, 0.8, 0.1, 1.0);
-            gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+            //get_color (&color, 0.1, 0.8, 0.1, 1.0);
+            //gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (inner_box, "rgb(25,200,25)");
             gtk_container_add (GTK_CONTAINER (frame), inner_box);
             place_directives (inner_box, &thechord->directives, EDIT_CHORD);
           }
@@ -1601,14 +1635,15 @@ edit_object (void)
                     GtkWidget *frame = gtk_frame_new (text->str);
                     gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
                     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-                    GdkRGBA color;
-                    get_color (&color, 0.2, 0.7, 0.2, 1.0);     /// color.green = 0.7; color.red = color.blue = 0.2; color.alpha = 1;
-                    gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                    //GdkRGBA color;
+                    //get_color (&color, 0.2, 0.7, 0.2, 1.0);     /// color.green = 0.7; color.red = color.blue = 0.2; color.alpha = 1;
+                    //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                    set_foreground_color (frame, "rgb(50,200,50)");
                     gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                     GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-                    get_color (&color, 0.1, 0.8, 0.1, 1.0);
-                    gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
-
+                    //get_color (&color, 0.1, 0.8, 0.1, 1.0);
+                    //gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+                    set_foreground_color (inner_box, "rgb(25,200,25)");//this colors the description of the directives placed inside it
                     gtk_container_add (GTK_CONTAINER (frame), inner_box);
                     place_directives (inner_box, &thenote->directives, EDIT_NOTE);
                   }
@@ -1618,9 +1653,10 @@ edit_object (void)
                     GtkWidget *frame = gtk_frame_new (text->str);
                     gtk_container_set_border_width (GTK_CONTAINER (frame), 20);
                     gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-                    GdkRGBA color;
-                    get_color (&color, 0.8, 0.1, 0.1, 1.0);     //color.red = 0.8;color.green = color.blue = 0.1; color.alpha = 1;
-                    gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                    //GdkRGBA color;
+                    //get_color (&color, 0.8, 0.1, 0.1, 1.0);     //color.red = 0.8;color.green = color.blue = 0.1; color.alpha = 1;
+                    //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+                    set_foreground_color (frame, "rgb(200,25,25)");
                     gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
                   }
 
@@ -1680,9 +1716,10 @@ edit_object (void)
         if (thetup->directives)
           {
             GtkWidget *frame = gtk_frame_new (_("Attached to the tuplet start:"));
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -1698,9 +1735,10 @@ edit_object (void)
         if (thetup->directives)
           {
             GtkWidget *frame = gtk_frame_new (_("Attached to the tuplet end:"));
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -1718,9 +1756,10 @@ edit_object (void)
         if (theclef->directives)
           {
             GtkWidget *frame = gtk_frame_new (_("Attached to the clef change object:"));
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -1743,10 +1782,11 @@ edit_object (void)
         if (thetime->directives)
           {
             GtkWidget *frame = gtk_frame_new (_("Attached to the time signature change object:"));
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
             gtk_container_add (GTK_CONTAINER (frame), inner_box);
@@ -1762,9 +1802,10 @@ edit_object (void)
         if (thekey->directives)
           {
             GtkWidget *frame = gtk_frame_new (_("Attached to the key signature change object:"));
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -1782,9 +1823,10 @@ edit_object (void)
         if (thestem->directives)
           {
             GtkWidget *frame = gtk_frame_new (_("Attached to the stemming change object:"));
-            GdkRGBA color;
-            get_color (&color, 0.8, 0.1, 0.1, 1.0);
-            gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            //GdkRGBA color;
+            //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+            //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (frame, "rgb(200,25,25)");
             gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
             gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
             GtkWidget *inner_box = gtk_vbox_new (FALSE, 8);
@@ -1805,14 +1847,16 @@ edit_object (void)
         gchar *filename = get_editscript_filename (directive->tag->str);
         GtkWidget *frame = gtk_frame_new (_("Standalone Denemo Directive:"));
         gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-        GdkRGBA color;
-        get_color (&color, 0.5, 0.5, 0.1, 1.0); // .red = 0.5;
+        //GdkRGBA color;
+        //get_color (&color, 0.5, 0.5, 0.1, 1.0); // .red = 0.5;
         //color.green = 0.5; color.blue = 0.1; color.alpha = 1;
-        gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+        //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+        set_foreground_color (frame, "rgb(128,128,25)");
         gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
         GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-        get_color (&color, 0.8, 0.1, 0.1, 1.0);
-        gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+        //get_color (&color, 0.8, 0.1, 0.1, 1.0);
+        //gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+        set_foreground_color (frame, "rgb(200,25,25)");
         gtk_container_add (GTK_CONTAINER (frame), inner_box);
 
         if (filename)
@@ -1841,24 +1885,28 @@ edit_object (void)
 
 
           button = gtk_button_new_with_label (_("Delete"));
-          GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-          get_color (&color, 1.0, 0.0, 0.0, 1.0);
+          //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+          //get_color (&color, 1.0, 0.0, 0.0, 1.0);
           //color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
-          gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+          //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+          
+          set_foreground_color (button, "rgb(255,0,0)");
           g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
           g_signal_connect (button, "clicked", G_CALLBACK (delete_standalone), NULL);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
 
           button = gtk_button_new_with_label (_("Next ➡"));
-          get_color (&color, 0.0, 0.7, 0.7, 1.0);
-          gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+         // get_color (&color, 0.0, 0.7, 0.7, 1.0);
+         // gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          set_foreground_color (button, "rgb(0,180,180)");
           g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (seek_standalone_directive), (gpointer) label);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
           {
             button = gtk_button_new_with_label (_("Conditional"));
-            get_color (&color, 0.0, 0., 0.5, 1.0);
-            gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+            //get_color (&color, 0.0, 0., 0.5, 1.0);
+            //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+            set_foreground_color (button, "#000080");
 
             g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), (gpointer) "(d-ChooseCondition #f)");
 
@@ -1868,8 +1916,10 @@ edit_object (void)
           if (tooltip)
             {
               button = gtk_button_new_with_label (_("Help"));
-              get_color (&color, 0.0, 0.7, 0.3, 1.0);   //color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
-              gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+              //get_color (&color, 0.0, 0.7, 0.3, 1.0);   //color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
+              //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+              set_foreground_color (button, "#00b34d");
+              
               g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (display_help), (gpointer) tooltip);
               gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
             }
@@ -2025,22 +2075,22 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       gchar *filename = get_editscript_filename (directive->tag->str);
       gchar *display = directive->display ? directive->display->str : "";
       GtkWidget *frame;
-      gchar *text;
+      gchar *text, *oneline;
+      oneline = g_strescape (name,"");
+      
       if (label == NULL)
-        text = g_strdup_printf (_("%sDenemo %s Directive tagged: %s %c%s%c"), (directive->layouts) ? _("(Conditional) ") : "", type, name, '[', display, ']');
+        text = g_strdup_printf (_("%sDenemo %s Directive tagged: %s %c%s%c"), (directive->layouts) ? _("(Conditional) ") : "", type, oneline, '[', display, ']');
       else
         text = g_strdup_printf (_("%sDenemo %s Directive: %s %c%s%c"), (directive->layouts) ? _("(Conditional) ") : "", type, label, '[', display, ']');
       frame = gtk_frame_new (text);
       g_free (text);
-      //gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-      GdkRGBA color;
-      get_color (&color, 0.5, 0.5, 0.1, 1.0);   //color.red = 0.5;
-      //color.green = 0.5; color.blue = 0.1; color.alpha = 1;
-      gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
+      g_free (oneline);
+      
+      set_foreground_color (frame, "#808020");
       gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
       GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-      get_color (&color, 0.8, 0.8, 0.1, 1.0);
-      gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
+      set_foreground_color (inner_box, "#cccc20");
+
       gtk_container_add (GTK_CONTAINER (frame), inner_box);
       GtkWidget *button;
 
@@ -2071,10 +2121,12 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
 
       button = gtk_button_new_with_label (_("Delete"));
-      GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-      get_color (&color, 1.0, 0.0, 0.0, 1.0);
+      //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+      //get_color (&color, 1.0, 0.0, 0.0, 1.0);
       //color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
-      gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+      //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+      
+      set_foreground_color (button, "rgb(255,0,0)");
       g_object_set_data (G_OBJECT (button), "directives", (gpointer) pdirectives);
       g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
       g_signal_connect (button, "clicked", G_CALLBACK (delete_score_directive), get_rerun (field));
@@ -2085,8 +2137,9 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       if (tooltip)
         {
           button = gtk_button_new_with_label (_("Help"));
-          get_color (&color, 0.0, 0.7, 0.3, 1.0);
-          gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          //get_color (&color, 0.0, 0.7, 0.3, 1.0);
+          //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
+          set_foreground_color(button, "#00b34d");
           g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (display_help), (gpointer) tooltip);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
         }
@@ -2134,11 +2187,27 @@ edit_score_and_movement_properties (gboolean show_score)
 {
   GtkWidget *editscorewin = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   TheEditorWidget = editscorewin;
-  GdkRGBA color;
   gint window_height = 800;
-  //color.red = color.green = color.blue = color.alpha = 1.0;
-  get_color (&color, 1.0, 1.0, 1.0, 1.0);
+  GdkRGBA color;
+#if GTK_MAJOR_VERSION == 2  
+  
+  get_color (&color, 1.0, 1.0, 1.0, 1.0);       //.red = color.green = color.blue = color.alpha = 1.0;
   gtk_widget_override_background_color (editscorewin, GTK_STATE_FLAG_NORMAL, &color);
+  
+#else 
+{
+GtkCssProvider *gcp;
+GtkStyleContext *gsc;
+gsc = gtk_widget_get_style_context(GTK_WIDGET (editscorewin));
+gchar *str = "GtkWindow {background-color: #ffffff;}"; 
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+#endif  
+  
+  
   gtk_window_set_modal (GTK_WINDOW (editscorewin), TRUE);
   gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movement Properties Editor"));
   gtk_window_set_transient_for (GTK_WINDOW (editscorewin), GTK_WINDOW (Denemo.window));
@@ -2166,9 +2235,13 @@ edit_score_and_movement_properties (gboolean show_score)
   gtk_expander_set_expanded (GTK_EXPANDER (expander), show_score);
   gtk_widget_set_sensitive (expander, TRUE);
   gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
-  get_color (&color, 0.1, 0.8, 0.1, 1.0);
+  //get_color (&color, 0.1, 0.8, 0.1, 1.0);
 
-  gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+  //gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+  
+  
+  set_foreground_color (expander, "rgb(25,200,25)");
+  
   // gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
 
   GtkWidget *frame = gtk_frame_new (NULL);
@@ -2208,9 +2281,13 @@ edit_score_and_movement_properties (gboolean show_score)
   gtk_expander_set_expanded (GTK_EXPANDER (expander), !show_score);
   gtk_widget_set_sensitive (expander, TRUE);
   gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
+#if GTK_MAJOR_VERSION == 2
   get_color (&color, 0.1, 0.1, 0.8, 1.0);
-
   gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+#else
+  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
+#endif 
+
 
   frame = gtk_frame_new (NULL);
   //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
@@ -2348,15 +2425,31 @@ change_staff_properties (GtkWidget * editstaffwin)
   edit_staff_and_voice_properties (TRUE);
 }
 
+
 static void
 edit_staff_and_voice_properties (gboolean show_staff)
 {
   GtkWidget *editstaffwin = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   TheEditorWidget = editstaffwin;
-  GdkRGBA color;
   gint window_height = 800;
-  get_color (&color, 1.0, 1.0, 1.0, 1.0);
+  GdkRGBA color;
+#if GTK_MAJOR_VERSION == 2  
+  get_color (&color, 1.0, 1.0, 1.0, 1.0);       //.red = color.green = color.blue = color.alpha = 1.0;
   gtk_widget_override_background_color (editstaffwin, GTK_STATE_FLAG_NORMAL, &color);
+  
+#else 
+{
+GtkCssProvider *gcp;
+GtkStyleContext *gsc;
+gsc = gtk_widget_get_style_context(GTK_WIDGET (editstaffwin));
+gchar *str = "GtkWindow {background-color: #ffffff;}"; 
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+}
+#endif  
+  
   gtk_window_set_modal (GTK_WINDOW (editstaffwin), TRUE);
   gtk_window_set_title (GTK_WINDOW (editstaffwin), _("Staff and Voice Properties Editor"));
   gtk_window_set_transient_for (GTK_WINDOW (editstaffwin), GTK_WINDOW (Denemo.window));
@@ -2367,6 +2460,9 @@ edit_staff_and_voice_properties (gboolean show_staff)
   GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
   gtk_container_add (GTK_CONTAINER (editstaffwin), vbox);
   GtkWidget *close_button = gtk_button_new_with_label (_("Close"));
+  
+  
+  
   g_signal_connect_swapped (close_button, "clicked", G_CALLBACK (score_update_and_close), editstaffwin);
 
   g_signal_connect (G_OBJECT (editstaffwin), "destroy", G_CALLBACK (reset_cursors), NULL);
@@ -2384,10 +2480,13 @@ edit_staff_and_voice_properties (gboolean show_staff)
   gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
   gtk_widget_set_sensitive (expander, TRUE);
   gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
+
+#if GTK_MAJOR_VERSION == 2
   get_color (&color, 0.1, 0.1, 0.8, 1.0);
   gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-  // gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
-
+#else
+  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
+#endif 
   GtkWidget *frame = gtk_frame_new (NULL);
   //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 
@@ -2484,8 +2583,13 @@ edit_staff_and_voice_properties (gboolean show_staff)
   gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
   gtk_widget_set_sensitive (expander, TRUE);
   gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
+
+#if GTK_MAJOR_VERSION == 2
   get_color (&color, 0.1, 0.1, 0.8, 1.0);
   gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
+#else
+  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
+#endif 
 
   frame = gtk_frame_new (NULL);
   //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);

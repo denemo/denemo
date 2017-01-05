@@ -500,10 +500,22 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   gdk_color_parse ("gray", &thecolor);
   gtk_widget_modify_bg (verse_view, GTK_STATE_NORMAL, &thecolor);
 #else
-  GdkRGBA grayed = { 0.5, 0.5, 0.5, 1.0 };      //background away from letters, when not receiving input
-  GdkRGBA white = { 0.7, 0.7, 0.7, 1.0 };       //background of letters
-  gtk_widget_override_background_color (GTK_WIDGET (verse_view), GTK_STATE_FLAG_FOCUSED, &white);
-  gtk_widget_override_background_color (GTK_WIDGET (verse_view), GTK_STATE_FLAG_NORMAL, &grayed);
+{
+GtkCssProvider *gcp;
+GtkStyleContext *gsc;
+gsc = gtk_widget_get_style_context(GTK_WIDGET (verse_view));
+gchar *str = "GtkTextView {background-color: rgb(128,128,128);}"; //this overrides the focus one unless it is before.
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+str = "GtkTextView:focus {background-color: rgb(128,128,0);}"; //this is effective
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+} 
 #endif
 
   return pos;

@@ -2805,10 +2805,14 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   if (directive->layouts == NULL)
     {
         button = gtk_button_new_with_label (_("Applies to all layouts"));
-        GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-        GdkRGBA color;
-        get_color (&color, 0.0, 1.0, 0.0, 1.0);
-        gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+        //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+        //GdkRGBA color;
+        //get_color (&color, 0.0, 1.0, 0.0, 1.0);
+        //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+        
+        set_foreground_color(button, "#00ff00");
+        
+        
         g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part."));
     }
   else
@@ -2819,10 +2823,12 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
               button = gtk_button_new_with_label (wrong?
                                 _("Applies only to certain layouts, excluding the current one.")
                                 :_("Applies only to certain layouts, including the current one."));
-              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-              GdkRGBA color;
-              get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
-              gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+              //GdkRGBA color;
+              //get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
+              //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              
+              set_foreground_color(button, wrong?"#ff0000":"#00ff00");
               g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
             }
         else
@@ -2830,10 +2836,13 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
               button = gtk_button_new_with_label (wrong?
                                 _("Excludes the current layout.")
                                 :_("Excludes certain layouts, but applies to the current one."));
-              GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-              GdkRGBA color;
-              get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
-              gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
+              //GdkRGBA color;
+              //get_color (&color, wrong?1:0, wrong?0:1, 0.0, 1.0);
+              //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
+              set_foreground_color(button, wrong?"#ff0000":"#00ff00");
+              
+              
               g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
             }
     }

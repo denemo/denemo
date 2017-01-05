@@ -1761,12 +1761,9 @@ get_event_box (GtkWidget * vbox)
   if (gdk_color_parse ("#BBFFCC", &color))
     gtk_widget_modify_bg (event_box, GTK_STATE_NORMAL, &color);
 #else 
-    GdkRGBA color;
-    color.red = 0xBB/255.0;
-    color.green = 0xFF/255.0;
-    color.blue = 0xCC/255.0;
-    color.alpha = 1.0;
-   gtk_widget_override_background_color (event_box, GTK_STATE_NORMAL, &color);
+{
+    set_background_color (event_box, "#bbffcc");
+}
 #endif
   return event_box;
 }
