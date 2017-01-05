@@ -8,6 +8,7 @@
 
 
 #include "printview/printview.h"
+#include "printview/markupview.h"
 #include "core/view.h"
 #include "scripting/scheme-callbacks.h"
 #include "core/menusystem.h"

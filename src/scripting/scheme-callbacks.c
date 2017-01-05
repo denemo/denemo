@@ -12,6 +12,7 @@
 #include "command/scorelayout.h"
 #include "core/cache.h"
 #include "core/utils.h"
+#include "core/menusystem.h"
 #include "core/view.h"
 #include "core/graphicseditor.h"
 #include "core/keymapio.h"

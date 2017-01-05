@@ -30,6 +30,7 @@
 #include "command/contexts.h"
 #include "display/draw.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "audio/audiointerface.h"
 #include "printview/printview.h"
 

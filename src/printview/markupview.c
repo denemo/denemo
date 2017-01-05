@@ -4,6 +4,8 @@
 #include <glib/gstdio.h>
 #include "export/print.h"
 #include "ui/markup.h"
+#include "printview/printview.h"
+
 
 gboolean finished = FALSE;
 gint changes = 0;

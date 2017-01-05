@@ -23,17 +23,21 @@
 #include <denemo/denemo.h>
 #include "core/view.h"
 #include "core/utils.h"
+#include "core/keymapio.h"
 #include "core/menusystem.h"
+#include "core/keyboard.h"
+
 #include "command/commandfuncs.h"
 #include "command/select.h"
 #include "command/grace.h"
 #include "command/lilydirectives.h"
+#include "command/scorelayout.h"
 
 #include "audio/pitchentry.h"
 #include "audio/playback.h"
-
+#include "audio/audiointerface.h"
 #include "scripting/scheme-callbacks.h"
-
+#include "printview/printview.h"
 
 #include "ui/texteditors.h"
 
@@ -1436,13 +1440,13 @@ void denemo_action_activate(DenemoAction *action)
         }
 }
 
-static toolbar_new_callback (void)
+static void toolbar_new_callback (void)
     {new_score_cb (NULL, NULL);}
-static toolbar_open_callback (void)
+static void  toolbar_open_callback (void)
     {file_open_with_check (NULL, NULL);}
-static toolbar_save_callback (void)
+static void  toolbar_save_callback (void)
     {file_savewrapper (NULL, NULL);}
-static toolbar_print_callback (void)
+static void  toolbar_print_callback (void)
     {
     if (!gtk_widget_get_visible ( gtk_widget_get_toplevel (Denemo.printarea)))
         set_toggle (TogglePrintView_STRING, TRUE);
@@ -1452,9 +1456,9 @@ static toolbar_print_callback (void)
 //static toolbar_printview_callback (void)
 //    {implement_show_print_view(TRUE);}
 //show_print_view(NULL, NULL);} 
-static toolbar_move_to_start_callback (void)
+static void  toolbar_move_to_start_callback (void)
     {movetostart (NULL, NULL);}    
-static toolbar_move_to_end_callback (void)
+static void  toolbar_move_to_end_callback (void)
     {movetoend (NULL, NULL);}    
     
     
