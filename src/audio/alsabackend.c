@@ -50,7 +50,7 @@ process_thread_func (gpointer data)
   for (;;)
     {
       end_time = g_get_monotonic_time () +  (PLAYBACK_INTERVAL * G_TIME_SPAN_SECOND)/1000000;
-      g_cond_wait_until (&process_cond, mutex, end_time);
+      g_cond_wait_until (&process_cond, &mutex, end_time);
       if (g_atomic_int_get (&quit_thread))
         {
           break;
