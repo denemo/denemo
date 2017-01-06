@@ -3346,7 +3346,7 @@ create_window (void)
 
     create_playbutton (inner, NULL, pb_go_back, "go-previous", _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, "<span foreground=\"green\"><b>|</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"lightgreen\"><b>❙</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_next, "go-next", _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
     playbutton = create_playbutton (inner, NULL, pb_play, "media-playback-start", _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
@@ -3354,7 +3354,7 @@ create_window (void)
     exportbutton = create_playbutton (inner, NULL, pb_exportaudio, "document-save", _("Exports the audio recorded to disk"));
 
     create_playbutton (inner, NULL, pb_previous, "go-previous", _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, "<span foreground=\"red\"><b>|</b></span>", pb_end_to_cursor, NULL, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"red\"><b>❙</b></span>", pb_end_to_cursor, NULL, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     create_playbutton (inner, NULL, pb_go_forward, "go-next", _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
