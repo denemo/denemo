@@ -1159,12 +1159,14 @@ pb_forward (GtkWidget * button)
 static void
 pb_next (GtkWidget * button)
 {
+  generate_midi ();
   call_out_to_guile ("(DenemoNext)");
 }
 
 static void
 pb_go_forward (GtkWidget * button)
 {
+  generate_midi ();
   call_out_to_guile ("(DenemoGoForward)");
 }
 
@@ -1177,7 +1179,8 @@ pb_last (GtkWidget * button)
 */
 static void
 pb_start_to_cursor (GtkWidget * button)
-{
+{ 
+  generate_midi ();
   call_out_to_guile ("(DenemoSetPlaybackStart)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
   draw_score_area ();
@@ -1187,6 +1190,7 @@ pb_start_to_cursor (GtkWidget * button)
 static void
 pb_end_to_cursor (GtkWidget * button)
 {
+  generate_midi ();
   call_out_to_guile ("(DenemoSetPlaybackEnd)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
   draw_score_area ();
@@ -1196,6 +1200,7 @@ pb_end_to_cursor (GtkWidget * button)
 static void
 pb_loop (GtkWidget * button)
 {
+  generate_midi ();
   call_out_to_guile ("(DenemoLoop)");
 }
 
@@ -3156,7 +3161,11 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
 {
   GtkWidget *button;
   if (thelabel)
-    button = gtk_button_new_with_label (thelabel);
+    {button = gtk_button_new_with_label ("");
+    GtkWidget *label = gtk_bin_get_child (GTK_BIN(button));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_label_set_markup(GTK_LABEL (label), thelabel);
+    }
   else
     button = gtk_button_new ();
   gtk_widget_set_can_focus (button, FALSE);
@@ -3337,7 +3346,7 @@ create_window (void)
 
     create_playbutton (inner, NULL, pb_go_back, "go-previous", _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, NULL, pb_start_to_cursor, "go-down", _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"green\"><b>|</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_next, "go-next", _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
     playbutton = create_playbutton (inner, NULL, pb_play, "media-playback-start", _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
@@ -3345,7 +3354,7 @@ create_window (void)
     exportbutton = create_playbutton (inner, NULL, pb_exportaudio, "document-save", _("Exports the audio recorded to disk"));
 
     create_playbutton (inner, NULL, pb_previous, "go-previous", _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_end_to_cursor, "go-up", _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"red\"><b>|</b></span>", pb_end_to_cursor, NULL, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     create_playbutton (inner, NULL, pb_go_forward, "go-next", _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
