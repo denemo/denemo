@@ -1464,7 +1464,7 @@ pb_record (gchar * callback)
 static void
 pb_audiorecord (GtkWidget * button)
 {
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (GTK_STOCK_MEDIA_RECORD, GTK_ICON_SIZE_BUTTON));       //highlighting may have turned it off
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name ("media-record", GTK_ICON_SIZE_BUTTON));       //highlighting may have turned it off
   if (Denemo.prefs.maxrecordingtime)
     {
       Denemo.project->audio_recording = !Denemo.project->audio_recording;
@@ -1490,7 +1490,7 @@ highlight_audio_record (void)
 {
   static gboolean on;
   on = !on;
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ? GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP, GTK_ICON_SIZE_BUTTON));
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ? "media-record" : "media-playback-stop", GTK_ICON_SIZE_BUTTON));
 }
 
 void
@@ -3177,11 +3177,11 @@ set_playbutton (gboolean pause)
 {
   if (pause)
     {
-      gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name (GTK_STOCK_MEDIA_PAUSE, GTK_ICON_SIZE_BUTTON));
+      gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-pause", GTK_ICON_SIZE_BUTTON));
     }
   else
     {
-      gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name (GTK_STOCK_MEDIA_PLAY, GTK_ICON_SIZE_BUTTON));
+      gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-start", GTK_ICON_SIZE_BUTTON));
     }
 }
 
@@ -3335,19 +3335,19 @@ create_window (void)
 
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
-    create_playbutton (inner, NULL, pb_go_back, GTK_STOCK_GO_BACK, _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_go_back, "go-previous", _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, NULL, pb_start_to_cursor, GTK_STOCK_GO_DOWN, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_next, GTK_STOCK_GO_FORWARD, _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_stop, GTK_STOCK_MEDIA_STOP, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
-    playbutton = create_playbutton (inner, NULL, pb_play, GTK_STOCK_MEDIA_PLAY, _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
-    audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, GTK_STOCK_MEDIA_RECORD, _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
-    exportbutton = create_playbutton (inner, NULL, pb_exportaudio, GTK_STOCK_SAVE, _("Exports the audio recorded to disk"));
+    create_playbutton (inner, NULL, pb_start_to_cursor, "go-down", _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_next, "go-next", _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
+    playbutton = create_playbutton (inner, NULL, pb_play, "media-playback-start", _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
+    audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, "media-record", _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
+    exportbutton = create_playbutton (inner, NULL, pb_exportaudio, "document-save", _("Exports the audio recorded to disk"));
 
-    create_playbutton (inner, NULL, pb_previous, GTK_STOCK_GO_BACK, _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_end_to_cursor, GTK_STOCK_GO_UP, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_previous, "go-previous", _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_end_to_cursor, "go-up", _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, NULL, pb_go_forward, GTK_STOCK_GO_FORWARD, _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_go_forward, "go-next", _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
 
@@ -3518,7 +3518,7 @@ create_window (void)
       deletebutton = create_playbutton (hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
 
       convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
-      midirecordbutton = create_playbutton (hbox, NULL, pb_record, GTK_STOCK_MEDIA_RECORD, _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
+      midirecordbutton = create_playbutton (hbox, NULL, pb_record, "media-record", _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
       
       
 #define MIDI_CONTROL_HELP _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\nYou may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\nlooking for MIDI in devices (turn your device on first).\nWhen you have a MIDI controller durations are inserted without any pitch (they appear in brown)\n playing on the controller puts the pitches onto the durations.\nThe Shift and Control and ALT keys can also be used for listening without entering notes,\nchecking pitches entered and entering chords.\nThe foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord\n- timing is unimportant, play the chord fast or slow.\nOr use Input → MIDI → Chord Entry Without Pedal to enter chords based on playing the notes simultaneously")

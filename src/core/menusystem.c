@@ -1483,7 +1483,7 @@ static void create_toolbar_items (void)
     GtkWidget *item;
     
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("New"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), GTK_STOCK_NEW);
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "document-new");
     gtk_widget_set_tooltip_text (item, _("Start a new musical score for a named instrument/voice."));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
@@ -1492,7 +1492,7 @@ static void create_toolbar_items (void)
     
     
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Open"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), GTK_STOCK_OPEN);
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "document-open");
     gtk_widget_set_tooltip_text (item, _("Open a file containing a music score for editing"));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
@@ -1501,14 +1501,14 @@ static void create_toolbar_items (void)
     
     
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Save"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), GTK_STOCK_SAVE);
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "document-save");
     gtk_widget_set_tooltip_text (item, _("Save the score. The score is saved to disk in XML format."));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
     g_signal_connect_swapped (item, "clicked", G_CALLBACK (toolbar_save_callback), NULL);
    
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Print"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), GTK_STOCK_PRINT);
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "document-print");
     gtk_widget_set_tooltip_text (item, _("Typesets the score using LilyPond and opens a print dialog"));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
@@ -1526,14 +1526,14 @@ static void create_toolbar_items (void)
 #endif
     
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Move to Staff/Voice Beginning"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), GTK_STOCK_GOTO_FIRST);
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "go-first");
     gtk_widget_set_tooltip_text (item, _("Cursor to start of staff/voice, without extending selection if any"));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
     g_signal_connect_swapped (item, "clicked", G_CALLBACK (toolbar_move_to_start_callback), NULL);
       
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Move to Staff/Voice End"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), GTK_STOCK_GOTO_LAST);
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "go-last");
     gtk_widget_set_tooltip_text (item, _("Cursor to end of staff/voice, without extending selection if any"));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
