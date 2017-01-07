@@ -1526,14 +1526,26 @@ static void create_toolbar_items (void)
 #endif
     
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Move to Staff/Voice Beginning"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "go-first");
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), 
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+    GTK_STOCK_GOTO_FIRST
+#else     
+    "go-first"
+#endif    
+    );
     gtk_widget_set_tooltip_text (item, _("Cursor to start of staff/voice, without extending selection if any"));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);
     g_signal_connect_swapped (item, "clicked", G_CALLBACK (toolbar_move_to_start_callback), NULL);
       
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Move to Staff/Voice End"));
-    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "go-last");
+    gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item),
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+    GTK_STOCK_GOTO_LAST
+#else    
+    "go-last"
+#endif
+ );
     gtk_widget_set_tooltip_text (item, _("Cursor to end of staff/voice, without extending selection if any"));
     gtk_widget_show (item);
     gtk_toolbar_insert (GTK_TOOLBAR(parent), GTK_TOOL_ITEM(item), -1);

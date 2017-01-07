@@ -3344,12 +3344,35 @@ create_window (void)
 
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
-    create_playbutton (inner, NULL, pb_go_back, "go-previous", _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_go_back,
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_PREVIOUS
+#else 
+     "go-previous"
+#endif     
+     , _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     create_playbutton (inner, "<span foreground=\"lightgreen\"><b>❙</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_next, "go-next", _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, NULL, pb_next,
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_NEXT
+#else 
+     "go-next"
+#endif     
+     , _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
-    playbutton = create_playbutton (inner, NULL, pb_play, "media-playback-start", _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
+
+    playbutton = create_playbutton (inner, NULL, pb_play,
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_PLAY
+#else
+     "media-playback-start"
+#endif
+     , _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
+
+
+
+
     audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, "media-record", _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
     exportbutton = create_playbutton (inner, NULL, pb_exportaudio, "document-save", _("Exports the audio recorded to disk"));
 
