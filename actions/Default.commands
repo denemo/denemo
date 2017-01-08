@@ -144,7 +144,7 @@ If the cursor is in the appending position, appends a note using the prevailing 
       </row>
       <row type="scheme">
         <action>Ottava</action>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Ottava</_label>
         <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
       </row>
@@ -2547,6 +2547,34 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/TimeSig</menupath>
         <_label>(Print) Single Digit (On/Off)</_label>
         <_tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OpenFirstTimeBar</action>
+        
+        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
+        <_label>Start a First Time Bar</_label>
+        <_tooltip>(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OpenSecondTimeBar</action>
+        <after>OpenFirstTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
+        <_label>Start a Second Time Bar</_label>
+        <_tooltip>(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OpenNthTimeBar</action>
+        <after>OpenSecondTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
+        <_label>Start an Nth Time Bar</_label>
+        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EndVolta</action>
+        <after>OpenNthTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
+        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
+        <_tooltip>Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed.</_tooltip>
       </row>
       <row type="scheme">
         <action>FreeFermata</action>
@@ -5690,45 +5718,19 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>CadenzaOn</action>
         <after>Tempo</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start Cadenza</_label>
         <_tooltip>Inserts Cadenza start at the current cursor position, which should be the start of a (Denemo) bar. Turns off automatic barlines, beaming etc and sets small sized notes for a cadenza. You can break up the cadenza in the Denemo Display into Denemo "bars" if the cadenza is too long. You will need to insert barlines or use the Allow Page/Line break command to let the typesetter break lines. Add Ignore Measure Duration Error directives in each bar if you want to use Check Score.</_tooltip>
       </row>
       <row type="scheme">
         <action>FinishCadenza</action>
         <after>CadenzaOn</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>End Cadenza</_label>
         <_tooltip>Inserts Cadenza end at the current cursor position which should be at the start of a (Denemo) bar. See Start Cadenza for details.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>OpenFirstTimeBar</action>
-        <after>ClosingBarline</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
-        <_label>Start a First Time Bar</_label>
-        <_tooltip>(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>OpenSecondTimeBar</action>
-        <after>OpenFirstTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
-        <_label>Start a Second Time Bar</_label>
-        <_tooltip>(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>OpenNthTimeBar</action>
-        <after>OpenSecondTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
-        <_label>Start an Nth Time Bar</_label>
-        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>EndVolta</action>
-        <after>OpenNthTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
-        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
-        <_tooltip>Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed.</_tooltip>
-      </row>
+
+
       <row type="scheme">
         <action>StartDownStems</action>
         <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
@@ -7352,6 +7354,7 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Agréments</_label>
         <_tooltip>Insert a (French 18th c) agrément on the note at the cursor.</_tooltip>
       </row>
+
       <row type="scheme">
         <action>DynamicsExtraSpace</action>
         <after>DecrescendoTextSpanner</after>
@@ -7912,7 +7915,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>LigatureStart</action>
         <after>EndVolta</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Start Ligature</_label>
         <_tooltip>Starts drawing a square bracket above the notes from the cursor. Use
 End Ligature to mark the place where the bracket should end. Used in
@@ -7921,7 +7924,7 @@ transcribing mensural music notation.</_tooltip>
       <row type="scheme">
         <action>LigatureEnd</action>
         <after>LigatureStart</after>
-        <menupath>/ObjectMenu/Directives/Typesetter/Spanning</menupath>
+        <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>End Ligature</_label>
         <_tooltip>End drawing a square bracket above the notes. Must be preceded by a
 Start Ligature earlier in the same staff.</_tooltip>
