@@ -3363,7 +3363,7 @@ create_window (void)
     create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
 
     playbutton = create_playbutton (inner, NULL, pb_play,
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+#ifdef G_OS_WIN32 // ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
         GTK_STOCK_MEDIA_PLAY
 #else
      "media-playback-start"
