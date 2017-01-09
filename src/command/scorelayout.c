@@ -1157,6 +1157,7 @@ draw_staff_brace_for_layout (GtkWidget * w, cairo_t * cr, gchar * context)
   return TRUE;
 }
 
+#if GTK_MAJOR_VERSION == 2
 static gboolean
 draw_staff_brace_gtk2 (GtkWidget * w, GdkEventExpose * event, gchar * context)
 {
@@ -1167,6 +1168,7 @@ draw_staff_brace_gtk2 (GtkWidget * w, GdkEventExpose * event, gchar * context)
   cairo_destroy (cr);
   return TRUE;
 }
+#endif
 
 static void
 show_type (GtkWidget * widget, gchar * message)
