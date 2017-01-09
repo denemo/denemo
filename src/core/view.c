@@ -1495,7 +1495,14 @@ highlight_audio_record (void)
 {
   static gboolean on;
   on = !on;
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ? "media-record" : "media-playback-stop", GTK_ICON_SIZE_BUTTON));
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ?
+  
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
+#else       
+   "media-record"  :  "media-playback-stop"
+#endif
+   , GTK_ICON_SIZE_BUTTON));
 }
 
 void
@@ -3186,11 +3193,20 @@ set_playbutton (gboolean pause)
 {
   if (pause)
     {
-      gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-pause", GTK_ICON_SIZE_BUTTON));
+        
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))        
+      gtk_button_set_label (GTK_BUTTON (playbutton), _("Pause"));
+#else
+    gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-pause", GTK_ICON_SIZE_BUTTON));
+#endif
     }
   else
     {
-      gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-start", GTK_ICON_SIZE_BUTTON));
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))        
+      gtk_button_set_label (GTK_BUTTON (playbutton), _("Play"));
+#else
+     gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-start" , GTK_ICON_SIZE_BUTTON));
+#endif 
     }
 }
 
@@ -3344,29 +3360,29 @@ create_window (void)
 
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
-    create_playbutton (inner, NULL, pb_go_back,
+    
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_PREVIOUS
+     create_playbutton (inner, "<-", pb_go_back,   NULL
 #else 
-     "go-previous"
+    create_playbutton (inner, NULL, pb_go_back, "go-previous"
 #endif     
      , _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     create_playbutton (inner, "<span foreground=\"lightgreen\"><b>❙</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_next,
+    
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_NEXT
+        create_playbutton (inner, "->", pb_next, NULL
 #else 
-     "go-next"
+     create_playbutton (inner, NULL, pb_next, "go-next"
 #endif     
      , _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
 
-    playbutton = create_playbutton (inner, NULL, pb_play,
-#ifdef G_OS_WIN32 // ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_PLAY
+
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+            playbutton = create_playbutton (inner, _("Play"), pb_play, NULL
 #else
-     "media-playback-start"
+         playbutton = create_playbutton (inner, _("Play"), pb_play, "media-playback-start"
 #endif
      , _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
 
@@ -3376,10 +3392,22 @@ create_window (void)
     audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, "media-record", _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
     exportbutton = create_playbutton (inner, NULL, pb_exportaudio, "document-save", _("Exports the audio recorded to disk"));
 
-    create_playbutton (inner, NULL, pb_previous, "go-previous", _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+   
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+     create_playbutton (inner, "<-", pb_previous,   NULL
+#else 
+    create_playbutton (inner, NULL, pb_previous, "go-previous"
+#endif 
+    , _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, "<span foreground=\"red\"><b>❙</b></span>", pb_end_to_cursor, NULL, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, NULL, pb_go_forward, "go-next", _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+     create_playbutton (inner, "->", pb_go_forward, NULL
+#else 
+     create_playbutton (inner, NULL, pb_go_forward, "go-next"
+#endif     
+    , _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
 
@@ -3800,16 +3828,16 @@ static gint denemo_get_screen_width (void)
 {
 GdkRectangle r;
 gdk_monitor_get_workarea (gdk_display_get_primary_monitor (gdk_display_get_default ()), &r);
-return r->width;    
+return r.width;    
 }
 static gint denemo_get_screen_height (void)
 {
 GdkRectangle r;
 gdk_monitor_get_workarea (gdk_display_get_primary_monitor (gdk_display_get_default ()), &r);
-return r->height;    
+return r.height;    
 }
-#define gdk_screen_get_width (s) denemo_get_screen_width()
-#define gdk_screen_get_height (s) denemo_get_screen_height()
+#define gdk_screen_get_width(s) denemo_get_screen_width()
+#define gdk_screen_get_height(s) denemo_get_screen_height()
 #endif
 
 static void
