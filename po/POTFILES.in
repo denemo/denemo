@@ -1679,6 +1679,8 @@ actions/menus/ObjectMenu/NotesRests/Slurs/ToggleEndPhrasingSlur.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/ToggleEndPhrasingSlur.xml
 actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm
 actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.xml
+actions/menus/ObjectMenu/NotesRests/StemControl/HelpForStemControl.scm
+actions/menus/ObjectMenu/NotesRests/StemControl/HelpForStemControl.xml
 actions/menus/ObjectMenu/NotesRests/StemControl/StartDownStems.scm
 actions/menus/ObjectMenu/NotesRests/StemControl/StartDownStems.xml
 actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.scm
