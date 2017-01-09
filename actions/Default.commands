@@ -321,6 +321,7 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_label>Octave Down</_label>
         <_tooltip>Changes the note at the cursor to an octave lower</_tooltip>
       </row>
+
       <row type="builtin">
         <action>WholeNote</action>
         <_label>WholeNote</_label>
@@ -365,6 +366,36 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <action>TwoHundredFiftySixthNote</action>
         <_label>TwoHundredFiftySixthNote</_label>
         <_tooltip>Insert 𝅥</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>AddDot</action>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <_label>Add Dot</_label>
+        <_tooltip>Lengthen the chord, note or rest at the cursor by dotting it.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>RemoveDot</action>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <_label>Remove Dot</_label>
+        <_tooltip>Reduce the dotting of the chord note or rest at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Augment</action>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Augment</_label>
+        <_tooltip>Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>PendingSharpen</action>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Sharpen Next Note</_label>
+        <_tooltip>Increases the sharpness of the next entered note. The status bar shows the current state.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>PendingFlatten</action>
+        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
+        <_label>Flatten Next Note</_label>
+        <_tooltip>Increases the flatness of the next entered note. The status bar shows the current state.</_tooltip>
       </row>
       <row type="builtin">
         <action>InsertWholeRest</action>
@@ -462,6 +493,14 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_tooltip>Insert a non-printing 𝅃 rest</_tooltip>
       </row>
       <row type="builtin">
+        <action>NextRhythm</action>
+        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
+        <_label>Next Snippet</_label>
+        <_tooltip>Make next snippet
+the current snippet.
+Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
+      </row>
+      <row type="builtin">
         <action>InsertDuplet</action>
         <menupath>/ObjectMenu/NotesRests/Tuplets</menupath>
         <_label>Insert Duplet</_label>
@@ -534,18 +573,7 @@ The cursor position determines which note to add</_tooltip>
         <_label>Flatten</_label>
         <_tooltip>Flatten the note at the cursor</_tooltip>
       </row>
-      <row type="builtin">
-        <action>PendingSharpen</action>
-        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
-        <_label>Sharpen Next Note</_label>
-        <_tooltip>Increases the sharpness of the next entered note. The status bar shows the current state.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>PendingFlatten</action>
-        <menupath>/ObjectMenu/NotesRests/InsertNote</menupath>
-        <_label>Flatten Next Note</_label>
-        <_tooltip>Increases the flatness of the next entered note. The status bar shows the current state.</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>StemUp</action>
         <_label>StemUp</_label>
@@ -556,18 +584,7 @@ The cursor position determines which note to add</_tooltip>
         <_label>StemDown</_label>
         <_tooltip>Alters a StemNeutral object to stem down.</_tooltip>
       </row>
-      <row type="builtin">
-        <action>AddDot</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
-        <_label>Add Dot</_label>
-        <_tooltip>Lengthen the chord, note or rest at the cursor by dotting it.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>RemoveDot</action>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
-        <_label>Remove Dot</_label>
-        <_tooltip>Reduce the dotting of the chord note or rest at the cursor.</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>InsertTiedNote</action>
         <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
@@ -1205,14 +1222,7 @@ the end point of the selection is unaltered</_tooltip>
         <_label>Insert Snippet</_label>
         <_tooltip>Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert.</_tooltip>
       </row>
-      <row type="builtin">
-        <action>NextRhythm</action>
-        <menupath>/ObjectMenu/NotesRests/SelectDuration</menupath>
-        <_label>Next Snippet</_label>
-        <_tooltip>Make next snippet
-the current snippet.
-Notes entered will follow the rhythmic pattern of this snippet</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>AppendMeasureAllStaffs</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -3080,12 +3090,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Attach Tied Note</_label>
         <_tooltip>Attaches a tied note: you must give the duration after invoking this function.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>Augment</action>
-        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
-        <_label>Augment</_label>
-        <_tooltip>Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>ToggleStemSupport</action>
         <after>StringNum</after>
@@ -5730,7 +5735,12 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Inserts Cadenza end at the current cursor position which should be at the start of a (Denemo) bar. See Start Cadenza for details.</_tooltip>
       </row>
 
-
+     <row type="scheme">
+        <action>HelpForStemControl</action>
+        <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
+        <_label>Help for Stem Control</_label>
+        <_tooltip>Stem direction (up, down or automatic - depending on the note height on the staff- is normally controlled by selecting the LilyPond voice for the music on the staff. This menu is for primitive commands that force stems in one direction without altering slur, tie, ornament directions. Use right-click More Commands to un-hide these primitives if needed.</_tooltip>
+      </row>
       <row type="scheme">
         <action>StartDownStems</action>
         <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
