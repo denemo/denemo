@@ -1,4 +1,4 @@
-\version "2.19.25"
+%\version "2.19.25"
 
 #(define (override-color-for-all-grobs color)
   (lambda (context)
@@ -36,7 +36,7 @@ liveScoreOn = {
 % This part is based on the original event-listener.ly file which is
 % part of LilyPond.
 
-\version "2.16.0"
+%\version "2.16.0"
 
 %%%% Helper functions
 

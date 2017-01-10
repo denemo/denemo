@@ -56,6 +56,8 @@
     (d-DirectiveDelete-movementcontrol tag)
     (d-DirectiveDelete-paper tag)
     (d-DirectiveDelete-score tag)
+    (d-DirectivePut-score-prefix tag "\n%\\include \"live-score.ily\"\n") ;;to keep the same line numbers we don't delete this line but insert it commented it out
+    (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
     (d-DirectiveDelete-voice tag)
     (d-DirectiveDelete-score tag2)
     (d-DirectivePut-score-prefix tag2 "\n%\\header { tagline = #f }\n") ;;to keep the same line numbers we don't delete this line but comment it out
