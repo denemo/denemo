@@ -128,6 +128,7 @@
                     (d-DirectivePut-standalone-postfix tag (string-append "
                     \\set Score.repeatCommands = " (create-volta size italic bold text)))
                    
+                    (d-DirectivePut-standalone-override tag DENEMO_OVERRIDE_GRAPHIC)
 
                     (d-DirectivePut-standalone-gx  tag 8)
                     (d-DirectivePut-standalone-gy  tag -40)
