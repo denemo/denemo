@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <scheme>(d-Set0)
+</scheme>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>0</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>LilyPondInclude</tag>
+        <prefix>\include "gregorian.ly"
+</prefix>
+        <display>Included LilyPond Files</display>
+        <data>'("gregorian.ly")</data>
+        <override>268435472</override>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>121</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+      <measure-width>480</measure-width>
+    </edit-info>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>Cantus</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="bass">
+            <directives>
+              <directive>
+                <tag>Vaticana</tag>
+                <postfix>\clef "vaticana-fa2" </postfix>
+                <graphic_name>
+
+Emmentaler
+80</graphic_name>
+                <gy>10</gy>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>256</numerator>
+              <denominator>1</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>Unmeasured</tag>
+                <postfix>\cadenzaOn </postfix>
+                <graphic_name>
+ 
+</graphic_name>
+                <override>5</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>4</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <verses></verses>
+          <staff-directives>
+            <directive>
+              <tag>VaticanaStaff</tag>
+              <postfix> \new VaticanaVoice = "MvmntIVoiceI" &lt;&lt;
+</postfix>
+              <display>VaticanaStaff</display>
+              <override>5</override>
+            </directive>
+            <directive>
+              <tag>ChordVariant</tag>
+              <postfix>\override Staff.StaffSymbol.color = #(x11-color 'black)</postfix>
+              <display>black</display>
+              <data>black</data>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>VaticanaStaff</tag>
+              <postfix>
+</postfix>
+              <display>VaticanaStaff</display>
+              <override>5</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>Vaticana</tag>
+              <postfix>\clef "vaticana-fa2" </postfix>
+              <graphic_name>
+
+Emmentaler
+80</graphic_name>
+              <gy>10</gy>
+              <override>5</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure></measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>

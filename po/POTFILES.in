@@ -2157,6 +2157,8 @@ actions/menus/ObjectMenu/TimeSig/TimesigWithBeatStructure.scm
 actions/menus/ObjectMenu/TimeSig/TimesigWithBeatStructure.xml
 actions/menus/ObjectMenu/TimeSig/TwoTimeSignatures.scm
 actions/menus/ObjectMenu/TimeSig/TwoTimeSignatures.xml
+actions/menus/ObjectMenu/TimeSig/Unmeasured.scm
+actions/menus/ObjectMenu/TimeSig/Unmeasured.xml
 actions/multilex.scm
 actions/nwc2denemo/import_nwctext.scm
 actions/palettes.xml

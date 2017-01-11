@@ -321,7 +321,6 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_label>Octave Down</_label>
         <_tooltip>Changes the note at the cursor to an octave lower</_tooltip>
       </row>
-
       <row type="builtin">
         <action>WholeNote</action>
         <_label>WholeNote</_label>
@@ -573,7 +572,6 @@ The cursor position determines which note to add</_tooltip>
         <_label>Flatten</_label>
         <_tooltip>Flatten the note at the cursor</_tooltip>
       </row>
-
       <row type="builtin">
         <action>StemUp</action>
         <_label>StemUp</_label>
@@ -584,7 +582,6 @@ The cursor position determines which note to add</_tooltip>
         <_label>StemDown</_label>
         <_tooltip>Alters a StemNeutral object to stem down.</_tooltip>
       </row>
-
       <row type="builtin">
         <action>InsertTiedNote</action>
         <menupath>/ObjectMenu/NotesRests/EditNote</menupath>
@@ -1222,7 +1219,6 @@ the end point of the selection is unaltered</_tooltip>
         <_label>Insert Snippet</_label>
         <_tooltip>Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert.</_tooltip>
       </row>
-
       <row type="builtin">
         <action>AppendMeasureAllStaffs</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
@@ -2560,7 +2556,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenFirstTimeBar</action>
-        
         <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
         <_label>Start a First Time Bar</_label>
         <_tooltip>(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
@@ -3090,7 +3085,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Attach Tied Note</_label>
         <_tooltip>Attaches a tied note: you must give the duration after invoking this function.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ToggleStemSupport</action>
         <after>StringNum</after>
@@ -5734,8 +5728,7 @@ for second and subsequent systems</_tooltip>
         <_label>End Cadenza</_label>
         <_tooltip>Inserts Cadenza end at the current cursor position which should be at the start of a (Denemo) bar. See Start Cadenza for details.</_tooltip>
       </row>
-
-     <row type="scheme">
+      <row type="scheme">
         <action>HelpForStemControl</action>
         <menupath>/ObjectMenu/NotesRests/StemControl</menupath>
         <_label>Help for Stem Control</_label>
@@ -7364,7 +7357,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Agréments</_label>
         <_tooltip>Insert a (French 18th c) agrément on the note at the cursor.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>DynamicsExtraSpace</action>
         <after>DecrescendoTextSpanner</after>
@@ -8068,6 +8060,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
         <_label>Help for Repeats</_label>
         <_tooltip>Explains the different ways of creating repeats.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Unmeasured</action>
+        <after>NumericTimeSig</after>
+        <menupath>/ObjectMenu/TimeSig</menupath>
+        <_label>Unmeasured Staff</_label>
+        <_tooltip>Makes the staff accept any duration per Denemo measure. Equivalent to Cadenza Time from the first bar.</_tooltip>
       </row>
     </map>
   </merge>
