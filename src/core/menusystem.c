@@ -1124,7 +1124,7 @@ static gchar *get_palette_name_from_list (GList *g)
    GString *gs = g_string_new((gchar*)g->data);
    for (g=g->prev;g;g=g->prev)
         {
-            g_string_append_printf (gs, " <- %s", g->data);
+            g_string_append_printf (gs, " ◀ %s", g->data);
         }
  return g_string_free (gs, FALSE);   
 }
@@ -1527,7 +1527,7 @@ static void create_toolbar_items (void)
     
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Move to Staff/Voice Beginning"));
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-    gtk_tool_button_set_label (GTK_TOOL_BUTTON(item), "|<-");
+    gtk_tool_button_set_label (GTK_TOOL_BUTTON(item), "|◀-");
 #else     
     gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "go-first");
 #endif    
@@ -1540,7 +1540,7 @@ static void create_toolbar_items (void)
     item = (GtkWidget*)gtk_tool_button_new (NULL, _("Move to Staff/Voice End"));
     
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-    gtk_tool_button_set_label (GTK_TOOL_BUTTON(item), "->|");
+    gtk_tool_button_set_label (GTK_TOOL_BUTTON(item), "-▶|");
 #else    
     gtk_tool_button_set_icon_name (GTK_TOOL_BUTTON(item), "go-last");
 #endif

@@ -3362,7 +3362,7 @@ create_window (void)
 
     
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-     create_playbutton (inner, "<-", pb_go_back,   NULL
+     create_playbutton (inner, "◀-", pb_go_back,   NULL
 #else 
     create_playbutton (inner, NULL, pb_go_back, "go-previous"
 #endif     
@@ -3371,7 +3371,7 @@ create_window (void)
     create_playbutton (inner, "<span foreground=\"lightgreen\"><b>❙</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        create_playbutton (inner, "->", pb_next, NULL
+        create_playbutton (inner, "-▶", pb_next, NULL
 #else 
      create_playbutton (inner, NULL, pb_next, "go-next"
 #endif     
@@ -3394,7 +3394,7 @@ create_window (void)
 
    
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-     create_playbutton (inner, "<-", pb_previous,   NULL
+     create_playbutton (inner, "◀-", pb_previous,   NULL
 #else 
     create_playbutton (inner, NULL, pb_previous, "go-previous"
 #endif 
@@ -3403,7 +3403,7 @@ create_window (void)
 
     
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-     create_playbutton (inner, "->", pb_go_forward, NULL
+     create_playbutton (inner, "-▶", pb_go_forward, NULL
 #else 
      create_playbutton (inner, NULL, pb_go_forward, "go-next"
 #endif     
