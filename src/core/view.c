@@ -683,7 +683,7 @@ inner_main (void *files)
           gchar *fontspec = g_strdup_printf ("%s %d", Denemo.prefs.fontname->str, Denemo.prefs.fontsize);
           GtkSettings *settings = gtk_settings_get_default ();
           //gtk_settings_set_string_property (settings, "gtk-font-name", fontspec, "denemo");
-          g_object_set (G_OBJECT(settings), "gtk-font-name", fontspec);
+          g_object_set (G_OBJECT(settings), "gtk-font-name", fontspec, NULL);
           g_free (fontspec);
         }
         finalize_menusystem();
