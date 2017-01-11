@@ -37,7 +37,9 @@ draw_lily_dir (cairo_t * cr, gint xx, gint y, gint highy, gint lowy, DenemoObjec
 
       drawbitmapinverse_cr (cr, (DenemoGraphic *) directive->graphic, gx, gy, FALSE);
     }
-  // else instead always show position of standalone directive
+ if ((directive->graphic==NULL) || 
+        (!(directive->override&DENEMO_OVERRIDE_GRAPHIC)) || 
+        ((directive->minpixels/2 - abs(directive->gx)) < 0)) //show position of standalone directive unless override graphic is set or graphic is displaced too far from object position
   {
     at_cursor ? cairo_set_source_rgba (cr, 0.2 + exclude, 0.3 + only, 0.8, 0.5) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 0.5);
 
