@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
-  <scheme>(d-ShowPalettes "Gregorian Chant" #t)
-(d-SelectPalette "Gregorian Chant")
-(d-NextRhythm)</scheme>
+  <scheme>(let ((tag "Vaticana"))
+        (d-InitialClef "Baritone")
+        (d-DirectivePut-clef-postfix tag "\\clef \"vaticana-fa1\" ")
+        (d-DirectivePut-clef-graphic tag "
+
+Emmentaler
+80")
+        (d-DirectivePut-clef-override tag (logior  DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
+        (d-DirectivePut-clef-gy tag 20)
+        (d-SetSaved #f))</scheme>
   <thumbnail>
     <first-staff>1</first-staff>
     <last-staff>3</last-staff>
@@ -86,13 +93,13 @@ emmentaler
         </voice-info>
         <initial-voice-params>
           <staff-ref staff="id2"></staff-ref>
-          <clef name="alto">
+          <clef name="treble">
             <directives>
               <directive>
                 <tag>Vaticana</tag>
-                <postfix>\clef "vaticana-do1" </postfix>
+                <postfix>\clef "vaticana-fa1" </postfix>
                 <graphic_name>
-
+
 Emmentaler
 80</graphic_name>
                 <gy>20</gy>
@@ -134,7 +141,7 @@ Emmentaler
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
           <verses>
-            <verse>Do- na no- bis pa- cem</verse>
+            <verse>A- men</verse>
           </verses>
           <staff-directives>
             <directive>
@@ -164,9 +171,9 @@ Emmentaler
           <clef-directives>
             <directive>
               <tag>Vaticana</tag>
-              <postfix>\clef "vaticana-do1" </postfix>
+              <postfix>\clef "vaticana-fa1" </postfix>
               <graphic_name>
-
+
 Emmentaler
 80</graphic_name>
               <gy>20</gy>
@@ -180,7 +187,7 @@ Emmentaler
               <duration base="whole"></duration>
               <notes>
                 <note id="id5">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>-7</middle-c-offset>
                   <directives>
                     <directive>
                       <tag>NoteHead</tag>
@@ -200,7 +207,7 @@ emmentaler
               <duration base="whole"></duration>
               <notes>
                 <note id="id7">
-                  <middle-c-offset>2</middle-c-offset>
+                  <middle-c-offset>-5</middle-c-offset>
                   <directives>
                     <directive>
                       <tag>NoteHead</tag>
@@ -220,7 +227,7 @@ emmentaler
               <duration base="whole"></duration>
               <notes>
                 <note id="id9">
-                  <middle-c-offset>3</middle-c-offset>
+                  <middle-c-offset>-4</middle-c-offset>
                   <directives>
                     <directive>
                       <tag>NoteHead</tag>
@@ -240,7 +247,7 @@ emmentaler
               <duration base="whole"></duration>
               <notes>
                 <note id="id11">
-                  <middle-c-offset>2</middle-c-offset>
+                  <middle-c-offset>-6</middle-c-offset>
                   <directives>
                     <directive>
                       <tag>NoteHead</tag>
@@ -260,7 +267,7 @@ emmentaler
               <duration base="whole"></duration>
               <notes>
                 <note id="id13">
-                  <middle-c-offset>2</middle-c-offset>
+                  <middle-c-offset>-7</middle-c-offset>
                   <directives>
                     <directive>
                       <tag>NoteHead</tag>
@@ -280,7 +287,7 @@ emmentaler
               <duration base="whole"></duration>
               <notes>
                 <note id="id15">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>-6</middle-c-offset>
                   <directives>
                     <directive>
                       <tag>NoteHead</tag>
