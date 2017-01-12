@@ -188,6 +188,9 @@ determineClef (gint type, gchar ** clefName)
     case DENEMO_FRENCH_CLEF:
       *clefName = "french";
       break;
+    case DENEMO_BARITONE_CLEF:
+      *clefName = "baritone";
+      break;
     default:
       g_warning ("Unknown clef type %d, using treble", type);
       *clefName = "treble";

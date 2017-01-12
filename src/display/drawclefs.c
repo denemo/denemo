@@ -16,6 +16,7 @@
 #define TENOR_TOPOFFSET 10
 #define SOPRANO_TOPOFFSET 40
 #define FRENCH_TOPOFFSET 40
+#define BARITONE_TOPOFFSET 0
 
 /**
  * This function draws the clef appropriate for the current context
@@ -26,9 +27,9 @@ draw_clef (cairo_t * cr, gint xx, gint y, clef * clef)
 {
   gint type = clef->type;
   static gint clefoffsets[NUMCLEFTYPES] = { TREBLE_TOPOFFSET, BASS_TOPOFFSET, ALTO_TOPOFFSET, G_8_TOPOFFSET,
-    TENOR_TOPOFFSET, SOPRANO_TOPOFFSET, BASS_TOPOFFSET, FRENCH_TOPOFFSET
+    TENOR_TOPOFFSET, SOPRANO_TOPOFFSET, BASS_TOPOFFSET, FRENCH_TOPOFFSET, BARITONE_TOPOFFSET
   };
-  static gunichar clef_char[NUMCLEFTYPES] = { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5, 0xc7, 0xc9
+  static gunichar clef_char[NUMCLEFTYPES] = { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5, 0xc7, 0xc9, 0xc5
   };
 
   gint override = 0;
