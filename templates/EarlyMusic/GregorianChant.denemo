@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
-  <scheme>(d-Set0)
-</scheme>
+  <scheme>(d-ShowPalettes "Gregorian Chant" #t)
+(d-SelectPalette "Gregorian Chant")
+(d-NextRhythm)</scheme>
   <thumbnail>
     <first-staff>1</first-staff>
     <last-staff>3</last-staff>
@@ -10,11 +11,37 @@
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
+  <rhythms>
+    <rhythm lilypond=" c  1" nickname="Punctum">
+      <objects>
+        <chord show="true" id="id0">
+          <duration base="whole"></duration>
+          <notes>
+            <note id="id1">
+              <middle-c-offset>-7</middle-c-offset>
+              <directives>
+                <directive>
+                  <tag>NoteHead</tag>
+                  <graphic_name>
+
+emmentaler
+70</graphic_name>
+                  <gx>-10</gx>
+                  <gy>2</gy>
+                  <override>4</override>
+                </directive>
+              </directives>
+            </note>
+          </notes>
+        </chord>
+      </objects>
+    </rhythm>
+  </rhythms>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
+    <total-edit-time>43</total-edit-time>
     <score-directives>
       <directive>
         <tag>LilyPondInclude</tag>
@@ -31,7 +58,7 @@
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>6</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>121</zoom>
       <system-height>100</system-height>
@@ -49,26 +76,26 @@
       </tempo>
     </score-info>
     <staves>
-      <staff id="id0"></staff>
+      <staff id="id2"></staff>
     </staves>
     <voices>
-      <voice id="id1">
+      <voice id="id3">
         <voice-info>
           <voice-name>Cantus</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id0"></staff-ref>
-          <clef name="bass">
+          <staff-ref staff="id2"></staff-ref>
+          <clef name="alto">
             <directives>
               <directive>
                 <tag>Vaticana</tag>
-                <postfix>\clef "vaticana-fa2" </postfix>
+                <postfix>\clef "vaticana-do1" </postfix>
                 <graphic_name>
-
+
 Emmentaler
 80</graphic_name>
-                <gy>10</gy>
+                <gy>20</gy>
                 <override>5</override>
               </directive>
             </directives>
@@ -106,7 +133,9 @@ Emmentaler
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <verses></verses>
+          <verses>
+            <verse>Do- na no- bis pa- cem</verse>
+          </verses>
           <staff-directives>
             <directive>
               <tag>VaticanaStaff</tag>
@@ -135,18 +164,139 @@ Emmentaler
           <clef-directives>
             <directive>
               <tag>Vaticana</tag>
-              <postfix>\clef "vaticana-fa2" </postfix>
+              <postfix>\clef "vaticana-do1" </postfix>
               <graphic_name>
-
+
 Emmentaler
 80</graphic_name>
-              <gy>10</gy>
+              <gy>20</gy>
               <override>5</override>
             </directive>
           </clef-directives>
         </voice-props>
         <measures>
-          <measure></measure>
+          <measure>
+            <chord show="true" id="id4">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id5">
+                  <middle-c-offset>1</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>NoteHead</tag>
+                      <graphic_name>
+
+emmentaler
+70</graphic_name>
+                      <gx>-10</gx>
+                      <gy>2</gy>
+                      <override>4</override>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id6">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id7">
+                  <middle-c-offset>2</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>NoteHead</tag>
+                      <graphic_name>
+
+emmentaler
+70</graphic_name>
+                      <gx>-10</gx>
+                      <gy>2</gy>
+                      <override>4</override>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id8">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id9">
+                  <middle-c-offset>3</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>NoteHead</tag>
+                      <graphic_name>
+
+emmentaler
+70</graphic_name>
+                      <gx>-10</gx>
+                      <gy>2</gy>
+                      <override>4</override>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id10">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id11">
+                  <middle-c-offset>2</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>NoteHead</tag>
+                      <graphic_name>
+
+emmentaler
+70</graphic_name>
+                      <gx>-10</gx>
+                      <gy>2</gy>
+                      <override>4</override>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id12">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id13">
+                  <middle-c-offset>2</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>NoteHead</tag>
+                      <graphic_name>
+
+emmentaler
+70</graphic_name>
+                      <gx>-10</gx>
+                      <gy>2</gy>
+                      <override>4</override>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id14">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id15">
+                  <middle-c-offset>1</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>NoteHead</tag>
+                      <graphic_name>
+
+emmentaler
+70</graphic_name>
+                      <gx>-10</gx>
+                      <gy>2</gy>
+                      <override>4</override>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
+          </measure>
         </measures>
       </voice>
     </voices>
