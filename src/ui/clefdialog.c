@@ -41,6 +41,7 @@ static ClefInfo clef_info[] = {
   {DENEMO_SOPRANO_CLEF, N_("Soprano")},
   {DENEMO_F_8_CLEF, N_("Bass Octava bassa")},
   {DENEMO_FRENCH_CLEF, N_("French")},
+  {DENEMO_BARITONE_CLEF, N_("Baritone")},
 };
 
 const gchar *

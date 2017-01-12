@@ -1054,6 +1054,9 @@ calculateheight (gint mid_c_offset, gint dclef)
     case DENEMO_FRENCH_CLEF:
       return 6 * LINE_SPACE - HALF_LINE_SPACE * (mid_c_offset);
       break;
+    case DENEMO_BARITONE_CLEF:
+      return  - HALF_LINE_SPACE * (mid_c_offset);
+      break;
     }
 
   return (0);

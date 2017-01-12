@@ -47,16 +47,16 @@ typedef struct grace
 typedef struct note
 {
   gint mid_c_offset;/**< This is used to define (the pitch of) a note.
-		       A positive number is the number of half
-		       steps above middle c. A negative number is below middle c.*/
+               A positive number is the number of half
+               steps above middle c. A negative number is below middle c.*/
   gint enshift;/**< Enharmonic shift. Should the note be notated as sharp (1) double-sharp (2) or flat (-1) double-flat (-2) or natural (0). No other values are legal. */
   gboolean reversealign;
   gboolean showaccidental;/**< This tells denemo to show all possible accidentals?? cautionary accidental?? */
   gint position_of_accidental; /**< Holds number of pixels to the left of the notehead that the
-  				   accidental should be drawn at.  */
+                   accidental should be drawn at.  */
   gint y; /**< Holds y co-ordinate for drawing rather than recalculating it each
-  		   run through the drawing loop. see calculateheight. The coordinate is based on the top line of the staff = 0, above the staff is negative
-  		   * 	below is positive. The staff space is 10  */
+           run through the drawing loop. see calculateheight. The coordinate is based on the top line of the staff = 0, above the staff is negative
+           *    below is positive. The staff space is 10  */
   enum headtype noteheadtype; /**< Holds note head type.  */
   GList *directives;/**< list of DenemoDirective to apply to the note */
 }
@@ -109,11 +109,11 @@ typedef enum ornament {
  */
 typedef struct chord
 {
-  GList *notes;	/**< NULL if the chord is a rest
-		   else Glist of the notes of the chord
-		   (in order of mid_c_offset value)
-		   notes->data fields are of type note*
-		*/
+  GList *notes; /**< NULL if the chord is a rest
+           else Glist of the notes of the chord
+           (in order of mid_c_offset value)
+           notes->data fields are of type note*
+        */
   GList *dynamics;  /**< test for new dynamic handling */
   gboolean has_dynamic;
   gint highestpitch;
@@ -138,25 +138,25 @@ typedef struct chord
   gboolean hasanacc;
   gboolean is_grace;  /**< Flag to show whether note is a grace note */
   gboolean struck_through; /**< Flag for a struck through stem*/
-  gint stemy;		/**< Stores the y position of the end of the stem */
+  gint stemy;       /**< Stores the y position of the end of the stem */
   GString *lyric; /**< Pointer to the lyrics applied to that chord */
   gboolean is_syllable; /**< Is the lyric a syllable? */
   gboolean center_lyric; /**< Should the lyrics be centered or
-			    should it be directly under the note?
-			    that it is attatched to? */
+                should it be directly under the note?
+                that it is attatched to? */
 
   gboolean is_figure; /**< the reason for using this boolean is to exploit
-			 the fact that all the spacing and printing of
-			 figures can use the code for the CHORD type */
+             the fact that all the spacing and printing of
+             figures can use the code for the CHORD type */
   gpointer figure; /**< when this chord is a bass note
-		      (figure !=NULL && is_figure==FALSE) this
-		      pointer points to an objnode in a FiguredBassStaff.
-		      That objnode's data is a DenemoObject of type CHORD.
-		      It is linked into the corresponding FiguredBassStaff if
-		      one exists.
-		      When this chord is_figure then figure is a
-		      GString* containing the
-		      figures in lilypond format. */
+              (figure !=NULL && is_figure==FALSE) this
+              pointer points to an objnode in a FiguredBassStaff.
+              That objnode's data is a DenemoObject of type CHORD.
+              It is linked into the corresponding FiguredBassStaff if
+              one exists.
+              When this chord is_figure then figure is a
+              GString* containing the
+              figures in lilypond format. */
   GList *tone_node; /**< which tone this note was extracted from */
   gboolean is_fakechord; /**< This is the actual value of the fake chord if is_fakechord */
   gpointer fakechord; /**< This is the actual fake chord string if is_fakechord */
@@ -193,6 +193,7 @@ typedef enum clefs
   DENEMO_SOPRANO_CLEF,
   DENEMO_F_8_CLEF,
   DENEMO_FRENCH_CLEF,
+  DENEMO_BARITONE_CLEF,
   DENEMO_INVALID_CLEF
 }clefs;
 
