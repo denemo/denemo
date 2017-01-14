@@ -383,12 +383,12 @@ static void compute_timings (gchar *base, GList *ids)
     free_timings();
     gchar *events = g_build_filename (base, "events.txt", NULL);
     FILE *fp = fopen (events, "r");
-    //g_print ("Collected %d ids\n", g_list_length (ids));
+    g_print ("Collected %d ids\n", g_list_length (ids));
     if(fp)
         {
             gdouble moment, duration;
             gchar type [10];
-            gint duration_type, col, line, midi;
+            gint  col, line, midi;
             gdouble tempo = 60;
             gdouble timeCoef =  4;
             gdouble latestMoment = 0;
@@ -398,7 +398,7 @@ static void compute_timings (gchar *base, GList *ids)
             gboolean incomingTempo = FALSE;
             while (2 == fscanf (fp, "%lf%10s", &moment, type))
                 {
-                // g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
+                //g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
                   if (!strcmp (type, "tempo"))
                         {
                             if (1 == fscanf (fp, "%lf", &nextTempo))
@@ -413,7 +413,7 @@ static void compute_timings (gchar *base, GList *ids)
                             {
                             if (4 == fscanf (fp, "%*s%lf%*s%d%d%d", &duration, &col, &line, &midi))
                                     {
-                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi);
+                                       g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
                                        if (incomingTempo)
                                         {
                                             if (moment > nextTempoMoment)
@@ -437,7 +437,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                     timing->col = col;
                                                     timing->time = adjustedElapsedTime;
                                                     timing->duration = duration;
-                                                    add_note (timing);//g_print ("AdjustedElapsed time %.2f note %d\n", adjustedElapsedTime, midi);
+                                                    add_note (timing);g_print ("AdjustedElapsed time %.2f note %d line %d column %d\n", adjustedElapsedTime, midi, line, col);
                                                     }
                                     }
                                     else
@@ -448,7 +448,7 @@ static void compute_timings (gchar *base, GList *ids)
                             {
                                 if (3 == fscanf (fp, "%*s%lf%*s%d%d",  &duration, &col, &line))
                                     {
-                                       // g_print ("moment ... %.2f %s %d %.2f %d %d %d\n", moment, type, duration_type, duration, col, line, midi);
+                                       // g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
                                        if (incomingTempo)
                                         {
                                             if (moment > nextTempoMoment)
@@ -852,7 +852,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
 
     if (get_wysiwyg_info()->stage != TypesetForPlaybackView)
        {
-            warningdialog (_("Use the Print View or re-typeset"));
+            warningdialog (_("Use the Print View or re-typeset with All Parts or Current Part buttons"));
             return;
        }
 
@@ -884,7 +884,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                     ScrollTime = timing->time;
                     if (found)
                         {
-                            //g_print ("Found line %d column %d\n", timing->line, timing->col);
+                            g_print ("Found line %d column %d\n", timing->line, timing->col);
                             Locationx = timing->col;
                             Locationy = timing->line;
                             Dragging = TRUE;
@@ -899,11 +899,14 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                             if (found)
                                 call_out_to_guile ("(d-PlayMidiNote 72 255 9 100)");
                         }
-                    //g_print ("Set Playback Start %d column %d\n", timing->line, timing->col);
+                    if (!found)
+                        g_print ("Line %d column %d NOT FOUND for (x, y) = (%d, %d) \n", timing->line, timing->col, x, y);
+                    else
+                        g_print ("\nFound!!! Line %d column %d for (x, y) = (%d, %d) \n", timing->line, timing->col, x, y);
                     return;
 
                 }
-            //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*TheScale, timing->y*TheScale);
+            g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*TheScale, timing->y*TheScale);
         }
 
     call_out_to_guile ("(d-PlayMidiNote 36 255 9 100)");
