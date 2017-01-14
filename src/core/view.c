@@ -2834,7 +2834,7 @@ color_rhythm_button (RhythmPattern * r, const gchar * color) // only black and g
   gtk_widget_modify_fg (gtk_tool_button_get_label_widget (GTK_TOOL_BUTTON (r->button)), GTK_STATE_NORMAL, &thecolor);
   //bg does not work, and setting the label in a GtkEvent box gave a problem on some build - R.Rankin patched for this and so we have to use fg
 #else  
-    set_foreground_color(gtk_tool_button_get_label_widget (GTK_TOOL_BUTTON (r->button)), strcmp (color, "gray")?"#000000":"#cccccc");
+    set_foreground_color(gtk_tool_button_get_label_widget (GTK_TOOL_BUTTON (r->button)), strcmp (color, "gray")?"#000000":"#cc6666");
 #endif  
 }
 
