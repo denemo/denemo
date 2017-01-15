@@ -174,7 +174,7 @@ gboolean attach_timings (void)
     {
         Timing *this = (Timing *)g->data;
         DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
-      //g_print ("at %d %d\n", this->line, this->col);
+        g_print ("Attaching time %.2f (duration %.2f) (x=%.2f, y-%.2f) at line %d column %d\n",this->time, this->duration, this->x, this->y, this->line, this->col);
             if (obj)
                {
                   obj->earliest_time = this->time;
@@ -574,7 +574,7 @@ set_playback_view (void)
   GFile *file;
   gchar *filename = g_strdup (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle]);
   gboolean multipage = FALSE;
-  //g_print("Output to %s num_pages is %d\n", filename, num_pages);
+  g_print("Output to %s num_pages starts at %d\n", filename, num_pages);
   if (Denemo.printstatus->invalid)
     g_warning ("We got print status invalid %d\nTypeset may not be good.", Denemo.printstatus->invalid);
   if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
@@ -648,6 +648,10 @@ set_playback_view (void)
           shown_once = TRUE;
           show_playback_view ();
         }
+    }
+    else
+    {
+       g_critical ("Filename %s was not created - Playback View will not work"); 
     }
     g_free (filename);
   num_pages = 0;
