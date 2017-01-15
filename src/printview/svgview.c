@@ -398,7 +398,7 @@ static void compute_timings (gchar *base, GList *ids)
             gboolean incomingTempo = FALSE;
             while (2 == fscanf (fp, "%lf%10s", &moment, type))
                 {
-                //g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
+                g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
                   if (!strcmp (type, "tempo"))
                         {
                             if (1 == fscanf (fp, "%lf", &nextTempo))
@@ -481,8 +481,13 @@ static void compute_timings (gchar *base, GList *ids)
                             latestMoment = moment;
                         }// not tempo
                     } //while events
+                 g_print ("Finished collecting timings");
                 fclose (fp);
             } //if events file
+    else
+        {
+          g_critical ("Unable to open file %s Playback View will not work", events);  
+        }
 
     g_free (events);
 }
