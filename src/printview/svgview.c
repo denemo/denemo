@@ -174,7 +174,7 @@ gboolean attach_timings (void)
     {
         Timing *this = (Timing *)g->data;
         DenemoObject *obj = get_object_at_lilypond (this->line, this->col);
-        g_print ("Attaching time %.2f (duration %.2f) (x=%.2f, y-%.2f) at line %d column %d\n",this->time, this->duration, this->x, this->y, this->line, this->col);
+        //g_print ("Attaching time %.2f (duration %.2f) (x=%.2f, y-%.2f) at line %d column %d\n",this->time, this->duration, this->x, this->y, this->line, this->col);
             if (obj)
                {
                   obj->earliest_time = this->time;
@@ -383,7 +383,7 @@ static void compute_timings (gchar *base, GList *ids)
     free_timings();
     gchar *events = g_build_filename (base, "events.txt", NULL);
     FILE *fp = fopen (events, "r");
-    g_print ("Collected %d ids\n", g_list_length (ids));
+    //g_print ("Collected %d ids\n", g_list_length (ids));
     if(fp)
         {
             gdouble moment, duration;
@@ -398,12 +398,14 @@ static void compute_timings (gchar *base, GList *ids)
             gboolean incomingTempo = FALSE;
             while (2 == fscanf (fp, "%lf%10s", &moment, type))
                 {
-                g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
+               //g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
+                moment /= 1000; //now events.txt stores ms to avoid decimal point
                   if (!strcmp (type, "tempo"))
                         {
                             if (1 == fscanf (fp, "%lf", &nextTempo))
                                 {
-                                nextTempoMoment = moment;//g_print ("Next %s %.2f\n", type, nextTempo);
+                                nextTempo /= 1000; //now events.txt stores ms to avoid decimal point
+                                nextTempoMoment = moment;//g_print ("Next tempo %s %.2f\n", type, nextTempo);
                                 incomingTempo = TRUE;
                                 } else g_warning ("Malformed events file");
                         }
@@ -413,7 +415,8 @@ static void compute_timings (gchar *base, GList *ids)
                             {
                             if (4 == fscanf (fp, "%*s%lf%*s%d%d%d", &duration, &col, &line, &midi))
                                     {
-                                       g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
+                                       //g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
+                                       duration /= 1000; //now events.txt stores ms to avoid decimal point
                                        if (incomingTempo)
                                         {
                                             if (moment > nextTempoMoment)
@@ -437,7 +440,7 @@ static void compute_timings (gchar *base, GList *ids)
                                                     timing->col = col;
                                                     timing->time = adjustedElapsedTime;
                                                     timing->duration = duration;
-                                                    add_note (timing);g_print ("AdjustedElapsed time %.2f note %d line %d column %d\n", adjustedElapsedTime, midi, line, col);
+                                                    add_note (timing);//g_print ("AdjustedElapsed time %.2f note %d line %d column %d\n", adjustedElapsedTime, midi, line, col);
                                                     }
                                     }
                                     else
@@ -448,7 +451,8 @@ static void compute_timings (gchar *base, GList *ids)
                             {
                                 if (3 == fscanf (fp, "%*s%lf%*s%d%d",  &duration, &col, &line))
                                     {
-                                       // g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
+                                       //g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
+                                       duration /= 1000; //now events.txt stores ms to avoid decimal point
                                        if (incomingTempo)
                                         {
                                             if (moment > nextTempoMoment)
@@ -481,7 +485,7 @@ static void compute_timings (gchar *base, GList *ids)
                             latestMoment = moment;
                         }// not tempo
                     } //while events
-                 g_print ("Finished collecting timings");
+                 //g_print ("Finished collecting timings");
                 fclose (fp);
             } //if events file
     else
@@ -579,7 +583,7 @@ set_playback_view (void)
   GFile *file;
   gchar *filename = g_strdup (Denemo.printstatus->printname_svg[Denemo.printstatus->cycle]);
   gboolean multipage = FALSE;
-  g_print("Output to %s num_pages starts at %d\n", filename, num_pages);
+  //g_print("Output to %s num_pages starts at %d\n", filename, num_pages);
   if (Denemo.printstatus->invalid)
     g_warning ("We got print status invalid %d\nTypeset may not be good.", Denemo.printstatus->invalid);
   if (!(g_file_test (filename, G_FILE_TEST_EXISTS)))
@@ -602,7 +606,7 @@ set_playback_view (void)
                         return FALSE;
                         }
                     gchar *scheme = g_strdup_printf ("%s%s%s%d%s", "(d-PlaybackView \"(list ", PartOnly?"#t":"#f", " \\\"20\\\" \\\"" , 100 * num_pages, "\\\")\")");
-                    g_print ("Scheme created: %s for %d pages\n", scheme, num_pages);
+                    //g_print ("Scheme created: %s for %d pages\n", scheme, num_pages);
                     call_out_to_guile (scheme);
                     g_free (scheme);
                     return FALSE;
@@ -893,7 +897,7 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                     ScrollTime = timing->time;
                     if (found)
                         {
-                            g_print ("Found line %d column %d\n", timing->line, timing->col);
+                            //g_print ("Found line %d column %d\n", timing->line, timing->col);
                             Locationx = timing->col;
                             Locationy = timing->line;
                             Dragging = TRUE;
@@ -908,14 +912,14 @@ static void button_press (GtkWidget *event_box, GdkEventButton *event)
                             if (found)
                                 call_out_to_guile ("(d-PlayMidiNote 72 255 9 100)");
                         }
-                    if (!found)
-                        g_print ("Line %d column %d NOT FOUND for (x, y) = (%d, %d) \n", timing->line, timing->col, x, y);
-                    else
-                        g_print ("\nFound!!! Line %d column %d for (x, y) = (%d, %d) \n", timing->line, timing->col, x, y);
+                    //if (!found)
+                        //g_print ("Line %d column %d NOT FOUND for (x, y) = (%d, %d) \n", timing->line, timing->col, x, y);
+                    //else
+                        //g_print ("\nFound!!! Line %d column %d for (x, y) = (%d, %d) \n", timing->line, timing->col, x, y);
                     return;
 
                 }
-            g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*TheScale, timing->y*TheScale);
+            //g_print ("compare %d %d with %.2f, %.2f\n", x, y, timing->x*TheScale, timing->y*TheScale);
         }
 
     call_out_to_guile ("(d-PlayMidiNote 36 255 9 100)");
@@ -1028,7 +1032,7 @@ static void list_scroll_points (void) //debug only
    for (g=Denemo.project->movement->scroll_points;g;g=g->next)
         {gdouble adj, tm;
          decode (g->data, &adj, &tm);
-         g_print ("Scroll Point: %0.2f at time %0.2f\n", adj, tm);
+         //g_print ("Scroll Point: %0.2f at time %0.2f\n", adj, tm);
      }
 
 }
@@ -1087,7 +1091,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
         {
             static gboolean once = TRUE;
             exportmidi (NULL, Denemo.project->movement);
-            g_print ("Now d-changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
+            //g_print ("Now d-changecount %d, d-smfsync %d\n", Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
             if(once)
                 infodialog (_("Switching to simple MIDI - re-typeset for full MIDI."));
            once = FALSE;
@@ -1111,7 +1115,7 @@ static void button_release (GtkWidget *event_box, GdkEventButton *event)
                         {
                              if ( (timing->line > Locationy) || ((timing->line==Locationy)&&(timing->col>=Locationx)))
                                 {
-                                    gboolean found = goto_lilypond_position (timing->line, timing->col);g_print ("y %d Lefty %d\n", y, LeftButtonY);
+                                    gboolean found = goto_lilypond_position (timing->line, timing->col);//g_print ("y %d Lefty %d\n", y, LeftButtonY);
 
                                     call_out_to_guile ("(if (not (d-NextChord)) (d-MoveCursorRight))(DenemoSetPlaybackEnd)");
                                         //g_print ("Set playback end to %d column %d\n", timing->line, timing->col);

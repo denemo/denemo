@@ -58,9 +58,10 @@ name, it uses "unnamed-staff" for that part of the filename."
                           ".notes"))))
 
 #(define (format-moment moment)
-   (exact->inexact
+   (inexact->exact (round (* 1000 
     (/ (ly:moment-main-numerator moment)
-       (ly:moment-main-denominator moment))))
+       (ly:moment-main-denominator moment))))))
+       
 
 #(define (moment-grace->string moment)
    "Prints a moment without grace note(s) as a float such as
