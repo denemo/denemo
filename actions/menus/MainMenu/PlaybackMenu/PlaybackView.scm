@@ -26,6 +26,11 @@
             (set! part (list-ref params 0))
             (set! width (list-ref params 1))
             (set! height (list-ref params 2))))
+     (disp "Have " part " and "  (d-GetMovement) " and layout "   (d-GetLayoutName) "\n")    
+    (if (> (d-GetMovement) 1)
+        (let ((layout (string-append "Movement " (number->string (d-GetMovement)))))
+            (if (not (equal? layout (d-GetLayoutName)))
+                (d-WarningDialog (_ "You should typeset this movement first in the Print View, otherwise positioning may not work.")))))
 (d-IncreaseGuard)
     (set! booktitles (DenemoHasBookTitles))
     (if booktitles
