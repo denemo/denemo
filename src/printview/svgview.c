@@ -337,6 +337,8 @@ playbackview_predraw_event (GtkWidget * widget, GdkEventExpose * event)
 
 static Timing *get_svg_position(gchar *id, GList *ids)
 {
+  gchar *locale = setlocale (LC_ALL, NULL);
+  setlocale (LC_ALL, "C");
   for(;ids;ids=ids->next)
         {//g_print ("Testing %s with %s\n", ids->data, id);
             if (g_str_has_prefix ((gchar*)ids->data, id))
@@ -346,10 +348,12 @@ static Timing *get_svg_position(gchar *id, GList *ids)
                   if (2==sscanf ((gchar*)ids->data, "Note-%*d-%*d translate(%lf,%lf)%*s%*s", &timing->x, &timing->y))
                     {
                         //g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
+                        setlocale (LC_ALL, locale);
                         return timing;
                     } else if (2==sscanf ((gchar*)ids->data, "Rest-%*d-%*d translate(%lf,%lf)%*s%*s", &timing->x, &timing->y))
                     {
                        //g_print ("Found Position %.2f %.2f\n", timing->x, timing->y);
+                        setlocale (LC_ALL, locale);
                         return timing;
                     }
 
@@ -357,7 +361,8 @@ static Timing *get_svg_position(gchar *id, GList *ids)
 
 
         }
-    g_warning ("Failed to find a position in events.txt for %s\n", id);
+    setlocale (LC_ALL, locale);
+    g_warning ("Failed to find a position in events.txt for %s, locale reset to %s\n", id, locale);
     return NULL;
 }
 
