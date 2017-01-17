@@ -5949,6 +5949,28 @@ Note: LilyPond Version 2.19.x is needed for some MIDI features (e.g.
 \end_inset
 
 
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Note: When using the Playback View on a score with several movements you
+ must first typeset the movement in the Print View before invoking the Playback
+ View.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -10429,6 +10451,20 @@ Directives
 (EditForStandaloneToggle tag) provides the editing options for a standalone
  directive that can only be toggled off/on.
  
+\end_layout
+
+\begin_layout Itemize
+(StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f) (displaytex
+t #f) (minpixels #f) the pair is a tag and the LilyPond syntax to insert
+ e.g.
+ (cons "BreathMark" "
+\backslash
+
+\backslash
+breathe") with optional parameters: boolean to step/not step right after
+ insertion, graphic, display text, and width to occupy in the Denemo Display
+ (minpixels).
+ Any override needs to be set separately.
 \end_layout
 
 \begin_layout Subsection
