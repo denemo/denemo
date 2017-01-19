@@ -12,13 +12,13 @@
     <last-obj>2147483647</last-obj>
   </thumbnail>
   <rhythms>
-    <rhythm lilypond=" c  1" nickname="Punctum">
+    <rhythm lilypond=" c'  1" nickname="Punctum">
       <objects>
-        <chord show="true" id="id0">
+        <chord show="false" id="id0">
           <duration base="whole"></duration>
           <notes>
             <note id="id1">
-              <middle-c-offset>-7</middle-c-offset>
+              <middle-c-offset>0</middle-c-offset>
               <directives>
                 <directive>
                   <tag>NoteHead</tag>
@@ -36,7 +36,7 @@ emmentaler
         </chord>
       </objects>
     </rhythm>
-    <rhythm lilypond=" \[ c  1\flexa  c  1\]" nickname="Flexa">
+    <rhythm lilypond=" \[ c  1\flexa  d  1\]" nickname="Flexa">
       <objects>
         <chord show="false" id="id2">
           <duration base="whole"></duration>
@@ -79,7 +79,7 @@ emmentaler
           </directives>
           <notes>
             <note id="id5">
-              <middle-c-offset>-7</middle-c-offset>
+              <middle-c-offset>-6</middle-c-offset>
               <directives>
                 <directive>
                   <tag>NoteHead</tag>
@@ -102,7 +102,7 @@ emmentaler
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>854</total-edit-time>
+    <total-edit-time>1132</total-edit-time>
     <score-directives>
       <directive>
         <tag>LilyPondInclude</tag>
@@ -119,7 +119,7 @@ emmentaler
     <edit-info>
       <staffno>1</staffno>
       <measureno>1</measureno>
-      <cursorposition>6</cursorposition>
+      <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>121</zoom>
       <system-height>100</system-height>
@@ -194,9 +194,6 @@ Emmentaler
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
-          <verses>
-            <verse>A- men</verse>
-          </verses>
           <staff-directives>
             <directive>
               <tag>VaticanaStaff</tag>
@@ -236,156 +233,7 @@ Emmentaler
           </clef-directives>
         </voice-props>
         <measures>
-          <measure>
-            <chord show="true" id="id8">
-              <duration base="whole"></duration>
-              <directives>
-                <directive>
-                  <tag>ToggleFlexa</tag>
-                  <prefix>\[ </prefix>
-                  <postfix>\flexa </postfix>
-                  <display>fl</display>
-                  <override>16</override>
-                </directive>
-              </directives>
-              <notes>
-                <note id="id9">
-                  <middle-c-offset>-7</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>NoteHead</tag>
-                      <graphic_name>
-
-emmentaler
-70</graphic_name>
-                      <gx>-10</gx>
-                      <gy>2</gy>
-                      <override>4</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id10">
-              <duration base="whole"></duration>
-              <directives>
-                <directive>
-                  <tag>EndLigature</tag>
-                  <postfix>\]</postfix>
-                  <display>]</display>
-                  <override>16</override>
-                </directive>
-              </directives>
-              <notes>
-                <note id="id11">
-                  <middle-c-offset>-5</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>NoteHead</tag>
-                      <graphic_name>
-
-emmentaler
-70</graphic_name>
-                      <gx>-10</gx>
-                      <gy>2</gy>
-                      <override>4</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id12">
-              <duration base="whole"></duration>
-              <notes>
-                <note id="id13">
-                  <middle-c-offset>-4</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>NoteHead</tag>
-                      <graphic_name>
-
-emmentaler
-70</graphic_name>
-                      <gx>-10</gx>
-                      <gy>2</gy>
-                      <override>4</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id14">
-              <duration base="whole"></duration>
-              <notes>
-                <note id="id15">
-                  <middle-c-offset>-6</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>NoteHead</tag>
-                      <graphic_name>
-
-emmentaler
-70</graphic_name>
-                      <gx>-10</gx>
-                      <gy>2</gy>
-                      <override>4</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id16">
-              <duration base="whole"></duration>
-              <notes>
-                <note id="id17">
-                  <middle-c-offset>-7</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>NoteHead</tag>
-                      <graphic_name>
-
-emmentaler
-70</graphic_name>
-                      <gx>-10</gx>
-                      <gy>2</gy>
-                      <override>4</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id18">
-              <duration base="whole"></duration>
-              <notes>
-                <note id="id19">
-                  <middle-c-offset>-6</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>NoteHead</tag>
-                      <graphic_name>
-
-emmentaler
-70</graphic_name>
-                      <gx>-10</gx>
-                      <gy>2</gy>
-                      <override>4</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
-            <lily-directive>
-              <tag>Finalis</tag>
-              <postfix>\finalis</postfix>
-              <graphic_name>
-||
-Denemo
-34</graphic_name>
-              <minpixels>30</minpixels>
-              <gy>4</gy>
-              <override>4</override>
-            </lily-directive>
-          </measure>
+          <measure></measure>
         </measures>
       </voice>
     </voices>
