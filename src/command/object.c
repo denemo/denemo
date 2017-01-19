@@ -8,6 +8,8 @@
 #include <denemo/denemo.h>
 #include "command/chord.h"
 #include "core/utils.h"
+#include "core/kbd-custom.h"
+#include "core/menusystem.h"
 #include "command/commandfuncs.h"
 #include "command/object.h"
 #include "command/staff.h"
@@ -2048,6 +2050,16 @@ delete_score_directive (GtkWidget * button, gpointer rerun)
   score_status (Denemo.project, TRUE);
 }
 
+
+static void
+open_command_center_for_action (DenemoAction *action)
+{
+    gint idx = lookup_command_from_name (Denemo.map, denemo_action_get_name (action));
+    configure_keyboard_dialog_init_idx (NULL, idx);
+    gtk_widget_destroy (TheEditorWidget);
+    TheEditorWidget = NULL;
+}
+
 static void
 place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_TYPE score_or_movement, gchar * field)
 {
@@ -2165,6 +2177,16 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
           g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
           g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (create_palette_button_for_command), (gpointer) tooltip);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+          
+          
+          button = gtk_button_new_with_label (_("Open Command Center"));
+          gtk_widget_set_tooltip_text (button, _("Opens the Command Center on this command. Here you can find the location of the command in the menu system, set shortcuts etc."));
+          g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
+          g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (open_command_center_for_action), (gpointer) action);
+          gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+             
+          
+          
         }
       button = gtk_button_new_with_label (_("Create Button for Clone"));
       gtk_widget_set_tooltip_text (button, _("Make a palette button for installing a clone of this attribute elsewhere."));
