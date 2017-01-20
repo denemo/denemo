@@ -171,7 +171,10 @@ draw_notehead (cairo_t * cr, note * thenote, gint duration, gint numdots, gint x
 
   /* any display for note directives */
   if (cr)
-    maxwidth = MAX (draw_for_directives (cr, thenote->directives, xx, y + thenote->y, at_cursor), maxwidth);
+    {
+        gint thiswidth = draw_for_directives (cr, thenote->directives, xx, y + thenote->y, at_cursor);
+        maxwidth = MAX (thiswidth, maxwidth);
+    }
   if (cr)
     {
       /* Now draw any trailing dots */
