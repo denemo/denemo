@@ -582,7 +582,8 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboole
       {
         DenemoGlyph *glyph = mask->graphic;
 #ifdef G_OS_WIN32
-        windows_draw_text (cr, glyph->fontname, glyph->utf, x, y, glyph->size, invert);
+        y+= 4;
+        windows_draw_text (cr, glyph->fontname, glyph->utf, x, y - 25, glyph->size, invert);
 #else
         cairo_select_font_face (cr, glyph->fontname, glyph->slant, glyph->weight);
         cairo_set_font_size (cr, glyph->size);
