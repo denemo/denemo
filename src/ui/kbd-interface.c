@@ -22,6 +22,7 @@
 #include "core/view.h"
 #include "core/palettestorage.h"
 #include "core/menusystem.h"
+#include "scripting/scheme-callbacks.h"
 
 
 static gint
@@ -569,7 +570,8 @@ static gboolean search_entry_character (GtkWidget *entry,  GdkEventKey *event)
 
 static gboolean hide_command_view (void)
 {
-    set_toggle ("ToggleCommandManager", FALSE);
+    //gtk_widget_hide (Denemo.command_manager);    
+    set_toggle (ToggleCommandManager_STRING, FALSE);
     return TRUE;
 }
   
@@ -623,7 +625,7 @@ configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
       gtk_tree_view_scroll_to_cell ((GtkTreeView *) cbdata.command_view, path, NULL, FALSE, 0, 0);
       gtk_tree_path_free (path);
       if(!gtk_widget_get_visible(Denemo.command_manager))
-        set_toggle ("ToggleCommandManager", TRUE);
+        set_toggle (ToggleCommandManager_STRING, TRUE);
       return;
     }
    if(SearchEntry==NULL) {
@@ -825,6 +827,8 @@ configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
 
 
   gtk_widget_show_all (Denemo.command_manager);
+  gtk_widget_hide (Denemo.command_manager);
+  set_toggle (ToggleCommandManager_STRING, TRUE);
   g_signal_connect (Denemo.command_manager, "delete-event", G_CALLBACK (hide_command_view), NULL);
 }
 
