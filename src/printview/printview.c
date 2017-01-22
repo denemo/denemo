@@ -6,6 +6,7 @@
 #include "printview/printview.h"
 #include "export/print.h"
 #include "core/view.h"
+#include "scripting/scheme-callbacks.h"
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
@@ -572,6 +573,10 @@ printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 void
 present_print_view_window (void)
 {
+    
+    
+  set_toggle (TogglePrintView_STRING, TRUE);
+    
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
   if (gtk_widget_get_visible (w))
     gtk_window_present (GTK_WINDOW (w));
@@ -2143,7 +2148,7 @@ void
 implement_show_print_view (gboolean refresh_if_needed)
 {
   present_print_view_window ();
-#ifndef G_OS_WIN32
+#ifndef G_OS_WIN32   //intended to avoid killing already running typeset on windows
   if (refresh_if_needed && (changecount != Denemo.project->changecount || Denemo.project->lilysync != Denemo.project->changecount))
     {
       if (Denemo.prefs.manualtypeset && (!initialize_typesetting ()))
