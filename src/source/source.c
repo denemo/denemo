@@ -240,6 +240,7 @@ button_release (EvView * view, GdkEventButton * event)
         }
     Dragging = FALSE;
     gtk_widget_queue_draw (GTK_WIDGET (view));
+    switch_back_to_main_window ();
     return TRUE;  
 }
 
