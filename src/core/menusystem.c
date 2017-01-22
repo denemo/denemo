@@ -1371,7 +1371,7 @@ void set_toggle (gchar *name, gboolean value)
         {
             if (!strcmp (name,    toggle_menu_entries[i].name))
                 {
-                    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item), value); g_print ("Set %s to %s\n", name, value? "active":"inactive");
+                    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item), value); //g_print ("Set %s to %s\n", name, value? "active":"inactive");
                     return;
                 }
         }
