@@ -215,6 +215,11 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
   DenemoMovement *si = gui->movement;
   GList *mwidthiterator = g_list_nth (si->measurewidths,
                                       leftmeasurenum - 1);
+  if (mwidthiterator==NULL)
+        {
+            g_warning ("Error trying to position mouse pointer no measure width for %d", leftmeasurenum - 1);
+            return; 
+        }
   objnode *obj_iterator;
   gint x_to_explain = (gint) (x);
   pi->offend = FALSE;
@@ -237,6 +242,11 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
     {
       x_to_explain -= (GPOINTER_TO_INT (mwidthiterator->data) + SPACE_FOR_BARLINE);
       mwidthiterator = mwidthiterator->next;
+      if (mwidthiterator==NULL)
+        {
+            g_critical ("Error trying to position mouse pointer x position %d, measure number %d", x_to_explain, pi->measure_number);
+            return; 
+        }
       pi->measure_number++;
     }
   //g_debug("got to measure %d\n", pi->measure_number);
