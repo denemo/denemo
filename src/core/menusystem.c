@@ -544,6 +544,7 @@ toggle_command_manager (DenemoAction * action, gpointer param)
   if (Denemo.command_manager == NULL)
     {
       configure_keyboard_dialog (action, NULL);
+      gtk_widget_show (Denemo.command_manager);
     }
   else
     {
