@@ -72,7 +72,9 @@
 		                                                (d-MoveToMeasureRight)
 		                                                (measure))
 		                                            (begin
-		                                                (set! CheckScore::return (_ "Incorrect measure duration"))
+		                                            	(if (eq? (d-GetMeasure) 1)
+		                                            	    (set! CheckScore::return (_ "Incorrect measure duration; If you are trying to create an upbeat (pickup/'anacrusis) use the Anacrusis command"))
+		                                                    (set! CheckScore::return (_ "Incorrect measure duration")))
 		                                                (set! CheckScore::error-position (GetPosition))))))))
                             (if (not CheckScore::return)
                                 (begin
@@ -84,6 +86,20 @@
             (begin
                 (d-CheckBraces 'noninteractive)
                 (set! CheckScore::return CheckBraces::Return)))
+ 
+         (if (not CheckScore::return) 
+               (begin
+               (while (d-MoveToStaffUp))
+           	(d-MoveToEnd) 
+           	(let ((ticks (GetMeasureTicks))) 
+           		(while (and
+           				(d-MoveToStaffDown)
+           				(eq? ticks (GetMeasureTicks))))		
+           		(if (not (eq? ticks (GetMeasureTicks)))
+           			(begin
+           				(set! CheckScore::error-position (GetPosition))
+           				(set! CheckScore::return (_ "Final Measures not all equal duration")))))))
+    
                 
         (if (not CheckScore::return)           
            (d-InstallGraceNoteHints))               
