@@ -2134,10 +2134,12 @@ keymap_change_binding_view_on_command_selection (GtkTreeSelection * selection, G
   if (tooltip)
     {
       gchar *plain = NULL;
-      gchar *menupath = get_menu_position (row->menupath);
+      gchar *menupath = get_location_for_name (name);//get_menu_position (row->menupath);
       const gchar *label = get_menu_label (name);
       pango_parse_markup (tooltip, -1, 0, NULL, &plain, 0, NULL);//strip out any markup
       gchar *text = NULL;
+      if (menupath==NULL)
+        menupath = g_strdup (_("Not in menu system. You can create a palette button for it using the Add to Palette button."));
       if (plain)
         text = g_strdup_printf (_( "%sCommand: %s\n%s\nLocation: %s\nInternal Name: %s"), hidden?_("WARNING!!:\nThis command is hidden.\nMost likely you want to continue your search for a better command.\nHidden commands are either for LilyPond users or low-level interfaces for more user-friendly versions.\n"):"", label, plain, menupath, denemo_action_get_name(action));
       g_free (plain);

@@ -1129,7 +1129,15 @@ static gchar *get_palette_name_from_list (GList *g)
         }
  return g_string_free (gs, FALSE);   
 }
-
+static gchar *get_location_from_list (GList *g)
+{
+   GString *gs = g_string_new((gchar*)g->data);
+   for (g=g->next;g;g=g->next)
+        {
+            g_string_append_printf (gs, " ▶ %s", g->data);
+        }
+ return g_string_free (gs, FALSE);   
+}
 static void create_palette_for_menu (GtkWidget *menu)
 {
    GList *g, *children = gtk_container_get_children (GTK_CONTAINER(menu));
@@ -1182,10 +1190,15 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
     
     if (path==NULL)
         {
-            if (!strcmp(name, "/MainMenu") || (!strcmp(name, "/ObjectMenu")))
+            if (!strcmp(name, "/MainMenu"))
                w = gtk_menu_bar_new (), g_object_set_data (G_OBJECT(w), "labels", g_list_append (NULL, _("Main Menu")));
             else
-               w = gtk_toolbar_new (), g_object_set_data (G_OBJECT(w), "labels", g_list_append (NULL,_("Object Menu")));
+                {
+                if ((!strcmp(name, "/ObjectMenu")))
+                    w = gtk_menu_bar_new (), g_object_set_data (G_OBJECT(w), "labels", g_list_append (NULL, _("Object Menu")));
+                else
+                    w = gtk_toolbar_new (), g_object_set_data (G_OBJECT(w), "labels", g_list_append (NULL,_("Tool Bar")));
+                }
             path = g_strdup(name);
         }
     else
@@ -1325,6 +1338,22 @@ gchar *get_menupath_for_name (gchar *name)
     GList *current = (GList*)g_hash_table_lookup (ActionWidgets, name);
     if (current)
         return (gchar*)g_object_get_data (G_OBJECT (current->data), "menupath");
+    return NULL;
+}
+
+//returns labels stored for action of name
+gchar *get_location_for_name (gchar *name)
+{
+    GList *current = (GList*)g_hash_table_lookup (ActionWidgets, name);
+    if (current)
+        {
+          GtkWidget *item = (GtkWidget*)current->data;  
+          GtkWidget *menu =  gtk_widget_get_parent(item);
+          GList *labels = g_object_get_data (G_OBJECT (menu), "labels");
+          if (labels) 
+            return get_location_from_list (labels);
+       }
+    
     return NULL;
 }
 
