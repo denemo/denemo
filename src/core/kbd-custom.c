@@ -1846,7 +1846,7 @@ search_next (GtkWidget *SearchEntry)
     else
        last_row = -1;
   //FIXME issue some signal to cause a search to be made instead of this:
-  g_signal_emit_by_name (SearchEntry, "insert-at-cursor", "");
+  g_signal_emit_by_name (SearchEntry, "insert-at-cursor", " ");
   gtk_widget_grab_focus (SearchEntry);
 }
 
