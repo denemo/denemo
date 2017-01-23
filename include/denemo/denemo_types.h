@@ -596,7 +596,8 @@ typedef struct DenemoDirective
 #define DENEMO_OVERRIDE_AFFIX (1<<4)
 #define DENEMO_OVERRIDE_TAGEDIT (1<<5)
 
-
+//for with{} blocks in staff directives
+#define DENEMO_OVERRIDE_WITH (DENEMO_ALT_OVERRIDE | DENEMO_OVERRIDE_AFFIX) 
 
 #define DENEMO_OVERRIDE_VOLUME (1<<8)
 #define DENEMO_OVERRIDE_DURATION (1<<9)

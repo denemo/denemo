@@ -1316,7 +1316,7 @@ install_staff_group_start (GList ** pstaffs, GtkWidget * vbox, GList * directive
   for (g = directives; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
-      if (directive->override & DENEMO_OVERRIDE_AFFIX)
+      if ((directive->override & DENEMO_OVERRIDE_AFFIX) && !(directive->override & DENEMO_ALT_OVERRIDE))
         {
           if (wrong_layout (directive, Denemo.project->layout_id))
             continue;
@@ -1372,7 +1372,7 @@ install_staff_group_end (GtkWidget * vbox, GList * directives, gint * nesting)
       if (wrong_layout (directive, Denemo.project->layout_id))
         continue;
 
-      if (directive->override & DENEMO_OVERRIDE_AFFIX)
+      if ((directive->override & DENEMO_OVERRIDE_AFFIX) && !(directive->override & DENEMO_ALT_OVERRIDE))
         {
           if (directive->postfix && (directive->postfix->len > 0))
             {
@@ -1550,8 +1550,7 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget ** pvbox, gchar * partnam
   g_signal_connect (G_OBJECT (frame), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
 
   GString *staffprefix = g_string_new ("");
-  set_staff_definition (staffprefix, staff);
-
+  set_staff_definition (staffprefix, staff); // TAKES DENEMO_ALT_OVERRIDE that are DENEMO_OVERRIDE_AFFIX in exportlilypond
 
   // if (staff->no_of_lines != 5) now done by a directive
   //   g_string_append_printf (staffprefix, TAB "\\override Staff.StaffSymbol  #'line-count = #%d\n", staff->no_of_lines);     //FIXME create_element

@@ -12,5 +12,5 @@
   (if (string? current)
      (begin
         (d-DirectivePut-staff-display tag current)
-        (d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
-        (d-DirectivePut-staff-postfix tag  (string-append "\n\\set Staff.midiInstrument = #\"" current "\" ")))))
+        (d-DirectivePut-staff-override tag  (logior DENEMO_ALT_OVERRIDE  DENEMO_OVERRIDE_AFFIX  DENEMO_OVERRIDE_GRAPHIC))
+        (d-DirectivePut-staff-prefix tag  (string-append " midiInstrument = #\"" current "\" ")))))

@@ -8,19 +8,18 @@
                    "\\layout {
                                      \\context { \\RemoveEmptyStaffContext }
                                      }")
-  (d-DirectivePut-staff-prefix tag "\\new Staff \\with
-  {
+  (d-DirectivePut-staff-prefix tag "
     \\remove \"Time_signature_engraver\"
     \\remove \"Key_engraver\"
       \\remove \"Clef_engraver\"
     fontSize = #-2
    \\override StaffSymbol #'staff-space = #(magstep -2)
     firstClef = ##f
-  }<<\\stopStaff")
+  ")
   
-  (d-DirectivePut-voice-postfix tag "\\hideNotes ")
+  (d-DirectivePut-voice-postfix tag "\\stopStaff \\hideNotes ")
   (d-DirectivePut-voice-display tag "Ossia")
   (d-DirectivePut-voice-override tag  DENEMO_OVERRIDE_GRAPHIC)
-  (d-DirectivePut-staff-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
+  (d-DirectivePut-staff-override tag  (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_AFFIX))
   (d-DirectivePut-staff-display tag "Ossia")
   (d-RefreshDisplay))

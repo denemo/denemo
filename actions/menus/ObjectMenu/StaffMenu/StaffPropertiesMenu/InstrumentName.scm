@@ -26,12 +26,12 @@
           (if (string? current)
              (let ((transparent-start "") (transparent-end "")(movement (number->string (d-GetMovement))))
                 (d-DirectivePut-staff-display tag current)
-                (d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
+                (d-DirectivePut-staff-override tag  (logior DENEMO_ALT_OVERRIDE  DENEMO_OVERRIDE_AFFIX  DENEMO_OVERRIDE_GRAPHIC))
                 (if (equal?  current (_ "Unnamed"))
                         (begin
                             (set! transparent-start "\\transparent {")
                             (set! transparent-end "}")))
-                (d-DirectivePut-staff-postfix tag  (string-append "\\set Staff.instrumentName = \\markup {  \\with-url #'\"scheme:(d-GoToPosition " 
+                (d-DirectivePut-staff-prefix tag  (string-append "instrumentName = \\markup {  \\with-url #'\"scheme:(d-GoToPosition " 
                         movement 
                         " " staff " 1 1)(let ((choice (d-PopupMenu (list (cons (_ \\\"Change Name\\\") d-InstrumentName)   (cons (_ \\\"Change Indent\\\") d-ScoreIndent)))))
                             (if choice (choice)))    \" " transparent-start "\"" current "\" " transparent-end"}"))

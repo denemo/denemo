@@ -964,15 +964,18 @@ brace_count (gchar * str)
   return ret;
 }
 
-// get_overridden_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end; ones with AFFIX not matching override or conditionally out are omitted.
-#define GET_OVERRIDDEN_AFFIX(field)\
-static gchar *get_overridden_##field(GList *g, gboolean override) {\
+// get_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end;
+//DENEMO_OVERRIDE_HIDDEN are omitted
+// ones with any of the bits in SKIP set are omitted
+
+#define GET_AFFIX_SKIPPING(field)\
+static gchar *get_skip_##field(GList *g, gint skip) {\
   if(g==NULL)\
     return g_strdup("");\
   GString *ret = g_string_new("");\
   for(;g;g=g->next) {\
     DenemoDirective *d = g->data;\
-    if(override == ((d->override&DENEMO_OVERRIDE_AFFIX)==0))\
+    if(d->override&skip)\
       continue;\
     if (wrong_layout (d, Denemo.project->layout_id))\
         continue;\
@@ -988,16 +991,46 @@ static gchar *get_overridden_##field(GList *g, gboolean override) {\
 return g_string_free(ret, FALSE);\
 }
 
-#define GET_AFFIX(field)\
-   gchar *get_##field(GList *g) {\
-  return get_overridden_##field(g, FALSE);\
+// get_prefix, postfix returns the relevant fields from the directive list assembled with those marked as overriding lilypond  in front and other at end;
+//DENEMO_OVERRIDE_HIDDEN are omitted
+// ones with all of the bits in INCLUDE set are taken otherwise they are omitted
+
+#define GET_AFFIX_INCLUDING(field)\
+static gchar *get_include_##field(GList *g, gint include) {\
+  if(g==NULL)\
+    return g_strdup("");\
+  GString *ret = g_string_new("");\
+  for(;g;g=g->next) {\
+    DenemoDirective *d = g->data;\
+    if((d->override&include)!=include)\
+      continue;\
+    if (wrong_layout (d, Denemo.project->layout_id))\
+        continue;\
+    if(!((d->override & DENEMO_OVERRIDE_HIDDEN))){\
+      if(d->field && d->field->len) {\
+    if(d->override & DENEMO_OVERRIDE_LILYPOND)\
+      g_string_prepend(ret, d->field->str);\
+    else\
+      g_string_append(ret, d->field->str);\
+      }\
+    }\
+  }\
+return g_string_free(ret, FALSE);\
 }
+GET_AFFIX_INCLUDING(prefix); //defines get_include_prefix()
+GET_AFFIX_INCLUDING(postfix);//defines get_include_postfix()
+GET_AFFIX_SKIPPING(prefix); //defines get_skip_prefix()
+GET_AFFIX_SKIPPING(postfix);//defines get_skip_postfix()
 
-GET_OVERRIDDEN_AFFIX (prefix);
-GET_OVERRIDDEN_AFFIX (postfix);
 
-GET_AFFIX (prefix);
-GET_AFFIX (postfix);
+#define GET_AFFIX(field)\
+    gchar *get_##field(GList *g) {\
+    return get_skip_##field(g, DENEMO_OVERRIDE_AFFIX);\
+    }
+
+GET_AFFIX (prefix); //defines get_prefix()
+GET_AFFIX (postfix);//defines get_postfix()
+
 
 
 
@@ -2356,7 +2389,7 @@ set_initiate_scoreblock (DenemoMovement * si, GString * scoreblock)
 }
 
 static gchar *
-get_alt_overridden_prefix (GList * g)
+get_alt_non_aff_prefix (GList * g)
 {
   GString *s = g_string_new ("");
   for (; g; g = g->next)
@@ -2364,7 +2397,7 @@ get_alt_overridden_prefix (GList * g)
       DenemoDirective *d = g->data;
       if (wrong_layout (d, Denemo.project->layout_id))
         continue;
-      if ((d->override & DENEMO_ALT_OVERRIDE) && d->prefix)
+      if ((d->override & DENEMO_ALT_OVERRIDE) && d->prefix &&!(d->override & DENEMO_OVERRIDE_AFFIX))
         g_string_append (s, d->prefix->str);
     }
   return g_string_free (s, FALSE);
@@ -2374,9 +2407,8 @@ void
 set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
 {
   gint staff_override = get_lily_override (curstaffstruct->staff_directives);
-
-  gchar *staff_prolog_insert = get_prefix (curstaffstruct->staff_directives);
-  gchar *staff_epilog_insert = get_postfix (curstaffstruct->staff_directives);
+  gchar *staff_prolog_insert = get_skip_prefix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH); //was get_prefix  ignores directives with DENEMO_OVERRIDE_AFFIX set it *does take ALT_OVERRIDE though
+  gchar *staff_epilog_insert = get_skip_postfix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH);//was get_postfix ignores directives with DENEMO_OVERRIDE_AFFIX set
   gchar *denemo_name = curstaffstruct->subpart ? g_strdup_printf ("%s_%s", curstaffstruct->denemo_name->str, curstaffstruct->subpart->str) : curstaffstruct->denemo_name->str;
   if (staff_override)
     {
@@ -2384,11 +2416,21 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
     }
   else
     {
-      gchar *alt_override = get_alt_overridden_prefix (curstaffstruct->staff_directives);       //AFFIX_OVERRIDE is for staff groupings
+      gchar *alt_override = get_alt_non_aff_prefix (curstaffstruct->staff_directives);       //This is only the prefix field being gotten
       if (*alt_override)
-        g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert);
-      else
-        g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
+       {
+           
+                g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert); 
+         
+      } else 
+      {
+          g_free (alt_override);
+          alt_override = get_include_prefix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH);  
+          if (*alt_override)
+               g_string_append_printf (str, "\n%%Start of Staff\n  \\new Staff = \"%s\" \\with { %s }<< %s\n", denemo_name, alt_override, staff_epilog_insert); 
+          else
+            g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
+      }
       g_free (alt_override);
     }
   if (curstaffstruct->subpart)
