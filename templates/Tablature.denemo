@@ -1,21 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
-  <scheme>(d-SelectFirstCustomLayout)</scheme>
-  <paper-directives>
-    <directive>
-      <tag>PrintAllHeaders</tag>
-      <postfix>
-print-all-headers = ##t
-</postfix>
-    </directive>
-    <directive>
-      <tag>LimitInterSystemSpace</tag>
-      <postfix>
-page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = 1.2</postfix>
-      <data>1.2</data>
-    </directive>
-  </paper-directives>
   <thumbnail>
     <first-staff>1</first-staff>
     <last-staff>3</last-staff>
@@ -26,70 +10,10 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
-    <fontsize>16</fontsize>
+    <fontsize>18</fontsize>
     <orientation>1</orientation>
     <total-edit-time>0</total-edit-time>
-    <score-directives>
-      <directive>
-        <tag>ScoreIndent</tag>
-        <prefix>\layout {indent = 11.2}
-</prefix>
-        <display>indent=11.2</display>
-        <override>4</override>
-      </directive>
-    </score-directives>
   </lilycontrol>
-  <custom_scoreblock>%staff + tab
-
-\header {
-tagline = \markup {"" on \simple #(strftime "%x" (localtime (current-time)))}
-
-}
-\layout {indent = 11.2}
-\paper {
-
-print-all-headers = ##t
-
-page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = 1.2
-}
-#(set-default-paper-size "a4")
-#(set-global-staff-size 16)
-
-\score { %Start of Movement
-\new StaffGroup &lt;&lt;
-
-%Start of Staff
-\new Staff = "Guitar"  &lt;&lt; \set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " \transparent {"Unnamed" }}
- \new Voice = "VoiceIMvmntI"  { 
-  \clef treble 
-{ \key c \major}
-{ \time 4/4 }
- \MvmntIVoiceI                } %End of voice
-
-&gt;&gt;
-%End of Staff
-
-\new TabStaff = "Guitar tab" &lt;&lt;
-  \new TabVoice {
-    \clef moderntab
-    \MvmntIVoiceI
-  }
-&gt;&gt;%End of TabStaff
-
-&gt;&gt; %End of StaffGroup
-
-\header {
-title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "Click Title"}
-
-}
-
-} %End of Movement
-
-
-
-</custom_scoreblock>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
@@ -102,15 +26,12 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
       <page-zoom>100</page-zoom>
       <page-system-height>100</page-system-height>
     </edit-info>
-    <header-directives>
+    <layout-directives>
       <directive>
-        <tag>ScoreTitle</tag>
-        <postfix>title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "Click Title"}
-</postfix>
-        <display>Click Title</display>
-        <override>36</override>
+        <tag>Temp</tag>
+        <postfix>%{For Performance View%}</postfix>
       </directive>
-    </header-directives>
+    </layout-directives>
     <score-info>
       <tempo>
         <duration>
@@ -122,16 +43,17 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
     </score-info>
     <staves>
       <staff id="id0"></staff>
+      <staff id="id1"></staff>
     </staves>
     <voices>
-      <voice id="id1">
+      <voice id="id2">
         <voice-info>
-          <voice-name>Unnamed</voice-name>
+          <voice-name>Acoustic Guitar</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
           <staff-ref staff="id0"></staff-ref>
-          <clef name="treble"></clef>
+          <clef name="treble-8vb"></clef>
           <key-signature>
             <modal-key-signature note-name="C" mode="major"></modal-key-signature>
           </key-signature>
@@ -144,29 +66,145 @@ title = \markup { \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(d-ScoreTitle)" "C
         </initial-voice-params>
         <voice-props>
           <number-of-lines>5</number-of-lines>
+          <staff-range-lo>-12</staff-range-lo>
+          <staff-range-hi>9</staff-range-hi>
+          <staff-range>1</staff-range>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument>Steel Guitar</instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>25</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure></measure>
+        </measures>
+      </voice>
+      <voice id="id3">
+        <voice-info>
+          <voice-name>Acoustic Guitar</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="treble-8vb">
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <graphic_name>
+S
+Denemo
+48</graphic_name>
+                <gy>36</gy>
+                <override>5</override>
+              </directive>
+              <directive>
+                <tag>TabStaff</tag>
+                <postfix>{} 
+</postfix>
+                <display>TabStaff</display>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-color>-266330112</staff-color>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
           <instrument></instrument>
           <device-port>NONE</device-port>
-          <volume>65</volume>
+          <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
+          <midi_channel>1</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
           <staff-directives>
             <directive>
-              <tag>InstrumentName</tag>
-              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
-				(if choice (choice)))    " \transparent {"Unnamed" }}</postfix>
-              <display>Unnamed</display>
-              <override>4</override>
+              <tag>TabStaff</tag>
+              <postfix> \new TabStaff &lt;&lt;
+</postfix>
+              <display>TabStaff</display>
+              <override>5</override>
             </directive>
           </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <prefix>{ \clef "treble_8"    \time 4/4    \key c \major  \MvmntIVoiceI } \void </prefix>
+              <display>Acoustic Guitar on Staff 1</display>
+              <override>6</override>
+            </directive>
+            <directive>
+              <tag>TabStaff</tag>
+              <postfix>
+</postfix>
+              <display>TabStaff</display>
+              <override>5</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <graphic_name>
+S
+Denemo
+48</graphic_name>
+              <gy>36</gy>
+              <override>5</override>
+            </directive>
+            <directive>
+              <tag>TabStaff</tag>
+              <postfix>{} 
+</postfix>
+              <display>TabStaff</display>
+              <override>5</override>
+            </directive>
+          </clef-directives>
         </voice-props>
         <measures>
-          <measure></measure>
+          <measure>
+            <lily-directive>
+              <tag>SubstituteMusic</tag>
+              <postfix> </postfix>
+              <display>Right click to update clef/time/key</display>
+              <graphic_name>
+Music here is mirrored from Acoustic Guitar on Staff 1
+Denemo
+20</graphic_name>
+              <minpixels>50</minpixels>
+              <override>268435456</override>
+            </lily-directive>
+          </measure>
         </measures>
       </voice>
     </voices>
