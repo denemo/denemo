@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>Ambitus</after>
         <action>DenemoBar</action>
-        <_label>Typeset Barlines Literally</_label>
-        <_tooltip>Typesets the Denemo barlines, regardless of the timing.</_tooltip>
+        <_label>Typeset Barlines Literally (Off/On)</_label>
+        <_tooltip>Advanced: Typesets the Denemo barlines, regardless of the timing. Turns off automatic beaming.</_tooltip>
       </row>
     </map>
   </merge>

@@ -6091,8 +6091,8 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>DenemoBar</action>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
-        <_label>Typeset Barlines Literally</_label>
-        <_tooltip>Typesets the Denemo barlines, regardless of the timing.</_tooltip>
+        <_label>Typeset Barlines Literally (Off/On)</_label>
+        <_tooltip>Advanced: Typesets the Denemo barlines, regardless of the timing. Turns off automatic beaming.</_tooltip>
       </row>
       <row type="scheme">
         <action>DeactivateTimeSignatureStencil</action>

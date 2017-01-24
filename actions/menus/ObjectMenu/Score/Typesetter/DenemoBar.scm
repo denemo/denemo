@@ -1,11 +1,13 @@
-
-        ;;;DenemoBar
-        (if (d-Directive-score? "DenemoBar")
-					(begin
-						(d-DirectiveDelete-score "DenemoBar")
-						(d-DirectiveDelete-score "ScoreTiming")) 
-					(begin
-        (d-DirectivePut-score-prefix "DenemoBar" "\n
+;;;DenemoBar
+(let ((tag "DenemoBar"))
+        (if (d-Directive-score? tag)
+                    (begin
+                        (d-InfoDialog (_ "Automatic barlines and beaming rules re-instated"))
+                        (d-DirectiveDelete-score tag)
+                        (d-DirectiveDelete-score "ScoreTiming")) 
+                    (begin
+                        (d-InfoDialog (_ "Literal Barlines now ON. Execute the command a second time to turn it off. This command is for un-metered music. You will have to manually beam the music. Do not use this for an upbeat (pickup, anacrusis), there is a proper command for that."))
+                        (d-DirectivePut-score-prefix tag "\n
 increaseBarNumber = \\applyContext
 #(lambda (x)
   (let ((measurepos (ly:context-property x 'measurePosition)))
@@ -36,7 +38,7 @@ nibar = #(define-music-function (parser location x) (string?)
   \\bar $x
   \\increaseBarNumber
 #})
-AutoBarline =   \\nibar \"|\"\n")
-(d-DirectivePut-score-override "DenemoBar" DENEMO_OVERRIDE_AFFIX)
-(d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")))
-(d-SetSaved #f)
+                    AutoBarline =   \\nibar \"|\"\n")
+                    (d-DirectivePut-score-override tag DENEMO_OVERRIDE_AFFIX)
+                    (d-DirectivePut-score-postfix "ScoreTiming" " \\set Score.timing = ##f \n")))
+        (d-SetSaved #f))
