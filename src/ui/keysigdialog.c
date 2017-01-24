@@ -102,7 +102,7 @@ set_keysig (keysig_data * cbdata)
 
   if (tokey != G_MININT)
     {
-      if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->checkbutton)))
+      if (cbdata->checkbutton && !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (cbdata->checkbutton)))
         {
           for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
             {
@@ -143,7 +143,7 @@ insert_keysig (keysig_data * kdata)
   if (tokey != G_MININT)
     {
       take_snapshot ();  
-      if (!gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->checkbutton)))
+      if (kdata->checkbutton && !gtk_toggle_button_get_active (GTK_TOGGLE_BUTTON (kdata->checkbutton)))
         {
           for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
             {
@@ -358,7 +358,7 @@ button_response (GtkWidget * dialog, gint response_id, keysig_data * data)
       else
         {
           if (gui->movement->currentobject && ((DenemoObject *) gui->movement->currentobject->data)->type == KEYSIG)
-            deleteobject (NULL, NULL);
+            gui->movement->cursor_appending?deletepreviousobject(NULL, NULL):deleteobject (NULL, NULL);
           insert_keysig (data);
         }
       cache_all ();// this may be overkill, but if a keysig change is being placed immediately after a clef change then the object does not have a clef cached on it.        
@@ -444,8 +444,13 @@ key_change (DenemoProject * gui, actiontype action)
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), majorkeycombo);
   gtk_container_add (GTK_CONTAINER (pack_to_vbox), minorkeycombo);
 
-  checkbutton = gtk_check_button_new_with_label (_("Current Staff Only?"));
-  gtk_container_add (GTK_CONTAINER (pack_to_vbox), checkbutton);
+  if (gui->movement->currentobject && ((DenemoObject *) gui->movement->currentobject->data)->type == KEYSIG)
+    checkbutton = NULL;
+   else
+    {
+    checkbutton = gtk_check_button_new_with_label (_("Current Staff Only?"));
+    gtk_container_add (GTK_CONTAINER (pack_to_vbox), checkbutton);
+    } 
 
   keysig_widgets->checkbutton = checkbutton;
   keysig_widgets->radiobutton2 = radiobutton2;
@@ -464,6 +469,6 @@ key_change (DenemoProject * gui, actiontype action)
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   gtk_widget_show_all (dialog);
   gtk_widget_hide (keysig_widgets->minorkeycombo);
-
+    
   g_signal_connect (dialog, "response", G_CALLBACK (button_response), keysig_widgets);
 }
