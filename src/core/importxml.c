@@ -2722,9 +2722,8 @@ parseScore (xmlNodePtr scoreElem, DenemoProject * gui, ImportType type)
   if (childElem != 0)
     si->movementcontrol.directives = parseWidgetDirectives (childElem, (gpointer) movementcontrol_directive_put_graphic, NULL, &(si->movementcontrol.directives));
 
-  childElem = getXMLChild (scoreElem, "sources");
-  if (childElem != 0)
-    si->sources = parseSources (childElem); //puts the pixbufs after decode_base64 into a GList* at this location
+  childElem = getXMLChild (scoreElem, "sources");//legacy field, not used
+
 
   childElem = getXMLChild (scoreElem, "audio");
   if (childElem != 0)

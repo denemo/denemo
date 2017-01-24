@@ -1155,31 +1155,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
       if (itp->measurenum == si->currentmeasurenum)
         x += measure_transition_offset (si->currentstaffnum == itp->staffnum);
       draw_measure (cr, itp->curmeasure, x, y, gui, itp);
-      if (cr && (Denemo.project->view != DENEMO_PAGE_VIEW) && (si->sources || thestaff->sources) && (si->currentstaffnum == itp->staffnum))
-        {
-          GdkPixbuf *source = (GdkPixbuf *) g_list_nth_data (si->sources ? gui->movement->sources : thestaff->sources, itp->measurenum - 1);
-          if (source)
-            {
-              gdouble width = (gdouble) gdk_pixbuf_get_width (GDK_PIXBUF (source));
-              gdouble height = (gdouble) gdk_pixbuf_get_height (GDK_PIXBUF (source));
-              gdouble scale = GPOINTER_TO_INT (itp->mwidthiterator->data) / width;
-              gint ypos = y + 2 * STAFF_HEIGHT + thestaff->space_below;
-              gint xpos = x;
-              cairo_save (cr);
-              if (scale < 1.0)
-                {               //too large to fit under the measure
-                  cairo_translate (cr, x * (1 - scale), ypos * (1 - scale));
-                  cairo_scale (cr, scale, scale);
-                }
-              else
-                xpos = x - (width - GPOINTER_TO_INT (itp->mwidthiterator->data)) / 2;   //narrow, center it
-              gdk_cairo_set_source_pixbuf (cr, GDK_PIXBUF (source), xpos, ypos);
-              cairo_rectangle (cr, xpos, ypos, width, height);
-              cairo_fill (cr);
-              cairo_restore (cr);
-              itp->source_displayed = TRUE;
-            }
-        }
+ 
 
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
 

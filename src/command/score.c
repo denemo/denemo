@@ -808,11 +808,6 @@ clone_movement (DenemoMovement * si)
 
   GList *g;
   newscore->measurewidths = NULL;
-  if (newscore->sources)
-    {
-      g_warning ("Undo will lose source screenshots");
-      newscore->sources = NULL;
-    }
   for (g = si->measurewidths; g; g = g->next)
     newscore->measurewidths = g_list_append (newscore->measurewidths, g->data);
   newscore->playingnow = NULL;

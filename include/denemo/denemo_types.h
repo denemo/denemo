@@ -935,7 +935,6 @@ typedef struct DenemoMovement
   DenemoRecording *recording;/**< Audio or MIDI recording attached to movement */
   gint marked_onset_position;/**< horizontal position in display of note onset in audio marked by user */
   GList *marked_onset;/**< Note onset in audio selected by user */
-  GList *sources; /**< List of source pixbufs, one for each measure score-view*/
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */
   DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */

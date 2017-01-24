@@ -1268,9 +1268,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
       if (si->scroll_points)
         newScrollPointsElem (mvmntElem, ns, si->scroll_points);
-      // output si->sources
-      if (si->sources)
-        outputSources (mvmntElem, ns, si->sources);
+      
       // output audio source
       if (si->recording)
         outputAudio (mvmntElem, ns, si->recording);
