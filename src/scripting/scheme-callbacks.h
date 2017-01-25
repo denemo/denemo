@@ -91,6 +91,9 @@ SCM scheme_is_in_selection (void);
 SCM scheme_has_selection (void);
 SCM scheme_is_appending (void);
 SCM scheme_shift_cursor (SCM);
+
+SCM scheme_roman_numeral (SCM number);
+
 SCM scheme_get_movement (void);
 SCM scheme_get_voice_identifier (void);
 SCM scheme_staff_hidden (SCM set);
@@ -350,6 +353,7 @@ SCM scheme_insert_text_in_verse (SCM);
 SCM scheme_typeset_lyrics_for_staff (SCM);
 SCM scheme_syllable_count ();
 SCM scheme_get_verse (SCM);
+SCM scheme_get_verse_number (SCM number);
 SCM scheme_put_verse (SCM);
 SCM scheme_append_to_verse (SCM);
 SCM scheme_get_id (SCM);

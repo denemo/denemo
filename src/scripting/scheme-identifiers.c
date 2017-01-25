@@ -139,6 +139,10 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Shifts the cursor up or down by the integer amount passed in", DENEMO_SCHEME_PREFIX "ShiftCursor", scheme_shift_cursor);
 
 
+  install_scm_function (0, "Returns the Roman Numeral corresponding to the passed string", DENEMO_SCHEME_PREFIX "RomanNumeral", scheme_roman_numeral);
+
+
+
   install_scm_function (0, "Returns the movement number counting from 1", DENEMO_SCHEME_PREFIX "GetMovement", scheme_get_movement);
   install_scm_function (0, "Returns the LilyPond identifier for the current voice", DENEMO_SCHEME_PREFIX "GetVoiceIdentifier", scheme_get_voice_identifier);
   install_scm_function (0, "Returns the staff/voice number counting from 1", DENEMO_SCHEME_PREFIX "GetStaff", scheme_get_staff);
@@ -1233,6 +1237,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX "GetChecksum", scheme_get_checksum);
   install_scm_function (0, "Sets the newbie status to the passed value", DENEMO_SCHEME_PREFIX "SetNewbie", scheme_set_newbie);
   install_scm_function (0, "Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse", DENEMO_SCHEME_PREFIX "GetVerse", scheme_get_verse);
+  install_scm_function (0, "Gets the number of current verse of the current staff or #f if none. With an integer parameter sets the verse to that number.", DENEMO_SCHEME_PREFIX "GetVerseNumber", scheme_get_verse_number);
   install_scm_function (0, "Gets the number of lyric syllables in the current staff up to the cursor position.", DENEMO_SCHEME_PREFIX "SyllableCount", scheme_syllable_count);
   install_scm_function (0, "Moves the lyric cursor to match the current Denemo Cursor position (offset by an optional integer parameter), switching the keyboard input to the lyrics pane", DENEMO_SCHEME_PREFIX "SynchronizeLyricCursor", scheme_synchronize_lyric_cursor);
   install_scm_function (1, "Inserts passed text at the lyric cursor in the lyrics pane, returns #f if no verse at cursor", DENEMO_SCHEME_PREFIX "InsertTextInVerse", scheme_insert_text_in_verse);

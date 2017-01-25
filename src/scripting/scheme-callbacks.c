@@ -2333,6 +2333,24 @@ scheme_get_verse (SCM number)
     }
   return SCM_BOOL_F;
 }
+SCM
+scheme_get_verse_number (SCM number)
+{
+ DenemoProject *gui = Denemo.project;
+ if (scm_is_integer (number))
+    {
+        guint num = scm_to_int (number);
+        if (verse_set_current ((DenemoStaff *) gui->movement->currentstaff->data, num))
+            return SCM_BOOL_T;
+    }
+ else 
+    {
+     gint num = verse_get_current  ((DenemoStaff *) gui->movement->currentstaff->data);
+     if (num>-1)
+        return scm_from_int (num);
+    }
+  return SCM_BOOL_F;
+}
 
 SCM
 scheme_syllable_count (void)
@@ -2576,7 +2594,26 @@ scheme_get_voice_identifier (void)
   g_string_free (voice_ident, TRUE);
   return ret;
 }
-
+SCM
+scheme_roman_numeral (SCM number)
+{
+    SCM ret = SCM_BOOL_F;
+    if (scm_is_string (number))
+        {
+            GString *to, *from;
+            gchar *input = scm_to_locale_string (number);
+            
+            from = g_string_new (input);
+            to = g_string_new("");
+            set_lily_name (from, to);
+            g_string_free (from, TRUE);
+            ret = scm_from_locale_string (to->str);
+            g_string_free (to, TRUE);
+            if (input)
+                free (input);
+        }
+    return ret;
+}
 
 SCM
 scheme_get_measure (void)
