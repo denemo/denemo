@@ -107,13 +107,27 @@ verse_get_current_view (DenemoStaff * staff)
   return staff->current_verse_view->data;
 }
 
-void
+gboolean
 verse_set_current (DenemoStaff * staff, guint id)
 {
-  if (staff)
-    staff->current_verse_view = g_list_nth (staff->verse_views, id);
+if (staff && staff->verse_views && (id >= 0) && (id < g_list_length (staff->verse_views)))
+    {
+      staff->current_verse_view = g_list_nth (staff->verse_views, id);
+      GtkWidget *w = staff->verse_views->data;
+      GtkWidget *notebook = gtk_widget_get_parent (gtk_widget_get_parent (w));
+      if(notebook) gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), id);
+      return TRUE;
+    }
   else
-    g_debug ("Trying to set a verse on an invalid staff");
+    return FALSE;
+}
+
+static void point_to_verse (DenemoStaff * staff, guint id)
+{
+  if (staff && staff->verse_views && (id >= 0) && (id < g_list_length (staff->verse_views)))
+    {
+      staff->current_verse_view = g_list_nth (staff->verse_views, id);
+  }
 }
 
 gint
@@ -217,7 +231,7 @@ static void
 switch_page (GtkNotebook * notebook, gpointer dummy, guint pagenum, DenemoStaff * staff)
 {
   draw_score_area ();
-  verse_set_current (staff, pagenum);
+  point_to_verse (staff, pagenum);
 }
 
 //scans *next for a syllable putting the syllable into gs and moving *next to the address beyond the syllable
@@ -558,7 +572,7 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
   gtk_widget_show_all (gtk_widget_get_parent (textview));
   staff->verse_views = g_list_append (staff->verse_views, textview);
   guint pos = g_list_position (staff->verse_views, g_list_last (staff->verse_views));
-  verse_set_current (staff, pos);
+  point_to_verse (staff, pos);
   gint pagenum = gtk_notebook_append_page (GTK_NOTEBOOK (notebook), gtk_widget_get_parent (textview), NULL);
   gtk_notebook_set_current_page (GTK_NOTEBOOK (notebook), pagenum);
   gchar *tablabel = g_strdup_printf (_("Verse %d"), pagenum + 1);
@@ -635,7 +649,7 @@ delete_verse (DenemoAction * action, DenemoScriptParam * param)
 
               if (staff->verse_views == NULL)
                 {
-                  verse_set_current (staff, 0);
+                  point_to_verse (staff, 0);
                   gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (GTK_WIDGET (verse_view))));
                 }
               else
