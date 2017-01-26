@@ -598,7 +598,7 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
 GtkCssProvider *gcp;
 GtkStyleContext *gsc;
 gsc = gtk_widget_get_style_context(GTK_WIDGET (verse_view));
-gchar *str = "GtkTextView {background-color: rgb(128,128,128);}"; //this overrides the focus one unless it is before.
+gchar *str = "GtkTextView {background-color: rgb(128,128,80);}"; //this overrides the focus one unless it is before.
 gcp= gtk_css_provider_new();
 gtk_css_provider_load_from_data(gcp, str, -1, 0);
 gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
@@ -609,6 +609,15 @@ gcp= gtk_css_provider_new();
 gtk_css_provider_load_from_data(gcp, str, -1, 0);
 gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+    
+str =  "GtkTextView:selected {background-color: rgb(200,128,0);}";
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+      
+    
+    
 } 
 #endif
 
