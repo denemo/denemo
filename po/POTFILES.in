@@ -1020,6 +1020,8 @@ actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm
 actions/menus/ObjectMenu/Lyrics/InsertLyricTie.xml
 actions/menus/ObjectMenu/Lyrics/InsertMelisma.scm
 actions/menus/ObjectMenu/Lyrics/InsertMelisma.xml
+actions/menus/ObjectMenu/Lyrics/InsertMirroredVerse.scm
+actions/menus/ObjectMenu/Lyrics/InsertMirroredVerse.xml
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm
 actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.xml
 actions/menus/ObjectMenu/Lyrics/InsertSyllableSkips.scm

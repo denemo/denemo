@@ -8068,6 +8068,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Unmeasured Staff</_label>
         <_tooltip>Makes the staff accept any duration per Denemo measure. Equivalent to Cadenza Time from the first bar.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertMirroredVerse</action>
+        <after>InsertMelisma</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Insert Mirrored Verse</_label>
+        <_tooltip>Inserts special syntax to typeset a verse from another staff under this staff. This syntax should be on a line of its own.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

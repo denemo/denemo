@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertMirroredVerse</action>
+        <after>InsertMelisma</after>
+        <_label>Insert Mirrored Verse</_label>
+        <_tooltip>Inserts special syntax to typeset a verse from another staff under this staff. This syntax should be on a line of its own.</_tooltip>     
+    </row>
+    </map>
+  </merge>
+</Denemo>
