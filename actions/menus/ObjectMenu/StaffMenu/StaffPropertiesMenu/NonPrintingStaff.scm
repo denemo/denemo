@@ -1,10 +1,20 @@
 ;;;NonPrintingStaff
-(let ((tag "DropMusic") (staff-tag "NonPrintingStaff"))
-		(if (d-DirectiveGetForTag-staff staff-tag)
+(let ((tag "NonPrintingStaff")(params NonPrintingStaff::params))(disp "params " params " so eq set? " (eq? params 'set) (eq? params 'unset) "\n")
+     (if (eq? params 'unset)
+     	(begin (disp "deleting for " params "\n") 
+     		(d-DirectiveDelete-staff tag))
+     	(begin
+     		(if (eq? params 'set)
+     			(d-DirectiveDelete-staff tag))
+		(if (d-DirectiveGetForTag-staff tag)
 			(begin
-				(d-DirectiveDelete-staff staff-tag))
+				(if (not params)
+					(d-InfoDialog (_ "Staff will be printed")))
+				(d-DirectiveDelete-staff tag))
 			(begin 
-				(d-DirectivePut-staff-prefix staff-tag " \\void ")
-				(d-DirectivePut-staff-override staff-tag  (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_GRAPHIC))
-				(d-DirectivePut-staff-display staff-tag "Hidden Staff")))
-				(d-SetSaved #f))
+				(d-DirectivePut-staff-prefix tag " \\void ")
+				(d-DirectivePut-staff-override tag  (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_GRAPHIC))
+				(d-DirectivePut-staff-display tag "Hidden Staff")
+				(if (not params)
+					(SetDirectiveConditional #f (cons "staff"  tag)))))
+				(d-SetSaved #f))))
