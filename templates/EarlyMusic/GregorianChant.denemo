@@ -97,6 +97,67 @@ emmentaler
         </chord>
       </objects>
     </rhythm>
+    <rhythm lilypond=" \[ c  1\virga d  1\]" nickname="Virga">
+      <objects>
+        <chord show="false" id="id6">
+          <duration base="whole"></duration>
+          <directives>
+            <directive>
+              <tag>ToggleVirga</tag>
+              <prefix>\[ </prefix>
+              <postfix>\virga</postfix>
+              <display>v</display>
+              <override>16</override>
+            </directive>
+          </directives>
+          <notes>
+            <note id="id7">
+              <middle-c-offset>-7</middle-c-offset>
+              <directives>
+                <directive>
+                  <tag>NoteHead</tag>
+                  <graphic_name>
+
+emmentaler
+60</graphic_name>
+                  <gx>-10</gx>
+                  <gy>2</gy>
+                  <override>4</override>
+                </directive>
+              </directives>
+            </note>
+          </notes>
+        </chord>
+        <chord show="false" id="id8">
+          <duration base="whole"></duration>
+          <directives>
+            <directive>
+              <tag>EndLigature</tag>
+              <postfix>\]</postfix>
+              <display>]</display>
+              <override>16</override>
+            </directive>
+          </directives>
+          <notes>
+            <note id="id9">
+              <middle-c-offset>-6</middle-c-offset>
+              <directives>
+                <directive>
+                  <tag>NoteHead</tag>
+                  <graphic_name>
+
+emmentaler
+60</graphic_name>
+                  <gx>-10</gx>
+                  <gy>2</gy>
+                  <override>4</override>
+                </directive>
+              </directives>
+            </note>
+          </notes>
+        </chord>
+      </objects>
+    </rhythm>
   </rhythms>
   <lilycontrol>
     <papersize>a4</papersize>
@@ -137,16 +198,16 @@ emmentaler
       </tempo>
     </score-info>
     <staves>
-      <staff id="id6"></staff>
+      <staff id="id10"></staff>
     </staves>
     <voices>
-      <voice id="id7">
+      <voice id="id11">
         <voice-info>
           <voice-name>Cantus</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id6"></staff-ref>
+          <staff-ref staff="id10"></staff-ref>
           <clef name="baritone">
             <directives>
               <directive>
