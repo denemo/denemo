@@ -207,7 +207,7 @@ scheme_check_boxes (SCM list, SCM title)
           if (scm_is_pair (el))
             {
               gchar *label = NULL;
-              if (scm_is_string (scm_car (el)) && scm_is_bool (scm_cdr (el)))
+              if (scm_is_string (scm_car (el)))
                 {
                   label = scm_to_locale_string (scm_car (el));
                   status[i] = scm_is_true (scm_cdr (el));
