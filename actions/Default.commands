@@ -8075,6 +8075,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Insert Mirrored Verse</_label>
         <_tooltip>Inserts special syntax to typeset a verse from another staff under this staff. This syntax should be on a line of its own.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NonPrintingStaffs</action>
+        <after>CheckAndPrint</after>
+        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
+        <_label>Select Staffs to Print</_label>
+        <_tooltip>Makes selected staffs non-printing.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
