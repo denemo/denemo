@@ -429,6 +429,8 @@ actions/menus/MainMenu/FileMenu/OpenMenu/OpenSourceDialog.scm
 actions/menus/MainMenu/FileMenu/OpenMenu/OpenSourceDialog.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/CheckAndPrint.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/CheckAndPrint.xml
+actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm
+actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/Preview4Bars.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/Preview4Bars.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm
