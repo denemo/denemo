@@ -615,9 +615,25 @@ gcp= gtk_css_provider_new();
 gtk_css_provider_load_from_data(gcp, str, -1, 0);
 gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
-      
-    
-    
+
+#if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION >= 20))
+str = "GtkTextView {caret-color: rgb(200,200,0);}";
+#else
+str = "GtkTextView {-GtkWidget-cursor-color: rgb(200,200,0);}";
+#endif
+
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+
+
+str =  "GtkTextView {-GtkWidget-cursor-aspect-ratio: 0.2;}";
+gcp= gtk_css_provider_new();
+gtk_css_provider_load_from_data(gcp, str, -1, 0);
+gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
+    GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
+       
 } 
 #endif
 
