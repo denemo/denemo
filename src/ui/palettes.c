@@ -649,6 +649,7 @@ gchar *get_palette_name (gboolean allow_custom)
 void place_action_in_palette (gint idx, const gchar *name)
 {
      gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
+     gchar *escaped = g_markup_escape_text (label, -1);
      if(name==NULL)
         name = lookup_name_from_idx (Denemo.map, idx);
       gchar *script = g_strdup_printf ("(d-%s)", name);
@@ -661,10 +662,10 @@ void place_action_in_palette (gint idx, const gchar *name)
             pal = set_palate_shape (palette_name, TRUE, 1);
         }
         if(pal)
-            palette_add_button (pal, label, tooltip, script);
+            palette_add_button (pal, escaped, tooltip, script);
         }
       g_free (script);
-
+      g_free (escaped);
 }
 
 
