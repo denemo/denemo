@@ -1161,7 +1161,9 @@ static void create_palette_for_menu (GtkWidget *menu)
                if ((command_idx>-1) && lookup_hidden_from_idx (Denemo.map, command_idx))
                     continue;
             script = g_strdup_printf ("(d-%s)", action->name);
-            palette_add_button (pal, action->label, action->tooltip, script);
+             gchar *escaped = g_markup_escape_text (action->label, -1);
+            palette_add_button (pal, escaped, action->tooltip, script);
+            g_free (escaped);
             }
         g_list_free (children); 
         }
