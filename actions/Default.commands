@@ -3385,13 +3385,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Choose Condition</_label>
         <_tooltip>Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,</_tooltip>
       </row>
-      <row type="scheme">
-        <action>InitialVoice</action>
-        <after>InitialVoiceAuto</after>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <_label>Choose Initial Voice</_label>
-        <_tooltip>Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>ChooseTimeSignature</action>
         <menupath>/ObjectMenu/TimeSig</menupath>
@@ -4348,26 +4342,20 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Individual Note Up-Tie (Off/On)</_label>
         <_tooltip>Ties the individual note in a chord the tie being above; repeat command to remove.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>InitialVoiceAuto</action>
-        <after>InitialVoiceFour</after>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <_label>Initial Automatic Voice</_label>
-        <_tooltip>Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>InitialVoiceFour</action>
-        <after>InitialVoiceThree</after>
-        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <_label>Initial Voice Four</_label>
-        <_tooltip>Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>InitialVoiceOne</action>
         <after>JoinVoices</after>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Initial Voice One</_label>
         <_tooltip>Sets the (initial) voice of the staff to be voice one (this affects stems up, slurs etc on printing)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InitialVoiceTwo</action>
+        <after>InitialVoiceOne</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <_label>Initial Voice Two</_label>
+        <_tooltip>Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)</_tooltip>
       </row>
       <row type="scheme">
         <action>InitialVoiceThree</action>
@@ -4377,11 +4365,25 @@ accidentals are usually printed over the note.</_tooltip>
         <_tooltip>Sets the (initial) voice of the staff to be voice three (this affects stems up, slurs etc on printing)</_tooltip>
       </row>
       <row type="scheme">
-        <action>InitialVoiceTwo</action>
-        <after>InitialVoiceOne</after>
+        <action>InitialVoiceFour</action>
+        <after>InitialVoiceThree</after>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
-        <_label>Initial Voice Two</_label>
-        <_tooltip>Sets the (initial) voice of the staff to be voice two (this affects stems down, slurs etc on printing)</_tooltip>
+        <_label>Initial Voice Four</_label>
+        <_tooltip>Sets the (initial) voice of the staff to be voice four (this affects stems down, slurs etc on printing)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InitialVoiceAuto</action>
+        <after>InitialVoiceFour</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <_label>Initial Automatic Voice</_label>
+        <_tooltip>Undoes the effect of the VoiceOne, Two ... commands. The voice has variable stem direction, slur placement etc.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InitialVoice</action>
+        <after>InitialVoiceAuto</after>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <_label>Choose Initial Voice</_label>
+        <_tooltip>Choose which voice this staff will initially be set to. To change voice during music see the Directives-&gt;Voices menu.</_tooltip>
       </row>
       <row type="scheme">
         <action>ForceBarline</action>
