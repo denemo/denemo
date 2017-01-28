@@ -8,12 +8,6 @@
 (if (StemDirective?) (d-DeleteObject) (set! move-right #t))
 (d-StartUpStems)
 (d-MoveCursorLeft)
-(d-DirectivePut-stemdirective-graphic tag "
-v1
-Serif
-24
-1
-1")
 (d-PopPosition)
 (if move-right
   (d-MoveCursorRight));;to compensate for the insertion of the stem directive
