@@ -1883,6 +1883,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/PageBreaksBeforeMovements.
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/PageBreaksBeforeMovements.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/RaggedLast.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/RaggedLast.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm
@@ -1909,8 +1911,6 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSyst
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSystemSpacingDist.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.xml
-actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedLast.scm
-actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedLast.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.scm
