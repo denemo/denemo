@@ -104,6 +104,18 @@
         <_label>Staff Properties Editor</_label>
         <_tooltip>Opens a dialog to edit the current staff properties.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PianoStaff</action>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <_label>Add Piano Staff</_label>
+        <_tooltip>Adds two staff braced together for keyboard instrument.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>DeleteStaff</action>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Delete Current Staff</_label>
+        <_tooltip>Deletes the current staff</_tooltip>
+      </row>
       <row type="builtin">
         <action>InitialClef</action>
         <menupath>/ObjectMenu/ClefMenu</menupath>
@@ -1563,12 +1575,7 @@ these may need re-making.</_tooltip>
         <_label>Delete Staff Before</_label>
         <_tooltip>Deletes the staff before the current staff</_tooltip>
       </row>
-      <row type="builtin">
-        <action>DeleteStaff</action>
-        <menupath>/ObjectMenu/StaffMenu</menupath>
-        <_label>Delete Current Staff</_label>
-        <_tooltip>Deletes the current staff</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>DeleteAfter</action>
         <_label>Delete Staff After</_label>
@@ -2962,13 +2969,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>Add Perfect 5th below top</_label>
         <_tooltip>Add a perfect fifth as chordnote relative to the highest note downwards.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>PianoStaff</action>
-        <after>NewStaffBefore</after>
-        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
-        <_label>Add Piano Staff</_label>
-        <_tooltip>Adds two staff braced together for keyboard instrument.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>MarksStaff</action>
         <after>PianoStaff</after>
@@ -7021,8 +7022,8 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>RaggedLast</action>
-        <after>RaggedBottom</after>
-        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
+       
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
         <_label>Ragged Last</_label>
         <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
       </row>
