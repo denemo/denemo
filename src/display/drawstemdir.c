@@ -29,7 +29,7 @@ draw_stem_directive (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
       text = _("⬆⬇stems");
       break;
     case DENEMO_STEMDOWN:
-      text = _("⬆stems");
+      text = _("⬇stems");
       break;
     }
   if (((stemdirective *) theobj->object)->directives)
