@@ -1575,7 +1575,6 @@ these may need re-making.</_tooltip>
         <_label>Delete Staff Before</_label>
         <_tooltip>Deletes the staff before the current staff</_tooltip>
       </row>
-
       <row type="builtin">
         <action>DeleteAfter</action>
         <_label>Delete Staff After</_label>
@@ -2969,7 +2968,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>Add Perfect 5th below top</_label>
         <_tooltip>Add a perfect fifth as chordnote relative to the highest note downwards.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>MarksStaff</action>
         <after>PianoStaff</after>
@@ -3386,7 +3384,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Choose Condition</_label>
         <_tooltip>Gives a menu for choosing whether the directive at the cursor should apply to the current part only or the default score or all layouts,</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ChooseTimeSignature</action>
         <menupath>/ObjectMenu/TimeSig</menupath>
@@ -4343,7 +4340,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Individual Note Up-Tie (Off/On)</_label>
         <_tooltip>Ties the individual note in a chord the tie being above; repeat command to remove.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>InitialVoiceOne</action>
         <after>JoinVoices</after>
@@ -7022,7 +7018,6 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>RaggedLast</action>
-       
         <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
         <_label>Ragged Last</_label>
         <_tooltip>When set the last line will not be stretched to fill the line.</_tooltip>
@@ -8084,6 +8079,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
         <_label>Select Staffs to Print</_label>
         <_tooltip>Makes selected staffs non-printing.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ConnectArpeggios</action>
+        <after>ScoreChooseNotehead</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Connect Arpeggios (Off/On)</_label>
+        <_tooltip>Any arpeggios inserted on chords in different voices will be drawn across the voices.</_tooltip>
       </row>
     </map>
   </merge>
