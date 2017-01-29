@@ -1851,6 +1851,8 @@ actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm
 actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.xml
 actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.scm
 actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml
+actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.scm
+actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.xml
 actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm
 actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml
 actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm
