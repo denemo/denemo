@@ -390,6 +390,8 @@ staff_delete (DenemoProject * project, gboolean interactive)
   if (interactive && (curstaffstruct->context != DENEMO_NONE))
     give_info = TRUE;
   take_snapshot ();
+  if (!Denemo.non_interactive)
+    Denemo.project->movement->undo_guard++;
   gboolean isprimary = (gboolean) (curstaffstruct->voicecontrol & DENEMO_PRIMARY);
   //FIXME free_staff()
 
@@ -450,6 +452,9 @@ staff_delete (DenemoProject * project, gboolean interactive)
 
   if (give_info)
     infodialog (_("The staff deleted had a start/end context; if you still have the staff with the matching end/start context\n then you should remove it (or its context) now.\nSee Staff->properties->context\nYou will not be able to print with miss-matched contexts."));
+
+  if (!Denemo.non_interactive)
+    Denemo.project->movement->undo_guard--;
   return;
 }
 
