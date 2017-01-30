@@ -791,14 +791,15 @@ static void clone_staff (DenemoStaff *srcStaff, DenemoStaff *thestaff)
       }
     }
 
-#if 0
-//this is wrong and causes a crash on undo (it is called by the snapshot() routine)
-//the verses not the verse_views are extracted, and verse_views are not created.
+#if 1
+//this horrible (it is called by the snapshot() routine)
+//the verses not the verse_views are extracted, and then select.c expects that!
     thestaff->verse_views = extract_verses (srcStaff->verse_views);
     //FIXME: thestaff->verses should probably be cloned too
     GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (srcStaff);
     if (verse_view)
-    verse_set_current (thestaff, verse_get_current (srcStaff));
+     thestaff->current_verse_view = g_list_nth (thestaff->verse_views, 
+     g_list_index (srcStaff->verse_views, verse_view));
 #endif
 }
 
