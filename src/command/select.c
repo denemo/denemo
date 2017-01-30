@@ -1389,7 +1389,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
                 for (; g; g = g->next)
                   {
                     gchar *text = get_text_from_view (g->data);
-                    gtk_widget_destroy (g->data);       //what about its parent??? FIXME
+                    gtk_widget_destroy (gtk_widget_get_parent(g->data));      
                     thestaff->verse_views = g_list_append (thestaff->verse_views, text);
                     if (thestaff->current_verse_view == g)
                       thestaff->current_verse_view = g_list_last (thestaff->verse_views);
