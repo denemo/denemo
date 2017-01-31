@@ -8335,6 +8335,117 @@ s for navigation.
  Music interface.
 \end_layout
 
+\begin_layout Subsection
+Lyrics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Lyrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vocal music can be typeset using the commands in the Lyrics menu.
+\end_layout
+
+\begin_layout Subsubsection
+Overview of Lyrics
+\end_layout
+
+\begin_layout Standard
+Lyrics in Denemo are handled as verses of text that can be freely edited
+ in text editors that appear in the tabs of a notebook that appears when
+ you execute Add Lyric Verse (Ctrl-l a).
+ The syllables are not attached to the notes, so you can edit the notes
+ freely without affecting the lyrics.
+\end_layout
+
+\begin_layout Standard
+Note that the lyrics for a staff are only shown when the cursor is in the
+ staff concerned - this saves space in the display, but can be disconcerting
+ when they vanish from the display as you move to another staff!
+\end_layout
+
+\begin_layout Standard
+While simply typing or pasting the text in will be enough for simple pieces,
+ special indications can be included are available for more complex tasks,
+ these follow the rules given in the following section and in detail in
+ the LilyPond documentation.
+\end_layout
+
+\begin_layout Standard
+In a verse extra spaces and new lines can be used freely without affecting
+ how the syllables are placed under the notes.
+ Special syntax inserted for things like alignment beneath noteheads should
+ be on a line by itself, so that Denemo knows not to display it under the
+ notes of the display.
+\end_layout
+
+\begin_layout Subsubsection
+Syllabification
+\end_layout
+
+\begin_layout Standard
+Dashes (
+\begin_inset Quotes eld
+\end_inset
+
+-
+\begin_inset Quotes erd
+\end_inset
+
+ hyphens), double dashes (
+\begin_inset Quotes eld
+\end_inset
+
+--
+\begin_inset Quotes erd
+\end_inset
+
+), underscores 
+\begin_inset Quotes eld
+\end_inset
+
+_
+\begin_inset Quotes erd
+\end_inset
+
+ and double underscores 
+\begin_inset Quotes eld
+\end_inset
+
+__
+\begin_inset Quotes erd
+\end_inset
+
+ and double quotes (the typewriter ones) all have a special meaning.
+\end_layout
+
+\begin_layout Standard
+Typewriter double quotes "" can group together separate words to be sung
+ to a single note, or enclosing a space " " can skip a note.
+\end_layout
+
+\begin_layout Standard
+Syllable skips can be made for an entire selection of notes.
+\end_layout
+
+\begin_layout Standard
+Usually dashes are typeset with -- .
+ For instance: The Lord is com -- pas -- sion and love, slow to an -- ger
+ and rich in mer -- cy.
+ Moreover, there is a convention for vocal music that eighth notes (and
+ sixteenth etc.) are typeset with beams if there is a melisma and without
+ beams if you sing separate syllables.
+ You can use the Stop Beaming directive (under Directives > Typesetter)
+ for vocal music and do manual beaming where melismata are present.
+\end_layout
+
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label

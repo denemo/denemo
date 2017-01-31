@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2016-12-08"/>
+<meta name="create-date" content="2017-01-31"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -537,6 +537,17 @@ Table of Contents
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-18.9.4">Subsubsection 18.9.4: Rehearsal Marks</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-18.10">Subsection 18.10: Lyrics</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-18.10.1">Subsubsection 18.10.1: Overview of Lyrics</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-18.10.2">Subsubsection 18.10.2: Syllabification</a>
 </div>
 </div>
 </div>
@@ -2200,6 +2211,9 @@ Note: That currently text is generated with the wrong fonts in the Playback View
 <div class="Shadowbox" style="width: 100%;">
 Note: LilyPond Version 2.19.x is needed for some MIDI features (e.g. staccato). Use the Preferences dialog, Externals tab to change which version of LilyPond Denemo uses.
 </div>
+<div class="Shadowbox" style="width: 100%;">
+Note: When using the Playback View on a score with several movements you must first typeset the movement in the Print View before invoking the Playback View.
+</div>
 
 </div>
 <h1 class="Section">
@@ -2754,6 +2768,42 @@ In the Directives-&gt;Markings-&gt;Spanning Directives-&gt;Typesetter&gt;Spannin
 </h3>
 <div class="Unindented">
 The Directives-&gt;Markings subdirectory also holds the Rehearsal Marks commands. Marks have a special property that they only appear once at the top of the system, even though they can be placed in each part. Theu can be custom text or default, and can be used as bookmark<a class="IndexReference" name="entry-Bookmark-1" href="#index-Bookmark">↓</a>s for navigation. The custom text marks can be edited using the full Multi-Line Text and Music interface.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-18.10">18.10</a> Lyrics<a class="IndexReference" name="entry-Lyrics-2" href="#index-Lyrics">↓</a>
+</h2>
+<div class="Unindented">
+Vocal music can be typeset using the commands in the Lyrics menu.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-18.10.1">18.10.1</a> Overview of Lyrics
+</h3>
+<div class="Unindented">
+Lyrics in Denemo are handled as verses of text that can be freely edited in text editors that appear in the tabs of a notebook that appears when you execute Add Lyric Verse (Ctrl-l a). The syllables are not attached to the notes, so you can edit the notes freely without affecting the lyrics.
+</div>
+<div class="Indented">
+Note that the lyrics for a staff are only shown when the cursor is in the staff concerned - this saves space in the display, but can be disconcerting when they vanish from the display as you move to another staff!
+</div>
+<div class="Indented">
+While simply typing or pasting the text in will be enough for simple pieces, special indications can be included are available for more complex tasks, these follow the rules given in the following section and in detail in the LilyPond documentation.
+</div>
+<div class="Indented">
+In a verse extra spaces and new lines can be used freely without affecting how the syllables are placed under the notes. Special syntax inserted for things like alignment beneath noteheads should be on a line by itself, so that Denemo knows not to display it under the notes of the display.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-18.10.2">18.10.2</a> Syllabification
+</h3>
+<div class="Unindented">
+Dashes (&ldquo;-&rdquo; hyphens), double dashes (&ldquo;--&rdquo;), underscores &ldquo;_&rdquo; and double underscores &ldquo;__&rdquo; and double quotes (the typewriter ones) all have a special meaning.
+</div>
+<div class="Indented">
+Typewriter double quotes "" can group together separate words to be sung to a single note, or enclosing a space " " can skip a note.
+</div>
+<div class="Indented">
+Syllable skips can be made for an entire selection of notes.
+</div>
+<div class="Indented">
+Usually dashes are typeset with — . For instance: The Lord is com — pas — sion and love, slow to an — ger and rich in mer — cy. Moreover, there is a convention for vocal music that eighth notes (and sixteenth etc.) are typeset with beams if there is a melisma and without beams if you sing separate syllables. You can use the Stop Beaming directive (under Directives &gt; Typesetter) for vocal music and do manual beaming where melismata are present.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-19">19</a> <a class="Label" name="sec:A-Survey-of-Input-Methods"> </a>A Survey of the Input Methods
@@ -3466,6 +3516,9 @@ The parameters are either a string (script) which will be evaluated after moving
 </li>
 <li>
 (EditForStandaloneToggle tag) provides the editing options for a standalone directive that can only be toggled off/on. 
+</li>
+<li>
+(StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f) (displaytext #f) (minpixels #f) the pair is a tag and the LilyPond syntax to insert e.g. (cons "BreathMark" "\\breathe") with optional parameters: boolean to step/not step right after insertion, graphic, display text, and width to occupy in the Denemo Display (minpixels). Any override needs to be set separately.
 </li>
 
 </ul>
@@ -5289,7 +5342,7 @@ If you are not logged in as root user, for the last step type su and your root p
 <a class="printindex" name="index-LilyPond"></a>LilyPond: <a class="IndexArrow" href="#entry-LilyPond-0">↑</a>, <a class="IndexArrow" href="#entry-LilyPond-1">↑</a>, <a class="IndexArrow" href="#entry-LilyPond-2">↑</a>, <a class="IndexArrow" href="#entry-LilyPond-3">↑</a>, <a class="IndexArrow" href="#entry-LilyPond-4">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Lyrics"></a>Lyrics: <a class="IndexArrow" href="#entry-Lyrics-0">↑</a>, <a class="IndexArrow" href="#entry-Lyrics-1">↑</a>
+<a class="printindex" name="index-Lyrics"></a>Lyrics: <a class="IndexArrow" href="#entry-Lyrics-0">↑</a>, <a class="IndexArrow" href="#entry-Lyrics-1">↑</a>, <a class="IndexArrow" href="#entry-Lyrics-2">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-MIDI"></a>MIDI: <a class="IndexArrow" href="#entry-MIDI-0">↑</a>, <a class="IndexArrow" href="#entry-MIDI-1">↑</a>
@@ -5495,7 +5548,7 @@ If you are not logged in as root user, for the last step type su and your root p
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2016-12-08T18:33:11.815549</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2017-01-31T17:48:16.751158</span>
 </div>
 </div>
 </body>
