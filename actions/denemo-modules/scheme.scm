@@ -41,8 +41,7 @@
 ;repeat executes a proc n times
 (define (Repeat proc n)
     (let loop ((counter 0))
-        (if (= n counter)
-            #t
+        (if (> n counter)
             (begin
                 (proc)
                 (loop (1+ counter))))))
