@@ -25,7 +25,7 @@ gchar *get_lyrics_for_verse_num (gint number);
 gboolean append_lyrics_for_current_verse (DenemoStaff * thestaff, gchar * text);
 gboolean synchronize_lyric_cursor (gint offset);
 GtkWidget *verse_get_current_view (DenemoStaff * staff);
-gboolean verse_set_current (DenemoStaff * staff, guint id);
+gboolean verse_set_current (DenemoStaff * staff, gint id);
 gint verse_get_current (DenemoStaff * staff);
 void verse_set_current_text (DenemoStaff * staff, gchar * text);
 gchar *verse_get_current_text (DenemoStaff * staff);

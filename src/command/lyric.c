@@ -108,7 +108,7 @@ verse_get_current_view (DenemoStaff * staff)
 }
 
 gboolean
-verse_set_current (DenemoStaff * staff, guint id)
+verse_set_current (DenemoStaff * staff, gint id)
 {
 if (staff && staff->verse_views && (id >= 0) && (id < g_list_length (staff->verse_views)))
     {
@@ -666,6 +666,7 @@ delete_verse (DenemoAction * action, DenemoScriptParam * param)
       if (staff->verses)
         {
           GtkTextView *verse_view = (GtkTextView *) verse_get_current_view (staff);
+          gint versenum = verse_get_current (staff);
           gchar *verse_text = verse_get_current_text (staff);
           if (verse_text && verse_view)
             {
@@ -680,7 +681,8 @@ delete_verse (DenemoAction * action, DenemoScriptParam * param)
               else
                 gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET (verse_view)));
               // g_print("Children are %p\n",  gtk_container_get_children (GTK_CONTAINER (gtk_container_get_children (GTK_CONTAINER (si->lyricsbox))->data)));
-
+              if (!verse_set_current (staff, versenum-1))
+                staff->current_verse_view = NULL;// no verses left
               signal_structural_change (gui);
               score_status (gui, TRUE);
               draw_score_area ();
