@@ -668,7 +668,7 @@ delete_verse (DenemoAction * action, DenemoScriptParam * param)
           GtkTextView *verse_view = (GtkTextView *) verse_get_current_view (staff);
           gint versenum = verse_get_current (staff);
           gchar *verse_text = verse_get_current_text (staff);
-          if (verse_text && verse_view)
+          //if (verse_text && verse_view)
             {
               staff->verse_views = g_list_remove (staff->verse_views, verse_view);
               staff->verses = g_list_remove (staff->verses, verse_text);
