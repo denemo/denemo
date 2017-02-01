@@ -2365,7 +2365,11 @@ scheme_typeset_lyrics_for_staff (SCM on)
 {
   DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   if (scm_is_bool (on))
-    staff->hide_lyrics = !scm_is_true (on);
+    {
+        signal_structural_change (Denemo.project);
+        staff->hide_lyrics = !scm_is_true (on);
+        score_status (Denemo.project, TRUE);
+    }
   return scm_from_bool (!staff->hide_lyrics);
 }
 

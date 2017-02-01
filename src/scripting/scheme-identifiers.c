@@ -1237,6 +1237,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes a string and returns a string representing an MD5 checksum for the passed string.", DENEMO_SCHEME_PREFIX "GetChecksum", scheme_get_checksum);
   install_scm_function (0, "Sets the newbie status to the passed value", DENEMO_SCHEME_PREFIX "SetNewbie", scheme_set_newbie);
   install_scm_function (0, "Gets the current verse of the current staff or #f if none, with an integer parameter, gets the nth verse", DENEMO_SCHEME_PREFIX "GetVerse", scheme_get_verse);
+  install_scm_function (0, "With a boolean parameter sets whether lyrics should be typeset for the current staff, else returns the current status.", DENEMO_SCHEME_PREFIX "TypesetLyricsForStaff", scheme_typeset_lyrics_for_staff);
+
   install_scm_function (0, "Gets the number of current verse of the current staff or #f if none. With an integer parameter sets the verse to that number.", DENEMO_SCHEME_PREFIX "GetVerseNumber", scheme_get_verse_number);
   install_scm_function (0, "Gets the number of lyric syllables in the current staff up to the cursor position.", DENEMO_SCHEME_PREFIX "SyllableCount", scheme_syllable_count);
   install_scm_function (0, "Moves the lyric cursor to match the current Denemo Cursor position (offset by an optional integer parameter), switching the keyboard input to the lyrics pane", DENEMO_SCHEME_PREFIX "SynchronizeLyricCursor", scheme_synchronize_lyric_cursor);
