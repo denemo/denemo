@@ -2731,7 +2731,11 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
 
                           gchar *sofar = g_strdup (staffdefinitions->str);
                           //this definition is used by score_layout.c to get LilyPond to provide the durations for lyrics, which denemo does not compute (contrast figured bass and chord symbols where durations are computed, see above).
-                          g_string_printf (staffdefinitions, "\n%s%s%sContext = \\context Lyrics = %s%s%s \\lyricsto %s%s \\%s%sLyrics%s\n%s", movement_name->str, voice_name->str, versename->str, movement_name->str, voice_name->str, versename->str, voice_name->str, movement_name->str, movement_name->str, voice_name->str, versename->str, sofar);
+                          g_string_printf (staffdefinitions, "\n%s%s%sContext = \\context Lyrics = %s%s%s \\lyricsto %s%s \\%s%sLyrics%s\n%s", 
+                          movement_name->str, voice_name->str, versename->str, 
+                          movement_name->str, voice_name->str, versename->str, 
+                          movement_name->str, voice_name->str, 
+                           movement_name->str, voice_name->str, versename->str, sofar);
                           g_free (sofar);
 
 
