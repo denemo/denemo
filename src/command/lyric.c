@@ -636,7 +636,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
        
 } 
 #endif
-
+  show_verses ();
   return pos;
 }
 
@@ -775,7 +775,7 @@ install_lyrics_preview (DenemoMovement * si, GtkWidget * top_vbox)
         }
       gtk_box_pack_start (GTK_BOX (gtk_paned_get_child2 (GTK_PANED (parent))), si->lyricsbox, TRUE, TRUE, 0);
     }
-  if (Denemo.prefs.lyrics_pane)
+ // if (Denemo.prefs.lyrics_pane)
     gtk_widget_show (si->lyricsbox);
 }
 

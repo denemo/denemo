@@ -152,7 +152,7 @@ void set_movement_selector (DenemoProject *gui)
         set_master_tempo (gui->movement, 1.0);
 
 
-    if ((gui->movement) && gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
+    if ((gui->movement) && gui->movement->lyricsbox /*&& Denemo.prefs.lyrics_pane*/)
       gtk_widget_show (gui->movement->lyricsbox), show_lyrics ();
 
 
@@ -348,7 +348,7 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
       if(!Denemo.non_interactive)
         {
         gtk_widget_hide (gui->movement->buttonbox);
-        if ((gui->movement) && gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
+        if ((gui->movement) && gui->movement->lyricsbox /*&& Denemo.prefs.lyrics_pane*/)
             gtk_widget_hide (gui->movement->lyricsbox);
         }
       gui->movement = this->data;
@@ -503,8 +503,8 @@ next_movement (DenemoAction * action, DenemoScriptParam * param)
   gui->movement = this->data;
 
   if(!Denemo.non_interactive){
-    if (gui->movement->lyricsbox && Denemo.prefs.lyrics_pane)
-      gtk_widget_show (gui->movement->lyricsbox);       //toggle_lyrics_view(NULL, NULL);
+    if (gui->movement->lyricsbox /*&& Denemo.prefs.lyrics_pane*/)
+      gtk_widget_show (gui->movement->lyricsbox);       
     gtk_widget_show (gui->movement->buttonbox);
   }
   set_movement_selector (gui);

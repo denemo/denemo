@@ -563,7 +563,7 @@ toggle_command_manager (DenemoAction * action, gpointer param)
  *
  */
 void
-toggle_lyrics_view (DenemoAction * action, gpointer param)
+show_verses (void)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
@@ -574,15 +574,15 @@ toggle_lyrics_view (DenemoAction * action, gpointer param)
     g_warning ("No lyrics");
   else
     {
-      if ((!action) || gtk_widget_get_visible (widget))
-        {
-          GtkWidget *parent = gtk_widget_get_parent (gtk_widget_get_parent (widget));
-          gint height = get_widget_height (parent);
-          last_height = get_widget_height (widget);
-          gtk_paned_set_position (GTK_PANED (parent), height);
-          gtk_widget_hide (widget);
-        }
-      else
+      //if ((!action) || gtk_widget_get_visible (widget))
+        //{
+          //GtkWidget *parent = gtk_widget_get_parent (gtk_widget_get_parent (widget));
+          //gint height = get_widget_height (parent);
+          //last_height = get_widget_height (widget);
+          //gtk_paned_set_position (GTK_PANED (parent), height);
+          //gtk_widget_hide (widget);
+        //}
+      //else
         {
           gtk_widget_show (widget);
           GtkWidget *parent = gtk_widget_get_parent (gtk_widget_get_parent (widget));
@@ -734,9 +734,7 @@ ToggleMenuEntry toggle_menu_entries[] = {
   ,
 
 
-  {ToggleLyricsView_STRING, NULL, N_("Lyrics"), NULL, N_("Shows any lyric verses in the Denemo Display when the cursor is on a staff with verses attached"),
-   G_CALLBACK (toggle_lyrics_view), TRUE}
-  ,
+  
    {ToggleRhythmToolbar_STRING, NULL, N_("Snippets"), NULL, N_("Show/hide a toolbar which allows\nyou to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"),
    G_CALLBACK (toggle_rhythm_toolbar), FALSE}
   ,
