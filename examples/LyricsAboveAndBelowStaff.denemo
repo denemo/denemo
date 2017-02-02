@@ -75,12 +75,12 @@ page-limit-inter-system-space-factor = 1.2
 
 %Start of Staff
 \new Staff = "Soprano"  &lt;&lt; \set Staff.instrumentName = "Soprano &amp; Alto"\set Staff.shortInstrumentName = "Sop, Alt"
- \new Voice = "VoiceIMvmntI"  { 
+ \new Voice = "MvmntIVoiceI"  { 
   \clef treble 
 { \key c \major}
 { \time 4/4 }
  \MvmntIVoiceI                } %End of voice
- \new Voice = "VoiceIIMvmntI"  { 
+ \new Voice = "MvmntIVoiceII"  { 
   \MvmntIVoiceII                } %End of voice
                 
 &gt;&gt;
@@ -92,12 +92,12 @@ page-limit-inter-system-space-factor = 1.2
 
 %Start of Staff
 \new Staff = "Tenor"  &lt;&lt; \set Staff.instrumentName = "Tenor &amp; Bass"\set Staff.shortInstrumentName = "Ten, Bs"
- \new Voice = "VoiceIIIMvmntI"  { 
+ \new Voice = "MvmntIVoiceIII"  { 
   \clef bass 
 { \key c \major}
 { \time 4/4 }
  \MvmntIVoiceIII                } %End of voice
- \new Voice = "VoiceIVMvmntI"  { 
+ \new Voice = "MvmntIVoiceIV"  { 
   \MvmntIVoiceIV                } %End of voice
                 
 &gt;&gt;
@@ -121,9 +121,7 @@ title = "Edit This Title in the LilyPond Window"
 
 }
 
-} %End of Movement
-
-</custom_scoreblock>
+} %End of Movement</custom_scoreblock>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
