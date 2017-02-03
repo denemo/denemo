@@ -558,7 +558,7 @@ toggle_command_manager (DenemoAction * action, gpointer param)
 }
 
 /**
- *  Function to toggle visibility of lyrics view pane of current movement
+ *  show the vbox containing the verses notebook for the current movement.
  *
  *
  */
