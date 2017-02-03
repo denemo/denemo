@@ -1550,6 +1550,7 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
            //without this currentstaffnum is set wrongly, and moveviewport causes a crash.
            gui->movement->currentstaffnum = 1 + g_list_position (gui->movement->thescore, gui->movement->currentstaff);
            XesNeedRecalculating = TRUE;
+           signal_structural_change (gui);
           }
         else
           {
