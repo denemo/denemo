@@ -15,6 +15,11 @@
 #include "command/score.h"
 #include "display/draw.h"
 #include "command/lilydirectives.h"
+
+// movement->lyricsbox is a GtkVBox containing GtkNotebook s for each staff with verses. The verses are GtkTextView s  notebook
+//staff->verse_views is a list of GtkTextView which are packed in a GtkScrolledWindow
+//so  movement->lyricsbox contains Notebook->ScrolledWindow->TextView
+//the text of the verses is stored in staff->verses
 static GtkWidget *DummyVerse;   /* a non-existent verse */
 static gint SkipCount = 0;      //count of syllables to be skipped
 
@@ -663,30 +668,29 @@ delete_verse (DenemoAction * action, DenemoScriptParam * param)
   if (si->currentstaff)
     {
       DenemoStaff *staff = si->currentstaff->data;
-      if (staff->verses)
+      if (staff->verses && staff->verse_views)
         {
           GtkTextView *verse_view = (GtkTextView *) verse_get_current_view (staff);
           gint versenum = verse_get_current (staff);
           gchar *verse_text = verse_get_current_text (staff);
-          //if (verse_text && verse_view)
-            {
-              staff->verse_views = g_list_remove (staff->verse_views, verse_view);
-              staff->verses = g_list_remove (staff->verses, verse_text);
+         
+          staff->verse_views = g_list_remove (staff->verse_views, verse_view);
+          staff->verses = g_list_remove (staff->verses, verse_text);
 
-              if (staff->verse_views == NULL)
-                {
-                  point_to_verse (staff, 0);
-                  gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (GTK_WIDGET (verse_view))));
-                }
-              else
-                gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET (verse_view)));
-              // g_print("Children are %p\n",  gtk_container_get_children (GTK_CONTAINER (gtk_container_get_children (GTK_CONTAINER (si->lyricsbox))->data)));
-              if (!verse_set_current (staff, versenum-1))
-                staff->current_verse_view = NULL;// no verses left
-              signal_structural_change (gui);
-              score_status (gui, TRUE);
-              draw_score_area ();
+          if (staff->verse_views == NULL)
+            {
+              staff->current_verse_view = NULL;
+              gtk_widget_destroy (gtk_widget_get_parent (gtk_widget_get_parent (GTK_WIDGET (verse_view))));//destroy notebook and so notebook->scrolled window->text view
             }
+          else
+            gtk_widget_destroy (gtk_widget_get_parent (GTK_WIDGET (verse_view)));
+          // g_print("Children are %p\n",  gtk_container_get_children (GTK_CONTAINER (gtk_container_get_children (GTK_CONTAINER (si->lyricsbox))->data)));
+          if (!verse_set_current (staff, versenum-1))
+            staff->current_verse_view = NULL;// no verses left
+          signal_structural_change (gui);
+          score_status (gui, TRUE);
+          draw_score_area ();
+            
         }
     }
 }

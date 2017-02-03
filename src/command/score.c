@@ -791,16 +791,17 @@ static void clone_staff (DenemoStaff *srcStaff, DenemoStaff *thestaff)
       }
     }
 
-#if 1
-//this horrible (it is called by the snapshot() routine)
+
+//this rather horrible: it is for the snapshot() routine
 //the verses not the verse_views are extracted, and then select.c expects that!
+//the reason is there is nowhere on the DenemoStaff structure to store the index of the current view,
+//so the current_verse_view is set to the index'th element of staff->verse_views.
+//so the only other way, other than creating a special field for a snapshotted staff would be to store a pointer into staff->verses in the current_verse_view field
+//which select.c would have to know about. Not much better.
     thestaff->verse_views = extract_verses (srcStaff->verse_views);
-    //FIXME: thestaff->verses should probably be cloned too
-    GtkTextView* verse_view = (GtkTextView*) verse_get_current_view (srcStaff);
-    if (verse_view)
-     thestaff->current_verse_view = g_list_nth (thestaff->verse_views, 
-     g_list_index (srcStaff->verse_views, verse_view));
-#endif
+    gint pos = verse_get_current (srcStaff);
+    if (pos>=0)
+     thestaff->current_verse_view = g_list_nth (thestaff->verse_views, pos);
 }
 
 
