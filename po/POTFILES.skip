@@ -1,3 +1,2 @@
 tools/cairo_svg2path.c
 tools/generate_source.c
-tools/menu.c
