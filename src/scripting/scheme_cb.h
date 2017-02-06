@@ -62,25 +62,25 @@ SCM scheme_MoveToMeasureRight (SCM optional) {
   return scheme_call_callback(optional, (callback_function)movetomeasureright);
 }
 SCM scheme_A (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_A_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_A_key);
 }
 SCM scheme_B (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_B_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_B_key);
 }
 SCM scheme_C (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_C_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_C_key);
 }
 SCM scheme_D (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_D_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_D_key);
 }
 SCM scheme_E (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_E_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_E_key);
 }
 SCM scheme_F (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_F_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_F_key);
 }
 SCM scheme_G (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)go_to_G_key);
+  return scheme_call_callback(optional, (callback_function)change_or_append_G_key);
 }
 SCM scheme_OctaveUp (SCM optional) {
   return scheme_call_callback(optional, (callback_function)octave_up_key);
@@ -189,16 +189,16 @@ SCM scheme_InsertSeptuplet (SCM optional) {
   return scheme_call_callback(optional, (callback_function)septuplet_insert);
 }
 SCM scheme_AddNoteToChord (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)add_tone_key);
+  return scheme_call_callback(optional, (callback_function)add_note_to_chord);
 }
 SCM scheme_RemoveNoteFromChord (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)remove_tone_key);
+  return scheme_call_callback(optional, (callback_function)delete_note_from_chord);
 }
 SCM scheme_Sharpen (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)sharpen_key);
+  return scheme_call_callback(optional, (callback_function)sharpen_note);
 }
 SCM scheme_Flatten (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)flatten_key);
+  return scheme_call_callback(optional, (callback_function)flatten_note);
 }
 SCM scheme_PendingSharpen (SCM optional) {
   return scheme_call_callback(optional, (callback_function)pending_sharpen);
@@ -207,10 +207,10 @@ SCM scheme_PendingFlatten (SCM optional) {
   return scheme_call_callback(optional, (callback_function)pending_flatten);
 }
 SCM scheme_StemUp (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)stem_up);
+  return scheme_call_callback(optional, (callback_function)set_stem_up);
 }
 SCM scheme_StemDown (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)stem_down);
+  return scheme_call_callback(optional, (callback_function)set_stem_down);
 }
 SCM scheme_AddDot (SCM optional) {
   return scheme_call_callback(optional, (callback_function)add_dot_key);

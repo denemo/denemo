@@ -3,7 +3,7 @@
  * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2003-2005 AJAnderson
  *
- * 	TODO
+ *  TODO
  *
  *  multi voice support
  *  lyrics
@@ -26,21 +26,21 @@
 #include "command/commandfuncs.h"
 #include "command/processstaffname.h"
 
-#define TEXT			0x01
-#define COPYRIGHT		0X02
+#define TEXT            0x01
+#define COPYRIGHT       0X02
 #define META_TRACK_NAME         0x03
-#define META_INSTR_NAME		0x04
+#define META_INSTR_NAME     0x04
 
 #define META_TEMPO              0x51
 #define META_TIMESIG            0x58
 #define META_KEYSIG             0x59
 #define NOTE_OFF                0x80
 #define NOTE_ON                 0x90
-#define AFTERTOUCH		0xA0
+#define AFTERTOUCH      0xA0
 #define CTRL_CHANGE             0xB0
 #define PGM_CHANGE              0xC0
-#define CHNL_PRESSURE		0xD0
-#define PCH_WHEEL		0xE0
+#define CHNL_PRESSURE       0xD0
+#define PCH_WHEEL       0xE0
 #define SYS_EXCLUSIVE_MESSAGE1  0xF0
 #define META_EVENT              0xFF
 
@@ -323,8 +323,6 @@ insert_note_into_score (gint pitch, notetype length)
   /* 0-8 accepted bellow */
   DenemoScriptParam param;
   highlight_duration (gui, length.notetype);
-  gint mode = gui->mode;
-  gui->mode = INPUTINSERT | INPUTNORMAL;
 
   switch (length.notetype)
     {
@@ -358,7 +356,6 @@ insert_note_into_score (gint pitch, notetype length)
       break;
     }
 
-  gui->mode = mode;
   score_status (gui, TRUE);
   displayhelper (gui);
 

@@ -393,9 +393,7 @@ action_note_into_score (gint mid_c_offset, gint enshift, gint octave)
   gui->last_source = INPUTMIDI;
   gui->movement->cursor_y = gui->movement->staffletter_y = mid_c_offset;
   gui->movement->cursor_y += 7 * octave;
-  //shiftcursor (gui, mid_c_offset);
-  //setenshift (gui->movement, enshift);
-  edit_pitch (mid_c_offset, enshift);
+  edit_or_append_pitch (mid_c_offset, enshift);
   displayhelper (gui);
 }
 

@@ -1387,7 +1387,7 @@ cursordown (DenemoAction* action, DenemoScriptParam * param)
 }
 
 static gboolean
-prev_object_is_rhythm (DenemoProject * gui)
+cur_object_is_rhythm (DenemoProject * gui)
 {
   if (gui->movement->currentobject == NULL)
     return FALSE;
@@ -1400,15 +1400,14 @@ prev_object_is_rhythm (DenemoProject * gui)
 void
 insert_note_following_pattern (DenemoProject * gui)
 {
-
-  if ((gui->mode & (INPUTEDIT | INPUTINSERT)) && gui->rstep)
+  if (gui->rstep)
     {
       GList *h;
       gint mode = gui->mode;
-      gui->mode = mode & ~INPUTRHYTHM;
+      gui->mode = mode & ~INPUTRHYTHM; //without this, when entering a note-name at the pc-keyboard a pitchless note is entered (with a MIDI controller attached, at least). And playing a note in appending position on the MIDI keyboard first enters a pitchless note.
 
       // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard)
-      if (gui->currhythm && gui->cstep)
+      if (gui->currhythm && gui->cstep) //snippet
         {
           //      g_debug("Have a clip\n");
           GList *objs;
@@ -1439,7 +1438,7 @@ insert_note_following_pattern (DenemoProject * gui)
             //g_assert (g_list_first(gui->cstep) == (((RhythmPattern *) gui->currhythm->data)->clipboard)->data);
           gui->cstep = (objs ? objs : (((RhythmPattern *) gui->currhythm->data)->clipboard)->data);
         }
-      else
+      else //singleton
         {
           insertion_point (gui->movement);
           gui->movement->cursoroffend = FALSE;
@@ -1471,7 +1470,7 @@ get_prevailing_duration (void)
 {
   DenemoProject *gui = Denemo.project;
   gint duration = 0;
-  if ((gui->mode & (INPUTEDIT | INPUTINSERT)) && gui->rstep)
+  if (gui->rstep)
     {
       if (gui->currhythm && gui->cstep)
         {
@@ -1496,77 +1495,33 @@ get_prevailing_duration (void)
 }
 
 
-/**
- * shiftcursor: FIXME change the name of this function!
- * Mode sensitive note actions:
- * In Classic mode: Move the cursor to a given note value nearest the current cursor
- * In Edit mode: Change the current note (or insert if none), if INPUTRHYTHM as well, move cursor to next note.
- * In Insert mode: Insert a note at the cursor
- */
-void
-shiftcursor (DenemoProject * gui, gint note_value)
+void move_to_pitch (DenemoProject * gui, gint note_value)
 {
-  gint oldstaffletter_y = gui->movement->staffletter_y;
-  gint oldcursor_y = gui->movement->cursor_y;
+   gint oldstaffletter_y = gui->movement->staffletter_y;
   gui->movement->staffletter_y = note_value;
   gui->movement->cursor_y = jumpcursor (gui->movement->cursor_y, oldstaffletter_y, gui->movement->staffletter_y);
-  int mid_c_offset = gui->movement->cursor_y;
-
-  /* in edit mode edit the current note name */
-  if ((gui->mode & INPUTEDIT) && ((!gui->movement->cursor_appending) || prev_object_is_rhythm (gui)))
-    {
-      DenemoObject *theobj = (DenemoObject *) (gui->movement->currentobject->data);
-      chord *thechord;
-      if (theobj->type == CHORD && (thechord = (chord *) theobj->object)->notes)
-        {
-          store_for_undo_change (gui->movement, theobj);
-          //turn off further storage of UNDO info while this takes place
-          gui->movement->undo_guard++;
-          theobj->isinvisible = FALSE;
-          if (g_list_length (thechord->notes) > 1)
-            {                   /* multi-note chord - remove and add a note */
-              gui->movement->cursor_y = oldcursor_y;
-              delete_chordnote (gui);
-              gui->movement->cursor_y = mid_c_offset;
-              insert_chordnote (gui);
-            }
-          else
-            {                   /* single-note chord - change the note */
-              gint dclef = theobj->clef->type;
-              keysig *key = theobj->keysig;
-              if(!thechord->is_tied)
-                modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
-              else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above - now recursive - does that fix it?
-                {
-                    modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
-                #if 1
-                   // modify_note already does tied notes
-                    DenemoPosition pos;
-                    get_position (Denemo.project->movement, &pos);
-                    gboolean ret = cursor_to_next_chord ();
-                    if (ret)
-                        shiftcursor (gui, note_value);
-                    goto_movement_staff_obj (NULL, -1, -1, pos.measure, pos.object, pos.leftmeasurenum);
-                #endif
-                }
-            }
-          gui->movement->undo_guard--;
-          score_status (gui, TRUE);
-        }
-    }
-  else
-    /* in INSERT (or EDIT and appending) we insert a note using the next step of the rhythm pattern */
-    insert_note_following_pattern (gui);
+  if(!Denemo.non_interactive)
+    gtk_widget_queue_draw(Denemo.scorearea);  
+}
+/* insert_pitch
+ * inserts a note at the cursor following the prevailing rhythm
+ */
+void
+insert_pitch (DenemoProject * gui, gint note_value)
+{
+  gint oldstaffletter_y = gui->movement->staffletter_y;
+  gui->movement->staffletter_y = note_value;
+  gui->movement->cursor_y = jumpcursor (gui->movement->cursor_y, oldstaffletter_y, gui->movement->staffletter_y);
+  insert_note_following_pattern (gui);
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
 }
-
 /**
  * edit_pitch
  * edits the note at the cursor height to have given mid_c_offset and enshift
  */
 void
-edit_pitch (gint note_value, gint enshift)
+edit_or_append_pitch (gint note_value, gint enshift)
 {
   DenemoProject *gui = Denemo.project;
   gint oldstaffletter_y = gui->movement->staffletter_y;
@@ -1575,7 +1530,7 @@ edit_pitch (gint note_value, gint enshift)
   gui->movement->cursor_y = jumpcursor (gui->movement->cursor_y, oldstaffletter_y, gui->movement->staffletter_y);
   int mid_c_offset = gui->movement->cursor_y;
 
-  if ((gui->mode & INPUTEDIT) && ((!gui->movement->cursor_appending) || prev_object_is_rhythm (gui)))
+  if ((gui->mode & INPUTEDIT) && ((!gui->movement->cursor_appending) || cur_object_is_rhythm (gui)))
     {
       DenemoObject *theobj = (DenemoObject *) (gui->movement->currentobject->data);
       chord *thechord;
@@ -1610,7 +1565,7 @@ edit_pitch (gint note_value, gint enshift)
                     get_position (Denemo.project->movement, &pos);
                     gboolean ret = cursor_to_next_chord ();
                     if (ret)
-                        edit_pitch (note_value, enshift);
+                        edit_or_append_pitch (note_value, enshift);
                     goto_movement_staff_obj (NULL, -1, -1, pos.measure, pos.object, pos.leftmeasurenum);
                 }
             }
@@ -1620,7 +1575,7 @@ edit_pitch (gint note_value, gint enshift)
     }
   else
    {
-       shiftcursor (gui, note_value);
+       insert_pitch (gui, note_value);
        setenshift (gui->movement, enshift);
    }
   if(!Denemo.non_interactive)
@@ -1765,6 +1720,15 @@ static gint get_cursoracc (void)
         }
         return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
     }
+    
+    
+void change_duration (duration)
+{
+    highlight_duration (Denemo.project, duration);
+    changeduration (Denemo.project->movement, duration);
+    return;
+}   
+    
 /**
  * Insert a note into the score
  * @param gui pointer to the DenemoProject structure
@@ -1778,12 +1742,6 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
   DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
   gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
-  if ((mode & INPUTEDIT) && !si->cursor_appending && !(mode & INPUTRHYTHM))
-    {
-      highlight_duration (gui, duration);
-      changeduration (si, duration);
-      return;
-    }
   insertion_point (si);
 
 //At this point, if it is the user's preference, check if there is room for this duration in the current measure.
@@ -1844,7 +1802,7 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
         addtone (mudela_obj_new, si->cursor_y, get_cursoracc ()); //mudela_obj_new->keysig->accs[si->staffletter_y]);
 
     }
-  if ((mode & INPUTBLANK) || (gui->mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM))))
+  if ((mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM)))) // INPUTRHYTHM is usually set BUT input_note_following_rhythm unsets it, it is input_source that creates yellow/brown notes when input is from MIDI
     mudela_obj_new->isinvisible = TRUE;
 
   /* Insert the new note into the score.  Note that while we may have
@@ -1883,9 +1841,6 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
             else
                 rhythm_feedback (DEFAULT_BACKEND, duration, rest, FALSE);
         }
-    //if (( (!rest) || ((!(mode & INPUTBLANK)) && (!(gui->mode & INPUTBLANK)))) && !was_appending)
-    // if (!was_appending)
-     //   movecursorleft (NULL, NULL);
     }
   else
     {

@@ -84,8 +84,10 @@ void cursorup (DenemoAction * action, DenemoScriptParam * param);
 
 void cursordown (DenemoAction * action, DenemoScriptParam * param);
 
-void shiftcursor (DenemoProject * gui, gint note_value);
-void edit_pitch (gint note_value, gint enshift);
+void change_duration (gint duration);
+void edit_or_append_pitch (gint note_value, gint enshift);
+void insert_pitch (DenemoProject * gui, gint note_value);
+void move_to_pitch (DenemoProject * gui, gint note_value);
 void setenshift (DenemoMovement * si, gint enshift);
 
 void changeduration (DenemoMovement * si, gint duration);

@@ -375,31 +375,32 @@ unset_selection_key (DenemoScriptParam *param)
   Denemo.project->movement->markstaffnum = 0;
 }
 
-/**
- * Insert quarter note into score
- */
-void
-insert_chord_key (DenemoScriptParam *param)
+
+static void move_to_note_by_command (gchar note)
 {
-  dnm_insertnote (Denemo.project, 2, Denemo.project->mode, FALSE);
+    
+  Denemo.project->last_source = INPUTKEYBOARD;
+  move_to_pitch (Denemo.project, ((note + 5 - 'A') % 7));  
 }
 
-void
-go_to_key(gchar note, DenemoScriptParam *param)
+static void
+insert_note_by_command(gchar note)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, ((note + 5 - 'A') % 7));
+  insert_pitch (Denemo.project, ((note + 5 - 'A') % 7));
 }
+
+
 
 /**
  * Goto the nearest a
  *
  */
 void
-go_to_A_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_A_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, 5);
+  edit_or_append_pitch (5, Denemo.project->movement->pending_enshift);
 }
 
 /**
@@ -407,10 +408,10 @@ go_to_A_key (DenemoAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_B_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_B_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, 6);
+  edit_or_append_pitch (6, Denemo.project->movement->pending_enshift);
 }
 
 /**
@@ -418,10 +419,10 @@ go_to_B_key (DenemoAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_C_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_C_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, 0);
+  edit_or_append_pitch (0, Denemo.project->movement->pending_enshift);
 }
 
 /**
@@ -429,9 +430,9 @@ go_to_C_key (DenemoAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_D_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_D_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  shiftcursor (Denemo.project, 1);
+  edit_or_append_pitch (1, Denemo.project->movement->pending_enshift);
 }
 
 /**
@@ -439,10 +440,10 @@ go_to_D_key (DenemoAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_E_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_E_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, 2);
+  edit_or_append_pitch (2, Denemo.project->movement->pending_enshift);
 }
 
 /**
@@ -450,10 +451,10 @@ go_to_E_key (DenemoAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_F_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_F_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, 3);
+  edit_or_append_pitch (3, Denemo.project->movement->pending_enshift);
 }
 
 /**
@@ -461,10 +462,10 @@ go_to_F_key (DenemoAction* action, DenemoScriptParam *param)
  *
  */
 void
-go_to_G_key (DenemoAction* action, DenemoScriptParam *param)
+change_or_append_G_key (DenemoAction* action, DenemoScriptParam *param)
 {
   Denemo.project->last_source = INPUTKEYBOARD;
-  shiftcursor (Denemo.project, 4);
+  edit_or_append_pitch (4, Denemo.project->movement->pending_enshift);
 }
 
 
@@ -576,7 +577,8 @@ insert_measure_key (DenemoAction* action, DenemoScriptParam *param)
 void
 insert_chord_xkey (gint duration, DenemoScriptParam *param)
 {
-  dnm_insertnote (Denemo.project, duration, Denemo.project->mode, FALSE);
+  dnm_insertnote (Denemo.project, duration, Denemo.project->mode
+  , FALSE);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
@@ -761,13 +763,13 @@ insert_blankchord_8key (DenemoAction* action, DenemoScriptParam *param)
 }
 
 gboolean
-add_tone_key (DenemoAction* action, DenemoScriptParam *param)
+add_note_to_chord (DenemoAction* action, DenemoScriptParam *param)
 {
   return insert_chordnote (Denemo.project);
 }
 
 gboolean
-remove_tone_key (DenemoAction* action, DenemoScriptParam *param)
+delete_note_from_chord (DenemoAction* action, DenemoScriptParam *param)
 {
   return delete_chordnote (Denemo.project);
 }
@@ -835,32 +837,34 @@ deletepreviousobject (DenemoAction* action, DenemoScriptParam *param)
 }
 
 void
-sharpen_key (DenemoAction* action, DenemoScriptParam *param)
+sharpen_note (DenemoAction* action, DenemoScriptParam *param)
+{
+    incrementenshift (Denemo.project, 1);
+}
+void
+set_stem_up (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
   if (curmudelaobj && curmudelaobj->type == STEMDIRECTIVE)
     change_stem_directive (Denemo.project->movement, DENEMO_STEMUP);
-  else
-    incrementenshift (Denemo.project, 1);
 }
 
+
 void
-stem_up (DenemoAction* action, DenemoScriptParam *param)
+flatten_note (DenemoAction* action, DenemoScriptParam *param)
 {
-  sharpen_key (action, param);
+    incrementenshift (Denemo.project, -1);
 }
-
 void
-flatten_key (DenemoAction* action, DenemoScriptParam *param)
+set_stem_down (DenemoAction* action, DenemoScriptParam *param)
 {
   DenemoObject *curmudelaobj = (DenemoObject *) (Denemo.project->movement->currentobject ? Denemo.project->movement->currentobject->data : NULL);
 
   if (curmudelaobj && curmudelaobj->type == STEMDIRECTIVE)
     change_stem_directive (Denemo.project->movement, DENEMO_STEMDOWN);
-  else
-    incrementenshift (Denemo.project, -1);
 }
+
 
 void
 pending_sharpen (DenemoAction* action, DenemoScriptParam *param)
@@ -882,11 +886,7 @@ pending_flatten (DenemoAction* action, DenemoScriptParam *param)
   score_status(Denemo.project, TRUE);
 }
 
-void
-stem_down (DenemoAction* action, DenemoScriptParam *param)
-{
-  flatten_key (action, param);
-}
+
 
 /* insert a duplicate note and tie to it */
 void
@@ -951,9 +951,6 @@ change_pitch (DenemoAction* action, DenemoScriptParam *param)
       delete_chordnote (Denemo.project);
       insert_chordnote (Denemo.project);
     }
-  // addtone(theobj, si->cursor_y, si->cursoraccs[si->staffletter_y],
-  //       si->cursorclef);
-
 }
 
 /*******************************************************************************
@@ -962,32 +959,24 @@ change_pitch (DenemoAction* action, DenemoScriptParam *param)
 
 void InsertRest(gint duration){
   highlight_rest(Denemo.project, duration);
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTINSERT|INPUTREST;
-  insert_chord_xkey(duration, NULL);
-  Denemo.project->mode = mode;
+  dnm_insertnote (Denemo.project, duration, INPUTREST, TRUE);
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
 }
 
 void InsertDur(gint duration){
   highlight_duration(Denemo.project, duration);
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTINSERT|INPUTNORMAL;
-  insert_chord_xkey(duration, NULL);
-  Denemo.project->mode = mode;
+  dnm_insertnote (Denemo.project, duration,  INPUTNORMAL, FALSE);
+  displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
-  displayhelper(Denemo.project);
 }
 
 void ChangeDur(gint duration){
-  gint mode = Denemo.project->mode;
+  
   gboolean appending = Denemo.project->movement->cursor_appending;
   if(appending)
     movecursorleft(NULL, NULL);
-  Denemo.project->mode = INPUTEDIT|INPUTNORMAL;
-  insert_chord_xkey(duration, NULL);
-  Denemo.project->mode = mode;
+  change_duration(duration);
   if(appending)
     movecursorright(NULL, NULL);
   score_status(Denemo.project, TRUE);
@@ -998,33 +987,32 @@ void SetDur(gint duration){
   highlight_duration(Denemo.project, duration);
 }
 
-void Dur (gint duration) {
-  DenemoProject *gui = Denemo.project;
- if(Denemo.project->mode&INPUTINSERT)
-   highlight_duration(Denemo.project, duration);
- else
- if( !(Denemo.project->mode&INPUTRHYTHM) && (Denemo.project->mode&INPUTEDIT) && (!Denemo.project->movement->cursor_appending))
-   ChangeDur (duration);
-else {
- insert_chord_xkey(duration, NULL);
-   highlight_duration(Denemo.project, duration);
-  score_status(Denemo.project, TRUE);
- displayhelper(Denemo.project);
- }
+//called by the commands (d-0) (d-1) etc
+static void Dur (gint duration) {
+    insert_chord_xkey(duration, NULL);
+    highlight_duration(Denemo.project, duration);
+    score_status(Denemo.project, TRUE);
+    displayhelper(Denemo.project);
 }
 
 /*******************************************************************************
 * NOTE COMMANDS
 ******************************************************************************/
+static change_note_to (gchar note)//CHECK executing (d-ChangeToA)
+{
+  gint mode = Denemo.project->mode;
+  Denemo.project->last_source = INPUTKEYBOARD;
+  edit_or_append_pitch (((note + 5 - 'A') % 7), 0);
+  Denemo.project->mode = mode;
+}
+
 
 void ChangeTo(gchar note){
   gboolean appending = Denemo.project->movement->cursor_appending;
   if(appending)
     movecursorleft(NULL, NULL);
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTEDIT|INPUTNORMAL;
-  go_to_key(note, NULL);
-  Denemo.project->mode = mode;
+
+  change_note_to (note);
   if(appending)
     movecursorright(NULL, NULL);
   score_status(Denemo.project, TRUE);
@@ -1032,39 +1020,29 @@ void ChangeTo(gchar note){
 }
 
 void MoveTo(gchar note){
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTCLASSIC|INPUTNORMAL;
-  go_to_key(note, NULL);
-  Denemo.project->mode = mode;
+  move_to_note_by_command (note);
   displayhelper(Denemo.project);
 }
 
 void Insert(gchar note){
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTINSERT|INPUTNORMAL;
-  go_to_key(note, NULL);
-  Denemo.project->mode = mode;
+
+  insert_note_by_command (note);
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
 }
 
 void AddNote(gchar note){
   movecursorright(NULL, NULL);
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTINSERT|INPUTNORMAL;
-  go_to_key(note, NULL);
-  Denemo.project->mode = mode;
+  insert_note_by_command (note);
   movecursorleft(NULL, NULL);
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
 }
 
-void Add(gchar note){
-  gint mode = Denemo.project->mode;
-  Denemo.project->mode = INPUTCLASSIC|INPUTNORMAL;
-  go_to_key(note, NULL);
-  add_tone_key(NULL, NULL);
-  Denemo.project->mode = mode;
+void Add(gchar note){ //AddA etc
+  Denemo.project->last_source = INPUTKEYBOARD;
+  move_to_pitch (Denemo.project, ((note + 5 - 'A') % 7));
+  insert_chordnote (Denemo.project);
   score_status(Denemo.project, TRUE);
   displayhelper(Denemo.project);
 }

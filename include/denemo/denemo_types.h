@@ -186,10 +186,10 @@ typedef enum tuplet_type{
  * Enumeration for Denemo's input mode
  */
 typedef enum input_mode {
-#define MODE_MASK (~(INPUTCLASSIC|INPUTEDIT|INPUTINSERT))
-  INPUTCLASSIC = 1<<0, /* classic mode */
-  INPUTEDIT = 1<<1, /* edit mode */
-  INPUTINSERT = 1<<2, /* insert mode */
+#define MODE_MASK (~(INPUTEDIT))
+        /*INPUTCLASSIC = 1<<0,  classic mode */
+  INPUTEDIT = 1<<1,/*edit mode, the only mode, as we are now non-modal  */
+        /* INPUTINSERT = 1<<2, insert mode*/
 #define ENTRY_TYPE_MASK (~(INPUTNORMAL|INPUTREST|INPUTBLANK))
   INPUTNORMAL = 1<<3, /* entry type notes */
   INPUTREST = 1<<4, /* entry type rests */

@@ -710,8 +710,7 @@ enter_note_in_score (DenemoProject * gui, notepitch * found, gint octave)
   gui->last_source = INPUTAUDIO;
   gui->movement->cursor_y = gui->movement->staffletter_y = found->spec.step;
   gui->movement->cursor_y += 7 * octave;
-  shiftcursor (gui, found->spec.step);
-  setenshift (gui->movement, found->spec.alteration);
+  edit_or_append_pitch (found->spec.step, found->spec.alteration);
   displayhelper (gui);
 }
 

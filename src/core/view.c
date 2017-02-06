@@ -1072,45 +1072,6 @@ close_gui_with_check (DenemoAction * action, DenemoScriptParam * param)
   return TRUE;
 }
 
-
-static void
-singleton_callback (GtkToolButton * toolbutton, RhythmPattern * r)
-{
-  DenemoProject *project = Denemo.project;
-#define CURRP ((RhythmPattern *)project->currhythm->data)
-  if (project->currhythm && CURRP)
-    unhighlight_rhythm (CURRP);
-  project->currhythm = NULL;
-
-  project->rstep = r->rsteps;
-  project->cstep = NULL;
-
-#define g (project->rstep)
-#define MODE (project->mode)
-  unhighlight_rhythm (project->prevailing_rhythm);
-  project->prevailing_rhythm = r;
-  highlight_rhythm (r);
-  if ((MODE & (INPUTEDIT | INPUTRHYTHM)))
-    {
-      gint save = MODE;
-      MODE = INPUTINSERT | INPUTNORMAL;
-      ((GSourceFunc) (((RhythmElement *) g->data)->functions->data)) (project);
-      displayhelper (project);
-      MODE = save;
-    }
-#undef CURRP
-#undef g
-#undef MODE
-}
-
-/*UNUSED
-static void
-pb_first (GtkWidget * button)
-{
-  call_out_to_guile ("(DenemoFirst)");
-}
-*/
-
 static void
 pb_go_back (GtkWidget * button)
 {
@@ -1142,20 +1103,6 @@ pb_play (GtkWidget * button)
   call_out_to_guile ("(DenemoPlay)");
 }
 
-/*UNUSED
-static void
-pb_pause (GtkWidget * button)
-{
-  call_out_to_guile ("(DenemoPause)");
-}
-*/
-/*UNUSED
-static void
-pb_forward (GtkWidget * button)
-{
-  call_out_to_guile ("(DenemoForward)");
-}
-*/
 static void
 pb_next (GtkWidget * button)
 {
@@ -1170,13 +1117,6 @@ pb_go_forward (GtkWidget * button)
   call_out_to_guile ("(DenemoGoForward)");
 }
 
-/*UNUSED
-static void
-pb_last (GtkWidget * button)
-{
-  call_out_to_guile ("(DenemoLast)");
-}
-*/
 static void
 pb_start_to_cursor (GtkWidget * button)
 { 
