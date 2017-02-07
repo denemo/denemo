@@ -1428,13 +1428,11 @@ void denemo_action_group_add_radio_actions (void)
         
         group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
         gtk_menu_shell_insert (GTK_MENU_SHELL (parent), item, i+1);//placed after the tear-off item.
-          
-        g_signal_connect (item, "toggled", G_CALLBACK(change_input_type), GINT_TO_POINTER(i));
-        
-        if (i == (have_midi ()? 1 : 0))
-            g_print ("making %d active", i), gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);
 
-        }
+        if (i == (have_midi ()? 1 : 0))
+           gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), TRUE);//must do this before connecting signal otherwise the audio will be re-started.
+        g_signal_connect (item, "toggled", G_CALLBACK(change_input_type), GINT_TO_POINTER(i));
+       }  
 }
                                       
                     
