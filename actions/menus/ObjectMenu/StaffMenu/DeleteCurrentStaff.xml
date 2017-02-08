@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>DeleteCurrentStaff</action>
         <after>DeleteStaff</after>
-        <_label>Delete Current Staff</_label>
+        <_label>Delete Current Staff/Voice</_label>
         <_tooltip>Deletes current staff (if the action is confirmed by the user).</_tooltip>
       </row>
     </map>
