@@ -760,7 +760,7 @@ ToggleMenuEntry toggle_menu_entries[] = {
   {ToggleLilyText_STRING, NULL, N_("LilyPond"), NULL, N_("Show/hide the LilyPond music typesetting language window. Any errors in typesetting are shown here."),
    G_CALLBACK (toggle_lilytext), FALSE}
   ,
-  {ToggleScript_STRING, NULL, N_("Scheme Script"), NULL, N_("Show Scheme script window. Sequemces of commands can be recorded here\nand then executed or turned into new commaneds."),
+  {ToggleScript_STRING, NULL, N_("Scheme Script"), NULL, N_("Show Scheme script window. Sequences of commands can be recorded here\nand then executed or turned into new commaneds."),
    G_CALLBACK (toggle_scheme), FALSE}
   ,
 
