@@ -1,5 +1,5 @@
 ;;;;;;;;LineBreak
-(let ((tag "LineBreak"))
+(let ((tag "LineBreak")(params LineBreak::params))
  (if (d-Directive-standalone?  tag)
     (d-InfoDialog "This sign denotes a Line Break. The music after this point will start on new line. This line break must be on a bar line. Use the Conditional Directives menu to make the line break applicable only to specific layouts. Delete using Del or Backspace key.")
     (begin
@@ -8,7 +8,7 @@
                 (d-WarningDialog "The cursor is on a voice. Put line breaks in the main staff that the voice belongs to."))
 
             (begin
-                (if (and (not (Appending?)) (not (d-Directive-standalone?)))
+                (if (and (not params) (not (Appending?)) (not (d-Directive-standalone?)))
                     (d-WarningDialog (_ "This Line Break will have no effect if there is no barline at this point.  You can use Allow Line/Page Break to insert an invisible one if you need it")))
                 (d-DirectivePut-standalone tag)
                 (d-DirectivePut-standalone-postfix tag "\\break")
@@ -19,7 +19,7 @@ Denemo
 26")
                 (d-DirectivePut-standalone-minpixels tag 10)    
                 (d-RefreshDisplay)
-                (if LineBreak::params
+                (if params
                     (d-MoveCursorRight)
                     (SetDirectiveConditional))
                 (d-SetSaved #f))))))
