@@ -372,7 +372,7 @@ static void popup_button_menu(DenemoPalette *pal, GtkWidget *button) {
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (remove_button), (gpointer) button);
 
   item = gtk_menu_item_new_with_label (_("Get Script into Scheme Window"));
-  gtk_widget_set_tooltip_text (item, _("Aoends the script that this button executes to the Scheme window"));
+  gtk_widget_set_tooltip_text (item, _("Appends the script that this button executes to the Scheme window"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (get_script_for_button), (gpointer) button);
 
