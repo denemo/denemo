@@ -156,7 +156,7 @@ hide_scheme (DenemoAction * action, GdkEvent * event, GtkWidget * w)
         denemo_action_activate (denemo_menusystem_get_action (RecordScript_STRING));
         infodialog(_("Turning off Recording scheme"));
     }
-  toggle_scheme ();//activate_action ("ToggleScript");
+  set_toggle (ToggleScript_STRING, FALSE);//              toggle_scheme ();//activate_action ("ToggleScript");
   return TRUE;
 }
 
