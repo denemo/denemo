@@ -5,12 +5,10 @@
     <author>AT, JRR, RTS</author>
     <map>
       <row type="scheme">
-        <action>InsertMelismata</action>
+        <action>InsertMelisma</action>
         <after>InsertStanzaNumber</after>
         <_label>Melismata</_label>
-        <_tooltip>Inserts a double hyphen or double underscore in the lyrics at the cursor position. 
-Use double hyphen between syllables and double underscore between words which are sung over many notes (a melisma). 
-Hyphens/extender lines will be typeset to continue the syllable/word under the notes.</_tooltip>     
+        <_tooltip>Extends a syllable over the next note with hyphenated line (within word) or extender line (at end of word).</_tooltip>     
     </row>
     </map>
   </merge>

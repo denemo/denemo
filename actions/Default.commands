@@ -6858,13 +6858,11 @@ to adjust its position if needed.</_tooltip>
         <after>InsertStanzaNumber</after>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Melismata</_label>
-        <_tooltip>Inserts a double hyphen or double underscore in the lyrics at the cursor position. 
-Use double hyphen between syllables and double undescore between words which are sung over many notes (a melisma). 
-Hyphens/extender lines will be typeset to continue the syllable/word under the notes.</_tooltip>
+        <_tooltip>Extends a syllable over the next note with hyphenated line (within word) or extender line (at end of word).</_tooltip>     
       </row>
       <row type="scheme">
         <action>LyricVerseDynamic</action>
-        <after>InsertMelismata</after>
+        <after>InsertMelisma</after>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Dynamic</_label>
         <_tooltip>Inserts a dynamic marking in the current verse at the insertion point in the lyrics pane. Use this to indicate dynamics which change from one verse to another.</_tooltip>
