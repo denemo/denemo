@@ -1016,6 +1016,8 @@ actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm
 actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.xml
+actions/menus/ObjectMenu/Lyrics/InsertHyphenBetweenSyllables.scm
+actions/menus/ObjectMenu/Lyrics/InsertHyphenBetweenSyllables.xml
 actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm
 actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.xml
 actions/menus/ObjectMenu/Lyrics/InsertLyricTie.scm

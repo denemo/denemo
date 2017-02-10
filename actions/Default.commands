@@ -6858,7 +6858,7 @@ to adjust its position if needed.</_tooltip>
         <after>InsertStanzaNumber</after>
         <menupath>/ObjectMenu/Lyrics</menupath>
         <_label>Melismata</_label>
-        <_tooltip>Extends a syllable over the next note with hyphenated line (within word) or extender line (at end of word).</_tooltip>     
+        <_tooltip>Extends a syllable over the next note with hyphenated line (within word) or extender line (at end of word).</_tooltip>
       </row>
       <row type="scheme">
         <action>LyricVerseDynamic</action>
@@ -8084,6 +8084,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Connect Arpeggios (Off/On)</_label>
         <_tooltip>Any arpeggios inserted on chords in different voices will be drawn across the voices.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>InsertHyphenBetweenSyllables</action>
+        <after>InsertMelisma</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Divide Syllables with Hyphen</_label>
+        <_tooltip>Typesets a hyphen between the syllables at the cursor, if there is sufficient room.</_tooltip>
       </row>
     </map>
   </merge>

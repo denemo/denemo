@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertHyphenBetweenSyllables</action>
+        <after>InsertMelisma</after>
+        <_label>Divide Syllables with Hyphen</_label>
+        <_tooltip>Typesets a hyphen between the syllables at the cursor, if there is sufficient room.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
