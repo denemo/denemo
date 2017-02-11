@@ -19,6 +19,7 @@ FiguredBassPalette.png \
 gotobegin.png \
 gotoend.png \
 InsertOrAppendChords.png \
+Lyrics.png \
 MidiImportPalette.png \
 MidiInControls.png \
 MidiPref.png \
