@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>InsertHighlightedLyricSyllable</action>
         <after>EditLyricAtCursor</after>
-        <_label>Insert Highlighted Lyric</_label>
+        <_label>Insert a Highlighted Lyric</_label>
         <_tooltip>Inserts a syllable which can be bold and/or italic.</_tooltip>
       </row>
     </map>
