@@ -4074,7 +4074,7 @@ reference "sub:Lyrics"
 \end_inset
 
  for a description of how lyrics are handled in Denemo.
- The lyrics menu has the following commands:
+ The lyrics menu includes the following commands:
 \end_layout
 
 \begin_layout Subparagraph*
@@ -4086,12 +4086,26 @@ Appends a verse to the verses attached to the current staff.
 \end_layout
 
 \begin_layout Subparagraph*
-Insert Highlighted Lyric
+Insert a Highlighted Lyric
 \end_layout
 
 \begin_layout Standard
 inserts a bold and/or italic word into the lyrics at the current lyric cursor
  position.
+ 
+\end_layout
+
+\begin_layout Subparagraph*
+Skip Syllables in Selection
+\end_layout
+
+\begin_layout Standard
+Inserts special syntax to skip the number of notes you currently have selected
+ in the Denemo Display.
+\end_layout
+
+\begin_layout Standard
+This is useful if you have a musical introduction or interlude in a song.
  
 \end_layout
 
@@ -4114,6 +4128,14 @@ Syllable Alignment
 Inserts special syntad to cause the text to be aligned with its start or
  end below the note (rather than the default centered position).
  This may be useful for chanted text.
+\end_layout
+
+\begin_layout Subparagraph*
+Skip Syllables in Selection 
+\end_layout
+
+\begin_layout Standard
+Inserts special syntax to leave the notes in the selection without words.
 \end_layout
 
 \begin_layout Subparagraph*
@@ -4146,17 +4168,12 @@ Extend Melisma - The typeset score will extend the melisma over a further
 \end_layout
 
 \begin_layout Subparagraph*
-Skip Syllables in Selection
+Divide Syllables with Hyphen 
 \end_layout
 
 \begin_layout Standard
-Inserts special syntax to skip the number of notes you currently have selected
- in the Denemo Display
-\end_layout
-
-\begin_layout Standard
-This is useful if you have a musical introduction or interlude in a song.
- 
+Inserts syntax to typeset hyphen(s) if needed between syllables that underlay
+ successive notes.
 \end_layout
 
 \begin_layout Subparagraph*
@@ -4164,10 +4181,30 @@ Insert Mirrored Verse
 \end_layout
 
 \begin_layout Standard
-permits a mirrored copy of a verse from another stave to be included, for
- example when the words for two parts are the same but on separate staffs.
+permits a mirrored copy of a verse from another stave to be included on
+ the currrent staff, for example when the words for two parts are the same
+ but on separate staffs.
  Then if the words need editing, just the first copy needs to be changed.
  
+\end_layout
+
+\begin_layout Subparagraph*
+Lyric Tie
+\end_layout
+
+\begin_layout Standard
+Inserts the syntax to separate two words which should be typeset under one
+ note.
+ 
+\end_layout
+
+\begin_layout Subparagraph*
+Dynamic 
+\end_layout
+
+\begin_layout Standard
+Inserts a dynamic marking (ff, f, p, or pp) directly in the lyrics.
+ You can edit the insert for other dynamics.
 \end_layout
 
 \begin_layout Subparagraph*
@@ -4180,16 +4217,8 @@ This takes several verses and uses the Movement->Titles->Text after Movement
  are given a choice as to which verse to start from.
  Normally you would then delete these verses from the staff so they are
  not repeated.
- Issuing the command a second time allows you to delete, replace of edit
+ Issuing the command a second time allows you to delete, replace or edit
  the end-of-movement text.
-\end_layout
-
-\begin_layout Subparagraph*
-Dynamic 
-\end_layout
-
-\begin_layout Standard
-Inserts a dynamic marking (ff, f, p, or pp) directly in the lyrics
 \end_layout
 
 \begin_layout Subparagraph*
@@ -4206,8 +4235,8 @@ Larger/Smaller Font Size
 \end_layout
 
 \begin_layout Standard
-Inserts a change the font size for the lyrics from the current lyric cursor
- position.
+Inserts a change in the font size for the lyrics from the current lyric
+ cursor position onwards.
  
 \end_layout
 
@@ -7637,6 +7666,483 @@ The Score->Titles->Book Titles menu also includes table of contents and
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Lyrics"
+
+\end_inset
+
+Lyrics
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Lyrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Vocal music can be typeset using the commands in the Lyrics menu.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/Lyrics.png
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Overview of Lyrics
+\end_layout
+
+\begin_layout Standard
+Lyrics in Denemo are handled as verses of text.
+ The screenshot shows a piece with two lyric verses.
+\end_layout
+
+\begin_layout Standard
+For each verse a tab appears in the lyric pane at the bottom of the main
+ window.
+ The tab is a simple text editor - a new one appears each time you execute
+ Add Lyric Verse (
+\family typewriter
+Ctrl-l,
+\family default
+ a).
+ The syllables are not attached to the notes, so you can edit the notes
+ freely without affecting the lyrics.
+\end_layout
+
+\begin_layout Standard
+Note that the lyrics for a staff are only shown when the cursor is in the
+ staff concerned.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+This means that you will see the lyrics for the current staff disappear
+ from the Display Window when you switch staffs, which can be disconcerting,
+ but saves space in the display.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+While typing or pasting the text in will be enough for simple pieces, special
+ syntax can be included for more complex tasks, in particular space, hyphen(-),
+ underscore (_), tilde (~) all have a special meaning as explained below.
+\end_layout
+
+\begin_layout Standard
+Extra spaces and new lines can be used freely without affecting how the
+ syllables are placed under the notes.
+ For full technical detail you can consult the LilyPond documentation, but
+ the guidance below covers many needs.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Special syntax beginning with a backslash 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+
+\begin_inset Quotes erd
+\end_inset
+
+ should be on a line by itself or at the end of a line, so that Denemo knows
+ not to display it under the notes of the display.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The Lyric pane shows only a few lines initially, but you can drag it upwards
+ if you need to see more or use the scroll bars at the side.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+You may find it tricky to catch the 
+\begin_inset Quotes eld
+\end_inset
+
+sweet spot
+\begin_inset Quotes erd
+\end_inset
+
+ where the lyrics pane can be dragged open, sometimes dragging the red bar
+ at the bottom of the Denemo Display upwards helps - it can be returned
+ to the bottom afterwards.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lyrics are entered as a 
+\emph on
+syllables
+\emph default
+ separated by spaces or new lines (which have no other meaning).
+ The full possible syntax is given in the LilyPond documentation, but Denemo
+ provides you with menu items for inserting the most useful extras such
+ as stanza numbers, font selection and skips.
+\end_layout
+
+\begin_layout Standard
+You can switch to the lyrics pane from the notes with 
+\family typewriter
+Ctrl-l, Ctrl-l
+\family default
+.
+ The verse changes background color to show that keystrokes will now edit
+ the lyrics.
+ And you can switch back from editing the lyrics to editing the music with
+ the 
+\family typewriter
+Ctrl-l
+\family default
+ (or 
+\family typewriter
+Esc
+\family default
+ or 
+\family typewriter
+Tab
+\family default
+ keys).
+ You can change verses with 
+\family typewriter
+Ctrl-PgUpl/PgDn 
+\family default
+keys and change staffs with 
+\family typewriter
+Ctrl-up/down,
+\family default
+ and save with
+\family typewriter
+ Ctrl-s
+\family default
+.
+ 
+\end_layout
+
+\begin_layout Standard
+While editing the notes the command 
+\begin_inset Quotes eld
+\end_inset
+
+Edit Lyric at Cursor
+\begin_inset Quotes erd
+\end_inset
+
+ (
+\family typewriter
+Ctrl-l, Ctrl-l
+\family default
+) finds the place in the lyrics corresponding to the cursor position allowing
+ you to immediately start editing the syllable that underlies the current
+ note.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Special Syntax for Lyric Verses
+\end_layout
+
+\begin_layout Standard
+This section explains the special syntax that the commands in the Lyrics
+ menu insert into the verse to control which syllables fall under which
+ notes and other special effects.
+ When you have used the commands in the Lyrics menu once (to remind yourself)
+ you can simply type the special syntax when you need it again, saving time
+ messing with the mouse.
+\end_layout
+
+\begin_layout Standard
+In this section we'll indicate the syntax inserted by putting it in 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ - the double quotes not being part of the syntax.
+\end_layout
+
+\begin_layout Standard
+Grouping several words under one note: 
+\end_layout
+
+\begin_layout Standard
+Lyrics->Lyrics Tie will insert a single underscore 
+\begin_inset Quotes eld
+\end_inset
+
+_
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+~
+\begin_inset Quotes erd
+\end_inset
+
+ tilde, which will typeset as space or lyric tie 
+\begin_inset Quotes eld
+\end_inset
+
+ˬ
+\begin_inset Quotes erd
+\end_inset
+
+respectively.
+ 
+\end_layout
+
+\begin_layout Standard
+An alternative to the underscore is to enclose the words in double-quotes,
+ e.g.
+ “word1 word2 word3”, where the double quotes are literally typed in.
+\end_layout
+
+\begin_layout Standard
+Extending a syllable over several notes (Melisma) can be indicated by placing
+ a slur over the notes (a phrasing slur does not trigger melisma).
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+Beaming can also be used to indicate Melisma (e.g.
+ in choral music).
+ This can be done by turning off automatic beaming and manually beaming
+ those notes that have a single syllable.
+ However, the Denemo Display will not display the correct underlay of syllables
+ and notes when doing this, instead refer to the Print View (use continuous
+ typesetting).
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Lyrics->Melismata->During Word, with Slur
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts spaced double hyphen, " -- ", into the Lyric pane, typesetting hyphen(s)
+ if needed to the end of the slur 
+\end_layout
+
+\begin_layout Standard
+Lyrics->Melismata->Word End, with Slur
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts spaced double underscore, " __ ", into the Lyric pane, typesetting
+ a lyric extender to the end of the slur.
+\end_layout
+
+\begin_layout Standard
+Lyrics->Melismata-> During Word, no Slur
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts " -- _ "into the Lyric pane, spreads the syllable over two notes
+ inserting hyphen(s) if needed.
+ 
+\end_layout
+
+\begin_layout Standard
+Lyrics->Melismata->Word End, no Slur
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts " __ _ " into the Lyric pane, which spreads the syllable over two
+ notes typesetting a lyric extender.
+\end_layout
+
+\begin_layout Standard
+Lyrics->Melismata->ExtendMelisma, 
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts " _ " into the Lyric pane, extending the Melisma by one note or
+ group of notes.
+ 
+\end_layout
+
+\begin_layout Standard
+Lyrics->DivideSyllables
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts 
+\begin_inset Quotes eld
+\end_inset
+
+ --
+\begin_inset Quotes erd
+\end_inset
+
+ into the Lyric pane, which typesets as a hyphen halfway between the syllables
+ each aligned below adjacent notes.
+\end_layout
+
+\begin_layout Standard
+Skip Syllables in Selection
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts special syntax e.g.
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+repeat unfold 4 
+\backslash
+skip 1
+\begin_inset Quotes erd
+\end_inset
+
+ for skipping 4 notes.
+ This is an alternative to typing in a series of pairs of double-quotes,
+ one for each skipped note.
+ Once the syntax is inserted the verse, it may be easily edited, if you
+ have changed the length of the introduction.
+ 
+\end_layout
+
+\begin_layout Standard
+Notes Without Words, i.e.
+ gaps in the text, may be produced with a spaced symbol (if one is required)
+ or by a spaced underscore or a pair of double-quotes (“""”) for each wordless
+ note.
+ 
+\end_layout
+
+\begin_layout Standard
+LilyPond's markup syntax can be used in lyric verses as well - prefix with
+ 
+\backslash
+markup.
+ For example 
+\end_layout
+
+\begin_layout Verbatim
+
+
+\backslash
+markup
+\backslash
+box 
+\end_layout
+
+\begin_layout Verbatim
+
+"boxed words" 
+\end_layout
+
+\begin_layout Standard
+will surround the words with a box - as you see a new line (before the actual
+ words to appear under the note) is needed for the Denemo Display to underlay
+ correctly.
+\end_layout
+
+\begin_layout Section
 Musical Elements - everything on and around the notes.
 \end_layout
 
@@ -8338,423 +8844,7 @@ s for navigation.
 \end_layout
 
 \begin_layout Subsection
-\begin_inset CommandInset label
-LatexCommand label
-name "sub:Lyrics"
 
-\end_inset
-
-Lyrics
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-Lyrics
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Vocal music can be typeset using the commands in the Lyrics menu.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Graphics
-	filename images/Lyrics.png
-	scale 50
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Subsubsection
-Overview of Lyrics
-\end_layout
-
-\begin_layout Standard
-Lyrics in Denemo are handled as verses of text.
- The screenshot shows a piece with two lyric verses.
-\end_layout
-
-\begin_layout Standard
-For each verse a tab appears in the lyric pane at the bottom of the main
- window.
- The tab is a simple text editor - a new one appears each time you execute
- Add Lyric Verse (Ctrl-l a).
- The syllables are not attached to the notes, so you can edit the notes
- freely without affecting the lyrics.
-\end_layout
-
-\begin_layout Standard
-Note that the lyrics for a staff are only shown when the cursor is in the
- staff concerned.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Shadowbox
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
-\begin_layout Plain Layout
-This means that you will see the lyrics for the current staff disappear
- from the Display Window when you switch staffs, which can be disconcerting,
- but saves space in the display.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-While simply typing or pasting the text in will be enough for simple pieces,
- special syntax can be included for more complex tasks, these follow the
- rules given in the following section and in detail in the LilyPond documentatio
-n.
-\end_layout
-
-\begin_layout Standard
-In a verse extra spaces and new lines can be used freely without affecting
- how the syllables are placed under the notes.
- 
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Shadowbox
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
-\begin_layout Plain Layout
-Special syntax inserted for things like alignment beneath noteheads should
- be on a line by itself, so that Denemo knows not to display it under the
- notes of the display.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-The Lyric pane shows only a few lines initially, but you can drag it upwards
- if you need to see more or use the scroll bars at the side.
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Shadowbox
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
-\begin_layout Plain Layout
-You may find it tricky to catch the 
-\begin_inset Quotes eld
-\end_inset
-
-sweet spot
-\begin_inset Quotes erd
-\end_inset
-
- where the lyrics pane can be dragged open, sometimes dragging the red bar
- at the bottom of the Denemo Display upwards helps - it can be returned
- to the bottom afterwards.
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Lyrics are entered as a 
-\emph on
-syllables
-\emph default
- separated by spaces or new lines (which have no other meaning).
- The full possible syntax is given in the LilyPond documentation, but Denemo
- provides you with menu items for inserting the most useful extras such
- as stanza numbers, font selection and skips.
-\end_layout
-
-\begin_layout Standard
-You can switch to the lyrics pane from the notes with 
-\family typewriter
-Ctrl-l, Ctrl-l
-\family default
-.
- The verse changes background color to show that keystrokes will now edit
- the lyrics.
- And you can switch back from editing the lyrics to editing the music with
- the 
-\family typewriter
-Ctrl-l
-\family default
- (or 
-\family typewriter
-Esc
-\family default
- or 
-\family typewriter
-Tab
-\family default
- keys).
- You can change verses with 
-\family typewriter
-Ctrl-PgUpl/PgDn 
-\family default
-keys and change staffs with 
-\family typewriter
-Ctrl-up/down,
-\family default
- and save with
-\family typewriter
- Ctrl-s
-\family default
-.
- 
-\end_layout
-
-\begin_layout Standard
-While editing the notes the command 
-\begin_inset Quotes eld
-\end_inset
-
-Edit Lyric at Cursor
-\begin_inset Quotes erd
-\end_inset
-
- (
-\family typewriter
-Ctrl-l, Ctrl-l
-\family default
-) finds the place in the lyrics corresponding to the cursor position allowing
- you to immediately start editing the syllable that underlies the current
- note.
- 
-\end_layout
-
-\begin_layout Subsubsection
-Special Syntax for Lyric Verses
-\end_layout
-
-\begin_layout Standard
-This section explains the special syntax that the commands in the Lyrics
- menu insert into the verse to control which syllables fall under which
- notes and other special effects.
- When you have used the commands in the Lyrics menu once you can simply
- type the special syntax when you need it again, saving time.
-\end_layout
-
-\begin_layout Standard
-In this section we'll indicate the syntax inserted by putting it in 
-\begin_inset Quotes eld
-\end_inset
-
-
-\begin_inset Quotes erd
-\end_inset
-
- - the double quotes not being part of the syntax.
-\end_layout
-
-\begin_layout Standard
-Grouping several words under one note: 
-\end_layout
-
-\begin_layout Standard
-Lyrics->Lyrics Tie will insert a single underscore 
-\begin_inset Quotes eld
-\end_inset
-
-_
-\begin_inset Quotes erd
-\end_inset
-
- or 
-\begin_inset Quotes eld
-\end_inset
-
-~
-\begin_inset Quotes erd
-\end_inset
-
- tilde, which will typeset as space or lyric tie 
-\begin_inset Quotes eld
-\end_inset
-
-ˬ
-\begin_inset Quotes erd
-\end_inset
-
-respectively.
- 
-\end_layout
-
-\begin_layout Standard
-An alternative to the underscore is to enclose the words in double-quotes,
- e.g.
- “word1 word2 word3”, where the double quotes are literally typed in.
-\end_layout
-
-\begin_layout Standard
-Extending a syllable over several notes (Melisma) can be indicated by placing
- a slur over the notes (a phrasing slur does not trigger melisma).
-\end_layout
-
-\begin_layout Standard
-\begin_inset Box Shadowbox
-position "t"
-hor_pos "c"
-has_inner_box 1
-inner_pos "t"
-use_parbox 0
-use_makebox 0
-width "100col%"
-special "none"
-height "1in"
-height_special "totalheight"
-status open
-
-\begin_layout Plain Layout
-Beaming can also be used to indicate Melisma (e.g.
- in choral music).
- This can be done by turning off automatic beaming and manually beaming
- those notes that have a single syllable.
- However, the Denemo Display will not display the correct underlay of syllables
- and notes when doing this, instead refer to the Print View (use continuous
- typesetting).
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Lyrics->Melismata->During Word, with Slur
-\end_layout
-
-\begin_layout Standard
-Inserts spaced double hyphen, " -- ", into the Lyric pane, typesetting hyphen(s)
- if needed to the end of the slur 
-\end_layout
-
-\begin_layout Standard
-Lyrics->Melismata->Word End, with Slur
-\end_layout
-
-\begin_layout Standard
-Inserts spaced double underscore, " __ ", into the Lyric pane, typesetting
- a lyric extender to the end of the slur.
-\end_layout
-
-\begin_layout Standard
-Lyrics->Melismata-> During Word, no Slur
-\end_layout
-
-\begin_layout Standard
-Inserts " -- _ "into the Lyric pane, spreads the syllable over two notes
- inserting hyphen(s) if needed 
-\end_layout
-
-\begin_layout Standard
-Lyrics->Melismata->Word End, no Slur
-\end_layout
-
-\begin_layout Standard
-Inserts " __ _ " into the Lyric pane, which spreads the syllable over two
- notes typesetting a lyric extender
-\end_layout
-
-\begin_layout Standard
-Lyrics->Melismata->ExtendMelisma, 
-\end_layout
-
-\begin_layout Standard
-Inserts " _ " into the Lyric pane, extending the Melisma by one note or
- group of notes.
- 
-\end_layout
-
-\begin_layout Standard
-Lyrics->DivideSyllables
-\end_layout
-
-\begin_layout Standard
-Inserts 
-\begin_inset Quotes eld
-\end_inset
-
- --
-\begin_inset Quotes erd
-\end_inset
-
- into the Lyric pane, which typesets as a hyphen halfway between the syllables
- each aligned below adjacent notes.
-\end_layout
-
-\begin_layout Standard
-Notes Without Words, i.e.
- gaps in the text, may be produced with a spaced symbol (if one is required)
- or by a spaced underscore or a pair of double-quotes (“”) for each wordless
- note.
- 
-\end_layout
-
-\begin_layout Standard
-Skip Syllables in Selection
-\end_layout
-
-\begin_layout Standard
-Inserts special syntax e.g.
- 
-\begin_inset Quotes eld
-\end_inset
-
-
-\backslash
-repeat unfold 4 
-\backslash
-skip 1
-\begin_inset Quotes erd
-\end_inset
-
- for skipping 4 notes.
- This is an alternative to typing in a series of pairs of double-quotes,
- one for each skipped note.
- Once the syntax is inserted the verse, it may be easily edited, if you
- have changed the length of the introduction.
- 
 \end_layout
 
 \begin_layout Section
@@ -14556,6 +14646,24 @@ end{verbatim}
 \noindent
 If you are not logged in as root user, for the last step type su and your
  root password, or alternately type sudo make install.
+\end_layout
+
+\begin_layout --Separator--
+
+\end_layout
+
+\begin_layout Part*
+Acknowledgements
+\end_layout
+
+\begin_layout Standard
+Many people have contributed to this manual, directly and indirectly, over
+ the years, sometimes the passage of time has obscured their names.
+ Contributors include Matthew Hiller, Adam Tee, Jeremiah Benham, Roy Rankin,
+ Aaron Mehl, Nils Gey, J.
+ K.
+ Wilkinson, A.
+ Schneider.
 \end_layout
 
 \begin_layout Standard
