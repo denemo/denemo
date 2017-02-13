@@ -4125,17 +4125,9 @@ Syllable Alignment
 \end_layout
 
 \begin_layout Standard
-Inserts special syntad to cause the text to be aligned with its start or
+Inserts special syntax to cause the text to be aligned with its start or
  end below the note (rather than the default centered position).
  This may be useful for chanted text.
-\end_layout
-
-\begin_layout Subparagraph*
-Skip Syllables in Selection 
-\end_layout
-
-\begin_layout Standard
-Inserts special syntax to leave the notes in the selection without words.
 \end_layout
 
 \begin_layout Subparagraph*
@@ -8124,7 +8116,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8132,7 +8123,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
