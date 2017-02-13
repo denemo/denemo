@@ -2479,6 +2479,7 @@ void
 deletemeasure (DenemoAction* action, DenemoScriptParam* param)
 {
   dnm_deletemeasure (Denemo.project->movement);
+  find_xes_in_all_measures (Denemo.project->movement);
   isoffleftside (Denemo.project);
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
