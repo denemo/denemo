@@ -1,3 +1,34 @@
+2017-02-12
+    
+GTK Upgrade
+    UI manager dropped
+    All deprecations to version 3.22 fixed
+New Features
+    Gregorian Chant Support
+    Easier Mirrored Dynamics
+    Lyrics verses can be mirrored to other staffs
+    Easy selection of staffs to typeset
+    Improved Playback Controls
+    Less Cluttered Dynamics Line
+    Cross Voice Arpeggios
+    Baritone Clef support
+    Invoke Command Center on commands from Object Editor
+Tear-off Menus
+    Now tear off as palettes
+    Keep them around, dock them, edit the tooltips…
+Clearer Display
+    Object Position indicators only where needed
+Bug Fixes
+    Setting playback start via button is now reliable
+    Playback View sometimes playing from wrong point fixed
+    Instability on Undo after delete of staff with lyrics
+    Ledger lines in display for staffs of less than 5 lines fixed
+    Fix display of Drum Clef
+    Fix positioning of graphics in display for windows
+    Fix Playback View for certain locales
+    Improved Lyrics display
+    Fix Lyric aligment syntax
+
 2016-09-17
     New Features
         Specify total page count
