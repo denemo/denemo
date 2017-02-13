@@ -85,7 +85,7 @@ void cursorup (DenemoAction * action, DenemoScriptParam * param);
 void cursordown (DenemoAction * action, DenemoScriptParam * param);
 
 void change_duration (gint duration);
-void edit_or_append_pitch (gint note_value, gint enshift);
+void edit_or_append_pitch (gint note_value, gboolean absolute);
 void insert_pitch (DenemoProject * gui, gint note_value);
 void move_to_pitch (DenemoProject * gui, gint note_value);
 void setenshift (DenemoMovement * si, gint enshift);
@@ -173,4 +173,6 @@ gboolean next_editable_note (void);
 gboolean next_insert_or_editable_note (void);
 gboolean insert_marked_midi_note (void);
 void insert_chord (GList *note_data, gint duration);
+
+
 #endif /*COMMANDFUNCSH */

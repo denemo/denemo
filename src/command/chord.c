@@ -431,7 +431,7 @@ changeenshift (DenemoObject * thechord, gint mid_c_offset, gint accidental)
  * one sharper or flatter subject to a limit of double sharp/flat
  */
 void
-shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint is_sharpening)
+shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint amount)
 {
   GList *tnode;                 /* Tone node to inflect */
   note *tone;
@@ -440,10 +440,12 @@ shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint is_sharpening)
   if (tnode)
     {
       tone = (note *) tnode->data;
-      if (is_sharpening)
-        tone->enshift = MIN (tone->enshift + 1, 2);
-      else
-        tone->enshift = MAX (tone->enshift - 1, -2);
+    
+     tone->enshift = tone->enshift + amount, 2;
+     if (tone->enshift > 2)
+        tone->enshift = 2;
+    else if (tone->enshift < -2)
+        tone->enshift = -2;
     }
 }
 

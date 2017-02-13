@@ -1518,10 +1518,10 @@ insert_pitch (DenemoProject * gui, gint note_value)
 }
 /**
  * edit_pitch
- * edits the note at the cursor height to have given mid_c_offset and enshift
+ * edits the note at the cursor height to have given mid_c_offset with pending enshift as modifier or absolute value
  */
 void
-edit_or_append_pitch (gint note_value, gint enshift)
+edit_or_append_pitch (gint note_value, gboolean absolute)
 {
   DenemoProject *gui = Denemo.project;
   gint oldstaffletter_y = gui->movement->staffletter_y;
@@ -1529,7 +1529,6 @@ edit_or_append_pitch (gint note_value, gint enshift)
   gui->movement->staffletter_y = note_value;
   gui->movement->cursor_y = jumpcursor (gui->movement->cursor_y, oldstaffletter_y, gui->movement->staffletter_y);
   int mid_c_offset = gui->movement->cursor_y;
-
   if ((gui->mode & INPUTEDIT) && ((!gui->movement->cursor_appending) || cur_object_is_rhythm (gui)))
     {
       DenemoObject *theobj = (DenemoObject *) (gui->movement->currentobject->data);
@@ -1554,18 +1553,30 @@ edit_or_append_pitch (gint note_value, gint enshift)
               if(!thechord->is_tied)
                 {
                         modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
-                        setenshift (gui->movement, enshift);
+                    if (absolute)
+                        setenshift (gui->movement, Denemo.project->movement->pending_enshift);
+                    else
+                        if (Denemo.project->movement->pending_enshift)
+                            incrementenshift (gui, Denemo.project->movement->pending_enshift);
                     }
               else //if tied modify the tied note(s) too, FIXME but this breaks the UNDO mechanism, see store_for_undo_change (gui->movement, theobj) above - now recursive - does that fix it?
                 {
+                    gint enshift = Denemo.project->movement->pending_enshift;
                     modify_note (thechord, mid_c_offset, key->accs[note_value], dclef);
-                    setenshift (gui->movement, enshift);
-                   // modify_note already does tied notes
+                    if (absolute)
+                        setenshift (gui->movement, Denemo.project->movement->pending_enshift);
+                    else
+                        if (Denemo.project->movement->pending_enshift)
+                            incrementenshift (gui, Denemo.project->movement->pending_enshift);
+                   
                     DenemoPosition pos;
                     get_position (Denemo.project->movement, &pos);
                     gboolean ret = cursor_to_next_chord ();
                     if (ret)
-                        edit_or_append_pitch (note_value, enshift);
+                        {
+                           Denemo.project->movement->pending_enshift = enshift; 
+                           edit_or_append_pitch (note_value, absolute);
+                        }
                     goto_movement_staff_obj (NULL, -1, -1, pos.measure, pos.object, pos.leftmeasurenum);
                 }
             }
@@ -1575,8 +1586,13 @@ edit_or_append_pitch (gint note_value, gint enshift)
     }
   else
    {
+       gint enshift = Denemo.project->movement->pending_enshift;
        insert_pitch (gui, note_value);
-       setenshift (gui->movement, enshift);
+       if (absolute)
+          setenshift (gui->movement, enshift);
+        else if (Denemo.project->movement->pending_enshift)
+            incrementenshift (gui, Denemo.project->movement->pending_enshift);
+       
    }
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw(Denemo.scorearea);
@@ -1694,6 +1710,8 @@ insertion_point (DenemoMovement * si)
 //get the prevailing accidental for the current cursor height, that is the last accidental before the cursor at this height (from a note or keysig change), or the cached keysig accidental
 static gint get_cursoracc (void)
     {
+        //g_print ("Get cursoracc with %d\n", Denemo.project->last_source);
+    if ( Denemo.project->last_source) return 0; //INPUT_MIDI and AUDIO ignore cursoracc
       DenemoMovement *si = Denemo.project->movement;
       gint noteheight = si->staffletter_y;
       measurenode *meas = si->currentmeasure;
@@ -1718,9 +1736,11 @@ static gint get_cursoracc (void)
          else if (curobj->type == KEYSIG)
           return curobj->keysig->accs [noteheight];
         }
-        return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
-    }
-    
+        //if (meas && meas->data && ((DenemoMeasure *)meas->data)->keysig)
+            return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
+       // else
+        //    return 0;
+    }    
     
 void change_duration (duration)
 {
@@ -1763,11 +1783,13 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
                 gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
                 if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
                     {
+                        gint enshift = Denemo.project->movement->pending_enshift;
                     dnm_insertnote (gui, duration+1, mode, rest);
                     //set si->cursoroffend if measure is full
                     curObj = si->currentobject->data;
                     si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
                     toggle_tie (NULL, NULL);
+                    Denemo.project->movement->pending_enshift = enshift;
                     dnm_insertnote (gui, duration+1, mode, rest);
                     return;
                     }
@@ -2107,11 +2129,11 @@ displayhelper (DenemoProject * gui)
 /**
  * Increment the enharmonic shift of the tone closest to the cursor.
  * @param si pointer to the DenemoMovement structure
- * @param direction, +ve for sharp -ve for flat
+ * @param amount to shift
  */
 
 void
-incrementenshift (DenemoProject * gui, gint direction)
+incrementenshift (DenemoProject * gui, gint amount)
 {
   DenemoMovement *si = gui->movement;
   declarecurmudelaobj;
@@ -2120,7 +2142,7 @@ incrementenshift (DenemoProject * gui, gint direction)
     {
       store_for_undo_change (si, curmudelaobj);
 
-      shiftpitch (curmudelaobj, si->cursor_y, direction > 0);
+      shiftpitch (curmudelaobj, si->cursor_y, amount);
       showwhichaccidentals ((objnode *) ((DenemoMeasure*)si->currentmeasure->data)->objects);
       find_xes_in_measure (si, si->currentmeasurenum);
 
@@ -2146,7 +2168,7 @@ incrementenshift (DenemoProject * gui, gint direction)
                       if (thenextobj->type == CHORD)
                         {
                             chord *next = thenextobj->object;
-                            shiftpitch (thenextobj, si->cursor_y, direction > 0);
+                            shiftpitch (thenextobj, si->cursor_y, amount);
                             showwhichaccidentals ((objnode *)((DenemoMeasure*) current->data)->objects);
                             if(next->is_tied)
                              {

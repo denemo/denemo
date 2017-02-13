@@ -391,6 +391,14 @@ insert_note_by_command(gchar note)
 }
 
 
+static void change_or_append_x_key (gint key)
+{
+  //move_to_pitch (Denemo.project, key);
+  //gint enshift = get_cursoracc();g_print ("Cursoracc for change_or_append_x_key is %d\n", enshift);
+  Denemo.project->last_source = INPUTKEYBOARD;
+  edit_or_append_pitch (key, FALSE); 
+    
+}
 
 /**
  * Goto the nearest a
@@ -399,8 +407,7 @@ insert_note_by_command(gchar note)
 void
 change_or_append_A_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (5, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (5);
 }
 
 /**
@@ -410,8 +417,7 @@ change_or_append_A_key (DenemoAction* action, DenemoScriptParam *param)
 void
 change_or_append_B_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (6, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (6);
 }
 
 /**
@@ -421,8 +427,7 @@ change_or_append_B_key (DenemoAction* action, DenemoScriptParam *param)
 void
 change_or_append_C_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (0, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (0);
 }
 
 /**
@@ -432,7 +437,7 @@ change_or_append_C_key (DenemoAction* action, DenemoScriptParam *param)
 void
 change_or_append_D_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  edit_or_append_pitch (1, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (1);
 }
 
 /**
@@ -442,8 +447,7 @@ change_or_append_D_key (DenemoAction* action, DenemoScriptParam *param)
 void
 change_or_append_E_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (2, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (2);
 }
 
 /**
@@ -453,8 +457,7 @@ change_or_append_E_key (DenemoAction* action, DenemoScriptParam *param)
 void
 change_or_append_F_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (3, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (3);
 }
 
 /**
@@ -464,8 +467,7 @@ change_or_append_F_key (DenemoAction* action, DenemoScriptParam *param)
 void
 change_or_append_G_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (4, Denemo.project->movement->pending_enshift);
+  change_or_append_x_key (4);
 }
 
 
@@ -574,11 +576,10 @@ insert_measure_key (DenemoAction* action, DenemoScriptParam *param)
   dnm_insertmeasures (Denemo.project->movement, 1);
 }
 
-void
-insert_chord_xkey (gint duration, DenemoScriptParam *param)
+static void
+insert_chord_xdur (gint duration, DenemoScriptParam *param)
 {
-  dnm_insertnote (Denemo.project, duration, Denemo.project->mode
-  , FALSE);
+  dnm_insertnote (Denemo.project, duration, Denemo.project->mode, FALSE);//gets it wrong
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
 }
@@ -586,55 +587,55 @@ insert_chord_xkey (gint duration, DenemoScriptParam *param)
 void
 insert_chord_0key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(0, param);
+  insert_chord_xdur(0, param);
 }
 
 void
 insert_chord_1key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(1, param);
+  insert_chord_xdur(1, param);
 }
 
 void
 insert_chord_2key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(2, param);
+  insert_chord_xdur(2, param);
 }
 
 void
 insert_chord_3key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(3, param);
+  insert_chord_xdur(3, param);
 }
 
 void
 insert_chord_4key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(4, param);
+  insert_chord_xdur(4, param);
 }
 
 void
 insert_chord_5key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(5, param);
+  insert_chord_xdur(5, param);
 }
 
 void
 insert_chord_6key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(6, param);
+  insert_chord_xdur(6, param);
 }
 
 void
 insert_chord_7key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(7, param);
+  insert_chord_xdur(7, param);
 }
 
 void
 insert_chord_8key (DenemoAction* action, DenemoScriptParam *param)
 {
-  insert_chord_xkey(8, param);
+  insert_chord_xdur(8, param);
 }
 
 void
@@ -989,7 +990,7 @@ void SetDur(gint duration){
 
 //called by the commands (d-0) (d-1) etc
 static void Dur (gint duration) {
-    insert_chord_xkey(duration, NULL);
+    insert_chord_xdur(duration, NULL);
     highlight_duration(Denemo.project, duration);
     score_status(Denemo.project, TRUE);
     displayhelper(Denemo.project);
@@ -1002,7 +1003,7 @@ static change_note_to (gchar note)//CHECK executing (d-ChangeToA)
 {
   gint mode = Denemo.project->mode;
   Denemo.project->last_source = INPUTKEYBOARD;
-  edit_or_append_pitch (((note + 5 - 'A') % 7), 0);
+  edit_or_append_pitch (((note + 5 - 'A') % 7), FALSE);
   Denemo.project->mode = mode;
 }
 
