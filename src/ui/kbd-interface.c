@@ -581,7 +581,7 @@ static gboolean hide_command_view (void)
     set_toggle (ToggleCommandManager_STRING, FALSE);
     return TRUE;
 }
-  
+
 void
 configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
 {
@@ -647,7 +647,7 @@ configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
   //command selection the the change of the model displayed by the binding view
   binding_view = keymap_get_binding_view ();
   binding_tree_view = gtk_bin_get_child (GTK_BIN (binding_view));
-  command_view = GTK_WIDGET (keymap_get_command_view (Denemo.map, SearchEntry, SearchNext));
+  command_view = GTK_WIDGET (keymap_get_command_view (Denemo.map, SearchEntry, SearchNext, &cbdata));
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
   Denemo.command_manager = gtk_window_new (GTK_WINDOW_TOPLEVEL);

@@ -137,7 +137,7 @@ void save_default_keymap_file (void);
 
 void set_state (gint state, gchar ** value);
 
-GtkWidget *keymap_get_command_view (keymap * the_keymap, GtkWidget *entry, GtkWidget *next);
+GtkWidget *keymap_get_command_view (keymap * the_keymap, GtkWidget *entry, GtkWidget *next, keyboard_dialog_data *cbdata);
 
 GtkWidget *keymap_get_binding_view ();
 

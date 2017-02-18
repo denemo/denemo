@@ -1854,6 +1854,14 @@ static void toggle_fuzzy (void)
 {
     fuzzy = !fuzzy;
 }
+
+static void prepend_no_selection (GtkTextBuffer *text_buffer) //for "No selection
+{
+    GtkTextIter iter;
+    gtk_text_buffer_get_start_iter (text_buffer, &iter);
+    gtk_text_buffer_insert (text_buffer, &iter, _("NO COMMAND SELECTED.\nPress -> to search again\n_________________________________\nLast selected command was:\n"), -1);
+}
+
 static void selection_changed (GtkTreeSelection *selection, GtkTreeModel* model) {
     GtkTreeIter iter = { 0, NULL, NULL, NULL };
     const gchar *command_name;
@@ -1865,6 +1873,12 @@ static void selection_changed (GtkTreeSelection *selection, GtkTreeModel* model)
       gtk_tree_path_free(path);
       g_free(thepath); //g_print ("Last row set to idx %d\n", last_row);
       }
+      else 
+        {
+            keyboard_dialog_data *cbdata  = g_object_get_data (G_OBJECT(model), "dialog-data");
+            GtkTextBuffer *text_buffer = gtk_text_view_get_buffer (cbdata->text_view);
+            prepend_no_selection (text_buffer);
+        }
 }
 
 static void
@@ -1909,7 +1923,7 @@ commands_treemodel(keymap * the_keymap){
 }
 
 GtkWidget *
-keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget *SearchNext)
+keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget *SearchNext, keyboard_dialog_data *cbdata)
 {
   GtkScrolledWindow *res2;
   GtkTreeView *res;
@@ -1919,6 +1933,8 @@ keymap_get_command_view (keymap * the_keymap, GtkWidget *SearchEntry, GtkWidget 
   GtkTreeModel *model;
 
   model = commands_treemodel(the_keymap);
+ 
+  g_object_set_data (G_OBJECT(model), "dialog-data", (gpointer)cbdata);
   //setting up the tree view
   res = GTK_TREE_VIEW (gtk_tree_view_new ());
 
