@@ -1,6 +1,8 @@
 ;ScoreRehearsalMarkFormat
 (let ((tag "ScoreRehearsalMarkFormat")
-        (choice (RadioBoxMenu (cons (_ "alphabetic") "#format-mark-alphabet")
+        (choice (RadioBoxMenu
+                (cons (_ "Default") "#format-mark-letters")
+                (cons (_ "Alphabetic") "#format-mark-alphabet")
                 (cons (_ "Numeric") "#format-mark-numbers")
                 (cons (_ "Boxed alphabetic") "#format-mark-box-alphabet")
                 (cons (_ "Boxed numeric") "#format-mark-box-numbers")
