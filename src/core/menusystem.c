@@ -154,7 +154,7 @@ placeInPalette (GtkWidget * widget, DenemoAction * action)
 static void
 configure_keyboard_idx (GtkWidget * w, gint idx)
 {
-  configure_keyboard_dialog_init_idx (NULL, idx);
+  command_center_select_idx (NULL, idx);
 }
 
 /* return a directory path for a system menu ending in menupath, or NULL if none exists

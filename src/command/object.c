@@ -2055,7 +2055,7 @@ static void
 open_command_center_for_action (DenemoAction *action)
 {
     gint idx = lookup_command_from_name (Denemo.map, denemo_action_get_name (action));
-    configure_keyboard_dialog_init_idx (NULL, idx);
+    command_center_select_idx (NULL, idx);
     gtk_widget_destroy (TheEditorWidget);
     TheEditorWidget = NULL;
 }

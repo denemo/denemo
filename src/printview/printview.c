@@ -565,6 +565,7 @@ printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
   if (Denemo.printarea)
     {
       GtkWidget *printarea = gtk_widget_get_toplevel (Denemo.printarea);
+      //set_toggle (TogglePrintView_STRING, TRUE);
       if (gtk_window_is_active (GTK_WINDOW (printarea)))
         gtk_window_present (GTK_WINDOW (printarea));
     }

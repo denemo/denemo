@@ -583,7 +583,7 @@ static gboolean hide_command_view (void)
 }
 
 void
-configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
+command_center_select_idx (DenemoAction * dummy, gint command_idx)
 {
   GtkWidget *frame;
   GtkWidget *vbox, *outer_hbox;
@@ -842,6 +842,6 @@ configure_keyboard_dialog_init_idx (DenemoAction * dummy, gint command_idx)
 void
 configure_keyboard_dialog (DenemoAction * action, DenemoScriptParam * param)
 {
-  configure_keyboard_dialog_init_idx (action, -1);
+  command_center_select_idx (action, -1);
 }
 

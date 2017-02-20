@@ -9,7 +9,7 @@
 
 void configure_keyboard_dialog (DenemoAction * action, DenemoScriptParam * param);
 
-void configure_keyboard_dialog_init_idx (DenemoAction * action, gint command_idx);
+void command_center_select_idx (DenemoAction * action, gint command_idx);
 
 GtkWidget *get_command_view(void);
 #endif
