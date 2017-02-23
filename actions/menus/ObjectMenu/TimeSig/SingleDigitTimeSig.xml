@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>HideTimesig</after>
         <action>SingleDigitTimeSig</action>
-        <_label>(Print) Single Digit (On/Off)</_label>
-        <_tooltip>Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle.</_tooltip>
+        <_label>(Print) Single Digit</_label>
+        <_tooltip>Makes the time signature at the cursor typeset as a single digit; if no time signature at cursor this applies to initial timesig of staff. Run the command again to delete/inspect the time signature directive.</_tooltip>
       </row>
     </map>
   </merge>

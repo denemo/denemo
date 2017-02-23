@@ -1,11 +1,14 @@
 ;;;SingleDigitTimeSig
   (if (d-Directive-timesig? "SingleDigitTimeSig")
 	(let ((choice (RadioBoxMenu 
-                (cons (_ "Object Inspector") 'help) 
+                (cons (_ "Inspect/Edit Single Digit Directive") 'help) 
                 (cons (_ "Delete") 'delete))))
             (case choice
                 ((help)
-                   (d-DisplayCurrentObject))
+                  (if (Appending?) (d-MoveCursorLeft))
+                   (if (Timesignature?)
+                   	(d-DisplayCurrentObject)
+                   	(d-EditStaffProperties)))
                   ((delete)
                     (d-DirectiveDelete-timesig "SingleDigitTimeSig"))))
 	(begin
