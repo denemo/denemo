@@ -2610,6 +2610,20 @@ select_default_scoreblock (void)
             }
         }
     }
+  create_default_scoreblock ();
+  if (gui->standard_scoreblocks)
+    {
+      GList *g;
+      for (g = gui->standard_scoreblocks; g; g = g->next)
+        {
+          DenemoScoreblock *sb = g->data;
+          if (!strcmp (sb->name, DEFAULT_SCORE_LAYOUT))
+            {
+              set_notebook_page (sb->widget);
+              return;
+            }
+        }
+    }
 }
 
 static void
