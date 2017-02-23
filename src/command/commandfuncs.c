@@ -2158,7 +2158,7 @@ incrementenshift (DenemoProject * gui, gint amount)
                           current = current->next;
                           if(current && current->data)
                             {
-                               nextobj = current->data;
+                               nextobj = ((DenemoMeasure*)current->data)->objects;
                            }
                        }
                   while (nextobj)
