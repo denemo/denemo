@@ -501,6 +501,9 @@ octave_shift_key (DenemoScriptParam *param, gint amount)
                   thenote = nearestnote (Denemo.project->movement->currentobject->data, Denemo.project->movement->cursor_y);
                   if (thenote)
                     ((note *) thenote->data)->directives = direcs;
+                    
+                  Denemo.project->movement->staffletter_y  = offsettonumber (Denemo.project->movement->cursor_y);
+                    
                   Denemo.project->movement->undo_guard--;
                   score_status (Denemo.project, TRUE);
                 }
