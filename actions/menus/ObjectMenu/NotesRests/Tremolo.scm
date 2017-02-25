@@ -1,5 +1,7 @@
 ;;;Tremolo
 (let ((duration #f) (dur #f)(stripes #f)(tag "Tremolo")(params #f))
+ (if (Note?)
+  (begin
     (if (d-Directive-chord? tag)
         (let ((choice (RadioBoxMenu 
                         (cons (_ "Edit") 'edit) 
@@ -36,5 +38,6 @@
                  (begin    
                     (d-SetSaved #f) 
                     (d-DirectivePut-chord-display tag stripes)
-                    (d-DirectivePut-chord-postfix tag dur))))))
-(d-RefreshDisplay)
+                    (d-DirectivePut-chord-postfix tag dur)))))
+  		(d-RefreshDisplay))
+  (d-WarningDialog (_ "Cursor must be on a note or chord for tremolo"))))
