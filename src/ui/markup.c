@@ -17,7 +17,7 @@
 #define PILCROW_UTF8_STRING "¶"
 
 static gint changes = 0;
-static gint id = 0;
+static gint TimerId = 0;
 static gboolean run_preview (GtkWidget *textbuffer);
 
 static gchar *
@@ -322,6 +322,8 @@ static void preview_text (gchar *text)
 }
 static gboolean run_preview (GtkWidget *textbuffer)
 {//g_print (".");
+   // if (TimerId == 0) //before a character is entered there is no timer, but Preview button should run_preview.
+   //     return FALSE;//no further calls
     static gint counter = 0;
     if (changes && (counter==10))
         counter = 0;
@@ -355,8 +357,8 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
 {
   DenemoProject *gui = Denemo.project;
   GtkTextIter cursor;
-  if (id==0)
-    id = g_timeout_add ( 300, (GSourceFunc)run_preview, textbuffer);
+  if (TimerId==0)
+    TimerId = g_timeout_add ( 300, (GSourceFunc)run_preview, textbuffer);
   changes++;
   if (event->keyval == GDK_KEY_Return)
     {
@@ -375,7 +377,7 @@ static gboolean keypress_callback (GtkWidget * w, GdkEventKey * event, GtkWidget
       }
  
   return FALSE; //pass it on to the standard handler.
- }
+}
  
  
 static void adjust_selection (GtkWidget *w, gchar  *syntax) 
@@ -696,9 +698,10 @@ gboolean get_user_markup (GString *user_text, GString *marked_up_text, gchar* ti
         text = g_strdup (initial_value); //anything else, just format the passed in string
     else
         text = string_dialog_editor_with_widget_opt (Denemo.project, title, NULL, initial_value, top_vbox, modal, keypress_callback);//this call attaches "textbuffer" to top_vbox
- if(id)
-    g_source_remove (id);
- id = 0;
+ if(TimerId)
+    g_source_remove (TimerId);
+ TimerId = 0;
+ drop_markup_area ();
  if (text)
     {
       gchar *lilypond = create_lilypond_from_text (text);

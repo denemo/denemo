@@ -43,6 +43,8 @@ static void
 set_printarea_doc (EvDocument * doc)
 {
   EvDocumentModel *model;
+  if (DenemoMarkupArea == NULL)
+    return;
   model = g_object_get_data (G_OBJECT (DenemoMarkupArea), "model");     //there is no ev_view_get_model(), when there is use it
   if (model == NULL)
     {
@@ -159,6 +161,10 @@ install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 
 }
 
+void drop_markup_area (void)
+{
+    DenemoMarkupArea = NULL;
+}
 gchar *Prior, *Post;
 static void preview_text (gchar *text)
 {
