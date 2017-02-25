@@ -2716,7 +2716,9 @@ string_dialog_editor_with_widget (DenemoProject * gui, gchar * wlabel, gchar * d
 
 gchar *get_multiline_input (gchar *title, gchar *instruction, gchar *initial)
 {
-    return string_dialog_editor_with_widget (Denemo.project, title, instruction, initial, NULL, NULL);
+    gchar *text = string_dialog_editor_with_widget (Denemo.project, title, instruction, initial, NULL, NULL);
+    drop_markup_area ();
+    return text;
 }
 static gboolean
 option_choice (GtkWidget * widget, gchar ** response)
