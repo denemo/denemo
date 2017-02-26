@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.0.14-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2016-10-24 10:58+0100\n"
-"PO-Revision-Date: 2017-01-01 13:22+0100\n"
+"PO-Revision-Date: 2017-01-05 23:24+0100\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -3553,6 +3553,8 @@ msgid ""
 "Shows the Print View\n"
 "with the music typeset by the LilyPond Music Typesetter."
 msgstr ""
+"Ukáže pohled na tisk\n"
+" se sazbou not pomocí sazeče not LilyPondu."
 
 #: ../src/core/view.c:4027 ../src/generated/entries.h:218
 #: ../src/generated/entries.h:375 ../actions/palettes.xml.h:222
@@ -3561,7 +3563,7 @@ msgstr "Přehrávání"
 
 #: ../src/core/view.c:4027
 msgid "Shows the PlayBack View from which a more sophisticated playback of the music is possible"
-msgstr ""
+msgstr "Ukáže pohled na přehrávání, který umožňuje propracovanější přehrávání not"
 
 #: ../src/core/view.c:4031
 msgid "Score Layout"
@@ -3569,7 +3571,7 @@ msgstr "Rozvržení notového zápisu"
 
 #: ../src/core/view.c:4031
 msgid "Shows an overview of the score where various elements can be rearranged, deleted etc. to form a customized layout"
-msgstr ""
+msgstr "Ukáže přehled notového zápisu, v němž lze přeuspořádat, smazat atd. různé prvky, aby se vytvořilo přizpůsobené rozvržení"
 
 #: ../src/core/view.c:4034 ../src/ui/kbd-interface.c:639
 msgid "Command Center"
@@ -3577,7 +3579,7 @@ msgstr "Správce příkazů"
 
 #: ../src/core/view.c:4034
 msgid "Shows a searchable list of all commands, enables setting of keyboard short-cuts, etc."
-msgstr ""
+msgstr "Ukáže prohledatelný seznam všech příkazů, umožní nastavení klávesových zkratek atd."
 
 #: ../src/core/view.c:4038 ../src/generated/entries.h:367
 msgid "Lyrics"
@@ -3585,7 +3587,7 @@ msgstr "Text písně"
 
 #: ../src/core/view.c:4038
 msgid "Shows any lyric verses in the Denemo Display when the cursor is on a staff with verses attached"
-msgstr ""
+msgstr "Ukáže všechny sloky textu v zobrazení Denema, když je ukazatel na osnově, k níž jsou připojeny sloky"
 
 #: ../src/core/view.c:4043
 msgid "Shows/hides the music in the Denemo Display"
@@ -3597,7 +3599,7 @@ msgstr "Názvy, tlačítka atd."
 
 #: ../src/core/view.c:4047
 msgid "Shows a bar holding the title etc of the music and buttons for selecting a movement to make currrent."
-msgstr ""
+msgstr "Ukáže pruh, v němž je název atd. not a tlačítka pro výběr věty pro její udělání nynější."
 
 #: ../src/core/view.c:4052
 msgid "Allow Quick Shortcut Edits"
@@ -3605,7 +3607,7 @@ msgstr "Dovolit rychlou změnu klávesových zkratek"
 
 #: ../src/core/view.c:4052
 msgid "Enable editing keybindings by pressing a key while hovering over the menu item"
-msgstr ""
+msgstr "Povolit upravování klávesových zkratek stisknutím klávesy během přejetí nad položkou nabídky"
 
 #: ../src/core/view.c:4055
 msgid "Record Scheme Script"
@@ -3613,7 +3615,7 @@ msgstr "Nahrát skript Scheme"
 
 #: ../src/core/view.c:4055
 msgid "Start recording commands into the Scheme script text window"
-msgstr ""
+msgstr "Začít s nahráváním příkazů do textového okna se skriptem Scheme"
 
 #: ../src/core/view.c:4059
 msgid ""
@@ -5184,7 +5186,7 @@ msgstr "Svázaná nota"
 
 #: ../src/generated/entries.h:77 ../src/generated/register_commands.h:76
 msgid "Inserts a duplicate of the current note, tied"
-msgstr "Vloží kopii nynější noty, svázaný. Změní délku současné noty"
+msgstr "Vloží kopii nynější noty, svázáno. Změní délku současné noty"
 
 #: ../src/generated/entries.h:78 ../src/generated/register_commands.h:77
 msgid "Tie (Off/On)"
@@ -9137,11 +9139,11 @@ msgstr "Nelze vysázet!"
 
 #: ../src/printview/markupview.c:33
 msgid "Edit the LilyPond syntax in the pane below or cancel"
-msgstr ""
+msgstr "Upravit skladbu LilyPondu v okně níže nebo zrušit"
 
 #: ../src/printview/printview.c:106
 msgid "Direct Printing not available under Windows. Create PDF and print from that"
-msgstr ""
+msgstr "Přímý tisk není dostupný pod operačním systémem Windows. Vytvořte PDF a tisk proveďte z něj"
 
 #: ../src/printview/printview.c:306
 msgid "Possibly Invalid"
@@ -9525,7 +9527,7 @@ msgstr "Nynější part"
 
 #: ../src/printview/svgview.c:1215
 msgid "Typesets the currrent part with the option to keep the MIDI already generated for all the parts."
-msgstr ""
+msgstr "Vysází nynější part s volbou pro uchování pro všechny party již vytvořeného MIDI"
 
 #: ../src/printview/svgview.c:1222
 msgid "Simple Scrolling"
@@ -9533,7 +9535,7 @@ msgstr "Jednoduchý posun"
 
 #: ../src/printview/svgview.c:1223
 msgid "Sets/Unsets automatic scrolling. The scrolling can still be manually adjusted if it is too fast/slow."
-msgstr ""
+msgstr "Nastaví/Zruší nastavení automatického posunu. Posun lze pořád ručně upravit, pokud je příliš rychlý/pomalý."
 
 #: ../src/printview/svgview.c:1232
 msgid "Clear Scroll Points"
@@ -9541,7 +9543,7 @@ msgstr "Smazat body posunu"
 
 #: ../src/printview/svgview.c:1233
 msgid "Clears scroll points which you have set by right clicking on notes."
-msgstr ""
+msgstr "Smaže body posunu, jež jste nastavil klepnutím pravým tlačítkem myši na noty."
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
@@ -10960,7 +10962,7 @@ msgstr "Nechat noty přetéct do dalšího taktu"
 
 #: ../src/ui/prefdialog.c:565
 msgid "(Chord Entry) Do not fill in tied note pitches"
-msgstr ""
+msgstr "(Zápis akordu) Nevyplnit v ligaturou svázaných výškách tónů not"
 
 #: ../src/ui/prefdialog.c:566
 msgid "Allow Quick Setting of Shortcuts"
@@ -13477,22 +13479,20 @@ msgid "MIDI notes struck loudly delete the previous note before taking effect."
 msgstr "Noty MIDI narazily hlasitě. Smazat předchozí notu předtím, než se to projeví."
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordEntry.scm:7
-#, fuzzy
-#| msgid "No MIDI filter"
 msgid "No MIDI Filter"
 msgstr "Žádný filtr MIDI "
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordEntry.scm:53
 msgid "Chord entry without pedal"
-msgstr ""
+msgstr "Zápis akordu bez pedálu"
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordEntry.xml.h:1
 msgid "Chord Entry Without Pedal"
-msgstr ""
+msgstr "Zápis akordu bez pedálu"
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordEntry.xml.h:2
 msgid "Playing notes on the MIDI keyboard will enter all notes played as a chord until no notes are on."
-msgstr ""
+msgstr "Při přehrávání not na klávesnici MIDI jsou zadány všechny zahrané noty jako akord, dokud nejsou zapnuty žádné noty."
 
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ChordsForBar.scm:6
 msgid ""
@@ -13502,7 +13502,7 @@ msgid ""
 "It will play you two bars of the music at the start and after you have entered the chords.\n"
 "Use the pitch bend control to go on to the next bar or to try again in the current bar."
 msgstr ""
-"Tento příkaz očekává, že zahrajete noty v nynějším taktu společně s akord.\n"
+"Tento příkaz očekává, že zahrajete noty v nynějším taktu společně s akordy.\n"
 "Zapíše akordy v nové notové osnově nad nynější notovou osnovou. Můžete mít akordy nad několika notami, změnit akordy na jedné notě.\n"
 "Pro dočasné přepnutí do režimu poslechu, abyste provedli zkoušku, stlačte nožní pedál.\n"
 "Budou přehrány dva takty not na začátku, a poté, co jste zadal akordy.\n"
@@ -14242,32 +14242,24 @@ msgid "Offers the available palettes to un-hide."
 msgstr "Nabídne dostupné palety k odkrytí."
 
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.scm:9
-#, fuzzy
-#| msgid "Activate Palette Button"
 msgid "Create Palette Button"
-msgstr "Zapnout tlačítko palety"
+msgstr "Vytvořit tlačítko palety"
 
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.scm:9
-#, fuzzy
-#| msgid "Give a name for this new score layout"
 msgid "Give a name for the chord"
-msgstr "Zadejte název pro toto nové rozvržení notového zápisu"
+msgstr "Zadat název pro akord"
 
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.scm:18
-#, fuzzy
-#| msgid "Not on a slur"
 msgid "Not on a chord"
-msgstr "Toto není legatový oblouček"
+msgstr "Není na akordu"
 
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.xml.h:1
-#, fuzzy
-#| msgid "Create Button for Clone"
 msgid "Create Button for Chord Type"
-msgstr "Vytvořit tlačítko pro udělání kopie"
+msgstr "Vytvořit tlačítko pro typ akordu"
 
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.xml.h:2
 msgid "Creates a palette button which will insert the type of chord at the cursor, transposed to the cursor position when invoked. Use prepending sharp or flat to insert a chord with sharpened or flattened root note. Use for chord symbol chords."
-msgstr ""
+msgstr "Vytvoří tlačítko palety, které vloží typ akordu v poloze ukazatele, při vyvolání převedený (transponovaný) do polohy ukazatele. K vložení noty zvýšené nebo snížené o půl tónu použijte křížek nebo béčko na začátku. Použijte pro akordy se značkou akordu."
 
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.scm:127
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.scm:129
@@ -14785,11 +14777,11 @@ msgstr "Dát při tisku akord do závorek ( )."
 
 #: ../actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.xml.h:1
 msgid "Use \"add\" Prefix"
-msgstr ""
+msgstr "Použít předponu \"přidat\""
 
 #: ../actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.xml.h:2
 msgid "Inserts the word \"add\" as a prefix for added notes in chord symbols after the cursor."
-msgstr ""
+msgstr "Vloží slovo \"přidat\" jako předponu pro přidané noty ve značkách akordů za ukazatelem."
 
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:6
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm:7
@@ -15355,12 +15347,12 @@ msgstr "Vybrat dynamiku a úroveň hlasitosti MIDI."
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeCoda.scm:13
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm:13
 msgid "Show if at end of line"
-msgstr ""
+msgstr "Ukázat, pokud je na konci řádku"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeCoda.scm:14
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm:14
 msgid "Show if at start of line"
-msgstr ""
+msgstr "Ukázat, pokud je na začátku řádku"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeCoda.xml.h:1
 msgid "Standalone Coda (for barlines)"
@@ -15786,24 +15778,10 @@ msgid "Give text for Denemo Display"
 msgstr "Zadejte text pro zobrazení Denemo"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MultiLineTextAnnotation.scm:20
-#, fuzzy
-#| msgid ""
-#| "Give text to appear with following note/chord - use the Preview button to see how it will print.\n"
-#| "The characters \\, \", ¶, { and } have a special meaning in the text,\n"
-#| "New lines will be started from the ¶ character. The backslash \\ starts some LilyPond syntax called 'markup', the others must be paired. \n"
-#| "To apply italic or bold to a group of words enclose them in {} or \"\" marks, e.g. \\bold {These words are bold}.\n"
-#| "\"\" marks enclose text that is not to be interpreted as markup.\n"
-#| "Other markup commands \\super, \\tiny etc, see LilyPond documentation."
 msgid ""
 "Type the text in the lower pane. The preview pane above will show the typeset appearance. You can type any text, however the characters \\, \", ¶, { and } have a special meaning in the text. New lines will be started from the ¶ character (if allowed). The backslash \\ starts some LilyPond syntax called 'markup', the {} and \"\" have to surround other text in pairs - one on its own will not typeset. The Insert menu and Selection menu contain pre-packaged markup for various effects.\n"
 "For other possible markup commands \\wordwrap, \\circle, \\tiny etc, see LilyPond documentation."
-msgstr ""
-"Zadejte text, který se má objevit s následující notou/akordem - použijte tlačítko pro náhled, abyste viděli, jak se to vytiskne\n"
-"Znaky \\, \", ¶, { a } mají v textu zvláštní význam.\n"
-"Nové řádky budou začaty od znaku ¶. Zpětné lomítko \\ začíná určitou skladbu LilyPondu nazývanou 'markup', ostatní musí být ve dvojici.\n"
-"Pro použití kurzívy anebo ztučnění na skupinu slov je uzavřete ve složených závorkách: {} nebo \"\", např. \\bold {Tato slova jsou tučně}.\n"
-"Značky \"\" uzavírají text, který se nemá vykládat jako značení.\n"
-"Na další příkazy značení \\super, \\tiny atd. se podívejte do dokumentace k LilyPondu."
+msgstr "Zadejte text do tabulky níže. Náhledová tabulka výše ukáže vzhled při sazbě. Můžete zadat jakýkoli text, nicméně znaky \\, \", ¶, { a } mají v textu zvláštní význam.Nové řádky budou začaty od znaku ¶ (je-li to povoleno). Zpětné lomítko \\ začíná určitou skladbu LilyPondu nazývanou 'markup' (značení), {} a \"\" musí obklopovat ostatní text ve dvojici. Každý sám o sobě se nevysází. Nabídka pro vložení a nabídka pro výběr obsahuje předpřipravená značení s různým účinkem. (Pro použití kurzívy anebo ztučnění na skupinu slov je uzavřete ve složených závorkách: {} nebo \"\", např. \\bold {Tato slova jsou tučně}.Značky \"\" uzavírají text, který se nemá vykládat jako značení.) Na další příkazy značení \\wordwrap, \\circle, \\tiny atd. se podívejte do dokumentace k LilyPondu."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MultiLineTextAnnotation.scm:25
 msgid "Scaling Text"
@@ -18868,7 +18846,7 @@ msgstr "Ukončit kadenci"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/FinishCadenza.xml.h:2
 msgid "Inserts Cadenza end at the current cursor position which should be at the start of a (Denemo) bar. See Start Cadenza for details."
-msgstr ""
+msgstr "Vloží konec kadence v nynější poloze ukazatele, což by mělo být na začátku taktu (Denemo). Na podrobnosti se podívejte v Začít kadenci."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Spanning/LigatureEnd.scm:6
 msgid "Ligature End"
@@ -19426,22 +19404,16 @@ msgid "Turns Off/On typesetting of lyrics for the entire score. The score will r
 msgstr "Vypne/Zapne sázení slov písně pro celý notový zápis. Notový zápis se vrátí k sazbě slok při novém nahrání (vyjma všech uživatelem vytvořených rozvržení notového zápisu) - příkaz se nepočítá jako změna v notovém zápisu."
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
-#, fuzzy
-#| msgid "Append Current Movement"
 msgid "Append verses to current text"
-msgstr "Připojit nynější větu"
+msgstr "Připojit sloky k nynějšímu textu"
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
-#, fuzzy
-#| msgid "Delete the current movement"
 msgid "Edit current end-of-movement text"
-msgstr "Smazat nynější větu"
+msgstr "Upravit nynější text pro konec věty"
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
-#, fuzzy
-#| msgid "Replace current rules"
 msgid "Replace with verses"
-msgstr "Nahradit nynější pravidla"
+msgstr "Nahradit slokami"
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:28
 msgid "Typesetting Verses at End"
@@ -19452,10 +19424,8 @@ msgid "Which verse to start at?"
 msgstr "Kterou slokou začít?"
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:43
-#, fuzzy
-#| msgid "Verse %d"
 msgid "Verse "
-msgstr "Sloka %d"
+msgstr "Sloka"
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:52
 msgid "No verses found"
@@ -19466,10 +19436,8 @@ msgid "Typeset Verses at End"
 msgstr "Vysázet sloky na konci"
 
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.xml.h:2
-#, fuzzy
-#| msgid "Let's you choose a number of verses to print at the end of the piece (movement). Use a customized score layout to prevent them from appearing beneath the music in addition."
 msgid "Let's you choose a number of verses to print at the end of the piece (movement), instead of underlaying the music. The verses are copied to the end so can be deleted once copied to prevent them from appearing beneath the music in addition."
-msgstr "Nechá vás vybrat počet slok, které se mají tisknout na konci kusu (věty). Použijte vlastní rozvržení notového zápisu, abyste zabránili jejich objevení se pod notami v dodatku."
+msgstr "Nechá vás vybrat počet slok, které se mají tisknout na konci kusu (věty), namísto dání pod noty. Sloky jsou zkopírovány na konec, takže je lze po zkopírování smazat, a tím zabránit v jejich objevení se pod notami v dodatku."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/AddDuplicateMeasure.xml.h:1
 msgid "Insert Duplicate Measure After"
@@ -19558,10 +19526,8 @@ msgstr "Změní číslo taktu zobrazené pro tento a následující takty. Neovl
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/HiddenMeasure.scm:7
 #: ../actions/menus/ObjectMenu/MeasureMenu/HiddenMeasure.xml.h:1
-#, fuzzy
-#| msgid "Widen Measures"
 msgid "Hidden Measure"
-msgstr "Rozšířit takt"
+msgstr "Skrytý takt"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/HiddenMeasure.xml.h:2
 msgid "Inserts a dummy whole measure rest. The measure is not seen by the LilyPond typesetter, it just takes up space in the display. Use for polymetric music to even up the staff lengths for the display."
@@ -19760,7 +19726,7 @@ msgstr "Taktové označení není na začátku taktu"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm:53
 msgid "Polymetric Staffs not checked"
-msgstr ""
+msgstr "Osnovy s více metry (polymetrické) neprověřeny"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/CheckTimeSignatures.scm:53
 msgid "No problem detected with time signature changes"
@@ -20412,23 +20378,19 @@ msgstr "Trojúhelníkový styl notové hlavičky pro nynější větu."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.scm:6
 msgid "Polymetric Staffs will no longer typeset"
-msgstr ""
+msgstr "Osnovy současně využívající různé metrické prvky (polymetrické) se už nebudou sázet"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.scm:24
-#, fuzzy
-#| msgid "Change initial time signature"
 msgid "Staffs can have differing time signatures"
-msgstr "Změnit počáteční taktové označení"
+msgstr "Osnovy mohou mít různá taktová označení"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.xml.h:1
-#, fuzzy
-#| msgid "Hide Empty Staffs (Off/On)"
 msgid "Polymetric Staffs (Off/On)"
-msgstr "Skrýt prázdné osnovy (zapnuto/vypnuto)"
+msgstr "Osnovy s různými metrickými prvky (zapnuto/vypnuto)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.xml.h:2
 msgid "Turns on/off independent time signatures and barline on the staffs. Use for polymetric notation."
-msgstr ""
+msgstr "Zapne/Vypne nezávislá taktová označení a taktové čáry v osnovách. Použít pro polymetrický notový zápis (současně využívající různé metrické prvky)."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
@@ -21255,42 +21217,32 @@ msgstr "Vloží notu o převládající době trvání."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:4
 msgid "This Denemo Directive is part of a set of four creating a \"Percent Repeat\". Be sure to delete them all if you delete one of them."
-msgstr ""
+msgstr "Tento příkaz Denema je částí souboru složeného ze čtyř tvořících Procentní opakování. Ujistěte se, že jste, pokud jste smazal jeden z nich, smazal všechny."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:6
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:14
-#, fuzzy
-#| msgid "Open Repeat"
 msgid "Percent Repeat"
-msgstr "Začátek opakování"
+msgstr "Opakování části"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:6
-#, fuzzy
-#| msgid "Give number of these "
 msgid "Give number of further repeats 1,2,..."
-msgstr "Zadat počet těchto "
+msgstr "Zadat počet dalších opakování 1,2,..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:14
 msgid "Give frequency of numbering 0, 1,..."
-msgstr ""
+msgstr "Zadat častost číslování 0, 1,..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:59
-#, fuzzy
-#| msgid "Cursor is not inside selection"
 msgid "Cursor not in selection"
 msgstr "Ukazatel není uvnitř výběru"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.xml.h:1
-#, fuzzy
-#| msgid "Insert Open Close Repeat"
 msgid "Insert Percent Style Repeat"
-msgstr "Vložit začátek a konec opakování"
+msgstr "Vložit opakování stylu části"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.xml.h:2
-#, fuzzy
-#| msgid "Creates a selection to the next empty measure in the current staff"
 msgid "Creates a repeat from the selection, typeset in \\\"percent\\\" style."
-msgstr "Vytvoří výběr k dalšímu prázdnému taktu v nynější notové osnově"
+msgstr "Vytvoří opakování z výběru, sazba ve stylu \\\"percent\\\"."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleAccent.xml.h:1
@@ -24327,20 +24279,16 @@ msgid "Allows setting the first page number."
 msgstr "Umožní nastavit číslo první strany."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.scm:6
-#, fuzzy
-#| msgid "Default bar numbering restored"
 msgid "Default Page Numbering Restored"
-msgstr "Výchozí číslování taktů obnoveno"
+msgstr "Výchozí číslování stran obnoveno"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.xml.h:1
-#, fuzzy
-#| msgid "Center Page Numbers"
 msgid "Bold Page Numbers"
-msgstr "Čísla stran na střed"
+msgstr "Čísla stran tučně"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.xml.h:2
 msgid "Page numbers typeset in a distinct font. The instrumentation is printed too, centered above each page after the first."
-msgstr ""
+msgstr "Čísla stran vysázena výrazným písmem. Ve skladbě obsažené hudební nástroje (instrumentace) jsou vytištěny také, po první straně zarovnány na každé straně nahoře na střed"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.scm:7
 msgid "No number will be printed on the first page"
@@ -24461,28 +24409,20 @@ msgid "Indent the first system of every movement by the given amount."
 msgstr "Odsadit první notový systém každé věty skladby o zadané množství."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm:8
-#, fuzzy
-#| msgid "Choose indent of first system"
 msgid "Choose indent of subsequent systems"
-msgstr "Vybrat odsazení prvního notového systému"
+msgstr "Vybrat odsazení následujících notových systémů"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm:15
-#, fuzzy
-#| msgid "indent="
 msgid "short indent="
-msgstr "Odsazení ="
+msgstr "Malé odsazení ="
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.xml.h:1
-#, fuzzy
-#| msgid "Short Instrument Name"
 msgid "Short Indent"
-msgstr "Krátký název nástroje"
+msgstr "Malé odsazení "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.xml.h:2
-#, fuzzy
-#| msgid "Alter the indent of the opening system for the current movement."
 msgid "Sets the indent to be used on systems after the first."
-msgstr "Změnit odsazení úvodního notového systému pro nynější větu skladby."
+msgstr "Nastaví odsazení, které se použije u notových systémů následujících po prvním."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.xml.h:1
 msgid "(Print)Set Overall Score Size"
@@ -24552,27 +24492,23 @@ msgstr "Umožní nastavení levého, pravého, horního a dolního okraje na hod
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:1
 msgid "Total Page Count"
-msgstr ""
+msgstr "Celkový počet stran"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:1
-#, fuzzy
-#| msgid "Give size required: "
 msgid "Give Pages Required: "
-msgstr "Zadat požadovanou velikost: "
+msgstr "Zadat požadovaný počet stran:"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:5
-#, fuzzy
-#| msgid "Start Count"
 msgid "Page Count"
-msgstr "Začít počet"
+msgstr "Počet stran"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.xml.h:1
 msgid "Set Total Number of Pages"
-msgstr ""
+msgstr "Nastavit celkový počet stran"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.xml.h:2
 msgid "Forces the score to be typeset onto the number of pages you choose."
-msgstr ""
+msgstr "Vynutí vysázení notového zápisu na vámi zvolený počet stran."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:10
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:13
