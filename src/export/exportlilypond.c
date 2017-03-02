@@ -408,11 +408,15 @@ append_duration (GString * figures, gint duration, gint numdots)
   return figures;
 }
 
-static void
+static gchar *
 output_figured_bass_prefix (GString * figures, DenemoDirective * directive)
 {
   if ((directive->override & DENEMO_ALT_OVERRIDE) && directive->prefix)
-    g_string_append (figures, directive->prefix->str);
+    {
+        g_string_append (figures, directive->prefix->str);
+        return directive->prefix->str;
+    }
+    return NULL;
 }
 
 /**
@@ -429,14 +433,14 @@ output_figured_bass (GString * figures, chord * pchord)
   char *str;                    /* pointer into the figure string fig_str */
   gint num_groups = 1;          /* number of groups of figures */
   gchar *duration_string = NULL;        //whole measure rests etc
-
+ gchar * prefix = NULL;
   //First any override (e.g. to tweak position of figures)
   //This is stored in note-directives with DENEMO_ALT_OVERRIDE set.
   // This does mean that figures on rests can only be tweaked with a postfix on the previous note.
   DenemoDirective *directive;
   if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && (directive = ((note *) (pchord->notes->data))->directives->data))
     {
-      output_figured_bass_prefix (figures, directive);
+      prefix = output_figured_bass_prefix (figures, directive); //Outputs first directive's prefix field
     }
 
 
@@ -554,10 +558,15 @@ output_figured_bass (GString * figures, chord * pchord)
         APPEND_DUR (figures, first_duration, 0);
 
 
-        if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next && (directive = ((note *) (pchord->notes->data))->directives->next->data))
+        if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives &&
+         ((note *) (pchord->notes->data))->directives->next &&
+          (directive = ((note *) (pchord->notes->data))->directives->next->data))
           {
-            output_figured_bass_prefix (figures, directive);
+            prefix = output_figured_bass_prefix (figures, directive); //output second directive's prefix
           }
+        else 
+        if (prefix)
+            g_string_append (figures, directive->prefix->str);
 
 
         figures = g_string_append (figures, "<");
@@ -591,17 +600,27 @@ output_figured_bass (GString * figures, chord * pchord)
         APPEND_DUR (figures, first_duration, 0);
         if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next && (directive = ((note *) (pchord->notes->data))->directives->next->data))
           {
-            output_figured_bass_prefix (figures, directive);
+            prefix = output_figured_bass_prefix (figures, directive); //outputs third directive's prefix
           }
+        else 
+            if (prefix)
+                g_string_append (figures, directive->prefix->str);
+
         figures = g_string_append (figures, "<");
         str = strtok (NULL, FIGURES_SEP);
         figures = g_string_append (figures, str);
         figures = g_string_append (figures, ">");
         APPEND_DUR (figures, second_duration, 0);
-        if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next && ((note *) (pchord->notes->data))->directives->next->next && (directive = ((note *) (pchord->notes->data))->directives->next->next->data))
+        if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives &&
+         ((note *) (pchord->notes->data))->directives->next &&
+          ((note *) (pchord->notes->data))->directives->next->next &&
+           (directive = ((note *) (pchord->notes->data))->directives->next->next->data))
           {
-            output_figured_bass_prefix (figures, directive);
+            prefix = output_figured_bass_prefix (figures, directive);//outputs third directive's prefix
           }
+        else 
+            if (prefix)
+                g_string_append (figures, directive->prefix->str);
         str = strtok (NULL, FIGURES_SEP);
         figures = g_string_append (figures, "<");
         figures = g_string_append (figures, str);
@@ -632,19 +651,31 @@ output_figured_bass (GString * figures, chord * pchord)
         figures = g_string_append (figures, str);
         figures = g_string_append (figures, ">");
         APPEND_DUR (figures, first_duration, 0);
-        if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next && (directive = ((note *) (pchord->notes->data))->directives->next->data))
+        if (pchord->notes && (note *) (pchord->notes->data) &&
+         ((note *) (pchord->notes->data))->directives &&
+          ((note *) (pchord->notes->data))->directives->next &&
+           (directive = ((note *) (pchord->notes->data))->directives->next->data))
           {
-            output_figured_bass_prefix (figures, directive);
+            prefix = output_figured_bass_prefix (figures, directive); //output second directive's prefix field
           }
+        else 
+            if (prefix)
+                g_string_append (figures, directive->prefix->str);
         figures = g_string_append (figures, "<");
         str = strtok (NULL, FIGURES_SEP);
         figures = g_string_append (figures, str);
         figures = g_string_append (figures, ">");
         APPEND_DUR (figures, second_duration, 0);
-        if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next && ((note *) (pchord->notes->data))->directives->next->next && (directive = ((note *) (pchord->notes->data))->directives->next->next->data))
+        if (pchord->notes && (note *) (pchord->notes->data) &&
+         ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next &&
+          ((note *) (pchord->notes->data))->directives->next->next &&
+           (directive = ((note *) (pchord->notes->data))->directives->next->next->data))
           {
-            output_figured_bass_prefix (figures, directive);
+            prefix = output_figured_bass_prefix (figures, directive);//output third directive's prefix field
           }
+        else 
+            if (prefix)
+                g_string_append (figures, directive->prefix->str);
         str = strtok (NULL, FIGURES_SEP);
         figures = g_string_append (figures, "<");
         figures = g_string_append (figures, str);
@@ -652,8 +683,11 @@ output_figured_bass (GString * figures, chord * pchord)
         APPEND_DUR (figures, third_duration, 0);
         if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && ((note *) (pchord->notes->data))->directives->next && ((note *) (pchord->notes->data))->directives->next->next && (directive = ((note *) (pchord->notes->data))->directives->next->next->data))
           {
-            output_figured_bass_prefix (figures, directive);
+            prefix = output_figured_bass_prefix (figures, directive); //output third (we haven't bothered to do four) directive's prefix field
           }
+        else 
+            if (prefix)
+                g_string_append (figures, directive->prefix->str);
         str = strtok (NULL, FIGURES_SEP);
         figures = g_string_append (figures, "<");
         figures = g_string_append (figures, str);
