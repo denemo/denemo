@@ -184,10 +184,10 @@ setcounter{page}{1}
 Denemo lets you create musical scores.
  You can type music in using the keyboard or play it in using a MIDI contoller
  or the microphone input.
- You can edit your music - the input display window shows you what you are
- working on in music notation - and you can playback to check how it sounds.
+ You can edit your music – the input display window shows you what you are
+ working on in music notation – and you can playback to check how it sounds.
  The Print View window shows the final printed score, typeset to the highest
- standards used in the music publishing industry - thanks to the Lilypond
+ standards used in the music publishing industry – thanks to the Lilypond
  music typesetting program.
 \end_layout
 
@@ -196,7 +196,7 @@ This separation of the final typesetting window from the input display avoids
  the constant dragging about of overlapping notation which is typical of
  music notation programs.
  It also means you are less likely to input a slur when you mean a tie,
- or a whole note rest when you mean a whole measure rest, for example -
+ or a whole note rest when you mean a whole measure rest, for example –
  these often look similar in the typeset and are easily confused, but Denemo's
  input display makes clear the distinction.
  Nevertheless, if you do wish to tweak the appearance dragging and re-positionin
@@ -388,8 +388,12 @@ Markup
 
 Markup
 \emph default
- is text - e.g.
- titles - that can have additional characters to indicate bold or italic,
+ is text – e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ titles – that can have additional characters to indicate bold or italic,
  repositioning etc.
  In Denemo this may even include syntax for snippets of music, note-names
  fret diagrams etc., so that these can appear in the text.
@@ -581,7 +585,11 @@ reference "sec:A-Survey-of-Input-Methods"
 \end_inset
 
 .
- You can find more shortcuts by exploring the menu system - e.g.
+ You can find more shortcuts by exploring the menu system – e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  under the Notes/Rests menu the Select Duration submenu gives Remove Dot
  with the shortcut Control-period shown in blue next to the command.
  
@@ -644,7 +652,7 @@ Numbers
 \family typewriter
 0-6
 \family default
- are used to refer to the note durations Whole Note ...
+ are used to refer to the note durations Whole Note \SpecialChar \ldots{}
  64th Note.
  They insert a duration at the cursor, which you then give a pitch to with
  a note name.
@@ -891,26 +899,34 @@ The MIDI keyboard too can be customized to perform different actions.
  used for this too).
  If the interval between the notes played is augmented or diminished it
  is played on a different channel, so that you are alerted to possible pitch
- spelling errors (e.g.
+ spelling errors (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  inputting A-sharp for B-flat).
  By holding down the 
 \family typewriter
 Ctrl
 \family default
- key a score can be checked by playing the notes - the cursor only advances
+ key a score can be checked by playing the notes – the cursor only advances
  if the correct note is played, and the 
 \family typewriter
 Shift
 \family default
  key can be held down to route the MIDI keyboard straight to the output
- (e.g.
+ (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  to check a phrase before playing it in).
  There is a button in the MIDI-in Controls to do this too.
  The Pitch Bend controller can be used to set the range of sharps and flats
  to be used, and the modulation controller can be used to mark sections
  of the music.
  With the MIDI controller set as Input source (Input menu) the duration
- keys create pure durations (notes colored yellow/brown) - you can enter
+ keys create pure durations (notes colored yellow/brown) – you can enter
  as much of the rhythm as you wish, and then play the notes on top.
 \end_layout
 
@@ -1034,7 +1050,7 @@ reference "sec:Denemo-Directives"
  The staff properties include things like the number of lines (usually 5)
  the MIDI instrument sound for playback and the amount of space allotted
  in the display for the staff.
- Before each staff are buttons to control properties of the staff - flags
+ Before each staff are buttons to control properties of the staff – flags
  to set for visibility, mute, non-printing and the staff number which can
  be clicked to edit other staff properties.
 \end_layout
@@ -1051,7 +1067,11 @@ stick and blob
 \begin_inset Quotes erd
 \end_inset
 
- and it is accompanied either by a drawing (e.g.
+ and it is accompanied either by a drawing (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  of a double barline) and/or some text to describe it.
  These are used for most things that are not chords or notes etc: Metronome
  marks, repeat barlines etc are good examples.
@@ -1110,7 +1130,7 @@ reference "sec:The-Staff-and"
 
 \begin_layout Standard
 If there is more than one voice on a staff it is best displayed on a separate
- staff in the Denemo Display, for ease of editing - the clef is drawn pale
+ staff in the Denemo Display, for ease of editing – the clef is drawn pale
  and there is no time signature for such extra voices so it is easy to understan
 d what is going on.
  The Print Preview window as usual shows the final typeset appearance.
@@ -1121,7 +1141,11 @@ d what is going on.
 \begin_layout Standard
 In the Denemo display a cursor shows where the next note will be entered/edited.
  It is red for an over-full bar, blue for appending into an under-full one
- and green when editing (i.e.
+ and green when editing (i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  on an already entered object).
 \end_layout
 
@@ -1134,13 +1158,17 @@ The menus in Denemo are unusual: they not only let you do some particular
  while the menu item is selected.
  All the extra functionality of menu items can be accessed by right-clicking
  the menu item, while the usual left click is for executing the action itself.
- The menus can always be torn off for working with particular items (e.g.
+ The menus can always be torn off for working with particular items (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  working with different movements or with measures, dynamics etc.).
  When you place a command in a palette you can add to an existing palette
- or create a new one - you can choose or create any number of these, free-floati
+ or create a new one – you can choose or create any number of these, free-floati
 ng or docked in the main display.
- Also available by right-clicking is creating new actions - often by modifying
- ones that are already there - using the Scheme scripting window.
+ Also available by right-clicking is creating new actions – often by modifying
+ ones that are already there – using the Scheme scripting window.
 \end_layout
 
 \begin_layout Standard
@@ -1220,8 +1248,15 @@ In between is where the music input is displayed, the Denemo Display area.
 You can hide staffs in the display if needed using the Staffs->Display Effects
  menu.
  If you need more room you can hide the menus (using the View Menu, shortcut
- Esc key), and arrange a "page view" of the input music - useful when using
- playback.
+ Esc key), and arrange a 
+\begin_inset Quotes eld
+\end_inset
+
+page view
+\begin_inset Quotes erd
+\end_inset
+
+ of the input music – useful when using playback.
 \end_layout
 
 \begin_layout Standard
@@ -1249,7 +1284,7 @@ Denemo Display
 \begin_layout Standard
 The area showing the input music is called the Denemo display.
  It shows staffs and voices and the music interspersed with any Directives.
- The background is grayed out when the focus is elsewhere - click on the
+ The background is grayed out when the focus is elsewhere – click on the
  display to start typing in notes.
  The background is also colored when input from any attached MIDI keyboard
  is not being used for appending/editing the score (as it is by default).
@@ -1257,7 +1292,7 @@ The area showing the input music is called the Denemo display.
 
 \begin_layout Standard
 The default view has a single system stretching off the sides of the window
- - the actual division into lines and pages for the typeset score is done
+ – the actual division into lines and pages for the typeset score is done
  in the Print View
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1276,7 +1311,7 @@ reference "sec:The-Print-View"
  more staffs for each system (the scrolling allows you to choose which staffs
  to concentrate on).
  As usual, this division into lines has nothing to do with the typeset view
- - widening the window will change the positions of the 
+ – widening the window will change the positions of the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1292,16 +1327,16 @@ line breaks
 \begin_layout Standard
 The second way of getting to see more of the music is simply to zoom the
  Denemo Display (Ctrl-mouse wheel is best).
- Again this is purely for the input display - you use commands in the Score
+ Again this is purely for the input display – you use commands in the Score
  and Directives menu to control the size of staffs, titles etc.
  in the final typeset score.
 \end_layout
 
 \begin_layout Standard
-Lastly with large (deep) scores - orchestral scores for instance - you may
+Lastly with large (deep) scores – orchestral scores for instance – you may
  want to hide staffs in the display while you work on others.
  For example, you may want to hide all but the woodwind section.
- The commands for this are in the Staffs menu - you may want to change the
+ The commands for this are in the Staffs menu – you may want to change the
  keyboard shortcuts for navigating staffs (Ctrl-up arrow etc) to invoke
  the staff moves that skip over hidden staffs in this case.
 \end_layout
@@ -1319,7 +1354,7 @@ name "sub:The-Page-View"
 
 \begin_layout Standard
 The third of the three Denemo display modes that you get with the Esc key
- is called the Page View - it is set up initially with a small zoom factor
+ is called the Page View – it is set up initially with a small zoom factor
  and several systems showing.
  In this view the cursor highlighting has a large green circle around the
  cursor position and the display will animate during playback.
@@ -1345,7 +1380,7 @@ Transition Animation
 \begin_layout Standard
 One of the problems with moving about a score looking at the input music
  is that it can be difficult to see quickly where the cursor has moved to.
- An even more tricky situation arises when deleting empty measures - often
+ An even more tricky situation arises when deleting empty measures – often
  the next measure is empty too, so it can appear that nothing has happened,
  it seems the command to delete a measure isn't working.
  What has happened is that another empty measure has moved in from the right
@@ -1353,7 +1388,7 @@ One of the problems with moving about a score looking at the input music
 \end_layout
 
 \begin_layout Standard
-To avoid these problems these transitions are animated - the measure coming
+To avoid these problems these transitions are animated – the measure coming
  in from the right can be visually seen to shunt in from the side; similarly
  staffs move up from below and the cursor arrives at its new position by
  shrinking onto it.
@@ -1447,16 +1482,20 @@ LilyPond
 \end_inset
 
  (parts or score), PDF and Png formats.
- This is also where you open PDF files containing source material - e.g.
- manuscripts - that you wish to transcribe or proof-reading comments you
+ This is also where you open PDF files containing source material – e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ manuscripts – that you wish to transcribe or proof-reading comments you
  wish to incorporate in your score.
- Another sort of source material can be loaded from here - audio files can
+ Another sort of source material can be loaded from here – audio files can
  be loaded for transcribing as well as MIDI files.
 \end_layout
 
 \begin_layout Standard
 The New command starts a new score, while New Tab creates an empty score
- while leaving the current score open - a line of tabs appears at the top
+ while leaving the current score open – a line of tabs appears at the top
  of the display for switching between these.
  Note that you do not have to have multiple scores open to copy and paste
 \begin_inset Index idx
@@ -1468,7 +1507,7 @@ Copy/Cut and Paste
 
 \end_inset
 
- between scores - opening a new score does not alter the clipboard.
+ between scores – opening a new score does not alter the clipboard.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1477,11 +1516,11 @@ Open Submenu
 
 \begin_layout Standard
 The Open command (Ctrl-o) opens a Denemo file for editing.
- Open Template opens one of the templates provided with Denemo - this is
+ Open Template opens one of the templates provided with Denemo – this is
  like open except the file once opened becomes untitled, forcing you to
  give it a name on saving.
  Open Example is similar, but here the scores are intended as examples of
- how to do particular things - they can also serve as a place to copy and
+ how to do particular things – they can also serve as a place to copy and
  paste from.
  Open Custom Template opens the directory where templates you have created
  with Save Template are stored.
@@ -1551,7 +1590,7 @@ target "www.denemo.org"
 
 \begin_layout Standard
 Open Source MIDI opens a MIDI file it comes with comprehensive instructions.
- Note that many MIDI files are not suitable for transcription - MIDI describes
+ Note that many MIDI files are not suitable for transcription – MIDI describes
  sounds, not notation.
 \end_layout
 
@@ -1616,8 +1655,9 @@ Seek
 
 \begin_layout Standard
 This has a commands to search for rhythmic patterns, note sequences, empty
- measures, next higher/lower note, empty measures ...
- The search facility includes the equivalent of 
+ measures, next higher/lower note, empty measures \SpecialChar \ldots{}
+ The search facility includes
+ the equivalent of 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1662,7 +1702,11 @@ but also editing global properties of the score and your preferences.
 \begin_layout Standard
 There are commands for deleting the object before the cursor, the object
  at the cursor and for partially deleting from the object at the cursor
- (e.g.
+ (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  deleting notes from chords).
  Other delete commands are in the Object Menu (deleting movements, staffs,
  measures etc).
@@ -1710,7 +1754,7 @@ Preferences
 
 \begin_layout Standard
 The NotationMagick submenu is for generating random notes, reflecting, reversing
-, shuffling notes etc - the sort of things computers can do with music easily
+, shuffling notes etc – the sort of things computers can do with music easily
  but humans find more difficult.
 \end_layout
 
@@ -1798,7 +1842,7 @@ Denemo Display
  area are supported.
  With/without the menus and as a multiline page (actually, any page can
  be a multi-line page, but usually the third one is chosen for this).
- This command cycles through the three displays - usually the Escape key
+ This command cycles through the three displays – usually the Escape key
  is the shortcut.
 \end_layout
 
@@ -1830,7 +1874,8 @@ Command Center
 
 \begin_layout Standard
 Search for commands by entering likely words, set up one key or two key
- shortcuts, load customized shortcuts or commands ...
+ shortcuts, load customized shortcuts or commands \SpecialChar \ldots{}
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1848,7 +1893,7 @@ Snippets
 \end_layout
 
 \begin_layout Standard
-Shows a menu bar with snippets - a selection of Denemo Objects used either
+Shows a menu bar with snippets – a selection of Denemo Objects used either
  for pasting or to define a rhythmic pattern to be followed when entering
  pitches.
  (see section 
@@ -1918,8 +1963,13 @@ Object Menu
 
 \begin_layout Standard
 Menus of all the Denemo commands listed under type of object from Score
- down to the types of Denemo Objects (e.g.
- clef change objects, notes ...).
+ down to the types of Denemo Objects (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ clef change objects, notes \SpecialChar \ldots{}
+).
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2070,7 +2120,7 @@ Input
  menu to select external sources (Audio from the Mic input or MIDI) for
  inputting notes to Denemo.
  To use these you should review the settings in Edit->Change Preferences
- MIDI and audio tabs first - change the setting for the backend from 
+ MIDI and audio tabs first – change the setting for the backend from 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2120,7 +2170,7 @@ Playback
  There are commands to play through the all the notes or to observe repeats
  or to play just the chord or notes at the cursor and to play at a shifted
  pitch.
- The default playback is quick and simple rendering of the music - good
+ The default playback is quick and simple rendering of the music – good
  for checking pitch and rhythm.
  For more sophisticated playback open the Playback View
 \begin_inset CommandInset ref
@@ -2213,7 +2263,7 @@ Use the Toolbar to access common Denemo commands via a mouse click.
 
 \begin_layout Standard
 \begin_inset Tabular
-<lyxtabular version="3" rows="12" columns="2">
+<lyxtabular version="3" rows="7" columns="2">
 <features rotate="0" islongtable="true" longtabularalignment="center">
 <column alignment="center" valignment="top">
 <column alignment="left" valignment="top" width="80text%">
@@ -2348,132 +2398,6 @@ Runs LilyPond to convert the current file to PDF and sends it to the printer
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename images/undo.png
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Undoes the last action.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename images/redo.png
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Redoes the previous undo action.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename images/cut.png
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Cuts the current selection to the clipboard.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename images/copy.png
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Copies the selected notation to the clipboard.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename images/paste.png
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="left" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Pastes the current clipboard item at the cursor position; to be safe always
- create blank measures to fit.
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" bottomline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Graphics
 	filename images/gotobegin.png
 
 \end_inset
@@ -2594,7 +2518,7 @@ Dynamics
 
 \end_inset
 
- in the piece are ignored - good for checking note pitches are correct.
+ in the piece are ignored – good for checking note pitches are correct.
 \end_layout
 
 \begin_layout Standard
@@ -2628,7 +2552,7 @@ Recording the audio output is also possible as well as real-time slow down
 \end_layout
 
 \begin_layout Standard
-While playing back the note(s) being played are highlighted - the page view
+While playing back the note(s) being played are highlighted – the page view
  mode
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -2643,7 +2567,7 @@ reference "sub:The-Page-View"
 \end_layout
 
 \begin_layout Standard
-Playback is not restricted to equal temperament - the drop down menu allows
+Playback is not restricted to equal temperament – the drop down menu allows
  you to choose from a variety of historic temperaments for playback.
 \end_layout
 
@@ -2692,7 +2616,7 @@ These are the controls for a MIDI keyboard attached to the computer.
 
 \begin_layout Standard
 The Enharmonic Selection control lets you determine what accidental will
- be used for the MIDI notes - e.g whether to enter C-sharp or D-flat.
+ be used for the MIDI notes – e.g whether to enter C-sharp or D-flat.
  The buttons at each end change the enharmonic range sharper/flatter.
  
 \end_layout
@@ -2753,8 +2677,9 @@ Object Menus
 
 \begin_layout Standard
 The object menu bar gives a set of menus give ordered by the objects (notes,
- staffs, measures ...) that they relate to.
- This division cannot be perfect - some activities could be placed in different
+ staffs, measures \SpecialChar \ldots{}
+) that they relate to.
+ This division cannot be perfect – some activities could be placed in different
  menus, so you need to be prepared to search for commands using the 
 \begin_inset CommandInset ref
 LatexCommand nameref
@@ -2806,7 +2731,7 @@ The score menu lets you control things that apply to all the movements of
 
 \begin_layout Standard
 The Score Properties command gives access to some built-in properties that
- affect the whole piece - paper size and display apperance.
+ affect the whole piece – paper size and display apperance.
  
 \end_layout
 
@@ -2907,7 +2832,7 @@ Movements Menu
 
 \begin_layout Standard
 As with the Score Menu there may be Denemo Directives attached to the movement
- - e.g titles
+ – e.g titles
 \begin_inset Index idx
 status open
 
@@ -2954,7 +2879,7 @@ Adjust the Measure Lengths
 \begin_inset Quotes erd
 \end_inset
 
- - this can also be used just to check that the Denemo 
+ – this can also be used just to check that the Denemo 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3083,7 +3008,11 @@ Staff Properties
 \end_layout
 
 \begin_layout Standard
-This covers such things as the type of staff (e.g.
+This covers such things as the type of staff (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  Normal Notation, Tablature, Chord Symbols, Fret Diagrams) as well as the
  staff appearance and the playback instrument, instrument name or ambitus
  to be typeset at the start of the staff and more.
@@ -3133,7 +3062,11 @@ Dynamics
  The Add Structured Staff command duplicates the current staff with regard
  to measures and time signature changes, ready for the insertion of music.
  Add Staff for Instrument allows you to add the staff(s) needed for various
- instruments (e.g.
+ instruments (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  organ) with the ranges of acceptable notes for the instrument set on the
  staff(s).
 \end_layout
@@ -3217,7 +3150,7 @@ Voices
  in Denemo are like staffs but are typeset on the preceding staff to achieve
  single-staff polyphony.
  The Denemo Display is normally set to display any extra voices on a separate
- staff so as to make it easy to work with - the voices have their clef
+ staff so as to make it easy to work with – the voices have their clef
 \begin_inset Index idx
 status open
 
@@ -3249,7 +3182,7 @@ primary voice
  Voices will also normally be assigned to voice numbers 1,2,3,4 using the
  Initial Voice commands in this menu (this controls the stemming, slur positions
  etc).
- Voices can change their voice number during the music - the commands for
+ Voices can change their voice number during the music – the commands for
  this are in the Directives->Typesetter->Voices menu as they insert stem
  change objects in between the notes.
 \end_layout
@@ -3275,7 +3208,11 @@ Denemo Display
 
 \begin_layout Standard
 Here you can choose to hide staffs from the display so that you can see
- distantly placed staffs side by side (e.g.
+ distantly placed staffs side by side (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  in large orchestral scores).
  The location of such 
 \begin_inset Quotes eld
@@ -3353,11 +3290,15 @@ Clef
 \end_layout
 
 \begin_layout Standard
-All sorts of clefs can be selected - the Set Initial and Clef Change commands
+All sorts of clefs can be selected – the Set Initial and Clef Change commands
  give access to standard clefs.
  The Clef Chooser command lets you set more exotic clefs such as Drum clef
  and even things like the Gregorian chant C clef using the LilyPond syntax
- (e.g.
+ (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  vaticana-do3).
 \end_layout
 
@@ -3413,7 +3354,8 @@ s Menu
 \end_layout
 
 \begin_layout Standard
-Besides basic time signatures various variants (numeric, single digit ...)
+Besides basic time signatures various variants (numeric, single digit \SpecialChar \ldots{}
+)
  are here.
  There is also beaming
 \begin_inset Index idx
@@ -3443,7 +3385,7 @@ bars
 \begin_inset Quotes erd
 \end_inset
 
- as you find convenient - they will not cause barlines to be typeset.
+ as you find convenient – they will not cause barlines to be typeset.
  Other parts have to be given Cadenza Time too, and filled with non-printing
  rests to match the duration of the music being typeset.
 \end_layout
@@ -3526,7 +3468,11 @@ Pickup
 
 \end_inset
 
- (anacrusis, pickup) measure at the start, or a short measure (e.g.
+ (anacrusis, pickup) measure at the start, or a short measure (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  during partial first & second time bars).
  First and second time bars markers themselves are to be found in the Directives
 ->Markings->Spanning menu.
@@ -3624,7 +3570,8 @@ Ornaments
 
 \end_inset
 
- (trill, turn ...), grace notes, articulations
+ (trill, turn, \SpecialChar \ldots{}
+), grace notes, articulations
 \begin_inset Index idx
 status open
 
@@ -3634,7 +3581,8 @@ Articulations
 
 \end_inset
 
- (staccato, tenuto ...), fingerings
+ (staccato, tenuto \SpecialChar \ldots{}
+), fingerings
 \begin_inset Index idx
 status open
 
@@ -3756,13 +3704,17 @@ Tuplets
  These actually insert tuplet start and end objects, before and after the
  notes concerned so, strictly speaking they should come in a separate miscellane
 ous objects category.
- As usual, the most useful commands have shortcuts already - Tab starts/stops
+ As usual, the most useful commands have shortcuts already – Tab starts/stops
  a triplet alternately (so you can press it once, enter the notes and press
  it again to finish the triplet).
  And the two key shortcut Keypad 7, Keypad 7 turns the note entered into
  a triplet of notes (with Control as well they are slurred).
  This is set as a two-key shortcut so that you can type it in as a triplet
- rhythm: e.g.
+ rhythm: e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  the three keypresses 4, KP_7, KP_7 will give a triplet of three 1/16th
  notes.
 \end_layout
@@ -3782,13 +3734,18 @@ Notes
 \end_layout
 
 \begin_layout Standard
-So called because in appending position the note names a, b, c ...
- append a note while when the cursor is on an note it edits the note to
- have the note-name indicated.
+So called because in appending position the note names a, b, c \SpecialChar \ldots{}
+ append a
+ note while when the cursor is on an note it edits the note to have the
+ note-name indicated.
  The other note edit commands here are shifting up and down an octave, sharpenin
 g or flattening.
- Cautionary and reminder accidentals are here too - to set the style of
- accidentals (e.g.
+ Cautionary and reminder accidentals are here too – to set the style of
+ accidentals (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  if they are repeated in various circumstances) see the Score->Typesetter
  menu.
 \end_layout
@@ -3798,16 +3755,20 @@ The Note Insertion Submenu
 \end_layout
 
 \begin_layout Standard
-This menu has commands for inserting notes at (i.e.
+This menu has commands for inserting notes at (i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  before the object at) the cursor position.
  The double key press A, A inserts the note A in the prevailing duration
- (more commonly people press a duration key 0, 1, ...
+ (more commonly people press a duration key 0, 1, \SpecialChar \ldots{}
  followed by a note name).
 \end_layout
 
 \begin_layout Standard
 If you enter a note and then sharpen you will hear both note and sharpened
- note - to avoid this use the 
+ note – to avoid this use the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -3834,9 +3795,9 @@ Duration
 \end_layout
 
 \begin_layout Standard
-So called because the commands 0, 1, 2 ...
- append a note when the cursor is in the appending position or enter a note
- if the cursor is on an object.
+So called because the commands 0, 1, 2 \SpecialChar \ldots{}
+ append a note when the cursor is
+ in the appending position or enter a note if the cursor is on an object.
  If you have a MIDI keyboard (and it is designated in the preferences under
  the MIDI tab) then the note will be purely rhythmic (yellow/brown) playing
  a pitch will turn it into a real note.
@@ -3882,7 +3843,11 @@ Chord
 \begin_layout Standard
 Besides commands for dotting notes there are commands for turning the note
  at the cursor into a dotted rhythm of two notes and for entering a dotted
- rhythm with two key presses (so as to keep in rhythm - e.g.
+ rhythm with two key presses (so as to keep in rhythm – e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  3, KP_9 gives dotted 1/8 note, 1/16th note, and the corresponding slurred
  one with Control).
 \end_layout
@@ -3981,7 +3946,7 @@ name "sub:Directives"
 \end_layout
 
 \begin_layout Standard
-This covers all the things that aren't notes but sit in between them - 
+This covers all the things that aren't notes but sit in between them – 
 \emph on
 standalone
 \emph default
@@ -4028,7 +3993,11 @@ Score Layout
 
 \end_inset
 
- (e.g.
+ (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  only to be used when printing a part, or a full score).
  This can be used, for example, to prevent a cue being printed on the full
  score (as it is only relevant when printing the part).
@@ -4039,7 +4008,7 @@ Note there is a further class of Denemo Directives, the ones
 \emph on
 attached
 \emph default
- to notes/chords/staffs/movements/scores - these direct the typesetter to
+ to notes/chords/staffs/movements/scores – these direct the typesetter to
  do special things such as attach fingerings, ornaments etc.
  Denemo Directives are described in a separate section
 \begin_inset CommandInset ref
@@ -4135,27 +4104,27 @@ Melismata
 \end_layout
 
 \begin_layout Itemize
-During Word, with Slur - The typeset score will print hyphen(s), if needed,
+During Word, with Slur – The typeset score will print hyphen(s), if needed,
  showing continuation to the end of the slur 
 \end_layout
 
 \begin_layout Itemize
-Word End, with Slur - The typeset score will print a lyric extender to the
+Word End, with Slur – The typeset score will print a lyric extender to the
  end of the slur (a continuous underscore).
 \end_layout
 
 \begin_layout Itemize
-During Word, no Slur - The typeset score will print the syllable extending
+During Word, no Slur – The typeset score will print the syllable extending
  under two notes inserting hyphen(s), if needed, showing continuation 
 \end_layout
 
 \begin_layout Itemize
-Word End, no Slur - The typeset score will print the syllable extending
+Word End, no Slur – The typeset score will print the syllable extending
  under two notes inserting a lyric extender as needed
 \end_layout
 
 \begin_layout Itemize
-Extend Melisma - The typeset score will extend the melisma over a further
+Extend Melisma – The typeset score will extend the melisma over a further
  note.
 \end_layout
 
@@ -4278,7 +4247,7 @@ Palettes are collections of commands arranged as a column, row or grid of
 \end_layout
 
 \begin_layout Standard
-The buttons are not just for mouse users - palette buttons can be executed
+The buttons are not just for mouse users – palette buttons can be executed
  by typing 
 \family typewriter
 p
@@ -4314,7 +4283,7 @@ General
 \end_inset
 
  palette.
- You can switch to a different palette with TAB - the palette does not have
+ You can switch to a different palette with TAB – the palette does not have
  to be displayed on the screen, but if you type a label that does not exist
  it will be shown to remind you.
 \end_layout
@@ -4325,7 +4294,11 @@ To make full use of the keyboard for executing commands from your palettes
  Put the shorter ones first as you do not need to type all of the label,
  just enough to select the needed button.
  Right-clicking on a palette button allows you to edit the button, changing
- the label or tooltip, duplicating the button (e.g.
+ the label or tooltip, duplicating the button (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  to create an edited version of its script) and more, as in the following
  popup:
 \end_layout
@@ -4355,7 +4328,7 @@ In the View menu you can select a palettes of commands to display or show
 \end_layout
 
 \begin_layout Standard
-You should make palettes your best friend - when you find a command in the
+You should make palettes your best friend – when you find a command in the
  menu system that you need right click on it and choose Add to Palette.
  This way you will build up one or more collections of commands that you
  need.
@@ -4468,7 +4441,7 @@ s Palette
 \end_layout
 
 \begin_layout Standard
-These insert barlines - note only one barline can be at one moment in the
+These insert barlines – note only one barline can be at one moment in the
  music.
  The Custom button creates a new barline type, specifying the appearance
  in mid system, end of system, start of system and between staffs.
@@ -4664,7 +4637,11 @@ Custom Ornaments
 \begin_layout Standard
 Custom ornaments can be created as encapsulated postscript files using the
  same methods as graphic title pages.
- If you have a vector graphics editor (e.g.
+ If you have a vector graphics editor (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  inkscape) installed and in your Preferences (Externals tab, Graphics Editor)
  then you can edit from within Denemo.
  As usual hover over the buttons for instructions.
@@ -4695,7 +4672,7 @@ Dynamics
 
 \begin_layout Standard
 The cresc - - - and dim - - - buttons start or continue textual crescendi/diminu
-endi - texts such as poco a poco can be inserted and the - - - can finish
+endi – texts such as poco a poco can be inserted and the - - - can finish
  on a dynamic marking or an end cresc/dim marker.
 \end_layout
 
@@ -4964,7 +4941,7 @@ Fuzzy
 \begin_inset Quotes erd
 \end_inset
 
- you will make the search less strict - one word could be missing.
+ you will make the search less strict – one word could be missing.
 \end_layout
 
 \begin_layout Standard
@@ -5037,7 +5014,7 @@ Load the Standard Palette Set
 \begin_inset Quotes erd
 \end_inset
 
- - this does not overwrite any palette buttons you may have, so delete any
+ – this does not overwrite any palette buttons you may have, so delete any
  customised buttons (after duplicating, if desired) that you wish to fetch
  from the Denemo distribution.
 \end_layout
@@ -5116,7 +5093,7 @@ Create
 .
  This button lets you create a snippet from the current selection.
  The selection should be a contiguous selection of objects in a single voice.
- Once created the snippet appears on the snippet tool bar as a button -
+ Once created the snippet appears on the snippet tool bar as a button –
  the label is generated to indicate the content, and this label can be further
  edited by clicking on the button and choosing 
 \begin_inset Quotes eld
@@ -5146,17 +5123,19 @@ inserts the selected snippet or (if none is selected) inserts the snippet
 Shift-Space
 \family default
  selects the next snippet (or first if none selected), to unselect a snippet
- choose a duration (0, 1...) to be used instead for entering pitches.
+ choose a duration (0, 1 \SpecialChar \ldots{}
+) to be used instead for entering pitches.
 \end_layout
 
 \begin_layout Standard
 In the insertion case, you may have two or three snippets that apply to
- a given score - special bits of text that appear over notes for example
- - and you can insert them using 
+ a given score – special bits of text that appear over notes for example
+ – and you can insert them using 
 \family typewriter
 Ctrl-Space
 \family default
-, 1 (or 2 or 3 ...) as needed.
+, 1 (or 2 or 3 \SpecialChar \ldots{}
+) as needed.
 \end_layout
 
 \begin_layout Standard
@@ -5165,7 +5144,7 @@ In the pattern-following case you will be selecting snippets using
 Shift-Space
 \family default
  and then playing in notes (and backing up using backspace in case of error
- - the pattern backs up for you).
+ – the pattern backs up for you).
 \end_layout
 
 \begin_layout Section
@@ -5278,7 +5257,7 @@ Refresh.
 Continuous/Manual.
  This both indicates the current mode of typesetting and acts as a menu
  for altering it and choosing how much to typeset in continuous mode.
- In continuous mode the score is re-typeset every time it is altered - choose
+ In continuous mode the score is re-typeset every time it is altered – choose
  the range if the score is large so that it refreshes quickly.
  For entering music rapidly set this to Manual, and re-typeset on demand.
 \end_layout
@@ -5363,7 +5342,7 @@ The mouse scroll wheel enables vertical panning and with Shift horizontal
 \begin_layout Standard
 Shift-Clicking on a notehead or marking selects the object (blue box appears)
  and positions the Denemo cursor at that point so that you can start editing.
- Clicking without shift starts playing at that point - click again to stop
+ Clicking without shift starts playing at that point – click again to stop
  the play.
 \end_layout
 
@@ -5376,7 +5355,7 @@ Right clicking in a blank area of the typeset view (normal cursor) gives
 \end_layout
 
 \begin_layout Subsection
-Editing in the Print View - WYSIWYG
+Editing in the Print View – WYSIWYG
 \begin_inset Index idx
 status open
 
@@ -5413,7 +5392,7 @@ hand
 \begin_layout Standard
 Once you have located the note you wish to edit you can press the keyboard
  shortcut (or play the MIDI key or any other editing method) to change the
- note - to add a staccato marking for example.
+ note – to add a staccato marking for example.
  The Print View will not instantly update, but you can continue editing
  while it does so.
  If the Print View is not up-to-date the shift-click may not locate the
@@ -5445,24 +5424,24 @@ Ties
 
 \end_inset
 
- and various marks - some other things such as lyrics can't be used to navigate
- - choose the note that the lyrics underlie to find the right place in the
+ and various marks – some other things such as lyrics can't be used to navigate
+ – choose the note that the lyrics underlie to find the right place in the
  Denemo Display.
 \end_layout
 
 \begin_layout Standard
 You can actually edit your input music using the mouse on the Print View
- window - something referred to as what-you-see-is-what-you-get (WYSIWYG),
+ window – something referred to as what-you-see-is-what-you-get (WYSIWYG),
  which is how the conventional music editors work all the time.
  But in doing this it will help if you keep in mind that the Denemo program
  does not know anything about what LilyPond has actually drawn in the Print
- View window - Denemo is just displaying the PDF file that LilyPond has
+ View window – Denemo is just displaying the PDF file that LilyPond has
  created.
  The PDF file 
 \emph on
 does
 \emph default
- contain links - the 
+ contain links – the 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5470,7 +5449,7 @@ hand
 \begin_inset Quotes erd
 \end_inset
 
- pointer - so it does 
+ pointer – so it does 
 \begin_inset Quotes eld
 \end_inset
 
@@ -5558,9 +5537,9 @@ reference "sub:Mouse-Controls"
 
 above.
  Then right click on the curve and choose Edit Shape.
- You have to click on the reference point first - this is on the center-line
+ You have to click on the reference point first – this is on the center-line
  of the staff at the horizontal position of the notehead where the curve
- starts - this is marked with a red dot.
+ starts – this is marked with a red dot.
  Then you click and drag on the four 
 \begin_inset Quotes eld
 \end_inset
@@ -5702,7 +5681,7 @@ This is a fully typeset view with (more) full-featured MIDI playback.
  The music is typeset on one long page against a yellow background and scrolls
  up as it plays.
  As a bonus, a single part can be typeset in this view with the whole accompanim
-ent included in the playback - you can play from the part while hearing
+ent included in the playback – you can play from the part while hearing
  the other instruments.
 \end_layout
 
@@ -5736,8 +5715,8 @@ The Play/Stop button plays the whole piece with repeats, (that is the same
 The All Parts button typesets the current movement for playback, generating
  the MIDI at the same time.
  The Current Part button does the same but just for the part that holds
- the Denemo cursor in the Denemo Display - you are asked if you want to
- keep the MIDI already generated - say yes if you wish to hear the other
+ the Denemo cursor in the Denemo Display – you are asked if you want to
+ keep the MIDI already generated – say yes if you wish to hear the other
  parts while following just the current part as it plays back.
 \end_layout
 
@@ -5806,7 +5785,7 @@ on the movement.
 \emph on
 right 
 \emph default
-clicking does in the Playback view - when you 
+clicking does in the Playback view – when you 
 \emph on
 right 
 \emph default
@@ -5830,13 +5809,13 @@ click on the first note of the second system (so that the scrolling does
 If there are tempo changes, scroll the page to the desired position prior
  to the tempo change and click on the last note/rest before the tempo change.
  (Instead of clicking you can drag notes to the position you wish them to
- be in instead - it's the same thing).
+ be in instead – it's the same thing).
  If you add a scroll point wrongly, just click it again to remove it.
 \end_layout
 
 \begin_layout Standard
 You may also need to set intermediate scroll points if the music has passages
- with a flurry of notes - just position the music for such passages and
+ with a flurry of notes – just position the music for such passages and
  
 \emph on
 right 
@@ -5939,8 +5918,8 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Note: That currently text is generated with the wrong fonts in the Playback
- View - (thought to be a LilyPond bug).
+Note: That text is currently generated with the wrong fonts in the Playback
+ View (thought to be a LilyPond bug).
 \end_layout
 
 \end_inset
@@ -5963,7 +5942,11 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Note: LilyPond Version 2.19.x is needed for some MIDI features (e.g.
+Note: LilyPond Version 2.19.x is needed for some MIDI features (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  staccato).
  Use the Preferences dialog, Externals tab to change which version of LilyPond
  Denemo uses.
@@ -6259,7 +6242,7 @@ Alternate note
 In the example the cursor is on a chord which has a trill on it.
  Within the chord it is on the note C-natural which has a fingering on it
  for finger 3.
- These are the Denemo Directives attached to the chord and note - there
+ These are the Denemo Directives attached to the chord and note – there
  can be even more.
 \end_layout
 
@@ -6278,13 +6261,13 @@ name of command
 \end_inset
 
 .
- This button will run the command in edit mode - if it has one - or simply
+ This button will run the command in edit mode – if it has one – or simply
  run the command if it doesn't.
  
 \end_layout
 
 \begin_layout Standard
-Below this is a row of buttons - the first will delete the Denemo Directive,
+Below this is a row of buttons – the first will delete the Denemo Directive,
  while the last (Advanced) allows a low-level edit.
  The rest of the buttons are described next
 \end_layout
@@ -6385,7 +6368,7 @@ Next->
 \end_inset
 
  button allows you to search on from the cursor for further occurrences
- of the Denemo Directive - other fingerings for button on the Fingering
+ of the Denemo Directive – other fingerings for button on the Fingering
  directive, for example.
  When found they can be edited and the search resumed (the usual shortcut
  for resuming the search is 
@@ -6430,7 +6413,11 @@ Making the Directive Conditional
 \end_layout
 
 \begin_layout Standard
-The conditional button allows you to designate certain score layouts (e.g.
+The conditional button allows you to designate certain score layouts (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  typesetting just one part, or one movement) as ones for which this directive
  is active or ones which ignore the directive.
  So if the full score is wanted without fingerings then by clicking this
@@ -6445,7 +6432,7 @@ Making a Copy of the Directive
 \end_layout
 
 \begin_layout Standard
-This button copies the directive to the clipboard - it can then be pasted
+This button copies the directive to the clipboard – it can then be pasted
  by moving the cursor elsewhere and invoking the paste command.
 \end_layout
 
@@ -6457,7 +6444,7 @@ Creating Palette Buttons for Objects and Properties.
 The Object Editor also has buttons for creating Palette Buttons for the
  Denemo Directive that it edits.
  There are two of these: one button would run the command that created the
- attribute/object the other will instantiate a duplicate - a clone - of
+ attribute/object the other will instantiate a duplicate – a clone – of
  the attribute/object.
 \end_layout
 
@@ -6474,11 +6461,12 @@ This creates a palette button to run the command that created the Denemo
 
 \begin_layout Standard
 For example, if you use this on the Arranger attribute of a score you will
- get a button that runs the command Arranger (which is found in Score->Titles...).
+ get a button that runs the command Arranger (which is found in Score->Titles\SpecialChar \ldots{}
+).
  That button would then ask you to fill in the name of the arranger.
  Compare this with the next button, where you will create a button that
  will install a clone of Arranger attribute that you have on this score
- - the arranger will be already filled in, saving you having to enter your
+ – the arranger will be already filled in, saving you having to enter your
  own name each time you create a new score.
 \end_layout
 
@@ -6510,7 +6498,7 @@ reference "sec:Palettes"
 
 \begin_layout Standard
 This button is particularly useful for things like your copyright notice
- which stays the same from score to score - you just need a clone to install
+ which stays the same from score to score – you just need a clone to install
  on a new score.
 \end_layout
 
@@ -6550,7 +6538,7 @@ The score and movement editors allow you to edit global properties of the
  score or current movement.
  Use the Score menu to launch the editor with the Score properties expanded
  fully and the Movement menu to launch it with the Movement properties expanded
- - they are combined in a single window to make it easy to switch between
+ – they are combined in a single window to make it easy to switch between
  them.
  Drag the separator if you need to switch between them.
  On the Movement Editor pane there are buttons to change movement, so you
@@ -6572,7 +6560,7 @@ name of command
 \begin_inset Quotes erd
 \end_inset
 
- - the tooltip of this button gives the help text of the command that created
+ – the tooltip of this button gives the help text of the command that created
  it.
  This button will run the command in edit mode.
  There are also buttons to do a low-level edit or to delete the directive.
@@ -6633,9 +6621,13 @@ Duplicate Directives
 \end_inset
 
  of the directive.
- The purpose of this is to have two versions of some setting (e.g.
+ The purpose of this is to have two versions of some setting (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  the indent for the first staff) which are used for different score layouts
- - a full score may require a larger indent than an individual part.
+ – a full score may require a larger indent than an individual part.
  If you make the duplicate conditional
 \begin_inset Index idx
 status open
@@ -6763,7 +6755,7 @@ tools
  icon is drawn at the start of the staff.
  Clicking on this opens the Staff and Voice Properties Editor.
  As with the Score and Movement Properties editor these are combined as
- two panes in one window - often you won't be sure if the property is one
+ two panes in one window – often you won't be sure if the property is one
  set on the Staff or the Voice belonging to the staff, so this makes it
  easy to look at both.
  Drag the separator if you need to make more space for one of them.
@@ -6777,7 +6769,7 @@ You can also launch the Staff Properties Editor from the Staff menu, and
 \end_layout
 
 \begin_layout Standard
-The built-in staff properties can be edited using the next button - this
+The built-in staff properties can be edited using the next button – this
  is a rather arbitrary collection of things that are not attached as Denemo
  Directives, covering MIDI output for the staff, some typesetting controls
  and display controls.
@@ -6832,7 +6824,7 @@ name of command
 \begin_inset Quotes erd
 \end_inset
 
- - the tooltip of this button gives the help text of the command that created
+ – the tooltip of this button gives the help text of the command that created
  it.
  This button will run the command in edit mode.
  There are also buttons to create palette buttons, low-level edit or to
@@ -6937,7 +6929,7 @@ Score Layouts are ways of typesetting a score for different purposes.
  For example, if you print just one part from a chamber work, or the vocal
  part from a song with piano accompaniment a score layout is created for
  this.
- In fact, layouts are always created when you typeset music - for example
+ In fact, layouts are always created when you typeset music – for example
  from the Print Window Typeset, Part or Movement buttons, or from the Print
  menu.
  These are 
@@ -6953,7 +6945,7 @@ they are created automatically, and you don't have to think about them.
 
 \begin_layout Standard
 In addition to default score layouts some commands in the Print menu generate
- custom score layouts - for example a layout for the accompanist to play
+ custom score layouts – for example a layout for the accompanist to play
  from, with the solo part printed on a smaller staff.
 \end_layout
 
@@ -6981,7 +6973,7 @@ You can create custom layouts to print the music in different ways.
 \end_layout
 
 \begin_layout Standard
-You can customize any layout in this window - positioning lyrics above the
+You can customize any layout in this window – positioning lyrics above the
  staff rather than below for example, or setting the staff groupings.
  You can add any staff to any movement in the layout using the 
 \begin_inset Quotes eld
@@ -7158,7 +7150,7 @@ newbie
 \begin_inset Quotes erd
 \end_inset
 
- mode can be turned on - useful if you start to use a section of the program
+ mode can be turned on – useful if you start to use a section of the program
  that is new to you.
  A window can be popped up to tell you which keypress you invoked.
  And finally the timing of the tooltips as you hover and move from one menu
@@ -7235,10 +7227,10 @@ The Miscellaneous Tab
 \begin_layout Standard
 The font used by Denemo for menus and dialogs tooltips etc can be set here:
  the default is a special font that makes it easy to read the musical signs
- - most fonts create 1/2 and 1/4 notes that are not easy to distinguish
+ – most fonts create 1/2 and 1/4 notes that are not easy to distinguish
  at a glance, the ones in the Denemo font are cartoon-like exagerations
  that make it easy to see what is meant.
- You can set the font size too - none of this affects the typeset score,
+ You can set the font size too – none of this affects the typeset score,
  naturally.
  Some menus that can become very large can be limited (a 
 \begin_inset Quotes eld
@@ -7252,7 +7244,7 @@ more
 \end_layout
 
 \begin_layout Standard
-The display animation controls are here - how quickly the display refreshes
+The display animation controls are here – how quickly the display refreshes
  and how page turns are done in the Page View
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -7271,12 +7263,12 @@ The excerpt resolution setting is to control the quality of the image created
 
 \begin_layout Standard
 Denemo can create thumbnails from the actual typeset music (done on closing
- the session or by a command) - these are displayed by file browsers (not
+ the session or by a command) – these are displayed by file browsers (not
  on windows o/s though).
 \end_layout
 
 \begin_layout Standard
-Denemo keeps a list of scores you have visited recently - how many is controlled
+Denemo keeps a list of scores you have visited recently – how many is controlled
  here.
  Use Open->Open Recent to choose one from the main menu.
 \end_layout
@@ -7287,7 +7279,7 @@ The user name is set for visiting the denemo chat room via the Help menu.
 
 \begin_layout Standard
 The Autosave options guard against a power failure while you are working
- - nowadays you can set the time very short without noticeably impacting
+ – nowadays you can set the time very short without noticeably impacting
  your work.
 \end_layout
 
@@ -7329,7 +7321,7 @@ This tab affects the sounds you will hear via a connected audio system.
  you will not want to look across at the input display to check that you
  are still entering at the right part of the bar.
  The sound effect that tells you a new bar is beginning is set via the first
- field - it is one of the drum effects available in the default Denemo soundfont
+ field – it is one of the drum effects available in the default Denemo soundfont
 , number 72, change this to 0 to turn it off, or other values for a more
  discrete sound.
 \end_layout
@@ -7345,7 +7337,7 @@ Pitch Spelling
 
 \end_inset
 
- for MIDI in - augmented and diminished intervals switch to this channel;
+ for MIDI in – augmented and diminished intervals switch to this channel;
  if you hear this on an interval that was not supposed to be augmented or
  diminished you are alerted that you have the enharmonic range wrongly set
  for the piece.
@@ -7354,8 +7346,8 @@ Pitch Spelling
 
 \begin_layout Standard
 The Dynamic Compression affects the volume at which notes are played back
- as you enter them from a MIDI keyboard - by compressing 100% you avoid
- meaningless variations in volume - you are only entering notes, not giving
+ as you enter them from a MIDI keyboard – by compressing 100% you avoid
+ meaningless variations in volume – you are only entering notes, not giving
  a moving performance, after all! Without this you will find some notes
  are too quiet to be noticed and will think the note wasn't registered.
  Note that the value 99 for dynamic compression is a 
@@ -7372,10 +7364,14 @@ magic
 
 \begin_layout Standard
 The Audio Backend section changes where Denemo tries to send the output
- sounds to - it can be difficult to match up the options to the hardware
+ sounds to – it can be difficult to match up the options to the hardware
  (and o/s) settings you have.
  After checking carefully that you have got speakers attached and that they
- are working (e.g.
+ are working (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  by running some other program) you should turn off all other programs that
  may be hogging the audio out and then start up Denemo and only resort to
  changing the settings here if you don't hear anything.
@@ -7442,7 +7438,7 @@ reference "sub:Playing-Notes-into"
 
 .
  The MIDI backend section lets you specify the controller you are using
- - set this even if 
+ – set this even if 
 \begin_inset Quotes eld
 \end_inset
 
@@ -7455,13 +7451,13 @@ default
 \end_layout
 
 \begin_layout Standard
-The soundfont is the set of sounds you hear - Denemo is shipped with a smallish
+The soundfont is the set of sounds you hear – Denemo is shipped with a smallish
  soundfont, but if you want something special then you can browse to the
  .sf2 file using the Choose Soundfont button.
 \end_layout
 
 \begin_layout Standard
-The Pitch Entry tab is for acoustic entry of notes - this is largely replaced
+The Pitch Entry tab is for acoustic entry of notes – this is largely replaced
  by MIDI keyboard entry now that MIDI keyboards can be bought very cheaply.
 \end_layout
 
@@ -7475,7 +7471,7 @@ The View->Titles, Buttons etc checkbox makes two horizontal button bars
  What the buttons show are titles/composer etc for the score and for the
  current movement.
  The score button bar holds the movement indicator buttons for scores that
- have several movements - you can click on one of these to move quickly
+ have several movements – you can click on one of these to move quickly
  to a different movement.
  In addition other score-wide settings create buttons on the score titles
  bar and movement wide settings on the movement titles bar.
@@ -7510,7 +7506,7 @@ This section covers where to find commands for titles, page numbering, table
 
 \begin_layout Standard
 In this directory there are commands to control the number of systems per
- page or bars per system - these would only be needed in exceptional circumstanc
+ page or bars per system – these would only be needed in exceptional circumstanc
 es.
  There are also commands to control how systems are laid out on the page,
  and on the last page (the Ragged * commands), and to control the margins.
@@ -7534,7 +7530,7 @@ Barline
 
 \begin_layout Standard
 The command to instruct the typesetter to transpose the entire score is
- here - two flavors, a quick text-based one or one that allows you to specify
+ here – two flavors, a quick text-based one or one that allows you to specify
  the transposition you require by setting the pitches of two notes (from
  and to pitches).
 \end_layout
@@ -7580,9 +7576,13 @@ Each field can contain any text you need, with the Copyright field at the
 
 \begin_layout Standard
 When you first set a title you just get a text box to write the title in.
- If you invoke the title again (e.g.
+ If you invoke the title again (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  click on it in the Print View) then you can extensively alter its appearance
- using the LilyPond markup language - buttons are provided so that you do
+ using the LilyPond markup language – buttons are provided so that you do
  not need to know the markup syntax.
  See the section 
 \begin_inset CommandInset ref
@@ -7616,7 +7616,7 @@ If you have several movements without titles and then set a title for the
 
 \begin_layout Plain Layout
 When you preview the title with the preview button you see the title relative
- to the default settings for that title - in particular if that title is
+ to the default settings for that title – in particular if that title is
  normally bold and you want to turn this off you will need to use 
 \backslash
 normal-text before the text to be un-boldened.
@@ -7696,19 +7696,19 @@ Overview of Lyrics
 \end_layout
 
 \begin_layout Standard
-Lyrics in Denemo are handled as verses of text.
- The screenshot shows a piece with two lyric verses.
+Lyrics in Denemo are handled as verses of text, each verse made up of syllables.
+ The screenshot shows a piece with three lyric verses.
 \end_layout
 
 \begin_layout Standard
 For each verse a tab appears in the lyric pane at the bottom of the main
  window.
- The tab is a simple text editor - a new one appears each time you execute
+ The tab is a simple text editor – a new one appears each time you execute
  Add Lyric Verse (
 \family typewriter
-Ctrl-l,
+Ctrl-l, a
 \family default
- a).
+).
  The syllables are not attached to the notes, so you can edit the notes
  freely without affecting the lyrics.
 \end_layout
@@ -7744,16 +7744,70 @@ This means that you will see the lyrics for the current staff disappear
 \end_layout
 
 \begin_layout Standard
-While typing or pasting the text in will be enough for simple pieces, special
- syntax can be included for more complex tasks, in particular space, hyphen(-),
- underscore (_), tilde (~) all have a special meaning as explained below.
-\end_layout
+Lyrics are entered as a 
+\emph on
+syllables
+\emph default
+ separated by spaces or new lines (which have no other meaning).
+ While typing or pasting the text in will be enough for simple pieces, special
+ syntax can be included for more complex tasks; in particular space, hyphen
+ (
+\begin_inset Quotes eld
+\end_inset
 
-\begin_layout Standard
-Extra spaces and new lines can be used freely without affecting how the
+
+\family typewriter
+-
+\family default
+
+\begin_inset Quotes erd
+\end_inset
+
+), underscore (
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+_
+\family default
+
+\begin_inset Quotes erd
+\end_inset
+
+), tilde (
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+~
+\family default
+
+\begin_inset Quotes erd
+\end_inset
+
+) all have a special meaning as explained below.
+ For words with more than one syllable, a hyphen can be inserted by 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+ -- 
+\family default
+
+\begin_inset Quotes erd
+\end_inset
+
+ (space hyphen hyphen space) or via the menu (Lyrics > Divide Syllables
+ with Hyphen).
+ Extra spaces and new lines can be used freely without affecting how the
  syllables are placed under the notes.
- For full technical detail you can consult the LilyPond documentation, but
- the guidance below covers many needs.
+ The full possible syntax is given in the LilyPond documentation, but the
+ guidance below covers many needs.
+ Denemo provides you with menu items for inserting the most useful extras
+ such as stanza numbers, font selection and skips.
 \end_layout
 
 \begin_layout Standard
@@ -7819,24 +7873,13 @@ sweet spot
 \end_inset
 
  where the lyrics pane can be dragged open, sometimes dragging the red bar
- at the bottom of the Denemo Display upwards helps - it can be returned
+ at the bottom of the Denemo Display upwards helps – it can be returned
  to the bottom afterwards.
 \end_layout
 
 \end_inset
 
 
-\end_layout
-
-\begin_layout Standard
-Lyrics are entered as a 
-\emph on
-syllables
-\emph default
- separated by spaces or new lines (which have no other meaning).
- The full possible syntax is given in the LilyPond documentation, but Denemo
- provides you with menu items for inserting the most useful extras such
- as stanza numbers, font selection and skips.
 \end_layout
 
 \begin_layout Standard
@@ -7891,8 +7934,7 @@ Edit Lyric at Cursor
 Ctrl-l, Ctrl-l
 \family default
 ) finds the place in the lyrics corresponding to the cursor position allowing
- you to immediately start editing the syllable that underlies the current
- note.
+ you to immediately edit the syllable that underlies the current note.
  
 \end_layout
 
@@ -7918,19 +7960,56 @@ In this section we'll indicate the syntax inserted by putting it in
 \begin_inset Quotes erd
 \end_inset
 
- - the double quotes not being part of the syntax.
+ – the double quotes not being part of the syntax.
 \end_layout
 
 \begin_layout Standard
-Grouping several words under one note: 
+Grouping several words under one note:
 \end_layout
 
 \begin_layout Standard
-Lyrics->Lyrics Tie will insert a single underscore 
+Lyrics->DivideSyllables
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts 
 \begin_inset Quotes eld
 \end_inset
 
+
+\family typewriter
+\emph default
+ -- 
+\family default
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+ into the Lyric pane, which typesets as a hyphen halfway between the syllables
+ each aligned below adjacent notes.
+\end_layout
+
+\begin_layout Standard
+Lyrics->Lyrics Tie
+\end_layout
+
+\begin_layout Standard
+
+\emph on
+Inserts a single underscore 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+\emph default
 _
+\family default
+\emph on
+
 \begin_inset Quotes erd
 \end_inset
 
@@ -7938,7 +8017,13 @@ _
 \begin_inset Quotes eld
 \end_inset
 
+
+\family typewriter
+\emph default
 ~
+\family default
+\emph on
+
 \begin_inset Quotes erd
 \end_inset
 
@@ -7950,14 +8035,22 @@ _
 \begin_inset Quotes erd
 \end_inset
 
-respectively.
+, respectively.
  
 \end_layout
 
 \begin_layout Standard
 An alternative to the underscore is to enclose the words in double-quotes,
- e.g.
- “word1 word2 word3”, where the double quotes are literally typed in.
+ e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ "
+\family typewriter
+word1 word2 word3
+\family default
+", where the double quotes are literally typed in.
 \end_layout
 
 \begin_layout Standard
@@ -7980,7 +8073,11 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Beaming can also be used to indicate Melisma (e.g.
+Beaming can also be used to indicate Melisma (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  in choral music).
  This can be done by turning off automatic beaming and manually beaming
  those notes that have a single syllable.
@@ -8001,8 +8098,22 @@ Lyrics->Melismata->During Word, with Slur
 \begin_layout Standard
 
 \emph on
-Inserts spaced double hyphen, " -- ", into the Lyric pane, typesetting hyphen(s)
- if needed to the end of the slur 
+Inserts spaced double hyphen, 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+\emph default
+ -- 
+\family default
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+, into the Lyric pane, typesetting hyphen(s) if needed to the end of the
+ slur 
 \end_layout
 
 \begin_layout Standard
@@ -8012,8 +8123,21 @@ Lyrics->Melismata->Word End, with Slur
 \begin_layout Standard
 
 \emph on
-Inserts spaced double underscore, " __ ", into the Lyric pane, typesetting
- a lyric extender to the end of the slur.
+Inserts spaced double underscore, 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+\emph default
+ __ 
+\family default
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+, into the Lyric pane, typesetting a lyric extender to the end of the slur.
 \end_layout
 
 \begin_layout Standard
@@ -8023,8 +8147,22 @@ Lyrics->Melismata-> During Word, no Slur
 \begin_layout Standard
 
 \emph on
-Inserts " -- _ "into the Lyric pane, spreads the syllable over two notes
- inserting hyphen(s) if needed.
+Inserts 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+\emph default
+ -- _ 
+\family default
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+ into the Lyric pane, spreads the syllable over two notes inserting hyphen(s)
+ if needed.
  
 \end_layout
 
@@ -8035,8 +8173,22 @@ Lyrics->Melismata->Word End, no Slur
 \begin_layout Standard
 
 \emph on
-Inserts " __ _ " into the Lyric pane, which spreads the syllable over two
- notes typesetting a lyric extender.
+Inserts 
+\begin_inset Quotes eld
+\end_inset
+
+
+\family typewriter
+\emph default
+ __ _ 
+\family default
+\emph on
+
+\begin_inset Quotes erd
+\end_inset
+
+ into the Lyric pane, which spreads the syllable over two notes typesetting
+ a lyric extender.
 \end_layout
 
 \begin_layout Standard
@@ -8046,28 +8198,22 @@ Lyrics->Melismata->ExtendMelisma,
 \begin_layout Standard
 
 \emph on
-Inserts " _ " into the Lyric pane, extending the Melisma by one note or
- group of notes.
- 
-\end_layout
-
-\begin_layout Standard
-Lyrics->DivideSyllables
-\end_layout
-
-\begin_layout Standard
-
-\emph on
 Inserts 
 \begin_inset Quotes eld
 \end_inset
 
- --
+
+\family typewriter
+\emph default
+ _ 
+\family default
+\emph on
+
 \begin_inset Quotes erd
 \end_inset
 
- into the Lyric pane, which typesets as a hyphen halfway between the syllables
- each aligned below adjacent notes.
+ into the Lyric pane, extending the Melisma by one note or group of notes.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -8077,29 +8223,43 @@ Skip Syllables in Selection
 \begin_layout Standard
 
 \emph on
-Inserts special syntax e.g.
+Inserts special syntax e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  
 \begin_inset Quotes eld
 \end_inset
 
 
+\family typewriter
+\emph default
+
 \backslash
 repeat unfold 4 
 \backslash
 skip 1
+\family default
+\emph on
+
 \begin_inset Quotes erd
 \end_inset
 
  for skipping 4 notes.
  This is an alternative to typing in a series of pairs of double-quotes,
  one for each skipped note.
- Once the syntax is inserted the verse, it may be easily edited, if you
+ Once the syntax is inserted in the verse, it may be easily edited, if you
  have changed the length of the introduction.
  
 \end_layout
 
 \begin_layout Standard
-Notes Without Words, i.e.
+Notes Without Words, i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  gaps in the text, may be produced with a spaced symbol (if one is required)
  or by a spaced underscore or a pair of double-quotes (“""”) for each wordless
  note.
@@ -8107,7 +8267,7 @@ Notes Without Words, i.e.
 \end_layout
 
 \begin_layout Standard
-LilyPond's markup syntax can be used in lyric verses as well - prefix with
+LilyPond's markup syntax can be used in lyric verses as well – prefix with
  
 \backslash
 markup.
@@ -8127,13 +8287,13 @@ box
 \end_layout
 
 \begin_layout Standard
-will surround the words with a box - as you see a new line (before the actual
+will surround the words with a box – as you see a new line (before the actual
  words to appear under the note) is needed for the Denemo Display to underlay
  correctly.
 \end_layout
 
 \begin_layout Section
-Musical Elements - everything on and around the notes.
+Musical Elements – everything on and around the notes.
 \end_layout
 
 \begin_layout Standard
@@ -8219,11 +8379,15 @@ Barline
 
 \begin_layout Standard
 The important thing to know about barlines in Denemo is that they are not
- just graphical marks on paper - e.g.
+ just graphical marks on paper – e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  you cannot put a repeat end barline followed by a repeat start barline
- and expect both to print - instead you must use a repeat-end-start barline.
+ and expect both to print – instead you must use a repeat-end-start barline.
  This is because you are telling Denemo about the music, not about how to
- draw it - the repeat-end-start barline is drawn completely differently
+ draw it – the repeat-end-start barline is drawn completely differently
  if it occurs at the end of a line, for instance.
 \end_layout
 
@@ -8283,7 +8447,7 @@ One curious consequence of this is what happens if you contrive to input
  notes that are timed so that a note is always playing at every barline;
  normally you use tied notes for this, but if (by mistake) you leave one
  bar short in duration you can find that none of the following typeset bars
- start with a note, and the result is that the line cannot be broken - it
+ start with a note, and the result is that the line cannot be broken – it
  extends off the right hand side of the page.
 \end_layout
 
@@ -8312,19 +8476,23 @@ Slurs
 \end_layout
 
 \begin_layout Standard
-...
+\SpecialChar \ldots{}
  and phrasing slurs.
  It is important to distinguish ties from slurs since they often look the
  same in the typeset music, but in some circumstances they are typeset different
-ly - so you may think the music looks ok, and later after some editing,
- it looks wrong - you have hit a situation where the typesetting distinguishes
+ly – so you may think the music looks ok, and later after some editing,
+ it looks wrong – you have hit a situation where the typesetting distinguishes
  the two.
  To help with this Denemo shows distinguishes slurs with little green and
  red markers for the start/end, while the ties are heavier horizontal curves.
  If you import music from other notation programs they often confuse slurs
  and ties, so a command to fix these is in the Notes/Rests->Tied Notes menu.
- (In the unusual case of slurred notes of the same pitch - e.g.
- open string/stopped note on a violin - you would have to correct the error
+ (In the unusual case of slurred notes of the same pitch – e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ open string/stopped note on a violin – you would have to correct the error
  by hand).
 \end_layout
 
@@ -8440,8 +8608,12 @@ Tuplets
 
 \begin_layout Standard
 There are specific commands for the more common tuplets, and arbitrary tuplets
- can be started using the Arbitrary Tuplet command - you give the numbers
- to denote the fraction that the timing is changing by (e.g.
+ can be started using the Arbitrary Tuplet command – you give the numbers
+ to denote the fraction that the timing is changing by (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  triplets are 2/3 of the duration written so you give 2,3).
  If you wanted 7 notes in the time of 4 you would give 4, 7 so that the
  durations changed by 4/7, after seven 1/8-notes you would have the equivalent
@@ -8507,7 +8679,7 @@ grace note hints
 \begin_inset Quotes erd
 \end_inset
 
- - these are dummy non-printing grace notes in the other parts.
+ – these are dummy non-printing grace notes in the other parts.
  This is done automatically by the Check Score routine, so normally you
  don't have to run it yourself, but it is in the Notes/Rests->Grace Notes
  menu.
@@ -8582,7 +8754,7 @@ This is often the case for the dynamics centered between piano staffs; it
  ensure that hairpins align with each other and that other dynamic markings
  are placed consistently.
  It also allows for positioning of dynamics markings other than directly
- on notes - they can be placed at slightly later or earlier times.
+ on notes – they can be placed at slightly later or earlier times.
  To do this notes of shorter duration are put in the dynamics staff and
  the dynamic markings are attached to them.
  The notes are just dummy notes to indicate the timing of the onset of the
@@ -8688,7 +8860,7 @@ reference "sec:Music-Snippets"
 \end_layout
 
 \begin_layout Standard
-The Preview Pane at the top shows the final effect - it is updated as you
+The Preview Pane at the top shows the final effect – it is updated as you
  type and a Preview button is provided if it fails to update.
  
 \end_layout
@@ -8712,14 +8884,14 @@ markup
 \begin_inset Quotes erd
 \end_inset
 
-, that is the text is interspersed with markup commands - 
+, that is the text is interspersed with markup commands – 
 \backslash
 bold, 
 \backslash
-italic etc - to indicate what appearance is desired.
+italic etc – to indicate what appearance is desired.
  The Insert button gives a menu of things to insert at the text cursor position,
  while the Selection button gives a menu of commands to alter the text selected.
- If any particular markup is not in the menu then you can type it in - the
+ If any particular markup is not in the menu then you can type it in – the
  markup 
 \begin_inset Quotes eld
 \end_inset
@@ -8761,8 +8933,8 @@ lly-transposing note names (so that things like B-minor in a title will
 \end_layout
 
 \begin_layout Standard
-As a final check, click Preview before you finish - if it does not typeset
- correctly edit it again to remove the error or delete it - don't leave
+As a final check, click Preview before you finish – if it does not typeset
+ correctly edit it again to remove the error or delete it – don't leave
  it as you score will not typeset with bad markup in it.
 \end_layout
 
@@ -8770,7 +8942,11 @@ As a final check, click Preview before you finish - if it does not typeset
 The text when it appears in the final typeset score can be edited via right-clic
 k for the position or content.
  This same interface is also used if you edit the text of titles or the
- text to show between/after movements (e.g.
+ text to show between/after movements (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  on a page intentionally left blank
 \begin_inset Index idx
 status open
@@ -8796,7 +8972,11 @@ In the Directives->Markings->Spanning Directives->Typesetter>Spanning menus
  marks.
  Here also are 1st and 2nd (and nth) time bars, with shortcuts r,1 for starting
  a first time bar, r,2 starting a second time bar and r,e for ending either.
- The Nth time bar can be used to hold any text needed (i.e.
+ The Nth time bar can be used to hold any text needed (i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  use this for a first time bar if the indication should be other that 1.).
 \end_layout
 
@@ -8886,7 +9066,7 @@ With all methods of note entry a measure start sound will be heard when
 \end_layout
 
 \begin_layout Subsection
-Playing Notes into Denemo - MIDI
+Playing Notes into Denemo – MIDI
 \begin_inset CommandInset label
 LatexCommand label
 name "sub:Playing-Notes-into"
@@ -8929,7 +9109,11 @@ Key Signature
 
 \end_inset
 
- (e.g.
+ (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  E-flat to G-sharp for C-major).
  If you enter a diminished or augmented interval the note will be played
  in a separate MIDI channel which can be used to alert you to pitch-spelling
@@ -8942,7 +9126,11 @@ Pitch Spelling
 
 \end_inset
 
- mistakes (e.g.
+ mistakes (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  entering A-flat when G-sharp was meant, you will get a lot more augmented
  and dimished intervals if you have the enharmonic range set wrongly for
  your piece).
@@ -8964,12 +9152,12 @@ The best way to use the MIDI keyboard is enter the music firstly as pure
 
 \begin_layout Standard
 Once you have entered the rhythms for one or more measures you can play
- the notes via MIDI - the cursor automatically goes to the start of the
+ the notes via MIDI – the cursor automatically goes to the start of the
  rhythms you have entered.
  As you play notes in via MIDI they give their pitches to the rhythm you
  have notated.
  By this means you can enter a piece of music in the time taken to play
- it twice - once to give the rhythm and once to give the pitches.
+ it twice – once to give the rhythm and once to give the pitches.
  If the piece modulates strongly you may need to shift the set of accidentals
  used to match the score, the pitch spelling facility will alert you to
  this.
@@ -9056,7 +9244,7 @@ The set of keys for entering numerical data that appear on full-sized keyboards
  make a very useful tool for entering rhythms.
  Even if you use a laptop without such a numeric keypad it is worth the
  5 or 6 dollars/euros/pounds that a separate USB keyboard costs nowadays
- - it can be blu-tacked to your MIDI controller for easy access.
+ – it can be blu-tacked to your MIDI controller for easy access.
 \end_layout
 
 \begin_layout Standard
@@ -9077,7 +9265,11 @@ Here I have actually stuck labels with the most used durations and over-drawn
  an indication of the others.
  (Keys 5 and 6 do the1/32 and 1/64th notes).
  The keypad 7 does triplets with a double press (so that it makes three
- presses for a triplet, e.g.
+ presses for a triplet, e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  Key 4, Key 7, Key 7 for a triplet of 1/16th notes).
  The dotted rhythm 
 \begin_inset Quotes eld
@@ -9133,7 +9325,7 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Some computers don't respect the numeric keypad's keys - confusing the Enter
+Some computers don't respect the numeric keypad's keys – confusing the Enter
  with the Return key for example, or treating Shift-2 as arrow-down.
  Try the numlock key to see if you can persuade it to take you seriously,
  or look into any key-mapping facility there may be with the machine.
@@ -9148,13 +9340,13 @@ Some computers don't respect the numeric keypad's keys - confusing the Enter
 \end_layout
 
 \begin_layout Subsection
-Playing Notes into Denemo - Audio (Soundcard Mic Input)
+Playing Notes into Denemo – Audio (Soundcard Mic Input)
 \end_layout
 
 \begin_layout Standard
 Denemo can listen for, and detect the pitch of notes on the mic input of
- the computer; it doesn't attempt to guess the rhythm - such systems do
- not work well - but you will find that playing the notes in time will help
+ the computer; it doesn't attempt to guess the rhythm – such systems do
+ not work well – but you will find that playing the notes in time will help
  you to play them in, as well as make playing them in a musical experience
  rather than a chore.
 \end_layout
@@ -9167,7 +9359,7 @@ Playing the notes in can be much quicker than using the keyboard since the
  at the computer keyboard.
  Using the headphones-out of an electronic keyboard avoids "noises-off"
  interfering with the pitch detection.
- Many microphones and pickups benefit from some pre-amplification - it is
+ Many microphones and pickups benefit from some pre-amplification – it is
  worth getting the level right before you begin.
 \end_layout
 
@@ -9182,10 +9374,10 @@ When you select the Input->Audio on the Main Menu the Pitch Recognition
 \end_layout
 
 \begin_layout Standard
-There are two ways of using the pitch entry - Overlay mode (default) and
+There are two ways of using the pitch entry – Overlay mode (default) and
  Insert mode.
  The button marked Insert causes notes to be entered into the current measure
- in the prevailing rhythm - the mode is set to Insert for this.
+ in the prevailing rhythm – the mode is set to Insert for this.
  The button marked Overlays overlays the notes already present with the
  pitches you sound.
  There is a third button, marked Tuning, which is a state-of-the art musical
@@ -9204,7 +9396,7 @@ Music is entered into the measure which holds the cursor.
 
 \begin_layout Standard
 Use the enharmonic shift to select whether Bb or A# should be entered when
- you enter the given pitch - you can usefully go as far as B# and Fb.
+ you enter the given pitch – you can usefully go as far as B# and Fb.
 \end_layout
 
 \begin_layout Standard
@@ -9252,7 +9444,11 @@ Another method of playing music in acoustically doesn't involve entering
  For this select Input->Audio and then choose Insert instead of Overlays
  on the Pitch Recognition Panel that pops up.
  With Insert the sounded notes are entered as in the prevailing rhythm.
- The same applies if you have MIDI - by choosing a rhythm (e.g.
+ The same applies if you have MIDI – by choosing a rhythm (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  half-note, quarter-note, or a custom rhythm pattern) and playing in the
  pitches you can enter the music into a blank score.
 \end_layout
@@ -9277,7 +9473,7 @@ The default keyboard shortcuts appends a note when you type a number key
 a-g
 \family default
 .
- This provides one way of entering notes - move the cursor up or down to
+ This provides one way of entering notes – move the cursor up or down to
  the note position and press a number key for the duration.
  If the note is to be out-of-key then the 
 \family typewriter
@@ -9344,7 +9540,7 @@ Alt-a
 \family typewriter
 Alt-b
 \family default
-...
+ \SpecialChar \ldots{}
  are the standard shortcuts for this.
  When a chord should have two notes on the same line or space
 \begin_inset Index idx
@@ -9411,7 +9607,7 @@ Shift
 \family default
  key can be used to edit a note duration, while the plain number keys insert
  the duration of the note at the cursor.
- (If you do not have a numeric keypad, you have to use the number keys -
+ (If you do not have a numeric keypad, you have to use the number keys –
  best to plug in an additional USB keyboard with numeric keypad, they are
  very cheap nowadays).
 \end_layout
@@ -9419,7 +9615,8 @@ Shift
 \begin_layout Standard
 Rests are entered with 
 \family typewriter
-Alt-0 Alt-1 ...
+Alt-0 Alt-1 \SpecialChar \ldots{}
+
 \end_layout
 
 \begin_layout Standard
@@ -9437,7 +9634,11 @@ Mod4
 \family typewriter
 Windows
 \family default
- Mod-4 key from Microsoft or re-define the shortcuts, e.g.
+ Mod-4 key from Microsoft or re-define the shortcuts, e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  to 
 \family typewriter
 Shift-Alt-0
@@ -9454,13 +9655,13 @@ The
 \family typewriter
 Caps Lock 
 \family default
-can be a nuisance - you will sometimes have it turned on accidentally and
+can be a nuisance – you will sometimes have it turned on accidentally and
  wonder why keypress are not working.
  You 
 \emph on
 can 
 \emph default
-use it to achieve Shift-A, Shift-B ...
+use it to achieve Shift-A, Shift-B \SpecialChar \ldots{}
  but it is probably best left alone.
 \end_layout
 
@@ -9497,9 +9698,9 @@ tion.
  as chord symbols (as well as the original figures).
  The blue marker shows the position of the link that was clicked on to open
  the facsimile at the right place.
- Note that the piece is also being typeset in a different key - that is
+ Note that the piece is also being typeset in a different key – that is
  just another aspect of this custom layout.
- Everything - including the chord symbols are automatically adjusted.
+ Everything – including the chord symbols are automatically adjusted.
 \end_layout
 
 \begin_layout Standard
@@ -9528,7 +9729,7 @@ Source View
 
  window.
  Right-click in this window at the point that your transcription will start.
- This will create a link - a Denemo Directive Object - in your score at
+ This will create a link – a Denemo Directive Object – in your score at
  the Denemo cursor position, shown as arrow icon.
  If you later use a right-click on this Denemo Directive the source file
  will be re-opened with the blue highlight marker on that point in the score.
@@ -9591,9 +9792,9 @@ mask out
  multi-part system.
  You mask out the staffs up to the one you want to follow and the ones from
  after that up to the same part in the next system and so on.
- To do this you drag down over the material you want to exclude - it turns
+ To do this you drag down over the material you want to exclude – it turns
  gray leaving the part you are interested in easy to see at a glance.
- You can remove any one of these grayed-out areas - or all of them - by
+ You can remove any one of these grayed-out areas – or all of them – by
  clicking 
 \emph on
 inside
@@ -9635,7 +9836,7 @@ PDF
 \end_layout
 
 \begin_layout Standard
-There are limitations - the PDF must be created from your score with point-and-c
+There are limitations – the PDF must be created from your score with point-and-c
 lick (the default) and you must not alter the score in a way that would
  invalidate the point-and-click.
  (Basically, don't edit again until the proof-reading is done, always good
@@ -9726,7 +9927,11 @@ Templates
 Denemo comes with a few preinstalled templates.
  You can also create your own templates as well, in fact you can use any
  Denemo file as a template, just open it using File->Open->Open Custom Template.
- (The only difference is that, opened this way, the score is a new i.e.
+ (The only difference is that, opened this way, the score is a new i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  untitled score)
 \end_layout
 
@@ -9788,10 +9993,10 @@ reference "sub:Physical-Transposition"
 
 ) but usually it is far better just to say that you want score to be typeset
  in the new key.
- This takes care of everything in one go - even footnotes that refer to
+ This takes care of everything in one go – even footnotes that refer to
  the pitches of notes in the music will transpose (unless you have entered
  them as fixed values).
- And your input music stays looking just as you entered it - essential if
+ And your input music stays looking just as you entered it – essential if
  you have to look back and compare with a source for instance.
 \end_layout
 
@@ -9805,8 +10010,8 @@ Transpose on Print
 \begin_inset Quotes erd
 \end_inset
 
- is a graphical user interface - you get presented with a new tab containing
- two notes - clicking the Transpose button will transpose so that the first
+ is a graphical user interface – you get presented with a new tab containing
+ two notes – clicking the Transpose button will transpose so that the first
  pitch will be typeset as the second one.
  The initial values a C and E♭ (up a minor third) so by typing G this would
  become up a fifth.
@@ -9815,7 +10020,7 @@ Transpose on Print
 \end_layout
 
 \begin_layout Standard
-The other command is quicker but more technical - (Print) Transposed lets
+The other command is quicker but more technical – (Print) Transposed lets
  you type in the names of the two notes.
  The technical bit is how you specify sharp and flat and which octave.
  To specify sharp the note is followed by 
@@ -9857,7 +10062,11 @@ spose menu.
  The most general of the commands are Arbitrary Transpose Down and Arbitrary
  Transpose Up.
  These allow you to describe the interval you want to transpose the music
- by e.g.
+ by e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  m7 for a minor seventh, d5 for diminished 5th.
  Alternatively you can use two pitches to describe the interval as in the
  previous section.
@@ -9894,7 +10103,7 @@ There are two categories of search available in Denemo.
 
 \begin_layout Standard
 In Navigation->Seek is the command to find a selected rhythmic pattern (Ctrl-f,
- Ctrl-f) - that is to find a sequence of notes with the same rhythms as
+ Ctrl-f) – that is to find a sequence of notes with the same rhythms as
  those of the selection.
  Once found the pattern can be edited, either manually or by executing a
  series of steps recorded in the Scheme window (see section 
@@ -10050,7 +10259,7 @@ Tablature
 \end_layout
 
 \begin_layout Standard
-Music can be displayed in tablature - the default is for standard guitar
+Music can be displayed in tablature – the default is for standard guitar
  tuning but others can be set.
  The menus to explore are:
 \end_layout
@@ -10166,8 +10375,8 @@ Pending Accidental
 \end_layout
 
 \begin_layout Standard
-Chord Charts can also be created - there is a Chord Charts palette for these.
- Compact chord charts require a patch to LilyPond - enquire on the mailing
+Chord Charts can also be created – there is a Chord Charts palette for these.
+ Compact chord charts require a patch to LilyPond – enquire on the mailing
  list for this.
 \end_layout
 
@@ -10294,7 +10503,7 @@ height_special "totalheight"
 status open
 
 \begin_layout Plain Layout
-Mouse Shortcuts are tricky to set - you are able to control what happens
+Mouse Shortcuts are tricky to set – you are able to control what happens
  on mouse button press and release, which can be used to do things like
  drag notes up and down.
  But they are tricky to set up!
@@ -10324,7 +10533,7 @@ It is possible to add more commands to the set that Denemo ships with.
 \end_layout
 
 \begin_layout Paragraph
-An example - quicker dynamics selection
+An example – quicker dynamics selection
 \end_layout
 
 \begin_layout Standard
@@ -10419,7 +10628,8 @@ Or, suppose you wanted a command to delete the next note (there are commands
 
 \begin_layout Standard
 You can save the command in your default sequence of commands (via Edit->Customi
-ze Commands...->Manage Command Set->Save as Default Command Set).
+ze Commands\SpecialChar \ldots{}
+->Manage Command Set->Save as Default Command Set).
  If not you will be asked if you want to save your new commands when you
  exit.
  Otherwise you can re-load via the More->My Commands menu item.
@@ -10599,7 +10809,7 @@ default" which inserts the default rehearsal mark.
  a 
 \backslash
  sign).
- You can change this to insert any other LilyPond that you need - always
+ You can change this to insert any other LilyPond that you need – always
  doubling the 
 \backslash
  signs.
@@ -10619,7 +10829,8 @@ Commands Getting User Input
 \end_layout
 
 \begin_layout Standard
-All these commands are invoked from scheme as (d-Command args...)
+All these commands are invoked from scheme as (d-Command args\SpecialChar \ldots{}
+)
 \end_layout
 
 \begin_layout Itemize
@@ -10629,7 +10840,11 @@ GetChar returns a string containing a single character from the user (blocks
 
 \begin_layout Itemize
 GetKeypress returns a string representing a keypress from the user (blocks
- waiting for a keypress) (e.g.
+ waiting for a keypress) (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  Up for the up arrow key etc.)
 \end_layout
 
@@ -10958,7 +11173,11 @@ Directives
 \begin_layout Itemize
 (StandAloneSelfEditDirective pair #:optional (step? #t) (graphic #f) (displaytex
 t #f) (minpixels #f) the pair is a tag and the LilyPond syntax to insert
- e.g.
+ e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  (cons "BreathMark" "
 \backslash
 
@@ -10976,7 +11195,11 @@ Message Bar
 \begin_layout Standard
 These commands put a message on the status bar to the right hand side.
  They are defined in actions/denemo-modules/helpsystem.scm.
- Help messages are pushed paired with a symbol (e.g.
+ Help messages are pushed paired with a symbol (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  (cons ('mytag 
 \begin_inset Quotes eld
 \end_inset
@@ -11098,7 +11321,8 @@ GetPosition ;use result with (apply d-GoToPosition position)) to go to the
 \end_layout
 
 \begin_layout Subsection
-More ...
+More \SpecialChar \ldots{}
+
 \end_layout
 
 \begin_layout Standard
@@ -11114,7 +11338,12 @@ This is a fairly comprehensive listing of Scheme commands that are built-in
 params
 \series default
 \emph default
- ...), e.g.
+ \SpecialChar \ldots{}
+), e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  (d-GetNote 2) gets the second note from the bottom in a chord.
 \end_layout
 
@@ -11167,7 +11396,7 @@ GetPadding.
 
 \begin_layout Itemize
 GetRelativeFontSize.
- Deprecated - gets an integer from the user via a dialog
+ Deprecated – gets an integer from the user via a dialog
 \end_layout
 
 \begin_layout Itemize
@@ -11304,7 +11533,11 @@ GetNonprinting.
 SetNonprinting.
  Sets the Non Printing attribute of a chord (or note/rest) at the cursor.
  For a rest this makes a non printing rest, for a note it makes it ia pure
- rhythm (which will not print, but can be assigned pitch, e.g.
+ rhythm (which will not print, but can be assigned pitch, e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  via a MIDI keyboard.
  Pass in #f to unset the attribute
 \end_layout
@@ -11470,21 +11703,24 @@ PutWholeMeasureRests.
 
 \begin_layout Itemize
 GetNote.
- Takes optional integer parameter n = 1..., returns LilyPond representation
+ Takes optional integer parameter n = 1 \SpecialChar \ldots{}
+, returns LilyPond representation
  of the nth note of the chord at the cursor counting from the lowest, or
  #f if none
 \end_layout
 
 \begin_layout Itemize
 GetNoteFromTop.
- Takes optional integer parameter n = 1..., returns LilyPond representation
+ Takes optional integer parameter n = 1 \SpecialChar \ldots{}
+, returns LilyPond representation
  of the nth note of the chord at the cursor counting from the highest, or
  #f if none
 \end_layout
 
 \begin_layout Itemize
 GetNoteFromTopAsMidi.
- Takes optional integer parameter n = 1..., returns MIDI key for the nth note
+ Takes optional integer parameter n = 1 \SpecialChar \ldots{}
+, returns MIDI key for the nth note
  of the chord at the cursor counting from the highest, or #f if none
 \end_layout
 
@@ -11537,7 +11773,8 @@ GetRecordedMidiTempo.
 
 \begin_layout Itemize
 GetImportedMidiTrack.
- Takes an track number 1,2 ..., makes that MIDI track of the loaded MIDI stream
+ Takes an track number 1,2 \SpecialChar \ldots{}
+, makes that MIDI track of the loaded MIDI stream
  the current recorded track.
 \end_layout
 
@@ -11572,7 +11809,11 @@ GetDurationInTicks.
 GetBaseDurationInTicks.
  Returns the number of ticks (PPQN) for the chord without dots or tuplet
  effects at the cursor, or #f if not a chord.
- The value is -ve for special durations (i.e.
+ The value is -ve for special durations (i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  non-standard notes)
 \end_layout
 
@@ -11601,7 +11842,7 @@ CursorToNote.
 
 \begin_layout Itemize
 CursorToNthNoteHeight.
- Takes a number 1 ...
+ Takes a number 1 \SpecialChar \ldots{}
  n.
  Moves the cursor to the nth note from the bottom of the chord at the cursor,
  returning #f if it fails.
@@ -11649,7 +11890,7 @@ GetPrevailingTimesigAsLilyPond.
 \begin_layout Itemize
 GetPrevailingDuration.
  Returns the prevailing duration, ie duration which will be used for the
- next inserted note, with a parameter 0 ...
+ next inserted note, with a parameter 0 \SpecialChar \ldots{}
  8 sets the prevailing duration.
 \end_layout
 
@@ -11924,7 +12165,7 @@ GetOffset.
 \begin_layout Itemize
 GetControlPoint.
  Interactively sets a control point for a curve in the print view window.
- Takes one parameter the number 1-4 of the control point to set.
+ Takes one parameter the number 1–4 of the control point to set.
 \end_layout
 
 \begin_layout Itemize
@@ -11971,7 +12212,7 @@ ShowPalettes.
 \begin_layout Itemize
 SelectPalette.
  Returns the current palette name.
- The palette status is not changed - it may be hidden.
+ The palette status is not changed – it may be hidden.
  Pass a palette name to become the current palette or pass #t to choose
  a palette as the current palette.
 \end_layout
@@ -12130,7 +12371,11 @@ GetPassword.
 \begin_layout Itemize
 GetKeyboardState.
  Returns an integer value, a set of bitfields representing the keyboard
- state, e.g.
+ state, e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  GDK_SHIFT_MASK etc
 \end_layout
 
@@ -12170,7 +12415,7 @@ GetMidi.
 
 \begin_layout Itemize
 SetMidiCapture.
- Takes one bool parameter - MIDI events will be captured/not captured depending
+ Takes one bool parameter – MIDI events will be captured/not captured depending
  on the value passed in, returns previous value.
 \end_layout
 
@@ -12193,7 +12438,7 @@ MidiRecord.
  Starts playback and synchronously records from MIDI in.
  any script passed in is run at the end of the recording.
  The recording will play back with future play until deleted.
- The recording is not saved with the score - convert to notation first,
+ The recording is not saved with the score – convert to notation first,
 \end_layout
 
 \begin_layout Itemize
@@ -12253,7 +12498,7 @@ OutputMidiBytes.
 
 \begin_layout Itemize
 PlayMidiKey.
- Deprecated - takes an integer which is decomposed into a MIDI note played
+ Deprecated – takes an integer which is decomposed into a MIDI note played
  for 100ms
 \end_layout
 
@@ -12264,7 +12509,7 @@ PendingMidi.
 
 \begin_layout Itemize
 PlayMidiNote.
- Takes midi key number, volume 0-255, duration in ms and channel 0-15 and
+ Takes midi key number, volume 0–255, duration in ms and channel 0–15 and
  plays the note on midi out.
 \end_layout
 
@@ -12390,7 +12635,7 @@ MasterVolume.
 
 \begin_layout Itemize
 StaffMasterVolume.
- Takes a double 0-1 and sets the staff master volume for the current staff,
+ Takes a double 0–1 and sets the staff master volume for the current staff,
  returns the value.
 \backslash
 nWith no parameter returns the current value or zero if staff is muted.
@@ -12952,8 +13197,9 @@ A MIDI file can be loaded into Denemo in order to convert it to music notation.
 (d-GetImportedMidiTrack n) gets the n'th MIDI track loads a MIDI track chosen
  by the user, using the Clef, Time signature and key signature of the current
  staff.
- The track is represented by ...
- the C routine compute_midi_note_durations() is called
+ The track is represented by \SpecialChar \ldots{}
+ the C routine compute_midi_note_durations()
+ is called
 \end_layout
 
 \begin_layout Itemize
@@ -12961,7 +13207,7 @@ A MIDI file can be loaded into Denemo in order to convert it to music notation.
 \end_layout
 
 \begin_layout Subsection
-...
+\SpecialChar \ldots{}
  and More
 \end_layout
 
@@ -13000,7 +13246,11 @@ d-NextChord as d-NextObject, but skipping non-chord objects.
 \end_layout
 
 \begin_layout Itemize
-d-NextNote as d-NextChord but skipping rests (i.e.
+d-NextNote as d-NextChord but skipping rests (i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  chords with 0 notes).
 \end_layout
 
@@ -13075,8 +13325,12 @@ d-InputFilterNames sets the status bar
 \end_layout
 
 \begin_layout Itemize
-d-Chordize Ensure that even a single note is treated as a chord - needed
- for some LilyPond constructs (e.g.
+d-Chordize Ensure that even a single note is treated as a chord – needed
+ for some LilyPond constructs (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  fingerings)
 \end_layout
 
@@ -13216,7 +13470,11 @@ Introduction
 \begin_layout Standard
 From version 0.7.8 we have the ability to edit the LilyPond output within
  Denemo.
- This approach immediately makes Denemo able to do many more things (e.g.
+ This approach immediately makes Denemo able to do many more things (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  multiple verses for songs) with the music still editable from within Denemo.
  The gallery of examples and the standard templates contain examples which
  you can use.
@@ -13302,7 +13560,7 @@ The main Denemo window also moves its cursor to correspond with where you
  are editing.
  (It should of course move the cursor immediately you click on a point in
  the music, but, as yet, it only moves the cursor when you press a key just
- before the note name - one of the arrow keys will do).
+ before the note name – one of the arrow keys will do).
 \end_layout
 
 \begin_layout Standard
@@ -13311,7 +13569,11 @@ Custom layout blocks can be created by right-clicking on the Standard score
  The Score Layout window allows creation of customized layouts via a GUI.
  If you print a single part from all movements, you get the standard scoreblock
  for this and can add it to your custom score block so that a single print
- command prints, e.g.
+ command prints, e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  both a full score and parts.
  Using the 
 \backslash
@@ -13425,9 +13687,10 @@ Musical Scores that Do Things!
 
 \begin_layout Standard
 By saving a Denemo score with a script defined (in the script window) you
- can create music lessons, automatic midi player...
- the possibilities are endless.
- When you open such a score, the script is run - it can take user input
+ can create music lessons, automatic midi player \SpecialChar \ldots{}
+ the possibilities are
+ endless.
+ When you open such a score, the script is run – it can take user input
  and manipulate the score, or do other actions as your fancy takes you.
 \end_layout
 
@@ -13460,22 +13723,23 @@ A denemo file called init.denemo is/was loaded, but this is deprecated.
 \begin_layout Standard
 In addition, on startup a set of keyboard and mouse shortcuts, and a selection
  of optional menu items are loaded.
- Other sets are available via the Edit->Customize Commands ...->Manage Command
+ Other sets are available via the Edit->Customize Commands \SpecialChar \ldots{}
+->Manage Command
  Set dialog.
 \end_layout
 
 \begin_layout Subsection
-Starting Denemo - Command Line Options
+Starting Denemo – Command Line Options
 \end_layout
 
 \begin_layout Standard
-Denemo --help shows the options at startup.
+Denemo –help shows the options at startup.
  You can open a specific score, execute a scheme script (from a file or
  on the command line) and more.
 \end_layout
 
 \begin_layout Part
-Technical Reference - Denemo Directives
+Technical Reference – Denemo Directives
 \end_layout
 
 \begin_layout Section
@@ -13521,7 +13785,7 @@ Denemo Directives can be attached at almost every level of a Denemo score
  Elements, such as clefs notes etc have their own built-in display and print
  properties; Denemo Directives allow you (or scripts you invoke) to modify
  them for many more purposes than the built-in set allows.
- This means Denemo can grow - you can add features - without getting a new
+ This means Denemo can grow – you can add features – without getting a new
  version.
 \end_layout
 
@@ -13604,7 +13868,11 @@ timesig: Attached to a time signature or time signature change.
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
 keysig: as timesig but for key signatures.
- (e.g.
+ (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  used to supress keysignatures in drum clef).
 \end_layout
 
@@ -13622,7 +13890,7 @@ voice: The postfix field modifies the voice context, with the display field
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-standalone: A directive not attached to an music element - it comes with
+standalone: A directive not attached to an music element – it comes with
  the music and is used for things like repeat bars etc.
 \end_layout
 
@@ -13774,31 +14042,31 @@ The fields in d-DirectiveGet/Put have the following meanings:
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-postfix - A fragment of LilyPond to be output (after the LilyPond for any
+postfix – A fragment of LilyPond to be output (after the LilyPond for any
  object the directive is attached to).
  
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-prefix - A fragment of LilyPond to be output (before the LilyPond for any
+prefix – A fragment of LilyPond to be output (before the LilyPond for any
  object the directive is attached to).
  
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-display - text to be shown in the Denemo Display
+display – text to be shown in the Denemo Display
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-tx,ty - where to show the text in the Denemo Display
+tx,ty – where to show the text in the Denemo Display
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-graphic - For directives that are in the music this is a .png image to be
+graphic – For directives that are in the music this is a .png image to be
  shown in the Denemo Display (the directory bitmaps holds these).
  The graphic can be saved for a command using the right-click -> Save Graphic
  command, after selecting a portion of the print preview as the image required.
@@ -13809,29 +14077,33 @@ graphic - For directives that are in the music this is a .png image to be
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-gx,gy - where to show thegraphic in the Denemo Display
+gx,gy – where to show thegraphic in the Denemo Display
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-minpixels - how much space to leave for this item in the Denemo Display
+minpixels – how much space to leave for this item in the Denemo Display
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-override - Contains bits to determine whether the LilyPond contained in
+override – Contains bits to determine whether the LilyPond contained in
  the Directive (postfix and/or prefix fields) should override the normal
  LilyPond output, and whether the Graphic should replace the normal Denemo
  display for the item.
  A further tranche of bits controls MIDI output for the directive, which
  can override the normal MIDI interpretation of the music and provide additional
- information not explicit in the music notation (e.g.
+ information not explicit in the music notation (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  the tempo of an Adagio marking).
 \end_layout
 
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
-midibytes - a string of numbers (in hexadecimal format) whose interpretation
+midibytes – a string of numbers (in hexadecimal format) whose interpretation
  is given by the MIDI bits in the override field
 \end_layout
 
@@ -13905,7 +14177,11 @@ DENEMO_OVERRIDE_STEP: the value in midibytes is to be used from this point
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
 DENEMO_OVERRIDE_RAMP: the value in midibytes is to be used as a starting
- value, a corresponding directive (i.e.
+ value, a corresponding directive (i.
+\begin_inset space \thinspace{}
+\end_inset
+
+e.
  with the same tag) gives the findal value, values are then interpolated
  between these.
  not yet implemented
@@ -13914,7 +14190,11 @@ DENEMO_OVERRIDE_RAMP: the value in midibytes is to be used as a starting
 \begin_layout Labeling
 \labelwidthstring 00.00.0000
 DENEMO_OVERRIDE_RELATIVE: value in midibytes is used relative to the current
- value (otherwise it is an absolute value; e.g.
+ value (otherwise it is an absolute value; e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
  an absolute velocity etc)
 \end_layout
 
@@ -14037,7 +14317,7 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-Score and movement directives can define a value for their graphic - a button
+Score and movement directives can define a value for their graphic – a button
  then appears at the top of the score which can be used to edit the directive.
  Likewise Staff and Voice directives show as a properties icon before the
  staff to which they apply (staff directives above, voice directives below).
