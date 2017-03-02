@@ -3157,6 +3157,28 @@ scheme_get_note (SCM count)
 }
 
 SCM
+scheme_get_note_staff_position (SCM count)
+{
+  gint index = 0;
+  DenemoObject *curObj;
+  chord *thechord;
+  note *thenote;
+  if (scm_is_integer (count))
+    {
+      index = scm_to_int (count) - 1;
+      if (index < 0)
+        return SCM_BOOL_F;
+    }
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) || !(thechord = (chord *) curObj->object) || !(thechord->notes) || !(thenote = (note *) g_list_nth_data (thechord->notes, index)))
+    return SCM_BOOL_F;
+  else
+    {
+      return scm_from_int(4 - thenote->y/HALF_LINE_SPACE);
+    }
+
+}
+
+SCM
 scheme_get_note_from_top (SCM count)
 {
   gint index = 1;
@@ -5922,7 +5944,23 @@ scheme_has_figures (SCM optional)
   return SCM_BOOL (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->hasfigures);
 }
 
-
+SCM
+scheme_get_bass_figure (void)
+{
+  DenemoObject *curObj;
+  chord *thechord;
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data) || (curObj->type != CHORD) 
+      || !(thechord = (chord *) curObj->object)
+      || ! (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->hasfigures))
+    return SCM_BOOL_F;
+  else
+    { 
+      if ((thechord->figure == NULL) || ((((GString *) ((chord *) thechord->figure))->str) == NULL))
+        return scm_from_locale_string ("_");       /* the no-figure figure */
+      else
+        return scm_from_locale_string (((GString *) ((chord *) thechord->figure))->str);    
+    }
+}
 
 //badly named:
 SCM

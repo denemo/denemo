@@ -171,6 +171,7 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Takes a space separated list of notes in LilyPond syntax and inserts/appends a chord at the cursor in the prevailing duration, or if given a integer, in that duration, not setting the prevailing duration.", DENEMO_SCHEME_PREFIX "InsertChord", scheme_insert_chord);
   install_scm_function (0, "Insert rests at the cursor to the value of the one whole measure in the key signature and return the number of rests inserted", DENEMO_SCHEME_PREFIX "PutWholeMeasureRests", scheme_put_whole_measure_rests);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the lowest, or #f if none", DENEMO_SCHEME_PREFIX "GetNote", scheme_get_note);
+  install_scm_function (0, "Takes optional integer parameter n = 1..., returns the number of diatonic steps above the center-line of the staff of the  nth note (counting from the lowest) of the chord at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteStaffPosition", scheme_get_note_staff_position);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns LilyPond representation of the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTop", scheme_get_note_from_top);
   install_scm_function (0, "Takes optional integer parameter n = 1..., returns MIDI key for the nth note of the chord at the cursor counting from the highest, or #f if none", DENEMO_SCHEME_PREFIX "GetNoteFromTopAsMidi", scheme_get_note_from_top_as_midi);
   install_scm_function (0, "Returns a space separated string of LilyPond notes for the chord at the cursor position or #f if none", DENEMO_SCHEME_PREFIX "GetNotes", scheme_get_notes);
@@ -1105,6 +1106,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes a timer id and destroys the timer", DENEMO_SCHEME_PREFIX "KillTimer", scheme_kill_timer);
 
   install_scm_function (0, "Returns #f if the current staff has no figures (or will not print out figured bass. See d-ShowFiguredBass)", DENEMO_SCHEME_PREFIX "HasFigures", scheme_has_figures);
+  install_scm_function (0, "Returns bass figure string for current note or rest)", DENEMO_SCHEME_PREFIX "GetBassFigure", scheme_get_bass_figure);
 
   install_scm_function (2, "Returns a string for the bass figure for the two MIDI keys passed in", DENEMO_SCHEME_PREFIX "BassFigure", scheme_bass_figure);
 
