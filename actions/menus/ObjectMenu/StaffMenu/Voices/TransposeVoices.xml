@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TransposeVoices</action>
+        <_label>(Print) Transpose</_label>
+        <_tooltip>Prints the voices transposed by the interval given. This is in addition to any score-wide transposition and any staff-wide transposition</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
