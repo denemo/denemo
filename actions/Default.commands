@@ -8092,6 +8092,19 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Divide Syllables with Hyphen</_label>
         <_tooltip>Typesets a hyphen between the syllables at the cursor, if there is sufficient room.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AutoBassFigureHeight</action>
+        <after>AdjustBassFigureHeight</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <_label>Adjust All Heights</_label>
+        <_tooltip>Sets the heights of the bass figures above the notes throughout the score to avoid ungainly positions. The bass figures must be on the lowest staff</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TransposeVoices</action>
+        <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
+        <_label>(Print) Transpose</_label>
+        <_tooltip>Prints the voices transposed by the interval given. This is in addition to any score-wide transposition and any staff-wide transposition</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1460,6 +1460,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml
+actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.scm
+actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm
@@ -2141,6 +2143,8 @@ actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOff.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOff.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOn.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOn.xml
+actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.scm
+actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.xml
 actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.scm
 actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.xml
 actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.scm
