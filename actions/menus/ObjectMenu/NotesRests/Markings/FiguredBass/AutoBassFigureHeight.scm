@@ -1,5 +1,5 @@
 (let ()
-(define (AdjustFigures) (disp "Adjust Figures\n\n")
+(define (AdjustFigures) 
     (d-MoveToBeginning)
     (while (d-StaffDown))
     (while (d-NextNote)
@@ -58,8 +58,8 @@
                         (set! thelist (cons num thelist))))
                 (reverse thelist)) ;;;end create figure heights list
 ;;;procedure
-           (if (and fig height (not (equal-string? fig "_")))
-            (let ((thelist (figure-heights fig))(before 0)(after 0))
+           (if (and fig height (not (equal? fig "_")))
+            (let ((thelist (figure-heights fig))(before 0)(after 0)(after-fig "~"))
                         (if (d-MoveCursorLeft)
                             (begin
                                 (set! before (d-GetNoteStaffPosition))
@@ -69,16 +69,18 @@
                                 (if (d-MoveCursorRight)
                                     (begin
                                         (set! after (d-GetNoteStaffPosition))
+                                        (set! after-fig (d-GetBassFigure))
                                         (if (not after)
                                             (set! after 0))
                                         (d-MoveCursorLeft)))))
-                        (if (and (> before height)(> after height)) ;this note is in a trough
-                            (begin (disp "the list " thelist "\n")
-                                (set! before (if (> before after) after before))
-                                 (adjust before thelist))
-                             (begin
-                                (if (multiple fig)
-                                    (adjust (if (d-IsTied) (1+ height) height) thelist))))))))) ;;;end of AdjustFigures for whole movement       
+                         (if (not (equal? after-fig "~"))
+		                (if (and (> before height)(> after height)) ;this note is in a trough
+		                    (begin (disp "the list " thelist "\n")
+		                        (set! before (if (> before after) after before))
+		                         (adjust before thelist))
+		                     (begin
+		                        (if (multiple fig)
+		                            (adjust (if (d-IsTied) (1+ height) height) thelist)))))))))) ;;;end of AdjustFigures for whole movement       
                                  
 (d-PushPosition)
 (while (d-PreviousMovement))
