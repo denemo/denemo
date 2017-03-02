@@ -253,7 +253,7 @@
             (if (Rest?)
                 (ExtraOffset "RestOffset" "Rest" "chord" "Voice." (cons offsetx offsety) DENEMO_OVERRIDE_AFFIX)
                 (if (equal? grob "BassFigure")
-          (d-AdjustBassFigureHeight offsety)))))
+          (d-AdjustBassFigureHeight (cons "FBHeight1" offsety))))))
     (d-SetSaved #f))
 ;;;;;;;;;;;
 (define (SetSlur control-points)
