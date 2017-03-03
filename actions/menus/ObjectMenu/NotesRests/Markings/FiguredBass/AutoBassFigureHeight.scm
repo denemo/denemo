@@ -1,12 +1,17 @@
-(let ()
-(define (AdjustFigures) 
+(let ((transpose 0))
+(define (AdjustFigures)
+    (define (GetNoteStaffPosition)
+        (define height (d-GetNoteStaffPosition))
+        (if height
+                (+ transpose height)
+                #f))
     (d-MoveToBeginning)
-    (while (d-StaffDown))
+    (while (d-MoveToStaffDown))
     (while (d-NextNote)
-        (let ((fig (d-GetBassFigure)) (height  (d-GetNoteStaffPosition)))
+        (let ((fig (d-GetBassFigure)) (height  (GetNoteStaffPosition)))
             (define (multiple fig)
                 (string-index fig #\|))
-            
+                
            (define (adjust height thelist)
                 (define count 0)
                 (if  (< height 4)
@@ -62,26 +67,31 @@
             (let ((thelist (figure-heights fig))(before 0)(after 0)(after-fig "~"))
                         (if (d-MoveCursorLeft)
                             (begin
-                                (set! before (d-GetNoteStaffPosition))
+                                (set! before (GetNoteStaffPosition))
                                 (if (not before)
                                     (set! before 0))
                                 (d-MoveCursorRight)
                                 (if (d-MoveCursorRight)
                                     (begin
-                                        (set! after (d-GetNoteStaffPosition))
+                                        (set! after (GetNoteStaffPosition))
                                         (set! after-fig (d-GetBassFigure))
                                         (if (not after)
                                             (set! after 0))
                                         (d-MoveCursorLeft)))))
                          (if (not (equal? after-fig "~"))
-		                (if (and (> before height)(> after height)) ;this note is in a trough
-		                    (begin (disp "the list " thelist "\n")
-		                        (set! before (if (> before after) after before))
-		                         (adjust before thelist))
-		                     (begin
-		                        (if (multiple fig)
-		                            (adjust (if (d-IsTied) (1+ height) height) thelist)))))))))) ;;;end of AdjustFigures for whole movement       
-                                 
+                        (if (and (> before height)(> after height)) ;this note is in a trough
+                            (begin (disp "the list " thelist "\n")
+                                (set! before (if (> before after) after before))
+                                 (adjust before thelist))
+                             (begin
+                                (if (multiple fig)
+                                    (adjust (if (d-IsTied) (1+ height) height) thelist)))))))))) ;;;end of AdjustFigures for whole movement       
+ (if  (d-Directive-score? "TransposeOnPrint")
+    (begin
+        (set! transpose (d-GetUserInput "Transposed Score" "Give transposition steps (e.g. -2 for down a second)" "3"))
+        (if (and transpose (string->number transpose))
+            (set! transpose (string->number transpose))
+            (set! transpose 0))))
 (d-PushPosition)
 (while (d-PreviousMovement))
 (AdjustFigures)
