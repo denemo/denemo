@@ -68,24 +68,24 @@
                         (if (d-MoveCursorLeft)
                             (begin
                                 (set! before (GetNoteStaffPosition))
-                                (if (not before)
-                                    (set! before 0))
+                                (if (or (not before) (< before 5))
+                                    (set! before height))
                                 (d-MoveCursorRight)
                                 (if (d-MoveCursorRight)
                                     (begin
                                         (set! after (GetNoteStaffPosition))
                                         (set! after-fig (d-GetBassFigure))
-                                        (if (not after)
-                                            (set! after 0))
+                                        (if (or (not after) (< after 5))
+                                            (set! after height))
                                         (d-MoveCursorLeft)))))
                          (if (not (equal? after-fig "~"))
-                        (if (and (> before height)(> after height)) ;this note is in a trough
-                            (begin (disp "the list " thelist "\n")
-                                (set! before (if (> before after) after before))
-                                 (adjust before thelist))
-                             (begin
-                                (if (multiple fig)
-                                    (adjust (if (d-IsTied) (1+ height) height) thelist)))))))))) ;;;end of AdjustFigures for whole movement       
+		                (if (and (> before height)(> after height)) ;this note is in a trough
+		                    (begin ;(disp "the list " thelist "\n")
+		                        (set! before (if (> before after) after before))
+		                         (adjust before thelist))
+		                     (begin
+		                        (if (multiple fig)
+		                            (adjust (if (d-IsTied) (1+ height) height) thelist)))))))))) ;;;end of AdjustFigures for whole movement       
  (if  (d-Directive-score? "TransposeOnPrint")
     (begin
         (set! transpose (d-GetUserInput "Transposed Score" "Give transposition steps (e.g. -2 for down a second)" "3"))
