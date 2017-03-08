@@ -2119,7 +2119,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 8);
  
-#if GTK_MAJOR_VERSION==2       
+#if (GTK_MAJOR_VERSION==3 && GTK_MINOR_VERSION<8) 
            gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW ((*psb)->widget), vbox);
 #else          
           gtk_container_add (GTK_CONTAINER((*psb)->widget), vbox);

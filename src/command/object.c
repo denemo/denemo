@@ -633,7 +633,7 @@ display_current_object_callback (void)
           gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
           GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
           
-#if GTK_MAJOR_VERSION==2       
+#if (GTK_MAJOR_VERSION==3 && GTK_MINOR_VERSION<8)       
           gtk_scrolled_window_add_with_viewport (GTK_SCROLLED_WINDOW (scrolled_window), inner_box);
 #else          
           gtk_container_add (GTK_CONTAINER(scrolled_window), inner_box);
