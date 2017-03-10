@@ -101,7 +101,6 @@ print-all-headers = ##t
       <voice id="id2">
         <voice-info>
           <voice-name>soprano</voice-name>
-          <subpart></subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -687,7 +686,6 @@ Denemo
       <voice id="id104">
         <voice-info>
           <voice-name>tenor</voice-name>
-          <subpart></subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -971,7 +969,6 @@ Denemo
       <voice id="id155">
         <voice-info>
           <voice-name>bass</voice-name>
-          <subpart></subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>

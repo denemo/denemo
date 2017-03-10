@@ -11,32 +11,6 @@
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
-  <rhythms>
-    <rhythm lilypond=" c'  1" nickname="Punctum">
-      <objects>
-        <chord show="false" id="id0">
-          <duration base="whole"></duration>
-          <notes>
-            <note id="id1">
-              <middle-c-offset>0</middle-c-offset>
-              <directives>
-                <directive>
-                  <tag>NoteHead</tag>
-                  <graphic_name>
-
-emmentaler
-60</graphic_name>
-                  <gx>-10</gx>
-                  <gy>2</gy>
-                  <override>4</override>
-                </directive>
-              </directives>
-            </note>
-          </notes>
-        </chord>
-      </objects>
-    </rhythm>
-  </rhythms>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
@@ -76,16 +50,16 @@ emmentaler
       </tempo>
     </score-info>
     <staves>
-      <staff id="id2"></staff>
+      <staff id="id0"></staff>
     </staves>
     <voices>
-      <voice id="id3">
+      <voice id="id1">
         <voice-info>
           <voice-name>Cantus</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id2"></staff-ref>
+          <staff-ref staff="id0"></staff-ref>
           <clef name="baritone">
             <directives>
               <directive>
