@@ -49,6 +49,7 @@ const gchar *get_prevailing_keysig_as_lilypond (void);
 const gchar *get_prevailing_timesig_as_lilypond (void);
 void set_voice_termination (GString * str, DenemoStaff * curstaffstruct);
 void set_staff_termination (GString * str, DenemoStaff * curstaffstruct);
+void set_staff_finalize (GString * str, DenemoStaff * curstaffstruct);
 void set_voice_definition (GString * str, DenemoStaff * curstaffstruct, gchar * denemo_name);
 void set_staff_definition (GString * str, DenemoStaff * curstaffstruct);
 gint get_cursor_offset (void);

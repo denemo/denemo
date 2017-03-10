@@ -2436,34 +2436,79 @@ get_alt_non_aff_prefix (GList * g)
     }
   return g_string_free (s, FALSE);
 }
+static gchar *
+get_alt_non_aff_postfix (GList * g)
+{
+  GString *s = g_string_new ("");
+  for (; g; g = g->next)
+    {
+      DenemoDirective *d = g->data;
+      if (wrong_layout (d, Denemo.project->layout_id))
+        continue;
+      if ((d->override & DENEMO_ALT_OVERRIDE) && d->postfix &&!(d->override & DENEMO_OVERRIDE_AFFIX))
+        g_string_append (s, d->postfix->str);
+    }
+  return g_string_free (s, FALSE);
+}
+
+static gchar *
+get_non_alt_postfix (GList * g)
+{
+  GString *s = g_string_new ("");
+  for (; g; g = g->next)
+    {
+      DenemoDirective *d = g->data;
+      if (wrong_layout (d, Denemo.project->layout_id))
+        continue;
+      if (!(d->override & DENEMO_ALT_OVERRIDE) && d->postfix)
+        g_string_append (s, d->postfix->str);
+    }
+  return g_string_free (s, FALSE);
+}
 
 void
 set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
 {
   gint staff_override = get_lily_override (curstaffstruct->staff_directives);
-  gchar *staff_prolog_insert = get_skip_prefix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH); //was get_prefix  ignores directives with DENEMO_OVERRIDE_AFFIX set it *does take ALT_OVERRIDE though
+  gchar *staff_prolog_insert = get_skip_prefix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH); //DENEMO_ALT_OVERRIDE | DENEMO_OVERRIDE_AFFIX  ignores directives with DENEMO_OVERRIDE_AFFIX or ALT_OVERRIDE
   gchar *staff_epilog_insert = get_skip_postfix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH);//was get_postfix ignores directives with DENEMO_OVERRIDE_AFFIX set
   gchar *denemo_name = curstaffstruct->subpart ? g_strdup_printf ("%s_%s", curstaffstruct->denemo_name->str, curstaffstruct->subpart->str) : curstaffstruct->denemo_name->str;
-  if (staff_override)
-    {
-      g_string_append_printf (str, "%s%s", staff_prolog_insert, staff_epilog_insert);
-    }
-  else
+
     {
       gchar *alt_override = get_alt_non_aff_prefix (curstaffstruct->staff_directives);       //This is only the prefix field being gotten
       if (*alt_override)
        {
            
-                g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert); 
+        if (staff_override)
+            {
+            g_string_append_printf (str, "%s %s%s", alt_override, staff_prolog_insert, staff_epilog_insert);
+            }
+        else
+            g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert); 
          
       } else 
       {
           g_free (alt_override);
           alt_override = get_include_prefix (curstaffstruct->staff_directives, DENEMO_OVERRIDE_WITH);  
           if (*alt_override)
+          {
+            if (staff_override)
+                {
+                g_string_append_printf (str, "%s %s%s", alt_override, staff_prolog_insert, staff_epilog_insert);
+                }
+            else
                g_string_append_printf (str, "\n%%Start of Staff\n  \\new Staff = \"%s\" \\with { %s }<< %s\n", denemo_name, alt_override, staff_epilog_insert); 
+           }
           else
-            g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
+            {
+                if (staff_override)
+                    {
+                    g_string_append_printf (str, "%s %s%s", alt_override, staff_prolog_insert, staff_epilog_insert);
+                    } 
+                else
+                    g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
+            
+        }
       }
       g_free (alt_override);
     }
@@ -2505,11 +2550,12 @@ set_voice_termination (GString * str, DenemoStaff * curstaffstruct)
     }
 }
 
+// termination is end of staff but before any figures, lyrics etc attached to the staff
 void
 set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
 {
   gint staff_override = (DENEMO_OVERRIDE_LILYPOND | DENEMO_OVERRIDE_AFFIX) == (get_override (curstaffstruct->staff_directives) & (DENEMO_OVERRIDE_LILYPOND | DENEMO_OVERRIDE_AFFIX));
-  gchar *staff_epilog_insert = get_postfix (curstaffstruct->staff_directives);
+  gchar *staff_epilog_insert = get_non_alt_postfix (curstaffstruct->staff_directives);
   if (staff_override)
     {
       g_string_append_printf (str, "%s", staff_epilog_insert);
@@ -2519,7 +2565,12 @@ set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
       g_string_assign (str, "\n" TAB TAB TAB ">> %End of Staff\n");
     }
 }
-
+//finalize is after all stuff associated with the staff
+void
+set_staff_finalize (GString * str, DenemoStaff * curstaffstruct)
+{
+  g_string_append (str, get_alt_non_aff_postfix (curstaffstruct->staff_directives));
+}
 void
 generate_lilypond_part (void)
 {

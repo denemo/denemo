@@ -1509,7 +1509,7 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget ** pvbox, gchar * partnam
       g_signal_connect (G_OBJECT (chords), "destroy", G_CALLBACK (remove_from_staff_list), pstaffs);
     }
 
-  gchar *label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Menu")) : g_strdup_printf (_("Staff %d Menu"), staff_count);
+  gchar *label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff Start")) : g_strdup_printf (_("Staff %d Start"), staff_count);
   GtkWidget *frame = gtk_frame_new (NULL);
 
   GtkWidget *staff_hbox = gtk_hbox_new (FALSE, 8);
@@ -1528,8 +1528,8 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget ** pvbox, gchar * partnam
 
 
 
-  menuitem = gtk_menu_item_new_with_label (_("Edit Staff Properties"));
-  gtk_widget_set_tooltip_text (menuitem, _("Edit the properties of the staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."));
+  menuitem = gtk_menu_item_new_with_label (_("Edit Staff Opening Syntax"));
+  gtk_widget_set_tooltip_text (menuitem, _("Edit the syntax creating this staff to customize this layout\nTake care only alter the obvious bits, such as instrument name etc\nInjudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."));
   g_signal_connect (menuitem, "activate", G_CALLBACK (prefix_edit_callback), frame);
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), menuitem);
 
@@ -1596,6 +1596,16 @@ install_staff_with_voices (GList ** pstaffs, GtkWidget ** pvbox, gchar * partnam
 
   install_voice (staff, movementnum, (*pvoice_count), voices_vbox);     //Primary voice
   do_verses (staff, vbox, movementnum, (*pvoice_count));
+
+{  
+    label_text = (si->thescore->next == NULL) ? g_strdup (_("Staff End")) : g_strdup_printf (_("Staff %d End"), staff_count);
+     GString *text = g_string_new ("");
+    set_staff_finalize (text, staff);
+    GtkWidget *butt = gtk_button_new_with_label (label_text);
+    g_free (label_text);
+    create_element (vbox, butt,  g_string_free (text, FALSE));
+}
+
 
   if (nextstaff && (nextstaff->voicecontrol & DENEMO_SECONDARY))
     {
