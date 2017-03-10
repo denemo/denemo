@@ -1,17 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitles</tag>
+      <postfix>     dedication = ##f
+     title = ##f
+     subtitle = ##f
+     subsubtitle = ##f
+     instrument = ##f
+     poet = ##f
+     composer = ##f
+     meter = ##f
+     arranger = ##f
+     tagline = ##f
+     copyright = ##f
+     piece = ##f
+     opus = ##f
+</postfix>
+      <display>Score Titles</display>
+      <data>(list (cons 'dedication #f)(cons 'title #f)(cons 'subtitle #f)(cons 'subsubtitle #f)(cons 'instrument #f)(cons 'poet #f)(cons 'composer #f)(cons 'meter #f)(cons 'arranger #f)(cons 'tagline #f)(cons 'copyright #f)(cons 'piece #f)(cons 'opus #f) '())</data>
+      <override>4</override>
+    </directive>
+  </scoreheader-directives>
   <paper-directives>
     <directive>
       <tag>PrintAllHeaders</tag>
-      <postfix>printallheaders = ##t
-</postfix>
-    </directive>
-    <directive>
-      <tag>LimitInterSystemSpace</tag>
       <postfix>
-page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = 1.2</postfix>
-      <data>1.2</data>
+print-all-headers = ##t
+</postfix>
     </directive>
   </paper-directives>
   <thumbnail>
@@ -26,19 +42,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <papersize>a4</papersize>
     <fontsize>24</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
-    <score-directives>
-      <directive>
-        <tag>UnknownScoreTag</tag>
-        <postfix>\transpose c c</postfix>
-      </directive>
-    </score-directives>
+    <total-edit-time>94</total-edit-time>
   </lilycontrol>
   <movement-number>1</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>16</measureno>
+      <measureno>1</measureno>
       <cursorposition>0</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
@@ -54,11 +64,24 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <display>Belle</display>
       </directive>
       <directive>
-        <tag>ScoreTitle</tag>
-        <postfix>title = "Untitled"
+        <tag>MovementTitles</tag>
+        <postfix>     dedication = ##f
+     title = \markup \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(DenemoSetTitles \"MovementTitles\" 'title #t)" {Belle Qui Tiens}
+     subtitle = ##f
+     subsubtitle = ##f
+     instrument = ##f
+     poet = ##f
+     composer = ##f
+     meter = ##f
+     arranger = ##f
+     tagline = ##f
+     copyright = ##f
+     piece = ##f
+     opus = ##f
 </postfix>
-        <display>Score Title: Untitled</display>
-        <override>36</override>
+        <display>Movement Titles</display>
+        <data>(list (cons 'dedication #f)(cons 'title "Belle Qui Tiens")(cons 'subtitle #f)(cons 'subsubtitle #f)(cons 'instrument #f)(cons 'poet #f)(cons 'composer #f)(cons 'meter #f)(cons 'arranger #f)(cons 'tagline #f)(cons 'copyright #f)(cons 'piece #f)(cons 'opus #f) '())</data>
+        <override>4</override>
       </directive>
     </header-directives>
     <score-info>
@@ -77,7 +100,8 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <voices>
       <voice id="id2">
         <voice-info>
-          <voice-name>Alto Recorder</voice-name>
+          <voice-name>soprano</voice-name>
+          <subpart></subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -102,13 +126,24 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <volume>65</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
-          <midi_prognum>0</midi_prognum>
+          <midi_prognum>75</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
         </voice-props>
         <measures>
           <measure>
+            <lily-directive>
+              <tag>Comment</tag>
+              <postfix> </postfix>
+              <display>Bar 8 has a forced line break</display>
+              <graphic_name>
+C
+Denemo
+24</graphic_name>
+              <minpixels>30</minpixels>
+              <override>8</override>
+            </lily-directive>
             <chord show="true" id="id3">
               <duration base="half"></duration>
               <notes>
@@ -367,10 +402,14 @@ Denemo
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true">
-              <postfix>\bar ":|"
-</postfix>
-              <override>32</override>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
         </measures>
@@ -634,16 +673,21 @@ Denemo
               </notes>
             </chord>
             <lily-directive>
-              <postfix>\bar ":|"
-</postfix>
-              <override>32</override>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
         </measures>
       </voice>
       <voice id="id104">
         <voice-info>
-          <voice-name>voice 4</voice-name>
+          <voice-name>tenor</voice-name>
+          <subpart></subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -668,17 +712,13 @@ Denemo
           <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
-          <midi_prognum>0</midi_prognum>
+          <midi_prognum>1</midi_prognum>
           <midi_channel>0</midi_channel>
           <hasfigures>0</hasfigures>
           <hasfakechords>0</hasfakechords>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive>
-              <postfix> </postfix>
-              <override>32</override>
-            </lily-directive>
             <chord show="true" id="id105">
               <duration base="half"></duration>
               <notes>
@@ -916,17 +956,22 @@ Denemo
                 </note>
               </notes>
             </chord>
-            <lily-directive locked="true">
-              <postfix>\bar ":|"
-</postfix>
-              <override>32</override>
+            <lily-directive>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
         </measures>
       </voice>
       <voice id="id155">
         <voice-info>
-          <voice-name>Bassoon</voice-name>
+          <voice-name>bass</voice-name>
+          <subpart></subpart>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
@@ -1196,9 +1241,13 @@ Denemo
               </notes>
             </chord>
             <lily-directive>
-              <postfix>\bar ":|"
-</postfix>
-              <override>32</override>
+              <tag>RepeatEnd</tag>
+              <postfix>\bar ":|."</postfix>
+              <display>\bar ":|."</display>
+              <graphic_name>RepeatEnd</graphic_name>
+              <minpixels>30</minpixels>
+              <gx>10</gx>
+              <override>4</override>
             </lily-directive>
           </measure>
         </measures>

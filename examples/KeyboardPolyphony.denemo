@@ -22,10 +22,10 @@
     </directive>
     <directive>
       <tag>BookTitle</tag>
-      <postfix>title = \markup { \with-url #'"scheme:(d-BookTitle)" "Pavana &amp; Galliarda Dolorosa"}
+      <postfix>title = \markup { \with-url #'"scheme:(d-BookTitle)" {\fontsize  #-1 {Pavana &amp; Galliarda Dolorosa}}}
 </postfix>
-      <display>Pavana &amp;amp; G...</display>
-      <data>Pavana &amp; Galliarda Dolorosa</data>
+      <display>\fontsize ...</display>
+      <data>\fontsize  #-1 {Pavana &amp; Galliarda Dolorosa}</data>
       <override>36</override>
     </directive>
     <directive>
@@ -50,6 +50,14 @@
 </postfix>
       <display>1593</display>
       <data>1593</data>
+      <override>36</override>
+    </directive>
+    <directive>
+      <tag>BookInstrumentation</tag>
+      <postfix>instrumentation = \markup { \with-url #'"scheme:(d-BookInstrumentation)" {"Harpsichord"}}
+</postfix>
+      <display>"Harpsichord"</display>
+      <data>"Harpsichord"</data>
       <override>36</override>
     </directive>
   </scoreheader-directives>
@@ -174,9 +182,9 @@ Note that the double length bars are counted as two in the bar numbering.
       </directive>
       <directive>
         <tag>TopMargin</tag>
-        <prefix>#(define denemo-top-margin 6)
+        <prefix>#(define denemo-top-margin 0)
 </prefix>
-        <data>6</data>
+        <data>0</data>
         <override>16</override>
       </directive>
       <directive>
