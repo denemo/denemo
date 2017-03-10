@@ -55,6 +55,7 @@ SCM scheme_activate_menu_item (SCM);
 SCM scheme_locate_dotdenemo (SCM);
 SCM scheme_get_type (SCM);
 SCM scheme_get_lilypond (SCM);
+SCM scheme_refresh_lilypond (void);
 SCM scheme_get_tuplet (SCM);
 SCM scheme_set_tuplet (SCM);
 SCM scheme_set_background (SCM);

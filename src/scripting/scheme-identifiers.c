@@ -79,6 +79,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the directory holding the user's preferences", DENEMO_SCHEME_PREFIX "LocateDotDenemo", scheme_locate_dotdenemo);
   install_scm_function (0, "Returns the name of the type of object at the cursor, or None if none. If not passed #f returns Appending if cursor is in appending after an object.", DENEMO_SCHEME_PREFIX "GetType", scheme_get_type);
   install_scm_function (0, "Returns the lilypond typesetting text for object at the cursor or #f if the object has not yet been typeset", DENEMO_SCHEME_PREFIX "GetLilyPond", scheme_get_lilypond);
+  install_scm_function (0, "Re-computes the LilyPond output for the current score layout", DENEMO_SCHEME_PREFIX "RefreshLilyPond", scheme_refresh_lilypond);
 
   install_scm_function (0, "Returns a string numerator/denominator for a tuplet open object or #f if cursor not on a tuplet open", DENEMO_SCHEME_PREFIX "GetTuplet", scheme_get_tuplet);
   install_scm_function (0, "Set passed string as numerator/denominator for a tuplet open at cursor", DENEMO_SCHEME_PREFIX "SetTuplet", scheme_set_tuplet);

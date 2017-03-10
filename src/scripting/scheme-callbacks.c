@@ -6193,6 +6193,13 @@ scheme_get_lilypond (SCM optional)
 }
 
 SCM
+scheme_refresh_lilypond (void)
+{
+    force_lily_refresh (Denemo.project);
+    return SCM_BOOL_T;
+}
+
+SCM
 scheme_get_tuplet (SCM optional)
 {
   DenemoObject *curObj;
