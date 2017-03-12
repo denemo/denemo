@@ -2065,18 +2065,38 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
 {
   GList *g;
   gchar *type = "";
+  gchar *thecolor = "#ffffff";
   if (!strcmp (field, "lilycontrol"))
-    type = _("Score ");
+    thecolor = "#e0ffff", type = _("Score ");
   else if (!strcmp (field, "movementcontrol"))
-    type = _("Movement ");
+    thecolor = "#e0ffff", type = _("Movement ");
   else if (!strcmp (field, "scoreheader"))
-    type = _("Score Header ");
+    thecolor = "#ffe0ff", type = _("Score Header ");
   else if (!strcmp (field, "paper"))
-    type = _("Paper ");
+    thecolor = "#ffffe0", type = _("Paper ");
   else if (!strcmp (field, "header"))
-    type = _("Movement Header ");
+    thecolor = "#ffe0ff", type = _("Movement Header ");
   else if (!strcmp (field, "layout"))
-    type = _("Movement Layout ");
+    thecolor = "#ffffe0", type = _("Movement Layout ");
+  else if (!strcmp (field, "keysig"))
+    thecolor = "#e0ffff", type = _("Key Signature");
+  else if (!strcmp (field, "timesig"))
+    thecolor = "#ffe0ff", type = _("Time Signature");
+  else if (!strcmp (field, "clef"))
+    thecolor = "#ffffe0", type = _("Clef");
+  else if (!strcmp (field, "staff"))
+    thecolor = "#ffffff", type = _("Staff");
+ else if (!strcmp (field, "voice"))
+    thecolor = "#ffffff", type = _("Voice");
+      
+        
+   {
+   gchar *text = g_strdup_printf (" \n%s %s", type, _("Directives"));
+   GtkWidget *label = gtk_label_new (text);
+   g_free (text);
+   gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+   }
+        
   for (g = *pdirectives; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
@@ -2090,6 +2110,8 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       gchar *text, *oneline;
       oneline = g_strescape (name,"");
       
+ 
+        
       if (label == NULL)
         text = g_strdup_printf (_("%sDenemo %s Directive tagged: %s %c%s%c"), (directive->layouts) ? _("(Conditional) ") : "", type, oneline, '[', display, ']');
       else
@@ -2099,12 +2121,16 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       g_free (oneline);
       
       set_foreground_color (frame, "#808020");
-      gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+      
+      GtkWidget *evbox = gtk_event_box_new (); set_background_color (evbox, thecolor);
+      gtk_container_add (GTK_CONTAINER (vbox), evbox);
+      gtk_container_add (GTK_CONTAINER (evbox), frame);
       GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
       set_foreground_color (inner_box, "#cccc20");
 
       gtk_container_add (GTK_CONTAINER (frame), inner_box);
       GtkWidget *button;
+ 
 
       if (filename)
         {
@@ -2582,20 +2608,20 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   place_buttons_for_directives ((GList **) & thestaff->staff_directives, inner_box, DIRECTIVE_STAFF, "staff");
   if (thestaff->keysig.directives)
     {
-      GtkWidget *label = gtk_label_new (_("Key Signature Directives"));
-      gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+      //GtkWidget *label = gtk_label_new (_("Key Signature Directives"));
+     //gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
       place_buttons_for_directives ((GList **) & (thestaff->keysig.directives), inner_box, DIRECTIVE_KEYSIG, "keysig");
     }
   if (thestaff->timesig.directives)
     {
-      GtkWidget *label = gtk_label_new (_("Time Signature Directives"));
-      gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+      //GtkWidget *label = gtk_label_new (_("Time Signature Directives"));
+      //gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
       place_buttons_for_directives ((GList **) & (thestaff->timesig.directives), inner_box, DIRECTIVE_TIMESIG, "timesig");
     }
   if (thestaff->clef.directives)
     {
-      GtkWidget *label = gtk_label_new (_("Clef Directives"));
-      gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
+      //GtkWidget *label = gtk_label_new (_("Clef Directives"));
+      //gtk_box_pack_start (GTK_BOX (inner_box), label, FALSE, TRUE, 0);
       place_buttons_for_directives ((GList **) & (thestaff->clef.directives), inner_box, DIRECTIVE_CLEF, "clef");
     }
 
