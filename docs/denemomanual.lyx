@@ -6526,7 +6526,7 @@ name "sec:The-Score-and"
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/ScorePropsEditor.png
-	scale 65
+	scale 45
 
 \end_inset
 
@@ -6737,6 +6737,7 @@ status collapsed
 \begin_layout Standard
 \begin_inset Graphics
 	filename images/StaffVoicePropsEditor.png
+	scale 45
 
 \end_inset
 
@@ -6937,16 +6938,29 @@ Score Layouts are ways of typesetting a score for different purposes.
 default score layouts 
 \emph default
 they are created automatically, and you don't have to think about them.
- However, if you want the music to be printed slightly differently for a
- part than for the full score then you can look at the Score Layouts window
- to see which is the current score layout (it is the last one that was typeset,
- unless you have selected another one since).
+ 
 \end_layout
 
 \begin_layout Standard
-In addition to default score layouts some commands in the Print menu generate
- custom score layouts – for example a layout for the accompanist to play
- from, with the solo part printed on a smaller staff.
+You can also create a layout using the Print->Select Staffs to Print menu
+ item - by un-checking the 
+\begin_inset Quotes eld
+\end_inset
+
+Do not Create Layout for this selection
+\begin_inset Quotes erd
+\end_inset
+
+ check box you can create a custom layout that will print just the staffs(voices
+) that you leave checked.
+ In addition other commands in the Print menu generate custom score layouts
+ – for example a layout for the accompanist to play from, with the solo
+ part printed on a smaller staff.
+\end_layout
+
+\begin_layout Standard
+For more extensive facilities in choosing how to lay out the elements of
+ your score when typeset you can open the Score Layouts window.
 \end_layout
 
 \begin_layout Standard
@@ -8276,6 +8290,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8283,6 +8298,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
