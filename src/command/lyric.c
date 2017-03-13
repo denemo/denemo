@@ -633,7 +633,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
     GTK_STYLE_PROVIDER_PRIORITY_APPLICATION);
 
 
-str =  "GtkTextView {-GtkWidget-cursor-aspect-ratio: 0.2;}";
+str =  "GtkTextView {-GtkWidget-cursor-aspect-ratio: 0.1;}";
 gcp= gtk_css_provider_new();
 gtk_css_provider_load_from_data(gcp, str, -1, 0);
 gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp), 
