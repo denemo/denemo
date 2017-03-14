@@ -75,14 +75,8 @@ change_input_type (GtkCheckMenuItem * item, gint val)
   DenemoProject *project = Denemo.project;
   if(!gtk_check_menu_item_get_active(item))
     return;
-  gboolean fail = FALSE;
-  //g_print ("Input source on entry %d active radio button is %d\n", project->input_source, val);
-  if (project->notsaved)
-    {
-      warningdialog (_("You have unsaved work. Hardware problems may cause the program to exit during this task.\nPlease save first."));
-      //gtk_radio_action_set_current_value (current, project->input_source);
-      return;
-    }
+ 
+
   switch (val)
     {
     case INPUTKEYBOARD:
@@ -91,14 +85,10 @@ change_input_type (GtkCheckMenuItem * item, gint val)
           //g_debug("Stopping audio\n");
           stop_pitch_input ();
         }
-      if (project->input_source == INPUTMIDI)
-        {
-          //g_debug("Stopping midi\n");
-          stop_pitch_input ();
-        }
       project->input_source = INPUTKEYBOARD;
       Denemo.project->last_source = INPUTKEYBOARD;
       g_print ("Input keyboard %d", Denemo.project->last_source);
+      infodialog (_("Rhythms will be entered as notes at the cursor height"));
       break;
     case INPUTAUDIO:
       g_print("Starting audio\n");
@@ -110,7 +100,7 @@ change_input_type (GtkCheckMenuItem * item, gint val)
       project->input_source = INPUTAUDIO;
       if (setup_pitch_input ())
         {
-          fail = TRUE;
+          project->input_source = INPUTKEYBOARD;
           warningdialog (_("Could not start Audio input"));
           //gtk_radio_action_set_current_value (current, INPUTKEYBOARD);
         }
@@ -118,25 +108,22 @@ change_input_type (GtkCheckMenuItem * item, gint val)
         start_pitch_input ();
       break;
     case INPUTMIDI:
-      midi_stop ();
-      audio_shutdown ();
-      (void) audio_initialize (&Denemo.prefs);
       if (have_midi ())
-        project->input_source = INPUTMIDI;
+        {
+            project->input_source = INPUTMIDI;
+            infodialog (_("Rhythms will be entered as (brown) notes without pitch"));
+        }
       else
-        fail = TRUE;
+        {
+            warningdialog (_("No MIDI in device was found on startup- re-start Denemo with the device plugged in, select the device in the MIDI tab of the preferences dialog and re-start Denemo again."));
+        }
       g_print ("Input source %d\n", project->input_source);
       break;
     default:
       g_warning ("Bad Value");
       break;
     }
-  if (fail)
-    { g_print ("failed");
-      project->input_source = INPUTKEYBOARD;
-      //gtk_radio_action_set_current_value (current, INPUTKEYBOARD);
-    }
-  else
+
     write_input_status ();
 }
 
