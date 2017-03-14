@@ -1512,3 +1512,5 @@
         (if (and val (string->number val))
             val
             #f)))
+            
+(define-once Transpose::Interval "c g");;; a more sensible default used by all typeset-transposed functions
