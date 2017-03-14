@@ -3,7 +3,7 @@
 (let ((tag "TransposeStaffPrint")(lily #f) (text #f)(params TransposeStaffPrint::params))
     (if (and params  (not (equal? params "edit")))
         (set!  Transpose::Interval params)
-        (set! Transpose::Interval  (d-GetNoteNamesFromUser 2 Transpose::Interval (_ "<-- Transpose to -->") )))
+        (set! Transpose::Interval  (d-GetNoteNamesFromUser 2 Transpose::Interval (_ "--> Transpose to -->") )))
     (if Transpose::Interval
         (begin
             (set! lily (string-append  "\\transpose " Transpose::Interval " "))

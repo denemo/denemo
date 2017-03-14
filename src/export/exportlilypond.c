@@ -2452,7 +2452,7 @@ get_alt_non_aff_postfix (GList * g)
 }
 
 static gchar *
-get_non_alt_postfix (GList * g)
+get_non_alt_aff_postfix (GList * g)
 {
   GString *s = g_string_new ("");
   for (; g; g = g->next)
@@ -2460,7 +2460,7 @@ get_non_alt_postfix (GList * g)
       DenemoDirective *d = g->data;
       if (wrong_layout (d, Denemo.project->layout_id))
         continue;
-      if (!(d->override & DENEMO_ALT_OVERRIDE) && d->postfix)
+      if ((d->override & DENEMO_OVERRIDE_AFFIX) && !(d->override & DENEMO_ALT_OVERRIDE) && d->postfix)
         g_string_append (s, d->postfix->str);
     }
   return g_string_free (s, FALSE);
@@ -2555,7 +2555,7 @@ void
 set_staff_termination (GString * str, DenemoStaff * curstaffstruct)
 {
   gint staff_override = (DENEMO_OVERRIDE_LILYPOND | DENEMO_OVERRIDE_AFFIX) == (get_override (curstaffstruct->staff_directives) & (DENEMO_OVERRIDE_LILYPOND | DENEMO_OVERRIDE_AFFIX));
-  gchar *staff_epilog_insert = get_non_alt_postfix (curstaffstruct->staff_directives);
+  gchar *staff_epilog_insert = get_non_alt_aff_postfix (curstaffstruct->staff_directives);
   if (staff_override)
     {
       g_string_append_printf (str, "%s", staff_epilog_insert);
