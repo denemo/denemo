@@ -1425,14 +1425,14 @@ void denemo_action_group_add_radio_actions (void)
                     
 DenemoAction *denemo_menusystem_get_action (gchar *name)  
 {
-  return  (DenemoAction*)g_hash_table_lookup (Actions, name);
+  return  name?(DenemoAction*)g_hash_table_lookup (Actions, name):NULL;
  
 }   
 
 GList* denemo_action_get_proxies (DenemoAction *action)
 {
     
-    return (GList*)g_hash_table_lookup (ActionWidgets, action->name);
+    return action?(GList*)g_hash_table_lookup (ActionWidgets, action->name):NULL;
 }
 
 gchar *denemo_action_get_name (DenemoAction *action) {
