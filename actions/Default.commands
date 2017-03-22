@@ -8105,6 +8105,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>(Print) Transpose</_label>
         <_tooltip>Prints the voices transposed by the interval given. This is in addition to any score-wide transposition and any staff-wide transposition</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteCurrentVerse</action>
+        <after>AddVerse</after>
+        <menupath>/ObjectMenu/Lyrics</menupath>
+        <_label>Delete Verse</_label>
+        <_tooltip>Deletes the current verse - copy the text first if needed.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

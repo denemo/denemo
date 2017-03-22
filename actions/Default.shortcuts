@@ -355,6 +355,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>DeleteVerse</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>EditObject</action>
         <bind>PrsR</bind>
       </row>
