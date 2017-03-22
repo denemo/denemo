@@ -1012,6 +1012,8 @@ actions/menus/ObjectMenu/Key/SharpenInitialKeysigs.scm
 actions/menus/ObjectMenu/Key/SharpenInitialKeysigs.xml
 actions/menus/ObjectMenu/Key/SharpenKeysig.scm
 actions/menus/ObjectMenu/Key/SharpenKeysig.xml
+actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.scm
+actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.xml
 actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm
 actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.xml
 actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm
