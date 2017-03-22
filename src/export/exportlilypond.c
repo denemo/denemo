@@ -1849,7 +1849,16 @@ get_lilypond_for_clef (clef * theclef)
 }
 
 
-
+static gboolean needs_hyphen (gchar *str) {
+    gchar *c = str;
+    gboolean needed = FALSE;
+    do {
+        if(*c=='"')
+            needed = !needed;
+        }
+    while (*c++);
+    return needed;
+}
 
 
 
@@ -2165,7 +2174,8 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
           set_lily_name (temp, versename);
           gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, gtk_text_buffer_get_mark (Denemo.textbuffer, lyrics_name->str));
           g_string_printf (temp, "%s%sLyrics%s = \\lyricmode { \n", movement, voice, versename->str);
-          g_string_append_printf (temp, "%s \n}\n", (char *) g->data);
+          gboolean terminate_hyphens = needs_hyphen ((gchar *)g->data);
+          g_string_append_printf (temp, "%s%s \n}\n", (char *) g->data, terminate_hyphens?"\"\n%Odd number of double-qotes corrected\n":"");
           gtk_text_buffer_insert_with_tags_by_name (Denemo.textbuffer, &iter, temp->str, -1, INEDITABLE, NULL);
           g_string_free (temp, TRUE);
           g_string_free (versename, TRUE);
