@@ -5,7 +5,7 @@
           (define choice (RadioBoxMenu (cons (_ "Bold") 'bold)  (cons (_ "Light")  'light)))
            (case choice
             ((bold)  "\\bold ")
-            (else ""))))         
+            (else "\\medium "))))         
     (define (do-italic)
         (let ()                  
           (define choice (RadioBoxMenu (cons (_ "Italic") 'italic)  (cons (_ "Normal")  'normal)))
