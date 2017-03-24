@@ -816,9 +816,8 @@ scheme_initialize_script (SCM action_name)
 
   gint idx = lookup_command_from_name (Denemo.map, name);
   command_row *row = NULL;
-  keymap_get_command_row (Denemo.map, &row, idx);
-
-  ret = scheme_execute_init (row->menupath);
+  if (keymap_get_command_row (Denemo.map, &row, idx))
+    ret = scheme_execute_init (row->menupath);
   if (name)
     free (name);
   return ret;
@@ -2264,7 +2263,7 @@ scheme_get_menu_position (SCM command)
   keymap_get_command_row (Denemo.map, &row, idx);
   if (name)
     free (name);
-  if (idx < 0)
+  if ((row==NULL) || (idx < 0))
     {
       return SCM_BOOL_F;
     }
@@ -2300,7 +2299,7 @@ scheme_get_menu_path (SCM command)
   keymap_get_command_row (Denemo.map, &row, idx);
   if (name)
     free (name);
-  if (idx < 0)
+  if ((row==NULL) || (idx < 0))
     {
       return SCM_BOOL_F;
     }

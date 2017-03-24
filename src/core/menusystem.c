@@ -182,7 +182,7 @@ saveMenuItem (GtkWidget * widget, DenemoAction * action)
 
   command_row *row = NULL;
   keymap_get_command_row (Denemo.map, &row, idx);
-
+  if (!row) return;
   gchar *tooltip = (gchar *) lookup_tooltip_from_idx (Denemo.map, idx);
   gchar *label = (gchar *) lookup_label_from_idx (Denemo.map, idx);
 
@@ -799,6 +799,8 @@ menu_click (GtkWidget * widget, GdkEventButton * event, DenemoAction * action)
   gint idx = lookup_command_from_name (the_keymap, func_name);
   command_row *row = NULL;
   keymap_get_command_row (the_keymap, &row, idx);
+  if (!row)
+    return TRUE;//stop other handlers running
   //g_debug("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3)       //Not right click
     if (Denemo.ScriptRecording)
@@ -1031,11 +1033,13 @@ attach_accels_and_callbacks (DenemoAction * action, GtkWidget * proxy)
 
   if (command_idx > -1)
     {
-      keymap_get_command_row (Denemo.map, &row, command_idx);
-      update_accel_labels (Denemo.map, command_idx);
+      if (keymap_get_command_row (Denemo.map, &row, command_idx))
+        {
+          update_accel_labels (Denemo.map, command_idx);
 
-      if (row->hidden)
-        set_visibility_for_action (action, FALSE);
+          if (row->hidden)
+            set_visibility_for_action (action, FALSE);
+        }
     }
 }
 

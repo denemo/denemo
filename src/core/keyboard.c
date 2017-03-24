@@ -141,8 +141,8 @@ set_visibility_for_action (DenemoAction * action, gboolean visible)
     g_warning("Invalid command name:'%s' id:'%i'", name, id);
   else
   {
-    keymap_get_command_row (Denemo.map, &row, id);
-    row->hidden = !visible;
+    if (keymap_get_command_row (Denemo.map, &row, id))
+        row->hidden = !visible;
     }
 }
 

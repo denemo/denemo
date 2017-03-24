@@ -10,16 +10,16 @@ find_command_dir(gint idx, gchar* filename)
   command_row* row = NULL;
   keymap_get_command_row(Denemo.map, &row, idx);
 
- // if(!row->menupath)
- //   g_print("Command %s has no menupath", filename);
-
-  GList* dirs = NULL;
-  dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", row->menupath, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, NULL));
-  //dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", row->menupath, NULL));
-  dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", row->menupath, NULL));
-
-  return find_dir_for_file (filename, dirs);
+ if(row)
+    {
+    GList* dirs = NULL;
+    dirs = g_list_append(dirs, g_build_filename (PACKAGE_SOURCE_DIR, COMMANDS_DIR, "menus", row->menupath, NULL));
+    dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), COMMANDS_DIR, "menus", row->menupath, NULL));
+    //dirs = g_list_append(dirs, g_build_filename (get_user_data_dir (TRUE), "download", COMMANDS_DIR, "menus", row->menupath, NULL));
+    dirs = g_list_append(dirs, g_build_filename (get_system_data_dir (), COMMANDS_DIR, "menus", row->menupath, NULL));
+    return find_dir_for_file (filename, dirs);
+    }
+    return NULL;
 }
 
 static int
@@ -171,7 +171,8 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
           else
             {
               name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
-              show_action_of_name ((gchar*) name);
+              if (name)
+                show_action_of_name ((gchar*) name);
             }
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
@@ -591,7 +592,8 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
-      keymap_get_command_row (the_keymap, &row, i);
+      if (!keymap_get_command_row (the_keymap, &row, i))
+        continue;
 
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
@@ -684,7 +686,8 @@ save_xml_keybindings (gchar * filename)
 
   for (i = 0; i < keymap_size (the_keymap); i++)
     {
-      keymap_get_command_row (the_keymap, &row, i);
+      if (!keymap_get_command_row (the_keymap, &row, i))
+        continue;
 
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
       if (row->deleted && !is_action_id_builtin(i))

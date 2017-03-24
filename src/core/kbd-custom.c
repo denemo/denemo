@@ -80,8 +80,9 @@ gboolean
 is_action_id_builtin(gint id)
 {
   command_row *command;
-  keymap_get_command_row(Denemo.map, &command, id);
-  return command->script_type == COMMAND_BUILTIN;
+  if (keymap_get_command_row(Denemo.map, &command, id))
+    return command->script_type == COMMAND_BUILTIN;
+  return FALSE;
 }
 
 gboolean
@@ -986,7 +987,7 @@ lookup_menu_path_from_idx (keymap * keymap, gint command_id)
   keymap_get_command_row(Denemo.map, &row, command_id);
   if(row)
     return row->menupath;
-  g_critical ("No row for command number %d\n", command_id);
+  g_critical ("No row for command id %d\n", command_id);
   return NULL;
 }
 //returns the accel, "" if no accel defined. free the result
@@ -1021,19 +1022,25 @@ update_accel_labels (keymap * the_keymap, guint command_id)
   if(Denemo.non_interactive)
     return;
   DenemoAction *action;
-  command_row *row;
+  command_row *row = NULL;
 
   //Getting the accel
   const gchar *command_name = lookup_name_from_idx (the_keymap, command_id);
   if(!command_name)
-    g_warning("Could not find command %i", command_id);
+    g_debug ("Could not find command %i", command_id);
 
   GString *str = g_string_new ("");
 
   //TODO don't use all the bindings as accels
-  if (keymap_get_command_row (the_keymap, &row, command_id) && row)
+  if (keymap_get_command_row (the_keymap, &row, command_id) && (row != NULL))
     g_list_foreach(row->bindings, (GFunc) listname, str);
 
+if (row == NULL)
+    {
+        g_debug ("No row for command id %d", command_id);
+        return;
+        
+    }
   //Prepare the new label
   const gchar *base;
   //FIXME use translate_dnm_to_gtk
@@ -1731,9 +1738,8 @@ command_hidden_data_function (G_GNUC_UNUSED GtkTreeViewColumn * col, GtkCellRend
   gchar* name = NULL;
   gtk_tree_model_get (model, iter, COL_NAME, &name, -1);
   gint id = lookup_command_from_name (Denemo.map, name);
-  keymap_get_command_row (Denemo.map, &row, id);
- // ("command_hidden_data_function called");
-  g_object_set (renderer, "active", row->hidden, NULL);
+  if (keymap_get_command_row (Denemo.map, &row, id))
+    g_object_set (renderer, "active", row->hidden, NULL);
 }
 
 static gint fuzzy = 0;          // number of mis-matched words to allow
@@ -1830,7 +1836,7 @@ toggle_hidden_on_action (G_GNUC_UNUSED GtkCellRendererToggle * cell_renderer, gc
 
       keymap_get_command_row (Denemo.map, &row, command_id);
       const DenemoAction *action = lookup_action_from_idx (Denemo.map, command_id);
-      //if (GTK_IS_ACTION (action))
+      if (action && row)
         {
           set_visibility_for_action ((DenemoAction *)action, row->hidden);
         }
