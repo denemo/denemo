@@ -5900,7 +5900,6 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>AttachedText</action>
-        <after>TextAbove</after>
         <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
         <_label>Multi-line Text and Music</_label>
         <_tooltip>Attaches multi-line text which can include music snippets, transposing note/chord names, fret-diagrams, with control over bold, italic font size and more. Double quotes and {} must be paired - check with the Preview button before okaying the markup. Newlines are triggered by the paragraph sign.

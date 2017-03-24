@@ -247,10 +247,6 @@
         <bind>RlsL-CapsLock-AltGr</bind>
       </row>
       <row>
-        <action>SetGrace</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>ToggleGrace</action>
         <hidden>true</hidden>
       </row>
@@ -572,10 +568,6 @@
         <bind>B,d</bind>
       </row>
       <row>
-        <action>TmbalesStyle</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>Fortissimo</action>
         <hidden>true</hidden>
       </row>
@@ -601,10 +593,6 @@
       </row>
       <row>
         <action>Largo</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>Adagio</action>
         <hidden>true</hidden>
       </row>
       <row>
@@ -885,11 +873,7 @@
       <row>
         <action>LoadSelectDurationComposerNumberkeys</action>
         <hidden>true</hidden>
-      </row>
-      <row>
-        <action>TextAbove</action>
-        <hidden>true</hidden>
-      </row>  
+      </row> 
       <row>
         <action>SelectRight</action>
         <bind>Shft+Right</bind>
