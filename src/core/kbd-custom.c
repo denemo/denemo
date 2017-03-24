@@ -1753,6 +1753,10 @@ search_equal_func (GtkTreeModel * model, gint G_GNUC_UNUSED column, const gchar 
     static gchar **search_strings;
     static gint number_of_search_terms;
     gboolean backspace = FALSE;
+    
+    while (*key==' ')
+        key++;
+        
     if (*key == 0 || strlen(key)<4)
         return TRUE;
     if ((!last_key) || strcmp (key, last_key))
