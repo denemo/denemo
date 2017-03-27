@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTitles</tag>
+      <postfix>     dedication = ##f
+     title = ##f
+     subtitle = ##f
+     subsubtitle = ##f
+     instrument = ##f
+     poet = ##f
+     composer = ##f
+     meter = ##f
+     arranger = ##f
+     tagline = ##f
+     copyright = ##f
+     piece = ##f
+     opus = ##f
+</postfix>
+      <display>Score Titles</display>
+      <data>(list (cons 'dedication #f)(cons 'title #f)(cons 'subtitle #f)(cons 'subsubtitle #f)(cons 'instrument #f)(cons 'poet #f)(cons 'composer #f)(cons 'meter #f)(cons 'arranger #f)(cons 'tagline #f)(cons 'copyright #f)(cons 'piece #f)(cons 'opus #f) '())</data>
+      <override>4</override>
+    </directive>
+  </scoreheader-directives>
+  <paper-directives>
+    <directive>
+      <tag>PrintAllHeaders</tag>
+      <postfix>
+print-all-headers = ##t
+</postfix>
+    </directive>
+  </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>367</total-edit-time>
+  </lilycontrol>
+  <movement-number>2</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <movementcontrol-directives>
+      <directive>
+        <tag>HideMovement</tag>
+        <prefix>\void </prefix>
+        <display>Non-printing Movement</display>
+      </directive>
+    </movementcontrol-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>Part 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>MultiLineTextAnnotation</tag>
+              <prefix>&lt;&gt;</prefix>
+              <postfix>^\markup\scale #'(1 . 1)\column{\line\large{This movement provides definitions of chord symbols for those chords which you do not wish to use the default symbol for.}
+}</postfix>
+              <display>This movement provides definitions of chord symbols for those chords which you do not wish to use the default symbol for.</display>
+              <data>(list (cons 'text "This movement provides definitions of chord symbols for those chords which you do not wish to use the default symbol for.")(cons 'scale "1")(cons 'direction "^")(cons 'display  "This movement provides definitions of chord symbols for those chords which you do not wish to use the default symbol for."))</data>
+              <minpixels>30</minpixels>
+              <ty>-32</ty>
+            </lily-directive>
+            <chord show="true" id="id2">
+              <duration base="whole"></duration>
+              <notes>
+                <note id="id3">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+                <note id="id4">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+                <note id="id5">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+                <note id="id6">
+                  <middle-c-offset>8</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <lily-directive>
+              <tag>0d9d4217ae3b03b0c77e0d4bb0f4fd95</tag>
+              <postfix>^\markup \normal-size-super {add9} </postfix>
+              <display>^\markup \normal-size-super {add9} </display>
+              <minpixels>30</minpixels>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>2</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <header-directives>
+      <directive>
+        <tag>SuppressTitleRepeats</tag>
+        <postfix>title = ##f
+instrument = ##f
+</postfix>
+      </directive>
+      <directive>
+        <tag>MovementTitles</tag>
+        <postfix>     dedication = ##f
+     title = \markup \with-url #'"scheme:(d-GoToPosition 2 1 1 1)(DenemoSetTitles \"MovementTitles\" 'title #t)" {Delete the sample chords and insert your own}
+     subtitle = \markup \with-url #'"scheme:(d-GoToPosition 2 1 1 1)(DenemoSetTitles \"MovementTitles\" 'subtitle #t)" {the first movement is not printed - it's purely for definitions}
+     subsubtitle = ##f
+     instrument = ##f
+     poet = ##f
+     composer = ##f
+     meter = ##f
+     arranger = ##f
+     tagline = ##f
+     copyright = ##f
+     piece = ##f
+     opus = ##f
+</postfix>
+        <display>Movement Titles</display>
+        <data>(list (cons 'dedication #f)(cons 'title "Delete the sample chords and insert your own")(cons 'subtitle "the first movement is not printed - it's purely for definitions")(cons 'subsubtitle #f)(cons 'instrument #f)(cons 'poet #f)(cons 'composer #f)(cons 'meter #f)(cons 'arranger #f)(cons 'tagline #f)(cons 'copyright #f)(cons 'piece #f)(cons 'opus #f) '())</data>
+        <override>4</override>
+      </directive>
+    </header-directives>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id7"></staff>
+    </staves>
+    <voices>
+      <voice id="id8">
+        <voice-info>
+          <voice-name>Part 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id7"></staff-ref>
+          <clef name="treble">
+            <directives>
+              <directive>
+                <tag>ChordStaff</tag>
+                <postfix>
+</postfix>
+                <override>1</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>ChordStaff</tag>
+                <postfix>
+</postfix>
+                <override>17</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>ChordStaff</tag>
+                <postfix>
+</postfix>
+                <display>ChordStaff</display>
+                <override>1</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>ChordStaff</tag>
+              <display>ChordStaff</display>
+              <override>21</override>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>ChordStaff</tag>
+              <prefix>\new ChordNames \with {chordNameExceptions = #(append
+  (sequential-music-to-chord-exceptions MvmntIVoiceI #t)
+  ignatzekExceptions) }
+</prefix>
+              <display>ChordStaff</display>
+              <override>5</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>ChordStaff</tag>
+              <postfix>
+</postfix>
+              <override>1</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <chord show="true" id="id9">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id10">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+                <note id="id11">
+                  <middle-c-offset>8</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id12">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id13">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+                <note id="id14">
+                  <middle-c-offset>2</middle-c-offset>
+                </note>
+                <note id="id15">
+                  <middle-c-offset>4</middle-c-offset>
+                </note>
+                <note id="id16">
+                  <middle-c-offset>8</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
