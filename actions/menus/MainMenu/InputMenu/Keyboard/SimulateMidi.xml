@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SimulateMidi</action>
+        <after>NumbersSelectDuration</after>
+        <_label>Simulate MIDI</_label>
+        <_tooltip>Makes the second and third rows of the pc-keyboard behave like a MIDI piano keyboard: asdfg... creates the scale from Middle C, while the qwerty row provides sharps/flats (with gaps). Use with rhythm entry for MIDI in checked in preferences.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

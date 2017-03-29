@@ -471,6 +471,8 @@ actions/menus/MainMenu/InputMenu/Keyboard/NumbersDefault.scm
 actions/menus/MainMenu/InputMenu/Keyboard/NumbersDefault.xml
 actions/menus/MainMenu/InputMenu/Keyboard/NumbersSelectDuration.scm
 actions/menus/MainMenu/InputMenu/Keyboard/NumbersSelectDuration.xml
+actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm
+actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.xml
 actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.scm
 actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.xml
 actions/menus/MainMenu/InputMenu/MIDI/CheckPitches.scm
@@ -1310,8 +1312,12 @@ actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.xml
+actions/menus/ObjectMenu/NotesRests/EditNote/MIDI/SimulateMidiC4.scm
+actions/menus/ObjectMenu/NotesRests/EditNote/MIDI/SimulateMidiC4.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/MoveNoteToCursor.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/MoveNoteToCursor.xml
+actions/menus/ObjectMenu/NotesRests/EditNote/MyName.scm
+actions/menus/ObjectMenu/NotesRests/EditNote/MyName.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/RemoveDotSelectionSwitcher.scm
