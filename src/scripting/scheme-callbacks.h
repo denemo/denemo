@@ -221,7 +221,7 @@ SCM scheme_print_typeset_pdf (void);
 SCM scheme_display_typeset_svg (SCM scaling, SCM part);
 SCM scheme_continous_typsetting (void);
 SCM scheme_get_char (void);
-SCM scheme_get_keypress (void);
+SCM scheme_get_keypress (SCM putback);
 SCM scheme_get_command_keypress (void);
 SCM scheme_get_command (void);
 SCM scheme_get_command_from_user (void);

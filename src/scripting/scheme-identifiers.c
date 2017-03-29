@@ -318,8 +318,8 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (0, "Intercepts the next keypress and returns a string containing the character. Returns #f if keyboard interception was not possible.", DENEMO_SCHEME_PREFIX "GetChar", scheme_get_char);
-  install_scm_function (0, "Intercepts the next keypress and returns a string containing the name of the keypress (the shortcut name). Returns #f if keyboard interception was not possible.", DENEMO_SCHEME_PREFIX "GetKeypress", scheme_get_keypress);
-  install_scm_function (0, "Returns the last keypress that successfully invoked a command ", DENEMO_SCHEME_PREFIX "GetCommandKeypress", scheme_get_command_keypress);
+  install_scm_function (0, "Intercepts the next keypress and returns a string containing the name of the keypress (the shortcut name). Returns #f if keyboard interception was not possible.  With parameter #f puts the last keypress back to be executed as normal.", DENEMO_SCHEME_PREFIX "GetKeypress", scheme_get_keypress);
+  install_scm_function (0, "Returns the last keypress that successfully invoked a command.", DENEMO_SCHEME_PREFIX "GetCommandKeypress", scheme_get_command_keypress);
 
   install_scm_function (0, "Intercepts the next keypress and returns the name of the command invoked, before invoking the command. Returns #f if the keypress is not a shortcut for any command", DENEMO_SCHEME_PREFIX "GetCommand", scheme_get_command);
   install_scm_function (0, "Intercepts the next keyboard shortcut and returns the name of the command invoked, before invoking the command. Returns #f if the keypress(es) are not a shortcut for any command", DENEMO_SCHEME_PREFIX "GetCommandFromUser", scheme_get_command_from_user);
