@@ -1312,12 +1312,8 @@ actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.xml
-actions/menus/ObjectMenu/NotesRests/EditNote/MIDI/SimulateMidiC4.scm
-actions/menus/ObjectMenu/NotesRests/EditNote/MIDI/SimulateMidiC4.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/MoveNoteToCursor.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/MoveNoteToCursor.xml
-actions/menus/ObjectMenu/NotesRests/EditNote/MyName.scm
-actions/menus/ObjectMenu/NotesRests/EditNote/MyName.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.scm
 actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.xml
 actions/menus/ObjectMenu/NotesRests/EditNote/RemoveDotSelectionSwitcher.scm
