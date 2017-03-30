@@ -3,7 +3,7 @@
 (define-once SimulateMidi::active #f)
 (if SimulateMidi::active
     (d-InfoDialog (_ "Press Escape in the Denemo Main Window to end MIDI keyboard simulation."))
-    (begin  
+    (let ((pedal #f))  
         (set! SimulateMidi::active #t)
         (d-InputFilterNames "Simulated MIDI Filter")
         (d-SetBackground #xFFF0D0)
@@ -31,10 +31,24 @@
                 ((equal? key "apostrophe")  (d-PutMidi #xFF4D90)(loop))
                 ((equal? key "bracketright")  (d-PutMidi #xFF4E90)(loop))
                 ((equal? key "numbersign")  (d-PutMidi #xFF4F90)(loop))
+
+                ((equal? key "Tab") 
+                    (set! pedal (not pedal))
+                    (if pedal 
+                        (begin
+                            (d-PutMidi #x7F40B0)   
+                            (d-SetBackground #xD0F0FF)      
+                            (loop))
+                        (begin
+                            (d-PutMidi #x0040B0) 
+                            (d-SetBackground #xFFF0D0)      
+                            (loop))))
+                
                 ((not (equal? key "Escape")) 
-                (d-GetKeypress #f) ;;puts the last keypress back for normal processing
+                        (d-GetKeypress #f) ;;puts the last keypress back for normal processing
                                 (loop)))
             (set! SimulateMidi::active #f)
             (d-SetBackground #xFFFFFF)
+            (d-PutMidi #x0040B0) ;;pedal up
             (d-InputFilterNames "No Input Filter")
             (TimedNotice (_ "MIDI simulator end")))))
