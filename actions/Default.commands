@@ -8116,7 +8116,14 @@ Start Ligature earlier in the same staff.</_tooltip>
         <after>NumbersSelectDuration</after>
         <menupath>/MainMenu/InputMenu/Keyboard</menupath>
         <_label>Simulate MIDI</_label>
-        <_tooltip>Makes the second and third rows of the pc-keyboard behave like a MIDI piano keyboard: asdfg... creates the scale from Middle C, while the qwerty row provides sharps/flats (with gaps). Use with rhythm entry for MIDI in checked in preferences.</_tooltip>
+        <_tooltip>Makes the second and third rows of the pc-keyboard behave like a MIDI piano keyboard: asdfg... creates the scale from Middle C, while the qwerty row provides sharps/flats (with gaps). To customize these key assignments for your keyboard use Ctrl-Esc. Tab key toggles chord entry off/on. PgUp key starts entering notes an octave higher, PgDn an octave lower. Use with rhythm entry for MIDI in checked in preferences.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>NewStaffAllMovements</action>
+        <after>MarksStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
+        <_label>Add in All Movements</_label>
+        <_tooltip>Adds a new structured staff after the current staff in this and succeeding movments.</_tooltip>
       </row>
     </map>
   </merge>

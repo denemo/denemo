@@ -2017,6 +2017,8 @@ actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/PreviousMidiTrack.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/PreviousMidiTrack.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAfter.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAfter.xml
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAllMovements.scm
+actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAllMovements.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffBefore.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffBefore.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStructuredStaff.scm

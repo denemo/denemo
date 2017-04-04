@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NewStaffAllMovements</action>
+        <after>MarksStaff</after>
+        <_label>Add in All Movements</_label>
+        <_tooltip>Adds a new structured staff after the current staff in this and succeeding movments.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
