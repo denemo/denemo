@@ -3,9 +3,9 @@
 (if (equal? InstrumentName::params "edit")
     (set! InstrumentName::params #f))
     
-  (if (d-Directive-staff? "DynamicsStaff")
+  (if (or (d-Directive-staff? "DynamicsStaff") (d-Directive-staff? "ChordStaff"))
     (begin
-        (d-WarningDialog (_ "Instrument Name should not be set on a Dynamics Line"))
+        (d-WarningDialog (_ "Instrument Name should not be set on a Dynamics Line or Chord Symbols"))
         (d-DirectiveDelete-staff tag))
     (begin
           (if (string? InstrumentName::params)
