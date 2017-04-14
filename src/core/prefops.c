@@ -646,7 +646,13 @@ readxmlprefs (gchar * xmlsource, gboolean from_file)
     }
 
   xmlFreeDoc (doc);
-
+  if (Denemo.project)
+    {
+        if (Denemo.prefs.startmidiin)
+            Denemo.project->input_source = INPUTMIDI;
+        else
+            Denemo.project->input_source = INPUTKEYBOARD;
+    }
   ret = 0;
   return ret;
 }
