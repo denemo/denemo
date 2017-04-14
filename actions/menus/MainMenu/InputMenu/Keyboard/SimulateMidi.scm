@@ -24,7 +24,7 @@
 (define-once SimulateMidi::alist SimulateMidi::alist-uk)
 (if (not SimulateMidi::alist)
     (set! SimulateMidi::alist SimulateMidi::alist-uk))
-(let ()
+(let ((startmidiin (d-GetBooleanPref "startmidiin")))
 
 (define (append-to-scm filename)
   (define port (open-file filename "a")) 
@@ -56,6 +56,7 @@
         (set! SimulateMidi::active #t)
         (d-InputFilterNames (_ "Simulated MIDI Filter: Esc to end."))
         (d-SetBackground #xFFF0D0)
+        (d-SetPrefs "<startmidiin>1</startmidiin>")
         (let loop ()
             (define value #f)
             (define key 
@@ -107,4 +108,5 @@
             (d-SetBackground #xFFFFFF)
             (d-PutMidi #x0040B0) ;;pedal up
             (d-InputFilterNames "No Input Filter")
+            (d-SetPrefs (string-append "<startmidiin>" (if startmidiin "1" "0") "</startmidiin>"))
             (TimedNotice (_ "MIDI simulator end"))))))
