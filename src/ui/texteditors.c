@@ -119,11 +119,10 @@ deleteSchemeText (void)
     gtk_text_buffer_get_end_iter (buffer, &enditer);
     gtk_text_buffer_delete (buffer, &startiter, &enditer);
   }
-  else
-  {
-    g_free(Denemo.project->script);
-    Denemo.project->script = NULL;
-  }
+
+ g_free(Denemo.project->script);
+ Denemo.project->script = NULL;
+ Denemo.project->has_script = FALSE;
 }
 
 void

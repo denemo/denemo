@@ -3080,6 +3080,17 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
   Denemo.project = project = (DenemoProject *) (g->data);
   //g_debug("switch page\n");
 
+//Switch to the scheme script attached to this tab of the notebook
+  gchar *current_script = Denemo.project->script;
+  Denemo.project->script = NULL;
+  deleteSchemeText ();
+  if (current_script)
+    {
+        appendSchemeText (current_script);
+        Denemo.project->script = current_script;
+        Denemo.project->has_script = TRUE;
+    }
+
 //FIXME if Denemo.project->movement->recording then show Denemo.audio_vol_control
   if (Denemo.prefs.visible_directive_buttons)
     {
