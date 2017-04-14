@@ -464,7 +464,8 @@ void
 load_preferences (void)
 {
   Denemo.project->mode = Denemo.prefs.mode;
-  
+  if (Denemo.prefs.startmidiin)
+      Denemo.project->input_source = INPUTMIDI;
   set_toggle (TogglePlaybackControls_STRING, Denemo.prefs.playback_controls);
   set_toggle (ToggleMidiInControls_STRING, Denemo.prefs.midi_in_controls);
   set_toggle (QuickEdits_STRING, Denemo.prefs.quickshortcuts);

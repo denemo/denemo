@@ -1826,7 +1826,8 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
     }
   if ((mode & INPUTBLANK) || (!rest && (Denemo.project->input_source == INPUTMIDI) && (gui->mode & (INPUTRHYTHM)))) // INPUTRHYTHM is usually set BUT input_note_following_rhythm unsets it, it is input_source that creates yellow/brown notes when input is from MIDI
     mudela_obj_new->isinvisible = TRUE;
-
+  //if (Denemo.prefs.startmidiin)
+  //  mudela_obj_new->isinvisible = TRUE; can't do this, inputting note from MIDI inputs rhythm only then fills in the note on the next press
   /* Insert the new note into the score.  Note that while we may have
      added a measure above, object_insert will invoke nudgerightward,
      which will in turn invoke update_hscrollbar, so we
