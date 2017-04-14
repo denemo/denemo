@@ -921,13 +921,19 @@ Shift
 
 g.
  to check a phrase before playing it in).
- There is a button in the MIDI-in Controls to do this too.
- The Pitch Bend controller can be used to set the range of sharps and flats
- to be used, and the modulation controller can be used to mark sections
- of the music.
- With the MIDI controller set as Input source (Input menu) the duration
- keys create pure durations (notes colored yellow/brown) – you can enter
- as much of the rhythm as you wish, and then play the notes on top.
+ There is a button in the MIDI-in Controls to do this too, as well as a
+ control to set the range of sharps and flats to be used.
+ With the 
+\begin_inset Quotes eld
+\end_inset
+
+Use Rhythm Entry for MIDI in
+\begin_inset Quotes erd
+\end_inset
+
+ checked, the duration keys create pure durations (notes colored yellow/brown)
+ – you can enter as much of the rhythm as you wish, and then play the notes
+ on top.
 \end_layout
 
 \begin_layout Subsection
