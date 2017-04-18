@@ -412,36 +412,39 @@ titledPiece =
                     1 setlinewidth 40 40 moveto 517 0 rlineto 0 760 rlineto -517 0 rlineto 0 -760 rlineto  stroke
                     0.5 setlinewidth 45 45 moveto 507 0 rlineto 0 750 rlineto -507 0 rlineto 0 -750 rlineto  stroke
                     grestore" }
-    \column {
-      \when-property #'header:poet \vspace #denemo-top-margin
-      \when-notproperty #'header:poet  \vspace #(+ 10 denemo-top-margin)
-      \fill-line { \fontsize #8 \italic \fromproperty #'header:composer }
-      \vspace #1
-      \when-property #'header:poet  
-          \fill-line { \fontsize #8 \italic \fromproperty #'header:poet }
-      \when-property #'header:poet     
-          \vspace #6
-      \when-notproperty #'header:poet  \vspace #2
-      \fill-line { \scale #'(4 . 4) \fromproperty #'header:title }
-      \vspace #1
-      \fill-line { \postscript #"-20 0 moveto 40 0 rlineto stroke" }
-      \vspace #6
-      \fill-line { \fontsize #5 \fromproperty #'header:date }
-      \when-property #'header:date \vspace #6
-      \when-property #'header:instrumentation 
-          \fill-line { \fontsize #5 \italic \fromproperty #'header:instrumentation }
-            \when-property #'header:instrumentation \vspace #4
-      \when-property #'header:incipit 
-          \fill-line { \fontsize #5 \italic \fromproperty #'header:incipit }
-      
-      \vspace #1 
-      \fill-line {
-        \when-property #'header:arranger \column {
-          \vspace #5
-          \fill-line { \fontsize #3 \fromproperty #'header:arranger }
+     \line { 
+            \hspace #-1 %for some reason the column is centered without this
+            \column {
+              \when-property #'header:poet \vspace #denemo-top-margin
+              \when-notproperty #'header:poet  \vspace #(+ 10 denemo-top-margin)
+              \fill-line { \fontsize #8 \italic \fromproperty #'header:composer }
+              \vspace #1
+              \when-property #'header:poet  
+                  \fill-line { \fontsize #8 \italic \fromproperty #'header:poet }
+              \when-property #'header:poet     
+                  \vspace #6
+              \when-notproperty #'header:poet  \vspace #2
+              \fill-line { \scale #'(4 . 4) \fromproperty #'header:title }
+              \vspace #1
+              \fill-line { \postscript #"-20 0 moveto 40 0 rlineto stroke" }
+              \vspace #6
+              \fill-line { \fontsize #5 \fromproperty #'header:date }
+              \when-property #'header:date \vspace #6
+              \when-property #'header:instrumentation 
+                  \fill-line { \fontsize #5 \italic \fromproperty #'header:instrumentation }
+                    \when-property #'header:instrumentation \vspace #4
+              \when-property #'header:incipit 
+                  \fill-line { \fontsize #5 \italic \fromproperty #'header:incipit }
+              
+              \vspace #1 
+              \fill-line {
+                \when-property #'header:arranger \column {
+                  \vspace #5
+                  \fill-line { \fontsize #3 \fromproperty #'header:arranger }
+                }
+              }
+            }
         }
-      }
-    }
   }
   scoreTitleMarkup = \markup \null
 
