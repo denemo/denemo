@@ -8125,6 +8125,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Add in All Movements</_label>
         <_tooltip>Adds a new structured staff after the current staff in this and succeeding movments.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FiguredBassTweak</action>
+        <after>AutoBassFigureHeight</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <_label>Tweak Default Appearance</_label>
+        <_tooltip>Alters the default figured bass appearance to a more 18th c. look.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

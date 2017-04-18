@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FigureBassTweak</action>
+        <after>AutoBassFigureHeight</after>
+        <_label>Tweak Default Appearance</_label>
+        <_tooltip>Alters the default figured bass appearance to a more 18th c. look.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

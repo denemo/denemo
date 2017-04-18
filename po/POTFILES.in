@@ -1466,6 +1466,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeight
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.xml
+actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/FiguredBassTweak.scm
+actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/FiguredBassTweak.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm
