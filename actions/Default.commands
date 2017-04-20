@@ -8132,6 +8132,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Tweak Default Appearance</_label>
         <_tooltip>Alters the default figured bass appearance to a more 18th c. look.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AllowVoltaHook</action>
+        <after>ScoreRehearsalMarkFormat</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Barline to end Repeat Alternative</_label>
+        <_tooltip>Choose an additional type of barline to close a second (or n'th) time bar with a downward tick.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AllowVoltaHook</action>
+        <after>ScoreRehearsalMarkFormat</after>
+        <_label>Barline to end Repeat Alternative</_label>
+        <_tooltip>Choose an additional type of barline to close a second (or n'th) time bar with a downward tick.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
