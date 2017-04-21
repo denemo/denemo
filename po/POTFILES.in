@@ -1675,6 +1675,8 @@ actions/menus/ObjectMenu/NotesRests/Slurs/SlurDown.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/SlurDown.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/SlurNeutral.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/SlurNeutral.xml
+actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.scm
+actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/SlurTwo.scm
@@ -1715,6 +1717,8 @@ actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml
+actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.scm
+actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.scm
 actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.xml
 actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteTie.scm

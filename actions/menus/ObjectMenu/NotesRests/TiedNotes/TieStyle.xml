@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TieStyle</action>
+        <after>ToggleNoteDownTie</after>
+        <_label>Dashed or Dotted</_label>
+        <_tooltip>Make the tie on this note dashed or dotted.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
