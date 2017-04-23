@@ -1,9 +1,12 @@
-;;; d-SetFontSize
-(let ((size (d-ScoreProperties "query=fontsize")) (newsize  SetFontSize::params))
+;;SetFontSize
+(let* ((tag "SetFontSize") (newsize (d-DirectiveGet-score-data tag)) (size  (d-ScoreProperties "query=fontsize")))
 	(if (not newsize)
-		(set! newsize  (d-GetUserInput "Overall Score Sizing"  "Give font size to use" size)))
-(if (and newsize (not (equal? size newsize)))					       
-	(begin
-		(d-ScoreProperties (string-append "fontsize="   newsize))	
-		(d-RefreshDynamicDirectives)	
-		(d-SetSaved #f))))
+		(set! newsize size))
+	(set! newsize  (d-GetUserInput "Overall Score Sizing"  "Give font size to use" newsize))
+	(if newsize
+		(begin
+			(d-DirectivePut-score-data tag newsize)
+			(d-DirectivePut-score-postfix tag 
+				(string-append
+				"#(set-global-staff-size " newsize ")\n" ))
+			(d-SetSaved #f))))

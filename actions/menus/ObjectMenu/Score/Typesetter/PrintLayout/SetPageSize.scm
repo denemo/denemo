@@ -28,4 +28,5 @@
                                 ((resize) 
                                     (do-resize data)))))
                     (do-resize (cons 21.6 27.9))))))
+(d-SetSaved #f)
                                     
