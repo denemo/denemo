@@ -203,6 +203,8 @@ src/ui/texteditors.h
 src/ui/timedialog.c
 src/ui/tomeasuredialog.c
 src/ui/tupletdialog.c
+src/ui/virtualkeyboard.c
+src/ui/virtualkeyboard.h
 actions/Arranger.scm
 actions/Composer.scm
 actions/Default.scm

@@ -160,6 +160,8 @@ denemo_SOURCES = \
   ui/mwidthdialog.c \
   ui/palettes.c \
   ui/palettes.h \
+  ui/virtualkeyboard.c \
+  ui/virtualkeyboard.h \
   ui/playbackprops.c \
   ui/playbackprops.h \
   ui/prefdialog.c \
