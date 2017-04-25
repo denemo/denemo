@@ -499,6 +499,8 @@ actions/menus/MainMenu/InputMenu/Mouse/MouseDefault.scm
 actions/menus/MainMenu/InputMenu/Mouse/MouseDefault.xml
 actions/menus/MainMenu/InputMenu/Mouse/MouseInsertion.scm
 actions/menus/MainMenu/InputMenu/Mouse/MouseInsertion.xml
+actions/menus/MainMenu/InputMenu/ShowVirtualKeyboard.scm
+actions/menus/MainMenu/InputMenu/ShowVirtualKeyboard.xml
 actions/menus/MainMenu/MoreMenu/LoadDefaultComposerNumberkeys.scm
 actions/menus/MainMenu/MoreMenu/LoadDefaultComposerNumberkeys.xml
 actions/menus/MainMenu/MoreMenu/LoadSelectDurationComposerNumberkeys.scm
