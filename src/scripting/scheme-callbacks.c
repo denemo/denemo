@@ -5364,7 +5364,17 @@ scheme_set_midi_capture (SCM setting)
   prev = set_midi_capture ((setting != SCM_BOOL_F));
   return prev ? SCM_BOOL_T : SCM_BOOL_F;
 }
-
+SCM
+scheme_virtual_keyboard (SCM octaves)
+{
+    gint num = 6;
+    if (scm_is_integer (octaves))
+        {
+           num = scm_to_int (octaves);
+        }
+  create_virtual_keyboard (num);
+  return SCM_BOOL_T;
+}
 SCM
 scheme_get_keyboard_state (void)
 {

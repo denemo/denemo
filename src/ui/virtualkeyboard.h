@@ -24,6 +24,6 @@
 #include <denemo/denemo.h>
 #include <string.h>
 
-void create_virtual_keyboard (gint octaves);
+void create_virtual_keyboard (gint number_of_octaves);
 
 #endif

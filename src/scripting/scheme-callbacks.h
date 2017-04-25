@@ -244,6 +244,7 @@ SCM scheme_get_recorded_midi_note (void);
 SCM scheme_rewind_recorded_midi (void);
 SCM scheme_get_midi (SCM bytes);
 SCM scheme_set_midi_capture (SCM);
+SCM scheme_virtual_keyboard (SCM);
 SCM scheme_toggle_playalong (void);
 SCM scheme_toggle_conduct (void);
 SCM scheme_compute_midi_note_durations (void);
