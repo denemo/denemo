@@ -21,6 +21,7 @@
 #include "ui/virtualkeyboard.h"
 #include "core/view.h"
 #include "core/utils.h"
+#include "command/keyresponses.h"
 
 
 #if GTK_MAJOR_VERSION==2
@@ -39,7 +40,6 @@ gboolean sharp_order[12] = {
 static void noteon (gint key)
     {
         char buf[3] = {0x90, key, 0xFF}; //NOTEON
-        g_print ("Now emit MIDI on for %d", key);
         process_midi_event (buf);
     }
 static GtkWidget *sharp_button (gint i)
@@ -47,9 +47,11 @@ static GtkWidget *sharp_button (gint i)
     GtkWidget *eventbox = gtk_event_box_new ();
     GtkWidget *label = gtk_label_new ("   \n \n \n");
     gtk_container_add (GTK_CONTAINER(eventbox), label);
-    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK ));
+    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
+    gtk_widget_set_can_focus (eventbox, TRUE);
     g_signal_connect_swapped (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
-    //gtk_widget_set_margin_end (GTK_WIDGET(label), 1);
+    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
+    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);
     set_background_color (label, "#000000");
     gtk_widget_set_hexpand  (label, TRUE);
     return eventbox;
@@ -59,11 +61,13 @@ static GtkWidget *natural_button (gint i)
     GtkWidget *eventbox = gtk_event_box_new ();
     GtkWidget *label = gtk_label_new ("   \n \n \n");
     gtk_container_add (GTK_CONTAINER(eventbox), label);
-    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK ));
-
+    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
+    gtk_widget_set_can_focus (eventbox, TRUE);
     g_signal_connect_swapped (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
+    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
+    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);
     gtk_widget_set_margin_end (GTK_WIDGET(label), 1);
-     set_background_color (label, "#FFFFFF");
+    set_background_color (label, "#FFFFFF");
     
     gtk_widget_set_hexpand  (label, TRUE);
     return eventbox;
@@ -74,9 +78,11 @@ static GtkWidget *natural_button (gint i)
     GtkWidget *label = i==60?  gtk_label_new (" \n   C   \n") :
                                 ((i%12)==4)? gtk_label_new (" \n        \n") :          gtk_label_new ("         \n \n");
     gtk_container_add (GTK_CONTAINER(eventbox), label);
-    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK ));
-
+    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
+    gtk_widget_set_can_focus (eventbox, TRUE);
     g_signal_connect_swapped (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
+    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
+    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);   
     gtk_widget_set_margin_end (GTK_WIDGET(label), 1);
     set_background_color (label, "#FFFFFF");
     gtk_widget_set_hexpand  (label, TRUE);
