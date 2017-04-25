@@ -82,7 +82,7 @@ extern "C" {
 #define gtk_menu_popup(m, p2,p3,p4,p5,p6,p7) gtk_menu_popup_at_pointer(m, NULL)
 #endif
 #if ((GTK_MAJOR_VERSION == 2) || ((GTK_MAJOR_VERSION == 3)  && (GTK_MINOR_VERSION < 12)))
-#define gtk_widget_set_margin_end (a,b) 
+#define gtk_widget_set_margin_end(a,b) gtk_misc_set_padding(a,b,0)
 #endif
 
 #define gdk_cursor_new(t) gdk_cursor_new_for_display(gdk_display_get_default (),t)
