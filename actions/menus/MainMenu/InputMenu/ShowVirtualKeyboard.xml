@@ -8,7 +8,7 @@
         <action>ShowVirtualKeyboard</action>
         <after>SimulateMidi</after>
         <_label>Virtual MIDI Keyboard</_label>
-        <_tooltip>Displays a piano style keyboard that can be clicked on to enter notes like a real MIDI device.</_tooltip>
+        <_tooltip>Displays a piano style keyboard that can be clicked on to enter notes like a real MIDI device. Right click adds notes to the chord.</_tooltip>
       </row>
     </map>
   </merge>

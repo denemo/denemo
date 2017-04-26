@@ -8296,6 +8296,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8303,6 +8304,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
@@ -9052,12 +9054,18 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-You can set the keyboard shortcut for a command just by pressing the desired
+Denemo allows you to enter notes via PC keyboard, MIDI keyboard, Virtual
+ on-screen piano keyboard or microphone input.
+\end_layout
+
+\begin_layout Standard
+With Denemo you can tailor Denemo to allow you to use your preferred method
+ of entering notes via keyboard.
+ You can set the keyboard shortcut for a command just by pressing the desired
  key while the menu item is selected.
  You can right click on the menu item and choose Open Command Center to
  set a two-key keyboard shortcut.
- This means that you can tailor Denemo to allow you to use your preferred
- method of entering notes.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -9360,117 +9368,48 @@ Some computers don't respect the numeric keypad's keys – confusing the Enter
 \end_layout
 
 \begin_layout Subsection
-Playing Notes into Denemo – Audio (Soundcard Mic Input)
+Using an On-screen Piano Keyboard
 \end_layout
 
 \begin_layout Standard
-Denemo can listen for, and detect the pitch of notes on the mic input of
- the computer; it doesn't attempt to guess the rhythm – such systems do
- not work well – but you will find that playing the notes in time will help
- you to play them in, as well as make playing them in a musical experience
- rather than a chore.
-\end_layout
-
-\begin_layout Standard
-Playing the notes in can be much quicker than using the keyboard since the
- note octave and accidental are all given just by playing the note.
- If you are able to play a musical instrument then this will probably be
- much faster for you than typing note names, octave shifts and accidentals
- at the computer keyboard.
- Using the headphones-out of an electronic keyboard avoids "noises-off"
- interfering with the pitch detection.
- Many microphones and pickups benefit from some pre-amplification – it is
- worth getting the level right before you begin.
-\end_layout
-
-\begin_layout Standard
-When you select the Input->Audio on the Main Menu the Pitch Recognition
- window pops up.
- While the mouse pointer is inside the score drawing area the score is sensitive
- to pitches heard via the microphone input.
- The background colour of the score changes to show that the notes will
- be entered into the score.
- 
-\end_layout
-
-\begin_layout Standard
-There are two ways of using the pitch entry – Overlay mode (default) and
- Insert mode.
- The button marked Insert causes notes to be entered into the current measure
- in the prevailing rhythm – the mode is set to Insert for this.
- The button marked Overlays overlays the notes already present with the
- pitches you sound.
- There is a third button, marked Tuning, which is a state-of-the art musical
- instrument tuner.
-\end_layout
-
-\begin_layout Standard
-Music is entered into the measure which holds the cursor.
- If you are overlaying a rhythm already entered, then the first un-overlayed
- note in the measure is overlayed by the note detected.
- You can delete the overlay using the regular delete keys, or clear them
- altogether if you want to start over in a measure.
- If you are in Insert mode then the notes detected will be inserted at the
- cursor position.
-\end_layout
-
-\begin_layout Standard
-Use the enharmonic shift to select whether Bb or A# should be entered when
- you enter the given pitch – you can usefully go as far as B# and Fb.
-\end_layout
-
-\begin_layout Standard
-Use the transpose control to shift up or down by octaves.
-\end_layout
-
-\begin_layout Standard
-Most of the other settings would require study of the Aubio documentation
- to understand, but the one marked threshold may be useful to make the detection
- less sensitive to ambient noises if using a microphone with an acoustic
- instrument.
-\end_layout
-
-\begin_layout Standard
-The best set-up is to plug the headphones-out socket of an electronic keyboard
- into the mic input, and choose a piano setting on the electronic keyboard.
-\end_layout
-
-\begin_layout Standard
-If you don't have any musical instrument that you can plug directly into
- the mic in, then you can use an acoustic instrument with a microphone,
- in which case move your microphone closer or further from your instrument
- to get reliable detection.
- Too close and you get double detections, too far and you get missed ones.
- To check for good detection open a piece of music, set Overlay mode and
- put the cursor in the first measure and play the piece in – the notes should
- all turn blue if you have perfect detection.
- It is worth while getting perfect detection – more than one or two miss-detects
- per piece of music and you may want to use the Insert rather than the Overlay
- method.
-\end_layout
-
-\begin_layout Standard
-The Audio Input button introduces a special entry mode where the pitches
- you play in will overlay the rhythm, appearing as blue notes.
- You can delete any wrong pitches using the usual delete keys, without deleting
- the rhythm.
- In fact if you have an "interloper" (an extra spurious note) you can delete
- it and the other pitches will all move along to their correct places.
-\end_layout
-
-\begin_layout Standard
-Another method of playing music in acoustically doesn't involve entering
- the rhythm separately.
- For this select Input->Audio and then choose Insert instead of Overlays
- on the Pitch Recognition Panel that pops up.
- With Insert the sounded notes are entered as in the prevailing rhythm.
- The same applies if you have MIDI – by choosing a rhythm (e.
-\begin_inset space \thinspace{}
+The Input menu offers you a Virtual Piano Keyboard.
+ This behaves like an attached MIDI keyboard but you click with the mouse
+ or tap on your touchscreen instead of pressing the keys.
+ The PC keyboard continues to work while using the on-screen keyboard, so
+ you can delete/alter add ornaments freely while using this 
+\begin_inset Quotes eld
 \end_inset
 
-g.
- half-note, quarter-note, or a custom rhythm pattern) and playing in the
- pitches you can enter the music into a blank score.
+keyboard
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Chords can be entered with a left-click, and as with a real MIDI keyboard
+ you can enter as much of the rhythm before adding pitches (see 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Playing-Notes-into"
+
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Standard
+The default keyboard is eight octaves around middle C which is highlighted
+ by the letter C engraved on its keyhead.
+ The Virtual Keyboard window can be scrolled to access other parts of the
+ keyboard and made as wide as needed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename images/VirtualKeyboard.png
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection
@@ -9683,6 +9622,120 @@ can
 \emph default
 use it to achieve Shift-A, Shift-B \SpecialChar \ldots{}
  but it is probably best left alone.
+\end_layout
+
+\begin_layout Subsection
+Playing Notes into Denemo – Audio (Soundcard Mic Input)
+\end_layout
+
+\begin_layout Standard
+Denemo can listen for, and detect the pitch of notes on the mic input of
+ the computer; it doesn't attempt to guess the rhythm – such systems do
+ not work well – but you will find that playing the notes in time will help
+ you to play them in, as well as make playing them in a musical experience
+ rather than a chore.
+\end_layout
+
+\begin_layout Standard
+Playing the notes in can be much quicker than using the keyboard since the
+ note octave and accidental are all given just by playing the note.
+ If you are able to play a musical instrument then this will probably be
+ much faster for you than typing note names, octave shifts and accidentals
+ at the computer keyboard.
+ Using the headphones-out of an electronic keyboard avoids "noises-off"
+ interfering with the pitch detection.
+ Many microphones and pickups benefit from some pre-amplification – it is
+ worth getting the level right before you begin.
+\end_layout
+
+\begin_layout Standard
+When you select the Input->Audio on the Main Menu the Pitch Recognition
+ window pops up.
+ While the mouse pointer is inside the score drawing area the score is sensitive
+ to pitches heard via the microphone input.
+ The background colour of the score changes to show that the notes will
+ be entered into the score.
+ 
+\end_layout
+
+\begin_layout Standard
+There are two ways of using the pitch entry – Overlay mode (default) and
+ Insert mode.
+ The button marked Insert causes notes to be entered into the current measure
+ in the prevailing rhythm – the mode is set to Insert for this.
+ The button marked Overlays overlays the notes already present with the
+ pitches you sound.
+ There is a third button, marked Tuning, which is a state-of-the art musical
+ instrument tuner.
+\end_layout
+
+\begin_layout Standard
+Music is entered into the measure which holds the cursor.
+ If you are overlaying a rhythm already entered, then the first un-overlayed
+ note in the measure is overlayed by the note detected.
+ You can delete the overlay using the regular delete keys, or clear them
+ altogether if you want to start over in a measure.
+ If you are in Insert mode then the notes detected will be inserted at the
+ cursor position.
+\end_layout
+
+\begin_layout Standard
+Use the enharmonic shift to select whether Bb or A# should be entered when
+ you enter the given pitch – you can usefully go as far as B# and Fb.
+\end_layout
+
+\begin_layout Standard
+Use the transpose control to shift up or down by octaves.
+\end_layout
+
+\begin_layout Standard
+Most of the other settings would require study of the Aubio documentation
+ to understand, but the one marked threshold may be useful to make the detection
+ less sensitive to ambient noises if using a microphone with an acoustic
+ instrument.
+\end_layout
+
+\begin_layout Standard
+The best set-up is to plug the headphones-out socket of an electronic keyboard
+ into the mic input, and choose a piano setting on the electronic keyboard.
+\end_layout
+
+\begin_layout Standard
+If you don't have any musical instrument that you can plug directly into
+ the mic in, then you can use an acoustic instrument with a microphone,
+ in which case move your microphone closer or further from your instrument
+ to get reliable detection.
+ Too close and you get double detections, too far and you get missed ones.
+ To check for good detection open a piece of music, set Overlay mode and
+ put the cursor in the first measure and play the piece in – the notes should
+ all turn blue if you have perfect detection.
+ It is worth while getting perfect detection – more than one or two miss-detects
+ per piece of music and you may want to use the Insert rather than the Overlay
+ method.
+\end_layout
+
+\begin_layout Standard
+The Audio Input button introduces a special entry mode where the pitches
+ you play in will overlay the rhythm, appearing as blue notes.
+ You can delete any wrong pitches using the usual delete keys, without deleting
+ the rhythm.
+ In fact if you have an "interloper" (an extra spurious note) you can delete
+ it and the other pitches will all move along to their correct places.
+\end_layout
+
+\begin_layout Standard
+Another method of playing music in acoustically doesn't involve entering
+ the rhythm separately.
+ For this select Input->Audio and then choose Insert instead of Overlays
+ on the Pitch Recognition Panel that pops up.
+ With Insert the sounded notes are entered as in the prevailing rhythm.
+ The same applies if you have MIDI – by choosing a rhythm (e.
+\begin_inset space \thinspace{}
+\end_inset
+
+g.
+ half-note, quarter-note, or a custom rhythm pattern) and playing in the
+ pitches you can enter the music into a blank score.
 \end_layout
 
 \begin_layout Section
