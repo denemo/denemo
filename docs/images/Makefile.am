@@ -51,6 +51,8 @@ SourceView.png \
 StaffVoicePropsEditor.png \
 StringedInstrumentsPalette.png \
 TiesPalette.png \
-undo.png 
+undo.png \
+VirtualKeyboard.png
+
  
 
