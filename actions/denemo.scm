@@ -459,7 +459,7 @@
         (if (not start)
             (begin
                 (d-PushPosition)
-                (while (and (zero? (d-GetDurationInTicks))
+                (while (and (eqv? 0 (d-GetDurationInTicks))
                         (d-NextObject)))
                 (set! start (d-GetMidiOnTime))
                 (d-PopPosition)))
@@ -479,7 +479,7 @@
             (d-PushPosition)
             (while (and (d-PrevObject)
                             (zero? (d-GetDurationInTicks))))   ;)
-            (while (and (zero? (d-GetDurationInTicks)) (d-NextObject)))
+            (while (and (eqv? 0 (d-GetDurationInTicks)) (d-NextObject)))
             (set! stop (d-GetMidiOffTime))
             (d-PopPosition)))
     (if (and stop (> stop 0))
