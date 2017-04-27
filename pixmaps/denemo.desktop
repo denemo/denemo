@@ -4,7 +4,7 @@ Icon=denemo
 StartupNotify=true
 Terminal=false
 Type=Application
-Categories=GNOME;Audio;AudioVideo;Music;Education
+Categories=GNOME;Audio;AudioVideo;Music;Education;
 MimeType=audio/midi;application/denemo;
 
 Name=GNU Denemo
