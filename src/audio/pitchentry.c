@@ -1387,7 +1387,8 @@ get_enharmonic_frame (void)
       
       label = gtk_label_new ("");
       gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-      gtk_label_set_markup (GTK_LABEL (label), "<span font_desc=\"18\" foreground=\"red\">♭ ◄</span>"); //FIXME 18 should be relative to Denemo.prefs.fontsize
+      gchar *button_label = g_strdup_printf ("<span font_desc=\"%d\" foreground=\"red\">♭ ◄</span>", Denemo.prefs.fontsize); 
+      gtk_label_set_markup (GTK_LABEL (label), button_label); 
       GtkWidget *button = gtk_button_new ();
       gtk_container_add (GTK_CONTAINER(button), label); 
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -1401,7 +1402,9 @@ get_enharmonic_frame (void)
 
       label = gtk_label_new ("");
       gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
-      gtk_label_set_markup (GTK_LABEL (label), "<span font_desc=\"18\" foreground=\"blue\">► ♯</span>");
+      g_free (button_label);
+      button_label = g_strdup_printf ("<span font_desc=\"%d\" foreground=\"blue\">► ♯</span>", Denemo.prefs.fontsize); 
+      gtk_label_set_markup (GTK_LABEL (label), button_label);
       button = gtk_button_new ();
       gtk_container_add (GTK_CONTAINER(button), label); 
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
