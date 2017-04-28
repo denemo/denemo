@@ -596,6 +596,7 @@ save_xml_keymap (gchar * filename)      //_!!! create a DEV version here, saving
         continue;
 
       gpointer action = (gpointer) lookup_action_from_idx (the_keymap, i);
+      if (!action) continue;
       gchar *name = (gchar *) lookup_name_from_idx (the_keymap, i);
 //g_print ("Storing %s at %d\n", name, i);
       basename = denemo_action_get_name (action);
