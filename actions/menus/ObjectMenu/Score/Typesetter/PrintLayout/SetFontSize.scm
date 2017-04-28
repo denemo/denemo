@@ -5,8 +5,8 @@
 	(set! newsize  (d-GetUserInput "Overall Score Sizing"  "Give font size to use" newsize))
 	(if newsize
 		(begin
-			(d-DirectivePut-score-data tag newsize)
-			(d-DirectivePut-score-postfix tag 
+			(d-DirectivePut-paper-data tag newsize)
+			(d-DirectivePut-paper-postfix tag 
 				(string-append
-				"#(set-global-staff-size " newsize ")\n" ))
+				"\n} #(set-global-staff-size " newsize ") {\n" )) ;this cheats, placing the setting *outside* the paper block. It seems we don't have a score-nfix override setting to place stuff here. FIXME
 			(d-SetSaved #f))))
