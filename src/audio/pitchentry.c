@@ -1405,6 +1405,7 @@ get_enharmonic_frame (void)
       g_free (button_label);
       button_label = g_strdup_printf ("<span font_desc=\"%d\" foreground=\"blue\">► ♯</span>", Denemo.prefs.fontsize); 
       gtk_label_set_markup (GTK_LABEL (label), button_label);
+      g_free (button_label);
       button = gtk_button_new ();
       gtk_container_add (GTK_CONTAINER(button), label); 
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
