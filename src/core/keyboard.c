@@ -172,14 +172,16 @@ add_ui (gchar * menupath, gchar * after, gchar * name)
   denemo_menusystem_add_command (menupath, name, after);
 }
 
+
 //Called while parsing Default.commands etc
 void
 create_command(command_row *command)
 {
   DenemoAction* action = NULL;
+  gboolean new_command = (g_hash_table_lookup(Denemo.map->idx_from_name, command->name) == NULL);
   if (command->script_type == COMMAND_SCHEME)
   {
-    gboolean new_command = (g_hash_table_lookup(Denemo.map->idx_from_name, command->name) == NULL);
+   
 
     if(!Denemo.non_interactive){
 
@@ -227,7 +229,6 @@ create_command(command_row *command)
     // to delay loading it, but we should set the signal initally and we should not repeat setting the signal later.
     // the signal does not specify which script will be run, that is decided lazily, when the action is invoked for the first time
   }
-
   // we are not as yet re-writing tooltips etc on builtin commands
   else { //built-in
     if(!Denemo.non_interactive)
@@ -235,26 +236,21 @@ create_command(command_row *command)
         //action = lookup_action_from_name (command->name);
         
         //register_command (command->name, command->label, command->tooltip, command->callback);
+        if(new_command)
+          {
         
-        
-        if(command->locations)
-            {
-                //action = lookup_action_from_name (command->name);
-             command->menupath = (gchar *) command->locations->data; //only doing one location for now FIXME
-             //g_print ("Command %s has %s menupath\n", command->name, command->menupath);
-             if(!Denemo.non_interactive)
-                    add_ui (command->menupath, NULL, command->name);
-                    
-                    
-                    
-                    
-            }
-            
-            register_command_row (Denemo.map, command);
-            
-            
-        //else
-            //g_warning ("Command %s has no menupath\n", command->name);
+          if(command->locations)
+              {
+                  //action = lookup_action_from_name (command->name);
+               command->menupath = (gchar *) command->locations->data; //only doing one location for now FIXME
+               //g_print ("Command %s has %s menupath\n", command->name, command->menupath);
+               if(!Denemo.non_interactive)
+                      add_ui (command->menupath, NULL, command->name);
+                      
+              }
+          register_command_row (Denemo.map, command);
+         }
+
         }
       if (command->hidden && !Denemo.non_interactive)
           {
