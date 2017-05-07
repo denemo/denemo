@@ -3463,13 +3463,27 @@ get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a)
   color->alpha = a;
 }
 
+static gchar *get_css_selector (GtkWidget *w)
+{
+static gchar *ret = NULL;
+#if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=20))
+  g_free (ret);
+  ret = g_ascii_strdown (g_strdup (g_type_name (G_TYPE_FROM_INSTANCE (w))), -1);
+  return ret+3;
+#else
+   ret = (gchar *)g_type_name (G_TYPE_FROM_INSTANCE (w));
+
+    return ret;
+#endif
+}
+
 void set_background_color(GtkWidget *w, gchar *color)
 {
 GtkCssProvider *gcp;
 GtkStyleContext *gsc;
 gsc = gtk_widget_get_style_context(w);
-const gchar *type = g_type_name (G_TYPE_FROM_INSTANCE (w));
-gchar *str = g_strdup_printf ("%s {background-color: %s;}", type, color);
+gchar *type = get_css_selector(w);
+gchar *str = g_strdup_printf ("%s {background-color: %s;}", type, color); //g_print ("%s", str);
 gcp= gtk_css_provider_new();
 gtk_css_provider_load_from_data(gcp, str, -1, 0);
 g_free (str);
@@ -3482,8 +3496,8 @@ void set_foreground_color(GtkWidget *w, gchar *color)
 GtkCssProvider *gcp;
 GtkStyleContext *gsc;
 gsc = gtk_widget_get_style_context(w);
-const gchar *type = g_type_name (G_TYPE_FROM_INSTANCE (w));
-gchar *str = g_strdup_printf ("%s {color: %s;}", type, color);
+gchar *type = get_css_selector(w);
+gchar *str = g_strdup_printf ("%s {color: %s;}", type, color); //g_print ("%s", str);
 gcp= gtk_css_provider_new();
 gtk_css_provider_load_from_data(gcp, str, -1, 0);
 g_free (str);
