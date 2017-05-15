@@ -1197,7 +1197,7 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
         GtkWidget *item, *parent = denemo_menusystem_get_widget (path);
         if (!parent)
             {
-                g_critical ("No menu in %s", __FILE__);
+                g_critical ("No menu in for path %s, name %s in %s", path, name, __FILE__);
                 return;
             }        
         gchar *label = get_label_for_name (name);
