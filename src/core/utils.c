@@ -3466,14 +3466,14 @@ get_color (GdkRGBA * color, gdouble r, gdouble g, gdouble b, gdouble a)
 static gchar *get_css_selector (GtkWidget *w)
 {
 static gchar *ret = NULL;
+
 #if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=20))
   g_free (ret);
   ret = g_ascii_strdown (g_strdup (g_type_name (G_TYPE_FROM_INSTANCE (w))), -1);
   return ret+3;
 #else
-   ret = (gchar *)g_type_name (G_TYPE_FROM_INSTANCE (w));
-
-    return ret;
+  ret = (gchar *)g_type_name (G_TYPE_FROM_INSTANCE (w));
+  return ret;
 #endif
 }
 
