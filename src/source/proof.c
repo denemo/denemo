@@ -229,6 +229,8 @@ get_view (gchar * filename)
 gboolean
 open_proofread_file (gchar * filename)
 {
+  if (Denemo.non_interactive)
+    return FALSE;
   EvView *eview = get_view (filename);
  return eview  != NULL;
 }

@@ -483,6 +483,8 @@ position_view (EvView * eview, gint x, gint y, gint page)
 gboolean
 open_source (gchar * filename, gint x, gint y, gint page)
 {
+  if (Denemo.non_interactive)
+    return FALSE;
   EvView *eview = get_view (filename);
   gboolean ret = position_view (eview, x, y, page);
   switch_back_to_main_window ();

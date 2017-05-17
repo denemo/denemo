@@ -895,7 +895,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
         g_warning ("An error happened during lilypond launching: %s", err->message);
 
       if(ret != 0)
-        g_warning ("Lilypond did not end successfully");
+        g_debug ("Lilypond did not end successfully for file %s", filename);
 
       //These are in tmpdir and can be used for the .eps file, so don't delete them
       //g_list_foreach(filelist, (GFunc)rm_temp_files, FALSE);
