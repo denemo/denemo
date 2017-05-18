@@ -51,11 +51,11 @@
 \\override TupletBracket.direction = #invert-direction
 }"))
 (let ((tag "CurvedTupletBrackets"))
-    (if (d-Directive-layout? tag)
+    (if (d-Directive-score? tag)
         (begin
-            (d-DirectiveDelete-layout tag)
+            (d-DirectiveDelete-score tag)
             (d-InfoDialog (_ "Square Tuplet Brackets re-instated")))
         (begin
-            (d-DirectivePut-layout-postfix tag "\\tupletBracketToSlur")
+            (d-DirectivePut-score-prefix tag "\n\\layout { \\tupletBracketToSlur }\n")
             (d-InfoDialog (_ "Tuplet Brackets Curved"))))
     (d-SetSaved #f))
