@@ -303,7 +303,7 @@ delete_movement (DenemoAction * action, DenemoScriptParam* param)
       if (confirm (primary->str, secondary->str))
         {
           gui->movement->undo_guard = 1;  //no undo as that is per movement
-          free_score (gui);
+          free_movement (gui);
           DenemoMovement *si = gui->movement;
           GList *g = g_list_find (gui->movements, si)->next;
           if (g == NULL)
@@ -680,13 +680,13 @@ delete_all_staffs (DenemoProject * gui)
 
 
 /**
- * FIXME there is a muddle here between DenemoMovement and DenemoProject
- * frees the data in the passed scoreinfo stucture
+ * 
+ * frees the data in a movement
  *
- * @param si pointer to the scoreinfo structure to free
+ * @param gui pointer to the DenemoProject structure whose current movement to free
  */
 void
-free_score (DenemoProject * gui)
+free_movement (DenemoProject * gui)
 {
   delete_all_staffs (gui);
   delete_directives (&gui->movement->layout.directives);

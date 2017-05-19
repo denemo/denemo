@@ -833,7 +833,7 @@ free_movements (DenemoProject * project)
       //close_source_audio ();//???
       //  if(!delete_imported_midi ()) not if still playing!!!
       //    delete_imported_midi();
-      free_score (project);
+      free_movement (project);
     }
   project->movement = NULL;
   delete_directives (&project->lilycontrol.directives);
