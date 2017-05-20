@@ -887,7 +887,10 @@ delete_directive (GtkWidget * button, gpointer fn)
   DenemoDirective *directive = (DenemoDirective *) g_object_get_data (G_OBJECT (button), "directive");
   GList **directives = (GList **) g_object_get_data (G_OBJECT (button), "directives");
   if (directives)
-    *directives = g_list_remove (*directives, directive);
+    {
+      *directives = g_list_remove (*directives, directive);
+      free_directive (directive);
+    }
   else
     dnm_deleteobject (Denemo.project->movement);
   gtk_widget_destroy (gtk_widget_get_toplevel (button));
@@ -2028,7 +2031,10 @@ low_level_edit_type_directive (GtkWidget * button, gpointer rerun)
     {
       gtk_widget_destroy (gtk_widget_get_toplevel (button));
       if (directives)
-        *directives = g_list_remove (*directives, directive);
+        {
+          *directives = g_list_remove (*directives, directive);
+          free_directive (directive);
+        }
       if (rerun)
         G_CALLBACK (rerun) ();
       score_status (Denemo.project, TRUE);
@@ -2044,6 +2050,7 @@ delete_score_directive (GtkWidget * button, gpointer rerun)
   DenemoDirective *directive = (DenemoDirective *) g_object_get_data (G_OBJECT (button), "directive");
   GList **directives = (GList **) g_object_get_data (G_OBJECT (button), "directives");
   *directives = g_list_remove (*directives, directive);
+  free_directive (directive);
   gtk_widget_destroy (gtk_widget_get_toplevel (button));
   signal_structural_change (Denemo.project);
   G_CALLBACK (rerun) ();        //edit_score_properties ();
