@@ -32,7 +32,7 @@
                 (begin
                  (d-SetSaved #f)
                  (if (string-null? chapter)
-                (d-DirectiveDelete-scoreheader tag)
+                    (d-DirectiveDelete-scoreheader tag)
                     (begin 
                         (d-DirectivePut-scoreheader-data tag  chapter)
                         (d-DirectivePut-scoreheader-display tag  (DenemoAbbreviatedString chapter))
