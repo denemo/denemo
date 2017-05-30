@@ -1467,14 +1467,16 @@ static void  toolbar_save_callback (void)
     {file_savewrapper (NULL, NULL);}
 static void  toolbar_print_callback (void)
     {
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
+#else
     if (!gtk_widget_get_visible ( gtk_widget_get_toplevel (Denemo.printarea)))
         set_toggle (TogglePrintView_STRING, TRUE);
     else
         implement_show_print_view(TRUE);
+#endif
     }
-//static toolbar_printview_callback (void)
-//    {implement_show_print_view(TRUE);}
-//show_print_view(NULL, NULL);} 
+
 static void  toolbar_move_to_start_callback (void)
     {movetostart (NULL, NULL);}    
 static void  toolbar_move_to_end_callback (void)

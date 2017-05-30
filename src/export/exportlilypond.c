@@ -3138,6 +3138,9 @@ get_object_at_lilypond (gint line, gint column)
 gboolean
 goto_lilypond_position (gint line, gint column)
 {
+#ifndef USE_EVINCE
+return FALSE;
+#else
   DenemoProject *gui = Denemo.project;
   GtkTextIter enditer, iter;
 
@@ -3241,6 +3244,7 @@ goto_lilypond_position (gint line, gint column)
     }                           //if reasonable column and line number
 
   return FALSE;
+#endif
 }
 
 gint

@@ -2822,7 +2822,11 @@ scheme_get_multiline_user_input (SCM title, SCM instruction, SCM initial)
 SCM
 scheme_get_lilypond_syntax_from_user (SCM tit, SCM ins, SCM prior, SCM post, SCM initial) 
 {
+
     SCM ret = SCM_BOOL_F;
+#ifndef USE_EVINCE
+   g_debug ("This feature requires denemo to be built with evince");
+#else
     gchar *title = _("LilyPond Syntax");
     gchar *prior_context = "\\score {<<";
     gchar *post_context = ">>}";
@@ -2842,6 +2846,7 @@ scheme_get_lilypond_syntax_from_user (SCM tit, SCM ins, SCM prior, SCM post, SCM
     if (val)
         ret = scm_from_locale_string (val);
     g_free (val);
+#endif
     return ret;
 }
 

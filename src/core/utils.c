@@ -2717,7 +2717,10 @@ string_dialog_editor_with_widget (DenemoProject * gui, gchar * wlabel, gchar * d
 gchar *get_multiline_input (gchar *title, gchar *instruction, gchar *initial)
 {
     gchar *text = string_dialog_editor_with_widget (Denemo.project, title, instruction, initial, NULL, NULL);
+#ifndef USE_EVINCE
+#else
     drop_markup_area ();
+#endif
     return text;
 }
 static gboolean
