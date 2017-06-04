@@ -324,10 +324,14 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (saveparts)
     //g_debug ("Timeout %d \n", prefs->autosave_timeout);
     if (prefs->startmidiin || (midi_in_device_was_default && strcmp (prefs->portmidi_input_device->str, "default")))
-    {
-      Denemo.project->input_source = INPUTMIDI;
-      prefs->startmidiin = TRUE;
-    }
+      {
+        Denemo.project->input_source = INPUTMIDI;
+        prefs->startmidiin = TRUE;
+      }
+    else
+      Denemo.project->input_source = INPUTKEYBOARD;
+    
+
   if (prefs->learning)
     initialize_keystroke_help ();
   if (prefs->tooltip_timeout == 0)
