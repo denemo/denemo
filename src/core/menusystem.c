@@ -1136,7 +1136,7 @@ static void create_palette_for_menu (GtkWidget *menu)
     DenemoPalette *pal = get_palette (palette_name);
     if(pal==NULL)
         {
-        pal = set_palate_shape (palette_name, FALSE, (number/10) + 1);//strangely named function
+        pal = set_palette_shape (palette_name, FALSE, (number/10) + 1);
 
         pal->menu = TRUE;
         for (g=children;g;g=g->next)

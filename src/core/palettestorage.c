@@ -153,7 +153,7 @@ static void install_palette (xmlNodePtr palette, gboolean hide)
     gint limit =  getXMLIntProp (palette, (xmlChar *) "limit");
     DenemoPalette *pal = create_palette (name, dock, row_wise);
     pal->menu = (getXMLIntProp (palette, (xmlChar *) "menu")>0); // -1 is returned if not present
-    set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack
+    set_palette_shape (name, row_wise, limit);//does gtk_widget_show in repack
     installButtons (palette, pal);
     if (hide) hidden = TRUE;
     if(hidden)
@@ -176,7 +176,7 @@ static gint merge_palette (xmlNodePtr palette, const gchar *sought)
     if(!strcmp(name, sought))
     {
         DenemoPalette *pal = create_palette (name, dock, row_wise);
-        set_palate_shape (name, row_wise, limit);//does gtk_widget_show in repack
+        set_palette_shape (name, row_wise, limit);//does gtk_widget_show in repack
         installButtons (palette, pal);
         gtk_widget_show(pal->docked?pal->box:pal->window);
         if (pal->buttons==NULL)

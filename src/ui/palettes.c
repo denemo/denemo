@@ -547,7 +547,7 @@ DenemoPalette *create_palette (gchar *name, gboolean docked, gboolean rows) {
     return pal;
 }
 
-DenemoPalette *set_palate_shape (gchar *name, gboolean row_wise, gint limit)
+DenemoPalette *set_palette_shape (gchar *name, gboolean row_wise, gint limit)
 {
  DenemoPalette *pal = create_palette (name, FALSE, row_wise);
     if (limit>0) {
@@ -658,7 +658,7 @@ void place_action_in_palette (gint idx, const gchar *name)
         DenemoPalette *pal = get_palette (palette_name);
         if(pal==NULL)
             {
-            pal = set_palate_shape (palette_name, TRUE, 1);
+            pal = set_palette_shape (palette_name, TRUE, 1);
         }
         if(pal)
             palette_add_button (pal, label, tooltip, script);
