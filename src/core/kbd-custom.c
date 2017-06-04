@@ -1532,7 +1532,7 @@ load_keymap_dialog_location (gchar * location)
 }
 
 void
-load_keymap_dialog ()
+load_keymap_dialog (void)
 {
   gchar *keymapdir = g_strdup_printf ("%s%c", get_user_keymap_dir (), G_DIR_SEPARATOR);
   if (keymapdir)
