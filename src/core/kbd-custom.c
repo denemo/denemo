@@ -1516,7 +1516,8 @@ load_keymap_dialog_location (gchar * location)
 {
   gchar *filename = file_dialog ("Load Command Set", TRUE, location);
   if (filename)
-    if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))
+    {
+      if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))
         {//g_print("Starting filename %s\n", filename);
             if(g_str_has_suffix (filename, ".commands"))
                 {
@@ -1527,8 +1528,10 @@ load_keymap_dialog_location (gchar * location)
            //g_print("Doing filename %s\n", filename);
             load_xml_keybindings (filename);
         }
-    else
+      else
         load_keymap_from_dialog (filename);
+      Denemo.accelerator_status = TRUE;
+    }
 }
 
 void
