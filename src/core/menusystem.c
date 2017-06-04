@@ -1131,13 +1131,12 @@ static void create_palette_for_menu (GtkWidget *menu)
 {
    GList *g, *children = gtk_container_get_children (GTK_CONTAINER(menu));
    GList *palette_names = (GList*)g_object_get_data (G_OBJECT(menu), "labels");
-   gint number = g_list_length (children);
    gchar *palette_name = get_palette_name_from_list (palette_names); 
     DenemoPalette *pal = get_palette (palette_name);
     if(pal==NULL)
         {
-        pal = set_palette_shape (palette_name, FALSE, (number/10) + 1);
-
+        gboolean palette_is_empty = TRUE;
+        pal = set_palette_shape (palette_name, FALSE, 1);
         pal->menu = TRUE;
         for (g=children;g;g=g->next)
             {
@@ -1152,9 +1151,15 @@ static void create_palette_for_menu (GtkWidget *menu)
             script = g_strdup_printf ("(d-%s)", action->name);
              gchar *escaped = g_markup_escape_text (action->label, -1);
             palette_add_button (pal, escaped, action->tooltip, script);
+            palette_is_empty = FALSE;
             g_free (escaped);
             }
         g_list_free (children); 
+        if (palette_is_empty)
+          {
+            delete_palette (pal);
+            warningdialog (_("This menu holds no commands"));
+          }
         }
     else
         gtk_widget_show (gtk_widget_get_parent (pal->box)), gtk_widget_show (pal->box);
