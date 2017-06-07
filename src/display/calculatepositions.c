@@ -325,9 +325,9 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum)
 
   gint time1, time2;
   //timesig *thetime = g_list_
-  staffnode *cur_staff = si->thescore;
+  staffnode *cur_staff = si->currentstaff;
   measurenode *mnode = g_list_nth (((DenemoStaff*)cur_staff->data)->themeasures, measurenum-1);
-  if (mnode == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum); return;}
+  if (mnode == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum);return;}
   DenemoMeasure *meas = (DenemoMeasure*)mnode->data;
   if (meas == NULL) { g_critical ("Call to find_xes_in_measure for bad measure number %d", measurenum);return;}
   time1 = meas->timesig->time1;
