@@ -516,7 +516,7 @@ display_current_object_callback (void)
                 append_directives_information (selection, thetime->directives);
               }
             append_lilypond (curObj, selection);
-            if (gui->movement->currentobject->prev)
+            if (curObj->starttick)
               g_string_append_printf (warning, _("A Time Signature Change should be the first object in a measure\n" "unless you are trying to do something unusual"));
           }
           break;
