@@ -22,4 +22,5 @@
             (d-DirectivePut-chord-postfix DenemoWholeMeasureRestTag (string-append "s1*" timesig))
             (d-DirectivePut-chord-postfix DenemoWholeMeasureRestTag (string-append "R1*" timesig)))
     (d-SetObjectDisplayWidth 100)
+    (d-RefreshDisplay)
     (d-SetSaved #f)))
