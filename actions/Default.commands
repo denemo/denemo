@@ -8159,6 +8159,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Virtual MIDI Keyboard</_label>
         <_tooltip>Displays a piano style keyboard that can be clicked on to enter notes like a real MIDI device. Right click adds notes to the chord.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleFigures</action>
+        <after>ToggleFingeringVisibilityInScore</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Bass Figures (Off/On)</_label>
+        <_tooltip>Turns on/off visibility of figured bass on typesetting for whole score.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
