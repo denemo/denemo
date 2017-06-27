@@ -2966,13 +2966,22 @@ struct cbdata
 
 /**
  * Add history entry to the History menu, create a menu item for it
+ * Do not add it if it no longer exists, and no gzipped version exists.
  */
 void
 addhistorymenuitem (gchar * filename)
 {
     static gboolean init = FALSE;
   if (!g_file_test (filename, G_FILE_TEST_EXISTS))
-    return;
+    {
+        gchar *zip = g_strconcat (filename, ".gz", NULL);
+        if (!g_file_test (zip, G_FILE_TEST_EXISTS))
+            {
+                g_free (zip);
+                return;
+            }
+            g_free(zip);
+    }
   GtkWidget *item ;//= gtk_ui_manager_get_widget (Denemo.ui_manager,"/MainMenu/FileMenu/OpenMenu/OpenRecent/Browse");
   //GtkWidget *menu = gtk_widget_get_parent (GTK_WIDGET (item));
   if(!init)
@@ -3022,7 +3031,7 @@ get_most_recent_file (void)
   if (Denemo.prefs.history)
     {
       gchar *filename = (gchar *) g_queue_peek_tail (Denemo.prefs.history);
-      if (filename && g_file_test (filename, G_FILE_TEST_EXISTS))
+      if (filename) // && g_file_test (filename, G_FILE_TEST_EXISTS))
         return filename;
     }
   return NULL;

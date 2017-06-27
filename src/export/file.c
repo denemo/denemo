@@ -74,8 +74,8 @@ struct FileFormatData
 
 /* WARNING this array has to match the FileFormatNames enum above which is used to index it!!!!!!!!!" */
 static struct FileFormatData supported_file_formats[] = {
-  {"*.denemo", N_("Denemo XML format (*.denemo)"),  ".denemo", 0},
-  {"*.dnm",    N_("Denemo XML format (*.dnm)"),     ".dnm", 0},
+  {"*.denemo", N_("Denemo format (*.denemo *.denemo.gz)"),  ".denemo", 0},
+  {"*.denemo.gz",    N_("CompressedDenemo XML format (*.denemo.gz)"),     ".denemo", 0},
   {"*.ly",     N_("Lilypond (*.ly)"),               ".ly", 0},
   {"*.pdf",    N_("PDF (*.pdf)"),                   ".pdf", 1},
   {"*.png",    N_("PNG Image format (*.png)"),      ".png", 1},
@@ -92,6 +92,7 @@ supported_file_extensions(gchar* format){
   if(g_strcmp0 ("denemo", format) == 0){
     exts = g_list_append(exts, "*.denemo");
     exts = g_list_append(exts, "*.DENEMO");
+    exts = g_list_append(exts, "*.denemo.gz");
   }
 
   if(g_strcmp0 ("lilypond", format) == 0){
@@ -326,7 +327,7 @@ lyinput (gchar * filename)
 }
 
 static gboolean
-exists(gchar* filename, const gchar* extension)
+has_extension(gchar* filename, const gchar* extension)
 {
   return (strcmp (filename + strlen (filename) - strlen(extension), extension) == 0);
 }
@@ -365,17 +366,26 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     else
         enquire_rhythms ();
   }
-  if (g_file_test (filename, G_FILE_TEST_EXISTS))
+  //if (g_file_test (filename, G_FILE_TEST_EXISTS))
+  if (filename)
     {
-      if (exists (filename, ".denemo") || exists (filename, ".dnm"))
-        xml = TRUE, result = importXML (filename, gui, type);
-      else if (exists (filename, ".ly"))
+      if (has_extension (filename, ".denemo") || has_extension (filename, ".denemo.gz"))
+        {
+            xml = TRUE, result = importXML (filename, gui, type);
+            if (result)
+              {
+                gchar *zip = g_strconcat (filename, ".gz", NULL);
+                result = importXML (zip, gui, type);
+                g_free (zip);
+              }
+        }
+      else if (has_extension (filename, ".ly"))
         result = lyinput (filename);
-      else if (exists (filename, ".mxml") || exists (filename, ".xml"))
+      else if (has_extension (filename, ".mxml") || has_extension (filename, ".xml"))
         result = mxmlinput (filename);
-      else if (exists (filename, ".mid") || exists (filename, ".midi"))
+      else if (has_extension (filename, ".mid") || has_extension (filename, ".midi"))
         result = (type==GUIDED_IMPORT)?guidedImportMidi (filename):importMidi (filename);
-      else if (exists (filename, ".pdf") || exists (filename, ".PDF"))
+      else if (has_extension (filename, ".pdf") || has_extension (filename, ".PDF"))
         {
 #ifndef USE_EVINCE
           g_debug("This feature requires denemo to be built with evince");
@@ -396,6 +406,10 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
           if (type == REPLACE_SCORE)
             {
               if (xml){
+                 if (g_str_has_suffix (filename, ".gz"))
+                    {
+                     *(filename + strlen(filename) -3) = 0;
+                    }
                  set_project_filename (gui, filename);
               }
               else
