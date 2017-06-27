@@ -283,6 +283,10 @@
         <bind>M,n</bind>
       </row>
       <row>
+        <action>ImportMusicXml</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>PrintView</action>
         <bind>Ctrl+p,p</bind>
       </row>
