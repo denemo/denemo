@@ -120,7 +120,7 @@ delete_figured_bass (DenemoAction * action, DenemoScriptParam * param)
     {
       thestaff->hasfigures = FALSE;
       gui->movement->has_figures = FALSE;
-      score_status (gui, TRUE);
+      signal_structural_change (gui);
       measurenode *curmeasure;
       for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
         {
@@ -145,6 +145,8 @@ hide_figured_bass (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
+  if (thestaff->hasfigures)
+    signal_structural_change (gui);
   thestaff->hasfigures = FALSE;
 }
 
@@ -155,6 +157,8 @@ show_figured_bass (DenemoAction * action, DenemoScriptParam * param)
   DenemoProject *gui = Denemo.project;
   DenemoStaff *thestaff = (DenemoStaff *) gui->movement->currentstaff->data;
   measurenode *curmeasure;
+  if (!thestaff->hasfigures)
+      signal_structural_change (gui);
   for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
       objnode *curobj;
