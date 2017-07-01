@@ -1121,7 +1121,7 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
   static gboolean notwarned = TRUE;
   if (Denemo.project->custom_scoreblocks)
     {
-      warningdialog (_("You have custom score layout(s). Making this directive conditional will not affect them; if that is what you want then edit the layout in the Score Layout view."));
+      warningdialog (_("You have custom score layout(s). Making this directive conditional will not affect them until you Reload Score-wide Settings in the Score Layout view."));
       notwarned = FALSE;
     }
   gtk_widget_destroy (TheEditorWidget);
