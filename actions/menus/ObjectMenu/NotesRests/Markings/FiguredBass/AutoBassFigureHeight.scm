@@ -59,8 +59,8 @@
                             (begin
                                 (set! count (skip-over-figures fig count len)))))
                      (set! this  (string-ref fig count))
-                    (if (= num 1)
-                            (set! num (+ (if (equal? this #\+) 0.5 (if (equal? this #\-) 0.35 0)) num))) ;sharp and flat glyph are not on baseline
+                    (if (and (= len 0)  (= num 1))
+                            	(set! num (+ (if (equal? this #\+) 0.5 (if (equal? this #\-) 0.35 0)) num))) ;sharp and flat glyph are not on baseline
                     (if (< count len)
                         (loop (1+ count))
                         (set! thelist (cons num thelist))))
@@ -93,7 +93,7 @@
     (begin
         (set! transpose (d-GetUserInput "Transposed Score" "Give transposition steps (e.g. -2 for down a second)" "3"))
         (if (and transpose (string->number transpose))
-            (set! transpose (string->number transpose))
+            (set! transpose (1- (string->number transpose)))
             (set! transpose 0))))
 (d-PushPosition)
 (while (d-PreviousMovement))
