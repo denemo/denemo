@@ -8,7 +8,7 @@
     (d-MoveToBeginning)
     (while (d-MoveToStaffDown))
     (while (d-NextNote)
-        (let ((fig (d-GetBassFigure)) (height  (GetNoteStaffPosition)))
+        (let ((fig (d-GetBassFigure)) (beamed (if (> (d-GetNoteBaseDuration) 2) (* 1.3 (d-GetNoteBaseDuration)) #f)) (height  (GetNoteStaffPosition)))
             (define (multiple fig)
                 (string-index fig #\|))
                 
@@ -88,7 +88,10 @@
 		                         (adjust before thelist))
 		                     (begin
 		                        (if (multiple fig)
-		                            (adjust (if (d-IsTied) (1+ height) height) thelist)))))))))) ;;;end of AdjustFigures for whole movement       
+		                            (begin
+                                        (if beamed
+                                            (set! height (+ beamed height)))
+                                        (adjust (if (d-IsTied) (1+ height) height) thelist))))))))))) ;;;end of AdjustFigures for whole movement       
  (if  (d-Directive-score? "TransposeOnPrint")
     (begin
         (set! transpose (d-GetUserInput "Transposed Score" "Give transposition steps (e.g. -2 for down a second)" "3"))
