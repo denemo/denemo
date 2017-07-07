@@ -413,7 +413,7 @@ titledPiece =
                     0.5 setlinewidth 45 45 moveto 507 0 rlineto 0 750 rlineto -507 0 rlineto 0 -750 rlineto  stroke
                     grestore" }
      \line { 
-            \hspace #-1 %for some reason the column is centered without this
+            \hspace #-1.45 %for some reason the column is centered without this
             \column {
               \when-property #'header:poet \vspace #denemo-top-margin
               \when-notproperty #'header:poet  \vspace #(+ 10 denemo-top-margin)
