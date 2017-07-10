@@ -1,3 +1,38 @@
+2017-07-08
+New Features for release 2.2
+
+    Virtual Piano Keyboard
+        Defaults to 8 octaves
+        Enter rhythm then pitches
+        Enter Chords via right click
+        Score editing key shortcuts unaffected
+        Touch screen ready
+    MIDI Simulation
+        PC-keyboard simulates Piano Keyboard
+        Enter rhythm then pitches
+        Octave Control
+        Works for entering chords too 
+        Customize key assignments
+    Lyrics Improvements
+        Handle mis-matched quotes
+        Avoid accidental verse deletion
+    Figured Bass Enhancements
+        Position figures on whole notes better
+        Make accidentals without a figure bigger
+        Position accidentals before a figure better
+    Slur and Tie Styles
+        Choose from Dashed, Dotted or Solid
+    Support for .gz files
+        Open compressed files without renaming 
+
+Bug Fixes
+
+    Upgrade keeping shortcuts
+
+    Command Center searches with leading space
+
+
+
 2017-02-12
     
 GTK Upgrade
