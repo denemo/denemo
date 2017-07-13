@@ -80,38 +80,60 @@ static GtkWidget *sharp_button (gint i)
     gtk_widget_set_hexpand  (label, TRUE);
     return eventbox;
 } 
+
+
+static void add_label_to_eventbox (GtkWidget *eventbox, GtkWidget *label)
+{  
+#if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=12))
+    gtk_container_add (GTK_CONTAINER(eventbox), label);
+    gtk_widget_set_margin_end (GTK_WIDGET(label), 1);
+#else
+    GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+    set_background_color (box, "#000000");
+    gtk_container_add (GTK_CONTAINER(eventbox), box);                                
+    GtkWidget *sep = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
+    gtk_container_add (GTK_CONTAINER(box), sep);
+    set_background_color (sep, "#000000");
+    gtk_container_add (GTK_CONTAINER(box), label);
+#endif
+}    
+
+
 static GtkWidget *natural_button (gint i)
 {
     GtkWidget *eventbox = gtk_event_box_new ();
     GtkWidget *label = gtk_label_new ("   \n \n \n");
-    gtk_container_add (GTK_CONTAINER(eventbox), label);
+    set_background_color (label, "#FFFFFF");
+    gtk_widget_set_hexpand  (label, TRUE);
+    add_label_to_eventbox (eventbox, label);
+ 
     gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
     gtk_widget_set_can_focus (eventbox, TRUE);
     g_signal_connect (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
     g_signal_connect (G_OBJECT(eventbox), "button-release-event", G_CALLBACK (noteoff), GINT_TO_POINTER(i));
     g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
     g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);
-    gtk_widget_set_margin_end (GTK_WIDGET(label), 1);
-    set_background_color (label, "#FFFFFF");
-    
-    gtk_widget_set_hexpand  (label, TRUE);
+
     return eventbox;
 }
+
+
  static GtkWidget *natural_head (gint i)
 {
     GtkWidget *eventbox = gtk_event_box_new ();
     GtkWidget *label = i==60?  gtk_label_new (" \n   C   \n") :
                                 ((i%12)==4)? gtk_label_new (" \n        \n") :          gtk_label_new ("         \n \n");
-    gtk_container_add (GTK_CONTAINER(eventbox), label);
+    set_background_color (label, "#FFFFFF");
+    gtk_widget_set_hexpand  (label, TRUE);
+    add_label_to_eventbox (eventbox, label);
+    
     gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
     gtk_widget_set_can_focus (eventbox, TRUE);
     g_signal_connect (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
     g_signal_connect (G_OBJECT(eventbox), "button-release-event", G_CALLBACK (noteoff), GINT_TO_POINTER(i));
     g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
     g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);   
-    gtk_widget_set_margin_end (GTK_WIDGET(label), 1);
-    set_background_color (label, "#FFFFFF");
-    gtk_widget_set_hexpand  (label, TRUE);
+
     return eventbox;
 }  
 static add_sharps (GtkWidget *sharps, gint octave)
