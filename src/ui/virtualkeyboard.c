@@ -63,19 +63,23 @@ static gboolean noteoff (GtkWidget *widget, GdkEventButton  *event, gint key)
     }
       
     
+static void connect_signals_to_eventbox (GtkWidget* eventbox, gint i)
+{
+    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
+    gtk_widget_set_can_focus (eventbox, TRUE);
+    g_signal_connect (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
+    g_signal_connect (G_OBJECT(eventbox), "button-release-event", G_CALLBACK (noteoff), GINT_TO_POINTER(i));
+    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
+    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);   
     
+}    
     
 static GtkWidget *sharp_button (gint i)
 {
     GtkWidget *eventbox = gtk_event_box_new ();
     GtkWidget *label = gtk_label_new ("   \n \n \n");
     gtk_container_add (GTK_CONTAINER(eventbox), label);
-    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
-    gtk_widget_set_can_focus (eventbox, TRUE);
-    g_signal_connect (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
-    g_signal_connect (G_OBJECT(eventbox), "button-release-event", G_CALLBACK (noteoff), GINT_TO_POINTER(i));
-    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
-    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);
+    connect_signals_to_eventbox (eventbox, i);
     set_background_color (label, "#000000");
     gtk_widget_set_hexpand  (label, TRUE);
     return eventbox;
@@ -107,12 +111,7 @@ static GtkWidget *natural_button (gint i)
     gtk_widget_set_hexpand  (label, TRUE);
     add_label_to_eventbox (eventbox, label);
  
-    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
-    gtk_widget_set_can_focus (eventbox, TRUE);
-    g_signal_connect (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
-    g_signal_connect (G_OBJECT(eventbox), "button-release-event", G_CALLBACK (noteoff), GINT_TO_POINTER(i));
-    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
-    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);
+    connect_signals_to_eventbox (eventbox, i);
 
     return eventbox;
 }
@@ -127,12 +126,7 @@ static GtkWidget *natural_button (gint i)
     gtk_widget_set_hexpand  (label, TRUE);
     add_label_to_eventbox (eventbox, label);
     
-    gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
-    gtk_widget_set_can_focus (eventbox, TRUE);
-    g_signal_connect (G_OBJECT(eventbox), "button-press-event", G_CALLBACK (noteon), GINT_TO_POINTER(i));
-    g_signal_connect (G_OBJECT(eventbox), "button-release-event", G_CALLBACK (noteoff), GINT_TO_POINTER(i));
-    g_signal_connect (G_OBJECT(eventbox), "key-press-event", G_CALLBACK (scorearea_keypress_event), NULL);
-    g_signal_connect (G_OBJECT(eventbox), "key-release-event", G_CALLBACK (scorearea_keyrelease_event), NULL);   
+    connect_signals_to_eventbox (eventbox, i);
 
     return eventbox;
 }  
