@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2017-05-01"/>
+<meta name="create-date" content="2017-07-13"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -569,7 +569,7 @@ Table of Contents
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-20.3">Subsection 20.3: Playing Notes into Denemo – Audio (Soundcard Mic Input)</a>
+<a class="Link" href="#toc-Subsection-20.3">Subsection 20.3: Using an On-screen Piano Keyboard</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsection-20.4">Subsection 20.4: Using the Denemo From the PC keyboard</a>
@@ -584,6 +584,9 @@ Table of Contents
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-20.4.3">Subsubsection 20.4.3: Editing Music</a>
 </div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-20.5">Subsection 20.5: Playing Notes into Denemo – Audio (Soundcard Mic Input)</a>
 </div>
 </div>
 <div class="toc">
@@ -2954,7 +2957,10 @@ The Directives-&gt;Markings subdirectory also holds the Rehearsal Marks commands
 <a class="toc" name="toc-Subsection-20.1">20.1</a> Introduction
 </h2>
 <div class="Unindented">
-You can set the keyboard shortcut for a command just by pressing the desired key while the menu item is selected. You can right click on the menu item and choose Open Command Center to set a two-key keyboard shortcut. This means that you can tailor Denemo to allow you to use your preferred method of entering notes.
+Denemo allows you to enter notes via PC keyboard, MIDI keyboard, Virtual on-screen piano keyboard or microphone input.
+</div>
+<div class="Indented">
+With Denemo you can tailor Denemo to allow you to use your preferred method of entering notes via keyboard. You can set the keyboard shortcut for a command just by pressing the desired key while the menu item is selected. You can right click on the menu item and choose Open Command Center to set a two-key keyboard shortcut. 
 </div>
 <div class="Indented">
 By default, Denemo offers several ways of entering music: typing at the keyboard, playing in via a MIDI keyboard (controller), playing in acoustically using a microphone or choosing items from the menu system. 
@@ -3030,7 +3036,53 @@ Some computers don’t respect the numeric keypad’s keys – confusing the Ent
 
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.3">20.3</a> Playing Notes into Denemo – Audio (Soundcard Mic Input)
+<a class="toc" name="toc-Subsection-20.3">20.3</a> Using an On-screen Piano Keyboard
+</h2>
+<div class="Unindented">
+The Input menu offers you a Virtual Piano Keyboard. This behaves like an attached MIDI keyboard but you click with the mouse or tap on your touchscreen instead of pressing the keys. The PC keyboard continues to work while using the on-screen keyboard, so you can delete/alter add ornaments freely while using this &ldquo;keyboard&rdquo;. Chords can be entered with a left-click, and as with a real MIDI keyboard you can enter as much of the rhythm before adding pitches (see <a class="Reference" href="#sub:Playing-Notes-into">20.2↑</a>).
+</div>
+<div class="Indented">
+The default keyboard is eight octaves around middle C which is highlighted by the letter C engraved on its keyhead. The Virtual Keyboard window can be scrolled to access other parts of the keyboard and made as wide as needed.
+</div>
+<div class="Indented">
+<img class="embedded" src="images/VirtualKeyboard.png" alt="figure images/VirtualKeyboard.png" style="max-width: 815px; max-height: 693px;"/>
+
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-20.4">20.4</a> Using the Denemo From the PC keyboard
+</h2>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-20.4.1">20.4.1</a> Note Entry
+</h3>
+<div class="Unindented">
+The default keyboard shortcuts appends a note when you type a number key <tt>0-6</tt> with the pitch taken from the cursor height and inserts a note when pressing a letter key <tt>a-g</tt>. This provides one way of entering notes – move the cursor up or down to the note position and press a number key for the duration. If the note is to be out-of-key then the <tt>equal </tt>or <tt>minus </tt>key can be used to sharpen/double-sharpen/flatten/double-flatten the next note. This method of note entry is probably not the most efficient however: in the Input-&gt;PC Keyboard menu you can choose to make the number keys change the prevailing duration without entering a note. With that setting you can use the note names to append notes to the bar only pressing the number keys if the duration changes. The duration can be dotted/double dotted with the period key, and the octave adjusted with comma (for down) or apostrophe (for up).
+</div>
+<div class="Indented">
+Mixed mouse and keyboard strategies are possible too. For example with one hand changing the prevailing duration via the keyboard the other can click on the Insert Note buttons in the Note Insertion palette.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-20.4.2">20.4.2</a> Chord Entry
+</h3>
+<div class="Unindented">
+The standard keybinding for entering a note in a chord is the <tt>Insert</tt> key, <tt>Ctrl-Insert</tt> or<tt> Del</tt>,<tt>Del</tt> deletes. The is inserted at the cursor height, use <tt>-</tt> and <tt>+</tt> to flatten/sharpen the note before you enter it (avoiding hearing both notes if you flatten/sharpen afterwards). There are also commands to enter a named note <tt>Alt-a</tt>, <tt>Alt-b</tt> … are the standard shortcuts for this. When a chord should have two notes on the same line or space<a class="IndexReference" name="entry-Doubled-Chord-Notes-2" href="#index-Doubled-Chord-Notes">↓</a> the same keypress can be used to enter it, however selecting which note to edit can be tricky. The easy way is to use the Object Inspector<a class="IndexReference" name="entry-Object-Inspector-1" href="#index-Object-Inspector">↓</a>’s &ldquo;Alternate note at cursor&rdquo; button to make the note you want accessible for editing.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-20.4.3">20.4.3</a> Editing Music
+</h3>
+<div class="Unindented">
+When not appending music, the letter keys change the note at the cursor to that named note. You need to use the <tt>shift</tt> key to insert a new note. So <tt>Shift-a</tt>,<tt>Shift-a</tt> inserts the note A etc. Plain <tt>a</tt> edits the note at the cursor to be an A. Likewise with the numeric keypad the <tt>Shift</tt> key can be used to edit a note duration, while the plain number keys insert the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use the number keys – best to plug in an additional USB keyboard with numeric keypad, they are very cheap nowadays).
+</div>
+<div class="Indented">
+Rests are entered with <tt>Alt-0 Alt-1 …</tt>
+</div>
+<div class="Indented">
+Spacer rests (that is non-printing rests as seen in keyboard polyphony) have shortcuts too <tt>Mod4-0</tt> etc, where <tt>Mod4</tt> is the key with a flag on it. However, on Windows machines you will need to reclaim the <tt>Windows</tt> Mod-4 key from Microsoft or re-define the shortcuts, e. g. to <tt>Shift-Alt-0</tt> etc or <tt>Ctrl-Alt-0</tt>.
+</div>
+<div class="Indented">
+The <tt>Caps Lock </tt>can be a nuisance – you will sometimes have it turned on accidentally and wonder why keypress are not working. You <i>can </i>use it to achieve Shift-A, Shift-B … but it is probably best left alone.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-20.5">20.5</a> Playing Notes into Denemo – Audio (Soundcard Mic Input)
 </h2>
 <div class="Unindented">
 Denemo can listen for, and detect the pitch of notes on the mic input of the computer; it doesn’t attempt to guess the rhythm – such systems do not work well – but you will find that playing the notes in time will help you to play them in, as well as make playing them in a musical experience rather than a chore.
@@ -3067,39 +3119,6 @@ The Audio Input button introduces a special entry mode where the pitches you pla
 </div>
 <div class="Indented">
 Another method of playing music in acoustically doesn’t involve entering the rhythm separately. For this select Input-&gt;Audio and then choose Insert instead of Overlays on the Pitch Recognition Panel that pops up. With Insert the sounded notes are entered as in the prevailing rhythm. The same applies if you have MIDI – by choosing a rhythm (e. g. half-note, quarter-note, or a custom rhythm pattern) and playing in the pitches you can enter the music into a blank score.
-</div>
-<h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.4">20.4</a> Using the Denemo From the PC keyboard
-</h2>
-<h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-20.4.1">20.4.1</a> Note Entry
-</h3>
-<div class="Unindented">
-The default keyboard shortcuts appends a note when you type a number key <tt>0-6</tt> with the pitch taken from the cursor height and inserts a note when pressing a letter key <tt>a-g</tt>. This provides one way of entering notes – move the cursor up or down to the note position and press a number key for the duration. If the note is to be out-of-key then the <tt>equal </tt>or <tt>minus </tt>key can be used to sharpen/double-sharpen/flatten/double-flatten the next note. This method of note entry is probably not the most efficient however: in the Input-&gt;PC Keyboard menu you can choose to make the number keys change the prevailing duration without entering a note. With that setting you can use the note names to append notes to the bar only pressing the number keys if the duration changes. The duration can be dotted/double dotted with the period key, and the octave adjusted with comma (for down) or apostrophe (for up).
-</div>
-<div class="Indented">
-Mixed mouse and keyboard strategies are possible too. For example with one hand changing the prevailing duration via the keyboard the other can click on the Insert Note buttons in the Note Insertion palette.
-</div>
-<h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-20.4.2">20.4.2</a> Chord Entry
-</h3>
-<div class="Unindented">
-The standard keybinding for entering a note in a chord is the <tt>Insert</tt> key, <tt>Ctrl-Insert</tt> or<tt> Del</tt>,<tt>Del</tt> deletes. The is inserted at the cursor height, use <tt>-</tt> and <tt>+</tt> to flatten/sharpen the note before you enter it (avoiding hearing both notes if you flatten/sharpen afterwards). There are also commands to enter a named note <tt>Alt-a</tt>, <tt>Alt-b</tt> … are the standard shortcuts for this. When a chord should have two notes on the same line or space<a class="IndexReference" name="entry-Doubled-Chord-Notes-2" href="#index-Doubled-Chord-Notes">↓</a> the same keypress can be used to enter it, however selecting which note to edit can be tricky. The easy way is to use the Object Inspector<a class="IndexReference" name="entry-Object-Inspector-1" href="#index-Object-Inspector">↓</a>’s &ldquo;Alternate note at cursor&rdquo; button to make the note you want accessible for editing.
-</div>
-<h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-20.4.3">20.4.3</a> Editing Music
-</h3>
-<div class="Unindented">
-When not appending music, the letter keys change the note at the cursor to that named note. You need to use the <tt>shift</tt> key to insert a new note. So <tt>Shift-a</tt>,<tt>Shift-a</tt> inserts the note A etc. Plain <tt>a</tt> edits the note at the cursor to be an A. Likewise with the numeric keypad the <tt>Shift</tt> key can be used to edit a note duration, while the plain number keys insert the duration of the note at the cursor. (If you do not have a numeric keypad, you have to use the number keys – best to plug in an additional USB keyboard with numeric keypad, they are very cheap nowadays).
-</div>
-<div class="Indented">
-Rests are entered with <tt>Alt-0 Alt-1 …</tt>
-</div>
-<div class="Indented">
-Spacer rests (that is non-printing rests as seen in keyboard polyphony) have shortcuts too <tt>Mod4-0</tt> etc, where <tt>Mod4</tt> is the key with a flag on it. However, on Windows machines you will need to reclaim the <tt>Windows</tt> Mod-4 key from Microsoft or re-define the shortcuts, e. g. to <tt>Shift-Alt-0</tt> etc or <tt>Ctrl-Alt-0</tt>.
-</div>
-<div class="Indented">
-The <tt>Caps Lock </tt>can be a nuisance – you will sometimes have it turned on accidentally and wonder why keypress are not working. You <i>can </i>use it to achieve Shift-A, Shift-B … but it is probably best left alone.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-21">21</a> Transcribing from Facsimile or Hand-written Score<a class="Label" name="sec:Transcribing-from-Facsimile"> </a>
@@ -5696,7 +5715,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2017-05-01T13:42:53.348673</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2017-07-13T16:22:33.202174</span>
 </div>
 </div>
 </body>
