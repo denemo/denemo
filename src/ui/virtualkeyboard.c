@@ -97,7 +97,7 @@ static void add_label_to_eventbox (GtkWidget *eventbox, GtkWidget *label)
     gtk_container_add (GTK_CONTAINER(eventbox), box);                                
     GtkWidget *sep = gtk_separator_new (GTK_ORIENTATION_VERTICAL);
     gtk_container_add (GTK_CONTAINER(box), sep);
-    set_background_color (sep, "#000000");
+    set_foreground_color (sep, "#000000");
     gtk_container_add (GTK_CONTAINER(box), label);
 #endif
 }    
