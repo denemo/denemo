@@ -1010,7 +1010,7 @@ When you have more than one movement numbered buttons appear in the score
 status open
 
 \begin_layout Plain Layout
-pending accidental
+Pending accidental
 \end_layout
 
 \end_inset
@@ -2940,7 +2940,7 @@ Page Break
 status open
 
 \begin_layout Plain Layout
-custos
+Custos
 \end_layout
 
 \end_inset
@@ -4538,7 +4538,7 @@ prevailing duration
 status open
 
 \begin_layout Plain Layout
-prevailing duration
+Prevailing duration
 \end_layout
 
 \end_inset
@@ -4552,7 +4552,7 @@ pending accidental
 status open
 
 \begin_layout Plain Layout
-pending accidental
+Pending accidental
 \end_layout
 
 \end_inset
@@ -8296,7 +8296,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8304,7 +8303,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
