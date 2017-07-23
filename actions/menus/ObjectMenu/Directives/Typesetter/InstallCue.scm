@@ -22,11 +22,11 @@
                                 (if transpose
                                   (if (equal? clef theclef)
                                      (string-append "\\transposedCueDuring #\"" (unique-staff-name) " Mvmnt " this-movement "\" #1 " transpose " {")
-                                     (string-append "\\transposedCueDuringWithClef #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 " transpose " #\"" (string-downcase clef 0 1) "\" {"))))
+                                     (string-append "\\transposedCueDuringWithClef #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 " transpose " #\"" (string-downcase clef) "\" {"))))
                             (begin
                                (if (equal? clef theclef)    
                                  (string-append "\\cueDuring #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 {")
-                                 (string-append "\\cueDuringWithClef #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 #\"" (string-downcase clef 0 1) "\" {"))))
+                                 (string-append "\\cueDuringWithClef #\"" (unique-staff-name) " Mvmnt " this-movement "\"#1 #\"" (string-downcase clef) "\" {"))))
                             (string-append "\\addQuote \"" (unique-staff-name) " Mvmnt " this-movement "\" \\"(d-GetVoiceIdentifier) "\n")))
                                  cuenames)))        
             (if (d-MoveToStaffDown)
