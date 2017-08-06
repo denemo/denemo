@@ -1,8 +1,6 @@
-;;; Figured Bass filter
-
-
+;;; FiguredBassFilterOn
 (define-once ToggleFiguredBassMode::Active #f)
-    
+(let ((HaveTwiddle #f) (TwiddlesOn #f))
 (if (not ToggleFiguredBassMode::Active)
     (let ((Figures 0)  (PedalDown #f) (Notes '()))
        (define (InsertDummyFigureIfNeeded)
@@ -22,15 +20,16 @@
        (define (GetFigures)
                 (string-append "figures=" (string-join (reverse Figures))))
        (define (AddFiguresLoop bassnote lastnote)
-            (let* ( (midi (d-GetMidi))
+            (let* (
+                    (midi (d-GetMidi))
                     (velocity (bit-extract midi 16 24))
                     (note (bit-extract midi 8 16))
-                    (command (bit-extract midi 0 8)))
+                    (command (bit-extract midi 0 8)))  
                   ;; body of the let*
                  (if (boolean? (d-GetNoteName))
                      (d-NextNote))
                  (if (or (= command #x90) (= command #x80))
-                     (begin
+                     (begin ;(disp "Start: Have Twiddele " HaveTwiddle " and TwiddlesOn " TwiddlesOn "note " note "bassnote" bassnote"\n\n")
                        (if (and (= command #x90)(= bassnote 0))
                            (begin 
                              (set! bassnote note)
@@ -39,7 +38,7 @@
                              (if (or (d-GetNonprinting) (= bassnote (d-GetNoteAsMidi)))
                                   (begin;; note ok
                                        (PlayNote (number->string note) 500 "127")
-                                       (if PedalDown
+                                       (if (or PedalDown (positive? (d-GetKeyboardState)))
                                           (begin 
                                               (d-PlayMidiNote 60 255 9 100)
                                               (set! Figures (cons "~"  Figures))
@@ -56,6 +55,15 @@
                            (begin
                              (if (and (= command #x80)(= note bassnote))
                                  (begin ;;;bass note off get the figures (moves on) and AddFiguresLoop
+                                    (if TwiddlesOn
+                                        (begin ;(disp "Adding a ~\n" HaveTwiddle TwiddlesOn)
+                                             (set! Figures (cons "~"  Figures)))
+                                        (begin
+                                            (if HaveTwiddle
+                                                (begin
+                                                    (set! HaveTwiddle #f)
+                                                    (d-SetBackground #xB0E0B0) ))))
+                                             
                                    (if (not (d-SpellCheckMidiChord (cons bassnote Notes)))
                                     (d-PlayMidiNote 30 255 9 100))
                                    (set! bassnote 0)
@@ -66,25 +74,49 @@
                                  (begin
                                    (if  (= command #x90)  ;;; note on
                                     (begin
-                                        (if (= note lastnote)
+                                        (if (and (= note lastnote) (> note bassnote)) ;;repeated figure, drop it and start a new group
                                             (begin ;; we have no bass note or if we do we have figures already
                                                 (d-PlayMidiNote 71 255 9 100)
                                                 (set! Figures (cons " | "  Figures)))
                                             (begin
-                                              (AddFigure note bassnote)
+                                              
                                               (if (< note bassnote)
                                                 (begin
-                                                    (InsertDummyFigureIfNeeded)
-                                                      
-                                                    (d-PlayMidiNote 46 255 9 100))
-                                                (PlayNote (number->string note) 500 "127"))
+                                                    (if TwiddlesOn
+                                                        (begin  ;(disp "1Have Twiddele " HaveTwiddle " and TwiddlesOn " TwiddlesOn "\n\n")
+                                                            (d-SetBackground #xB0E0B0) 
+                                                            (set! Figures '())
+                                                            (set! HaveTwiddle #f)
+                                                            (set! TwiddlesOn #f)
+                                                            (d-PlayMidiNote 66 255 9 100))
+                                                        (begin
+                                                            (if HaveTwiddle
+                                                                (begin  ;(disp "2Have Twiddele " HaveTwiddle " and TwiddlesOn " TwiddlesOn "\n\n")
+                                                                    (d-PlayMidiNote 76 255 9 100)
+                                                                    (d-SetBackground #xC0C0E0)      
+                                                                    (set! Figures '())
+                                                                    (set! HaveTwiddle #f)
+                                                                    (set! TwiddlesOn #t))
+                                                                (begin  ;(disp "3Have Twiddele " HaveTwiddle " and TwiddlesOn " TwiddlesOn "\n\n")
+                                                                    (d-SetBackground #xB0E0B0)  
+                                                                    (set! HaveTwiddle #t)
+                                                                    (set! TwiddlesOn #f)
+                                                                    (InsertDummyFigureIfNeeded) ;(disp "3a !!!Have Twiddele " HaveTwiddle " and TwiddlesOn " TwiddlesOn "\n\n")
+                                                                    (AddFigure note bassnote)  ;;;adds a twiddle - there was no need to do this in C surely?
+                                                                    (d-PlayMidiNote 46 255 9 100))))))
+                                                (begin  ;(disp "4Have Twiddele " HaveTwiddle " and TwiddlesOn " TwiddlesOn "note " note "bassnote" bassnote"\n\n")
+                                                    (d-SetBackground #xB0E0B0) 
+                                                    (set! HaveTwiddle #f)
+                                                    (set! TwiddlesOn #f)
+                                                    (AddFigure note bassnote)
+                                                    (PlayNote (number->string note) 500 "127")))
                                               
                                               )))))))));; end of if noteon or noteoff               
                     (begin ;not noteon/off
                         (if (and (= command #xB0) (= note #x40) (= velocity #x7F))    
                              (begin;; Pedal Down
                                 (set! PedalDown #t)
-                                (display "Pedal down")
+                                ;(display "Pedal down")
                                 (if (and (> bassnote 0) (null? Figures)) ;;; we have a bass note but no figures yet
                                     (begin 
                                       (InsertDummyFigureIfNeeded) ;check if the previous note has a figure, if not put a 0 figure to be able to continue it                   
@@ -110,7 +142,7 @@
                     (set! ToggleFiguredBassMode::Active #f))
                  
                 (if ToggleFiguredBassMode::Active 
-                     (AddFiguresLoop bassnote note)))) ;;;  end of procedure AddFigures which loops adding figures
+                     (AddFiguresLoop bassnote note)))) ;;;  end of let*
         ;;;if not active procedure begins here
        (d-SetBackground #xB0E0B0)      
        (d-InputFilterNames "Figured Bass MIDI Filter")
@@ -121,5 +153,5 @@
 (set! ToggleFiguredBassMode::Active #f)
 (d-PutMidi 0);;; to swallow up the last d-GetMidi??
 (d-SetMidiCapture #f)    
-(d-SetBackground #xFFFFFF)
+(d-SetBackground #xFFFFFF))
        
