@@ -1007,7 +1007,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   int notes_in_chord = 0;
   int note_status[128];
   int slur_status;
-  int measure_is_empty;
+  gboolean measure_is_empty;
   int measure_has_odd_tuplet;
   int measurewidth;
 
@@ -1227,7 +1227,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
         {
           /* start of measure */
           curmeasurenum++;
-          measure_is_empty = 1;
+          measure_is_empty = TRUE;
           measure_has_odd_tuplet = 0;
           ticks_at_bar = ticks_read;
 
@@ -1253,8 +1253,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
        * one or more notes
        ********************/
 
-
-                  measure_is_empty = 0;
+                  if (curobj->durinticks || (curobj->type == LILYDIRECTIVE && (((lilydirective *) curobj->object)->override & DENEMO_OVERRIDE_LILYPOND)))
+                    measure_is_empty = FALSE;
                   if (debug)
                     fprintf (stderr, "=============================== chord at %s\n", fmt_ticks (ticks_read));
                   chordval = *(chord *) curobj->object;
@@ -1762,7 +1762,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
           measurewidth = bars2ticks (1, timesigupper, timesiglower);
 
-          if (((DenemoMeasure*)curmeasure->data)->objects == NULL) //An empty measure - treat as whole measure silence
+          if (measure_is_empty) // was (((DenemoMeasure*)curmeasure->data)->objects == NULL) //An empty measure - treat as whole measure silence
             ticks_read = ticks_at_bar + measurewidth;
           if (ticks_at_bar + measurewidth != ticks_read)
             {
