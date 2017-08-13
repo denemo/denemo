@@ -1236,7 +1236,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
             {
               curobj = (DenemoObject *) curobjnode->data;
               curobj->earliest_time = ticks_read * 60.0 / (cur_tempo * MIDI_RESOLUTION);        //smf_get_length_seconds(smf);
-
+              if (curobj->durinticks)
+                  measure_is_empty = FALSE;
 
         /*******************************************
      *  huge switch:
@@ -1252,9 +1253,6 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
           /********************
        * one or more notes
        ********************/
-
-                  if (curobj->durinticks || (curobj->type == LILYDIRECTIVE && (((lilydirective *) curobj->object)->override & DENEMO_OVERRIDE_LILYPOND)))
-                    measure_is_empty = FALSE;
                   if (debug)
                     fprintf (stderr, "=============================== chord at %s\n", fmt_ticks (ticks_read));
                   chordval = *(chord *) curobj->object;
