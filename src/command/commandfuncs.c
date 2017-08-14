@@ -500,7 +500,7 @@ swapstaffs (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam
             }
         }
       else
-        warningdialog (_("Split off voices from this staff first"));
+        warningdialog (_("Use Voice to Staff command first on all the voices attached to this staff, swap them individually then use Staff to Voice to finish."));
     }
   else
     warningdialog (_("There is no previous staff to swap with"));
