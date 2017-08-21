@@ -10,6 +10,7 @@
 #include <denemo/denemo.h>
 #include <gtksourceview/gtksourceview.h>
 #include <gtksourceview/gtksourcebuffer.h>
+#include <gtksourceview/gtksource.h>
 #include "core/utils.h"
 #include <stdlib.h>
 #include <string.h>
@@ -3477,8 +3478,29 @@ init_lilypond_buffer (void)
   g_object_set (G_OBJECT (t), "family", "monospace", NULL);
   gtk_text_tag_table_add (tagtable, t);
 
-
+  GtkSourceLanguageManager *manager = gtk_source_language_manager_get_default (); 
+  const gchar * const *old_dirs = gtk_source_language_manager_get_search_path (manager);
+  {
+    gint num, i;
+    for (num=0; old_dirs[num];num++)
+      ;
+      const gchar *dirs[num+1];
+      dirs[0] = get_system_data_dir ();
+      for (i=1; i<num+2; i++)
+        dirs[i] = old_dirs [i-1];
+      manager = gtk_source_language_manager_new (); 
+      gtk_source_language_manager_set_search_path (manager, (gchar**)dirs);
+  }
+  const gchar * const *ids = gtk_source_language_manager_get_language_ids (manager);
+  
+  GtkSourceLanguage *language = gtk_source_language_manager_get_language (manager,"lilypond");
   Denemo.textbuffer = (GtkTextBuffer *) gtk_source_buffer_new (tagtable);
+  
+  if (language)
+    gtk_source_buffer_set_language ((GtkSourceBuffer*)Denemo.textbuffer, language);
+  else
+    g_warning ("No syntax highlighting for LilyPond");
+                
   gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (Denemo.textbuffer), TRUE);
 }
 
