@@ -4,7 +4,7 @@
  *  for Denemo, a gtk+ frontend to GNU Lilypond
  *  (c) 2000-2005 Matthew Hiller
  */
-
+#include <math.h>
 #include "command/commandfuncs.h"
 #include "core/kbd-custom.h"
 #include "command/staff.h"
@@ -701,6 +701,26 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
               selecting = TRUE;
             }
           calcmarkboundaries (gui->movement);
+          
+       if (pi.the_obj && Denemo.project->movement->smf)
+        {
+            gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
+            latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
+            generate_midi();
+          if (fabs (end-latest) < fabs(start-earliest))
+            { //move the end play marker
+               Denemo.project->movement->end_time = ((DenemoObject*)pi.the_obj->data)->latest_time;
+              set_start_and_end_objects_for_draw ();
+              
+            }
+          else //move the start play marker
+          {
+             Denemo.project->movement->start_time = ((DenemoObject*)pi.the_obj->data)->earliest_time;
+              set_start_and_end_objects_for_draw ();
+            
+          }
+        }
+          
           if (event->state & (GDK_BUTTON1_MASK | GDK_BUTTON2_MASK | GDK_BUTTON3_MASK))
             perform_command (event->state, GESTURE_MOVE, event->state & GDK_BUTTON1_MASK);
 
@@ -709,7 +729,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
         }
      return TRUE;
     }
-    
+
  {
  gboolean oldm = Denemo.hovering_over_movement;   
  gboolean oldla = Denemo.hovering_over_left_arrow;   
