@@ -1214,6 +1214,8 @@ struct DenemoRoot
   gboolean hovering_over_left_arrow;
   gboolean hovering_over_right_arrow;
   GList *object_hovering_over;
+  gboolean dragging_start_playback_marker;
+  gboolean dragging_end_playback_marker;
   
   GdkCursor *GDK_LEFT_PTR;
   GdkCursor *GDK_SB_V_DOUBLE_ARROW;

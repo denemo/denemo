@@ -408,7 +408,6 @@ static gboolean selecting = FALSE;
 static gboolean dragging_separator = FALSE;
 static gboolean dragging_audio = FALSE;
 static gboolean dragging_tempo = FALSE;
-static gboolean dragging_start_playback_marker = FALSE, dragging_end_playback_marker = FALSE;
 
 static gboolean
 change_staff (DenemoMovement * si, gint num, GList * staff)
@@ -705,17 +704,17 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                   latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
                   generate_midi();
                   if ((fabs(end-earliest) < fabs(latest-earliest) + 0.01))
-                    dragging_end_playback_marker = TRUE;
+                    Denemo.dragging_end_playback_marker = TRUE;
                   else if (fabs(start-latest) < fabs(latest-earliest) + 0.01)
-                    dragging_start_playback_marker = TRUE;
+                    Denemo.dragging_start_playback_marker = TRUE;
                 }    
             }
           calcmarkboundaries (gui->movement);
-          if (pi.the_obj && (dragging_end_playback_marker || dragging_start_playback_marker))
+          if (pi.the_obj && (Denemo.dragging_end_playback_marker || Denemo.dragging_start_playback_marker))
             {
               gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
                 latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
-                if (dragging_end_playback_marker) 
+                if (Denemo.dragging_end_playback_marker) 
                     Denemo.project->movement->end_time = latest;
                 else
                     Denemo.project->movement->start_time = earliest;
@@ -1318,9 +1317,9 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if (gui == NULL || gui->movement == NULL)
     return FALSE;
   last_directive = NULL;
-  if(dragging_end_playback_marker || dragging_start_playback_marker)
+  if(Denemo.dragging_end_playback_marker || Denemo.dragging_start_playback_marker)
     {
-      dragging_start_playback_marker = dragging_end_playback_marker = FALSE;
+      Denemo.dragging_start_playback_marker = Denemo.dragging_end_playback_marker = FALSE;
       gui->movement->markstaffnum = 0;
     }
   gboolean left = (event->button != 3);

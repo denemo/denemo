@@ -1320,17 +1320,21 @@ draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_hei
 static void
 draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_height)
 {
-
-  //  if(itp->playposition>-1)
-  //   draw_playback_marker(cr, BLACK, itp->playposition, yy, line_height);
-  //  itp->playposition = -1;
-
+static gboolean off;
   if (itp->startposition > 0)
-    draw_playback_marker (cr, GREEN, itp->startposition, yy, line_height);
+    {
+      if (!(Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight && off))
+        draw_playback_marker (cr, GREEN, itp->startposition, yy, line_height);
+      off = !off; //this function is called twice for each draw (for start and then end) flashing off and on requires this to toggle once only.
+    }
   itp->startposition = -1;
 
   if (itp->endposition > 0)
-    draw_playback_marker (cr, RED, itp->endposition, yy, line_height);
+      {
+      if (!(Denemo.dragging_end_playback_marker && Denemo.prefs.cursor_highlight && off))
+        draw_playback_marker (cr, RED, itp->endposition, yy, line_height);
+    }
+
   itp->endposition = -1;
 }
 
