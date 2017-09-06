@@ -408,7 +408,7 @@ static gboolean selecting = FALSE;
 static gboolean dragging_separator = FALSE;
 static gboolean dragging_audio = FALSE;
 static gboolean dragging_tempo = FALSE;
-
+static gboolean dragging_playback_marker = FALSE;
 
 static gboolean
 change_staff (DenemoMovement * si, gint num, GList * staff)
@@ -699,28 +699,27 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
               else
                 set_mark (NULL, NULL);
               selecting = TRUE;
+              if (pi.the_obj && Denemo.project->movement->smf)
+                {
+                  gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
+                  latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
+                  generate_midi();
+                  if ((fabs(end-earliest) < fabs(latest-earliest) + 0.01) ||  (fabs(start-latest) < fabs(latest-earliest) + 0.01))
+                    dragging_playback_marker = TRUE;
+                }    
             }
           calcmarkboundaries (gui->movement);
-          
-       if (pi.the_obj && Denemo.project->movement->smf)
-        {
-            gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
-            latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
-            generate_midi();
-          if (fabs (end-latest) < fabs(start-earliest))
-            { //move the end play marker
-               Denemo.project->movement->end_time = ((DenemoObject*)pi.the_obj->data)->latest_time;
-              set_start_and_end_objects_for_draw ();
-              
+          if (pi.the_obj && dragging_playback_marker)
+            {
+              gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
+                latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
+                if ((fabs (end-latest) < fabs(start-earliest))) 
+                    Denemo.project->movement->end_time = latest;
+                else
+                    Denemo.project->movement->start_time = earliest;
+               set_start_and_end_objects_for_draw ();
             }
-          else //move the start play marker
-          {
-             Denemo.project->movement->start_time = ((DenemoObject*)pi.the_obj->data)->earliest_time;
-              set_start_and_end_objects_for_draw ();
-            
-          }
-        }
-          
+ 
           if (event->state & (GDK_BUTTON1_MASK | GDK_BUTTON2_MASK | GDK_BUTTON3_MASK))
             perform_command (event->state, GESTURE_MOVE, event->state & GDK_BUTTON1_MASK);
 
@@ -1317,6 +1316,11 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if (gui == NULL || gui->movement == NULL)
     return FALSE;
   last_directive = NULL;
+  if(dragging_playback_marker)
+    {
+      dragging_playback_marker = FALSE;
+      gui->movement->markstaffnum = 0;
+    }
   gboolean left = (event->button != 3);
   if(gui->movement->recording && (dragging_tempo || dragging_audio))
     {
