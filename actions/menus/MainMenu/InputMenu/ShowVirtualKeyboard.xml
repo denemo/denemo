@@ -7,8 +7,8 @@
       <row type="scheme">
         <action>ShowVirtualKeyboard</action>
         <after>SimulateMidi</after>
-        <_label>Virtual MIDI Keyboard</_label>
-        <_tooltip>Displays a piano style keyboard that can be clicked on to enter notes like a real MIDI device. Right click adds notes to the chord.</_tooltip>
+        <_label>On-screen Piano Keyboard</_label>
+        <_tooltip>Displays a piano-style keyboard that can be clicked on to enter notes. Right click adds notes to the chord. Unlike a MIDI keyboard it doesn't pass through MIDI filters, etc.</_tooltip>
       </row>
     </map>
   </merge>
