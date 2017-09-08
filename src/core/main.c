@@ -311,6 +311,7 @@ static void check_if_upgrade (void) {
         guint32 this_maj, this_min, this_mic, this_ver;
         guint32 foundmaj=0, foundmin=0, foundmic=0;
         const gchar *name;
+        gchar *dotdenemodirname = NULL;
         sscanf (PACKAGE_VERSION, "%u.%u.%u", &this_maj, &this_min, &this_mic);
         this_ver = (this_maj<<16) + (this_min<<8) + this_mic;//allows for version numbers up to 256
         GDir *dir = g_dir_open (g_get_home_dir (), 0, NULL);
@@ -334,13 +335,16 @@ static void check_if_upgrade (void) {
                 }
             g_free(filename);
             if(val>sofar)
-                sofar = val;
+                {
+                  g_free (dotdenemodirname);
+                  dotdenemodirname = g_strdup (name);
+                  sofar = val;
+                }
             }
         }
         if(sofar) {
-            gchar *old_dot_denemo = g_strdup_printf (".denemo-%u.%u.%u", (unsigned)(sofar>>16), (unsigned)((sofar>>8)&0xFF), (unsigned)(sofar&0xFF));
-            Denemo.old_user_data_dir = g_build_filename (g_get_home_dir (), old_dot_denemo, NULL);
-            g_free(old_dot_denemo);
+            Denemo.old_user_data_dir = g_build_filename (g_get_home_dir (), dotdenemodirname, NULL);
+            g_free(dotdenemodirname);
         }
     }
 }
