@@ -17,13 +17,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
-  <sourcefile>
-    <x>1912</x>
-    <y>26</y>
-    <width>1280</width>
-    <height>1005</height>
-    <scale>1227</scale>
-  </sourcefile>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
