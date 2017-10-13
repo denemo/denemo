@@ -17,6 +17,13 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
+  <sourcefile>
+    <x>1912</x>
+    <y>26</y>
+    <width>1280</width>
+    <height>1005</height>
+    <scale>1227</scale>
+  </sourcefile>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
@@ -37,7 +44,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     <edit-info>
       <staffno>2</staffno>
       <measureno>2</measureno>
-      <cursorposition>0</cursorposition>
+      <cursorposition>2</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
@@ -115,12 +122,12 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       </voice>
       <voice id="id7">
         <voice-info>
-          <voice-name>voice 3</voice-name>
+          <voice-name>Unnamed</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
           <staff-ref staff="id1"></staff-ref>
-          <clef name="treble">
+          <clef name="alto">
             <directives>
               <directive>
                 <tag>DynamicsStaff</tag>
@@ -156,14 +163,18 @@ Denemo
           </time-signature>
         </initial-voice-params>
         <voice-props>
-          <number-of-lines>5</number-of-lines>
+          <number-of-lines>1</number-of-lines>
+          <staff-color>547414016</staff-color>
+          <staff-range-lo>0</staff-range-lo>
+          <staff-range-hi>0</staff-range-hi>
+          <staff-range>1</staff-range>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
           <instrument></instrument>
           <device-port>NONE</device-port>
           <volume>127</volume>
           <override_volume>0</override_volume>
-          <mute>0</mute>
+          <mute>1</mute>
           <midi_prognum>0</midi_prognum>
           <midi_channel>2</midi_channel>
           <hasfigures>0</hasfigures>
@@ -174,13 +185,13 @@ Denemo
               <prefix> \new Dynamics &lt;&lt;
 </prefix>
               <graphic_name>Dynamics Staff</graphic_name>
-              <override>1</override>
+              <override>5</override>
             </directive>
           </staff-directives>
           <voice-directives>
             <directive>
               <tag>DynamicsStaff</tag>
-              <override>1</override>
+              <override>5</override>
             </directive>
           </voice-directives>
           <clef-directives>
@@ -197,6 +208,7 @@ Denemo
         </voice-props>
         <measures>
           <measure>
+            <stem-directive type="up"></stem-directive>
             <chord show="true" id="id8">
               <duration base="half"></duration>
               <notes>
@@ -210,7 +222,7 @@ Denemo
               <cresc-begin>1</cresc-begin>
               <notes>
                 <note id="id11">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -218,7 +230,7 @@ Denemo
               <duration base="quarter"></duration>
               <notes>
                 <note id="id13">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -228,7 +240,7 @@ Denemo
               <duration base="quarter"></duration>
               <notes>
                 <note id="id15">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -237,7 +249,7 @@ Denemo
               <cresc-end>1</cresc-end>
               <notes>
                 <note id="id17">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
@@ -245,7 +257,7 @@ Denemo
               <duration base="half"></duration>
               <notes>
                 <note id="id19">
-                  <middle-c-offset>5</middle-c-offset>
+                  <middle-c-offset>0</middle-c-offset>
                 </note>
               </notes>
             </chord>
