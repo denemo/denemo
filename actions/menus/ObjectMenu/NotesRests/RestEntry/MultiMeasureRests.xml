@@ -8,7 +8,7 @@
         <after>InsertWholeMeasureRest</after>
         <action>MultiMeasureRests</action>
         <_label>Multi-Measure Rests</_label>
-        <_tooltip>Creates a multi-measure rest from the whole measure rests after the cursor, or inserts the number of rests you specify after the cursor, making them a multi-measure rest. Multi-measure rests will be typeset as individual whole measure rests in any other part being typeset has music during them.</_tooltip>
+        <_tooltip>Creates a multi-measure rest from the whole measure rests after the cursor, or inserts the number of rests you specify after the cursor, making them a multi-measure rest. Multi-measure rests will be typeset as individual whole measure rests if any other part being typeset has music during them.</_tooltip>
       </row>
     </map>
   </merge>

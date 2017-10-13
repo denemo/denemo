@@ -109,7 +109,7 @@
                     (if merge (set! merge (zero? merge))) ;; we will create mm rests in following bars and then merge the initial empty duration one
                     (set! number (string->number number))
                     (if (not (EmptyMeasure?))
-                        (d-AddMeasure))
+                        (d-InsertMeasureAfter))
                     (set! meas (d-GetMeasure))
                     (d-MasterVolume 0)
                     (while (positive? number)
