@@ -1,4 +1,5 @@
-(let ((tag "SetPageCount")(count (d-GetUserInput (_ "Total Page Count") (_ "Give Pages Required: ") "4")))
+;;;SetPageCount
+(let ((tag "SetPageCount")(count (d-GetUserInput (_ "Total Page Count") (_ "Give Pages Required\n(0 for optimal): ") "4")))
 	(if (and count (string->number count))
 		(begin
 			(d-DirectivePut-score-prefix tag (string-append "\\paper { page-count=" count "}"))
@@ -6,4 +7,6 @@
 			
 			(SetDirectiveConditional #f (cons "score"  tag))
 			(d-SetSaved #f))
-		(d-WarningDialog (_ "Cancelled"))))
+		(begin
+			(d-DirectiveDelete-score tag)
+			(d-WarningDialog (_ "Optimal page count restored")))))
