@@ -8166,6 +8166,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Bass Figures (Off/On)</_label>
         <_tooltip>Turns on/off visibility of figured bass on typesetting for whole score.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ArbitraryKeySignature</action>
+        <after>FlattenInitialKeysigs</after>
+        <menupath>/ObjectMenu/Key</menupath>
+        <_label>Arbitrary Key Signature</_label>
+        <_tooltip>Prints a key signature composed of an arbitrary combination of accidentals. For any step of the scale which needs an accidental to show choose the note name and accidental. Note that the Denemo Display will ignore this, so you have to enter the accidentals as if it wasn't there. LilyPond will typeset the key signature specified and display accidentals before notes correspondingly.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

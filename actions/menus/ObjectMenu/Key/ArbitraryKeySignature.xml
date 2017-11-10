@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ArbitraryKeySignature</action>
+        <after>FlattenInitialKeysigs</after>
+        <_label>Arbitrary Key Signature</_label>
+        <_tooltip>Prints a key signature composed of an arbitrary combination of accidentals. For any step of the scale which needs an accidental to show choose the note name and accidental. Note that the Denemo Display will ignore this, so you have to enter the accidentals as if it wasn't there. LilyPond will typeset the key signature specified and display accidentals before notes correspondingly.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

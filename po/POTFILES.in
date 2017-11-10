@@ -1008,6 +1008,8 @@ actions/menus/ObjectMenu/Directives/Typesetter/Voices/VoiceSetting.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Voices/VoiceSetting.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Void.scm
 actions/menus/ObjectMenu/Directives/Typesetter/Void.xml
+actions/menus/ObjectMenu/Key/ArbitraryKeySignature.scm
+actions/menus/ObjectMenu/Key/ArbitraryKeySignature.xml
 actions/menus/ObjectMenu/Key/FlattenInitialKeysigs.scm
 actions/menus/ObjectMenu/Key/FlattenInitialKeysigs.xml
 actions/menus/ObjectMenu/Key/FlattenKeysig.scm
