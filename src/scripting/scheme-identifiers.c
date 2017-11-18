@@ -1177,13 +1177,14 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Sets the selection to be used for a thumbnail. Returns #f if no selection or selection not in first movement else #t.", DENEMO_SCHEME_PREFIX "SetThumbnailSelection", scheme_set_thumbnail_selection);
 
-  install_scm_function (1, "Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchrously. It does not report on completion.", DENEMO_SCHEME_PREFIX "CreateThumbnail", scheme_create_thumbnail);
+  install_scm_function (1, "Creates a thumbnail for the current score. With no argument it waits for the thumbnail to complete, freezing any display. With #t it generates the thumbnail asynchronously. It does not report on completion.", DENEMO_SCHEME_PREFIX "CreateThumbnail", scheme_create_thumbnail);
 
   install_scm_function (0, "Exits Denemo without saving history, prefs etc.", DENEMO_SCHEME_PREFIX "Exit", scheme_exit);
 
   install_scm_function (0, "Snapshots the current movement putting it in the undo queue returns #f if no snapshot was taken because of a guard", DENEMO_SCHEME_PREFIX "TakeSnapshot", scheme_take_snapshot);
 
   install_scm_function (0, "Creates the default layout.", DENEMO_SCHEME_PREFIX "SelectDefaultLayout", scheme_select_default_layout);
+  install_scm_function (1, "Sets the pending layout id to the layout name passed - resets to no pending layout if no name passed. Conditional directives will apply depending on the pending layout when set.", DENEMO_SCHEME_PREFIX "SetPendingLayout", scheme_set_pending_layout);
   install_scm_function (1, "Creates a custom layout from the currently selected (standard). Uses the passed name for the new layout. Returns #f if nothing happened.", DENEMO_SCHEME_PREFIX "CreateLayout", scheme_create_layout);
   install_scm_function (1, "Deletes a custom layout of the passed name. Returns #f if no layout with passed name.", DENEMO_SCHEME_PREFIX "DeleteLayout", scheme_delete_layout);
   install_scm_function (0, "Returns the id of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutId", scheme_get_layout_id);

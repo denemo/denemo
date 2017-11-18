@@ -3903,7 +3903,8 @@ REORDER_TAG (movementcontrol, directives);
 
 gboolean wrong_layout (DenemoDirective *directive, guint id)
 {
-
+ if (Denemo.pending_layout_id)
+  id = Denemo.pending_layout_id;
  if (directive->layouts)
     {
      if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)

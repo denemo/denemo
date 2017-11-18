@@ -1206,6 +1206,19 @@ scheme_create_layout (SCM name)
     }
   return SCM_BOOL_F;
 }
+SCM
+scheme_set_pending_layout (SCM name)
+{
+  if (scm_is_string (name))
+    {
+      gchar *layout_name = scm_to_locale_string (name);
+      
+      Denemo.pending_layout_id = get_layout_id_for_name ((guchar *) layout_name);
+    }
+  else
+    Denemo.pending_layout_id = 0;
+  return scm_from_int ((guint)Denemo.pending_layout_id);
+}
 
 SCM
 scheme_delete_layout (SCM name)

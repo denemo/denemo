@@ -1261,6 +1261,7 @@ struct DenemoRoot
   gboolean *fatal_scheme_errors; /** Abort on scheme errors */
   gboolean *silent; /** Don't log any message */
   gboolean *verbose; /** Display every messages */
+  guint pending_layout_id;//Non zero when the current layout being created will be renamed to have this id 
 }  Denemo; /**< The root object. */
 
 #endif

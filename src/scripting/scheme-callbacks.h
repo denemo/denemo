@@ -316,6 +316,7 @@ SCM scheme_take_snapshot (SCM);
 SCM scheme_select_default_layout (void);
 SCM scheme_delete_layout (SCM name);
 SCM scheme_create_layout (SCM name);
+SCM scheme_set_pending_layout (SCM name);
 SCM scheme_get_layout_id (void);
 SCM scheme_get_current_staff_layout_id (void);
 SCM scheme_select_layout_id (SCM);
