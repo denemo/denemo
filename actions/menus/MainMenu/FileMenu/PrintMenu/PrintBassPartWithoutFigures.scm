@@ -15,8 +15,11 @@
 	(d-SelectDefaultLayout) 
 	(d-ToggleFigures 'noninteractive)
         (HideOtherStaffs)
+	(d-SetPendingLayout name)
 	(d-RefreshLilyPond)
-	(d-CreateLayout name)   
+	(d-CreateLayout name) 
+	(d-SetPendingLayout #f)
+  
 	(d-SelectDefaultLayout)
 	(d-ToggleFigures 'noninteractive)
         (ShowOtherStaffs)
