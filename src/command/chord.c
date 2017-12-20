@@ -441,7 +441,7 @@ shiftpitch (DenemoObject * thechord, gint mid_c_offset, gint amount)
     {
       tone = (note *) tnode->data;
     
-     tone->enshift = tone->enshift + amount, 2;
+     tone->enshift = tone->enshift + amount; // the , 2; here was a bug, why did the compiler ignore it?
      if (tone->enshift > 2)
         tone->enshift = 2;
     else if (tone->enshift < -2)
