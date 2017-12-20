@@ -502,7 +502,7 @@ staff_fix_note_heights (DenemoStaff * thestaff)
   measurenode *curmeasure;
   objnode *curobj;
   DenemoObject *theobj;
-g_warning ("Staff fix note heights called uselessly?");
+//g_warning ("Staff fix note heights called uselessly?");
   for (curmeasure = thestaff->themeasures; curmeasure; curmeasure = curmeasure->next)
     {
       //initialclef = nclef;
