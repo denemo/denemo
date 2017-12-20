@@ -630,6 +630,9 @@ display_current_object_callback (void)
       if (selection->len)
         {
           GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+#if GTK_MAJOR_VERSION==3
+          gtk_widget_set_vexpand (scrolled_window, TRUE);
+#endif
           gtk_box_pack_start (GTK_BOX (vbox), scrolled_window, TRUE, TRUE, 0);
           GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
           
@@ -2309,7 +2312,9 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   gtk_container_add (GTK_CONTAINER (frame), expander);
 
   GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
-
+#if GTK_MAJOR_VERSION==3
+  gtk_widget_set_vexpand (scrolled_window, TRUE);
+#endif  
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
@@ -2351,6 +2356,9 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   gtk_container_add (GTK_CONTAINER (frame), expander);
 
   scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+#if GTK_MAJOR_VERSION==3
+  gtk_widget_set_vexpand (scrolled_window, TRUE);
+#endif
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
   inner_box = gtk_vbox_new (FALSE, 0);
           
@@ -2552,6 +2560,9 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   gtk_container_add (GTK_CONTAINER (frame), expander);
 
   GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+#if GTK_MAJOR_VERSION==3
+  gtk_widget_set_vexpand (scrolled_window, TRUE);
+#endif
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
@@ -2653,6 +2664,9 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   gtk_container_add (GTK_CONTAINER (frame), expander);
 
   scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+#if GTK_MAJOR_VERSION==3
+  gtk_widget_set_vexpand (scrolled_window, TRUE);
+#endif
   gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
   inner_box = gtk_vbox_new (FALSE, 0);
           
