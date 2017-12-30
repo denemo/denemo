@@ -29,6 +29,13 @@
 
 #define SHAVING (0.01)          //seconds to shave off a note start time to ensure stopping before noteon is sent, and starting with noteon first note may depend of speed of machine??? FIXME
 
+#ifndef _HAVE_PORTAUDIO_
+gdouble get_playback_speed (void)
+{
+    return 1.0;
+}
+void set_playback_speed (double speed) {}
+#endif
 
 static volatile gboolean playing = FALSE;
 
