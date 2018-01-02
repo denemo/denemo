@@ -1229,7 +1229,7 @@ toggle_insert (G_GNUC_UNUSED GtkButton * button)
 }
 
 static gint
-draw_indicator (GtkWidget * widget)
+draw_indicator (G_GNUC_UNUSED GtkWidget * w, cairo_t * cr)
 {
   int barwidth = 20;
   int centre = 400;
@@ -1241,7 +1241,7 @@ draw_indicator (GtkWidget * widget)
   if (iCent > 800)
     iCent = 800;
 
-  cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (widget));
+  //cairo_t *cr = gdk_cairo_create (gtk_widget_get_window (widget));
 
   if (iCent < 380)
     cairo_set_source_rgb (cr, 1, 0, 0);
@@ -1254,7 +1254,6 @@ draw_indicator (GtkWidget * widget)
   cairo_set_source_rgb (cr, 0, 0, 0);
   cairo_rectangle (cr, centre - barwidth / 8, 0, barwidth / 4, 320);
   cairo_fill (cr);
-  cairo_destroy (cr);
 
   return TRUE;
 }
