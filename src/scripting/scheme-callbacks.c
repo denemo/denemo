@@ -3706,7 +3706,7 @@ scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal)
   else
     initial_value = strdup (" ");
 
-  gchar *ret = string_dialog_entry_with_widget_opt (Denemo.project, title, instruction, initial_value, NULL, scm_is_equal (modal, SCM_UNDEFINED) || scm_is_true (modal));
+  gchar *ret = string_dialog_entry_with_widget_opt (Denemo.project, title, instruction, initial_value, NULL, scm_is_eq (modal, SCM_UNDEFINED) || scm_is_true (modal));
   SCM scm = ret ? scm_from_locale_string (ret) : SCM_BOOL_F;
 
   if (title)
