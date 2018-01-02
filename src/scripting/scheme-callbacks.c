@@ -1796,7 +1796,7 @@ scheme_staff_master_volume (SCM level)
       thestaff->mute = TRUE;
       return scm_from_double (-thestaff->volume / 127.0);
     }
-  if (level == SCM_UNDEFINED)
+  if (scm_is_eq (level, SCM_UNDEFINED))
     return thestaff->mute ? scm_from_double (-thestaff->volume / 127.0) : scm_from_double (thestaff->volume / 127.0);
   thestaff->mute = FALSE;
   return scm_from_double (thestaff->volume / 127.0);
@@ -1849,7 +1849,7 @@ void
 set_meantone_tuning (gint step)
 {
   SCM thestep = scm_from_int (step);
-  if (SCM_BOOL_F == scm_internal_catch (SCM_BOOL_T, (scm_t_catch_body) scm_c_lookup, (void *) "SetQuarterCommaMeanTone", (scm_t_catch_handler) ignore_handler, (void *) "whoops"))
+  if (scm_is_false (scm_internal_catch (SCM_BOOL_T, (scm_t_catch_body) scm_c_lookup, (void *) "SetQuarterCommaMeanTone", (scm_t_catch_handler) ignore_handler, (void *) "whoops")))
     return;
   SCM func_symbol = scm_c_lookup ("SetQuarterCommaMeanTone");
   SCM func = scm_variable_ref (func_symbol);
@@ -3706,7 +3706,7 @@ scheme_get_user_input (SCM label, SCM prompt, SCM init, SCM modal)
   else
     initial_value = strdup (" ");
 
-  gchar *ret = string_dialog_entry_with_widget_opt (Denemo.project, title, instruction, initial_value, NULL, (modal == SCM_UNDEFINED) || scm_is_true (modal));
+  gchar *ret = string_dialog_entry_with_widget_opt (Denemo.project, title, instruction, initial_value, NULL, scm_is_equal (modal, SCM_UNDEFINED) || scm_is_true (modal));
   SCM scm = ret ? scm_from_locale_string (ret) : SCM_BOOL_F;
 
   if (title)
@@ -3739,7 +3739,7 @@ scheme_get_user_input_with_snippets (SCM label, SCM prompt, SCM init, SCM modal)
     }
   else
     {
-      ismodal = !scm_is_false (modal), format = (!scm_is_false (modal)) && (modal != SCM_UNDEFINED);
+      ismodal = !scm_is_false (modal), format = (!scm_is_false (modal)) && (!scm_is_eq (modal, SCM_UNDEFINED));
     }
   if (scm_is_string (label))
     {
