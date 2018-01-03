@@ -19,6 +19,7 @@
 #include "core/utils.h"
 #include "core/cache.h"
 #include "ui/keysigdialog.h"
+#include "command/keyresponses.h"
 #include "audio/pitchentry.h"
 
 #define KEYNAME_ARRAY_OFFSET 7

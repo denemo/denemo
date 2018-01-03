@@ -6,17 +6,18 @@
  *
  */
 
-#include <gtksourceview/gtksourceview.h>
+#include <gtksourceview/gtksource.h>
+
+#if GTK_MAJOR_VERSION==3
+#include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
+#else
 #include <gtksourceview/gtksourcelanguage.h>
 #include <gtksourceview/gtksourcelanguagemanager.h>
 #include <gtksourceview/gtksourcestyleschememanager.h>
 #include <gtksourceview/gtksourceprintcompositor.h>
-#if GTK_MAJOR_VERSION==3
-#include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
-#else
 #include <gtksourceview/gtksourceiter.h>
-#endif
 #include <gtksourceview/gtksourcebuffer.h>
+#endif
 #include "ui/texteditors.h"
 #include "core/view.h"
 #include "scripting/scheme-callbacks.h"

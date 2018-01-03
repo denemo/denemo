@@ -130,7 +130,7 @@ static GtkWidget *natural_button (gint i)
 
     return eventbox;
 }  
-static add_sharps (GtkWidget *sharps, gint octave)
+static void add_sharps (GtkWidget *sharps, gint octave)
 {
    gint i;
    for (i=0;i<12; i++)
@@ -140,7 +140,7 @@ static add_sharps (GtkWidget *sharps, gint octave)
     }
     
 }
-static add_naturals (GtkWidget *sharps, gint octave)
+static void add_naturals (GtkWidget *sharps, gint octave)
 {
    gint i;
    for (i=0;i<12; i++)

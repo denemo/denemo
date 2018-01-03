@@ -21,6 +21,7 @@
 #include "ui/palettes.h"
 #include "core/view.h"
 #include "core/utils.h"
+#include "core/menusystem.h"
 #include "ui/texteditors.h"
 #include <librsvg/rsvg.h>
 

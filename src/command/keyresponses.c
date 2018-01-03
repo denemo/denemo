@@ -1002,7 +1002,7 @@ static void Dur (gint duration) {
 /*******************************************************************************
 * NOTE COMMANDS
 ******************************************************************************/
-static change_note_to (gchar note)//CHECK executing (d-ChangeToA)
+static void change_note_to (gchar note)//CHECK executing (d-ChangeToA)
 {
   gint mode = Denemo.project->mode;
   Denemo.project->last_source = INPUTKEYBOARD;

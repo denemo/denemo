@@ -1742,7 +1742,7 @@ static gint get_cursoracc (void)
         //    return 0;
     }    
     
-void change_duration (duration)
+void change_duration (gint duration)
 {
     highlight_duration (Denemo.project, duration);
     changeduration (Denemo.project->movement, duration);

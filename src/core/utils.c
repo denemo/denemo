@@ -14,6 +14,7 @@
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
 #include <glib.h>
+#include <glib/gstdio.h> //for g_remove. Use GFile instead?
 #include <stdlib.h>
 #include "display/accwidths.h"
 #include <denemo/denemo.h>
@@ -27,6 +28,7 @@
 #include "command/lilydirectives.h"
 #include "command/object.h"
 #include "command/scorelayout.h"
+#include "printview/markupview.h"
 #include <signal.h>             /*for SIGTERM */
 
 #include "config.h"

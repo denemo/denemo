@@ -12,6 +12,7 @@
 #include <denemo/denemo.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 /**
  * Draw a standalone Denemo directive on the score as a vertical bar or graphic and/or text
  *

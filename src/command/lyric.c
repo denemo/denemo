@@ -12,6 +12,7 @@
 #include "command/staff.h"
 #include "core/utils.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "command/score.h"
 #include "display/draw.h"
 #include "command/lilydirectives.h"

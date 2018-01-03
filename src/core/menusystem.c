@@ -21,6 +21,7 @@
 
 
 #include <denemo/denemo.h>
+#include <glib/gstdio.h> //for g_access. Use GFile instead?
 #include "core/view.h"
 #include "core/utils.h"
 #include "core/keymapio.h"
@@ -1065,7 +1066,7 @@ GtkWidget *denemo_menusystem_get_widget (gchar *path)
 
 
 
-static popup (GtkWidget *menuitem, GtkWidget *menu)
+static void popup (GtkWidget *menuitem, GtkWidget *menu)
  {
      gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
  }

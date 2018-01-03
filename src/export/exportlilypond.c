@@ -8,8 +8,8 @@
 
 #include "config.h"
 #include <denemo/denemo.h>
-#include <gtksourceview/gtksourceview.h>
-#include <gtksourceview/gtksourcebuffer.h>
+//#include <gtksourceview/gtksourceview.h>
+//#include <gtksourceview/gtksourcebuffer.h>
 #include <gtksourceview/gtksource.h>
 #include "core/utils.h"
 #include <stdlib.h>

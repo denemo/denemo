@@ -21,6 +21,7 @@
 #include "audio/playback.h"
 #include "export/print.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
