@@ -1630,6 +1630,11 @@ instantiate_menus (gchar * menupath)
       g_critical ("bad menu path");
       return;
     }
+  if (!strcmp (up1, "."))
+    {
+      g_critical ("bad menu path");
+      return;
+    }
   if (widget == NULL)
     instantiate_menus (up1);
   if (NULL == denemo_menusystem_get_action (name))
