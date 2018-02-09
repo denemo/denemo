@@ -8173,6 +8173,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Arbitrary Key Signature</_label>
         <_tooltip>Prints a key signature composed of an arbitrary combination of accidentals. For any step of the scale which needs an accidental to show choose the note name and accidental. Note that the Denemo Display will ignore this, so you have to enter the accidentals as if it wasn't there. LilyPond will typeset the key signature specified and display accidentals before notes correspondingly.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>InsertDirectivesAroundSelection</action>
+        <after>ApplyToSelection</after>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <_label>Bracket Selection with Directive Pair.</_label>
+        <_tooltip>If the selection comprises two standalone directives it cuts them to the clipboard. Subsequent invocations of the command with music selected places the two directives before and after the music.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

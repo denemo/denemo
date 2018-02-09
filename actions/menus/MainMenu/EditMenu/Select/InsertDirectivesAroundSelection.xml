@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>InsertDirectivesAroundSelection</action>
+        <after>ApplyToSelection</after>
+        <_label>Bracket Selection with Directive Pair.</_label>
+        <_tooltip>If the selection comprises two standalone directives it cuts them to the clipboard. Subsequent invocations of the command with music selected places the two directives before and after the music.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
