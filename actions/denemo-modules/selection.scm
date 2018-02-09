@@ -17,14 +17,15 @@
 
 
 
-;;; move to selection end if cursor is in selection
+;;; move to selection end if cursor is in selection, return #f if not in selection
 (define  (MoveToEndOfSelection)
   (if (d-IsInSelection)
         (let loop ()
             (if (d-MoveCursorRight)
                 (if (d-IsInSelection)
                     (loop)
-                    (d-MoveCursorLeft))))))
+                    (d-MoveCursorLeft))))
+        #f))
                 
 (define (MoveToSelectionBeginningInThisStaff)
     (define staffPosition (d-GetStaff))
