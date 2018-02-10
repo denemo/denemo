@@ -8177,7 +8177,7 @@ Start Ligature earlier in the same staff.</_tooltip>
         <action>InsertDirectivesAroundSelection</action>
         <after>ApplyToSelection</after>
         <menupath>/MainMenu/EditMenu/Select</menupath>
-        <_label>Bracket Selection with Directive Pair</_label>
+        <_label>Span Selection with Pair of Objects</_label>
         <_tooltip>If the selection comprises two objects - directives, clef changes, tuplet markers etc. -  it cuts them to the clipboard. Subsequent invocations of the command with music selected places the two objects before and after the music.</_tooltip>
       </row>
     </map>

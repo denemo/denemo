@@ -1,7 +1,9 @@
-#LyX 2.1 created this file. For more info see http://www.lyx.org/
-\lyxformat 474
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
 \begin_document
 \begin_header
+\save_transient_properties true
+\origin unavailable
 \textclass article
 \begin_preamble
 \date{}
@@ -13,16 +15,16 @@
 \language_package default
 \inputencoding auto
 \fontencoding global
-\font_roman default
-\font_sans default
-\font_typewriter default
-\font_math auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
 \font_default_family default
 \use_non_tex_fonts false
 \font_sc false
 \font_osf false
-\font_sf_scale 100
-\font_tt_scale 100
+\font_sf_scale 100 100
+\font_tt_scale 100 100
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -152,17 +154,7 @@ Getting Started
 \end_layout
 
 \begin_layout Section*
-Introduction 
-\begin_inset Note Note
-status open
-
-\begin_layout Plain Layout
-(Temporarily) delete this pagenumbering command out before HTML export.
-\end_layout
-
-\end_inset
-
- 
+Introduction  
 \begin_inset ERT
 status open
 
@@ -557,6 +549,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -652,7 +649,7 @@ Numbers
 \family typewriter
 0-6
 \family default
- are used to refer to the note durations Whole Note \SpecialChar \ldots{}
+ are used to refer to the note durations Whole Note \SpecialChar ldots
  64th Note.
  They insert a duration at the cursor, which you then give a pitch to with
  a note name.
@@ -1000,6 +997,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -1351,7 +1353,7 @@ Lastly with large (deep) scores – orchestral scores for instance – you may
 The Page View
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:The-Page-View"
+name "subsec:The-Page-View"
 
 \end_inset
 
@@ -1661,7 +1663,7 @@ Seek
 
 \begin_layout Standard
 This has a commands to search for rhythmic patterns, note sequences, empty
- measures, next higher/lower note, empty measures \SpecialChar \ldots{}
+ measures, next higher/lower note, empty measures \SpecialChar ldots
  The search facility includes
  the equivalent of 
 \begin_inset Quotes eld
@@ -1880,7 +1882,7 @@ Command Center
 
 \begin_layout Standard
 Search for commands by entering likely words, set up one key or two key
- shortcuts, load customized shortcuts or commands \SpecialChar \ldots{}
+ shortcuts, load customized shortcuts or commands \SpecialChar ldots
 
 \end_layout
 
@@ -1929,7 +1931,7 @@ When checked a set of playback/record controls are placed above the display
  (see section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Playback-Controls"
+reference "subsec:Playback-Controls"
 
 \end_inset
 
@@ -1945,7 +1947,7 @@ When checked a set of controls for a connected MIDI keyboard are placed
  above the display (see section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Midi-In-Controls"
+reference "subsec:Midi-In-Controls"
 
 \end_inset
 
@@ -1974,7 +1976,7 @@ Menus of all the Denemo commands listed under type of object from Score
 \end_inset
 
 g.
- clef change objects, notes \SpecialChar \ldots{}
+ clef change objects, notes \SpecialChar ldots
 ).
 \end_layout
 
@@ -2055,7 +2057,7 @@ Cursor Highlighting
 The cursor flashes, and in the page view
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:The-Page-View"
+reference "subsec:The-Page-View"
 
 \end_inset
 
@@ -2200,7 +2202,7 @@ when the playback control panel is visible
  the play button in the Playback Controls 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Playback-Controls"
+reference "subsec:Playback-Controls"
 
 \end_inset
 
@@ -2270,7 +2272,7 @@ Use the Toolbar to access common Denemo commands via a mouse click.
 \begin_layout Standard
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="2">
-<features rotate="0" islongtable="true" longtabularalignment="center">
+<features islongtable="true" longtabularalignment="center">
 <column alignment="center" valignment="top">
 <column alignment="left" valignment="top" width="80text%">
 <row endhead="true" endfirsthead="true">
@@ -2469,7 +2471,7 @@ Playback Controls
 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Playback-Controls"
+name "subsec:Playback-Controls"
 
 \end_inset
 
@@ -2562,7 +2564,7 @@ While playing back the note(s) being played are highlighted – the page view
  mode
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:The-Page-View"
+reference "subsec:The-Page-View"
 
 \end_inset
 
@@ -2598,7 +2600,7 @@ MIDI Input
  
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Midi-In-Controls"
+name "subsec:Midi-In-Controls"
 
 \end_inset
 
@@ -2634,7 +2636,7 @@ As you enter music if you enter an augmented or dimished interval a different
  (See Edit->Change Preferences->Audio pitch spelling channel/program 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:The-Audio-Tab"
+reference "subsec:The-Audio-Tab"
 
 \end_inset
 
@@ -2683,13 +2685,13 @@ Object Menus
 
 \begin_layout Standard
 The object menu bar gives a set of menus give ordered by the objects (notes,
- staffs, measures \SpecialChar \ldots{}
+ staffs, measures \SpecialChar ldots
 ) that they relate to.
  This division cannot be perfect – some activities could be placed in different
  menus, so you need to be prepared to search for commands using the 
 \begin_inset CommandInset ref
 LatexCommand nameref
-reference "sub:The-Command-Center"
+reference "subsec:The-Command-Center"
 
 \end_inset
 
@@ -2708,6 +2710,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -3360,7 +3367,7 @@ s Menu
 \end_layout
 
 \begin_layout Standard
-Besides basic time signatures various variants (numeric, single digit \SpecialChar \ldots{}
+Besides basic time signatures various variants (numeric, single digit \SpecialChar ldots
 )
  are here.
  There is also beaming
@@ -3481,7 +3488,17 @@ Pickup
 g.
  during partial first & second time bars).
  First and second time bars markers themselves are to be found in the Directives
-->Markings->Spanning menu.
+->Markings->Spanning menu
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Spanning
+\end_layout
+
+\end_inset
+
+ .
 \end_layout
 
 \begin_layout Standard
@@ -3576,7 +3593,7 @@ Ornaments
 
 \end_inset
 
- (trill, turn, \SpecialChar \ldots{}
+ (trill, turn, \SpecialChar ldots
 ), grace notes, articulations
 \begin_inset Index idx
 status open
@@ -3587,7 +3604,7 @@ Articulations
 
 \end_inset
 
- (staccato, tenuto \SpecialChar \ldots{}
+ (staccato, tenuto \SpecialChar ldots
 ), fingerings
 \begin_inset Index idx
 status open
@@ -3621,7 +3638,7 @@ Cresc.
 \end_inset
 
  (both hairpins and extended cresc.
- --- poco --- a --- poco style) chord symbols
+ — poco — a — poco style) chord symbols
 \begin_inset Index idx
 status open
 
@@ -3740,7 +3757,7 @@ Notes
 \end_layout
 
 \begin_layout Standard
-So called because in appending position the note names a, b, c \SpecialChar \ldots{}
+So called because in appending position the note names a, b, c \SpecialChar ldots
  append a
  note while when the cursor is on an note it edits the note to have the
  note-name indicated.
@@ -3768,7 +3785,7 @@ This menu has commands for inserting notes at (i.
 e.
  before the object at) the cursor position.
  The double key press A, A inserts the note A in the prevailing duration
- (more commonly people press a duration key 0, 1, \SpecialChar \ldots{}
+ (more commonly people press a duration key 0, 1, \SpecialChar ldots
  followed by a note name).
 \end_layout
 
@@ -3801,7 +3818,7 @@ Duration
 \end_layout
 
 \begin_layout Standard
-So called because the commands 0, 1, 2 \SpecialChar \ldots{}
+So called because the commands 0, 1, 2 \SpecialChar ldots
  append a note when the cursor is
  in the appending position or enter a note if the cursor is on an object.
  If you have a MIDI keyboard (and it is designated in the preferences under
@@ -3944,7 +3961,7 @@ Directives
 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Directives"
+name "subsec:Directives"
 
 \end_inset
 
@@ -4044,7 +4061,7 @@ Lyrics
 See section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Lyrics"
+reference "subsec:Lyrics"
 
 \end_inset
 
@@ -4415,7 +4432,7 @@ These buttons turn on/off the articulation.
  preference
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:The-Command-Tab"
+reference "subsec:The-Command-Tab"
 
 \end_inset
 
@@ -4512,7 +4529,7 @@ The ? button gives the overview for this palette.
 Insert or Append Chords Palette
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Insert-Chords"
+name "subsec:Insert-Chords"
 
 \end_inset
 
@@ -4904,7 +4921,7 @@ Ties
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:The-Command-Center"
+name "subsec:The-Command-Center"
 
 \end_inset
 
@@ -5129,7 +5146,7 @@ inserts the selected snippet or (if none is selected) inserts the snippet
 Shift-Space
 \family default
  selects the next snippet (or first if none selected), to unselect a snippet
- choose a duration (0, 1 \SpecialChar \ldots{}
+ choose a duration (0, 1 \SpecialChar ldots
 ) to be used instead for entering pitches.
 \end_layout
 
@@ -5140,7 +5157,7 @@ In the insertion case, you may have two or three snippets that apply to
 \family typewriter
 Ctrl-Space
 \family default
-, 1 (or 2 or 3 \SpecialChar \ldots{}
+, 1 (or 2 or 3 \SpecialChar ldots
 ) as needed.
 \end_layout
 
@@ -5266,6 +5283,10 @@ Continuous/Manual.
  In continuous mode the score is re-typeset every time it is altered – choose
  the range if the score is large so that it refreshes quickly.
  For entering music rapidly set this to Manual, and re-typeset on demand.
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -5330,7 +5351,7 @@ Mouse
  Controls
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Mouse-Controls"
+name "subsec:Mouse-Controls"
 
 \end_inset
 
@@ -5537,7 +5558,7 @@ Beaming
  (red dots and crosses) as described 
 \begin_inset CommandInset ref
 LatexCommand nameref
-reference "sub:Mouse-Controls"
+reference "subsec:Mouse-Controls"
 
 \end_inset
 
@@ -5860,6 +5881,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -5887,6 +5913,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -5921,6 +5952,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -5945,6 +5981,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -5972,6 +6013,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -6080,6 +6126,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -6467,7 +6518,7 @@ This creates a palette button to run the command that created the Denemo
 
 \begin_layout Standard
 For example, if you use this on the Arranger attribute of a score you will
- get a button that runs the command Arranger (which is found in Score->Titles\SpecialChar \ldots{}
+ get a button that runs the command Arranger (which is found in Score->Titles\SpecialChar ldots
 ).
  That button would then ask you to fill in the name of the arranger.
  Compare this with the next button, where you will create a button that
@@ -6584,6 +6635,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -6662,6 +6718,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -6856,6 +6917,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -7062,6 +7128,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -7131,7 +7202,7 @@ and so don't need to be set here, they can be set via the View menu.
 The Command Tab
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:The-Command-Tab"
+name "subsec:The-Command-Tab"
 
 \end_inset
 
@@ -7268,7 +7339,7 @@ The display animation controls are here – how quickly the display refreshes
  and how page turns are done in the Page View
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:The-Page-View"
+reference "subsec:The-Page-View"
 
 \end_inset
 
@@ -7317,7 +7388,7 @@ Audio
  Tab
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:The-Audio-Tab"
+name "subsec:The-Audio-Tab"
 
 \end_inset
 
@@ -7404,7 +7475,7 @@ The Maximum Recording Time is there to limit the amount of memory you gobble
  up if you turn on the Record
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Playback-Controls"
+reference "subsec:Playback-Controls"
 
 \end_inset
 
@@ -7452,7 +7523,7 @@ MIDI Controller
  fill them in from the MIDI keyboard
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Playing-Notes-into"
+reference "subsec:Playing-Notes-into"
 
 \end_inset
 
@@ -7607,7 +7678,7 @@ g.
  See the section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Multi-line-Text-and"
+reference "subsec:Multi-line-Text-and"
 
 \end_inset
 
@@ -7626,6 +7697,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -7680,7 +7756,7 @@ The Score->Titles->Book Titles menu also includes table of contents and
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Lyrics"
+name "subsec:Lyrics"
 
 \end_inset
 
@@ -7750,6 +7826,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -7842,6 +7923,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -7881,6 +7967,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -8090,6 +8181,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -8296,6 +8392,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8303,6 +8400,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
@@ -8335,7 +8433,7 @@ Beaming
 
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Beaming"
+name "subsec:Beaming"
 
 \end_inset
 
@@ -8496,7 +8594,7 @@ Slurs
 \end_layout
 
 \begin_layout Standard
-\SpecialChar \ldots{}
+\SpecialChar ldots
  and phrasing slurs.
  It is important to distinguish ties from slurs since they often look the
  same in the typeset music, but in some circumstances they are typeset different
@@ -8660,7 +8758,7 @@ Both appogiature and acciacature are supported, as well as inserting pairs
  beamed see the section on beaming
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Beaming"
+reference "subsec:Beaming"
 
 \end_inset
 
@@ -8681,6 +8779,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -8848,7 +8951,7 @@ For simple use Directives->Markings->Textual Annotation command may suffice.
 Multi-line Text and Music
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Multi-line-Text-and"
+name "subsec:Multi-line-Text-and"
 
 \end_inset
 
@@ -8982,7 +9085,17 @@ olumn and Selection->Line are used to create multi-column/line text explicitly).
 \end_layout
 
 \begin_layout Subsubsection
-Text Spanning 
+Text Spanning
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Spanning
+\end_layout
+
+\end_inset
+
+  
 \end_layout
 
 \begin_layout Standard
@@ -9095,7 +9208,7 @@ With all methods of note entry a measure start sound will be heard when
 Playing Notes into Denemo – MIDI
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Playing-Notes-into"
+name "subsec:Playing-Notes-into"
 
 \end_inset
 
@@ -9348,6 +9461,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -9387,7 +9505,7 @@ keyboard
  you can enter as much of the rhythm before adding pitches (see 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Playing-Notes-into"
+reference "subsec:Playing-Notes-into"
 
 \end_inset
 
@@ -9497,7 +9615,7 @@ Alt-a
 \family typewriter
 Alt-b
 \family default
- \SpecialChar \ldots{}
+ \SpecialChar ldots
  are the standard shortcuts for this.
  When a chord should have two notes on the same line or space
 \begin_inset Index idx
@@ -9572,7 +9690,7 @@ Shift
 \begin_layout Standard
 Rests are entered with 
 \family typewriter
-Alt-0 Alt-1 \SpecialChar \ldots{}
+Alt-0 Alt-1 \SpecialChar ldots
 
 \end_layout
 
@@ -9618,7 +9736,7 @@ can be a nuisance – you will sometimes have it turned on accidentally and
 \emph on
 can 
 \emph default
-use it to achieve Shift-A, Shift-B \SpecialChar \ldots{}
+use it to achieve Shift-A, Shift-B \SpecialChar ldots
  but it is probably best left alone.
 \end_layout
 
@@ -9829,6 +9947,11 @@ width "80col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -9934,6 +10057,10 @@ Create template with the special name "default.denemo".
 
 \begin_layout Itemize
 Use a Template or Custom Template (See File->Open menu)
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -9973,7 +10100,7 @@ Create an init.denemo score with everything you want to start up with, and
  See 
 \begin_inset CommandInset ref
 LatexCommand vref
-reference "sub:Musical-Scores-that-Do-Things"
+reference "subsec:Musical-Scores-that-Do-Things"
 
 \end_inset
 
@@ -10058,7 +10185,7 @@ can
 do this in Denemo (see Physical Transposition
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Physical-Transposition"
+reference "subsec:Physical-Transposition"
 
 \end_inset
 
@@ -10119,7 +10246,7 @@ es
 Physical Transposition
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Physical-Transposition"
+name "subsec:Physical-Transposition"
 
 \end_inset
 
@@ -10180,7 +10307,7 @@ In Navigation->Seek is the command to find a selected rhythmic pattern (Ctrl-f,
  series of steps recorded in the Scheme window (see section 
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Recording-a-Denemo"
+reference "subsec:Recording-a-Denemo"
 
 \end_inset
 
@@ -10204,6 +10331,56 @@ The second sort of search is in the Edit menu (and also available from the
  top staff downwards.
  When the end of movement is reached you can wrap to the start of the movement
  or move to the next movement or wrap round to the first movement.
+\end_layout
+
+\begin_layout Subsection
+Rapidly Marking Passages
+\end_layout
+
+\begin_layout Standard
+Frequently passages in a score need marking in some way - they need to be
+ played up an octave, or they have a continuous trill sign above them etc.
+ This is called Spanning
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Spanning
+\end_layout
+
+\end_inset
+
+ and the indicators for where the passage starts or ends is frequently marked
+ by a pair of Denemo Directives or other pair of objects.
+ Examples are in the Directives->Markings->Spanning menu.
+ Other examples are tuplets
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Tuplets
+\end_layout
+
+\end_inset
+
+, and passages in a different clef.
+ Where a lot of passages need to be marked like this there is command in
+ the Edit->Select menu which allows you to select passages to be spanned
+ by a particular pair of objects at a single key press.
+ This command is labelled 
+\begin_inset Quotes eld
+\end_inset
+
+Span Selection with Pair of Objects
+\begin_inset Quotes erd
+\end_inset
+
+ and it works by copying the pair to be inserted around selected passages
+ onto the clipboard when the command is first invoked and then subsequent
+ invocations place the spanning objects before/after the passage you have
+ selected.
+ In this way you can work your way through a score selecting passages to
+ be altered and applying the alteration at the touch of a key.
 \end_layout
 
 \begin_layout Subsection
@@ -10423,7 +10600,7 @@ An alternative is to set a staff to display not the chords in regular notation
 A palette is available
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sub:Insert-Chords"
+reference "subsec:Insert-Chords"
 
 \end_inset
 
@@ -10485,7 +10662,7 @@ CapsLock
 See 
 \begin_inset CommandInset ref
 LatexCommand nameref
-reference "sub:The-Command-Center"
+reference "subsec:The-Command-Center"
 
 \end_inset
 
@@ -10571,6 +10748,11 @@ width "90col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -10626,7 +10808,7 @@ Ctrl-D
 Recording a Denemo Macro
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Recording-a-Denemo"
+name "subsec:Recording-a-Denemo"
 
 \end_inset
 
@@ -10699,7 +10881,7 @@ Or, suppose you wanted a command to delete the next note (there are commands
 
 \begin_layout Standard
 You can save the command in your default sequence of commands (via Edit->Customi
-ze Commands\SpecialChar \ldots{}
+ze Commands\SpecialChar ldots
 ->Manage Command Set->Save as Default Command Set).
  If not you will be asked if you want to save your new commands when you
  exit.
@@ -10719,6 +10901,11 @@ width "90col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -10900,7 +11087,7 @@ Commands Getting User Input
 \end_layout
 
 \begin_layout Standard
-All these commands are invoked from scheme as (d-Command args\SpecialChar \ldots{}
+All these commands are invoked from scheme as (d-Command args\SpecialChar ldots
 )
 \end_layout
 
@@ -11392,7 +11579,7 @@ GetPosition ;use result with (apply d-GoToPosition position)) to go to the
 \end_layout
 
 \begin_layout Subsection
-More \SpecialChar \ldots{}
+More \SpecialChar ldots
 
 \end_layout
 
@@ -11409,7 +11596,7 @@ This is a fairly comprehensive listing of Scheme commands that are built-in
 params
 \series default
 \emph default
- \SpecialChar \ldots{}
+ \SpecialChar ldots
 ), e.
 \begin_inset space \thinspace{}
 \end_inset
@@ -11774,7 +11961,7 @@ PutWholeMeasureRests.
 
 \begin_layout Itemize
 GetNote.
- Takes optional integer parameter n = 1 \SpecialChar \ldots{}
+ Takes optional integer parameter n = 1 \SpecialChar ldots
 , returns LilyPond representation
  of the nth note of the chord at the cursor counting from the lowest, or
  #f if none
@@ -11782,7 +11969,7 @@ GetNote.
 
 \begin_layout Itemize
 GetNoteFromTop.
- Takes optional integer parameter n = 1 \SpecialChar \ldots{}
+ Takes optional integer parameter n = 1 \SpecialChar ldots
 , returns LilyPond representation
  of the nth note of the chord at the cursor counting from the highest, or
  #f if none
@@ -11790,7 +11977,7 @@ GetNoteFromTop.
 
 \begin_layout Itemize
 GetNoteFromTopAsMidi.
- Takes optional integer parameter n = 1 \SpecialChar \ldots{}
+ Takes optional integer parameter n = 1 \SpecialChar ldots
 , returns MIDI key for the nth note
  of the chord at the cursor counting from the highest, or #f if none
 \end_layout
@@ -11844,7 +12031,7 @@ GetRecordedMidiTempo.
 
 \begin_layout Itemize
 GetImportedMidiTrack.
- Takes an track number 1,2 \SpecialChar \ldots{}
+ Takes an track number 1,2 \SpecialChar ldots
 , makes that MIDI track of the loaded MIDI stream
  the current recorded track.
 \end_layout
@@ -11913,7 +12100,7 @@ CursorToNote.
 
 \begin_layout Itemize
 CursorToNthNoteHeight.
- Takes a number 1 \SpecialChar \ldots{}
+ Takes a number 1 \SpecialChar ldots
  n.
  Moves the cursor to the nth note from the bottom of the chord at the cursor,
  returning #f if it fails.
@@ -11961,7 +12148,7 @@ GetPrevailingTimesigAsLilyPond.
 \begin_layout Itemize
 GetPrevailingDuration.
  Returns the prevailing duration, ie duration which will be used for the
- next inserted note, with a parameter 0 \SpecialChar \ldots{}
+ next inserted note, with a parameter 0 \SpecialChar ldots
  8 sets the prevailing duration.
 \end_layout
 
@@ -13268,7 +13455,7 @@ A MIDI file can be loaded into Denemo in order to convert it to music notation.
 (d-GetImportedMidiTrack n) gets the n'th MIDI track loads a MIDI track chosen
  by the user, using the Clef, Time signature and key signature of the current
  staff.
- The track is represented by \SpecialChar \ldots{}
+ The track is represented by \SpecialChar ldots
  the C routine compute_midi_note_durations()
  is called
 \end_layout
@@ -13278,7 +13465,7 @@ A MIDI file can be loaded into Denemo in order to convert it to music notation.
 \end_layout
 
 \begin_layout Subsection
-\SpecialChar \ldots{}
+\SpecialChar ldots
  and More
 \end_layout
 
@@ -13719,6 +13906,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -13749,7 +13941,7 @@ I don't see a section about the Chord Charts palette.
 \begin_layout Subsection
 \begin_inset CommandInset label
 LatexCommand label
-name "sub:Musical-Scores-that-Do-Things"
+name "subsec:Musical-Scores-that-Do-Things"
 
 \end_inset
 
@@ -13758,7 +13950,7 @@ Musical Scores that Do Things!
 
 \begin_layout Standard
 By saving a Denemo score with a script defined (in the script window) you
- can create music lessons, automatic midi player \SpecialChar \ldots{}
+ can create music lessons, automatic midi player \SpecialChar ldots
  the possibilities are
  endless.
  When you open such a score, the script is run – it can take user input
@@ -13794,7 +13986,7 @@ A denemo file called init.denemo is/was loaded, but this is deprecated.
 \begin_layout Standard
 In addition, on startup a set of keyboard and mouse shortcuts, and a selection
  of optional menu items are loaded.
- Other sets are available via the Edit->Customize Commands \SpecialChar \ldots{}
+ Other sets are available via the Edit->Customize Commands \SpecialChar ldots
 ->Manage Command
  Set dialog.
 \end_layout
@@ -14549,6 +14741,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -14619,6 +14816,10 @@ d-SetDirectiveTagActionScript tag scheme-actions.
 \begin_layout Itemize
 d-DirectiveGetForTag-field tag.
  Useful variables defined:
+\begin_inset Separator latexpar
+\end_inset
+
+
 \end_layout
 
 \begin_deeper
@@ -14846,6 +15047,11 @@ width "100col%"
 special "none"
 height "1in"
 height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
 status open
 
 \begin_layout Plain Layout
@@ -14989,7 +15195,10 @@ If you are not logged in as root user, for the last step type su and your
  root password, or alternately type sudo make install.
 \end_layout
 
-\begin_layout --Separator--
+\begin_layout Standard
+\begin_inset Separator parbreak
+\end_inset
+
 
 \end_layout
 
