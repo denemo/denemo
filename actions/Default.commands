@@ -8180,6 +8180,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Span Selection with Pair of Objects</_label>
         <_tooltip>If the selection comprises two objects - directives, clef changes, tuplet markers etc. -  it cuts them to the clipboard. Subsequent invocations of the command with music selected places the two objects before and after the music.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>TwoNoteTremolo</action>
+        <after>TremoloUpward</after>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <_label>Two Note (or Chord) Tremolo</_label>
+        <_tooltip>Takes the selected two notes or chords and repeats them to make up the duration of a longer note. This will then be typeset using the tremolo notation (beaming placed between notes), while the Denemo Display will show and sound the repetitions.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

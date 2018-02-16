@@ -1790,6 +1790,8 @@ actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.xml
 actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm
 actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml
+actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.scm
+actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.xml
 actions/menus/ObjectMenu/Score/CheckScore.scm
 actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm
 actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml
