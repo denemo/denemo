@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <action>MarkupSystemSpacingDist</action>
-        <_label>Markup to System Spacing</_label>
+        <_label>Titling Markup to System Spacing</_label>
         <_tooltip>Sets the basic distance between a (title or top-level) markup and the system that follows it.</_tooltip>
       </row>
     </map>
