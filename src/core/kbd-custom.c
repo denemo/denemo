@@ -692,7 +692,7 @@ keymap_get_command_row (keymap * the_keymap, command_row ** row, guint command_i
     }
 
   if(g_hash_table_lookup (the_keymap->commands, &command_id) == NULL){
-    g_debug("Command not found");
+    g_debug("Command id %u not found", command_id);
     return FALSE;
   }
 
