@@ -524,9 +524,10 @@ run_lilypond (gchar ** arguments)
                                                                NULL,    /* stdout */
                                                                NULL, /* stderr */
                                                                &lily_err);
+
   if (lily_err)
     {
-      g_critical ("Error launching lilypond! Message is %s", lily_err->message);
+      g_critical ("Error launching lilypond %s in directory %s! Message is %s", arguments[0], locateprintdir (), lily_err->message);
       g_string_printf (Denemo.input_filters, "%s%s%s", "<span font_desc=\"24\" foreground=\"red\">", _("Error: see LilyPond window"), "</span>");
       gtk_widget_show (Denemo.input_label);
       write_input_status ();
