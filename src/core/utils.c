@@ -194,10 +194,10 @@ make_temp_dir (gboolean removal)
 #ifdef G_OS_WIN32
           // Windows does not delete the temporary directory, use a constant one.
           if (!g_mkdir_with_parents (newdir, 0700))
-            g_warning ("Creation of temp dir failed\n");
+            g_warning ("Creation of temp dir %s failed\n", newdir);
 #else
           if (!g_mkdtemp (newdir))
-            g_warning ("Creation of temp dir failed\n");
+            g_warning ("Creation of temp dir %s failed\n", newdir);
 #endif
           tmpdir = newdir;
         }
