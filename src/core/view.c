@@ -2583,8 +2583,17 @@ loadGraphicFromFormat (gchar * basename, gchar * name, DenemoGraphic ** xbm)
             }
 
           rsvg_handle_get_dimensions (handle, &thesize);
+          gboolean emmentaler = FALSE;
+          if (thesize.width == 1000)
+            emmentaler = TRUE;
           surface = cairo_svg_surface_create_for_stream (NULL, NULL, (double) (thesize.width), (double) (thesize.height));
           cairo_t *cr = cairo_create (surface);
+          
+          if (emmentaler) //tFIXME this hack identifies svgs that were extracted from the emmentaler font some years ago and which no longer load at the correct scale/location, presumably because of changes to librsvg/cairo. It results in fuzzy glyphs.
+            {
+              cairo_translate (cr, (double) (thesize.width)/2 -10,(double) (thesize.height)/2); //g_print ("%f %f tramslate\n",(double) (thesize.width)/2,(double) (thesize.height)/2);
+              cairo_scale (cr, 33.3/(double) (thesize.width)    , -33.3/(double) (thesize.height));
+            }
           rsvg_handle_render_cairo (handle, cr);
           rsvg_handle_close (handle, NULL);
           g_object_unref (handle);
