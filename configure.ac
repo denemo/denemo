@@ -34,6 +34,29 @@ GUILE_FLAGS
 
 AC_PROG_LIBTOOL
 
+dnl Options for configuration
+build_debug=no
+AC_ARG_ENABLE(
+  debug,
+  AS_HELP_STRING([--enable-debug], [enable debug code @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      build_debug=yes
+      CFLAGS="-O0 -DDEBUG -g -Wall -Wextra -Wno-deprecated-declarations -Wno-sign-compare"
+      CXXFLAGS="-O0 -DDEBUG -g -Wall -Wextra -Wno-deprecated-declarations -Wno-sign-compare"
+    fi
+  ])
+
+AC_ARG_ENABLE(
+  warnings,
+  AS_HELP_STRING([--disable-warnings], [use warnings @<:@default=no@:>@]),
+  [
+    if test "x$enableval" = "xno"; then
+      CFLAGS="$CFLAGS -w"
+      CXXFLAGS="$CXXFLAGS -w"
+    fi
+  ])
+
 dnl Enable color if available
 AS_COMPILER_FLAG([-fdiagnostics-color=auto],
                  [CFLAGS="$CFLAGS -fdiagnostics-color=auto"])
@@ -342,29 +365,6 @@ if test "x$useportmidi" = "xyes"; then
   CFLAGS="$CFLAGS $PORTMIDI_CFLAGS"
   LIBS="$LIBS $PORTMIDI_LIBS"
 fi
-
-dnl Options for configuration
-build_debug=no
-AC_ARG_ENABLE(
-  debug,
-  AS_HELP_STRING([--enable-debug], [enable debug code @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      build_debug=yes
-      CFLAGS="$CFLAGS -DDEBUG -g -Wall -Wextra -Wno-deprecated-declarations -Wno-sign-compare"
-      CXXFLAGS="$CXXFLAGS -DDEBUG -g -Wall -Wextra -Wno-deprecated-declarations -Wno-sign-compare"
-    fi
-  ])
-
-AC_ARG_ENABLE(
-  warnings,
-  AS_HELP_STRING([--disable-warnings], [use warnings @<:@default=no@:>@]),
-  [
-    if test "x$enableval" = "xno"; then
-      CFLAGS="$CFLAGS -w"
-      CXXFLAGS="$CXXFLAGS -w"
-    fi
-  ])
 
 AC_ARG_ENABLE(
   x11,
