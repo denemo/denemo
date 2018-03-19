@@ -36,7 +36,9 @@
     (set! x-offset (assq-ref data 'x-offset))
     (set! y-offset (assq-ref data 'y-offset))
     (if (equal? params "edit")
-        (set! modal "modal"))
+        (set! modal "modal")
+        (if (string? params)
+        	(begin (set! display-text #f)(set! text params))))
     (if (list? params)
         (begin
             (if  (assq-ref params 'dimensions)
