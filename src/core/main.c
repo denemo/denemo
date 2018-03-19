@@ -447,20 +447,6 @@ main (int argc, char *argv[])
 
   files = process_command_line (argc, argv, gtk_status);
 
-#ifdef G_OS_WIN32
-gint num_paths;
-GtkIconTheme *theme = gtk_icon_theme_get_default ();
-gtk_icon_theme_get_search_path (theme, NULL, &num_paths);
-if(num_paths)
-  {
-    gchar **paths = (gchar**)g_malloc (sizeof(gchar*) * num_paths);
-    gtk_icon_theme_get_search_path (theme, &paths, &num_paths);
-    for (;num_paths; num_paths--)
-      g_print ("Icon theme path %s\n", paths[num_paths - 1]);
-  }
- else 
-  g_warning ("No default path to icons");
-#endif
 
   /* initialization of directory relocatability */
   initdir ();
