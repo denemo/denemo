@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AllowBreakAtHalfBar</action>
+        <after>BlankPage</after>
+        <_label>Allow Breaks at Half Measure</_label>
+        <_tooltip>Inserts a non-printing barline half-way through each bar from the cursor position onwards, which allows the typesetter to choose a line or page break at those places.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

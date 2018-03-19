@@ -8187,6 +8187,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Two Note (or Chord) Tremolo</_label>
         <_tooltip>Takes the selected two notes or chords and repeats them to make up the duration of a longer note. This will then be typeset using the tremolo notation (beaming placed between notes), while the Denemo Display will show and sound the repetitions.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AllowBreakAtHalfBar</action>
+        <after>BlankPage</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Allow Breaks at Half Measure</_label>
+        <_tooltip>Inserts a non-printing barline half-way through each bar from the cursor position onwards, which allows the typesetter to choose a line or page break at those places.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
