@@ -34,13 +34,6 @@ print-all-headers = ##t
     <first-obj>0</first-obj>
     <last-obj>2147483647</last-obj>
   </thumbnail>
-  <sourcefile>
-    <x>1921</x>
-    <y>0</y>
-    <width>960</width>
-    <height>991</height>
-    <scale>1524</scale>
-  </sourcefile>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>20</fontsize>
