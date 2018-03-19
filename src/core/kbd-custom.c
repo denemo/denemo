@@ -146,14 +146,16 @@ dnm_clean_event (GdkEventKey * event)
   if (!Denemo.prefs.strictshortcuts)
     {
       guint ret;
-      //g_debug("Called %s\n", gdk_keyval_name(event->keyval));
+      g_debug("Called %s\n", gdk_keyval_name(event->keyval));
       gdk_keymap_translate_keyboard_state (gdk_keymap_get_default (), event->hardware_keycode, GDK_MOD2_MASK /*NumLock forcing numeric keypad to give numbers */ ,
                                            0 /*group 0 */ , &ret, NULL, NULL, NULL);
       if (ret >= 'A' && ret <= 'G')
         ret += ('a' - 'A');
+#ifdef G_OS_WIN32
+      if (ret >= 'A' && ret <= 'G')
+#endif
       event->keyval = ret;
-
-      //g_debug("Changed to %s\n", gdk_keyval_name(event->keyval));
+      g_debug("Changed to %s\n", gdk_keyval_name(event->keyval));
     }
 }
 
