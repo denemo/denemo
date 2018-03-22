@@ -3116,6 +3116,13 @@ KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
 {
   if (str != NULL)
     {
+      str = g_strdup_printf ("%s", str);
+      gchar *c;
+      for (c=str;*c;c++)
+        {
+          if (*c=='<' || *c=='>')
+            *c = '_';
+        }
       gchar *text;
       if (command_idx != DENEMO_NO_COMMAND)
         {
