@@ -37,7 +37,9 @@ vibrato = #(define-music-function (parser location amplitudes wavelength thickne
 
 % Returns the width of a grob
 #(define (grob-width grob)
-  (- (cdr (ly:grob-property grob  'X-extent)) (car (ly:grob-property grob 'X-extent))))
+  (if (inf? (cdr (ly:grob-property grob  'X-extent)))
+    0
+    (- (cdr (ly:grob-property grob  'X-extent)) (car (ly:grob-property grob 'X-extent)))))
 
 % Returns the number of ems already traversed by the grob's siblings in previous systems
 #(define (width-up-to grob siblings count)
