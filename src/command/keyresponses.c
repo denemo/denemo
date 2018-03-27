@@ -306,6 +306,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
+  g_print ("Scorearea key press event: keyval %d (%s), state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->hardware_keycode, event->group, event->is_modifier);
       if(!Denemo.keyboard_state_locked)
           {
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
