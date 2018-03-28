@@ -145,18 +145,20 @@ dnm_clean_event (GdkEventKey * event)
 {
   if (!Denemo.prefs.strictshortcuts)
     {
-      guint ret;
+      guint ret = event->keyval;
+#ifdef G_OS_WIN32
+      if (!(ret >= 'a' && ret <= 'g'))
+#endif
+    {
       g_print("dnm_clean_event hardware keycode = %d,  %s\n", event->hardware_keycode, gdk_keyval_name(event->keyval));
       gdk_keymap_translate_keyboard_state (gdk_keymap_get_default (), event->hardware_keycode, GDK_MOD2_MASK /*NumLock forcing numeric keypad to give numbers */ ,
                                            0 /*group 0 */ , &ret, NULL, NULL, NULL);
       if (ret >= 'A' && ret <= 'G')
         ret += ('a' - 'A');
-#ifdef G_OS_WIN32
-      if (ret >= 'a' && ret <= 'g')
-#endif
       event->keyval = ret;
     }
-    g_print("Key val is %s\n", gdk_keyval_name(event->keyval));
+  }
+  g_print("Key val is %s\n", gdk_keyval_name(event->keyval));
 }
 
 
