@@ -147,7 +147,7 @@ dnm_clean_event (GdkEventKey * event)
     {
       guint ret = event->keyval;
 #ifdef G_OS_WIN32
-      if (!((ret >= 'a' && ret <= 'g') || ((ret>- '0') && (ret <= '9'))))
+      if (!((ret >= 'a' && ret <= 'g') || ((ret>= '0') && (ret <= '9'))))
 #endif
     {
       //g_print("dnm_clean_event hardware keycode = %d,  %s\n", event->hardware_keycode, gdk_keyval_name(event->keyval));
