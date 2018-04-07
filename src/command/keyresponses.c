@@ -260,7 +260,6 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
   else
     {                           //no prefix stored
       gchar *name = dnm_accelerator_name (event->keyval, event->state); //FIXME free name
-      g_print ("Called dnm_acc-name with event->state %x\n", event->state);
 
       if ((Denemo.continuations = (GList *) g_hash_table_lookup (Denemo.map->continuations_table, name)))
         {
@@ -306,7 +305,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
-  g_print ("Scorearea key press event: keyval %d (%s), state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->hardware_keycode, event->group, event->is_modifier);
+  //g_print ("Scorearea key press event: keyval %d (%s), state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->hardware_keycode, event->group, event->is_modifier);
       if(!Denemo.keyboard_state_locked)
           {
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
