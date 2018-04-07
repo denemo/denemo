@@ -1284,7 +1284,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                     for (; g; g = g->next, num++)
                       {
                         DenemoDirective *directive = (DenemoDirective *) g->data;
-                        if (directive->prefix && (!(directive->override & DENEMO_ALT_OVERRIDE)) && !wrong_layout (directive, sbid))
+                        if (directive->prefix && (!(directive->override & DENEMO_ALT_OVERRIDE)) && (!(directive->override & DENEMO_OVERRIDE_AFFIX)) && !wrong_layout (directive, sbid))
                           {
                             prevduration = -1;
                             insert_editable (&directive->prefix, directive->prefix->len ? directive->prefix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
@@ -1327,6 +1327,26 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         else
                           for (k = enshift; k; k--)
                             g_string_append_printf (ret, "is");
+                            
+                            
+                        NAVANC (TARGET_NOTE, mid_c_offset);     //we target the note
+                        outputret;
+                        //note directives with DENEMO_OVERRIDE_AFFIX set come before octave indication (e.g. to supply special accidental names 
+                        g = curnote->directives;
+                        if (!g && notenode->next)
+                          output (" ");
+                        for (num = 0; g; g = g->next, num++)
+                          {
+                            DenemoDirective *directive = (DenemoDirective *) g->data;
+                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (directive->override & DENEMO_OVERRIDE_AFFIX) && !wrong_layout (directive, sbid))
+                              {
+                                insert_editable (&directive->postfix, directive->postfix->len ? directive->postfix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
+                                prevduration = -1;
+                              }
+                            else if (notenode->next)
+                              output (" ");
+                          }     //for directives                            
+
                         octave = mid_c_offsettooctave (mid_c_offset);
                         if (octave < 0)
                           for (; octave; octave++)
@@ -1342,7 +1362,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                         for (num = 0; g; g = g->next, num++)
                           {
                             DenemoDirective *directive = (DenemoDirective *) g->data;
-                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (!(directive->override & DENEMO_ALT_OVERRIDE)) && !wrong_layout (directive, sbid))
+                            if (directive->postfix && !(directive->override & DENEMO_OVERRIDE_HIDDEN) && (!(directive->override & DENEMO_OVERRIDE_AFFIX)) && !wrong_layout (directive, sbid))
                               {
                                 insert_editable (&directive->postfix, directive->postfix->len ? directive->postfix->str : " ", iter, gui, lily_for_obj, TARGET_NOTE, movement_count, measurenum, voice_count, objnum, num, curnote->mid_c_offset);
                                 prevduration = -1;
