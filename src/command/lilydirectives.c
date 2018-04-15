@@ -2753,7 +2753,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   label = gtk_label_new (_(thelabel));\
   gtk_misc_set_alignment (GTK_MISC (label), 1, 0.5);\
   gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, FALSE, 0);\
-  entrywidget = gtk_spin_button_new_with_range (0.0, (gdouble)G_MAXUINT, 1.0);\
+  entrywidget = gtk_spin_button_new_with_range (-(gdouble)G_MAXINT, (gdouble)G_MAXINT, 1.0);\
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (entrywidget), directive->field);\
   gtk_box_pack_start (GTK_BOX (hbox), entrywidget, TRUE, TRUE, 0);\
   g_signal_connect(G_OBJECT(entrywidget), "value-changed", G_CALLBACK(set_int), &directive->field);
@@ -2794,12 +2794,10 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   ADDINTENTRY (_("Graphic Position"), gx, gy);
   TEXTENTRY (_("Tag"), tag);
   TEXTENTRY (_("LilyPond Grob Name"), grob);
-    TEXTENTRY (_("Scheme Data"), data);
+  TEXTENTRY (_("Scheme Data"), data);
   TEXTENTRY (_("MidiBytes"), midibytes);
-  NEWINTENTRY (_("Override Mask"), override);
-  NEWINTENTRY (_("Minimum pixel width"), minpixels);
- // NEWUINTENTRY (_("Only Applies to Layout"), allowed); a new display for allowed and layouts fields needed...
- // NEWUINTENTRY (_("Ignored by Layout"), layouts);
+  NEWUINTENTRY (_("Override Mask"), override);
+  NEWINTENTRY (_("Horizontal Display Space"), minpixels);
 #undef TEXTENTRY
 
   if (directive->layouts == NULL)
@@ -2914,6 +2912,16 @@ if(directive->field && directive->field->len==0) g_string_free(directive->field,
   gtk_widget_destroy (dialog);
   if (what && (response == CREATE_SCRIPT))
     create_script (directive, what);    //g_debug("(d-DirectivePut-%s \"%s\")\n", what, directive->tag->str);
+  if (what && strcmp(what, "note"))
+      directive->minpixels = abs(directive->minpixels);// negative values for note directives specify the space is to be before the note
+  {
+    GList *curObj = Denemo.project->movement->currentobject;
+    if (curObj && (DenemoObject *) curObj->data)
+      setpixelmin ((DenemoObject *) curObj->data);
+  }
+ 
+  find_xes_in_all_measures (Denemo.project->movement);
+
   return ret;
 }
 gboolean low_level_directive_edit (DenemoDirective *directive)
