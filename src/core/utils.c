@@ -914,6 +914,7 @@ setpixelmin (DenemoObject * theobj)
       if (headtype < 0)
         headtype = 0;           //-ve values of baseduration are for specials
       gint directive_pixels = 0;        // the largest amount of extra space asked for by any directive
+      gint directive_space_before = 0; // space requested before note directives e.g. for accidentals
       GList *g = chordval.directives;
       for (; g; g = g->next)
         directive_pixels = MAX (directive_pixels, ((DenemoDirective *) g->data)->minpixels);
@@ -928,16 +929,17 @@ setpixelmin (DenemoObject * theobj)
             {
               GList *h = ((note *) g->data)->directives;
               for (; h; h = h->next)
-                directive_pixels = MAX (directive_pixels, ((DenemoDirective *) h->data)->minpixels);
+                if (((DenemoDirective *) h->data)->minpixels < 0)
+                  directive_space_before -= ((DenemoDirective *) h->data)->minpixels;
+                else
+                  directive_pixels = MAX (directive_pixels, ((DenemoDirective *) h->data)->minpixels);
             }
         }
       else                      /* a rest */
         theobj->minpixelsalloted = restwidths[baseduration];
 
-      // Allow extra space specified by attached LilyPond directives - example:
+      // Allow extra space specified by attached LilyPond directives
       theobj->minpixelsalloted += directive_pixels;
-
-
 
       /* 12 pixels for the first dot, 6 for each dot thereafter */
       if (chordval.numdots)
@@ -946,6 +948,7 @@ setpixelmin (DenemoObject * theobj)
         theobj->minpixelsalloted += 6;
 
       theobj->space_before = 0;
+      
       if (chordval.hasanacc)
         for (tnode = chordval.notes; tnode; tnode = tnode->next)
           {
@@ -953,6 +956,9 @@ setpixelmin (DenemoObject * theobj)
             if (thetone->showaccidental)
               theobj->space_before = MAX (theobj->space_before, thetone->position_of_accidental);
           }
+
+      theobj->space_before += directive_space_before;     
+          
       if (chordval.is_reversealigned)
         {
           if (chordval.is_stemup)
