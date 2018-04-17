@@ -337,9 +337,9 @@ static gboolean run_preview (GtkWidget *textbuffer)
             gtk_text_buffer_get_start_iter (GTK_TEXT_BUFFER(textbuffer), &startiter);
             gtk_text_buffer_get_end_iter (GTK_TEXT_BUFFER(textbuffer), &enditer);
             gchar *text = gtk_text_buffer_get_text (GTK_TEXT_BUFFER(textbuffer), &startiter, &enditer, FALSE);
-            
+#ifdef _USE_EVINCE_            
             pause_continuous_typesetting ();
-
+#endif
             preview_text (text);
     }
     return TRUE; //continuous timer
