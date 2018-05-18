@@ -86,6 +86,12 @@ change_input_type (GtkCheckMenuItem * item, gint val)
           //g_debug("Stopping audio\n");
           stop_pitch_input ();
         }
+      if (project->input_source == INPUTMIDI)
+        {
+          g_print("Stopping midi\n");
+          Denemo.keyboard_state = GDK_SHIFT_MASK;
+          Denemo.keyboard_state_locked = TRUE;
+        }
       project->input_source = INPUTKEYBOARD;
       Denemo.project->last_source = INPUTKEYBOARD;
       g_print ("Input keyboard %d", Denemo.project->last_source);
@@ -111,6 +117,8 @@ change_input_type (GtkCheckMenuItem * item, gint val)
     case INPUTMIDI:
       if (have_midi ())
         {
+            Denemo.keyboard_state = 0;
+            Denemo.keyboard_state_locked = FALSE;
             project->input_source = INPUTMIDI;
             infodialog (_("Rhythms will be entered as (brown) notes without pitch"));
         }
