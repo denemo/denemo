@@ -2,7 +2,7 @@
   (if (d-IsSlurStart)
     (begin 
     	(d-SetSaved #f)	
-	(d-ToggleStartSlur)
+	(d-ToggleBeginSlur)
 	(if (d-NextChord)
 		(if (d-IsSlurEnd)
 			(d-ToggleEndSlur)
