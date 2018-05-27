@@ -1677,6 +1677,8 @@ actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/ExtendSlur.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/ExtendSlur.xml
+actions/menus/ObjectMenu/NotesRests/Slurs/LaterSlurStart.scm
+actions/menus/ObjectMenu/NotesRests/Slurs/LaterSlurStart.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/ReduceSlur.scm

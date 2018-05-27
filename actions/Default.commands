@@ -8194,6 +8194,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Allow Breaks at Half Measure</_label>
         <_tooltip>Inserts a non-printing barline half-way through each bar from the cursor position onwards, which allows the typesetter to choose a line or page break at those places.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>LaterSlurStart</action>
+        <after>ReduceSlur</after>
+        <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
+        <_label>Shorten Slur from Start</_label>
+        <_tooltip>Moves the Slur start from the note at the cursor to the following note.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
