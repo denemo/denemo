@@ -8201,6 +8201,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Shorten Slur from Start</_label>
         <_tooltip>Moves the Slur start from the note at the cursor to the following note.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>GenerateMusicSignatureSearchScript</action>
+        <after>ScoreComment</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Search for Similar Scores</_label>
+        <_tooltip>Creates a script file "denemo_search.sh" which when executed searches all the scores below the current folder for ones starting with the same intervals as this score. Use to seek out a lost score in your collection by entering the first few notes of the lost score and invoking this command and then finally executing the denemo_search.sh script at the command line.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

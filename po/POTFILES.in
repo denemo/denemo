@@ -206,6 +206,7 @@ src/ui/tupletdialog.c
 src/ui/virtualkeyboard.c
 src/ui/virtualkeyboard.h
 actions/Arranger.scm
+actions/checkMusicSignature.scm
 actions/Composer.scm
 actions/Default.scm
 actions/denemo-modules/abstractionmovement.scm
@@ -1802,6 +1803,8 @@ actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml
 actions/menus/ObjectMenu/Score/CheckScore.xml
 actions/menus/ObjectMenu/Score/EditProlog.scm
 actions/menus/ObjectMenu/Score/EditProlog.xml
+actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.scm
+actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.xml
 actions/menus/ObjectMenu/Score/LilyPondDefinition.scm
 actions/menus/ObjectMenu/Score/LilyPondDefinition.xml
 actions/menus/ObjectMenu/Score/LilyPondInclude.scm
