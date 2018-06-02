@@ -379,17 +379,10 @@ load_local_scheme_init (void)
 void
 denemo_scheme_init (void)
 {
-  gchar *initscheme = Denemo.scheme_file;
+
   if (!Denemo.non_interactive)
     Denemo.project->movement->undo_guard++;
-
-  if (initscheme)
-    {
-      if (g_file_test (initscheme, G_FILE_TEST_EXISTS))
-        eval_file_with_catch (initscheme);      //scm_c_primitive_load(initscheme);
-      else
-        g_warning ("Cannot find your scheme initialization file %s", initscheme);
-    }
+  
 
   if (Denemo.prefs.profile->len)
     {
@@ -649,8 +642,24 @@ inner_main (void *files)
 
     readHistory ();
 
-    gboolean file_loaded = load_files (files);
+ 
 
+    gboolean file_loaded = load_files (files);
+    
+    if (Denemo.scheme_commands) //do any command line scheme after loading files and before running any scheme script file specified on the command line
+    {
+      g_print ("Executing '%s'\n", Denemo.scheme_commands);
+      call_out_to_guile (Denemo.scheme_commands);
+    }
+
+    gchar *initscheme = Denemo.scheme_file;
+    if (initscheme)
+    {
+      if (g_file_test (initscheme, G_FILE_TEST_EXISTS))
+        eval_file_with_catch (initscheme);      //scm_c_primitive_load(initscheme);
+      else
+        g_warning ("Cannot find your scheme initialization file %s", initscheme);
+    }
     if (!file_loaded && !Denemo.scheme_commands)
       {
         gchar *code = g_strdup_printf ("(d-InstrumentName \"%s\")", _("Unnamed"));
@@ -671,7 +680,7 @@ inner_main (void *files)
       score_status (Denemo.project, FALSE);
       if (Denemo.scheme_commands)
         {
-          g_debug ("Executing '%s'", Denemo.scheme_commands);
+          g_debug ("(interactive) Executing '%s'", Denemo.scheme_commands);
           call_out_to_guile (Denemo.scheme_commands);
         }
       else
@@ -692,12 +701,6 @@ inner_main (void *files)
 
       gtk_main ();
     }
-  else if (Denemo.scheme_commands)
-    {
-      g_debug ("Executing '%s'", Denemo.scheme_commands);
-      call_out_to_guile (Denemo.scheme_commands);
-    }
-
   return NULL;
 }
 
@@ -892,6 +895,8 @@ closewrapper (DenemoAction * action, DenemoScriptParam * param)
             break;
         }
     }
+  else
+    exit(0);
 }
 
 /**
