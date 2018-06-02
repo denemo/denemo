@@ -595,6 +595,7 @@ inner_main (void *files)
   init_lilypond_buffer ();
   initialize_print_status ();
   //project Initializations
+  if (!Denemo.non_interactive)
   if (audio_initialize (&Denemo.prefs))
     g_error ("Failed to initialize audio or MIDI backends");
 
@@ -635,12 +636,12 @@ inner_main (void *files)
     init_keymap ();
 
     define_scheme_constants ();
-
-    load_default_keymap_file ();
+    
+    load_default_keymap_file (); //loads scripted commands and their shortcuts
 
     load_scheme_init ();
-
-    readHistory ();
+    if(!Denemo.non_interactive)
+      readHistory ();
 
  
 

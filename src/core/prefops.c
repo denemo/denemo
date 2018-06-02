@@ -170,7 +170,7 @@ initprefs ()
   /* Read values from personal preferences file */
 
   //readpreffile (localrc, ret);
-  if (localrc)
+ if (!Denemo.non_interactive)  if (localrc)
     {
       if (g_file_test (localrc, G_FILE_TEST_EXISTS))
         readxmlprefsFile (localrc);
@@ -180,7 +180,7 @@ initprefs ()
   g_free (localrc);
 
 
-  if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
+ if (!Denemo.non_interactive)  if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
     set_default_lilypond_path ();
     //FIXME if ret->lilypath still does not exist prepare to issue warning to user once the GUI is available.
 #undef ret

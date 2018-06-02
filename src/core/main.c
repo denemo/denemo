@@ -447,19 +447,16 @@ main (int argc, char *argv[])
 
   files = process_command_line (argc, argv, gtk_status);
 
-
   /* initialization of directory relocatability */
   initdir ();
-
-  check_if_upgrade();
+  if (!Denemo.non_interactive)
+    check_if_upgrade();
+    
   init_environment();
-
 
   localization_init();
 
-  //register_stock_items ();
   scm_with_guile (inner_main, files);
-
 
   return 0;
 }
