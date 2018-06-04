@@ -2,7 +2,7 @@
 (d-GoToPosition 1 1 1 1)
 (let ((current (d-GetNoteFromTopAsMidi))
         (port (open-file "denemo_search.sh" "w"))
-        (steps "find . -name \"*.denemo\" -exec denemo -a \"(define DenemoMusicSignature '(")
+        (steps "find . -name \"*.denemo*\" -exec denemo -a \"(define DenemoMusicSignature '(")
         (count (string->number (d-GetUserInput "Create Music Signature" "Give number of notes to match: " "5")))
         (test #f)
         (next #f))
