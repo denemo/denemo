@@ -338,6 +338,7 @@ define_scheme_constants (void)
   DEF_SCHEME_CONST ("VERSION_MICRO", micro);
 
   DEF_SCHEME_STR ("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
+  DEF_SCHEME_STR ("DENEMO_BIN_DIR", get_system_bin_dir (), "Holds location of denemo executable directory");
   DEF_SCHEME_STR ("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
   DEF_SCHEME_STR ("DENEMO_TEMPLATES_DIR", templates_dir, "Holds location of system-wide Denemo templates directory");
   DEF_SCHEME_STR ("DENEMO_INSTRUMENTS_DIR", instruments_dir, "Holds location of system-wide Denemo instrument templates directory");
@@ -863,6 +864,9 @@ free_movements (DenemoProject * project)
 void
 closewrapper (DenemoAction * action, DenemoScriptParam * param)
 {
+  gint ret = 0;
+  if(param)
+    ret = atoi (param->string->str);
   if (!Denemo.non_interactive)
     {
       GList *display;
@@ -897,7 +901,7 @@ closewrapper (DenemoAction * action, DenemoScriptParam * param)
         }
     }
   else
-    exit(0);
+    exit(ret);
 }
 
 /**
