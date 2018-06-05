@@ -11,11 +11,12 @@
         (d-CriticalCommentary))
 
     (while (d-PreviousMovement))
-    
+    (d-InfoDialog "Checking Score - Please wait\nThe display will be strange while checking is done!")
     (let movement ()
       (d-EvenOutStaffLengths)
       (while (d-MoveToStaffUp))   
       (let staff ()
+        (d-KeepAlive)
         (d-FixSlursInStaff)     
         (d-CheckTiesInStaff 'noninteractive)
         (if CheckTiesInStaff::return
