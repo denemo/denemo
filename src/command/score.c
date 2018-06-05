@@ -344,7 +344,8 @@ goto_movement_staff_obj (DenemoProject * possible_gui, gint movementnum, gint st
             warningdialog (_("No such movement"));
           return FALSE;
         }
-      panic_all (); //g_print ("Reset synth\n");
+      if (possible_gui)
+        panic_all (); //g_print ("Reset synth\n");
       if(!Denemo.non_interactive)
         {
         gtk_widget_hide (gui->movement->buttonbox);
@@ -958,6 +959,7 @@ deletescore (GtkWidget * widget, DenemoProject * gui)
     g_signal_emit_by_name (G_OBJECT (Denemo.vadjustment), "changed");
     force_lily_refresh (gui);
   }
-  panic_all (); //g_print ("Reset synth after deletescore()\n");
+  if(!Denemo.non_interactive)
+    panic_all (); //g_print ("Reset synth after deletescore()\n");
 }
 

@@ -472,8 +472,9 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
 #else
     rewind_audio ();
 #endif
+  if(!Denemo.non_interactive)
     panic_all ();// g_print ("Reset synth in file open\n");
-    gui->movement->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
+  gui->movement->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   }
   //look for a link to a source file at the start of the score, open it if there is one
   if ((result==0) && (type != ADD_STAFFS) && (type != ADD_MOVEMENTS) && Denemo.project->movement && Denemo.project->movement->thescore)
