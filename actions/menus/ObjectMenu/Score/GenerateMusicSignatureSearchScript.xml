@@ -8,7 +8,7 @@
         <action>GenerateMusicSignatureSearchScript</action>
         <after>ScoreComment</after>
         <_label>Search for Similar Scores</_label>
-        <_tooltip>Creates a script file "denemo_search.sh" which when executed searches all the scores below the current folder for ones starting with the same intervals as this score. Use to seek out a lost score in your collection by entering the first few notes of the lost score and invoking this command and then finally executing the denemo_search.sh script at the command line.</_tooltip>
+        <_tooltip>Creates a music signature from the opening intervals of the current score then searches all the scores below a given folder for one starting with the same intervals as this score. Any score found is opened in a new tab. Use to seek out a lost score in your collection by entering the first few notes of the lost score and invoking this command.</_tooltip>
       </row>
     </map>
   </merge>
