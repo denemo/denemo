@@ -154,6 +154,7 @@ gboolean choose_option (gchar * title, gchar * primary, gchar * secondary);
 gint choose_option_or_cancel (gchar * title, gchar * primary, gchar * secondary, gboolean cancel_button);
 void nullify_gstring (GString ** s);
 gchar *choose_file (gchar * title, gchar * startdir, GList * extensions);
+gchar *choose_directory (gchar * title, gchar * startdir, GList * extensions);
 gchar *string_dialog_entry (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value);
 gchar *notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gchar *meaning);
 gchar *string_dialog_entry_with_widget (DenemoProject * gui, gchar * title, gchar * instruction, gchar * initial_value, GtkWidget * extra_widget);

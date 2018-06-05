@@ -1395,8 +1395,8 @@ scheme_file_exists (SCM filepath)
   return ret;
 }
 
-SCM
-scheme_choose_file (SCM title, SCM startdir, SCM list)
+static SCM
+scheme_choose_file_or_directory (SCM title, SCM startdir, SCM list, gboolean dir)
 {
   gchar *thetitle = g_strdup (_("Choose File"));
   gchar *thedir = get_project_dir ();
@@ -1431,7 +1431,10 @@ scheme_choose_file (SCM title, SCM startdir, SCM list)
             }
         }
     }
-  filename = choose_file (thetitle, thedir, exts);
+  if(dir)
+   filename = choose_directory (thetitle, thedir, exts);
+  else
+   filename = choose_file (thetitle, thedir, exts);
   g_free (thetitle);
   g_free (thedir);
   g_list_free_full (exts, g_free);
@@ -1441,6 +1444,16 @@ scheme_choose_file (SCM title, SCM startdir, SCM list)
   return ret;
 }
 
+SCM
+scheme_choose_file (SCM title, SCM startdir, SCM list)
+{
+    return scheme_choose_file_or_directory(title, startdir, list, FALSE);
+}
+SCM
+scheme_choose_directory (SCM title, SCM startdir, SCM list)
+{
+    return scheme_choose_file_or_directory(title, startdir, list, TRUE);
+}
 SCM
 scheme_edit_graphics (SCM name, SCM newname)
 {
@@ -6674,6 +6687,14 @@ scheme_refresh_display (SCM optional)
 {
   displayhelper (Denemo.project);
   //done in displayhelper write_status(Denemo.project);
+  return SCM_BOOL (TRUE);
+}
+
+SCM
+scheme_keep_alive (SCM optional)
+{
+ while (gtk_events_pending ())
+  gtk_main_iteration ();
   return SCM_BOOL (TRUE);
 }
 

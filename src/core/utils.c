@@ -2477,23 +2477,27 @@ nullify_gstring (GString ** s)
   *s = NULL;
 }
 
-/* dialog to get a filename from the user
- */
-gchar *
-choose_file (gchar * title, gchar * startdir, GList * extensions)
+
+static gchar *
+choose_file_or_directory (gchar * title, gchar * startdir, GList * extensions, gboolean dir)
 {
   GtkWidget *dialog;
   gchar *filename = NULL;
   dialog = gtk_file_chooser_dialog_new (title, NULL, GTK_FILE_CHOOSER_ACTION_OPEN, _("_Cancel"), GTK_RESPONSE_CANCEL, _("_Open"), GTK_RESPONSE_ACCEPT, NULL);
-  GtkFileFilter *filter = gtk_file_filter_new ();
-  GString *filter_description = g_string_new ("");
-  for (extensions; extensions; extensions = extensions->next)
+  if(dir)
+    gtk_file_chooser_set_action (GTK_FILE_CHOOSER(dialog), GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER);
+  if (extensions)
     {
-      gtk_file_filter_add_pattern (filter, (gchar *) extensions->data);
-      g_string_append_printf (filter_description, "%s ", (gchar *) extensions->data);
+      GtkFileFilter *filter = gtk_file_filter_new ();
+      GString *filter_description = g_string_new ("");
+      for (extensions; extensions; extensions = extensions->next)
+        {
+          gtk_file_filter_add_pattern (filter, (gchar *) extensions->data);
+          g_string_append_printf (filter_description, "%s ", (gchar *) extensions->data);
+        }
+      gtk_file_filter_set_name (filter, filter_description->str);
+      gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
     }
-  gtk_file_filter_set_name (filter, filter_description->str);
-  gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (dialog), filter);
   gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (dialog), startdir);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
@@ -2503,6 +2507,21 @@ choose_file (gchar * title, gchar * startdir, GList * extensions)
 
   gtk_widget_destroy (dialog);
   return filename;
+}
+
+/* dialog to get a filename from the user
+ */
+gchar *
+choose_file (gchar * title, gchar * startdir, GList * extensions)
+{
+ return choose_file_or_directory (title, startdir, extensions, FALSE);
+}
+/* dialog to get a directory from the user
+ */
+gchar *
+choose_directory (gchar * title, gchar * startdir, GList * extensions)
+{
+ return choose_file_or_directory (title, startdir, extensions, TRUE);
 }
 
 

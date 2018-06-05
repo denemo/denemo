@@ -1118,6 +1118,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Gets the MIDI key number for the note-position where the cursor is", DENEMO_SCHEME_PREFIX "GetCursorNoteAsMidi", scheme_get_cursor_note_as_midi);
   install_scm_function (0, "Returns the MIDI key number for the note at the cursor, or 0 if none", DENEMO_SCHEME_PREFIX "GetNoteAsMidi", scheme_get_note_as_midi);
   install_scm_function (0, "Re-draws the Denemo display, which can have side effects on the data, updates status bar ... ", DENEMO_SCHEME_PREFIX "RefreshDisplay", scheme_refresh_display);
+  install_scm_function (0, "Keeps the GUI alive during long scripts ", DENEMO_SCHEME_PREFIX "KeepAlive", scheme_keep_alive);
   install_scm_function (0, "Computes cached values (normally done while drawing)", DENEMO_SCHEME_PREFIX "RefreshCache", scheme_refresh_cache);
   install_scm_function (0, "Sets the status of the current musical score to saved, or unsaved if passed #f", DENEMO_SCHEME_PREFIX "SetSaved", scheme_set_saved);
   install_scm_function (0, "Gets the saved status of the current musical score", DENEMO_SCHEME_PREFIX "GetSaved", scheme_get_saved);
@@ -1204,6 +1205,7 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Returns the #t if file passed in exists.", DENEMO_SCHEME_PREFIX "FileExists", scheme_file_exists);
   install_scm_function (1, "Returns the filename component of the passed path.", DENEMO_SCHEME_PREFIX "FilenameFromPath", scheme_filename_from_path);
   install_scm_function (3, "Gives dialog to choose a file. Takes a title, start directory and list of extensions. Returns a string or #f if user cancesl", DENEMO_SCHEME_PREFIX "ChooseFile", scheme_choose_file);
+  install_scm_function (3, "Gives dialog to choose a directory. Takes a title, start directory and list of extensions. Returns a string or #f if user cancesl", DENEMO_SCHEME_PREFIX "ChooseDirectory", scheme_choose_directory);
 
   install_scm_function (0, "Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX "OpenSource", scheme_open_source);
   install_scm_function (3, "Takes an optional filename and optional new name. Opens an encapsulated postscript file for editing. Returns the filename (without extension) if successful.\nStarts the graphics editor on the passed in filename or one from a dialog.\nThe returned .eps file may not exist when this procedure returns, an editor is open on it. With no filename parameter allows the user to choose,\ncopying to the project directory or the users graphics templates (if a new name is given)", DENEMO_SCHEME_PREFIX "EditGraphics", scheme_edit_graphics);
