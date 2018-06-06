@@ -865,7 +865,7 @@ void
 closewrapper (DenemoAction * action, DenemoScriptParam * param)
 {
   gint ret = 0;
-  if(param)
+  if(param && param->string && param->string->len)
     ret = atoi (param->string->str);
   if (!Denemo.non_interactive)
     {
