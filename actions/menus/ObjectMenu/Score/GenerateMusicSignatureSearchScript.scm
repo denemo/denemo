@@ -19,7 +19,13 @@
 		                "\"" filename "\""))
                     (status 0))
                     (disp "issuing " cmd "\n\n")
-                (set! status  (system cmd))
+                (set! status  (system* 
+                    (string-append DENEMO_BIN_DIR  "/denemo")
+                    "-n" 
+                    "-a" (string-append "(define DenemoMusicSignature '(" sig "))")
+                    "-i" (string-append DENEMO_ACTIONS_DIR "checkMusicSignature.scm") 
+                    filename))
+
                 (disp "returned " status "\n")
                 (if (zero? status)
                     (begin
