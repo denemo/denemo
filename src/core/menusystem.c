@@ -509,9 +509,7 @@ toggle_playback_view (DenemoAction * action, gpointer param)
 static void
 toggle_score_layout (DenemoAction * action, gpointer param)
 {
-#ifndef USE_EVINCE
-  g_debug ("This feature requires denemo to be built with evince");
-#else
+
   DenemoProject *project = Denemo.project;
   GtkWidget *w = project->score_layout;
   GList *g = gtk_container_get_children (GTK_CONTAINER (w));
@@ -525,7 +523,7 @@ toggle_score_layout (DenemoAction * action, gpointer param)
     {
       gtk_widget_show (w);
     }
-#endif
+
 }
 
 
@@ -561,9 +559,6 @@ toggle_command_manager (DenemoAction * action, gpointer param)
 void
 show_verses (void)
 {
-#ifndef USE_EVINCE
-  g_debug ("This feature requires denemo to be built with evince");
-#else
   GtkWidget *widget = Denemo.project->movement->lyricsbox;
   static gint last_height = 100;
   if (!widget)
@@ -589,7 +584,6 @@ show_verses (void)
      // if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
      //   Denemo.prefs.lyrics_pane = gtk_widget_get_visible (widget);
     }
-#endif
 }
 
 /**
@@ -600,9 +594,6 @@ show_verses (void)
 static void
 toggle_object_menu (DenemoAction * action, gpointer param)
 {
-#ifndef USE_EVINCE
-  g_debug ("This feature requires denemo to be built with evince");
-#else
   GtkWidget *widget;
   widget = denemo_menusystem_get_widget ("/ObjectMenu");
   if (!widget)
@@ -616,7 +607,6 @@ toggle_object_menu (DenemoAction * action, gpointer param)
     {
       gtk_widget_show (widget);
     }
-#endif
 }
 
 
@@ -666,9 +656,6 @@ toggle_scheme (void)
 static void
 toggle_score_view (DenemoAction * action, gpointer param)
 {
-#ifndef USE_EVINCE
-  g_debug ("This feature requires denemo to be built with evince");
-#else
   GtkWidget *w = gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea));
   if ((!action) || gtk_widget_get_visible (w))
     gtk_widget_hide (w);
@@ -677,7 +664,6 @@ toggle_score_view (DenemoAction * action, gpointer param)
       gtk_widget_show (w);
       gtk_widget_grab_focus (Denemo.scorearea);
     }
-#endif
 }
 
 /**
@@ -688,9 +674,7 @@ toggle_score_view (DenemoAction * action, gpointer param)
 static void
 toggle_scoretitles (DenemoAction * action, gpointer param)
 {
-#ifndef USE_EVINCE
-  g_debug ("This feature requires denemo to be built with evince");
-#else
+
   GtkWidget *widget = Denemo.project->buttonboxes;
   if ((!action) || gtk_widget_get_visible (widget))
     gtk_widget_hide (widget);
@@ -698,7 +682,7 @@ toggle_scoretitles (DenemoAction * action, gpointer param)
     gtk_widget_show (widget);
   if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
     Denemo.prefs.visible_directive_buttons = gtk_widget_get_visible (widget);
-#endif
+
 }
 
 
