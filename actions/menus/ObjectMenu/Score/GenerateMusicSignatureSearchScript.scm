@@ -2,6 +2,7 @@
 (use-modules (ice-9 ftw))
 (d-GoToPosition 1 1 1 1)
 (let ((current (d-GetNoteFromTopAsMidi))
+	(source (d-GetFilename))
         (count (string->number (d-GetUserInput "Create Music Signature" "Give number of notes to match: " "5")))
         (startdir #f)
         (theproc #f)
@@ -12,7 +13,7 @@
         
       (define (theproc filename statinfo flag) ;(disp "searching file " filename "\nwith flag " flag "\n")
         (d-KeepAlive)
-	    (if (and (eq? flag 'regular) (or (string-suffix? ".denemo" filename) (string-suffix? ".denemo.gz" filename)));;; also check for .denemo or .denemo.gz in filename
+	    (if (and (not (equal? filename source)) (eq? flag 'regular) (or (string-suffix? ".denemo" filename) (string-suffix? ".denemo.gz" filename)));;; also check for .denemo or .denemo.gz in filename
             (let ((cmd (string-append DENEMO_BIN_DIR  "/denemo -n -a \"(define DenemoMusicSignature '(" sig "))\" -i "
 		                DENEMO_ACTIONS_DIR 
 		                "/checkMusicSignature.scm " 
@@ -30,6 +31,7 @@
                 (if (zero? status)
                     (begin
                         (d-OpenNewWindow filename)
+                        (d-GoToPosition 1 1 1 1)
                         (set! found #t)
                         #f)
                     (begin
