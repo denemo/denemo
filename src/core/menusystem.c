@@ -676,7 +676,7 @@ toggle_scoretitles (void)
 {
 
   GtkWidget *widget = Denemo.project->buttonboxes;
-  if ((gtk_widget_get_visible (widget))
+  if (gtk_widget_get_visible (widget))
     gtk_widget_hide (widget);
   else
     gtk_widget_show (widget);
