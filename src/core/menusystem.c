@@ -672,11 +672,11 @@ toggle_score_view (DenemoAction * action, gpointer param)
  *
  */
 static void
-toggle_scoretitles (DenemoAction * action, gpointer param)
+toggle_scoretitles (void)
 {
 
   GtkWidget *widget = Denemo.project->buttonboxes;
-  if ((!action) || gtk_widget_get_visible (widget))
+  if ((gtk_widget_get_visible (widget))
     gtk_widget_hide (widget);
   else
     gtk_widget_show (widget);
@@ -1390,7 +1390,10 @@ void set_toggle (gchar *name, gboolean value)
         {
             if (!strcmp (name,    toggle_menu_entries[i].name))
                 {
-                    gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item), value); //g_print ("Set %s to %s\n", name, value? "active":"inactive");
+                  if(gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item)) != value)
+                    {gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item), value); g_print ("Set %s to %s\n", name, value? "active":"inactive");}
+                  else
+                    g_print (":eft %s to %s\n", name, value? "active":"inactive");
                     return;
                 }
         }
@@ -1596,9 +1599,7 @@ void finalize_menusystem(void)
        gtk_widget_show (Denemo.project->buttonboxes);
     else
        gtk_widget_hide (Denemo.project->buttonboxes);
-        
-      //toggle_scoretitles (NULL, NULL);
-     //gtk_widget_hide (denemo_menusystem_get_widget (ToggleLyricsView_STRING));
+ 
       gtk_widget_show (Denemo.menubar);
       //gtk_widget_show (denemo_menusystem_get_widget ("/ObjectMenu"));
       gtk_widget_hide (denemo_menusystem_get_widget ("/ObjectMenu"));

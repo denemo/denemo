@@ -3079,7 +3079,7 @@ visible_rhythm_buttons (GList * rhythms, gboolean on)
 static void
 switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 {
-  //g_debug("switching pagenum %d\n",pagenum);
+  g_print("switching pagenum %d\n",pagenum);
   DenemoProject *project = Denemo.project;
   if (project == NULL)
     return;
@@ -3121,7 +3121,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
     }
 
 //FIXME if Denemo.project->movement->recording then show Denemo.audio_vol_control
-  if (Denemo.prefs.visible_directive_buttons)
+  if (Denemo.prefs.visible_directive_buttons, 0)
     {
       gtk_widget_hide (Denemo.project->buttonboxes);
       set_toggle (ToggleScoreTitles_STRING, FALSE);
@@ -4065,10 +4065,12 @@ newtab (void)
 
   if (Denemo.prefs.visible_directive_buttons)
     {
-      gtk_widget_hide (Denemo.project->buttonboxes);
-      //set_toggle (ToggleScoreTitles_STRING, FALSE); there is no score titles in a new score
+      gtk_widget_show (Denemo.project->buttonboxes);
     }
   if (have_midi () && Denemo.prefs.startmidiin)
     project->input_source = INPUTMIDI;
   panic_all ();                 //g_print ("Reset synth as part of newtab()\n");
 }                               /* end of newtab creating a new DenemoProject holding one musical score */
+void hide() { gtk_widget_hide (Denemo.project->buttonboxes);}
+void show() { gtk_widget_show (Denemo.project->buttonboxes);}
+gint visible() { if (Denemo.project) return gtk_widget_get_visible (Denemo.project->buttonboxes); else return -1;}
