@@ -3133,6 +3133,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 
   set_title_bar (Denemo.project);
   highlight_rhythm (Denemo.project->prevailing_rhythm);
+  force_lily_refresh (Denemo.project);
   draw_score_area ();
   draw_score (NULL);
 }
