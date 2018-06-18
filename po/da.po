@@ -1,7 +1,7 @@
 # Danish translation denemo.
 # Copyright (C) 2017 Free Software Foundation, Inc.
 # This file is distributed under the same license as the denemo package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2015, 2016, 2017.
+# Joe Hansen <joedalton2@yahoo.dk>, 2015, 2016, 2017, 2018.
 # korrekturlæsning og gode forslag: Lars Henrik Ørn, 2015.
 #
 # Konventioner:
@@ -90,10 +90,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: denemo 2.1-rc1\n"
+"Project-Id-Version: denemo 2.2-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
-"POT-Creation-Date: 2017-02-13 11:43+0000\n"
-"PO-Revision-Date: 2017-02-16 11:03+0200\n"
+"POT-Creation-Date: 2017-07-10 11:13+0100\n"
+"PO-Revision-Date: 2018-06-17 11:03+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -111,24 +111,24 @@ msgstr "Vælg SoundFont-fil"
 #: ../src/audio/fluid.c:211 ../src/audio/playback.c:123
 #: ../src/command/changenotehead.c:107 ../src/command/lilydirectives.c:2719
 #: ../src/core/utils.c:2480 ../src/core/utils.c:2554 ../src/core/utils.c:2649
-#: ../src/core/utils.c:2752 ../src/export/file.c:165 ../src/export/file.c:853
-#: ../src/export/file.c:913 ../src/export/file.c:1141
-#: ../src/export/print.c:717 ../src/printview/printview.c:1183
-#: ../src/printview/svgview.c:738 ../src/scripting/scheme-callbacks.c:4217
+#: ../src/core/utils.c:2757 ../src/export/file.c:166 ../src/export/file.c:867
+#: ../src/export/file.c:927 ../src/export/file.c:1155
+#: ../src/export/print.c:717 ../src/printview/printview.c:1184
+#: ../src/printview/svgview.c:738 ../src/scripting/scheme-callbacks.c:4251
 #: ../src/source/sourceaudio.c:341 ../src/ui/clefdialog.c:140
-#: ../src/ui/kbd-interface.c:471 ../src/ui/keysigdialog.c:383
-#: ../src/ui/playbackprops.c:57 ../src/ui/prefdialog.c:438
+#: ../src/ui/kbd-interface.c:478 ../src/ui/keysigdialog.c:383
+#: ../src/ui/playbackprops.c:57 ../src/ui/prefdialog.c:443
 #: ../src/ui/scoreprops.c:133 ../src/ui/staffpropdialog.c:353
-#: ../src/ui/texteditors.c:174 ../src/ui/texteditors.c:187
-#: ../src/ui/texteditors.c:239 ../src/ui/texteditors.c:278
-#: ../src/ui/texteditors.c:508 ../src/ui/timedialog.c:234
+#: ../src/ui/texteditors.c:173 ../src/ui/texteditors.c:186
+#: ../src/ui/texteditors.c:238 ../src/ui/texteditors.c:277
+#: ../src/ui/texteditors.c:507 ../src/ui/timedialog.c:234
 #: ../src/ui/tomeasuredialog.c:48 ../src/ui/tupletdialog.c:16
 msgid "_Cancel"
 msgstr "_Afbryd"
 
-#: ../src/audio/fluid.c:211 ../src/core/utils.c:2480 ../src/export/file.c:853
-#: ../src/export/file.c:915 ../src/source/sourceaudio.c:342
-#: ../src/ui/texteditors.c:279
+#: ../src/audio/fluid.c:211 ../src/core/utils.c:2480 ../src/export/file.c:867
+#: ../src/export/file.c:929 ../src/source/sourceaudio.c:342
+#: ../src/ui/texteditors.c:278
 msgid "_Open"
 msgstr "_Åbn"
 
@@ -136,82 +136,82 @@ msgstr "_Åbn"
 msgid "Not exiting the previous MIDI capture loop"
 msgstr "Går ikke ud af den forrige MIDI-optagelsesløkke"
 
-#: ../src/audio/pitchentry.c:1427
+#: ../src/audio/pitchentry.c:1431
 msgid "Set the musical temperament (tuning) to be used for playback."
 msgstr "Angiv det musikalske temperament (tuning) som skal bruges for afspilning."
 
-#: ../src/audio/pitchentry.c:1520
+#: ../src/audio/pitchentry.c:1524
 msgid "Overlay Pitches"
 msgstr "Overlagstonehøjder"
 
-#: ../src/audio/pitchentry.c:1530 ../src/core/entries.h:345
+#: ../src/audio/pitchentry.c:1534 ../src/core/entries.h:345
 msgid "Clear Overlay"
 msgstr "Ryd overlag"
 
-#: ../src/audio/pitchentry.c:1536 ../src/export/print.h:13
+#: ../src/audio/pitchentry.c:1540 ../src/export/print.h:13
 msgid "Continuous"
 msgstr "Fortsættende"
 
-#: ../src/audio/pitchentry.c:1545
+#: ../src/audio/pitchentry.c:1549
 msgid "Click Volume"
 msgstr "Kliklydstyrke"
 
 #. spinners to select silence, threshold, smoothing
-#: ../src/audio/pitchentry.c:1581
+#: ../src/audio/pitchentry.c:1585
 msgid "Pitch Recognition Parameters"
 msgstr "Parametre for tonehøjdegenkendelse"
 
-#: ../src/audio/pitchentry.c:1589
+#: ../src/audio/pitchentry.c:1593
 msgid "Silence"
 msgstr "Stilhed"
 
-#: ../src/audio/pitchentry.c:1599
+#: ../src/audio/pitchentry.c:1603
 msgid "Threshold"
 msgstr "Tærskel"
 
-#: ../src/audio/pitchentry.c:1609
+#: ../src/audio/pitchentry.c:1613
 msgid "Smoothing"
 msgstr "Udglatning"
 
 # skal det være debut?
-#: ../src/audio/pitchentry.c:1616
+#: ../src/audio/pitchentry.c:1620
 msgid "Onset"
 msgstr "Start"
 
 #. spinners to constrain the note values
-#: ../src/audio/pitchentry.c:1628
+#: ../src/audio/pitchentry.c:1632
 msgid "Note validation criteria"
 msgstr "Kriterier for nodevalidering"
 
-#: ../src/audio/pitchentry.c:1636
+#: ../src/audio/pitchentry.c:1640
 msgid "Lowest Pitch"
 msgstr "Laveste tonehøjde"
 
-#: ../src/audio/pitchentry.c:1646
+#: ../src/audio/pitchentry.c:1650
 msgid "Highest Pitch"
 msgstr "Højeste tonehøjde"
 
-#: ../src/audio/pitchentry.c:1656
+#: ../src/audio/pitchentry.c:1660
 msgid "Greatest Interval"
 msgstr "Største interval"
 
-#: ../src/audio/pitchentry.c:1668
+#: ../src/audio/pitchentry.c:1672
 msgid "Input handling"
 msgstr "Indgangshåndtering"
 
-#: ../src/audio/pitchentry.c:1675
+#: ../src/audio/pitchentry.c:1679
 msgid "Disable repeated notes"
 msgstr "Deaktiver gentagede noder"
 
-#: ../src/audio/pitchentry.c:1685
+#: ../src/audio/pitchentry.c:1689
 msgid "Delay"
 msgstr "Forsinkelse"
 
-#: ../src/audio/pitchentry.c:1692
+#: ../src/audio/pitchentry.c:1696
 msgid "Frequency Measurement"
 msgstr "Frekvensmåling"
 
-#: ../src/audio/pitchentry.c:1697
+#: ../src/audio/pitchentry.c:1701
 msgid "Frequency smoothing"
 msgstr "Frekvensudglatning"
 
@@ -225,13 +225,13 @@ msgstr "Afspil område i sekunder:"
 #. parent window
 #: ../src/audio/playback.c:123 ../src/command/changenotehead.c:107
 #: ../src/command/lilydirectives.c:2258 ../src/command/lilydirectives.c:2718
-#: ../src/core/utils.c:2554 ../src/core/utils.c:2649 ../src/core/utils.c:2751
-#: ../src/export/print.c:717 ../src/scripting/scheme-callbacks.c:4216
-#: ../src/ui/clefdialog.c:140 ../src/ui/kbd-interface.c:470
+#: ../src/core/utils.c:2554 ../src/core/utils.c:2649 ../src/core/utils.c:2756
+#: ../src/export/print.c:717 ../src/scripting/scheme-callbacks.c:4250
+#: ../src/ui/clefdialog.c:140 ../src/ui/kbd-interface.c:477
 #: ../src/ui/keysigdialog.c:383 ../src/ui/playbackprops.c:57
-#: ../src/ui/prefdialog.c:438 ../src/ui/scoreprops.c:133
-#: ../src/ui/staffpropdialog.c:353 ../src/ui/texteditors.c:187
-#: ../src/ui/texteditors.c:508 ../src/ui/timedialog.c:234
+#: ../src/ui/prefdialog.c:443 ../src/ui/scoreprops.c:133
+#: ../src/ui/staffpropdialog.c:353 ../src/ui/texteditors.c:186
+#: ../src/ui/texteditors.c:507 ../src/ui/timedialog.c:234
 #: ../src/ui/tomeasuredialog.c:48 ../src/ui/tupletdialog.c:16
 msgid "_OK"
 msgstr "_O.k."
@@ -469,11 +469,13 @@ msgstr "Denne knap blev oprettet for Denemodirektiv, hvis mærke er %s. Normalt 
 msgid "Select Directive"
 msgstr "Vælg direktiv"
 
+#. DeleteCurrentVerse
 #. DeleteCurrentStaff
 #: ../src/command/lilydirectives.c:2261 ../src/core/utils.c:2087
-#: ../src/core/utils.c:2449 ../src/printview/printview.c:1708
+#: ../src/core/utils.c:2449 ../src/printview/printview.c:1709
 #: ../actions/denemo.scm:1301
 #: ../actions/menus/MainMenu/NavigationMenu/DenemoLink.scm:4
+#: ../actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.scm:2
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:6
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteCurrentStaff.scm:2
 #: ../actions/menus/ObjectMenu/StaffMenu/DeleteFromCursorToEnd.scm:4
@@ -511,7 +513,7 @@ msgstr "Vælg et direktiv vedhæftet til akkorden"
 msgid "Select the directive %s on note \"%s\"?"
 msgstr "Vælg direktivet %s på node »%s«?"
 
-#: ../src/command/lilydirectives.c:2465 ../src/command/object.c:1522
+#: ../src/command/lilydirectives.c:2465 ../src/command/object.c:1525
 msgid "No object here to edit"
 msgstr "Intet objekt her at redigere"
 
@@ -536,8 +538,8 @@ msgstr "Kunne ikke indehente indhold for %s"
 msgid "There is already an edit script for this tag"
 msgstr "Der er allerede et redigeringsskript for dette mærke"
 
-#: ../src/command/lilydirectives.c:2666 ../src/core/menusystem.c:229
-#: ../src/export/file.c:1273
+#: ../src/command/lilydirectives.c:2666 ../src/core/menusystem.c:216
+#: ../src/export/file.c:1287
 msgid "Do you want to replace it?"
 msgstr "Ønsker du at erstatte det?"
 
@@ -680,7 +682,7 @@ msgstr "Er du sikker på, at du ønsker at slette direktivet?"
 #: ../src/ui/texteditors.c:61 ../actions/denemo-modules/directives.scm:30
 #: ../actions/denemo-modules/directives.scm:42
 #: ../actions/denemo-modules/wysiwyg.scm:403
-#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:33
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:55
 #: ../actions/menus/MainMenu/NavigationMenu/DenemoLink.scm:7
 #: ../actions/menus/MainMenu/PlaybackMenu/MuteStaffs.scm:22
 #: ../actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForChordType.scm:16
@@ -688,6 +690,7 @@ msgstr "Er du sikker på, at du ønsker at slette direktivet?"
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm:25
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:157
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MultiLineTextAnnotation.scm:179
+#: ../actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.scm:5
 #: ../actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm:54
 #: ../actions/menus/ObjectMenu/MeasureMenu/DisplayEffects/DisplayMeasureNumber.scm:7
 #: ../actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm:35
@@ -722,7 +725,8 @@ msgstr "Er du sikker på, at du ønsker at slette direktivet?"
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:130
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:143
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm:9
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:21
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:15
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.scm:21
 msgid "Cancelled"
 msgstr "Afbrudt"
 
@@ -739,7 +743,7 @@ msgid "No directive selected"
 msgstr "Intet direktiv valgt"
 
 #. (TweakRelativeOffset tag (car amount) (cdr amount))
-#: ../src/command/lilydirectives.c:3070 ../src/core/menusystem.c:320
+#: ../src/command/lilydirectives.c:3070 ../src/core/menusystem.c:307
 #: ../actions/denemo-modules/directives.scm:79
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:25
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:31
@@ -871,8 +875,8 @@ msgid "removemeasures: received request to delete more measures                 
 msgstr "removemeasures: Modtog forespørgsel om at slette flere takter              end der findes. Forkaster anmodning."
 
 #: ../src/command/object.c:119 ../src/command/object.c:561
-#: ../src/command/object.c:1383 ../src/command/object.c:1929
-#: ../src/command/object.c:2162
+#: ../src/command/object.c:1386 ../src/command/object.c:1932
+#: ../src/command/object.c:2195
 msgid "No tooltip"
 msgstr "Intet værktøjsfif"
 
@@ -964,8 +968,8 @@ msgstr "Skift node ved markøren"
 msgid "Run the Object Editor"
 msgstr "Start redigeringsprogrammet for objekter"
 
-#: ../src/command/object.c:355 ../src/command/object.c:1400
-#: ../src/command/object.c:1939 ../src/command/object.c:2191
+#: ../src/command/object.c:355 ../src/command/object.c:1403
+#: ../src/command/object.c:1942 ../src/command/object.c:2224
 msgid "Create Button for Clone"
 msgstr "Opret knap for klon"
 
@@ -1096,7 +1100,7 @@ msgstr "Denne pause vil ikke blive udskrevet, fungerer kun som en taktpause.\n"
 msgid "This rest has the grace attribute set: these objects are usually inserted automatically to match real grace notes in other parts, this helps the music typesetter place the grace note correctly in the Print View.\n"
 msgstr "Denne pause har forslagsattributten sat: Disse objekter indsættes normalt automatisk for at matche reelle forslagsnoder i andre stemmer, dette hjælper musikopsætteren med at placere forlagsnoden korrekt i udskrivningsvisningen.\n"
 
-#: ../src/command/object.c:444 ../src/command/object.c:1588
+#: ../src/command/object.c:444 ../src/command/object.c:1591
 msgid "Attached to the chord:"
 msgstr "Vedhæftet akkorden:"
 
@@ -1335,7 +1339,7 @@ msgid "Give layout duplicate directive is for: "
 msgstr "Angiv layout som duplikeret direktiv er for: "
 
 #: ../src/command/object.c:840 ../src/core/entries.h:358
-#: ../src/core/menusystem.c:770
+#: ../src/core/menusystem.c:757
 msgid "Score"
 msgstr "Partitur"
 
@@ -1347,37 +1351,37 @@ msgstr "Duplikeringen vil kun blive opsat for dette layout: "
 msgid "The original directive should be made to ignore that layout even though later directives generally override earlier ones. The duplicate directive will appear at the end of the directives of its type in the editor, tagged with the name of the layout (you can change the conditional behavior regardless of this name though). "
 msgstr "Det originale direktiv skal laves, så det ignorerer det layout også selv om senere direktiver generelt overskriver tidligere. Det duplikerede direktiv vil fremgå i slutningen af direktiverne for sin type i redigeringsprogrammet, mærket med navnet for layouttet (du kan dog ændre den betingede opførsel uanset dette navn). "
 
-#: ../src/command/object.c:996
+#: ../src/command/object.c:999
 msgid "To add or remove built-in attributes right click on the object in the display window"
 msgstr "For at tilføje eller fjerne indbyggede attributter højreklik på objektet i skærmvinduet"
 
-#: ../src/command/object.c:1121
-msgid "You have custom score layout(s). Making this directive conditional will not affect them; if that is what you want then edit the layout in the Score Layout view."
-msgstr "Du har tilpassede partiturlayout. At gøre dette direktiv betinget vil ikke påvirke dem; hvis det er hvad du ønsker, så rediger layouttet i visningen for partiturlayout."
+#: ../src/command/object.c:1124
+msgid "You have custom score layout(s). Making this directive conditional will not affect them until you Reload Score-wide Settings in the Score Layout view."
+msgstr "Du har tilpassede partiturlayout. At gøre dette direktiv betinget vil ikke påvirke dem før du genindlæser generelle partiturindstillinger i visningen for partiturlayout."
 
-#: ../src/command/object.c:1146 ../src/command/object.c:1340
-#: ../src/command/object.c:1908
+#: ../src/command/object.c:1149 ../src/command/object.c:1343
+#: ../src/command/object.c:1911
 msgid "Conditional"
 msgstr "Betinget"
 
-#: ../src/command/object.c:1235 ../src/command/object.c:1866
-#: ../src/command/object.c:2111
+#: ../src/command/object.c:1238 ../src/command/object.c:1869
+#: ../src/command/object.c:2144
 msgid "Run the Edit Script for "
 msgstr "Kør redigeringsskriptet for "
 
-#: ../src/command/object.c:1244 ../src/command/object.c:1875
-#: ../src/command/object.c:2120
+#: ../src/command/object.c:1247 ../src/command/object.c:1878
+#: ../src/command/object.c:2153
 msgid "Execute command: "
 msgstr "Kør kommando: "
 
-#: ../src/command/object.c:1246 ../src/command/object.c:1877
-#: ../src/command/object.c:2122
+#: ../src/command/object.c:1249 ../src/command/object.c:1880
+#: ../src/command/object.c:2155
 msgid "Re-run the command to edit the Denemo Directive"
 msgstr "Kør kommandoen igen for at redigere Denemodirektivet"
 
 #. gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
-#: ../src/command/object.c:1285 ../src/command/object.c:1889
-#: ../src/command/object.c:2135 ../src/command/scorelayout.c:502
+#: ../src/command/object.c:1288 ../src/command/object.c:1892
+#: ../src/command/object.c:2168 ../src/command/scorelayout.c:502
 #: ../src/command/scorelayout.c:542 ../src/core/entries.h:406
 #: ../actions/denemo-modules/directives.scm:34
 #: ../actions/denemo-modules/directives.scm:109
@@ -1425,7 +1429,7 @@ msgstr "Kør kommandoen igen for at redigere Denemodirektivet"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:6
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.scm:8
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:7
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:9
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:8
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:17
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:67
@@ -1434,21 +1438,21 @@ msgstr "Kør kommandoen igen for at redigere Denemodirektivet"
 msgid "Delete"
 msgstr "Slet"
 
-#: ../src/command/object.c:1330 ../src/command/object.c:1900
+#: ../src/command/object.c:1333 ../src/command/object.c:1903
 msgid "Next ➡"
 msgstr "Næste ➡"
 
-#: ../src/command/object.c:1360 ../src/core/entries.h:259
+#: ../src/command/object.c:1363 ../src/core/entries.h:259
 msgid "Copy"
 msgstr "Kopier"
 
 #. some menu items should be insensitive if the Scheme window is not visible
 #. if upbeat is present
-#: ../src/command/object.c:1375 ../src/command/object.c:1920
-#: ../src/command/object.c:2151 ../src/core/entries.h:213
-#: ../src/core/view.c:3375 ../src/core/view.c:3525
+#: ../src/command/object.c:1378 ../src/command/object.c:1923
+#: ../src/command/object.c:2184 ../src/core/entries.h:213
+#: ../src/core/view.c:3396 ../src/core/view.c:3546
 #: ../src/printview/svgview.c:1259 ../src/source/source.c:251
-#: ../src/ui/markup.c:683 ../src/ui/palettes.c:342
+#: ../src/ui/markup.c:685 ../src/ui/palettes.c:342
 #: ../actions/denemo-modules/directives.scm:106
 #: ../actions/denemo-modules/directives.scm:154 ../actions/denemo.scm:1458
 #: ../actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/EndVolta.scm:4
@@ -1465,21 +1469,21 @@ msgstr "Kopier"
 msgid "Help"
 msgstr "Hjælp"
 
-#: ../src/command/object.c:1393 ../src/command/object.c:1933
-#: ../src/command/object.c:2175
+#: ../src/command/object.c:1396 ../src/command/object.c:1936
+#: ../src/command/object.c:2208
 msgid "Create Button for Command"
 msgstr "Opret knap for kommando"
 
-#: ../src/command/object.c:1394 ../src/command/object.c:2176
+#: ../src/command/object.c:1397 ../src/command/object.c:2209
 msgid "Make a palette button for running the command that created this attribute."
 msgstr "Lav en paletknap for kørsel af kommanden som oprettede denne attribut."
 
-#: ../src/command/object.c:1401
+#: ../src/command/object.c:1404
 msgid "Make a palette button for installing this attribute elsewhere."
 msgstr "Lav en paletknap for installation af denne attribut et andet sted."
 
-#: ../src/command/object.c:1406 ../src/command/object.c:1945
-#: ../src/command/object.c:2198 ../actions/denemo-modules/directives.scm:36
+#: ../src/command/object.c:1409 ../src/command/object.c:1948
+#: ../src/command/object.c:2231 ../actions/denemo-modules/directives.scm:36
 #: ../actions/denemo.scm:156
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:42
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:47
@@ -1519,240 +1523,266 @@ msgstr "Lav en paletknap for installation af denne attribut et andet sted."
 msgid "Advanced"
 msgstr "Avanceret"
 
-#: ../src/command/object.c:1407
+#: ../src/command/object.c:1410
 msgid "Examine/Edit this directive at a low-level"
 msgstr "Undersøg/rediger dette direktiv på et lavt niveau"
 
-#: ../src/command/object.c:1418
+#: ../src/command/object.c:1421
 msgid "Built-in Chord Attributes"
 msgstr "Indbyggede akkordattributter"
 
-#: ../src/command/object.c:1438
+#: ../src/command/object.c:1441
 msgid "Remove slur start"
 msgstr "Fjern legatobuestart"
 
-#: ../src/command/object.c:1444
+#: ../src/command/object.c:1447
 msgid "Remove slur end"
 msgstr "Fjern Legatobueslutning"
 
-#: ../src/command/object.c:1450
+#: ../src/command/object.c:1453
 msgid "Remove tie"
 msgstr "Fjern bindebue"
 
-#: ../src/command/object.c:1456
+#: ../src/command/object.c:1459
 msgid "Remove Start cresc. marking"
 msgstr "Fjern startcresc.-markering"
 
-#: ../src/command/object.c:1462
+#: ../src/command/object.c:1465
 msgid "Remove End cresc. marking"
 msgstr "Fjern slutcresc.-markering"
 
-#: ../src/command/object.c:1468
+#: ../src/command/object.c:1471
 msgid "Remove Start dim. marking"
 msgstr "Fjern startdim.-markering"
 
-#: ../src/command/object.c:1474
+#: ../src/command/object.c:1477
 msgid "Remove End dim. marking"
 msgstr "Fjern slutdim.-markering"
 
-#: ../src/command/object.c:1481
+#: ../src/command/object.c:1484
 msgid "Un-grace the note"
 msgstr "Fjern forslagsnode"
 
-#: ../src/command/object.c:1546
+#: ../src/command/object.c:1549
 msgid "Denemo Object Editor"
 msgstr "Denemo - objektredigeringsprogram"
 
-#: ../src/command/object.c:1551 ../src/command/object.c:2242
-#: ../src/command/object.c:2484
+#: ../src/command/object.c:1554 ../src/command/object.c:2275
+#: ../src/command/object.c:2517
 msgid "Close"
 msgstr "Luk"
 
-#: ../src/command/object.c:1559
+#: ../src/command/object.c:1562
 msgid "⬅ Previous Object"
 msgstr "⬅ forrige objekt"
 
-#: ../src/command/object.c:1566
+#: ../src/command/object.c:1569
 msgid "Next note in chord"
 msgstr "Næste node i akkord"
 
-#: ../src/command/object.c:1570
+#: ../src/command/object.c:1573
 msgid "Alternate note"
 msgstr "Skift node"
 
-#: ../src/command/object.c:1574
+#: ../src/command/object.c:1577
 msgid "Next Object ➡"
 msgstr "Næste objekt ➡"
 
-#: ../src/command/object.c:1588
+#: ../src/command/object.c:1591
 msgid "Attached to the rest:"
 msgstr "Vedhæftet pausen:"
 
 #. only one note
-#: ../src/command/object.c:1609
+#: ../src/command/object.c:1612
 msgid "Edit the note"
 msgstr "Rediger noden"
 
-#: ../src/command/object.c:1636
+#: ../src/command/object.c:1639
 #, c-format
 msgid "Attached to Note %s"
 msgstr "Vedhæft til node %s"
 
-#: ../src/command/object.c:1654
+#: ../src/command/object.c:1657
 #, c-format
 msgid "Nothing attached to Note %s"
 msgstr "Intet vedhæftet noden %s"
 
-#: ../src/command/object.c:1670
+#: ../src/command/object.c:1673
 msgid "Assign Pitch to Rhythm"
 msgstr "Tildel tonehøjde til rytme"
 
-#: ../src/command/object.c:1683
+#: ../src/command/object.c:1686
 msgid "Edit Chord Symbol"
 msgstr "Rediger akkordsymbol"
 
-#: ../src/command/object.c:1690
+#: ../src/command/object.c:1693
 msgid "Edit Bass Figure"
 msgstr "Rediger generalbas"
 
-#: ../src/command/object.c:1704
+#: ../src/command/object.c:1707
 msgid "Add/Remove attributes"
 msgstr "Tilføj/fjern attributter"
 
 #. type = _("start tuplet marker");
-#: ../src/command/object.c:1715
+#: ../src/command/object.c:1718
 msgid "Alter Tuplet Type"
 msgstr "Ændr type for irregulær nodeværdi"
 
-#: ../src/command/object.c:1720
+#: ../src/command/object.c:1723
 msgid "Attached to the tuplet start:"
 msgstr "Vedhæftet til irregulær nodeværdis start:"
 
-#: ../src/command/object.c:1739
+#: ../src/command/object.c:1742
 msgid "Attached to the tuplet end:"
 msgstr "Vedhæftet til irregulær nodeværdis slutning:"
 
-#: ../src/command/object.c:1760
+#: ../src/command/object.c:1763
 msgid "Attached to the clef change object:"
 msgstr "Vedhæftet til ændringsobjektet for nøgle:"
 
-#: ../src/command/object.c:1773
+#: ../src/command/object.c:1776
 msgid "Transform to printing clef"
 msgstr "Transformer til udskrivende nøgle"
 
-#: ../src/command/object.c:1786
+#: ../src/command/object.c:1789
 msgid "Attached to the time signature change object:"
 msgstr "Vedhæftet til ændringsobjektet for taktart:"
 
-#: ../src/command/object.c:1806
+#: ../src/command/object.c:1809
 msgid "Attached to the key signature change object:"
 msgstr "Vedhæftet til ændringsobjektet for toneartsangivelse:"
 
-#: ../src/command/object.c:1827
+#: ../src/command/object.c:1830
 msgid "Attached to the stemming change object:"
 msgstr "Vedhæftet til ændringsobjektet for nodehals:"
 
-#: ../src/command/object.c:1850
+#: ../src/command/object.c:1853
 msgid "Standalone Denemo Directive:"
 msgstr "Uafhængigt Denemodirektiv:"
 
-#: ../src/command/object.c:1934
+#: ../src/command/object.c:1937
 msgid "Make a palette button for running the command that created/inserted this object."
 msgstr "Lav en paletknap for kørsel af kommandoen som oprettede/indsatte dette objekt."
 
-#: ../src/command/object.c:1940
+#: ../src/command/object.c:1943
 msgid "Make a palette button for inserting a clone of this object elsewhere."
 msgstr "Lav en paletknap for indsættelse af en klon af dette objekt et andet sted."
 
-#: ../src/command/object.c:2069
+#: ../src/command/object.c:2077
 msgid "Score "
 msgstr "Partitur "
 
-#: ../src/command/object.c:2071
+#: ../src/command/object.c:2079
 msgid "Movement "
 msgstr "Sats "
 
-#: ../src/command/object.c:2073
+#: ../src/command/object.c:2081
 msgid "Score Header "
 msgstr "Partiturteksthoved "
 
-#: ../src/command/object.c:2075
+#: ../src/command/object.c:2083
 msgid "Paper "
 msgstr "Papir "
 
-#: ../src/command/object.c:2077
+#: ../src/command/object.c:2085
 msgid "Movement Header "
 msgstr "Satsteksthoved "
 
-#: ../src/command/object.c:2079
+#: ../src/command/object.c:2087
 msgid "Movement Layout "
 msgstr "Satslayout "
 
-#: ../src/command/object.c:2094
+#: ../src/command/object.c:2089
+msgid "Key Signature"
+msgstr "Toneart"
+
+#: ../src/command/object.c:2091
+msgid "Time Signature"
+msgstr "Taktart"
+
+#: ../src/command/object.c:2093 ../src/command/scorelayout.c:718
+#: ../src/core/entries.h:288
+msgid "Clef"
+msgstr "Nøgle"
+
+#: ../src/command/object.c:2095 ../src/core/entries.h:371
+msgid "Staff"
+msgstr "Nodesystem"
+
+#: ../src/command/object.c:2097 ../src/command/scorelayout.c:1580
+#: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:9
+msgid "Voice"
+msgstr "Stemme"
+
+#: ../src/command/object.c:2101 ../src/core/entries.h:365
+msgid "Directives"
+msgstr "Direktiver"
+
+#: ../src/command/object.c:2123
 #, c-format
 msgid "%sDenemo %s Directive tagged: %s %c%s%c"
 msgstr "%sDenemo %s-direktiv mærket: %s %c%s%c"
 
-#: ../src/command/object.c:2094 ../src/command/object.c:2096
+#: ../src/command/object.c:2123 ../src/command/object.c:2125
 msgid "(Conditional) "
 msgstr "(Betinget) "
 
-#: ../src/command/object.c:2096
+#: ../src/command/object.c:2125
 #, c-format
 msgid "%sDenemo %s Directive: %s %c%s%c"
 msgstr "%sDenemo %s-direktiv: %s %c%s%c"
 
-#: ../src/command/object.c:2164
+#: ../src/command/object.c:2197
 msgid "Create Duplicate"
 msgstr "Opret duplikering"
 
-#: ../src/command/object.c:2165
+#: ../src/command/object.c:2198
 msgid "Duplicate this directive with a new name. Usually only makes sense when the two directives are conditional applying to different layouts."
 msgstr "Dupliker dette direktiv med et nyt navn. Giver normalt kun mening når to direktiver er betinget anvendt på forskellige layout."
 
-#: ../src/command/object.c:2182
+#: ../src/command/object.c:2215
 msgid "Open Command Center"
 msgstr "Åbn kommandocenteret"
 
-#: ../src/command/object.c:2183
+#: ../src/command/object.c:2216
 msgid "Opens the Command Center on this command. Here you can find the location of the command in the menu system, set shortcuts etc."
 msgstr "Kommandocenteret åbnes med denne kommando. Her kan du finde placeirngen af kommandoen i menusystemet, angive genveje etc."
 
-#: ../src/command/object.c:2192
+#: ../src/command/object.c:2225
 msgid "Make a palette button for installing a clone of this attribute elsewhere."
 msgstr "Lav en paletknap for installation af en klon af denne attribut et andet sted."
 
-#: ../src/command/object.c:2234
+#: ../src/command/object.c:2267
 msgid "Score and Movement Properties Editor"
 msgstr "Redigeringsprogram for partitur- og satsegenskaber"
 
-#: ../src/command/object.c:2256 ../src/core/entries.h:264
+#: ../src/command/object.c:2289 ../src/core/entries.h:264
 msgid "Score Properties"
 msgstr "Partituregenskaber"
 
-#: ../src/command/object.c:2290
+#: ../src/command/object.c:2323
 msgid "Edit Built-in Score Properties"
 msgstr "Rediger indbyggede partituregenskaber"
 
-#: ../src/command/object.c:2300 ../src/command/scorelayout.c:1922
-#: ../src/command/scorelayout.c:2261 ../src/core/utils.c:2331
-#: ../src/printview/printview.c:2522
+#: ../src/command/object.c:2333 ../src/command/scorelayout.c:1932
+#: ../src/command/scorelayout.c:2271 ../src/core/utils.c:2331
+#: ../src/printview/printview.c:2523
 msgid "Movement"
 msgstr "Sats"
 
-#: ../src/command/object.c:2300
+#: ../src/command/object.c:2333
 msgid "Properties"
 msgstr "Egenskaber"
 
-#: ../src/command/object.c:2332
+#: ../src/command/object.c:2365
 msgid "⬅ Previous Movement"
 msgstr "⬅ Forrige sats"
 
-#: ../src/command/object.c:2339
+#: ../src/command/object.c:2372
 msgid "Next Movement ➡"
 msgstr "Næste sats ➡"
 
-#: ../src/command/object.c:2392
+#: ../src/command/object.c:2425
 msgid ""
 "The clef here only affects the display as this voice is typeset on the staff above.\n"
 "Normally you will want it set the same as the staff the notes will appear on.\n"
@@ -1762,70 +1792,58 @@ msgstr ""
 "Normalt vil du ønske at angive den på samme måde som nodesystemet noderne vil fremgår af.\n"
 "Afvis denne advarsel og foretag de nødvendige ændringer via pop op-dialogen der følger."
 
-#: ../src/command/object.c:2402
+#: ../src/command/object.c:2435
 msgid "This voice should have the same key signature as the staff it appears on. Use the key signature menu commands to correct it if needed."
 msgstr "Denne stemme skal have den samme toneartsangivelse som nodesystemet det fremgår på. Brug menukommandoerne for toneartsangivelse til at rette dette hvis krævet."
 
-#: ../src/command/object.c:2406
+#: ../src/command/object.c:2439
 msgid "Change the keysignature by clicking on it, or via the Key Signatures menu (after closing this editor)."
 msgstr "Ændr toneartsangivelsen ved at klikke på den, eller via menuen for toneartsangivelser (efter luk af dette redigeringsprogram)."
 
-#: ../src/command/object.c:2416
+#: ../src/command/object.c:2449
 msgid "This voice should have the same time signature as the staff it appears on. Use the time signature menu commands to correct it if needed."
 msgstr "Denne stemme skal have den samme taktart som nodesystemet den fremgår af. Brug menukommandoerne for taktarten for at rette den hvis krævet."
 
-#: ../src/command/object.c:2476
+#: ../src/command/object.c:2509
 msgid "Staff and Voice Properties Editor"
 msgstr "Redigeringsprogram for nodesystem- og stemmeegenskaber"
 
-#: ../src/command/object.c:2501 ../src/core/entries.h:209
+#: ../src/command/object.c:2534 ../src/core/entries.h:209
 #: ../src/ui/staffpropdialog.c:353
 msgid "Staff Properties"
 msgstr "Nodesystemegenskaber"
 
-#: ../src/command/object.c:2534
+#: ../src/command/object.c:2567
 msgid "Staff Above"
 msgstr "Nodesystem over"
 
-#: ../src/command/object.c:2541
+#: ../src/command/object.c:2574
 msgid "Staff Below"
 msgstr "Nodesystem under"
 
-#: ../src/command/object.c:2550
+#: ../src/command/object.c:2583
 msgid "<b>This voice will be typeset on the staff above</b>"
 msgstr "<b>Denne stemme vil blive opsat på nodesystemet ovenfor</b>"
 
-#: ../src/command/object.c:2557
+#: ../src/command/object.c:2590
 msgid "Edit Built-in Staff Properties"
 msgstr "Rediger indbyggede nodesystemegenskaber"
 
-#: ../src/command/object.c:2563
+#: ../src/command/object.c:2596
 msgid "Clef: "
 msgstr "Nøgle: "
 
-#: ../src/command/object.c:2569
+#: ../src/command/object.c:2602
 #, c-format
 msgid "Time: %d/%d"
 msgstr "Tid: %d/%d"
 
-#: ../src/command/object.c:2575
+#: ../src/command/object.c:2608
 #, c-format
 msgid "Key: %s"
 msgstr "Toneart: %s"
 
-#: ../src/command/object.c:2585
-msgid "Key Signature Directives"
-msgstr "Toneartsangivelsesdirektiver"
-
-#: ../src/command/object.c:2591
-msgid "Time Signature Directives"
-msgstr "Taktartdirektiver"
-
-#: ../src/command/object.c:2597
-msgid "Clef Directives"
-msgstr "Nøgledirektiver"
-
-#: ../src/command/object.c:2603
+#: ../src/command/object.c:2636
 msgid "Voice Properties"
 msgstr "Stemmeegenskaber"
 
@@ -1933,7 +1951,7 @@ msgstr ""
 msgid "Actions for this Layout"
 msgstr "Handlinger for dette layout"
 
-#: ../src/command/scorelayout.c:473 ../src/printview/printview.c:2515
+#: ../src/command/scorelayout.c:473 ../src/printview/printview.c:2516
 msgid "Typeset"
 msgstr "Opsæt"
 
@@ -1997,7 +2015,7 @@ msgstr ""
 "Flytter den første udvidede sats i dette layout til slutnignen.\n"
 "Dette ændrer ikke partituret, kun dette layout. For at ændre rækkefølgen for de faktiske satser for partituret se menuen for satser."
 
-#: ../src/command/scorelayout.c:527 ../src/printview/printview.c:2532
+#: ../src/command/scorelayout.c:527 ../src/printview/printview.c:2533
 msgid "Refresh"
 msgstr "Opdater"
 
@@ -2051,7 +2069,7 @@ msgstr "Musikken for dette nodesystem er blevet erstattet af musikken fra det nu
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:50
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:29
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:5
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:7
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:16
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.scm:4
 msgid "Edit"
@@ -2076,10 +2094,6 @@ msgstr "Oprindelige signaturer"
 #: ../src/command/scorelayout.c:713
 msgid "Click here to view and edit the clef, key and time signatures of this staff"
 msgstr "Klik her for at vise og redigere nøglen, tonearten og taktarter for dette nodesystem"
-
-#: ../src/command/scorelayout.c:718 ../src/core/entries.h:288
-msgid "Clef"
-msgstr "Nøgle"
 
 #: ../src/command/scorelayout.c:719
 msgid "Edit the LilyPond definition of the clef. The editing affects only this layout."
@@ -2285,13 +2299,13 @@ msgid "Chord Symbols"
 msgstr "Akkordsymboler"
 
 #: ../src/command/scorelayout.c:1512
-msgid "Staff Menu"
-msgstr "Nodesystemmenu"
+msgid "Staff Start"
+msgstr "Nodesystem start"
 
 #: ../src/command/scorelayout.c:1512
 #, c-format
-msgid "Staff %d Menu"
-msgstr "Nodesystem %d-menu"
+msgid "Staff %d Start"
+msgstr "Nodesystem %d start"
 
 #: ../src/command/scorelayout.c:1520
 msgid ""
@@ -2310,16 +2324,16 @@ msgid "This will move the Denemo Cursor to the start of this staff in this movem
 msgstr "Vil flytte Denemomarkøren til begyndelsen af dette nodesystem i denne sats"
 
 #: ../src/command/scorelayout.c:1531
-msgid "Edit Staff Properties"
-msgstr "Rediger nodesystemets egenskaber"
+msgid "Edit Staff Opening Syntax"
+msgstr "Rediger nodesystemets åbningssyntaks"
 
 #: ../src/command/scorelayout.c:1532
 msgid ""
-"Edit the properties of the staff to customize this layout\n"
+"Edit the syntax creating this staff to customize this layout\n"
 "Take care only alter the obvious bits, such as instrument name etc\n"
 "Injudicious deletion of the LilyPond typesetting characters {<<# etc can make the layout unreadable by the LilyPond typesetter. Just delete the layout if you get stuck."
 msgstr ""
-"Rediger egenskaberne for nodesystemet for at tilpasse dette layout\n"
+"Rediger syntaksen der opretter dette nodesystem for at tilpasse dette layout\n"
 "Vær omhyggelig med kun at ændre de indlysende dele, såsom instrumentnavn etc.\n"
 "Utilsigtet sletning af LilyPonds opsætningstegn {<<# etc. kan gøre layoutet ulæseligt af LilyPond-opsætteren. Du kan bare slette layoutet hvis du sidder fast."
 
@@ -2341,67 +2355,71 @@ msgstr ""
 msgid "Voices"
 msgstr "Stemmer"
 
-#: ../src/command/scorelayout.c:1580
-#: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:9
-msgid "Voice"
-msgstr "Stemme"
-
 #: ../src/command/scorelayout.c:1582
 msgid "This holds the voice(s) of the staff - the clef, time signature, key signature and music are all here"
 msgstr "Indholder stemmerne i nodesystemet - nøglen, taktart, nøglesignatur og musik er altsammen her"
 
+#: ../src/command/scorelayout.c:1601
+msgid "Staff End"
+msgstr "Nodesystem slut"
+
+#: ../src/command/scorelayout.c:1601
+#, c-format
+msgid "Staff %d End"
+msgstr "Nodesystem %d slut"
+
 #. things like transpose whole score etc
-#: ../src/command/scorelayout.c:1656
+#: ../src/command/scorelayout.c:1666
 msgid "The Staff"
 msgstr "Nodesystemet"
 
-#: ../src/command/scorelayout.c:1656
+#: ../src/command/scorelayout.c:1666
 msgid "The Staffs"
 msgstr "Nodesystemerne"
 
-#: ../src/command/scorelayout.c:1658
+#: ../src/command/scorelayout.c:1668
 msgid "This holds the staffs below which are the voices with the music."
 msgstr "Indeholder nodesystemerne nedenfor som er stemmerne med musikken."
 
-#: ../src/command/scorelayout.c:1663
+#: ../src/command/scorelayout.c:1673
 msgid "Append Current Staff"
 msgstr "Tilføj nuværende nodesystem"
 
-#: ../src/command/scorelayout.c:1664
+#: ../src/command/scorelayout.c:1674
 msgid "Appends the current staff (the one where the cursor is in the Denemo Display) to this layout. The same staff can be placed at multiple positions in the layout with individual edits in each."
 msgstr "Tilføjer det nuværende nodesystem (det hvor markøren er i Denemovisningen) til dette layout. Det samme nodesystem kan placeres på flere positioner i layouttet med individuelle redigeringer i hver."
 
-#: ../src/command/scorelayout.c:1749
+#: ../src/command/scorelayout.c:1759
 #, c-format
 msgid "Movement %d"
 msgstr "Sats %d"
 
-#: ../src/command/scorelayout.c:1779
+#: ../src/command/scorelayout.c:1789
 msgid "paper size"
 msgstr "papirstørrelse"
 
-#: ../src/command/scorelayout.c:1781
+#: ../src/command/scorelayout.c:1791
 msgid "Global staff size"
 msgstr "Global nodesystemstørrelse"
 
-#: ../src/command/scorelayout.c:1782
+#: ../src/command/scorelayout.c:1792
 msgid "Paper Block"
 msgstr "Papirblok"
 
-#: ../src/command/scorelayout.c:1783
+#: ../src/command/scorelayout.c:1793
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
 msgstr "Indstillinger for hele partituret: inkluderer samlet nodesystemstørrelse, papirstørrelse ...\n"
 
-#: ../src/command/scorelayout.c:1789
+#: ../src/command/scorelayout.c:1799
 msgid "the paper block contents"
 msgstr "papirblokindholdet"
 
-#: ../src/command/scorelayout.c:1799 ../actions/denemo.scm:1186
+#: ../src/command/scorelayout.c:1809 ../actions/denemo.scm:1186
 #: ../actions/denemo.scm:1190 ../actions/denemo.scm:1248
 msgid "Score Titles"
 msgstr "Partiturtitler"
 
-#: ../src/command/scorelayout.c:1802
+#: ../src/command/scorelayout.c:1812
 msgid ""
 "Titles, layout settings, preferences etc for the whole score.\n"
 "Includes main title, composer, date, instrumentation, tagline"
@@ -2409,40 +2427,40 @@ msgstr ""
 "Titler, layoutindstillinger, præferencer etc. for hele partituret.\n"
 "Inkluderer hovedtitlen, komponist, dato, instrumentation, kort beskrivelse"
 
-#: ../src/command/scorelayout.c:1810
+#: ../src/command/scorelayout.c:1820
 msgid "Default tagline"
 msgstr "Standardslogan"
 
-#: ../src/command/scorelayout.c:1836
+#: ../src/command/scorelayout.c:1846
 msgid "Score Directives"
 msgstr "Partiturdirektiver"
 
-#: ../src/command/scorelayout.c:1837
+#: ../src/command/scorelayout.c:1847
 msgid "Includes the indent before first measure, LilyPond include files ..."
 msgstr "Inkluderer indrykningen før den første takt, LilyPond-inkluderingsfiler ..."
 
-#: ../src/command/scorelayout.c:1861
+#: ../src/command/scorelayout.c:1871
 msgid "Score-wide Settings."
 msgstr "Generelle partiturindstillinger."
 
-#: ../src/command/scorelayout.c:1862
+#: ../src/command/scorelayout.c:1872
 msgid "Setting the score title, composer, headers and footers for this layout"
 msgstr "Angivelse af partiturtitel, komponist, teksthoveder og fodnoter for dette layout"
 
 #. having buttons that affect the score itself is confusing
-#: ../src/command/scorelayout.c:1870
+#: ../src/command/scorelayout.c:1880
 msgid "Create Book Titles"
 msgstr "Opret bogtitler"
 
-#: ../src/command/scorelayout.c:1872
+#: ../src/command/scorelayout.c:1882
 msgid "Set book titles for the score"
 msgstr "Angiv bogtifler for denne partitur"
 
-#: ../src/command/scorelayout.c:1885
+#: ../src/command/scorelayout.c:1895
 msgid "Reload Score-Wide Settings"
 msgstr "Genindlæs generelle partiturindstillinger"
 
-#: ../src/command/scorelayout.c:1886
+#: ../src/command/scorelayout.c:1896
 msgid ""
 "Reload the score wide settings for this layout from the current values in the score.\n"
 "Do this if you have made changes to the score titles etc which you wish to be used for this layout."
@@ -2451,49 +2469,49 @@ msgstr ""
 "Gør dette hvis du har lavet ændringer til partiturtitlerne etc., som du ønsker skal bruges for dette layout."
 
 #. if(sb)g_print ("Typesetting for id = %d\n\n\n\n", sb->id); else g_print ("No score layout\n\n");
-#: ../src/command/scorelayout.c:1922
+#: ../src/command/scorelayout.c:1932
 #, c-format
 msgid "<b>Movement %d</b>"
 msgstr "<b>Sats %d</b>"
 
-#: ../src/command/scorelayout.c:1925
+#: ../src/command/scorelayout.c:1935
 msgid "This contains the layout of the movement- the movement title, and the actual music itself"
 msgstr "Indeholder layoutet for sats- satstitlen og den faktiske musik"
 
-#: ../src/command/scorelayout.c:1936
+#: ../src/command/scorelayout.c:1946
 msgid "Remove this movement from the score layout"
 msgstr "Fjern denne sats fra dette partiturlayout"
 
-#: ../src/command/scorelayout.c:1959
+#: ../src/command/scorelayout.c:1969
 msgid "Header block"
 msgstr "Teksthovedblok"
 
-#: ../src/command/scorelayout.c:1981
+#: ../src/command/scorelayout.c:1991
 msgid "Layout block"
 msgstr "Layoutblok"
 
-#: ../src/command/scorelayout.c:2004
+#: ../src/command/scorelayout.c:2014
 msgid "Movement Block"
 msgstr "Satsblok"
 
-#: ../src/command/scorelayout.c:2028
+#: ../src/command/scorelayout.c:2038
 msgid "Movement Epilog"
 msgstr "Satsepilog"
 
-#: ../src/command/scorelayout.c:2084
+#: ../src/command/scorelayout.c:2094
 msgid "The currently expanded movement is already at the end"
 msgstr "Den nuværende udvidede sats er allerede ved slutningen"
 
-#: ../src/command/scorelayout.c:2091
+#: ../src/command/scorelayout.c:2101
 msgid "No movement is expanded - don't know which movement to move"
 msgstr "Ingen sats er udvidet - ved ikke hvilken sats at flytte"
 
-#: ../src/command/scorelayout.c:2261
+#: ../src/command/scorelayout.c:2271
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintScoreAndParts.scm:8
 msgid "Full Score"
 msgstr "Fuld partitur"
 
-#: ../src/command/scorelayout.c:2531
+#: ../src/command/scorelayout.c:2541
 msgid ""
 "This is a score layout - the buttons mostly customize the layout\n"
 "You can have several layouts and use them to print different versions of your score.\n"
@@ -2507,7 +2525,7 @@ msgstr ""
 "Standardlayout oprettes ved at starte de normale udskriv-kommandoer - udskriv, udskriv del, udskriv sats etc.\n"
 "Disse standardlayout tilbyder et nemt udgangspunkt for dine tilpasssede layout.<b>Note 1</b>Tilpassede layout gemmes ikke for yderligere grafisk redigering, kun opsætningskommandoerne gemmes, så, med mindre du er bekendt med LilyPond bør du udføre alt dit arbejde på layoutet i en session.<b>Note 2</b>Den første kommentar i LilyPond-teksten for layoutet indeholder navnet for layoutet. Hvis du ændrer det, vil eventuelle betingede direktiver for layoutet kræve en opdatering."
 
-#: ../src/command/scorelayout.c:3018
+#: ../src/command/scorelayout.c:3042
 msgid ""
 "The LilyPond text for this layout can be edited in the LilyPond view window.\n"
 "You can safely delete this layout if you no longer need it\n"
@@ -2519,7 +2537,7 @@ msgstr ""
 "(for eksempel hvis du har lavet strukturelle ændringer til partituret,\n"
 "som ikke er reflekteret i dette layout)."
 
-#: ../src/command/scorelayout.c:3027
+#: ../src/command/scorelayout.c:3051
 msgid ""
 "This is a customized layout, which has been transformed into instructions for the LilyPond music typesetter.\n"
 "This is the form in which customized layouts are stored in a Denemo score on disk - the graphical interface is no longer available. You can, however still edit the layout with care (and some understanding of LilyPond).\n"
@@ -2531,11 +2549,11 @@ msgstr ""
 "Brug Vis → LilyPond-vinduet.\n"
 "Ellers kan du slette layoutet og oprette et nyt fra et standardlayout."
 
-#: ../src/command/scorelayout.c:3052
+#: ../src/command/scorelayout.c:3076
 msgid "Custom Scoreblock"
 msgstr "Tilpasse partiturblok"
 
-#: ../src/command/scorelayout.c:3161
+#: ../src/command/scorelayout.c:3185
 msgid "Typesets this layout"
 msgstr "Opsætter dette layout"
 
@@ -3821,7 +3839,7 @@ msgstr "Indsæt musikstump"
 msgid "Inserts the current music snippet, or if none is selected prompts for a number 1,2... for the snippet to insert."
 msgstr "Indsætter den nuværende musikstump, eller hvis ingen er valgt anmodes om et nummer 1,2 ... for musikstumpen, der skal indsættes."
 
-#: ../src/core/entries.h:199 ../src/ui/markup.c:662
+#: ../src/core/entries.h:199 ../src/ui/markup.c:664
 msgid "Next Snippet"
 msgstr "Næste musikstump"
 
@@ -3887,7 +3905,7 @@ msgstr "Kør Scheme"
 msgid "Execute the scheme code from the scripting window"
 msgstr "Kør Schemekoden fra skriptvinduet"
 
-#: ../src/core/entries.h:202 ../src/ui/texteditors.c:439
+#: ../src/core/entries.h:202 ../src/ui/texteditors.c:438
 msgid "File"
 msgstr "Fil"
 
@@ -3926,7 +3944,7 @@ msgstr ""
 #.
 #. * Note entry settings
 #.
-#: ../src/core/entries.h:206 ../src/ui/prefdialog.c:557
+#: ../src/core/entries.h:206 ../src/ui/prefdialog.c:562
 msgid "View"
 msgstr "Vis"
 
@@ -3938,7 +3956,7 @@ msgstr ""
 "Menu:\n"
 "Kontroller hvilke værktøjer der vises"
 
-#: ../src/core/entries.h:207 ../src/core/kbd-custom.c:1948
+#: ../src/core/entries.h:207 ../src/core/kbd-custom.c:1977
 msgid "Hidden"
 msgstr "Skjul"
 
@@ -4053,7 +4071,7 @@ msgid "Shifts the set of accidentals one step flatter"
 msgstr "Skifter sættet af fortegn et trin fladere"
 
 #: ../src/core/entries.h:217 ../src/core/entries.h:372
-#: ../src/core/menusystem.c:723 ../actions/palettes.xml.h:222
+#: ../src/core/menusystem.c:710 ../actions/palettes.xml.h:222
 msgid "Playback"
 msgstr "Afspilning"
 
@@ -4073,17 +4091,17 @@ msgstr "Tom partitur"
 msgid "Start a new musical score"
 msgstr "Start en ny musikalsk partitur"
 
-#: ../src/core/entries.h:219 ../src/core/menusystem.c:1513
-#: ../src/ui/texteditors.c:414
+#: ../src/core/entries.h:219 ../src/core/menusystem.c:1511
+#: ../src/ui/texteditors.c:413
 msgid "New"
 msgstr "Ny"
 
-#: ../src/core/entries.h:219 ../src/core/menusystem.c:1515
+#: ../src/core/entries.h:219 ../src/core/menusystem.c:1513
 msgid "Start a new musical score for a named instrument/voice."
 msgstr "Start en ny musikalsk partitur for et navngivet instrument/stemme."
 
 #: ../src/core/entries.h:220 ../src/core/entries.h:221
-#: ../src/core/menusystem.c:1522 ../src/ui/texteditors.c:418
+#: ../src/core/menusystem.c:1520 ../src/ui/texteditors.c:417
 msgid "Open"
 msgstr "Åbn"
 
@@ -4095,7 +4113,7 @@ msgstr ""
 "Menu:\n"
 "Åbn en tidligere redigeret partitur, eller en kildefil for transkription"
 
-#: ../src/core/entries.h:221 ../src/core/menusystem.c:1524
+#: ../src/core/entries.h:221 ../src/core/menusystem.c:1522
 msgid "Open a file containing a music score for editing"
 msgstr "Åbn en fil indeholdende en musikpartititur for redigering"
 
@@ -4157,15 +4175,15 @@ msgid "Open a file containing a music score for editing in a separate working ar
 msgstr "Åbn en fil indeholdende en musikpartitur for redigering i et separat arbejdsområde (faneblad)"
 
 #: ../src/core/entries.h:229 ../src/core/entries.h:240
-#: ../src/core/menusystem.c:1531 ../src/ui/texteditors.c:422
+#: ../src/core/menusystem.c:1529 ../src/ui/texteditors.c:421
 msgid "Save"
 msgstr "Gem"
 
-#: ../src/core/entries.h:229 ../src/core/menusystem.c:1533
+#: ../src/core/entries.h:229 ../src/core/menusystem.c:1531
 msgid "Save the score. The score is saved to disk in XML format."
 msgstr "Gem partituret. Partituret gemmes til disk i XML-format."
 
-#: ../src/core/entries.h:230 ../src/export/file.c:1189
+#: ../src/core/entries.h:230 ../src/export/file.c:1203
 msgid "Save As"
 msgstr "Gem som"
 
@@ -4299,7 +4317,7 @@ msgid "Export the score as a MIDI file"
 msgstr "Eksporter partituret som en MIDI-fil"
 
 #: ../src/core/entries.h:246 ../src/core/entries.h:251
-#: ../src/core/menusystem.c:1538 ../src/printview/printview.c:2505
+#: ../src/core/menusystem.c:1536 ../src/printview/printview.c:2506
 msgid "Print"
 msgstr "Udskriv"
 
@@ -4319,7 +4337,7 @@ msgstr ""
 msgid "Print Preview"
 msgstr "Udskriv forhåndsvisning"
 
-#: ../src/core/entries.h:247 ../src/core/menusystem.c:1549
+#: ../src/core/entries.h:247 ../src/core/menusystem.c:1547
 msgid ""
 "Typesets the score\n"
 "If you have a score layout selected it will use that\n"
@@ -4357,7 +4375,7 @@ msgstr "Udskriv sats"
 msgid "Typesets the current movement and opens a print dialog"
 msgstr "Opsætter den nuværende sats og åbner en udskrivningsdialog"
 
-#: ../src/core/entries.h:251 ../src/core/menusystem.c:1540
+#: ../src/core/entries.h:251 ../src/core/menusystem.c:1538
 msgid "Typesets the score using LilyPond and opens a print dialog"
 msgstr "Opsætter partituret via LilyPond og åbner en udskrivningsdialog"
 
@@ -4493,8 +4511,8 @@ msgstr "Tilpas kommandoer, genveje ..."
 msgid "Set actions to take in response to keypresses"
 msgstr "Angiv handlinger for genvejstaster"
 
-#: ../src/core/entries.h:268 ../src/core/kbd-custom.c:1636
-#: ../src/core/menusystem.c:857
+#: ../src/core/entries.h:268 ../src/core/kbd-custom.c:1646
+#: ../src/core/menusystem.c:846
 msgid "Save Command Set"
 msgstr "Gem kommandosæt"
 
@@ -4659,7 +4677,7 @@ msgid "InsertMenu"
 msgstr "IndsætMenu"
 
 #: ../src/core/entries.h:287 ../src/core/entries.h:350
-#: ../src/core/entries.h:385 ../src/ui/markup.c:657
+#: ../src/core/entries.h:385 ../src/ui/markup.c:659
 msgid "Insert"
 msgstr "Indsæt"
 
@@ -4779,6 +4797,7 @@ msgid "Add a verse of lyrics"
 msgstr "Tilføj et sangtekstvers"
 
 #: ../src/core/entries.h:300
+#: ../actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.xml.h:1
 msgid "Delete Verse"
 msgstr "Slet vers"
 
@@ -4986,19 +5005,19 @@ msgstr "Gå til slut"
 msgid "Cursor to end of staff/voice, extending selection if any"
 msgstr "Markør til at afslutte nodesystem/stemme, udvide eventuel markering"
 
-#: ../src/core/entries.h:326 ../src/core/menusystem.c:1556
+#: ../src/core/entries.h:326 ../src/core/menusystem.c:1554
 msgid "Move to Staff/Voice Beginning"
 msgstr "Flyt til nodesystem/stemme-begyndelse"
 
-#: ../src/core/entries.h:326 ../src/core/menusystem.c:1563
+#: ../src/core/entries.h:326 ../src/core/menusystem.c:1561
 msgid "Cursor to start of staff/voice, without extending selection if any"
 msgstr "Markør til at starte nodesystem/stemme, uden at udvide eventuel markering"
 
-#: ../src/core/entries.h:327 ../src/core/menusystem.c:1568
+#: ../src/core/entries.h:327 ../src/core/menusystem.c:1566
 msgid "Move to Staff/Voice End"
 msgstr "Flyt til nodesystem/stemme-slutning"
 
-#: ../src/core/entries.h:327 ../src/core/menusystem.c:1576
+#: ../src/core/entries.h:327 ../src/core/menusystem.c:1574
 msgid "Cursor to end of staff/voice, without extending selection if any"
 msgstr "Markør til slutning af nodesystem/stemme, uden at udvide eventuel markering"
 
@@ -5026,8 +5045,8 @@ msgstr "Slet sats"
 msgid "Delete the current movement"
 msgstr "Slet den nuværende sats"
 
-#: ../src/core/entries.h:331 ../src/core/view.c:3146 ../src/core/view.c:3323
-#: ../src/core/view.c:3325
+#: ../src/core/entries.h:331 ../src/core/view.c:3167 ../src/core/view.c:3344
+#: ../src/core/view.c:3346
 #: ../actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.xml.h:1
 msgid "Play"
 msgstr "Afspil"
@@ -5090,7 +5109,7 @@ msgstr "Om"
 msgid "Gives the version number etc of this program"
 msgstr "Viser versionsnummeret etc. for dette program"
 
-#: ../src/core/entries.h:336 ../src/core/kbd-custom.c:2172
+#: ../src/core/entries.h:336 ../src/core/kbd-custom.c:2201
 msgid "Shortcuts"
 msgstr "Genveje"
 
@@ -5176,15 +5195,15 @@ msgstr ""
 msgid "Clear the list of pitches that overlay the notes"
 msgstr "Ryd listen af tonehøjder som dækker noderne"
 
-#: ../src/core/entries.h:346 ../src/core/menusystem.c:1589
+#: ../src/core/entries.h:346 ../src/core/menusystem.c:1587
 msgid "Create Snippet"
 msgstr "Opret musikstump"
 
-#: ../src/core/entries.h:346 ../src/core/menusystem.c:1591
+#: ../src/core/entries.h:346 ../src/core/menusystem.c:1589
 msgid "Copy selection as music snippet or rhythm pattern for notes to follow as they are entered"
 msgstr "Kopier markering som musikstump eller rytmemønster for efterfølgende noder efterhånden som de indtastes"
 
-#: ../src/core/entries.h:347 ../src/core/view.c:1592
+#: ../src/core/entries.h:347 ../src/core/view.c:1593
 msgid "Delete Snippet"
 msgstr "Slet musikstump"
 
@@ -5403,10 +5422,6 @@ msgstr ""
 "samt legatobuer placeret over noderne. Mellemrum, indryk eller nye linjer kan fungere som adskillelse for stavelser, det gør ingen forskel for dem."
 
 #: ../src/core/entries.h:365
-msgid "Directives"
-msgstr "Direktiver"
-
-#: ../src/core/entries.h:365
 msgid ""
 "Menu:\n"
 "Directives tell Denemo to do something special with the object they are attached to\n"
@@ -5476,10 +5491,6 @@ msgstr ""
 "Menu:\n"
 "Manipulering af takter\n"
 "Kommandoer som gælder for nuværende takt"
-
-#: ../src/core/entries.h:371
-msgid "Staff"
-msgstr "Nodesystem"
 
 #: ../src/core/entries.h:371
 msgid ""
@@ -5923,7 +5934,7 @@ msgstr ""
 "Så direktiver kun gælder for et partiturlayout eller udelades fra et partiturlayout"
 
 #. MIDI tab
-#: ../src/core/entries.h:409 ../src/ui/prefdialog.c:747
+#: ../src/core/entries.h:409 ../src/ui/prefdialog.c:752
 #: ../src/ui/staffpropdialog.c:458
 msgid "MIDI"
 msgstr "MIDI"
@@ -5948,7 +5959,7 @@ msgstr ""
 "Menu:\n"
 "Vælg mellem forskellige måder at indtaste noder fra computertastaturet."
 
-#: ../src/core/entries.h:411 ../src/core/utils.c:3147
+#: ../src/core/entries.h:411 ../src/core/utils.c:3152
 msgid "Mouse"
 msgstr "Mus"
 
@@ -6323,8 +6334,8 @@ msgstr ""
 "Menu:\n"
 "Instruktioner for opsætteren til at kombinere to stemmer på forskellige måder."
 
-#: ../src/core/entries.h:442 ../src/core/menusystem.c:757
-#: ../src/core/menusystem.c:1198
+#: ../src/core/entries.h:442 ../src/core/menusystem.c:744
+#: ../src/core/menusystem.c:1194
 msgid "Object Menu"
 msgstr "Objektmenu"
 
@@ -6336,7 +6347,7 @@ msgstr ""
 "Menu:\n"
 "Kommandoer for arbejde med det musikalske objekthierarki."
 
-#: ../src/core/entries.h:443 ../src/core/menusystem.c:1194
+#: ../src/core/entries.h:443 ../src/core/menusystem.c:1190
 msgid "Main Menu"
 msgstr "Hovedmenu"
 
@@ -6369,24 +6380,24 @@ msgstr "Tilpasset prolog er ikke længere understøttet. Brug præfiks for parti
 msgid "Erroneous call"
 msgstr "Fejlramt kald"
 
-#: ../src/core/kbd-custom.c:105
+#: ../src/core/kbd-custom.c:106
 msgid "No name"
 msgstr "Intet navn"
 
-#: ../src/core/kbd-custom.c:106
+#: ../src/core/kbd-custom.c:107
 msgid "No label"
 msgstr "Ingen etiket"
 
 # hvad står der her (på engelsk)?
-#: ../src/core/kbd-custom.c:107
+#: ../src/core/kbd-custom.c:108
 msgid "No indication what this done beyond the name and label"
 msgstr "Ingen indikation om hvad dette gjorde udover navnet og etiket"
 
-#: ../src/core/kbd-custom.c:689
+#: ../src/core/kbd-custom.c:690
 msgid "This should not happen..."
 msgstr "Dette bør ikke ske ..."
 
-#: ../src/core/kbd-custom.c:766
+#: ../src/core/kbd-custom.c:767
 msgid ""
 "List of all current command shortcuts\n"
 "The name of the shortcut key is given first \n"
@@ -6408,11 +6419,11 @@ msgstr ""
 "Denne liste er lavet i alfabetisk navnerækkefølge.\n"
 "----------------\n"
 
-#: ../src/core/kbd-custom.c:773
+#: ../src/core/kbd-custom.c:774
 msgid "Shortcut key name: "
 msgstr "Genvejstastens navn: "
 
-#: ../src/core/kbd-custom.c:777
+#: ../src/core/kbd-custom.c:778
 msgid ""
 "\n"
 "End of shortcuts\n"
@@ -6420,17 +6431,17 @@ msgstr ""
 "\n"
 "Ikke flere genvejstaster\n"
 
-#: ../src/core/kbd-custom.c:1220
+#: ../src/core/kbd-custom.c:1227
 #, c-format
 msgid "The Command %s Responds to the Shortcut %s"
 msgstr "Kommandoen %s svarer til genvejstasten %s"
 
-#: ../src/core/kbd-custom.c:1221 ../src/ui/kbd-interface.c:449
+#: ../src/core/kbd-custom.c:1228 ../src/ui/kbd-interface.c:456
 #, c-format
 msgid "Lose the shortcut %s for this?"
 msgstr "Mist genvejstasten %s for dette?"
 
-#: ../src/core/kbd-custom.c:1236
+#: ../src/core/kbd-custom.c:1243
 #, c-format
 msgid ""
 "The key %s is the first keypress of some two key shortcuts.\n"
@@ -6441,35 +6452,43 @@ msgstr ""
 "Hvis du ønsker at ændre den, så skal du først fjerne den.\n"
 "Åbn Vis->Kommandocenter til at finde og fjerne genvejene."
 
-#: ../src/core/kbd-custom.c:1465
+#: ../src/core/kbd-custom.c:1472
 msgid "Could not create .denemo/actions for your customized commands"
 msgstr "Kunne ikke oprette .denemo/actions for dine tilpassede kommandoer"
 
-#: ../src/core/kbd-custom.c:1512
+#: ../src/core/kbd-custom.c:1520
 msgid "Key Map Loading"
 msgstr "Indlæsning af tasters kortlægning"
 
-#: ../src/core/kbd-custom.c:1512
+#: ../src/core/kbd-custom.c:1520
 msgid "Load Shortcuts only?"
 msgstr "Indlæs kun genveje?"
 
-#: ../src/core/kbd-custom.c:1534
+#: ../src/core/kbd-custom.c:1544
 msgid "Cannot access your local .denemo"
 msgstr "Kan ikke tilgå din lokale .denemo"
 
-#: ../src/core/kbd-custom.c:1546
+#: ../src/core/kbd-custom.c:1556
 msgid "Installation error"
 msgstr "Installationsfejl"
 
-#: ../src/core/kbd-custom.c:1930
+#: ../src/core/kbd-custom.c:1875
+msgid ""
+"NO COMMAND SELECTED.\n"
+"Press -> to search again\n"
+"_________________________________\n"
+"Last selected command was:\n"
+msgstr ""
+
+#: ../src/core/kbd-custom.c:1959
 msgid "Command"
 msgstr "Kommando"
 
-#: ../src/core/kbd-custom.c:1940
+#: ../src/core/kbd-custom.c:1969
 msgid "Commands"
 msgstr "Kommandoer"
 
-#: ../src/core/kbd-custom.c:1959
+#: ../src/core/kbd-custom.c:1988
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:27
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:27
@@ -6478,23 +6497,23 @@ msgstr "Kommandoer"
 msgid "Deleted"
 msgstr "Slettet"
 
-#: ../src/core/kbd-custom.c:1994
+#: ../src/core/kbd-custom.c:2023
 msgid "Search"
 msgstr "Søg"
 
-#: ../src/core/kbd-custom.c:2000
+#: ../src/core/kbd-custom.c:2029
 msgid "Fuzzy Search"
 msgstr "Uafklaret søgning"
 
-#: ../src/core/kbd-custom.c:2001
+#: ../src/core/kbd-custom.c:2030
 msgid "Allow one non-matching word in the search."
 msgstr "Tillad et ikkematchende ord i søgningen."
 
-#: ../src/core/kbd-custom.c:2045 ../src/core/kbd-custom.c:2142
+#: ../src/core/kbd-custom.c:2074 ../src/core/kbd-custom.c:2171
 msgid "Not in menu system. You can create a palette button for it using the Add to Palette button."
 msgstr "Ikke i menusystem. Du kan oprette en paletknap for den via knappen Tilføj til palet."
 
-#: ../src/core/kbd-custom.c:2144
+#: ../src/core/kbd-custom.c:2173
 #, c-format
 msgid ""
 "%sCommand: %s\n"
@@ -6507,7 +6526,7 @@ msgstr ""
 "Placering: %s\n"
 "Internt navn: %s"
 
-#: ../src/core/kbd-custom.c:2144
+#: ../src/core/kbd-custom.c:2173
 msgid ""
 "WARNING!!:\n"
 "This command is hidden.\n"
@@ -6519,20 +6538,20 @@ msgstr ""
 "Højst sandsynlig ønsker du at søge efter en bedre kommando.\n"
 "Skjulte kommandoer er enten for LilyPond-brugere eller grænseflader på lavt niveau for mere brugervenligt versioner.\n"
 
-#: ../src/core/keymapio.c:419
+#: ../src/core/keymapio.c:420
 msgid "There is no support for loading whole folders of commands yet, sorry"
 msgstr "Der er ingen understøttelse for indlæsning af hele kommandomapper endnu, beklager"
 
-#: ../src/core/keymapio.c:544
+#: ../src/core/keymapio.c:545
 msgid "Return"
 msgstr "Retur"
 
-#: ../src/core/keymapio.c:766
+#: ../src/core/keymapio.c:770
 #, c-format
 msgid "Unable to locate the script %s"
 msgstr "Kan ikke lokalisere skirptet %s"
 
-#: ../src/core/keymapio.c:778
+#: ../src/core/keymapio.c:782
 #, c-format
 msgid "Unable to load the script %s"
 msgstr "Kunne ikke indlæse skriptet %s"
@@ -6667,47 +6686,51 @@ msgstr "Du skal eventuelt have sat GUILE_LOAD_PATH til mappen, hvor du har ice9 
 msgid "Could not start graphical interface."
 msgstr "Kunne ikke starte den grafiske grænseflade."
 
-#: ../src/core/menusystem.c:82
-msgid ""
-"You have unsaved work. Hardware problems may cause the program to exit during this task.\n"
-"Please save first."
-msgstr ""
-"Du har ugemt arbejde. Problemer med udstyret kan få programmet til at lukke ned under denne opgave.\n"
-"Gem først."
+#: ../src/core/menusystem.c:91
+msgid "Rhythms will be entered as notes at the cursor height"
+msgstr "Rytmer vil bliver indtastet som noder ved markørhøjden"
 
-#: ../src/core/menusystem.c:114
+#: ../src/core/menusystem.c:104
 msgid "Could not start Audio input"
 msgstr "Kunne ikke starte lydindgang"
 
-#: ../src/core/menusystem.c:211
+#: ../src/core/menusystem.c:114
+msgid "Rhythms will be entered as (brown) notes without pitch"
+msgstr "Rytmer vil blive indtastet som (brune) noder uden tonehøjde"
+
+#: ../src/core/menusystem.c:118
+msgid "No MIDI in device was found on startup- re-start Denemo with the device plugged in, select the device in the MIDI tab of the preferences dialog and re-start Denemo again."
+msgstr "Ingen MIDI i enhed blev fundet ved opstart - genstart Denemo med enheden tilsluttet, vælg enheden i MIDI-fanebladet i dialogen med præferencer og genstart Denemo igen."
+
+#: ../src/core/menusystem.c:198
 msgid "Save Script"
 msgstr "Gem skript"
 
-#: ../src/core/menusystem.c:211
+#: ../src/core/menusystem.c:198
 msgid "Over-write previous version of the script for "
 msgstr "Overskriv tidligere version af skriptet for "
 
-#: ../src/core/menusystem.c:211
+#: ../src/core/menusystem.c:198
 msgid " ?"
 msgstr " ?"
 
-#: ../src/core/menusystem.c:221
+#: ../src/core/menusystem.c:208
 msgid "No script saved"
 msgstr "Intet skript gemt"
 
-#: ../src/core/menusystem.c:229
+#: ../src/core/menusystem.c:216
 msgid "There is already an initialization script here"
 msgstr "Der er allerede et initialiseringsskript her"
 
-#: ../src/core/menusystem.c:239
+#: ../src/core/menusystem.c:226
 msgid "Wrote init.scm"
 msgstr "Skrev init.scm"
 
-#: ../src/core/menusystem.c:239
+#: ../src/core/menusystem.c:226
 msgid "Shall I execute it now?"
 msgstr "Skal jeg køre det nu?"
 
-#: ../src/core/menusystem.c:244
+#: ../src/core/menusystem.c:231
 msgid ""
 "Could not create init.scm;\n"
 "you must create your scripted menu item in the menu\n"
@@ -6717,61 +6740,61 @@ msgstr ""
 "du skal oprette dit skriptopbyggede menupunkt i menuen\n"
 "før du kan oprette initialiseringsskriptet, beklager."
 
-#: ../src/core/menusystem.c:281 ../src/core/menusystem.c:285
-#: ../src/core/menusystem.c:288 ../src/core/menusystem.c:290
+#: ../src/core/menusystem.c:268 ../src/core/menusystem.c:272
+#: ../src/core/menusystem.c:275 ../src/core/menusystem.c:277
 msgid "Create a new menu item"
 msgstr "Opret et nyt menupunkt"
 
-#: ../src/core/menusystem.c:281
+#: ../src/core/menusystem.c:268
 msgid "Give menu label: "
 msgstr "Angiv menuetiket: "
 
-#: ../src/core/menusystem.c:281
+#: ../src/core/menusystem.c:268
 msgid "My Label"
 msgstr "Min etiket"
 
-#: ../src/core/menusystem.c:285
+#: ../src/core/menusystem.c:272
 msgid "Give explanation of what it does: "
 msgstr "Angiv forklaring om hvad der udføres: "
 
-#: ../src/core/menusystem.c:285
+#: ../src/core/menusystem.c:272
 msgid "Prints my special effect"
 msgstr "Udskriver min egen effekt"
 
-#: ../src/core/menusystem.c:288
+#: ../src/core/menusystem.c:275
 msgid "Do you want the new menu item in a submenu?"
 msgstr "Ønsker du det nye menupunkt i en undermenu?"
 
-#: ../src/core/menusystem.c:290
+#: ../src/core/menusystem.c:277
 msgid "Give a label for the Sub-Menu"
 msgstr "Angiv en etikelt for undermenuen"
 
-#: ../src/core/menusystem.c:290
+#: ../src/core/menusystem.c:277
 msgid "Sub Menu Label"
 msgstr "Undermenuens etiket"
 
-#: ../src/core/menusystem.c:306
+#: ../src/core/menusystem.c:293
 msgid "Duplicate Name"
 msgstr "Navnet findes"
 
-#: ../src/core/menusystem.c:306
+#: ../src/core/menusystem.c:293
 msgid "A command of this name is already available in your custom menus; Overwrite?"
 msgstr "En kommando med dette navn er allerede tilgængelig i dine tilpassede menuer; overskriv?"
 
 #. g_print ("Loading from %s\n", xml_path);
-#: ../src/core/menusystem.c:316
+#: ../src/core/menusystem.c:303
 msgid "New Command Added"
 msgstr "Ny kommando tilføjet"
 
-#: ../src/core/menusystem.c:316
+#: ../src/core/menusystem.c:303
 msgid "Do you want to save this with your default commands?"
 msgstr "Ønsker du at gemme denne med dine standardkommandoer?"
 
-#: ../src/core/menusystem.c:718
+#: ../src/core/menusystem.c:705
 msgid "Typeset Music"
 msgstr "Opsæt musik"
 
-#: ../src/core/menusystem.c:718
+#: ../src/core/menusystem.c:705
 msgid ""
 "Shows the Print View\n"
 "with the music typeset by the LilyPond Music Typesetter."
@@ -6779,31 +6802,31 @@ msgstr ""
 "Viser udskrivningsvisningen\n"
 "med musikke opsat af LilyPond-musikopsætteren."
 
-#: ../src/core/menusystem.c:723
+#: ../src/core/menusystem.c:710
 msgid "Shows the PlayBack View from which a more sophisticated playback of the music is possible"
 msgstr "Viser afspilningsvisningen hvorfra en mere sofistikeret afspilning af musikken er mulig"
 
-#: ../src/core/menusystem.c:726 ../src/ui/kbd-interface.c:647
+#: ../src/core/menusystem.c:713 ../src/ui/kbd-interface.c:654
 msgid "Command Center"
 msgstr "Kommandocenter"
 
-#: ../src/core/menusystem.c:726
+#: ../src/core/menusystem.c:713
 msgid "Shows a searchable list of all commands, enables setting of keyboard short-cuts, etc."
 msgstr "Viser en søgbar liste over alle kommandoer, aktiverer indstilling af tastaturgenveje, etc."
 
-#: ../src/core/menusystem.c:732
+#: ../src/core/menusystem.c:719
 msgid "Score Layout"
 msgstr "Partiturlayout"
 
-#: ../src/core/menusystem.c:732
+#: ../src/core/menusystem.c:719
 msgid "Shows an overview of the score where various elements can be rearranged, deleted etc. to form a customized layout"
 msgstr "Giver et overblik over partituret hvor forskellige elementer kan arrangeres, slettes etc., så de udgør et tilpasset layout"
 
-#: ../src/core/menusystem.c:738
+#: ../src/core/menusystem.c:725
 msgid "Snippets"
 msgstr "Musikstumper"
 
-#: ../src/core/menusystem.c:738
+#: ../src/core/menusystem.c:725
 msgid ""
 "Show/hide a toolbar which allows\n"
 "you to store and enter snippets of music and to enter notes using rhythm pattern of a snippet"
@@ -6811,39 +6834,39 @@ msgstr ""
 "Vis/skjul en værktøjslinje som gør det\n"
 "muligt at lagre og indtaste musikstumper og indtaste noder via rytmemønstre fra en musikstump"
 
-#: ../src/core/menusystem.c:743
+#: ../src/core/menusystem.c:730
 msgid "Tools"
 msgstr "Værktøjer"
 
-#: ../src/core/menusystem.c:743
+#: ../src/core/menusystem.c:730
 msgid "Show/hide a toolbar for general operations on music files"
 msgstr "Vis/skjul en værktøjslinje for generelle operationer på musikfiler"
 
-#: ../src/core/menusystem.c:746 ../src/core/view.c:3281
+#: ../src/core/menusystem.c:733 ../src/core/view.c:3302
 msgid "Playback Control"
 msgstr "Afspilningskontrol"
 
-#: ../src/core/menusystem.c:746
+#: ../src/core/menusystem.c:733
 msgid "Show/hide playback controls"
 msgstr "Vis/skjul afspilningskontrol"
 
-#: ../src/core/menusystem.c:749 ../src/core/view.c:3490
+#: ../src/core/menusystem.c:736 ../src/core/view.c:3511
 msgid "Midi In Control"
 msgstr "Midi-indgangskontrol"
 
-#: ../src/core/menusystem.c:749
+#: ../src/core/menusystem.c:736
 msgid "Show/hide Midi Input controls"
 msgstr "Vis/skjul Midi-indgangskontrol"
 
-#: ../src/core/menusystem.c:753
+#: ../src/core/menusystem.c:740
 msgid "Titles, Buttons etc"
 msgstr "Titler, knapper etc."
 
-#: ../src/core/menusystem.c:753
+#: ../src/core/menusystem.c:740
 msgid "Shows a bar holding the title etc of the music and buttons for selecting a movement to make currrent."
 msgstr "Viser en bjælke med titlen etc. for musikken og knapper til at vælge en sats, der skal være aktuel."
 
-#: ../src/core/menusystem.c:757
+#: ../src/core/menusystem.c:744
 msgid ""
 "Show/hide a menu which is arranged by objects\n"
 "The actions available for note objects change with the mode"
@@ -6851,22 +6874,22 @@ msgstr ""
 "Vis/skjul en menu som er arrangeret af objekter\n"
 "Handlingerne tilgængelige for nodeobjekter ændrer sig med tilstanden"
 
-#: ../src/core/menusystem.c:760
+#: ../src/core/menusystem.c:747
 #: ../actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm:11
 #: ../actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm:11
 msgid "LilyPond"
 msgstr "LilyPond"
 
-#: ../src/core/menusystem.c:760
+#: ../src/core/menusystem.c:747
 msgid "Show/hide the LilyPond music typesetting language window. Any errors in typesetting are shown here."
 msgstr "Vis/skjul sprogvinduet for LilyPond-musikopsætning. Eventuelle fejl i opsætningen vises her. "
 
-#: ../src/core/menusystem.c:763
+#: ../src/core/menusystem.c:750
 msgid "Scheme Script"
 msgstr "Scheme-skript"
 
 # engelsk fejl commaneds > commands
-#: ../src/core/menusystem.c:763
+#: ../src/core/menusystem.c:750
 msgid ""
 "Show Scheme script window. Sequences of commands can be recorded here\n"
 "and then executed or turned into new commaneds."
@@ -6874,15 +6897,15 @@ msgstr ""
 "Vis skriptvindue for Scheme. Sekvenser af kommandoer kan optages her\n"
 "og så køres eller omdannes til nye kommandoer."
 
-#: ../src/core/menusystem.c:770
+#: ../src/core/menusystem.c:757
 msgid "Shows/hides the music in the Denemo Display"
 msgstr "Viser/skjuler musikken i Denemovisningen"
 
-#: ../src/core/menusystem.c:779
+#: ../src/core/menusystem.c:766
 msgid "No External Input"
 msgstr "Ingen ekstern indtastning"
 
-#: ../src/core/menusystem.c:779
+#: ../src/core/menusystem.c:766
 msgid ""
 "Entry of notes via computer keyboard only\n"
 "Ignores connected MIDI or microphone devices."
@@ -6890,11 +6913,11 @@ msgstr ""
 "Indtastning af noder kun via computertastatur\n"
 "Ignorerer forbundne MIDI- eller mikrofonenheder."
 
-#: ../src/core/menusystem.c:781
+#: ../src/core/menusystem.c:768
 msgid "Midi Input"
 msgstr "Midi-indgang"
 
-#: ../src/core/menusystem.c:781
+#: ../src/core/menusystem.c:768
 msgid ""
 "Input from a MIDI source. Set up the source first using Edit → Change Preferences → Audio/Midi\n"
 "Use View → MIDI In Control to control what the input does.\n"
@@ -6902,22 +6925,22 @@ msgstr ""
 "Indgang fra en MIDI-kilde. Opsæt kilden først via Rediger → Ændr præferencer → Lyd/midi\n"
 "Brug Vis → MIDI-indgangskontrol for at kontrollere hvad indgangen gør.\n"
 
-#: ../src/core/menusystem.c:783
+#: ../src/core/menusystem.c:770
 msgid "Audio Input"
 msgstr "Lydindgang"
 
-#: ../src/core/menusystem.c:783
+#: ../src/core/menusystem.c:770
 msgid "Enable pitch entry from microphone"
 msgstr "Aktiver tonehøjdeindgang fra mikrofon"
 
-#: ../src/core/menusystem.c:837
+#: ../src/core/menusystem.c:826
 msgid "Place Command in a Palette"
 msgstr "Placer kommando i en palet"
 
 #. item = gtk_menu_item_new_with_label (_("Create Mouse Shortcut"));
 #. gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 #. g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (createMouseShortcut), action);
-#: ../src/core/menusystem.c:854
+#: ../src/core/menusystem.c:843
 msgid ""
 "Open Command Center\n"
 "on this command"
@@ -6925,11 +6948,11 @@ msgstr ""
 "Åbn kommandocenter\n"
 "på denne kommando"
 
-#: ../src/core/menusystem.c:897 ../src/ui/palettes.c:374
+#: ../src/core/menusystem.c:886 ../src/ui/palettes.c:374
 msgid "Get Script into Scheme Window"
 msgstr "Hent skript ind i Scheme-vinduet"
 
-#: ../src/core/menusystem.c:903 ../src/ui/palettes.c:379
+#: ../src/core/menusystem.c:892 ../src/ui/palettes.c:379
 msgid "Save Script from Scheme Window"
 msgstr "Gem skript fra Scheme-vinduet"
 
@@ -6937,36 +6960,36 @@ msgstr "Gem skript fra Scheme-vinduet"
 #. GtkSettings* settings = gtk_settings_get_default();
 #. gtk_settings_set_long_property  (settings,"gtk-menu-images",(glong)TRUE, "XProperty");
 #. item = gtk_image_menu_item_new_from_stock("Save Graphic", gtk_accel_group_new());
-#: ../src/core/menusystem.c:915
+#: ../src/core/menusystem.c:904
 msgid "Save Graphic"
 msgstr "Gem grafik"
 
-#: ../src/core/menusystem.c:922
+#: ../src/core/menusystem.c:911
 msgid "Upload this Script to denemo.org"
 msgstr "Overfør dette skript til denemo.org"
 
-#: ../src/core/menusystem.c:928
+#: ../src/core/menusystem.c:917
 msgid "Save Script as New Menu Item"
 msgstr "Gem skript som nyt menupunkt"
 
 #. options for getting/putting init.scm
-#: ../src/core/menusystem.c:939
+#: ../src/core/menusystem.c:928
 msgid "Get Initialization Script for this Menu"
 msgstr "Hent initialiseringsskript for denne menu"
 
-#: ../src/core/menusystem.c:945
+#: ../src/core/menusystem.c:934
 msgid "Put Script as Initialization Script for this Menu"
 msgstr "Placer skript som initialiseringsskript for denne menu"
 
-#: ../src/core/menusystem.c:1032
+#: ../src/core/menusystem.c:1021
 msgid "Menu:"
 msgstr "Menu:"
 
-#: ../src/core/menusystem.c:1033
+#: ../src/core/menusystem.c:1022
 msgid "Click here then hover over the menu items to find out what they will do"
 msgstr "Klik her og svæv så over menupunkterne for at se hvad de gør"
 
-#: ../src/core/menusystem.c:1035
+#: ../src/core/menusystem.c:1024
 msgid ""
 "Left click to execute the command, press a key to assign a keyboard shortcut to the command,\n"
 "Right click to get a menu from which you can\n"
@@ -6976,21 +6999,25 @@ msgstr ""
 "Højreklik for at hente en menu hvorfra du kan\n"
 "Oprette en knap for denne kommando, eller en to tast-genvej eller endnu flere indstillinger"
 
-#: ../src/core/menusystem.c:1200
+#: ../src/core/menusystem.c:1161
+msgid "This menu holds no commands"
+msgstr ""
+
+#: ../src/core/menusystem.c:1196
 msgid "Tool Bar"
 msgstr "Værktøjslinje"
 
-#: ../src/core/menusystem.c:1238
+#: ../src/core/menusystem.c:1234
 msgid "Tear off this menu as a palette"
 msgstr "Riv denne menu ud som en palet"
 
 #. check item is out of sync/Print View ignore delete signal
-#: ../src/core/menusystem.c:1547
+#: ../src/core/menusystem.c:1545
 msgid "PrintView"
 msgstr "UdskrivVisning"
 
 #. g_print("Menu %s has no action\n", name);
-#: ../src/core/menusystem.c:1638
+#: ../src/core/menusystem.c:1636
 msgid ""
 "Menu:\n"
 "named \""
@@ -6998,11 +7025,11 @@ msgstr ""
 "Menu:\n"
 "navngivet »"
 
-#: ../src/core/menusystem.c:1638
+#: ../src/core/menusystem.c:1636
 msgid "\" located at "
 msgstr "« placeret ved "
 
-#: ../src/core/menusystem.c:1638
+#: ../src/core/menusystem.c:1636
 msgid " in the menu system"
 msgstr " i menusystemet"
 
@@ -7031,7 +7058,7 @@ msgstr ""
 "Indikerer at LilyPonds opsætter stadig arbejder på opsætning af Denemopartituret. Dette kan tage lang tid, specielt for polyfoni, hvor stemmer ikke må kollidere. Du kan fortsat redigere mens opsætningen foregår.\n"
 "Dræb dette vindue hvis du ønsker at genstarte opsætningen f.eks. efter rettelse af en fejl du lige har opdaget."
 
-#: ../src/core/utils.c:1756 ../src/export/file.c:206
+#: ../src/core/utils.c:1756 ../src/export/file.c:207
 msgid "(Untitled)"
 msgstr "(Unavngivet)"
 
@@ -7196,50 +7223,50 @@ msgstr "Tilføjende"
 msgid "Not Appending"
 msgstr "Ikke tilføjende"
 
-#: ../src/core/utils.c:2747
+#: ../src/core/utils.c:2752
 msgid "Select from List (or Cancel)"
 msgstr "Vælg fra liste (eller afbryd)"
 
-#: ../src/core/utils.c:2780 ../src/core/utils.c:2814
+#: ../src/core/utils.c:2785 ../src/core/utils.c:2819
 msgid "More..."
 msgstr "Mere ..."
 
-#: ../src/core/utils.c:2983
+#: ../src/core/utils.c:2988
 msgid "No Tooltip"
 msgstr "Intet værktøjsfif"
 
-#: ../src/core/utils.c:3099
+#: ../src/core/utils.c:3104
 #, c-format
 msgid "Mouse shortcut <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "Musegenvejen <span font_desc=\"24\" foreground=\"blue\">%s</span> starter kommandoen <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:3101
+#: ../src/core/utils.c:3106
 msgid "Mouse Shortcut"
 msgstr "Musegenvej"
 
-#: ../src/core/utils.c:3120
+#: ../src/core/utils.c:3125
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "Genvejstasten <span font_desc=\"24\" foreground=\"blue\">%s</span> starter kommandoen <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:3125
+#: ../src/core/utils.c:3130
 #, c-format
 msgid "Key Presses <span font_desc=\"24\" foreground=\"blue\">%s</span> invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 msgstr "Genvejstasterne <span font_desc=\"24\" foreground=\"blue\">%s</span> starter kommandoen <span font_desc=\"24\" foreground=\"dark red\">%s</span>"
 
-#: ../src/core/utils.c:3127
+#: ../src/core/utils.c:3132
 msgid "Single Key Press"
 msgstr "Et tastetryk"
 
-#: ../src/core/utils.c:3127
+#: ../src/core/utils.c:3132
 msgid "Two Key Presses"
 msgstr "To tastetryk"
 
-#: ../src/core/utils.c:3137
+#: ../src/core/utils.c:3142
 msgid "Key Press"
 msgstr "Genvejstast"
 
-#: ../src/core/utils.c:3139
+#: ../src/core/utils.c:3144
 #, c-format
 msgid ""
 "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Is not a shortcut.\n"
@@ -7248,85 +7275,85 @@ msgstr ""
 "Tastentrykket <span font_desc=\"24\" foreground=\"blue\">%s</span> Er ikke en genvej.\n"
 "%s"
 
-#: ../src/core/utils.c:3139
+#: ../src/core/utils.c:3144
 msgid "(The menus are now restored in case you are lost.)"
 msgstr "(Menuerne gendannes nu i tilfælde af at du er faret vild.)"
 
-#: ../src/core/utils.c:3142
+#: ../src/core/utils.c:3147
 msgid "First Key Press"
 msgstr "Første tastetryk"
 
-#: ../src/core/utils.c:3144
+#: ../src/core/utils.c:3149
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span> Awaiting continuation"
 msgstr "Tastetryk <span font_desc=\"24\" foreground=\"blue\">%s</span> Afventer fortsættelse"
 
-#: ../src/core/utils.c:3148
+#: ../src/core/utils.c:3153
 #, c-format
 msgid "Mouse <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "Mus <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/core/utils.c:3151
+#: ../src/core/utils.c:3156
 msgid "Key + Mouse"
 msgstr "Tast + mus"
 
-#: ../src/core/utils.c:3152
+#: ../src/core/utils.c:3157
 #, c-format
 msgid "Key Press <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 msgstr "Tastetryk <span font_desc=\"24\" foreground=\"blue\">%s</span>"
 
-#: ../src/core/view.c:556
+#: ../src/core/view.c:557
 msgid "Denemo was terminated abnormally"
 msgstr "Denemo blev afsluttet unormalt"
 
-#: ../src/core/view.c:556
+#: ../src/core/view.c:557
 msgid "Open auto-saved file"
 msgstr "Åbn autoamtisk gemt fil"
 
-#: ../src/core/view.c:556
+#: ../src/core/view.c:557
 msgid "Delete auto-saved file"
 msgstr "Slet autoamtisk gemt fil"
 
-#: ../src/core/view.c:655
+#: ../src/core/view.c:656
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:30
 msgid "Unnamed"
 msgstr "Unavngivet"
 
-#: ../src/core/view.c:709 ../src/export/file.c:1302 ../src/export/file.c:1370
+#: ../src/core/view.c:710 ../src/export/file.c:1316 ../src/export/file.c:1384
 msgid "No selection text available"
 msgstr "Ingen markeret tekst er tilgængelig"
 
-#: ../src/core/view.c:874
+#: ../src/core/view.c:875
 msgid "Ask me about each"
 msgstr "Spørg mig om hver"
 
-#: ../src/core/view.c:874
+#: ../src/core/view.c:875
 msgid "Close all without saving"
 msgstr "Luk alle uden at gemme"
 
-#: ../src/core/view.c:875
+#: ../src/core/view.c:876
 #, c-format
 msgid "You have %d score(s) unsaved"
 msgstr "Du har %d partiturer, der ikke er gemt"
 
-#: ../src/core/view.c:920
+#: ../src/core/view.c:921
 #, c-format
 msgid "Could not make folder %s for the downloaded commands"
 msgstr "Kunne ikke lave mappe %s for hentede kommandoer"
 
-#: ../src/core/view.c:1028
+#: ../src/core/view.c:1029
 msgid "You have made changes to the commands you have"
 msgstr "Du har lavet ændringer til dine kommandoer"
 
-#: ../src/core/view.c:1028
+#: ../src/core/view.c:1029
 msgid "Do you want to save the changes?"
 msgstr "Ønsker du at gemme ændringerne?"
 
-#: ../src/core/view.c:1058
+#: ../src/core/view.c:1059
 msgid "MIDI Controller Active?"
 msgstr "MIDI-controller er aktiv?"
 
-#: ../src/core/view.c:1058
+#: ../src/core/view.c:1059
 msgid ""
 "Please turn off your MIDI keyboard\n"
 "if you have not already done so"
@@ -7334,75 +7361,75 @@ msgstr ""
 "Sluk venligst dit MIDI-tastatur\n"
 "hvis du ikke allerede har gjort det"
 
-#: ../src/core/view.c:1275
+#: ../src/core/view.c:1276
 msgid "Recording + Play Along"
 msgstr "Optagelse + spil sammen"
 
-#: ../src/core/view.c:1277
+#: ../src/core/view.c:1278
 msgid "Recording"
 msgstr "Optagelse"
 
-#: ../src/core/view.c:1279
+#: ../src/core/view.c:1280
 msgid "Play Along"
 msgstr "Spil sammen"
 
-#: ../src/core/view.c:1281 ../src/core/view.c:1309
+#: ../src/core/view.c:1282 ../src/core/view.c:1310
 msgid "Checking Pitches"
 msgstr "Kontrollerer tonehøjder"
 
-#: ../src/core/view.c:1283 ../src/core/view.c:1313
+#: ../src/core/view.c:1284 ../src/core/view.c:1314
 msgid "Listening to Pitches"
 msgstr "Lytter til tonehøjder"
 
-#: ../src/core/view.c:1285
+#: ../src/core/view.c:1286
 msgid "Editing a Chord"
 msgstr "Redigering af akkord"
 
-#: ../src/core/view.c:1287
+#: ../src/core/view.c:1288
 msgid "Starting a Chord"
 msgstr "Starter en akkord"
 
-#: ../src/core/view.c:1289 ../src/core/view.c:1317 ../src/core/view.c:3509
+#: ../src/core/view.c:1290 ../src/core/view.c:1318 ../src/core/view.c:3530
 msgid "Appending/Editing Pitches"
 msgstr "Tilføje/rediger tonehøjder"
 
-#: ../src/core/view.c:1329
+#: ../src/core/view.c:1330
 msgid "Mouse Conductor ON"
 msgstr "Musedirigent aktiveret"
 
-#: ../src/core/view.c:1331
+#: ../src/core/view.c:1332
 msgid "Mouse Conductor OFF"
 msgstr "Musedirigent deaktiveret"
 
-#: ../src/core/view.c:1341
+#: ../src/core/view.c:1342
 msgid "Switch to Normal Playback"
 msgstr "Skift til normal afspilning"
 
-#: ../src/core/view.c:1343 ../src/core/view.c:3516
+#: ../src/core/view.c:1344 ../src/core/view.c:3537
 msgid "Switch to Play Along Playback"
 msgstr "Skift til spil sammen-afspilning"
 
-#: ../src/core/view.c:1361
+#: ../src/core/view.c:1362
 msgid "Stop playing first"
 msgstr "Stop afspilning først"
 
-#: ../src/core/view.c:1366
+#: ../src/core/view.c:1367
 msgid "Cannot mix audio and MIDI recordings"
 msgstr "Kan ikke mikse lyd- og MIDI-optagelser"
 
-#: ../src/core/view.c:1372
+#: ../src/core/view.c:1373
 msgid "Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"
 msgstr "Kan ikke mikse MIDI-optagelser med importeret MIDI - slet importeret MIDI først"
 
-#: ../src/core/view.c:1376
+#: ../src/core/view.c:1377
 msgid "MIDI Recording"
 msgstr "MIDI-optagelse"
 
-#: ../src/core/view.c:1376
+#: ../src/core/view.c:1377
 msgid "Delete last recording?"
 msgstr "Slet sidste optagelse?"
 
-#: ../src/core/view.c:1421
+#: ../src/core/view.c:1422
 msgid ""
 "The preference set for recording time is 0 - nothing can be recorded.\n"
 "See Edit → Change Preferences Audio/Midi Tab"
@@ -7410,31 +7437,31 @@ msgstr ""
 "Præferencesættet for optagelsestiden er 0 - intet kan optages.\n"
 "Se Rediger → Ændr præferencer lyd/midi-faneblad"
 
-#: ../src/core/view.c:1577
+#: ../src/core/view.c:1578
 msgid "Select and Reset Snippet"
 msgstr "Vælg og nulstil musikstump"
 
-#: ../src/core/view.c:1581
+#: ../src/core/view.c:1582
 msgid "Insert Snippet at Cursor"
 msgstr "Indsæt musikstump ved markøren"
 
-#: ../src/core/view.c:1584
+#: ../src/core/view.c:1585
 msgid "Re-label Snippet"
 msgstr "Lav ny etikelt for musikstump"
 
-#: ../src/core/view.c:1588
+#: ../src/core/view.c:1589
 msgid "Insert and Select"
 msgstr "Indsæt og vælg"
 
-#: ../src/core/view.c:2001
+#: ../src/core/view.c:2002
 msgid "Rename Music Snippet"
 msgstr "Omdøb musikstump"
 
-#: ../src/core/view.c:2001
+#: ../src/core/view.c:2002
 msgid "Give new label for snippet"
 msgstr "Angiv ny etikelt for musikstump"
 
-#: ../src/core/view.c:2068
+#: ../src/core/view.c:2069
 msgid ""
 "No selection to create a music snippet from\n"
 "See Edit → Select menu for selecting music to snip"
@@ -7442,7 +7469,7 @@ msgstr ""
 "Ingen markering at oprette en musikstump ud fra\n"
 "Se Rediger → Vælg menu for markering af musik til stump"
 
-#: ../src/core/view.c:2256
+#: ../src/core/view.c:2257
 #, c-format
 msgid ""
 "Command: %s\n"
@@ -7455,45 +7482,45 @@ msgstr ""
 "Information:\n"
 "%s"
 
-#: ../src/core/view.c:2278
+#: ../src/core/view.c:2279
 msgid "Could not create button"
 msgstr "Kunne ikke oprette knap"
 
-#: ../src/core/view.c:2393
+#: ../src/core/view.c:2394
 msgid "Could not create .denemo/actions/bitmaps for your graphics for customized commands"
 msgstr "Kunne ikke oprette .denemo/actions/bitmaps til din grafik for tilpassede kommandoer"
 
-#: ../src/core/view.c:2412
+#: ../src/core/view.c:2413
 msgid "Could not create .denemo-xxx/actions/graphics for your graphics for customized commands"
 msgstr "Kunne ikke oprette .denemo-xxx/actions/graphics for din grafik for tilpassede kommandoer"
 
 #. FIXME allow fileselector here to change the name
-#: ../src/core/view.c:2750
+#: ../src/core/view.c:2751
 #, c-format
 msgid "Saving a graphic for use in the %s script"
 msgstr "Gemmer en grafik for brug i %s-skriptet"
 
-#: ../src/core/view.c:2751
+#: ../src/core/view.c:2752
 msgid "Replace current graphic?"
 msgstr "Erstat nuværende grafik?"
 
-#: ../src/core/view.c:3138
+#: ../src/core/view.c:3159
 msgid "Pause"
 msgstr "Pause"
 
-#: ../src/core/view.c:3203
+#: ../src/core/view.c:3224
 msgid "Denemo Main Window"
 msgstr "Denemos hovedvindue"
 
-#: ../src/core/view.c:3256
+#: ../src/core/view.c:3277
 msgid "This is the Main Menu bar, where menus for the mostly non-musical aspects (saving, printing, setting up input sources etc) are placed. See the Object Menu bar for the commands that edit music"
 msgstr "Dette er hovedmenulinjen, hvor menuer for de hovedsagelige ikkemusikalske aspketer (gem, udskriv, opsætning af indgangskilder etc.) er placeret. Se Objektmenulinjen for kommandoerne som redigerer musik"
 
-#: ../src/core/view.c:3261
+#: ../src/core/view.c:3282
 msgid "This is the Object Menu bar, where menus for the commands that edit music live. They are arranged in a hierarchy Score, Movement, Staff (which contains Voices) and then the things that go on a staff, notes, clefs etc. Directives covers everything else that you can put in amongst the notes to change the behavior from that point in the music."
 msgstr "Dette er objektmenulinjen, hvor menuer for kommandoerne som redigerer musik befinder sig. De er arrangeret i et hierarki for partitur, sats, noder, nøgler etc.Direktiver dækker alt andet som du kan placere blandt noderne for at ændre opførslen fra det punkt i musikken."
 
-#: ../src/core/view.c:3265
+#: ../src/core/view.c:3286
 msgid ""
 "You can populate this bar with buttons holding a snippet of music. The highlighted snippet is the <i>prevailing duration</i>, that is the next note entered will follow the rhythmic pattern of this snippet.\n"
 "You can enter the whole snippet by clicking on it, or using the command under ObjectMenu → Notes/Rests → Append/InsertDuration → Insert Snippet. You can also select the <i>prevailing snippet</i> using  ObjectMenu → Notes/Rests → Select Duration → Next Snippet.\n"
@@ -7503,11 +7530,11 @@ msgstr ""
 "Du kan gå til hele musikstumpen ved at klikke på den, eller bruge kommandoen under ObjektMenu → Noder/pauser → Tilføj/IndsætLængde → Indsæt musikstump. Du kan også vælge den <i>fremherskende musikstump</i> via ObjektMenu → Noder/pauser → Vælg længde → Næste musikstump.\n"
 "Du kan skjule denne bjælke (for at få mere plads på skærmen) via Visningsmenuen. Du kan gøre det til din præference at skjule den via HovedMenu → Rediger → Ændr præferencer → Vis node/pause indtastningsværktøjsbjælke"
 
-#: ../src/core/view.c:3270
+#: ../src/core/view.c:3291
 msgid "This tool bar contains a few conventional commands. You can hide it (to make more room on the screen) using the View menu. You can make it your preference to hide it using MainMenu → Edit → Change Preferences → Display general toolbar"
 msgstr "Denne værktøjsbjælke indeholder nogle få konventionelle kommandoer. Du kan skjule den (for at få mere plads på skærmen) via Visningsmenuen. Du kan gøre det til din præference at skjule den via HovedMenu → Rediger → Ændr præferencer → Vis generel værktøjsbjælke"
 
-#: ../src/core/view.c:3309
+#: ../src/core/view.c:3330
 msgid ""
 "Moves the playback start point (which shows as a green bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -7515,7 +7542,7 @@ msgstr ""
 "Flytter afspilningens startpunkt (som vises som en grøn bjælke) til tidligere\n"
 "De røde og grønne bjælke bliver ikke tegnet før du starter afspilning, eller i det mindste har oprettet tidsgrundlaget."
 
-#: ../src/core/view.c:3311
+#: ../src/core/view.c:3332
 msgid ""
 "Sets the playback start point (green bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -7523,7 +7550,7 @@ msgstr ""
 "Angiver afspilningens startpunkt (grøn bjælke) til noden ved markøren.\n"
 "De røde og grønne bjælker bliver ikke tegnet før du starter afspilning, eller i det mindste har oprettet tidsgrundlaget."
 
-#: ../src/core/view.c:3318
+#: ../src/core/view.c:3339
 msgid ""
 "Moves the playback start point (which shows as a green bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -7531,11 +7558,11 @@ msgstr ""
 "Flytter afspilningens startpunkt (som vises som en grøn bjælke) til senere\n"
 "De røde og grønne bjælker bliver ikke tegnet før du starter afspiling, eller i det mindste har oprettet tidsgrundlaget."
 
-#: ../src/core/view.c:3319
+#: ../src/core/view.c:3340
 msgid "Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."
 msgstr "Stopper afspilningen. Ved at trykke på afspil efter denne afspilning vil der blive startet hvor den grønne bjælke er, ikke der hvor du stoppede. Brug Afspil/pause-knappen til dette formål."
 
-#: ../src/core/view.c:3327
+#: ../src/core/view.c:3348
 msgid ""
 "Starts playing back from the playback start (green bar) until the playback end (red bar).\n"
 "When playing it pauses the play, and continues when pressed again."
@@ -7543,7 +7570,7 @@ msgstr ""
 "Starter afspilning tilbage fra afspilningsstarten (grøn bjælke) indtil afspilningen slutter (rød bjælke).\n"
 "Når der spilles sættes afspilningen på pause og den fortsætter når der trykkes igen."
 
-#: ../src/core/view.c:3332
+#: ../src/core/view.c:3353
 msgid ""
 "Starts/Stops recording the audio output from Denemo.\n"
 "Records live performance and/or playback,\n"
@@ -7553,11 +7580,11 @@ msgstr ""
 "Optager live optræden og/eller afspilning,\n"
 "gem til disk for at undgå at overskrive tidligere optagelser."
 
-#: ../src/core/view.c:3333
+#: ../src/core/view.c:3354
 msgid "Exports the audio recorded to disk"
 msgstr "Eksporterer lydoptagelsen til disk"
 
-#: ../src/core/view.c:3341
+#: ../src/core/view.c:3362
 msgid ""
 "Moves the playback end point (which shows as a red bar) earlier in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -7565,7 +7592,7 @@ msgstr ""
 "Flytter afspilningens slutpunkt (som vises som en rød bjælke) til tidligere\n"
 "De røde og grønne bjælker bliver ikke tegnet før du starter afspilning, eller i det mindste opretter tidsgrundlaget."
 
-#: ../src/core/view.c:3342
+#: ../src/core/view.c:3363
 msgid ""
 "Sets the playback end point (red bar) to the note at the cursor.\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -7573,7 +7600,7 @@ msgstr ""
 "Angiver afspilningens slutpunkt (rød bjælke) til noden ved markøren.\n"
 "De røde og grønne bjælker bliver ikke tegnet før du starter afspilning, eller i det mindste opretter tidsgrundlaget."
 
-#: ../src/core/view.c:3350
+#: ../src/core/view.c:3371
 msgid ""
 "Moves the playback end point (which shows as a red bar) later in time\n"
 "The red and green bars do not get drawn until you have started play, or at least created the time base."
@@ -7582,11 +7609,11 @@ msgstr ""
 "De røde og grønne bjælker bliver ikke tegnet før du starter afspilning, eller i det mindste opretter tidsgrundlaget."
 
 #. create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
-#: ../src/core/view.c:3354
+#: ../src/core/view.c:3375
 msgid "Loop"
 msgstr "Loop"
 
-#: ../src/core/view.c:3354
+#: ../src/core/view.c:3375
 msgid ""
 "The music between the red and green bars is played in a loop.\n"
 "You can edit the music while it is playing\n"
@@ -7596,35 +7623,35 @@ msgstr ""
 "Du kan redigere musikken mens den afspiller\n"
 "(så du kan fortsat lytte mens du afprøver alternativer)."
 
-#: ../src/core/view.c:3360
+#: ../src/core/view.c:3381
 msgid "Panic"
 msgstr "Panik"
 
-#: ../src/core/view.c:3362
+#: ../src/core/view.c:3383
 msgid "Reset"
 msgstr "Nulstil"
 
-#: ../src/core/view.c:3364
+#: ../src/core/view.c:3385
 msgid "Resets the synthesizer, on JACK it sends a JACK panic."
 msgstr "Nulstiller synthesizeren, på JACK sender den en JACK-panik."
 
-#: ../src/core/view.c:3367
+#: ../src/core/view.c:3388
 msgid "Play Selection"
 msgstr "Afspil markering"
 
-#: ../src/core/view.c:3367
+#: ../src/core/view.c:3388
 msgid "Plays the current selection or from the cursor to the end if no selection present."
 msgstr "Afspiller den nuværende markering eller fra markøren til slutningen hvis ingen markering."
 
-#: ../src/core/view.c:3368
+#: ../src/core/view.c:3389
 msgid "Playback Range"
 msgstr "Afspilningsinterval"
 
-#: ../src/core/view.c:3368
+#: ../src/core/view.c:3389
 msgid "Pops up a dialog to get timings for start and end of playback."
 msgstr "Viser en dialog til at indhente timinger for start og slut på afspilningen."
 
-#: ../src/core/view.c:3373
+#: ../src/core/view.c:3394
 msgid ""
 "Controls for playback.\n"
 "The arrows on either side of the PLAY and STOP buttons move the playback start\n"
@@ -7641,59 +7668,59 @@ msgstr ""
 "Det anvendte stemningssystem for afspilning kan angives her."
 
 #. Tempo
-#: ../src/core/view.c:3385
+#: ../src/core/view.c:3406
 msgid "Tempo:"
 msgstr "Tempo:"
 
-#: ../src/core/view.c:3386
+#: ../src/core/view.c:3407
 msgid "Set the (initial) tempo of the movement"
 msgstr "Angiv tempoet (oprindelig) for satsen"
 
-#: ../src/core/view.c:3398 ../actions/denemo.scm:1459
+#: ../src/core/view.c:3419 ../actions/denemo.scm:1459
 msgid "Mute Staffs"
 msgstr "Sluk nodesystemer"
 
-#: ../src/core/view.c:3398
+#: ../src/core/view.c:3419
 #: ../actions/menus/MainMenu/PlaybackMenu/MuteStaffs.xml.h:2
 msgid "Select which staffs should be muted during playback."
 msgstr "Vælg hvilke nodesystemer som skal være slukket under afspilning."
 
 #. Volume
-#: ../src/core/view.c:3401
+#: ../src/core/view.c:3422
 #: ../actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeVolume.xml.h:1
 msgid "Volume"
 msgstr "Lydstyrke"
 
 #. GTK_WIDGET_UNSET_FLAGS(label, GTK_CAN_FOCUS);
-#: ../src/core/view.c:3403
+#: ../src/core/view.c:3424
 msgid "Set the (initial) volume of the movement"
 msgstr "Angiv lydstyrken (oprindelig) for satsen"
 
-#: ../src/core/view.c:3417 ../src/ui/staffpropdialog.c:461
+#: ../src/core/view.c:3438 ../src/ui/staffpropdialog.c:461
 msgid "Always Full Volume"
 msgstr "Altid fuld lydstyrke"
 
-#: ../src/core/view.c:3425
+#: ../src/core/view.c:3446
 msgid "Audio Volume Cut"
 msgstr "Lydstyrkesænkning"
 
-#: ../src/core/view.c:3426
+#: ../src/core/view.c:3447
 msgid "Reduce the volume of the source audio relative to the volume of the score"
 msgstr "Sænk lydstyrken for lydkilden relativ til lydstyrken for partituret"
 
-#: ../src/core/view.c:3440
+#: ../src/core/view.c:3461
 msgid "Audio Volume Boost"
 msgstr "Lydstyrkeøgning"
 
-#: ../src/core/view.c:3441
+#: ../src/core/view.c:3462
 msgid "Boost the volume of the source audio relative to the volume of the score"
 msgstr "Øg lydstyrken for lydkilden relativ til lydstyrken for partituret"
 
-#: ../src/core/view.c:3453
+#: ../src/core/view.c:3474
 msgid "Audio Lead In "
 msgstr "Lydindgang "
 
-#: ../src/core/view.c:3457
+#: ../src/core/view.c:3478
 msgid ""
 "Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\n"
 "This is useful when the audio track does not begin on a barline."
@@ -7702,19 +7729,19 @@ msgstr ""
 "Dette er nyttigt når lydsporet ikke begynder på en bjælkelinje."
 
 #. Speed
-#: ../src/core/view.c:3468
+#: ../src/core/view.c:3489
 msgid "Slowdown:"
 msgstr "Sæt hastigheden ned:"
 
-#: ../src/core/view.c:3478
+#: ../src/core/view.c:3499
 msgid "Slow down the audio output maintaining the pitch"
 msgstr "Sætter hastigheden ned for lyden, mens tonehøjden bevares"
 
-#: ../src/core/view.c:3511
+#: ../src/core/view.c:3532
 msgid "This tells you what will happen to a MIDI in event from your controller. Click here or use the Control Shift or ALT keys, or caps lock to affect what will happen. Moving the cursor into the display will revert to editing notes."
 msgstr "Dette fortæller dig hvad der vil ske med en MIDI i hændelse fra din controller. Klik her eller brug Control Skift eller ALT-tasterne, eller Lås skift (caps lock) til at påvirke hvad der sker. Flytning af markøren til skærmen vil gå tilbage til redigering af noder."
 
-#: ../src/core/view.c:3516
+#: ../src/core/view.c:3537
 msgid ""
 "When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\n"
 "From then on you must play the notes at the cursor to progress the playback.\n"
@@ -7724,15 +7751,15 @@ msgstr ""
 "Derfra skal du afspille noderne ved markøren for at fortsætte afspilningen.\n"
 "Så hvis du placerer markøren på den første node for den del du ønsker at afspille, så kan du, når du har trykket afspil, spille sammen med Denemo, hvor Denemo fylder de andre dele ind og venter hvis du afspiller en forkert node."
 
-#: ../src/core/view.c:3518
+#: ../src/core/view.c:3539
 msgid "Delete the MIDI recording you have made."
 msgstr "Slet den MIDI-optagelse du har lavet."
 
-#: ../src/core/view.c:3520
+#: ../src/core/view.c:3541
 msgid "Convert the MIDI recording you have made to notation."
 msgstr "Konverter MIDI-optagelsen du har lavet til notation."
 
-#: ../src/core/view.c:3521
+#: ../src/core/view.c:3542
 msgid ""
 "Starts playing and simultaneously records from MIDI in.\n"
 "Once a recording is made it is played back with the score when you press Play.\n"
@@ -7746,7 +7773,7 @@ msgstr ""
 "med Konverter-knappen.\n"
 "En MIDI-optagelse gemmes ikke med Denemopartituret."
 
-#: ../src/core/view.c:3524
+#: ../src/core/view.c:3545
 msgid ""
 "Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\n"
 "You may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\n"
@@ -7769,7 +7796,7 @@ msgstr ""
 "Fodpedalen kan også bruges for akkorder. Frigiv ALT-tasten og tryk på den igen for at starte en ny akkord\n"
 "- timing er ikke væsentlig, afspil akkorden hurtigt eller langsomt.Eller brug Inddata → MIDI → Akkordpost uden pedal for at indtaste akkorder baseret på afspilning af noderne simultant"
 
-#: ../src/core/view.c:3576
+#: ../src/core/view.c:3597
 msgid ""
 "This is the Denemo Display for the music you have entered. See the print view window for the typeset appearance.  The blue lozenge is the Denemo Cursor - it turns red when when the bar is full or green if you are inserting in a bar. Overfull/Underfull bars are colored red/blue, use the Upbeat (Anacrusis, Pickup) command if that is intentional.\n"
 "You can switch to a menu-less view or a page-view using the Esc key. For the paged view you drag the red bar up the page to set how many systems you want showing.For the paged view you will probably want a smaller zoom - use Control+scroll-wheel on your mouse to zoom the display.\n"
@@ -7781,7 +7808,7 @@ msgstr ""
 "Mange kommandoer fungerer på objektet ved Denemo-markøren. Højreklik på et objekt for at få en kort menu med handlinger eller angiv muse-tilstand.\n"
 "Skift-højre-klik for flere objekter at indsætte."
 
-#: ../src/core/view.c:3645
+#: ../src/core/view.c:3666
 msgid ""
 "This bar shows:\n"
 "Pending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\n"
@@ -7803,15 +7830,15 @@ msgstr ""
 
 #. Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
 #. gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
-#: ../src/core/view.c:3656
+#: ../src/core/view.c:3677
 msgid "No MIDI filter"
 msgstr "Intet MIDI-filter"
 
-#: ../src/core/view.c:3657
+#: ../src/core/view.c:3678
 msgid "This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"
 msgstr "Dette område viser hvilke MIDI-filtre som er aktive. Det kan også bruges af kommander til at videresende information til brugeren"
 
-#: ../src/core/view.c:3938
+#: ../src/core/view.c:3959
 msgid ""
 "A button bar that can be populated by titles and other user generated buttons.\n"
 "Generally by clicking the button you can edit the title or value or execute the action of the button"
@@ -7905,40 +7932,40 @@ msgstr "Midlertidig partiturlayout"
 msgid "%{error. defaulting to%}c"
 msgstr "%{fejl, anvender standard%}c"
 
-#: ../src/export/exportlilypond.c:1668
+#: ../src/export/exportlilypond.c:1702
 #, c-format
 msgid "%% LilyPond file generated by Denemo version "
 msgstr "%% LilyPond-fil oprettet af Denemoversion "
 
-#: ../src/export/exportlilypond.c:2196
+#: ../src/export/exportlilypond.c:2240
 msgid "The score has been altered so that this LilyPond text is out of date - ignoring request"
 msgstr "Partituret er blevet ændret så at denne LilyPond-tekst er forældet - ignorerer anmodning"
 
-#: ../src/export/exportlilypond.c:2552
+#: ../src/export/exportlilypond.c:2647
 msgid "No textbuffer"
 msgstr "Ingen tekstbuffer"
 
-#: ../src/export/exportlilypond.c:2855
+#: ../src/export/exportlilypond.c:2950
 msgid "Could not open output file for writing"
 msgstr "Kunne ikek åbne uddatafil for skrivning"
 
-#: ../src/export/exportlilypond.c:2908
+#: ../src/export/exportlilypond.c:3003
 msgid "Filename does not have extension"
 msgstr "Filnavn har ikke en filendelse"
 
-#: ../src/export/exportlilypond.c:2996
+#: ../src/export/exportlilypond.c:3091
 msgid "Find Current Object"
 msgstr "Find nuværende objekt"
 
-#: ../src/export/exportlilypond.c:2996
+#: ../src/export/exportlilypond.c:3091
 msgid "Move the text cursor in this window to the object that the Denemo cursor is on"
 msgstr "Flyt tekstmarkøren i dette vindue til objektet som Denemo-markøren er på"
 
-#: ../src/export/exportlilypond.c:2997
+#: ../src/export/exportlilypond.c:3092
 msgid "Insert LilyPond Text"
 msgstr "Indsæt LilyPond-tekst"
 
-#: ../src/export/exportlilypond.c:2997
+#: ../src/export/exportlilypond.c:3092
 msgid ""
 "Insert LilyPond text at the cursor position.\n"
 "Warning! Shift click to position Denemo cursor first"
@@ -7946,15 +7973,15 @@ msgstr ""
 "Indsæt LilyPOnd-tekst ved markørpositionen.\n"
 "Advarsel! Skift-klik til position for Denemo-markøren først"
 
-#: ../src/export/exportlilypond.c:2999
+#: ../src/export/exportlilypond.c:3094
 msgid "Typeset this LilyPond text"
 msgstr "Opsæt denne LilyPond-tekst"
 
-#: ../src/export/exportlilypond.c:2999
+#: ../src/export/exportlilypond.c:3094
 msgid "Typesets the current LilyPond text, which will display in the Print View window. Any errors are shown below in the errors pane."
 msgstr "Opsætter den nuværende LilyPond-tekst, som vil vises i Udskrivningsvinduet. Eventuelle fejl vises nedenfor i fejlpanelet."
 
-#: ../src/export/exportlilypond.c:3389
+#: ../src/export/exportlilypond.c:3488
 msgid ""
 "Shift left click in music in this window to move the Denemo cursor the corresponding position\n"
 "Using arrows to move the cursor in the music here also moves the Denemo cursor.\n"
@@ -7967,12 +7994,12 @@ msgstr ""
 "Sluk for fortsættende opsætning før brug af partiturlayouttets indstillinger."
 
 #: ../src/export/file.c:77
-msgid "Denemo XML format (*.denemo)"
-msgstr "Denemo XML-format (*.denemo)"
+msgid "Denemo format (*.denemo *.denemo.gz)"
+msgstr "Denemo format (*.denemo *.denemo.gz)"
 
 #: ../src/export/file.c:78
-msgid "Denemo XML format (*.dnm)"
-msgstr "Denemo XML-format (*.dnm)"
+msgid "CompressedDenemo XML format (*.denemo.gz)"
+msgstr "CompressedDenemo XML-format (*.denemo.gz)"
 
 #: ../src/export/file.c:79
 msgid "Lilypond (*.ly)"
@@ -8002,105 +8029,105 @@ msgstr "CSound Score-fil (*.sco)"
 msgid "MusicXML file (*.mxml, *.xml)"
 msgstr "MusicXML-fil (*.mxml, *.xml)"
 
-#: ../src/export/file.c:163
+#: ../src/export/file.c:164
 msgid "Close without Saving"
 msgstr "Luk uden at gemme"
 
-#: ../src/export/file.c:167
+#: ../src/export/file.c:168
 msgid "Save _As"
 msgstr "Gem _som"
 
-#: ../src/export/file.c:206
+#: ../src/export/file.c:207
 #, c-format
 msgid "The score %s has unsaved changes"
 msgstr "Partituret %s har ugemte ændringer"
 
-#: ../src/export/file.c:207
+#: ../src/export/file.c:208
 msgid "Save changes?"
 msgstr "Gem ændringer?"
 
-#: ../src/export/file.c:240
+#: ../src/export/file.c:241
 #, c-format
 msgid "Load of recently used file %s failed"
 msgstr "Indlæsning af seneste anvendt fil %s mislykkedes"
 
-#: ../src/export/file.c:344
+#: ../src/export/file.c:345
 msgid "Music Snippets Can be Kept"
 msgstr "Musikstumper kan bevares"
 
-#: ../src/export/file.c:344
+#: ../src/export/file.c:345
 msgid "Drop Music Snippets"
 msgstr "Drop musikstumper"
 
-#: ../src/export/file.c:344
+#: ../src/export/file.c:345
 msgid "Keep Music Snippets"
 msgstr "Bevar musikstumper"
 
-#: ../src/export/file.c:546
+#: ../src/export/file.c:560
 msgid "You have a Script defined"
 msgstr "Du har et skript defineret"
 
-#: ../src/export/file.c:546
+#: ../src/export/file.c:560
 msgid "Normal Save"
 msgstr "Normal gem"
 
-#: ../src/export/file.c:546
+#: ../src/export/file.c:560
 msgid "Advanced: Execute the script every time this file is opened?"
 msgstr "Avanceret: Kør skriptet hver gang denne fil åbnes?"
 
-#: ../src/export/file.c:637
+#: ../src/export/file.c:651
 msgid "Could not create .denemo/templates for you personal templates"
 msgstr "Kunne ikke oprette .denemo/templates for dine personlige skabeloner"
 
-#: ../src/export/file.c:677
+#: ../src/export/file.c:691
 msgid "No examples directory in installation"
 msgstr "Ingen eksempelmappe i installationen"
 
-#: ../src/export/file.c:691
+#: ../src/export/file.c:705
 msgid "No templates directory in installation"
 msgstr "Ingen skabelonmappe i installationen"
 
-#: ../src/export/file.c:853 ../src/export/file.c:1143
-#: ../src/printview/printview.c:1185 ../src/printview/svgview.c:740
-#: ../src/ui/texteditors.c:175
+#: ../src/export/file.c:867 ../src/export/file.c:1157
+#: ../src/printview/printview.c:1186 ../src/printview/svgview.c:740
+#: ../src/ui/texteditors.c:174
 msgid "_Save"
 msgstr "_Gem"
 
-#: ../src/export/file.c:944
+#: ../src/export/file.c:958
 #, c-format
 msgid "Load of file %s failed"
 msgstr "Indlæsning af filen %s mislykkedes"
 
-#: ../src/export/file.c:1079
+#: ../src/export/file.c:1093
 msgid "File save failed"
 msgstr "Filgemning mislykkedes"
 
-#: ../src/export/file.c:1175
+#: ../src/export/file.c:1189
 msgid "Export As "
 msgstr "Eksporter som "
 
-#: ../src/export/file.c:1272
+#: ../src/export/file.c:1286
 #, c-format
 msgid "A file with the name %s already exists"
 msgstr "En fil med navnet %s findes allerede"
 
-#: ../src/export/file.c:1323
+#: ../src/export/file.c:1337
 msgid "Could not interpret selection as LilyPond notes"
 msgstr "Kunne ikke fortolke markering som LilyPond-noder"
 
-#: ../src/export/file.c:1328
+#: ../src/export/file.c:1342
 msgid "Paste from Selection"
 msgstr "Indsæt fra markering"
 
-#: ../src/export/file.c:1328
+#: ../src/export/file.c:1342
 msgid "Paste this music into your score?"
 msgstr "Indsæt denne musik i din partitur?"
 
-#: ../src/export/file.c:1349
+#: ../src/export/file.c:1363
 msgid "Can only paste LilyPond text into the last tab, sorry"
 msgstr "Kan kun indsætte LilyPond-tekst i det sidste faneblad, beklager"
 
-#: ../src/export/file.c:1374
+#: ../src/export/file.c:1388
 msgid "Inserted:\n"
 msgstr "Indsat:\n"
 
@@ -8229,7 +8256,7 @@ msgstr "(Tilpasset partiturlayout)"
 msgid "See View->Score Layout to delete."
 msgstr "Se Vis->Partiturlayout for at slette."
 
-#: ../src/printview/printview.c:367 ../src/printview/printview.c:2416
+#: ../src/printview/printview.c:367 ../src/printview/printview.c:2417
 msgid "Current Movement"
 msgstr "Nuværende sats"
 
@@ -8237,19 +8264,19 @@ msgstr "Nuværende sats"
 msgid "Excerpt Only"
 msgstr "Kun uddrag"
 
-#: ../src/printview/printview.c:936
+#: ../src/printview/printview.c:937
 msgid "Now select the notehead of the note where the slur ends"
 msgstr "Vælg nu nodehovedet for noden hvor legatobuen ender"
 
-#: ../src/printview/printview.c:936
+#: ../src/printview/printview.c:937
 msgid "Now select the notehead of the note where the tie ends"
 msgstr "Vælg nu nodehovedet for noden hvor bindebuen ender"
 
-#: ../src/printview/printview.c:936
+#: ../src/printview/printview.c:937
 msgid "Now select the notehead of the note where the beam ends"
 msgstr "Vælg nu nodehovedet for noden hvor bjælken ender"
 
-#: ../src/printview/printview.c:941 ../src/printview/printview.c:1978
+#: ../src/printview/printview.c:942 ../src/printview/printview.c:1979
 msgid ""
 "Now drag the begin/end markers to suggest slur position/angle\n"
 "Right click when done."
@@ -8257,7 +8284,7 @@ msgstr ""
 "Træk nu begynd/slut-markører for at foreslå legatobue-position/vinkel\n"
 "Højreklik når færdig."
 
-#: ../src/printview/printview.c:941
+#: ../src/printview/printview.c:942
 msgid ""
 "Now drag the begin/end markers to suggest tie position\n"
 "Right click when done."
@@ -8265,7 +8292,7 @@ msgstr ""
 "Træk nu begynd/slut-markører for at foreslå bindebue\n"
 "Højreklik når færdig."
 
-#: ../src/printview/printview.c:941 ../src/printview/printview.c:1978
+#: ../src/printview/printview.c:942 ../src/printview/printview.c:1979
 msgid ""
 "Now drag the begin/end markers to set position/angle of beam\n"
 "Right click when done."
@@ -8273,19 +8300,19 @@ msgstr ""
 "Træk nu begynd/slut-markører for at angive position/vinkel for bjælke\n"
 "Højreklik når færdig."
 
-#: ../src/printview/printview.c:1180 ../src/printview/printview.c:1210
+#: ../src/printview/printview.c:1181 ../src/printview/printview.c:1211
 msgid "PDF creation"
 msgstr "PDF-oprettelse"
 
-#: ../src/printview/printview.c:1188
+#: ../src/printview/printview.c:1189
 msgid "PDF files"
 msgstr "PDF-filer"
 
-#: ../src/printview/printview.c:1210 ../src/printview/svgview.c:765
+#: ../src/printview/printview.c:1211 ../src/printview/svgview.c:765
 msgid "File Exists, overwrite?"
 msgstr "Filen findes, overskriv?"
 
-#: ../src/printview/printview.c:1214 ../src/printview/svgview.c:769
+#: ../src/printview/printview.c:1215 ../src/printview/svgview.c:769
 #, c-format
 msgid ""
 "Errno %d:\n"
@@ -8294,44 +8321,44 @@ msgstr ""
 "Errno %d:\n"
 "Kunne ikke kopiere %s til %s. Måske bruger en anden proces destinationsfilen. Prøv igen med en ny placering\n"
 
-#: ../src/printview/printview.c:1282
+#: ../src/printview/printview.c:1283
 msgid "Use the Playback View or re-typeset"
 msgstr "Brug afspilningsvisningen eller genopsæt"
 
-#: ../src/printview/printview.c:1390
+#: ../src/printview/printview.c:1391
 msgid "Slur Angle/Position"
 msgstr "Legatobuevinkel/-position"
 
-#: ../src/printview/printview.c:1390
+#: ../src/printview/printview.c:1391
 msgid "Repeat Slur Positioning Hint?"
 msgstr "Gentag legatobuepositioneringshint?"
 
-#: ../src/printview/printview.c:1401
+#: ../src/printview/printview.c:1402
 msgid "Slur Shape"
 msgstr "Legatobueform"
 
-#: ../src/printview/printview.c:1401
+#: ../src/printview/printview.c:1402
 msgid "Repeat Shaping Slur?"
 msgstr "Gentag formning af legatobue?"
 
-#: ../src/printview/printview.c:1419
+#: ../src/printview/printview.c:1420
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml.h:1
 msgid "Tie Shape"
 msgstr "Bindebueform"
 
-#: ../src/printview/printview.c:1419
+#: ../src/printview/printview.c:1420
 msgid "Repeat Shaping Tie?"
 msgstr "Gentag formning af bindebue?"
 
-#: ../src/printview/printview.c:1658
+#: ../src/printview/printview.c:1659
 msgid "Operation Cancelled"
 msgstr "Operation afbrudt"
 
-#: ../src/printview/printview.c:1675
+#: ../src/printview/printview.c:1676
 msgid "Do not know what to repeat"
 msgstr "Ved ikke hvad der skal gentages"
 
-#: ../src/printview/printview.c:1687
+#: ../src/printview/printview.c:1688
 msgid ""
 "To tweak the positions of objects (and more) move the mouse until the hand pointer appears\n"
 "Click on the object and follow the prompts.\n"
@@ -8341,23 +8368,23 @@ msgstr ""
 "fremgår. Klik på objektet og følg spørgsmålene.\n"
 "For nodebjælker klik på nodehovedet for noden hvor nodebjælken begynder."
 
-#: ../src/printview/printview.c:1705
+#: ../src/printview/printview.c:1706
 msgid "Apply"
 msgstr "Anvend"
 
-#: ../src/printview/printview.c:1716
+#: ../src/printview/printview.c:1717
 msgid "Help for Tweaks"
 msgstr "Hjælp for optimeringer"
 
-#: ../src/printview/printview.c:1717
+#: ../src/printview/printview.c:1718
 msgid "This window can be used to tweak the typesetting that LilyPond does in the case that it is not optimal"
 msgstr "Dette vindue kan bruges til at optimere opsætningen, som LilyPond udfører, i tilfældet af at den ikke er optimal"
 
-#: ../src/printview/printview.c:1723
+#: ../src/printview/printview.c:1724
 msgid "Red dots and crosses (Off/On)"
 msgstr "Rød punktummer og kryds (deaktiveret/aktiveret)"
 
-#: ../src/printview/printview.c:1724
+#: ../src/printview/printview.c:1725
 msgid ""
 "The exact positions of the graphical components of the score will be labelled with red dots\n"
 "and the control points for curves with red crosses for accurate tweaks\n"
@@ -8367,137 +8394,137 @@ msgstr ""
 "prikker og kontrolpunkterne for kurver med røde krydse for præcise finjusteringer\n"
 "Deaktiver disse før udskrivning!"
 
-#: ../src/printview/printview.c:1728
+#: ../src/printview/printview.c:1729
 msgid "Score Size"
 msgstr "Partiturstørrelse"
 
 #. never true
-#: ../src/printview/printview.c:1734
+#: ../src/printview/printview.c:1735
 msgid "Repeat"
 msgstr "Gentat"
 
-#: ../src/printview/printview.c:2202 ../src/printview/printview.c:2544
+#: ../src/printview/printview.c:2203 ../src/printview/printview.c:2545
 msgid "Duplex"
 msgstr "Duplex"
 
-#: ../src/printview/printview.c:2202
+#: ../src/printview/printview.c:2203
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:55
 msgid "Single"
 msgstr "Enkel"
 
-#: ../src/printview/printview.c:2368
+#: ../src/printview/printview.c:2369
 msgid "Measures before cursor:"
 msgstr "Takter før markør:"
 
-#: ../src/printview/printview.c:2377
+#: ../src/printview/printview.c:2378
 msgid "Measures after cursor:"
 msgstr "Takter efter markør:"
 
-#: ../src/printview/printview.c:2388
+#: ../src/printview/printview.c:2389
 msgid "Staffs before cursor:"
 msgstr "Nodesystemer før markør:"
 
-#: ../src/printview/printview.c:2396
+#: ../src/printview/printview.c:2397
 msgid "Staffs after cursor:"
 msgstr "Nodesystemer efter markør:"
 
 #. hbox = gtk_hbox_new (FALSE, 1);
 #. gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
-#: ../src/printview/printview.c:2411
+#: ../src/printview/printview.c:2412
 msgid "All Movements"
 msgstr "Alle satser"
 
-#: ../src/printview/printview.c:2413
+#: ../src/printview/printview.c:2414
 msgid "If checked the current layout is re-typeset at every change"
 msgstr "Hvis afkrydes bliver det nuværende layout genopsat ved hver ændring"
 
-#: ../src/printview/printview.c:2418
+#: ../src/printview/printview.c:2419
 msgid "If checked the current movement is re-typeset at every change"
 msgstr "Hvis afkrydes bliver den nuværende sats genopsat ved hver ændring"
 
-#: ../src/printview/printview.c:2422
+#: ../src/printview/printview.c:2423
 msgid "Cursor Context"
 msgstr "Markørkontekst"
 
-#: ../src/printview/printview.c:2424
+#: ../src/printview/printview.c:2425
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
 msgstr "Hvis afkrydes bliver intervallet omkring den nuværende markørposition genopsat ved hver ændring eller når markøren flytter sig uden for rækkevidde."
 
-#: ../src/printview/printview.c:2450
+#: ../src/printview/printview.c:2451
 msgid "Set background updates on/off."
 msgstr "Angiv baggrundsopdateringer til aktiveret/deaktiveret."
 
-#: ../src/printview/printview.c:2454
+#: ../src/printview/printview.c:2455
 msgid "Range"
 msgstr "Rækkevidde"
 
-#: ../src/printview/printview.c:2455
+#: ../src/printview/printview.c:2456
 msgid "Set how much of the score to re-draw."
 msgstr "Angiv hvor meget af partituret som skal gentegnes."
 
-#: ../src/printview/printview.c:2473
+#: ../src/printview/printview.c:2474
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
 msgstr "Aktiver/deaktiver baggrundsopdatering. Dette kontrollerer om opsætning genudføres efter hver ændring i musikken. Mængden af partituret til genopsætning kan angives via denne knap."
 
-#: ../src/printview/printview.c:2506
+#: ../src/printview/printview.c:2507
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
 msgstr "Viser en udskrivningsdialog. Fra denne kan du sende din opsætning af partituret til en printer eller til en PDF-fil."
 
-#: ../src/printview/printview.c:2510
+#: ../src/printview/printview.c:2511
 msgid "PDF"
 msgstr "Pdf"
 
-#: ../src/printview/printview.c:2511
+#: ../src/printview/printview.c:2512
 msgid "Exports a pdf file for this layout"
 msgstr "Eksporterer en pdf-fil for dette layout"
 
-#: ../src/printview/printview.c:2517
+#: ../src/printview/printview.c:2518
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
 msgstr "Opsætter musikken via et af det oprettede layout. Se Vis → Partiturlayout for de layout du har oprettet."
 
-#: ../src/printview/printview.c:2523
+#: ../src/printview/printview.c:2524
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
 msgstr "Opsætter musikken fra den nuværende sats. Dette opretter et partiturlayout, der består af en sats."
 
-#: ../src/printview/printview.c:2527
+#: ../src/printview/printview.c:2528
 msgid "Part"
 msgstr "Del"
 
-#: ../src/printview/printview.c:2528
+#: ../src/printview/printview.c:2529
 msgid "Typesets the music from the current part for all movements. A part is all the music with the same staff-name. This creates a score layout with one part, all movements."
 msgstr "Opsætter musikken fra den nuværende del for alle satser. En del er al musikken med det samme nodesystemnavn. Dette opretter et partiturlayout med en del, alle satser."
 
-#: ../src/printview/printview.c:2533
+#: ../src/printview/printview.c:2534
 msgid "Re-issues the last print command. Use this after modifying the file to repeat the typesetting."
 msgstr "Genudsender den sidste udskrivningskommando. Brug denne efter ændring af filen for at gentage opsætningen."
 
-#: ../src/printview/printview.c:2545
+#: ../src/printview/printview.c:2546
 msgid "Shows pages side by side, so you can see page turns for back-to-back printing\n"
 msgstr "Viser sider ved siden af hinanden, så kan se sideskift for bag til bag-udskrivning\n"
 
-#: ../src/printview/printview.c:2549
+#: ../src/printview/printview.c:2550
 msgid "Next"
 msgstr "Næste"
 
-#: ../src/printview/printview.c:2550
+#: ../src/printview/printview.c:2551
 msgid "Move to the next page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "Flyt til den næste side - du kan også rulle med rullehjulet, og zoome med kontrolhjulet"
 
-#: ../src/printview/printview.c:2553
+#: ../src/printview/printview.c:2554
 msgid "Previous"
 msgstr "Forrige"
 
-#: ../src/printview/printview.c:2554
+#: ../src/printview/printview.c:2555
 msgid "Move to the previous page - you can also scroll with the scroll-wheel, and zoom with control-wheel"
 msgstr "Flyt til forrige side - du kan også rulle med rullehjulet, og zoome med kontrolhjulet"
 
 #. if(!Denemo.prefs.manualtypeset)
 #. gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-#: ../src/printview/printview.c:2562
+#: ../src/printview/printview.c:2563
 msgid "Denemo Print View"
 msgstr "Denemos udskriftsvisning"
 
-#: ../src/printview/printview.c:2584
+#: ../src/printview/printview.c:2585
 msgid ""
 "This window shows the final typeset score from which you can print or (via print to file) create a PDF document.\n"
 "This will be continuously updated while you edit the music in the main window.\n"
@@ -8627,15 +8654,15 @@ msgstr "Toneart i (del af) etiket"
 msgid "No such label"
 msgstr "Ingen sådan etiket"
 
-#: ../src/scripting/scheme-callbacks.c:1030
+#: ../src/scripting/scheme-callbacks.c:1029
 msgid "Destroying Customized Buttons"
 msgstr "Ødelægger tilpassede knapper"
 
-#: ../src/scripting/scheme-callbacks.c:1030
+#: ../src/scripting/scheme-callbacks.c:1029
 msgid "Remove buttons and other customized scheme on startup?"
 msgstr "Fjern knapper og anden tilpasset Scheme ved opstart?"
 
-#: ../src/scripting/scheme-callbacks.c:1388
+#: ../src/scripting/scheme-callbacks.c:1387
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:61
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:115
@@ -8643,31 +8670,31 @@ msgstr "Fjern knapper og anden tilpasset Scheme ved opstart?"
 msgid "Choose File"
 msgstr "Vælg fil"
 
-#: ../src/scripting/scheme-callbacks.c:2807
+#: ../src/scripting/scheme-callbacks.c:2806
 msgid "Text Input"
 msgstr "Tekstindtastning"
 
-#: ../src/scripting/scheme-callbacks.c:2808
+#: ../src/scripting/scheme-callbacks.c:2807
 msgid "Give Text"
 msgstr "Angiv tekst"
 
-#: ../src/scripting/scheme-callbacks.c:2827
+#: ../src/scripting/scheme-callbacks.c:2830
 msgid "LilyPond Syntax"
 msgstr "LilyPond-syntaks"
 
-#: ../src/scripting/scheme-callbacks.c:2830
+#: ../src/scripting/scheme-callbacks.c:2833
 msgid "Give LilyPond Syntax"
 msgstr "Angiv LilyPond-syntaks"
 
-#: ../src/scripting/scheme-callbacks.c:3709
+#: ../src/scripting/scheme-callbacks.c:3735
 msgid "Input Required"
 msgstr "Inddata krævet"
 
-#: ../src/scripting/scheme-callbacks.c:3715
+#: ../src/scripting/scheme-callbacks.c:3741
 msgid "Give input: "
 msgstr "Angiv inddata: "
 
-#: ../src/scripting/scheme-callbacks.c:3762
+#: ../src/scripting/scheme-callbacks.c:3788
 msgid ""
 "Please delete the font size and bold/italic indications,\n"
 "leaving just the font family name."
@@ -8675,28 +8702,28 @@ msgstr ""
 "Slet venligst skriftstørrelsen og fed/kursiv-indikationer,\n"
 "så kun skriftens familienavn fremgår."
 
-#: ../src/scripting/scheme-callbacks.c:3782
-#: ../src/scripting/scheme-callbacks.c:3839
+#: ../src/scripting/scheme-callbacks.c:3808
+#: ../src/scripting/scheme-callbacks.c:3865
 msgid "Choose Font"
 msgstr "Vælg skrifttype"
 
-#: ../src/scripting/scheme-callbacks.c:3916
+#: ../src/scripting/scheme-callbacks.c:3942
 msgid "Script error, wrong parameter type to d-InfoDialog"
 msgstr "Skriptfejl, forkert parametertype for d-InfoDialog"
 
-#: ../src/scripting/scheme-callbacks.c:4207
+#: ../src/scripting/scheme-callbacks.c:4241
 msgid "Already in a padding dialog"
 msgstr "Allerede i en fylddialog"
 
-#: ../src/scripting/scheme-callbacks.c:6476
+#: ../src/scripting/scheme-callbacks.c:6543
 msgid "Time Signatures do not match, will not make voice"
 msgstr "Taktarter er ikke ens, vil ikke lave stemme"
 
-#: ../src/scripting/scheme-callbacks.c:6483
+#: ../src/scripting/scheme-callbacks.c:6550
 msgid "Key Signatures do not match, will not make voice"
 msgstr "Toneartsangivelser er ikke ens, vil ikke lave stemme"
 
-#: ../src/scripting/scheme-callbacks.c:6491
+#: ../src/scripting/scheme-callbacks.c:6558
 msgid "This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."
 msgstr "Denne stemme har en anderledes nøgle end nodesystemet den vil blive opsat på. Denne nøgle vil kun blive brugt til visningen."
 
@@ -8918,7 +8945,7 @@ msgstr "Lav en genvejssekvens for denne kommando"
 msgid "Press a shortcut sequence whose command you seek"
 msgstr "Lav en genvejssekvens for kommandoen du eftersøger"
 
-#: ../src/ui/kbd-interface.c:427
+#: ../src/ui/kbd-interface.c:434
 msgid ""
 "No keyboard modifier keys\n"
 "Press with modifier key to change"
@@ -8926,7 +8953,7 @@ msgstr ""
 "Ingen tastaturændringstaster\n"
 "Tryk ændringstasten for at ændre"
 
-#: ../src/ui/kbd-interface.c:429
+#: ../src/ui/kbd-interface.c:436
 msgid ""
 "\n"
 "Press with modifier key to change"
@@ -8934,53 +8961,53 @@ msgstr ""
 "\n"
 "Tryk med ændringstast for at ændre"
 
-#: ../src/ui/kbd-interface.c:448
+#: ../src/ui/kbd-interface.c:455
 #, c-format
 msgid "The Command %s Responds to this Shortcut"
 msgstr "Kommandoen %s Svarer til denne genvej"
 
-#: ../src/ui/kbd-interface.c:467 ../src/ui/kbd-interface.c:807
+#: ../src/ui/kbd-interface.c:474 ../src/ui/kbd-interface.c:814
 msgid "Set Mouse Shortcut"
 msgstr "Angiv musegenvej"
 
-#: ../src/ui/kbd-interface.c:483
+#: ../src/ui/kbd-interface.c:490
 #, c-format
 msgid "Setting mouse shortcut for %s"
 msgstr "Angiver musegenvej for %s"
 
-#: ../src/ui/kbd-interface.c:487
+#: ../src/ui/kbd-interface.c:494
 msgid "Choose the mouse button"
 msgstr "Vælg museknappen"
 
-#: ../src/ui/kbd-interface.c:494
+#: ../src/ui/kbd-interface.c:501
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:48
 msgid "Left"
 msgstr "Venstre"
 
-#: ../src/ui/kbd-interface.c:497
+#: ../src/ui/kbd-interface.c:504
 #: ../actions/menus/ObjectMenu/Lyrics/InsertLyricAlignment.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:49
 msgid "Right"
 msgstr "Højre"
 
-#: ../src/ui/kbd-interface.c:501
+#: ../src/ui/kbd-interface.c:508
 msgid "Choose mouse action"
 msgstr "Vælg musehandling"
 
-#: ../src/ui/kbd-interface.c:507
+#: ../src/ui/kbd-interface.c:514
 msgid "Press Button"
 msgstr "Tryk på knap"
 
-#: ../src/ui/kbd-interface.c:510
+#: ../src/ui/kbd-interface.c:517
 msgid "Release Button"
 msgstr "Frigiv knap"
 
-#: ../src/ui/kbd-interface.c:513
+#: ../src/ui/kbd-interface.c:520
 msgid "Drag"
 msgstr "Træk"
 
-#: ../src/ui/kbd-interface.c:517
+#: ../src/ui/kbd-interface.c:524
 msgid ""
 "Hold Modifier Keys, Engage Caps or Num Lock\n"
 "and click here to set shortcut."
@@ -8988,7 +9015,7 @@ msgstr ""
 "Hold ændringstaster nede, aktiver skift eller numerisk lås\n"
 "og klik her for at se genvej."
 
-#: ../src/ui/kbd-interface.c:636
+#: ../src/ui/kbd-interface.c:643
 msgid ""
 "Type search text here. Enter words that might be in the command label,\n"
 "or part of the text of a tooltip or the internal name.\n"
@@ -8996,11 +9023,11 @@ msgid ""
 "The search re-starts from the top when you delete a letter."
 msgstr ""
 
-#: ../src/ui/kbd-interface.c:637
+#: ../src/ui/kbd-interface.c:644
 msgid "Search for the next matching command. Starts again at the top once it has reached the end."
 msgstr "Søg efter næste matchende kommando. Starter forfra fra toppen når slutningen nås."
 
-#: ../src/ui/kbd-interface.c:651
+#: ../src/ui/kbd-interface.c:658
 msgid ""
 "This window allows you find and execute commands.\n"
 "Once you have selected a command the box at the top gives information about that command,\n"
@@ -9019,11 +9046,11 @@ msgstr ""
 "tidspunkt.\n"
 "Dette vindue er også stedet hvor du kan indlæse et sådant lagret kommandosæt."
 
-#: ../src/ui/kbd-interface.c:668
+#: ../src/ui/kbd-interface.c:675
 msgid "Help for Selected Command"
 msgstr "Hjælp til valgt kommando"
 
-#: ../src/ui/kbd-interface.c:691
+#: ../src/ui/kbd-interface.c:698
 msgid ""
 "List of shortcuts\n"
 "for <i>selected</i> command\n"
@@ -9039,55 +9066,55 @@ msgstr ""
 "at fjerne\n"
 "med knappen nedenfor."
 
-#: ../src/ui/kbd-interface.c:696
+#: ../src/ui/kbd-interface.c:703
 msgid "Remove Shortcut"
 msgstr "Fjern genvej"
 
-#: ../src/ui/kbd-interface.c:707
+#: ../src/ui/kbd-interface.c:714
 msgid "Save as Default Command Set"
 msgstr "Gem som standardsæt for kommandoer"
 
-#: ../src/ui/kbd-interface.c:709
+#: ../src/ui/kbd-interface.c:716
 msgid "Use this to save the changes you have made so that they are used every time you start Denemo. The changes are stored under a directory (folder) called .denemo-* in your home directory. Look in subdirectory actions for Default.commands"
 msgstr "Brug denne til at gemme dine ændringer, så de bruges hver gang Denemo startes. Ændringerne lagres under en mappe kaldt .denemo-* i din hjemmemappe. Kig i undermappen »actions« for Default.commands"
 
-#: ../src/ui/kbd-interface.c:710
+#: ../src/ui/kbd-interface.c:717
 msgid "Save as a Custom Command Set"
 msgstr "Gem som et tilpasset kommandosæt"
 
-#: ../src/ui/kbd-interface.c:713 ../src/ui/kbd-interface.c:716
+#: ../src/ui/kbd-interface.c:720 ../src/ui/kbd-interface.c:723
 msgid "Load a Standard Command Set"
 msgstr "Indlæs et standardsæt for kommandoer"
 
-#: ../src/ui/kbd-interface.c:719
+#: ../src/ui/kbd-interface.c:726
 msgid "Load a Custom Command Set"
 msgstr "Indlæs et tilpasset kommandosæt"
 
-#: ../src/ui/kbd-interface.c:727
+#: ../src/ui/kbd-interface.c:734
 msgid "Load the Standard Palette Set"
 msgstr "Indlæs standardpaletsættet"
 
-#: ../src/ui/kbd-interface.c:738
+#: ../src/ui/kbd-interface.c:745
 msgid "Add 1-Key Shortcut"
 msgstr "Tilføj genvej med en tast"
 
-#: ../src/ui/kbd-interface.c:739
+#: ../src/ui/kbd-interface.c:746
 msgid "Create a single keypress (with modifier keys - Control, Shift ... - if needed) as a keyboard shortcut for the currently selected command."
 msgstr "Opret et enkelt tastetryk (med ændringstaster - Control, skift ... - hvis krævet) som en tastaturgenvej for den valgte kommando."
 
-#: ../src/ui/kbd-interface.c:742
+#: ../src/ui/kbd-interface.c:749
 msgid "Add 2-Key Shortcut"
 msgstr "Tilføj genvej med to taster"
 
-#: ../src/ui/kbd-interface.c:743
+#: ../src/ui/kbd-interface.c:750
 msgid "Create a two keypress sequence as a keyboard shortcut for the currently selected command."
 msgstr "Opret en sekvens med to tastetryk som tastaturgenvej for den valgte kommando."
 
-#: ../src/ui/kbd-interface.c:746
+#: ../src/ui/kbd-interface.c:753
 msgid "Find Command for Shortcut"
 msgstr "Find kommando for genvej"
 
-#: ../src/ui/kbd-interface.c:747
+#: ../src/ui/kbd-interface.c:754
 msgid ""
 "Finds the command (if any) for a (one key) Keyboard Shortcut\n"
 "Click button then press the key shortcut you are looking for."
@@ -9095,12 +9122,12 @@ msgstr ""
 "Finder kommandoen (hvis nogen) for en (en tast) genvejstast\n"
 "Klik på knappen og tryk så på tastegenvejen du er på udkift efter."
 
-#: ../src/ui/kbd-interface.c:754
+#: ../src/ui/kbd-interface.c:761
 msgid "Execute Selected Command"
 msgstr "Kør valgt kommando"
 
 # movement? sats/bevægelse
-#: ../src/ui/kbd-interface.c:755
+#: ../src/ui/kbd-interface.c:762
 msgid ""
 "Executes the currently selected command in the list of commands\n"
 "Ensure the cursor is in the movement and at the position if needed for the command."
@@ -9108,11 +9135,11 @@ msgstr ""
 "Kører den valgte kommando i listen over kommandoer.\n"
 "Sikr dig at markøren er i satsen og ved positionen hvis krævet for kommandoen."
 
-#: ../src/ui/kbd-interface.c:757
+#: ../src/ui/kbd-interface.c:764
 msgid "Add to Palette"
 msgstr "Tilføj til palet"
 
-#: ../src/ui/kbd-interface.c:758
+#: ../src/ui/kbd-interface.c:765
 msgid ""
 "Adds the currently selected command in the list of commands to a palette\n"
 "You can create a new, custom palette, and you can change the label of the button you create by right-clicking on it."
@@ -9120,7 +9147,7 @@ msgstr ""
 "Tilføjer den valgte kommando i listen over kommandoen til en palet\n"
 "Du kan oprette en ny, tilpasset palet, og du kan ændre etiketten for knappen ved at højreklikke på den."
 
-#: ../src/ui/kbd-interface.c:808
+#: ../src/ui/kbd-interface.c:815
 msgid "Set mouse shortcut"
 msgstr "Angiv musegenvej"
 
@@ -9165,11 +9192,11 @@ msgid "Give a font name "
 msgstr "Angiv et skriftnavn "
 
 #: ../src/ui/markup.c:213 ../src/ui/markup.c:230 ../src/ui/markup.c:241
-#: ../src/ui/markup.c:467 ../src/ui/markup.c:570
+#: ../src/ui/markup.c:469 ../src/ui/markup.c:572
 msgid "Select the text first."
 msgstr "Vælg teksten først."
 
-#: ../src/ui/markup.c:233 ../src/ui/markup.c:453 ../actions/denemo.scm:287
+#: ../src/ui/markup.c:233 ../src/ui/markup.c:455 ../actions/denemo.scm:287
 #: ../actions/denemo.scm:347
 msgid "Font Magnification"
 msgstr "Skriftforstørrelse"
@@ -9196,43 +9223,43 @@ msgstr "Indsæt mellemrum"
 msgid "Give space to insert +/- "
 msgstr "Angiv mellemrum til at indsætte +/- "
 
-#: ../src/ui/markup.c:388 ../src/ui/markup.c:404
+#: ../src/ui/markup.c:390 ../src/ui/markup.c:406
 msgid "Give amount "
 msgstr "Angiv mængde "
 
-#: ../src/ui/markup.c:423
+#: ../src/ui/markup.c:425
 msgid "Music Glyphs"
 msgstr "Musikskrifttegn"
 
-#: ../src/ui/markup.c:423
+#: ../src/ui/markup.c:425
 msgid "Give a name of glyph (see LilyPond Documentation for these) "
 msgstr "Angiv et navn for skrifttegnet (se LilyPond-dokumentationen for disse) "
 
-#: ../src/ui/markup.c:447
+#: ../src/ui/markup.c:449
 msgid "Raise"
 msgstr "Hæv"
 
-#: ../src/ui/markup.c:448
+#: ../src/ui/markup.c:450
 msgid "raises the selection by the amount given."
 msgstr "hæver markeringen med den angivne mængde."
 
-#: ../src/ui/markup.c:454
+#: ../src/ui/markup.c:456
 msgid "Inserts markup to set the relative font size for the selected text."
 msgstr "Indsætter opmærkning for at ændre den relative skriftstørrelse."
 
-#: ../src/ui/markup.c:476
+#: ../src/ui/markup.c:478
 msgid "Horizontal Space (+/-)"
 msgstr "Vandret mellemrum (+/-)"
 
-#: ../src/ui/markup.c:477
+#: ../src/ui/markup.c:479
 msgid "Inserts a spacer (+) or shifts the rest of the line rightwards (-) by amount given"
 msgstr "Indsætter et mellemrum (+) eller skubber resten af linjen mod højre (-) med den angivne mængde"
 
-#: ../src/ui/markup.c:482
+#: ../src/ui/markup.c:484
 msgid "Paste Note Name"
 msgstr "Indsæt nodenavn"
 
-#: ../src/ui/markup.c:483
+#: ../src/ui/markup.c:485
 msgid ""
 "Pastes user supplied note name in a choice of font style and size.\n"
 "The note name is pasted as LilyPond markup.\n"
@@ -9244,113 +9271,113 @@ msgstr ""
 "Den vil udskrives som nodenavnet i sætningen du skriver, omsat jævnfør et globalt transpositionssæt.\n"
 "Brug, for eksempel, for at specificere toneart for et musikstykke.\n"
 
-#: ../src/ui/markup.c:491
+#: ../src/ui/markup.c:493
 msgid "LilyPond Glyph"
 msgstr "LilyPond-skrifttegn"
 
-#: ../src/ui/markup.c:492
+#: ../src/ui/markup.c:494
 msgid "Inserts LilyPond music glyph at the cursor position in the text."
 msgstr "Indsætter LilyPond-musikskrifttegn ved markørpositionen i teksten."
 
-#: ../src/ui/markup.c:512
+#: ../src/ui/markup.c:514
 msgid "Adjust Selection (with value)"
 msgstr "Juster markering (med værdi)"
 
-#: ../src/ui/markup.c:513
+#: ../src/ui/markup.c:515
 msgid "Pop up a menu of adjustments to be made to the selection with a value you give."
 msgstr "Vis en pop op-menu med justeringer for markeringen med en værdi du angiver."
 
-#: ../src/ui/markup.c:517 ../actions/denemo.scm:279 ../actions/denemo.scm:340
+#: ../src/ui/markup.c:519 ../actions/denemo.scm:279 ../actions/denemo.scm:340
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/TextAnnotation.scm:12
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:5
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:5
 msgid "Bold"
 msgstr "Fed"
 
-#: ../src/ui/markup.c:518
+#: ../src/ui/markup.c:520
 msgid "Inserts markup to make the selected text bold."
 msgstr "Indsætter opmærkning så den valgte tekst bliver fed."
 
-#: ../src/ui/markup.c:522 ../actions/denemo.scm:281 ../actions/denemo.scm:342
+#: ../src/ui/markup.c:524 ../actions/denemo.scm:281 ../actions/denemo.scm:342
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/TextAnnotation.scm:18
 #: ../actions/menus/ObjectMenu/Lyrics/InsertHighlightedLyricSyllable.scm:11
 #: ../actions/menus/ObjectMenu/Lyrics/InsertStanzaNumber.scm:11
 msgid "Italic"
 msgstr "Kursiv"
 
-#: ../src/ui/markup.c:523
+#: ../src/ui/markup.c:525
 msgid "Inserts markup to make the selected text italic."
 msgstr "Indsætter opmærkning så den valgte tekst er i kursiv."
 
-#: ../src/ui/markup.c:527 ../actions/denemo.scm:281 ../actions/denemo.scm:342
+#: ../src/ui/markup.c:529 ../actions/denemo.scm:281 ../actions/denemo.scm:342
 msgid "Upright"
 msgstr "Opretstående"
 
-#: ../src/ui/markup.c:528
+#: ../src/ui/markup.c:530
 msgid "Inserts markup to make the selected text not italic."
 msgstr "Indsætter opmærkning så den valgte tekst ikke er i kursiv."
 
-#: ../src/ui/markup.c:532
+#: ../src/ui/markup.c:534
 msgid "Un-Bold"
 msgstr "Fjern fed"
 
-#: ../src/ui/markup.c:533
+#: ../src/ui/markup.c:535
 msgid "Inserts markup to make the selected text not bold."
 msgstr "Indsætter opmærkning så den valgte tekst ikke er fed."
 
-#: ../src/ui/markup.c:537
+#: ../src/ui/markup.c:539
 msgid "Superscript"
 msgstr "Superskript"
 
-#: ../src/ui/markup.c:538
+#: ../src/ui/markup.c:540
 msgid "Inserts markup to make the selected text as superscript."
 msgstr "Indsætter opmærkning så den valgte tekst er superskript."
 
-#: ../src/ui/markup.c:542
+#: ../src/ui/markup.c:544
 msgid "Subscript"
 msgstr "Subskript"
 
-#: ../src/ui/markup.c:543
+#: ../src/ui/markup.c:545
 msgid "Inserts markup to make the selected text as subscript."
 msgstr "Indsætter opmærkning så den valgte tekst er subskript."
 
-#: ../src/ui/markup.c:547
+#: ../src/ui/markup.c:549
 msgid "Column"
 msgstr "Kolonne"
 
-#: ../src/ui/markup.c:548
+#: ../src/ui/markup.c:550
 msgid "Inserts markup to place the selected text in a column. You can nest lines inside columns."
 msgstr "Indsætter opmærkning så den valgte tekst er i en kolonne. Du kan indlejre linjer i kolonnerne."
 
-#: ../src/ui/markup.c:552
+#: ../src/ui/markup.c:554
 msgid "Line"
 msgstr "Linje"
 
-#: ../src/ui/markup.c:553
+#: ../src/ui/markup.c:555
 msgid "Inserts markup to place the selected text in a line."
 msgstr "Indsætter opmærkning så den valgte tekst er i en linje."
 
-#: ../src/ui/markup.c:557
+#: ../src/ui/markup.c:559
 msgid "Box"
 msgstr "Boks"
 
-#: ../src/ui/markup.c:558
+#: ../src/ui/markup.c:560
 msgid "Inserts markup to place the selected text in a box."
 msgstr "Indsætter opmærkning så den valgte tekst placeres i en boks."
 
-#: ../src/ui/markup.c:584
+#: ../src/ui/markup.c:586
 msgid "Insert (with value)"
 msgstr "Indsæt (med værdi)"
 
-#: ../src/ui/markup.c:585
+#: ../src/ui/markup.c:587
 msgid "Pop up a menu of insertions that require a value to insert."
 msgstr "Vis en pop op-menu med indsættelser som kræver en værdi."
 
-#: ../src/ui/markup.c:589
+#: ../src/ui/markup.c:591
 msgid "Paste Current Snippet"
 msgstr "Indsæt nuværende stykke"
 
-#: ../src/ui/markup.c:590
+#: ../src/ui/markup.c:592
 msgid ""
 "Pastes the music captured in the currently selected Snippet into the text at the cursor.\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -9362,11 +9389,11 @@ msgstr ""
 "Den vil udskrive som opsat musik indlejret i sætningen du skriver.\n"
 "Du kan redigere syntaksen efter LilyPond-syntaksen.\n"
 
-#: ../src/ui/markup.c:599
+#: ../src/ui/markup.c:601
 msgid "Paste Chord Symbol"
 msgstr "Indsæt akkordsymbol"
 
-#: ../src/ui/markup.c:600
+#: ../src/ui/markup.c:602
 msgid ""
 "Pastes chord symbol for the chord at the cursor in a choice of font style and size.\n"
 "The chord is pasted as LilyPond markup.\n"
@@ -9376,11 +9403,11 @@ msgstr ""
 "Akkorden indsættes som LilyPond-opmærkning.\n"
 "Den vil blive udskrevet som akkordsymbolet (fakechord) i sætningen du skriver, transponeret jævnfør det globale transpostionssæt.\n"
 
-#: ../src/ui/markup.c:608
+#: ../src/ui/markup.c:610
 msgid "Paste Fret Diagram"
 msgstr "Indsæt Fretdiagram"
 
-#: ../src/ui/markup.c:609
+#: ../src/ui/markup.c:611
 msgid ""
 "Pastes the chord at the cursor as a Fret Diagram\n"
 "The music appears here in the LilyPond syntax.\n"
@@ -9390,43 +9417,43 @@ msgstr ""
 "Musikken fremgår her i LilyPond-syntaksen.\n"
 "Den vil blive udskrevet som et bånddiagram i sætningen du skriver, transponeret jævnfør det globale transpostionssæt.\n"
 
-#: ../src/ui/markup.c:616
+#: ../src/ui/markup.c:618
 msgid "Insert “ Open Quotes"
 msgstr "Indsæt “-åbne citationstegn"
 
-#: ../src/ui/markup.c:617
+#: ../src/ui/markup.c:619
 msgid "Inserts open double quote. Note that this is not the \" character which is used for grouping words not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
 msgstr "Indsætter åbne dobbelte citationstegn. Bemærk at dette ikke er tegnet \", som bruges til at gruppere ord, som ikke skal opfattes som opmærkning. Tegnet \" skal komme i par ellers vil LilyPond ikke opsætte musikken."
 
-#: ../src/ui/markup.c:621
+#: ../src/ui/markup.c:623
 msgid "Insert ” Close Quotes"
 msgstr "Indsæt ”-lukkede citationstegn"
 
-#: ../src/ui/markup.c:622
+#: ../src/ui/markup.c:624
 msgid "Inserts close double quote. Note that this is not the \" character which is used for grouping words  not to be treated as markup. The \" marks must be paired or LilyPond will not typeset the music."
 msgstr "Indsætter lukkede dobbelte citationstegn. Bemærk at dette ikke er tegnet \", som bruges til at gruppere ord, som ikke skal opfattes som opmærkning. Tegnet \" skal komme i par ellers vil LilyPond ikke opsætte musikken."
 
-#: ../src/ui/markup.c:626
+#: ../src/ui/markup.c:628
 msgid "Segno"
 msgstr "Segno"
 
-#: ../src/ui/markup.c:627
+#: ../src/ui/markup.c:629
 msgid "Inserts Segno sign at the cursor position in the text."
 msgstr "Indsætter Segno-tegn ved markørpositionen i teksten."
 
-#: ../src/ui/markup.c:631
+#: ../src/ui/markup.c:633
 msgid "Coda"
 msgstr "Coda"
 
-#: ../src/ui/markup.c:632
+#: ../src/ui/markup.c:634
 msgid "Inserts Coda sign at the cursor position in the text."
 msgstr "Indsætter Coda-tegn ved markørpositionen i teksten."
 
-#: ../src/ui/markup.c:658
+#: ../src/ui/markup.c:660
 msgid "Menu of special characters and graphics to insert at the cursor position"
 msgstr "Menu med specielle tegn og grafik at indsætte ved markørpositionen"
 
-#: ../src/ui/markup.c:663
+#: ../src/ui/markup.c:665
 msgid ""
 "Makes the next Snippet the one that can be pasted.\n"
 "To see the music snippets you need to check View → Snippets\n"
@@ -9436,23 +9463,23 @@ msgstr ""
 "For at se musikstumperne du skal kontrollere Vis → Musikstump\n"
 "Den valgte er i fed sort."
 
-#: ../src/ui/markup.c:671
+#: ../src/ui/markup.c:673
 msgid "Selection"
 msgstr "Markering"
 
-#: ../src/ui/markup.c:672
+#: ../src/ui/markup.c:674
 msgid "Pops up a menu to apply some style to the selection."
 msgstr "Viser en pop op-menu til påføring af stil for markeringen."
 
-#: ../src/ui/markup.c:678
+#: ../src/ui/markup.c:680
 msgid "Inserts the markup needed to leave space above this line of text. Ineffective on the top line of standalone text, instead drag such text in the Print View"
 msgstr "Indsætter opmærkningen krævet for at efterlade plads over denne tekstlinje. Ikke effektivt på toplinjen for uafhængig tekst, i stedet trækkes sådan tekst i udskrivningsvisningen"
 
-#: ../src/ui/markup.c:689
+#: ../src/ui/markup.c:691
 msgid "Preview"
 msgstr "Forhåndsvisning"
 
-#: ../src/ui/markup.c:690
+#: ../src/ui/markup.c:692
 msgid "Shows what the text will look like when typeset in the Print View window. For score and movement titles the appearance is correct only relative to the default title."
 msgstr "Viser hvordan teksten vil se ud, når den er opsat i vinduet Udskriv visning. For partitur og satstitler er fremtoningen kun korrekt relativ til standardtitlen."
 
@@ -9938,53 +9965,53 @@ msgstr "Paletter fra menuer"
 msgid "Playback properties"
 msgstr "Afspil-egenskaber"
 
-#: ../src/ui/prefdialog.c:438
+#: ../src/ui/prefdialog.c:443
 msgid "Preferences - Denemo"
 msgstr "Præferencer - Denemo"
 
-#: ../src/ui/prefdialog.c:444
+#: ../src/ui/prefdialog.c:449
 msgid "<span foreground=\"red\"weight=\"bold\">A few options may require re-start of Denemo!</span>"
 msgstr "<span foreground=\"red\"weight=\"bold\">Nogle få indstillinger kan kræve en genstart af Denemo!</span>"
 
-#: ../src/ui/prefdialog.c:558
+#: ../src/ui/prefdialog.c:563
 msgid "Highlight the cursor"
 msgstr "Fremhæv markøren"
 
-#: ../src/ui/prefdialog.c:560
+#: ../src/ui/prefdialog.c:565
 msgid "Display general toolbar"
 msgstr "Vis generel værktøjsbjælke"
 
-#: ../src/ui/prefdialog.c:562
+#: ../src/ui/prefdialog.c:567
 msgid "Display Controls for Incoming MIDI signals"
 msgstr "Vis kontroller for indgående MIDI-signaler"
 
-#: ../src/ui/prefdialog.c:563
+#: ../src/ui/prefdialog.c:568
 msgid "Display Controls for Playback"
 msgstr "Vis kontroller for afspilning"
 
-#: ../src/ui/prefdialog.c:565
+#: ../src/ui/prefdialog.c:570
 msgid "Display console pane"
 msgstr "vis konsolpanel"
 
 #. BOOLEANENTRY (_("Display lyrics pane"), lyrics_pane);
-#: ../src/ui/prefdialog.c:567
+#: ../src/ui/prefdialog.c:572
 msgid "Display titles, controls etc"
 msgstr "Vis titler, kontroller etc."
 
-#: ../src/ui/prefdialog.c:569
+#: ../src/ui/prefdialog.c:574
 msgid "Display Music Snippets"
 msgstr "Vis musikstumper"
 
-#: ../src/ui/prefdialog.c:570
+#: ../src/ui/prefdialog.c:575
 msgid "Display menu of objects toolbar"
 msgstr "Vis menu for objekters værktøjsbjælke"
 
-#: ../src/ui/prefdialog.c:572
+#: ../src/ui/prefdialog.c:577
 #, no-c-format
 msgid "% Zoom"
 msgstr "% zoom"
 
-#: ../src/ui/prefdialog.c:574
+#: ../src/ui/prefdialog.c:579
 #, no-c-format
 msgid "% of display height per system"
 msgstr "% af skærmhøjden per system"
@@ -9992,202 +10019,202 @@ msgstr "% af skærmhøjden per system"
 #.
 #. * Preferences to do with commands
 #.
-#: ../src/ui/prefdialog.c:580
+#: ../src/ui/prefdialog.c:585
 msgid "Command Behavior"
 msgstr "Kommandoopførsel"
 
-#: ../src/ui/prefdialog.c:581
+#: ../src/ui/prefdialog.c:586
 msgid "Profile"
 msgstr "Profil"
 
 #. TEXTENTRY(_("Strict"), strictshortcuts)
-#: ../src/ui/prefdialog.c:583
+#: ../src/ui/prefdialog.c:588
 msgid "Apply commands to selection if present"
 msgstr "Anvend kommandoer på markering hvis til stede"
 
-#: ../src/ui/prefdialog.c:584
+#: ../src/ui/prefdialog.c:589
 msgid "Spill notes over into next measure"
 msgstr "Lad noter løbe over i næste takt"
 
-#: ../src/ui/prefdialog.c:585
+#: ../src/ui/prefdialog.c:590
 msgid "(Chord Entry) Do not fill in tied note pitches"
 msgstr "(Akkordindgang) Udfyld ikke tonehøjde for bindebue"
 
-#: ../src/ui/prefdialog.c:586
+#: ../src/ui/prefdialog.c:591
 msgid "Allow Quick Setting of Shortcuts"
 msgstr "Tillad hurtig angivelse af genveje"
 
-#: ../src/ui/prefdialog.c:589
+#: ../src/ui/prefdialog.c:594
 msgid "Strict Shortcuts"
 msgstr "Strenge genveje"
 
-#: ../src/ui/prefdialog.c:590
+#: ../src/ui/prefdialog.c:595
 msgid "Menu Navigation by Keypress"
 msgstr "Menunavigation via tastetryk"
 
-#: ../src/ui/prefdialog.c:591
+#: ../src/ui/prefdialog.c:596
 msgid "Treat Return key as Movable Shortcut"
 msgstr "Opfat Returtasten som flytbar genvej"
 
-#: ../src/ui/prefdialog.c:592
+#: ../src/ui/prefdialog.c:597
 msgid "Turn on all Tooltips"
 msgstr "Sluk for alle værktøjsfif"
 
-#: ../src/ui/prefdialog.c:593
+#: ../src/ui/prefdialog.c:598
 msgid "Show Shortcuts Used"
 msgstr "Vis anvendte genveje"
 
-#: ../src/ui/prefdialog.c:594
+#: ../src/ui/prefdialog.c:599
 msgid "Tooltip timeout in ms. (0 for default, -1 to use GTK tooltips - restart needed)"
 msgstr "Tidsudløb for værktøjsfif i ms. (0 for standard, -1 for at bruge GTK-værktøjsfif - genstart krævet)"
 
-#: ../src/ui/prefdialog.c:596
+#: ../src/ui/prefdialog.c:601
 msgid "Tooltip browse timeout in ms"
 msgstr "Tidsudløb for værktøjsfifs gennemse i ms"
 
-#: ../src/ui/prefdialog.c:597
+#: ../src/ui/prefdialog.c:602
 msgid "Tooltip browse mode timeout in ms"
 msgstr "Tidsudløb for værktøjsfifs tilstand for gennemse i ms"
 
 #.
 #. * External (Helper) Programs
 #.
-#: ../src/ui/prefdialog.c:602
+#: ../src/ui/prefdialog.c:607
 msgid "Externals"
 msgstr "Eksterne dele"
 
-#: ../src/ui/prefdialog.c:604
+#: ../src/ui/prefdialog.c:609
 msgid "Path to Lilypond"
 msgstr "Sti til Lilypond"
 
-#: ../src/ui/prefdialog.c:605
+#: ../src/ui/prefdialog.c:610
 msgid "File/Internet Browser"
 msgstr "Fil-/internetbrowser"
 
-#: ../src/ui/prefdialog.c:606
+#: ../src/ui/prefdialog.c:611
 msgid "Image Viewer"
 msgstr "Billedfremviser"
 
-#: ../src/ui/prefdialog.c:607
+#: ../src/ui/prefdialog.c:612
 msgid "Graphics Editor"
 msgstr "Grafisk redigeringsprogram"
 
-#: ../src/ui/prefdialog.c:608
+#: ../src/ui/prefdialog.c:613
 msgid "Default Save Path"
 msgstr "Standardsti for gem"
 
-#: ../src/ui/prefdialog.c:609
+#: ../src/ui/prefdialog.c:614
 msgid "Update the command set on startup"
 msgstr "Opdater kommandosættet ved opstart"
 
 #.
 #. * Misc Menu
 #.
-#: ../src/ui/prefdialog.c:613
+#: ../src/ui/prefdialog.c:618
 msgid "Auto-Typeset"
 msgstr "Automatisk opsætning"
 
-#: ../src/ui/prefdialog.c:617
+#: ../src/ui/prefdialog.c:622
 msgid "Manually update the typeset score"
 msgstr "Manuelt opdatere opsætningspartituret"
 
-#: ../src/ui/prefdialog.c:618
+#: ../src/ui/prefdialog.c:623
 msgid "Rate of re-typeset in ms"
 msgstr ""
 
-#: ../src/ui/prefdialog.c:619
+#: ../src/ui/prefdialog.c:624
 msgid "Type: (0=Range, 1=Movement, 2=Whole Score)"
 msgstr "Type: (0=Interval, 1=Sats, 2=Hel partitur)"
 
-#: ../src/ui/prefdialog.c:620
+#: ../src/ui/prefdialog.c:625
 msgid "Measures before cursor"
 msgstr "Takter før markør"
 
-#: ../src/ui/prefdialog.c:621
+#: ../src/ui/prefdialog.c:626
 msgid "Measures after cursor"
 msgstr "Takter efter markør"
 
-#: ../src/ui/prefdialog.c:622
+#: ../src/ui/prefdialog.c:627
 msgid "Staffs before cursor"
 msgstr "Nodesystemer før markør"
 
-#: ../src/ui/prefdialog.c:623
+#: ../src/ui/prefdialog.c:628
 msgid "Staffs after cursor"
 msgstr "Nodesystemer efter markør"
 
 #.
 #. * Misc Menu
 #.
-#: ../src/ui/prefdialog.c:627
+#: ../src/ui/prefdialog.c:632
 msgid "Miscellaneous"
 msgstr "Diverse"
 
-#: ../src/ui/prefdialog.c:628
+#: ../src/ui/prefdialog.c:633
 msgid "Re-use last settings on startup"
 msgstr "Genbrug sidst anvendt opsætning ved opstart"
 
-#: ../src/ui/prefdialog.c:629
+#: ../src/ui/prefdialog.c:634
 msgid "Default Font Name (Denemo)"
 msgstr "Standardskriftnavn (Denemo)"
 
-#: ../src/ui/prefdialog.c:630
+#: ../src/ui/prefdialog.c:635
 msgid "Default Font Size"
 msgstr "Standardskriftstørrelse"
 
-#: ../src/ui/prefdialog.c:631
+#: ../src/ui/prefdialog.c:636
 msgid "Maximum Menu Size"
 msgstr "Maksimal menustørrelse"
 
-#: ../src/ui/prefdialog.c:633
+#: ../src/ui/prefdialog.c:638
 msgid "Playback Display Refresh"
 msgstr "Afspil skærmopdatering"
 
-#: ../src/ui/prefdialog.c:634
+#: ../src/ui/prefdialog.c:639
 msgid "Page Turn Steps"
 msgstr "Sideskifttrin"
 
-#: ../src/ui/prefdialog.c:638
+#: ../src/ui/prefdialog.c:643
 msgid "Excerpt Resolution"
 msgstr "Uddrag af opløsning"
 
-#: ../src/ui/prefdialog.c:639
+#: ../src/ui/prefdialog.c:644
 msgid "Enable Thumbnails"
 msgstr "Aktiver miniaturebilleder"
 
-#: ../src/ui/prefdialog.c:640
+#: ../src/ui/prefdialog.c:645
 msgid "Max recent files"
 msgstr "Maks. seneste filer"
 
-#: ../src/ui/prefdialog.c:641
+#: ../src/ui/prefdialog.c:646
 msgid "User Name"
 msgstr "Brugernavn"
 
 #. PASSWORDENTRY (_("Password for Denemo.org"), password)
-#: ../src/ui/prefdialog.c:643
+#: ../src/ui/prefdialog.c:648
 msgid "Autosave Parts"
 msgstr "Gem automatisk dele"
 
-#: ../src/ui/prefdialog.c:647
+#: ../src/ui/prefdialog.c:652
 msgid "Autosave every"
 msgstr "Gem automatisk hver"
 
-#: ../src/ui/prefdialog.c:656
+#: ../src/ui/prefdialog.c:661
 msgid "second(s)"
 msgstr "sekunder"
 
-#: ../src/ui/prefdialog.c:660
+#: ../src/ui/prefdialog.c:665
 msgid "Compression"
 msgstr "Komprimering"
 
-#: ../src/ui/prefdialog.c:667
+#: ../src/ui/prefdialog.c:672
 msgid "Audio"
 msgstr "Lyd"
 
-#: ../src/ui/prefdialog.c:670
+#: ../src/ui/prefdialog.c:675
 msgid "Play back entered notes immediately"
 msgstr "Afspil indtastede noder med det samme"
 
-#: ../src/ui/prefdialog.c:671
+#: ../src/ui/prefdialog.c:676
 msgid ""
 "MIDI key sound on measure end\n"
 "  (0 = Off)"
@@ -10195,113 +10222,113 @@ msgstr ""
 "MIDI-tastlyd ved taktslut\n"
 "  (0 = Deaktiveret)"
 
-#: ../src/ui/prefdialog.c:672
+#: ../src/ui/prefdialog.c:677
 msgid "Pitch Spelling Channel"
 msgstr "Tonehøjdestavningskanal"
 
-#: ../src/ui/prefdialog.c:673
+#: ../src/ui/prefdialog.c:678
 msgid "Pitch Spelling Program"
 msgstr "Tonehøjdestaveprogram"
 
-#: ../src/ui/prefdialog.c:676
+#: ../src/ui/prefdialog.c:681
 msgid "% MIDI-in Dynamic Compression"
 msgstr "%s MIDI-ind dynamisk komprimering"
 
-#: ../src/ui/prefdialog.c:677
+#: ../src/ui/prefdialog.c:682
 msgid "Avoid abrupt damping"
 msgstr "Undgå pludselig dæmpning"
 
-#: ../src/ui/prefdialog.c:703
+#: ../src/ui/prefdialog.c:708
 msgid "Connect to port (left)"
 msgstr "Forbind til port (venstre)"
 
-#: ../src/ui/prefdialog.c:704
+#: ../src/ui/prefdialog.c:709
 msgid "Connect to port (right)"
 msgstr "Forbind til port (højre)"
 
-#: ../src/ui/prefdialog.c:728 ../src/ui/prefdialog.c:788
+#: ../src/ui/prefdialog.c:733 ../src/ui/prefdialog.c:793
 msgid "Output device"
 msgstr "Udgangsenhed"
 
-#: ../src/ui/prefdialog.c:731
+#: ../src/ui/prefdialog.c:736
 msgid "Sample rate"
 msgstr "Lydprøve"
 
-#: ../src/ui/prefdialog.c:732
+#: ../src/ui/prefdialog.c:737
 msgid "Period size"
 msgstr "Punktumstørrelse"
 
-#: ../src/ui/prefdialog.c:733
+#: ../src/ui/prefdialog.c:738
 msgid "Maximum Recording Time (Secs)"
 msgstr "Maks. optagelsestid (sek.)"
 
-#: ../src/ui/prefdialog.c:749
+#: ../src/ui/prefdialog.c:754
 msgid "Rhythm Entry for MIDI in"
 msgstr "Rytmeindgang for MIDI-ind"
 
-#: ../src/ui/prefdialog.c:750
+#: ../src/ui/prefdialog.c:755
 msgid "MIDI backend"
 msgstr "MIDI-motor"
 
-#: ../src/ui/prefdialog.c:764
+#: ../src/ui/prefdialog.c:769
 msgid "Connect input to port"
 msgstr "Forbind indgang til port"
 
-#: ../src/ui/prefdialog.c:765
+#: ../src/ui/prefdialog.c:770
 msgid "Connect output to port"
 msgstr "Forbind udgang til port"
 
-#: ../src/ui/prefdialog.c:787
+#: ../src/ui/prefdialog.c:792
 msgid "Input device"
 msgstr "Indgangsenhed"
 
 #.
 #. * FluidSynth settings
 #.
-#: ../src/ui/prefdialog.c:805
+#: ../src/ui/prefdialog.c:810
 msgid "Soundfont"
 msgstr "Soundfont"
 
-#: ../src/ui/prefdialog.c:807
+#: ../src/ui/prefdialog.c:812
 msgid "Choose Soundfont"
 msgstr "Vælg Soundfont"
 
-#: ../src/ui/prefdialog.c:814
+#: ../src/ui/prefdialog.c:819
 msgid "Enable Reverb on soundfont"
 msgstr "Aktiver rumklang på soundfont"
 
-#: ../src/ui/prefdialog.c:814
+#: ../src/ui/prefdialog.c:819
 msgid "Enable Chorus on soundfont"
 msgstr "Aktiver omkvæd på soundfont"
 
 #.
 #. * Pitch Entry Parameters
 #.
-#: ../src/ui/prefdialog.c:820
+#: ../src/ui/prefdialog.c:825
 msgid "Pitch Entry"
 msgstr "Tonehøjdeindtastning"
 
-#: ../src/ui/prefdialog.c:822
+#: ../src/ui/prefdialog.c:827
 msgid "Temperament"
 msgstr ""
 
-#: ../src/ui/prefdialog.c:822
+#: ../src/ui/prefdialog.c:827
 msgid "Use Overlays"
 msgstr "Brug overlag"
 
-#: ../src/ui/prefdialog.c:823
+#: ../src/ui/prefdialog.c:828
 msgid "Continuous Entry"
 msgstr "Fortsættende indtastning"
 
-#: ../src/ui/prefdialog.c:866
+#: ../src/ui/prefdialog.c:871
 msgid "Any changes to MIDI or AUDIO will not be effected until re-starting Denemo"
 msgstr "Eventuelle ændringer til MIDI eller LYD vil ikke blive påvirket før Denemo er genstartet"
 
-#: ../src/ui/prefdialog.c:867
+#: ../src/ui/prefdialog.c:872
 msgid "Audio/MIDI Subsystem"
 msgstr "Lyd/MIDI-undersystem"
 
-#: ../src/ui/prefdialog.c:867
+#: ../src/ui/prefdialog.c:872
 msgid "Attempt to re-start the audio subsystem now?"
 msgstr "Forsøg at genstarte lydundersystemet nu?"
 
@@ -10429,19 +10456,19 @@ msgstr "Opretter en knap for skriptet"
 msgid "Empty scheme script"
 msgstr "Tomt schemeskript"
 
-#: ../src/ui/texteditors.c:157
+#: ../src/ui/texteditors.c:156
 msgid "Turning off Recording scheme"
 msgstr "Slukker for optagelsesskema"
 
-#: ../src/ui/texteditors.c:171
+#: ../src/ui/texteditors.c:170
 msgid "Save Scheme Text as..."
 msgstr "Gem Schemetekst som ..."
 
-#: ../src/ui/texteditors.c:185
+#: ../src/ui/texteditors.c:184
 msgid "File already exists"
 msgstr "Filen findes allerede"
 
-#: ../src/ui/texteditors.c:188
+#: ../src/ui/texteditors.c:187
 #, c-format
 msgid ""
 "The file %s already exists.\n"
@@ -10450,11 +10477,11 @@ msgstr ""
 "Filen %s findes allerede.\n"
 "Ønsker du at overskrive den?"
 
-#: ../src/ui/texteditors.c:238
+#: ../src/ui/texteditors.c:237
 msgid "Scheme text changed"
 msgstr "Schemetekst ændret"
 
-#: ../src/ui/texteditors.c:243
+#: ../src/ui/texteditors.c:242
 msgid ""
 "\n"
 "Do you want to save the changes in a new file?\n"
@@ -10464,7 +10491,7 @@ msgstr ""
 "Ønsker du at gemme ændringerne i en ny fil?\n"
 "\n"
 
-#: ../src/ui/texteditors.c:246
+#: ../src/ui/texteditors.c:245
 #, c-format
 msgid ""
 "\n"
@@ -10475,51 +10502,51 @@ msgstr ""
 "Ønsker du at ændre ændringerne i %s?\n"
 "\n"
 
-#: ../src/ui/texteditors.c:275
+#: ../src/ui/texteditors.c:274
 msgid "Open File"
 msgstr "Åbn fil"
 
-#: ../src/ui/texteditors.c:377
+#: ../src/ui/texteditors.c:376
 msgid "Denemo Scheme Script"
 msgstr "Denemo - Schemeskript"
 
-#: ../src/ui/texteditors.c:385
+#: ../src/ui/texteditors.c:384
 msgid "A Scheme command line interface. Type an expression here and press Enter to evaluate and display the result in the terminal. (On windows, use denemo-console.exe to get a terminal)"
 msgstr "En Scheme-kommandolinjegrænseflade. Indtast et udtryk her og tryk på Retur for at evaluere og vise resultatet i terminalen. (På Windows, brug denemo-console.exe for at få en terminal)"
 
-#: ../src/ui/texteditors.c:402
+#: ../src/ui/texteditors.c:401
 msgid "Execute Script"
 msgstr "Afvikl skript"
 
-#: ../src/ui/texteditors.c:403
+#: ../src/ui/texteditors.c:402
 msgid "Executes the Scheme in the script window below. If an error is thrown this will give a message in the terminal."
 msgstr "Afvikler Scheme i skriptvinduet nedenfor. Hvis en fejl smides, giver det en besked i terminalen."
 
-#: ../src/ui/texteditors.c:407
+#: ../src/ui/texteditors.c:406
 msgid "Create Button"
 msgstr "Opret knap"
 
-#: ../src/ui/texteditors.c:408
+#: ../src/ui/texteditors.c:407
 msgid "Create a palette button for the Scheme in the script window below."
 msgstr "Lav en paletknap for kørsel af Scheme i skriptvinduet nedenfor."
 
-#: ../src/ui/texteditors.c:426
+#: ../src/ui/texteditors.c:425
 msgid "Save as…"
 msgstr "Gem som …"
 
-#: ../src/ui/texteditors.c:430 ../src/ui/texteditors.c:508
+#: ../src/ui/texteditors.c:429 ../src/ui/texteditors.c:507
 msgid "Find"
 msgstr "Søg"
 
-#: ../src/ui/texteditors.c:433 ../src/ui/texteditors.c:508
+#: ../src/ui/texteditors.c:432 ../src/ui/texteditors.c:507
 msgid "Replace"
 msgstr "Erstat"
 
-#: ../src/ui/texteditors.c:453
+#: ../src/ui/texteditors.c:452
 msgid "Record Scheme Script"
 msgstr "Optag Scheme-skript"
 
-#: ../src/ui/texteditors.c:454
+#: ../src/ui/texteditors.c:453
 msgid "Start recording commands into the Scheme script text window"
 msgstr "Start optagelse af kommandoer i tekstvinduet for Schemeskript"
 
@@ -10558,6 +10585,14 @@ msgstr "Tæller"
 #: ../src/ui/tupletdialog.c:30
 msgid "Denominator"
 msgstr "Nævner"
+
+#: ../src/ui/virtualkeyboard.c:29
+msgid "Virtual Keyboard requires Denemo to be built with GTK3 or higher"
+msgstr ""
+
+#: ../src/ui/virtualkeyboard.c:143
+msgid "Virtual MIDI keyboard"
+msgstr ""
 
 #: ../actions/denemo-modules/directives.scm:26
 msgid "Modifying the LilyPond Text"
@@ -10598,8 +10633,7 @@ msgstr "Rediger ligebevægelse"
 #: ../actions/menus/ObjectMenu/Directives/Markings/FreeSegno.scm:5
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/Caesura.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.scm:7
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:6
-#: ../actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.scm:4
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:8
 msgid "Object Inspector"
 msgstr "Objektinspektør"
 
@@ -12246,13 +12280,43 @@ msgstr "Kontroller og udskriv"
 msgid "Checks the score for errors, if none are found proceeds to typeset and print the current layout."
 msgstr "Kontrollerer partituret for fejl, hvis ingen findes fortsættes til opsætning og udskrivning af det nuværende layout."
 
-#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:11
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:29
+msgid "Do Not Create Layout for this selection"
+msgstr "Opret ikke layout for denne markering"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:30
 msgid "Apply to All Movements"
 msgstr "Anvend på alle satser"
 
-#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:13
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:32
 msgid "Choose Staffs to Print"
 msgstr "Vælg nodesystemer at udskrive"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:46
+msgid "Creating Layout"
+msgstr "Opretter layout"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:46
+msgid "Give Layout Name"
+msgstr "Angiv layoutnavn"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:46
+msgid "Woodwind"
+msgstr "Woodwind"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:54
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm:19
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.scm:23
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.scm:27
+msgid "Use Typeset->"
+msgstr "Brug Opsæt->"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.scm:54
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm:19
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.scm:23
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.scm:27
+msgid " in the Print View to typeset your new layout"
+msgstr " i udskrivningsvisningen for at opsætte dit nye layout"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/NonPrintingStaffs.xml.h:1
 msgid "Select Staffs to Print"
@@ -12271,13 +12335,27 @@ msgstr "Forhåndsvis fire takter"
 msgid "Print preview of current bar and the next three."
 msgstr "Udskriv forhåndsvisning af nuværende bjælke og de næste tre."
 
+#. PrintAccompanistsScore
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm:2
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.xml.h:1
 msgid "Print Accompanist's Score"
-msgstr ""
+msgstr "Udskriv akkompagnatørs partitur"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm:2
+msgid "How many staffs to make small?"
+msgstr "Hvor mange nodesystemer skal gøres små?"
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm:11
+msgid "Accompanist with "
+msgstr "Akkompagnatør med "
+
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.scm:11
+msgid " cue part"
+msgstr " stiknodedel"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAccompanistsScore.xml.h:2
 msgid "Prints out the score with the topmost staff in tiny size and puts page breaks before each movement."
-msgstr ""
+msgstr "Udskriv partituret med øverste nodesytem i meget lille størrelse og placer sideskift før hver sats."
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintAllLayouts.scm:23
 msgid "No Layouts Available?"
@@ -12291,13 +12369,13 @@ msgstr "Udskriver alle layout"
 msgid "Prints the score using all the defined score layouts."
 msgstr "Udskriver partituret med brug af alle de definerede partiturlayout."
 
-#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.scm:17
-msgid "Bass figures are hidden. After printing dismiss this dialog to restore them."
-msgstr ""
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.scm:13
+msgid "Bass without figures"
+msgstr "Bas uden generalbas"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.xml.h:1
 msgid "Print Bass Part Omitting Figures"
-msgstr ""
+msgstr "Udskriv basdel udeladende generalbas"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.xml.h:2
 msgid "Prints the Bass part omitting any figured bass figures."
@@ -12339,7 +12417,10 @@ msgstr "Udsrkiv to dele som stiknoder for akkompagnatør"
 msgid "Prints the top two staffs on a single staff as cue."
 msgstr "Udskriver de to øverste nodesystemer på et enkelt nodesystem som stiknode."
 
-#.
+#: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.scm:19
+msgid "Ambitus"
+msgstr "Ambitus"
+
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.xml.h:1
 msgid "Print with Ambitus"
 msgstr "Udskriv med ambitus"
@@ -12512,6 +12593,37 @@ msgstr ""
 msgid "Changes the action of keys 0,1,2... to select the prevailing duration instead of inserting notes of the duration."
 msgstr ""
 
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:39
+msgid "Dismiss this dialog then press 20 keys for the 20 notes c'' - g'''. Esc to cancel."
+msgstr ""
+
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:54
+msgid "Press Escape in the Denemo Main Window to end MIDI keyboard simulation."
+msgstr "Tryk på Escape i Denemos hovedvindue for at afslutte MIDI-tastatursimulering."
+
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:57
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:74
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:85
+msgid "Simulated MIDI Filter: Esc to end."
+msgstr "Simuleret MIDI-filter: Esc for at afslutte."
+
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:70
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:81
+msgid "Octave:"
+msgstr "Oktav:"
+
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.scm:112
+msgid "MIDI simulator end"
+msgstr "MIDI-simulator slut"
+
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.xml.h:1
+msgid "Simulate MIDI"
+msgstr "Simuler MIDI"
+
+#: ../actions/menus/MainMenu/InputMenu/Keyboard/SimulateMidi.xml.h:2
+msgid "Makes the second and third rows of the pc-keyboard behave like a MIDI piano keyboard: asdfg... creates the scale from Middle C, while the qwerty row provides sharps/flats (with gaps). To customize these key assignments for your keyboard use Ctrl-Esc. Tab key toggles chord entry off/on. PgUp key starts entering notes an octave higher, PgDn an octave lower. Use with rhythm entry for MIDI in checked in preferences."
+msgstr ""
+
 #: ../actions/menus/MainMenu/InputMenu/MIDI/AngryDelete.scm:7
 msgid "Angry Delete MIDI Filter"
 msgstr "Vred slet MIDI-filter"
@@ -12677,6 +12789,14 @@ msgstr "Nodeindsætteles med mus"
 
 #: ../actions/menus/MainMenu/InputMenu/Mouse/MouseInsertion.xml.h:2
 msgid "Changes the mouse use when CapsLock is on: left click inserts note in the prevailing duration. The shortcuts for number keys 0, 1, 2 ... are set to change the prevailing duration."
+msgstr ""
+
+#: ../actions/menus/MainMenu/InputMenu/ShowVirtualKeyboard.xml.h:1
+msgid "Virtual MIDI Keyboard"
+msgstr ""
+
+#: ../actions/menus/MainMenu/InputMenu/ShowVirtualKeyboard.xml.h:2
+msgid "Displays a piano style keyboard that can be clicked on to enter notes like a real MIDI device. Right click adds notes to the chord."
 msgstr ""
 
 #: ../actions/menus/MainMenu/MoreMenu/LoadDefaultComposerNumberkeys.xml.h:1
@@ -17625,7 +17745,10 @@ msgstr "Dette direktiv angiver stilen for opsætning af fortegn"
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.scm:6
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsDefault.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:17
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.scm:6
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.scm:6
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:8
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:4
 msgid "Default"
 msgstr "Standard"
 
@@ -18318,6 +18441,14 @@ msgstr "♯"
 #: ../actions/menus/ObjectMenu/Key/SharpenKeysig.xml.h:2
 msgid "Sharpens the key signature by one degree. If no key signature at cursor, sharpens the initial key signature."
 msgstr "Sætter kryds for toneartsangivelsen med en grad. Hvis der ingen toneartsangivelse er ved markøren, sættes kryds for den oprindelige toneartsangivelse"
+
+#: ../actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.scm:2
+msgid "Delete Current Verse (no undo!)"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Lyrics/DeleteCurrentVerse.xml.h:2
+msgid "Deletes the current verse - copy the text first if needed."
+msgstr ""
 
 #: ../actions/menus/ObjectMenu/Lyrics/EditLyricAtCursor.scm:2
 msgid "No verse has been created for this staff. Use Add Lyric Verse in Lyrics menu."
@@ -19516,17 +19647,20 @@ msgid "Turns on/off independent time signatures and barline on the staffs. Use f
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
-#: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
-msgid "Choose indent of first system"
-msgstr "Vælg indryk for første system"
+msgid "Choose indent for Current Movement"
+msgstr "Vælg indryk for nuværende sats"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
-msgid "Give amount as decimal"
-msgstr "Angiv mængde med decimaltal"
+msgid "Give indent or Cancel to unset movement indent"
+msgstr "Angiv indryk eller afbryd for at fjerne satsindryk"
 
-#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:9
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:11
 msgid "Indent= "
 msgstr "Indryk= "
+
+#: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:15
+msgid "Movement indent dropped. Score indent will be used for this movement"
+msgstr "Satsindryk droppet. Partiturindryk vil blive brugt for denne sats"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.xml.h:1
@@ -19547,7 +19681,7 @@ msgstr "Flået højre (aktiveret/deaktiveret)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml.h:2
 msgid "If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off."
-msgstr ""
+msgstr "Hvis den nuværende sats kun har et system, så vil det blive strakt til den højre margen. Kør kommandoen igen for at deaktivere."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm:4
 msgid "Normal System Spacing is restored"
@@ -20819,13 +20953,13 @@ msgstr "Afslut hårnål ved bjælkelinje"
 msgid "Ends a cresc. or dim, hairpin at the barline following the current note/chord. This command inserts a standalone Denemo Directive after the note/chord at the cursor."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:12
 msgid "Figured Bass Height"
 msgstr "Generealbashøjde"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:10
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:12
 msgid "Give height adjustment (unit = staff space): "
 msgstr "Angiv højdejustering (enhed = nodesystemplads): "
@@ -20852,6 +20986,22 @@ msgstr "Højde for grupper"
 msgid "Allows several groups of figures to be individually adjusted for height."
 msgstr "Tillader at flere grupper af figurer individuelt justeres for højde."
 
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.xml.h:1
+msgid "Adjust All Heights"
+msgstr "Juster alle højder"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.xml.h:2
+msgid "Sets the heights of the bass figures above the notes throughout the score to avoid ungainly positions. The bass figures must be on the lowest staff"
+msgstr "Angiver højden for generalbassen over noderne igennem partituret for at undåg ugunstige positioner. Generalbassen skal være på det laveste nodesystem"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/FiguredBassTweak.xml.h:1
+msgid "Tweak Default Appearance"
+msgstr "Finjuster standardfremtoning"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/FiguredBassTweak.xml.h:2
+msgid "Alters the default figured bass appearance to a more 18th c. look."
+msgstr "Ændrer standarden for generalbassens fremtoning til et udseende mere lig det 18. århundrede"
+
 #. PlaceFiguredBassBelow
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml.h:1
 msgid "Place Figures Below Bass Notes"
@@ -20859,7 +21009,7 @@ msgstr "Placer figurer under basnoder"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml.h:2
 msgid "Places an instruction (between $ ... $) which tells the engraver to place the figures below from this note on. Any figure for this note should follow the last $"
-msgstr ""
+msgstr "Placerer en instruktion (mellem $ ... $) som fortæller gravøren at figurerne skal placeres under frem denne node og fremad. Enhver figur for denne node skal følge det sidste $"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:35
 msgid "No Custom Ornaments at cursor position"
@@ -20875,35 +21025,35 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:1
 msgid "Pincé"
-msgstr ""
+msgstr "Pincé"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:2
 msgid "Pincé ornament (Off/On)"
-msgstr ""
+msgstr "Pincé-ornament (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:1
 msgid "Suspension"
-msgstr ""
+msgstr "Suspension"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:2
 msgid "Suspension ornament (Off/On)"
-msgstr ""
+msgstr "Suspension-ornament (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:1
 msgid "Tremblement Appuyé"
-msgstr ""
+msgstr "Tremblement Appuyé"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:2
 msgid "Attaches tremblement appuyé to the note/chord at the cursor, or removes it if already present."
-msgstr ""
+msgstr "Vedhæfter tremblement appuyé til noden/akkorden ved markøren, eller fjerner den hvis allerede til stede."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:1
 msgid "Tremblement"
-msgstr ""
+msgstr "Tremblement"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:2
 msgid "Attach a tremblement to the current note/chord or remove it if already present."
-msgstr ""
+msgstr "Vedhæfter tremblement til noden/akkorden ved markøren, eller fjerner den hvis allerede til stede."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:4
 msgid ""
@@ -22035,6 +22185,25 @@ msgstr "Automatiske legatobueretninger"
 msgid "Prints slurs as normal"
 msgstr "Udskriver legatobuer som normalt"
 
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.scm:4
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.scm:4
+msgid "Dashed"
+msgstr "Stiplet"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.scm:5
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.scm:5
+msgid "Dotted"
+msgstr "Punkteret"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.xml.h:1
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.xml.h:1
+msgid "Dashed or Dotted"
+msgstr "Stiplet eller punkteret"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.xml.h:2
+msgid "Make the slur starting from this note dashed or dotted."
+msgstr "Gør legatobuen startende fra denne node stiplet eller punkteret"
+
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.xml.h:1
 msgid "Slur with Next Two Notes"
 msgstr "Legatobuer med de næste to noder"
@@ -22061,7 +22230,7 @@ msgstr "Udskriver legatobuer op"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.scm:5
 msgid "This makes the next text marking on a note etc move inside the slur."
-msgstr ""
+msgstr "Dette gør at den næste tekstmarkering på en node etc. flytter sig ind i legatobuen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.xml.h:1
 msgid "Text Inside Slur"
@@ -22275,6 +22444,10 @@ msgstr "Hæv/sænk"
 msgid "Gives a choice of modifications to make to the following tie."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.xml.h:2
+msgid "Make the tie on this note dashed or dotted."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.scm:16
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteTie.scm:15
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteUpTie.scm:16
@@ -22406,27 +22579,31 @@ msgstr ""
 msgid "Slopes the tremolo slash downwards instead of upwards."
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:19
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:21
 msgid "divide 𝅘𝅥𝅮 1/8"
 msgstr "divider 𝅘𝅥𝅮 1/8"
 
 # engelsk fejl: manglende mellemrum
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:20
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:22
 msgid "divide𝅘𝅥𝅯 1/16"
 msgstr "divider 𝅘𝅥𝅯 1/16"
 
 # engelsk fejl: ekstra mellemrum
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:21
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:23
 msgid "divide 𝅘𝅥𝅱 1/32 "
 msgstr "divider 𝅘𝅥𝅱 1/32 "
 
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:22
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:24
 msgid "divide 𝅘𝅥𝅱 1/64"
 msgstr "divider 𝅘𝅥𝅱 1/64"
 
-#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:23
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:25
 msgid "divide 𝅘𝅥𝅱 1/128"
 msgstr "divider 𝅘𝅥𝅱 1/128"
+
+#: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:43
+msgid "Cursor must be on a note or chord for tremolo"
+msgstr "Markør skal være på en node eller akkord for tremolo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml.h:1
 msgid "Tremolo Upward"
@@ -22803,7 +22980,7 @@ msgstr "Dato"
 msgid "Prints a date on the title page."
 msgstr "Udskriver en dato på titelsiden."
 
-#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookInstrumentation.scm:4
+#: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookInstrumentation.scm:5
 msgid "Give instrumentation for the default layout or blank out to delete: "
 msgstr "Angiv instrumentering for standardlayout eller blank for at slette: "
 
@@ -23246,6 +23423,22 @@ msgstr ""
 msgid "Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.scm:4
+msgid "Ending a Repeat Alternative"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.scm:4
+msgid "Give barline to end at: "
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.xml.h:1
+msgid "Barline to end Repeat Alternative"
+msgstr ""
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.xml.h:2
+msgid "Choose an additional type of barline to close a second (or n'th) time bar with a downward tick."
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.scm:11
 msgid "Connect Arpeggios"
 msgstr "Forbind arpeggioer"
@@ -23547,6 +23740,10 @@ msgid "When set the last line will not be stretched to fill the line."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
+msgid "Choose indent of first system"
+msgstr "Vælg indryk for første system"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm:8
 msgid "Give amount in decimal"
 msgstr "Angiv mængde i decimaltal"
@@ -23838,27 +24035,27 @@ msgstr "Angiv stil for nodehoved"
 msgid "Sets the type of notehead to be used score-wide."
 msgstr "Ændr typen af nodehoved som skal bruges på tværs af partituret."
 
-#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:3
-msgid "alphabetic"
-msgstr "alfabetisk"
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:5
+msgid "Alphabetic"
+msgstr "Alfabetisk"
 
-#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:4
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:6
 msgid "Numeric"
 msgstr "Numerisk"
 
-#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:5
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:7
 msgid "Boxed alphabetic"
 msgstr "Boksopsat alfabetisk"
 
-#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:6
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:8
 msgid "Boxed numeric"
 msgstr "Boksopsat numerisk"
 
-#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:7
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:9
 msgid "Circled alphabetic"
 msgstr "Cirkelopsat alfabetisk"
 
-#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:8
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:10
 msgid "Circled numeric"
 msgstr "Cirkelopsat numerisk"
 
@@ -23977,7 +24174,30 @@ msgstr "Opsæt kurvekontrolpunkter (deaktiveret/aktiveret)"
 msgid "Typesets with curve control points marked. Use these for accurate tweaking of shape via clicking and dragging with mouse on final typeset score."
 msgstr ""
 
-#. ToggleFingeringVisibilityInScore
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFigures.scm:6
+msgid "Bass Figures will be typeset"
+msgstr "Generalbas vil blive opsat"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFigures.scm:12
+msgid "Bass Figures will not be typeset"
+msgstr "Generalbas vil ikke blive opsat"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFigures.xml.h:1
+msgid "Bass Figures (Off/On)"
+msgstr "Generalbas (deaktiveret/aktiveret)"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFigures.xml.h:2
+msgid "Turns on/off visibility of figured bass on typesetting for whole score."
+msgstr "Aktiverer/deaktiverer synlighed for generalbas ved tekstopsætning for hel partitur."
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFingeringVisibilityInScore.scm:6
+msgid "Fingerings will be typeset"
+msgstr "Fingersætning vil blive opsat"
+
+#: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFingeringVisibilityInScore.scm:9
+msgid "Fingerings will be not typeset"
+msgstr "Fingeropsætning vil ikke blive opsat"
+
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleFingeringVisibilityInScore.xml.h:1
 msgid "Fingerings (Off/On)"
 msgstr "Fingersætning (deaktiveret/aktiveret)"
@@ -23998,7 +24218,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.xml.h:1
 msgid "Typeset Red Dots (Off/On)"
-msgstr ""
+msgstr "Opsæt røde punktummer (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ToggleWysiwygMarks.xml.h:2
 msgid "Typesets with red dots on the graphical objects. Use these for accurate tweaking of positions via clicking and dragging with mouse on final typeset score."
@@ -24396,6 +24616,14 @@ msgstr "Nyt nodesystem efter nuværende"
 msgid "Creates a new staff with the given name, after the current staff. Use the staff to voice command if you want to make this staff a voice on the previous staff."
 msgstr "Opretter et nyt nodesystem med det angivne navn, efter det nuværende nodesystem. Brug nodesystemet til stemmekontrol hvis du ønsker at gøre dette nodesystem til en stemme på det forrige nodesystem."
 
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAllMovements.xml.h:1
+msgid "Add in All Movements"
+msgstr "Indsæt alle satser"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffAllMovements.xml.h:2
+msgid "Adds a new structured staff after the current staff in this and succeeding movments."
+msgstr "Tilføjer et nyt struktureret nodesystem efter det nuværende nodesystem i denne og efterfølgende satser."
+
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStaffBefore.xml.h:1
 msgid "New Staff Before Current"
 msgstr "Nyt nodesystem før nuværende"
@@ -24431,7 +24659,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Ossia/CreateOssiaStaff.xml.h:1
 msgid "Create Ossia Staff"
-msgstr ""
+msgstr "Opret Ossia-nodesystem"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Ossia/CreateOssiaStaff.xml.h:2
 msgid "Creates a small staff above the current staff for inserting cues, ossia passages etc. Use Show Ossia and Hide Ossia to show specific measures."
@@ -24635,7 +24863,7 @@ msgstr "(Udskriv) Ambitus aktiveret/deaktiveret"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/Ambitus.xml.h:2
 msgid "Toggle the ambitus engraver for this staff on or off"
-msgstr ""
+msgstr "Aktiver/deaktiver ambitus-gravøren for dette nodesystem"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/AssignInstrument.scm:7
 msgid "Copy and Paste the music from the old staffs to the new, and then delete the old staffs"
@@ -24727,8 +24955,7 @@ msgid "Chords on this staff will typeset as fret diagrams (off/on). Choose from 
 msgstr "Akkorder på dette nodesystem vil blive opsat som bånddiagrammer (deaktiveret/aktiveret). Vælg mellem flere instrumenter."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:8
-#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm:5
-msgid "Instrument Name should not be set on a Dynamics Line"
+msgid "Instrument Name should not be set on a Dynamics Line or Chord Symbols"
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:24
@@ -24829,6 +25056,10 @@ msgstr "Angiv nodesysteminterval"
 msgid "Sets the highest and lowest notes playable on the current staff to the highest and lowest pitches of the chord at the cursor."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm:5
+msgid "Instrument Name should not be set on a Dynamics Line"
+msgstr ""
+
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.scm:16
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ShortInstrumentName.xml.h:1
 msgid "Short Instrument Name"
@@ -24924,14 +25155,16 @@ msgid "Prints current staff in a tiny font."
 msgstr "Udskriver nuværende nodesystem i en meget lille skrifttype."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:6
-msgid "<-- Transpose to -->"
-msgstr "<-- Transponer til -->"
+msgid "--> Transpose to -->"
+msgstr "--> Transponer til -->"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm:10
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.scm:10
 msgid "Print transposed:  "
 msgstr "Udskriv transponeret:  "
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml.h:1
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.xml.h:1
 msgid "(Print) Transpose"
 msgstr "(Udskriv) Transponer"
 
@@ -25082,7 +25315,7 @@ msgstr "Ved udskrivning vil den nuværende node/akkord blive flyttet fra noder i
 msgid "Clashing Note Columns will generate a warning from the LilyPond typesetter"
 msgstr ""
 
-#: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.scm:9
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.scm:10
 msgid "Ignore Clashing Columns"
 msgstr ""
 
@@ -25243,6 +25476,14 @@ msgstr "Brug vandrette flytninger"
 msgid "Turns on horizontal displacements of notes where needed."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.scm:6
+msgid "<-- Transpose to -->"
+msgstr "<-- Transponer til -->"
+
+#: ../actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.xml.h:2
+msgid "Prints the voices transposed by the interval given. This is in addition to any score-wide transposition and any staff-wide transposition"
+msgstr "Udskriver stemmerne transponeret af det angivne interval. Dette er en tilføjelse til eventuel generel partiturtransponering og generel transpostion"
+
 #: ../actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.xml.h:1
 msgid "Apparent Time Signature"
 msgstr ""
@@ -25337,12 +25578,16 @@ msgstr ""
 msgid "Typesets common and cut time numerically rather than the traditional C and C cut."
 msgstr ""
 
+#: ../actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.scm:4
+msgid "Inspect/Edit Single Digit Directive"
+msgstr "Inspicer/rediger taktartdirektiver"
+
 #: ../actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.xml.h:1
-msgid "(Print) Single Digit (On/Off)"
-msgstr ""
+msgid "(Print) Single Digit"
+msgstr "(Udskriv) enkeltcifret"
 
 #: ../actions/menus/ObjectMenu/TimeSig/SingleDigitTimeSig.xml.h:2
-msgid "Makes the time signature at the cursor single digit; if no time signature at cursor applies to initial timesig of staff. Operates as On/Off toggle."
+msgid "Makes the time signature at the cursor typeset as a single digit; if no time signature at cursor this applies to initial timesig of staff. Run the command again to delete/inspect the time signature directive."
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/TimeSig/TimesigWithBeatStructure.xml.h:1
@@ -26022,6 +26267,28 @@ msgstr "Unik for Denemo er metoder til at indtaste musikken i en musikalsk, frem
 #: ../denemo.appdata.xml.in.h:4
 msgid "Another great feature is the ability to put links in the score to the original source document that you transcribed from. Clicking on such a link opens the document for you and highlights the bar you are looking at. You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar."
 msgstr "En anden god funktion er muligheden for at placere henvisninger i partituret til det oprindelige kildedokument, som du har transkriberet fra. Et klik på sådan en henvisning åbner dokumentet for dig og fremhæver bjælken du kigger på. Du kan bruge dette til at fortsætte arbejdet hvor du forlod det sidst, eller til at kigge tilbage i kilden for at kontrollere en tvivlsom bjælke."
+
+#~ msgid "Key Signature Directives"
+#~ msgstr "Toneartsangivelsesdirektiver"
+
+#~ msgid "Time Signature Directives"
+#~ msgstr "Taktartdirektiver"
+
+#~ msgid "Clef Directives"
+#~ msgstr "Nøgledirektiver"
+
+#~ msgid ""
+#~ "You have unsaved work. Hardware problems may cause the program to exit during this task.\n"
+#~ "Please save first."
+#~ msgstr ""
+#~ "Du har ugemt arbejde. Problemer med udstyret kan få programmet til at lukke ned under denne opgave.\n"
+#~ "Gem først."
+
+#~ msgid "Denemo XML format (*.dnm)"
+#~ msgstr "Denemo XML-format (*.dnm)"
+
+#~ msgid "Give amount as decimal"
+#~ msgstr "Angiv mængde med decimaltal"
 
 #~ msgid "flatten "
 #~ msgstr "sætte b for "
