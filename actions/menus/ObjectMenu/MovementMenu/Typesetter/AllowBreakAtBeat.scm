@@ -1,5 +1,5 @@
 ;;AllowBreakAtBeat
-(if (even? ((duration::GetNumerator)))
+(if (even? (duration::GetNumerator))
         (let* ((ticks (/ (GetMeasureTicks) 2)) (ticks2 (/ ticks 2)) )
 		(while (d-NextNote)
 		    (if (or (eq? (d-GetStartTick) ticks2) (eq? (d-GetStartTick) ticks))
