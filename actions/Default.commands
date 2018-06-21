@@ -8208,6 +8208,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Search for Similar Scores</_label>
         <_tooltip>Creates a music signature from the opening intervals of the current score then searches all the scores below a given folder for one starting with the same intervals as this score. Any score found is opened in a new tab. Use to seek out a lost score in your collection by entering the first few notes of the lost score and invoking this command.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AllowBreakAtBeat</action>
+        <after>AllowBreakAtHalfBar</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Allow Breaks at Beats</_label>
+        <_tooltip>Allows the typesetter to break lines at each beat in a bar, instead of just at the end. Time signature changes must be handled manually (using Allow Page/Line Break command).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

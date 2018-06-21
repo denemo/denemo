@@ -1148,6 +1148,8 @@ actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.scm
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.xml
 actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtBeat.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtBeat.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtHalfBar.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtHalfBar.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm

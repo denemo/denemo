@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AllowBreakAtBeat</action>
+        <after>AllowBreakAtHalfBar</after>
+        <_label>Allow Breaks at Beats</_label>
+        <_tooltip>Allows the typesetter to break lines at each beat in a bar, instead of just at the end. Time signature changes must be handled manually (using Allow Page/Line Break command).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
