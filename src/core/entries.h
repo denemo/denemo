@@ -252,7 +252,7 @@
 {"PrintPart", GTK_STOCK_PRINT, N_("Print Part"), "",N_("Typesets the current part (the one containing the cursor)."),G_CALLBACK (printpart_cb)},
 {"Close", GTK_STOCK_CLOSE, N_("Close Score"), "",N_("Close the current score. Other scores (tabs) will stay open"),G_CALLBACK (close_gui_with_check)},
 {"Quit", GTK_STOCK_QUIT, N_("Quit"), "",N_("Quit the Denemo program - closes tabs one at a time."),G_CALLBACK (closewrapper)},
-{"Undo", GTK_STOCK_UNDO, N_("Undo"), "",N_("Undoes one (more) step of your edits to the current score."),G_CALLBACK (undowrapper)},
+{"Undo", GTK_STOCK_UNDO, N_("Undo"), "",N_("Undoes one (more) step of your edits to the music in the Display Window. Does not work for titles, settings etc - repeat the command for those."),G_CALLBACK (undowrapper)},
 {"Redo", GTK_STOCK_REDO, N_("Redo"), "",N_("Redoes the next of the steps you have Undone"),G_CALLBACK (redowrapper)},
 {"Select", NULL, N_("Select"), "",N_("Selecting stretches of notes")},
 {"ExtendSelect", NULL, N_("Extend Selection"), "",N_("Extend the selection")},
