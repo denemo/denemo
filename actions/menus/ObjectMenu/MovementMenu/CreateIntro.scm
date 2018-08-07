@@ -7,7 +7,7 @@
     (d-StaffProperties "midi_channel=9")
      (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
     (d-DirectivePut-clef-override "DrumClef" DENEMO_OVERRIDE_GRAPHIC)
-    (d-NonPrintingStaff)
+    (d-NonPrintingStaff 'set)
     (d-StaffProperties "denemo_name=Intro"))
   
   (define (writeIntroBar numerator denominator)
