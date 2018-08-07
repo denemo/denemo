@@ -44,6 +44,8 @@
             (Music?))))
   (define (groupable-wholemeasure-rest?)
     (and (d-Directive-chord? WMRtag) (not (d-GetNonprinting)) (not (d-DirectiveGetNthTag-chord 1))))
+    
+  (define params MultiMeasureRests::params)
   ;;; procedure starts here  
  
   (if (Appending?)
@@ -78,7 +80,7 @@
                                 (loop))))))
             (d-PopPosition)
             (if (d-Directive-standalone? MMRtag)
-            (begin
+                (begin
                     (d-SetDurationInTicks (* 1536 (GetPrevailingTimeSig #t)))
                     (d-DirectivePut-standalone-display MMRtag (string-append "Rest " (number->string count)))
                     (d-DirectivePut-standalone-ty MMRtag -28)  
@@ -101,9 +103,11 @@
                                     (re-calculate))
                                 ((equal? choice 'ungroup)
                                     (ungroup))))))))
-         (else (let ((number (d-GetUserInput (_ "Creating Mulit-Measure Rests") (_ "Give number of whole measure rests to insert") "2")))
+         (else (let ((number (if params params (begin (d-GetUserInput (_ "Creating Multi-Measure Rests") (_ "Give number of whole measure rests to insert") "2")))))
+            (if (number? number) (set! number (number->string number)))
             (if number
                 (let (  (meas #f)
+                        (num #f)
                         (merge (d-GetDurationInTicks))
                         (oldvol (d-MasterVolume)))
                     (if merge (set! merge (zero? merge))) ;; we will create mm rests in following bars and then merge the initial empty duration one
@@ -112,6 +116,7 @@
                         (d-InsertMeasureAfter))
                     (set! meas (d-GetMeasure))
                     (d-MasterVolume 0)
+                    (set! num number)
                     (while (positive? number)
                             (if (not (EmptyMeasure?))
                                 (d-InsertMeasure))
@@ -120,8 +125,12 @@
                     (d-MasterVolume oldvol)
                     (d-GoToPosition #f #f meas 1)
                     (d-MultiMeasureRests)
-                    (if (and merge (d-MoveToMeasureLeft))
-                        (d-MergeWithNextMeasure)))
+                    
+                     (if (and merge (d-MoveToMeasureLeft))
+                        (begin
+                            (d-MergeWithNextMeasure)
+                            (d-GoToPosition #f #f  (+ num (- meas 2)) 2)))
+                        (d-GoToPosition #f #f (+ num  (- meas 1)) 2))
                 (d-WarningDialog (_ "Cancelled")))))))
                 
  
