@@ -99,12 +99,13 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
   measurenode *curmeasure = NULL;
   objnode *firstobj = NULL;
   DenemoObject *firstmudobj = NULL;
-  gboolean replacing = FALSE;   /* if we don't use this trick, anomalous
-                                 * stuff can happen when replacing a time
-                                 * signature */
+
   take_snapshot ();
   for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
     {
+      gboolean replacing = FALSE;   /* if we don't use this trick, anomalous
+                                 * stuff can happen when replacing a time
+                                 * signature */
       if (((DenemoStaff *) curstaff->data)->is_parasite)
         continue;
 
@@ -120,7 +121,7 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
         firstmudobj = NULL;
       if (firstmudobj && firstmudobj->type == TIMESIG)
         {
-          replacing = TRUE;
+          if (curstaff==si->currentstaff) replacing = TRUE;
           ((DenemoMeasure *)curmeasure->data)->objects = g_list_remove_link ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, firstobj);
           freeobject (firstmudobj);
           g_list_free_1 (firstobj);

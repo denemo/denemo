@@ -2086,7 +2086,10 @@ void insert_chord (GList *note_data, gint duration) {
   for (g=note_data;g;g=g->next)
     {
         struct twoints *data = g->data;
-        addtone (Denemo.project->movement->currentobject->data, data->a, data->b);
+        if(((DenemoObject*)Denemo.project->movement->currentobject->data)->type == CHORD)
+          addtone (Denemo.project->movement->currentobject->data, data->a, data->b);
+        else
+          g_critical ("Not on a chord\n");
     }
   movecursorright (NULL, NULL);
   displayhelper (Denemo.project);   
