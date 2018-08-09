@@ -2131,7 +2131,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       else
         text = g_strdup_printf (_("%sDenemo %s Directive: %s %c%s%c"), (directive->layouts) ? _("(Conditional) ") : "", type, label, '[', display, ']');
       frame = gtk_frame_new (text);
-#if GTK_MAJOR_VERSION==3
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION>=12))
       gtk_widget_set_margin_start (frame, 50);
       gtk_widget_set_margin_top (frame, 30);
 #endif
