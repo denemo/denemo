@@ -994,7 +994,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   int cur_volume;
   gdouble master_volume;
   gboolean override_volume;
-  int cur_transposition;
+  int cur_transposition = 0;
+  int global_transposition = 0;
 
   int midi_channel = (-1);
   int tracknumber = 0;
@@ -1077,6 +1078,17 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
       while (--z)
         curstaff = curstaff->next;
     }
+  if (Denemo.project->lilycontrol.directives)
+            {
+              GList *g = Denemo.project->lilycontrol.directives;
+              DenemoDirective *directive = NULL;
+              for (; g; g = g->next)
+                {
+                  directive = (DenemoDirective *) g->data;
+                  if (!strcmp(directive->tag->str, "TransposeOnPrint"))
+                    global_transposition = directive->minpixels;
+                }
+            }
   //for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
   while (curstaff)
     {
@@ -1137,7 +1149,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
       master_volume = curstaffstruct->volume / 127.0;   /* new semantic for staff volume as fractional master volume */
       override_volume = curstaffstruct->override_volume;        /* force full volume output if set */
-      cur_transposition = curstaffstruct->transposition;
+      cur_transposition = global_transposition + curstaffstruct->transposition;
 
 
       if (tuplet > 0)
@@ -1179,7 +1191,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                   if (!(midi_override & DENEMO_OVERRIDE_HIDDEN))
                     if (buf)
                       if (NULL == put_event (buf, numbytes, track))
-                        g_warning ("Invalid midi bytes in score directive");
+                        g_warning ("Invalid midi bytes in score directive"); 
                 }
             }
 
@@ -1279,7 +1291,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                                 skip_midi = TRUE;
                               break;
                             case DENEMO_OVERRIDE_TRANSPOSITION:
-                              cur_transposition = midi_val;
+                              cur_transposition = global_transposition + midi_val;
                               break;
 
                             case DENEMO_OVERRIDE_CHANNEL:
@@ -1702,7 +1714,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                             change_volume (&cur_volume, midi_val, midi_interpretation, midi_action);
                             break;
                           case DENEMO_OVERRIDE_TRANSPOSITION:
-                            cur_transposition = midi_val;
+                            cur_transposition = global_transposition + midi_val;
                             break;
 
                           case DENEMO_OVERRIDE_CHANNEL:
