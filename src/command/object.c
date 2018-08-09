@@ -2101,10 +2101,14 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       
         
    {
-   gchar *text = g_strdup_printf (" \n%s %s", type, _("Directives"));
+   gchar *text = g_strdup_printf (" \n▼▼▼%s %s▼▼▼", type, _("Directives"));
    GtkWidget *label = gtk_label_new (text);
+   //set_background_color (label, "#f0f060");
+   set_background_color (label, thecolor);
    g_free (text);
    gtk_box_pack_start (GTK_BOX (vbox), label, FALSE, TRUE, 0);
+   set_background_color (vbox, "#e0e0a0");
+   //set_background_color (vbox, thecolor);
    }
         
   for (g = *pdirectives; g; g = g->next)
@@ -2127,17 +2131,22 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       else
         text = g_strdup_printf (_("%sDenemo %s Directive: %s %c%s%c"), (directive->layouts) ? _("(Conditional) ") : "", type, label, '[', display, ']');
       frame = gtk_frame_new (text);
+#if GTK_MAJOR_VERSION==3
+      gtk_widget_set_margin_start (frame, 50);
+      gtk_widget_set_margin_top (frame, 30);
+#endif
       g_free (text);
       g_free (oneline);
       
-      set_foreground_color (frame, "#808020");
+      set_foreground_color (frame, "#404010");
+      //set_foreground_color (frame, "#000000");
       
       GtkWidget *evbox = gtk_event_box_new (); set_background_color (evbox, thecolor);
       gtk_container_add (GTK_CONTAINER (vbox), evbox);
       gtk_container_add (GTK_CONTAINER (evbox), frame);
       GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-      set_foreground_color (inner_box, "#cccc20");
-
+      set_foreground_color (inner_box, "#303c20");//what does this do???
+      
       gtk_container_add (GTK_CONTAINER (frame), inner_box);
       GtkWidget *button;
  
@@ -2155,11 +2164,15 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
         {
           gchar *thelabel = g_strconcat (_("Execute command: "), name, NULL);
           button = gtk_button_new_with_label (thelabel);
+          set_foreground_color (button, "rgb(0,70,130)");
           gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
 
           g_object_set_data (G_OBJECT (button), "action", (gpointer) action);
           g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER (score_or_movement));
-          gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
+          GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
+          gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, FALSE, 0);
+          gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, FALSE, 0);
+          
           g_free (thelabel);
         }
       if (tooltip)
@@ -2270,7 +2283,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movement Properties Editor"));
   gtk_window_set_transient_for (GTK_WINDOW (editscorewin), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
-  gtk_window_set_default_size (GTK_WINDOW (editscorewin), 1000, window_height);
+  gtk_window_set_default_size (GTK_WINDOW (editscorewin), 1400, window_height);
 
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
@@ -2298,8 +2311,8 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   //gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
   
   
-  set_foreground_color (expander, "rgb(25,200,25)");
-  
+  //set_foreground_color (expander, "rgb(2525,200,25)");
+  set_foreground_color (expander, "rgb(0,100,0)");// "Edit Built-in Properties" and "Score Directives" are this color
   // gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
 
   GtkWidget *frame = gtk_frame_new (NULL);
