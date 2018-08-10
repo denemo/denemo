@@ -96,11 +96,13 @@ void repack_palette (DenemoPalette *pal)
     }
     gtk_widget_destroy (pal->box);
     pal->box = gtk_grid_new();
+    set_background_color (pal->box, "#8080fe");
    // gchar *tooltip = g_strdup_printf("The \"%s\" Palette:\n%s", pal->name, _("To edit this palette, dock/undock, hide etc, right click on a button and choose Edit Palette."));
    // gtk_widget_set_tooltip_text (pal->box, tooltip);
    // g_free(tooltip);
     for (i=0, g=pal->buttons;g;i++, g=g->next)
     {
+                    
         if(pal->rows)
             gtk_grid_attach (GTK_GRID(pal->box), g->data, i/pal->limit, i%pal->limit, 1, 1);
         else
@@ -456,6 +458,12 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tool
         return FALSE;
     gchar *thescript = g_strdup(script);
     GtkWidget *button = gtk_button_new_with_label (label);
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION>=12))
+      gtk_widget_set_margin_start (button, 1);
+      gtk_widget_set_margin_end (button, 1);
+      gtk_widget_set_margin_top (button, 1);
+      gtk_widget_set_margin_bottom (button, 1);
+#endif
     gchar *icon = find_denemo_file (DENEMO_DIR_PIXMAPS, label);
     if(icon)
     {
