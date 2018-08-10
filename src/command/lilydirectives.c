@@ -1773,6 +1773,7 @@ however, at least the rest of this code expects a valid GtkWidget...
         {
           //g_debug("Doing the score and movement cases starting from %p", directive->widget);
           directive->widget = GTK_WIDGET (gtk_button_new_with_label (value));
+          set_foreground_color (directive->widget, box==Denemo.project->buttonbox?"#107000":"#001070");
           gchar *tooltip;
           const gchar *label = get_label_for_command (directive->tag->str);
           const gchar *help = get_tooltip_for_command (directive->tag->str);
