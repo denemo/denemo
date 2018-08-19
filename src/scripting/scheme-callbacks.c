@@ -6585,6 +6585,7 @@ scheme_staff_to_voice (SCM optional)
           warningdialog (_("This voice has a different clef from the staff it will be typeset on. This clef will be used for the display only."));
         }
       ret = SCM_BOOL_T;
+      signal_structural_change (Denemo.project);
       draw_score_area ();
       score_status (Denemo.project, TRUE);
       if (!Denemo.non_interactive)
@@ -6602,6 +6603,7 @@ scheme_voice_to_staff (SCM optional)
       ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->voicecontrol = DENEMO_PRIMARY;
       staff_set_current_primary (Denemo.project->movement);
       ret = SCM_BOOL_T;
+      signal_structural_change (Denemo.project);
       score_status (Denemo.project, TRUE);
       draw_score_area ();
     }
