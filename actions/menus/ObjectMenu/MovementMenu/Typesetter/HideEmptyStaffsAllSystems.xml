@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>HideEmptyStaffsAllSystems</action>
+        <after>HideEmptyStaffs</after>
+        <_label>Hide Empty Staffs on All Systems (Off/On)</_label>
+        <_tooltip>Hides empty staffs on the first and subsequent systems (Off/On). See also the command "Hide Empty Staffs (Off/On)" which keeps all staffs for the first system.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

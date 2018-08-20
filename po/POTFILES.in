@@ -1158,6 +1158,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.scm

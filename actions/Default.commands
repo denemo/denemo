@@ -8215,6 +8215,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Allow Breaks at Beats</_label>
         <_tooltip>Allows the typesetter to break lines at each beat in a bar, instead of just at the end. Time signature changes must be handled manually (using Allow Page/Line Break command).</_tooltip>
       </row>
+      <row type="scheme">
+        <action>HideEmptyStaffsAllSystems</action>
+        <after>HideEmptyStaffs</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>Hide Empty Staffs on All Systems (Off/On)</_label>
+        <_tooltip>Hides empty staffs on the first and subsequent systems (Off/On). See also the command "Hide Empty Staffs (Off/On)" which keeps all staffs for the first system.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
