@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>DisplayEditingTime</action>
         <after>CheckScore</after>
-        <_label>Display Time Spent Editing</_label>
+        <_label>Time Spent Editing</_label>
         <_tooltip>Displays the cumulative time spent editing this score. The time counts any period between starting to edit and saving to disk. The time is accumulated over different editing sessions.</_tooltip>
       </row>
     </map>
