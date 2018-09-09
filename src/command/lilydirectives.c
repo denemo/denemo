@@ -1696,8 +1696,9 @@ editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive
       gchar *filename = get_editscript_filename (directive->tag->str);
       if (filename)
         execute_script_file (filename);
-      set_directive_graphic_label (directive);
     }
+  set_directive_graphic_label (directive);
+  score_status (Denemo.project, TRUE);
   return TRUE;
 }
 
