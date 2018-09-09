@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ConvertToWholeMeasureRests</action>
+        <after>InsertWholeMeasureRest</after>
+        <_label>Convert to Whole Measure Rests</_label>
+        <_tooltip>Changes rests throughout the score that have the duration of the whole measure to whole measure rests (typeset as whole-note rest by convention)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AmalgamateRepeatBarlines</action>
+        <after>DoubleBarRepeatStart</after>
+        <_label>Amalgamate Repeat Barlines</_label>
+        <_tooltip>Replaces erroneous repeat end Directive followed by repeat start with (correct) repeat-end-start Directives throughout the score. (Only one type of barline can be present at one musical time in the score).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

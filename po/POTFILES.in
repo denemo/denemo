@@ -764,6 +764,8 @@ actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.scm
 actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.xml
 actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.scm
 actions/menus/ObjectMenu/ClefMenu/TypesetOnlyClef.xml
+actions/menus/ObjectMenu/Directives/Barlines/AmalgamateRepeatBarlines.scm
+actions/menus/ObjectMenu/Directives/Barlines/AmalgamateRepeatBarlines.xml
 actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.xml
 actions/menus/ObjectMenu/Directives/Barlines/ClosingBarline.scm
@@ -1648,6 +1650,8 @@ actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.scm
 actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.xml
 actions/menus/ObjectMenu/NotesRests/ReplaceChord.scm
 actions/menus/ObjectMenu/NotesRests/ReplaceChord.xml
+actions/menus/ObjectMenu/NotesRests/RestEntry/ConvertToWholeMeasureRests.scm
+actions/menus/ObjectMenu/NotesRests/RestEntry/ConvertToWholeMeasureRests.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/DisplaceRestHorizontally.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/DisplaceRestHorizontally.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/EnterRest.scm
