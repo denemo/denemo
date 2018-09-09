@@ -692,6 +692,7 @@ free_movement (DenemoProject * gui)
   delete_all_staffs (gui);
   delete_directives (&gui->movement->layout.directives);
   delete_directives (&gui->movement->header.directives);
+  delete_directives (&gui->movement->movementcontrol.directives);
   free_midi_data (gui->movement);
   if (gui->movement->buttonbox)
     {
