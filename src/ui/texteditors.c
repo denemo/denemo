@@ -264,40 +264,67 @@ save_scheme_dialog (GtkTextBuffer * buffer, GtkWidget * textview)
   return TRUE;
 }
 
-
+static void load_script_file (gchar *filename, GtkTextBuffer *buffer, gchar *init)
+        {
+          gchar *text = NULL;
+          g_file_get_contents (filename, &text, NULL, NULL);
+          if (text==NULL)
+            {
+              if (init==NULL)
+                {
+                  g_critical ("bad call to load_script_file");
+                  return;
+                }
+              text = g_strdup(init);
+            }
+          gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), text, -1);
+          gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
+          g_free (text);
+        }
 
 static void
 load_scheme_from_file (GtkWidget * widget, GtkWidget * textview)
 {
   gchar **pfilename = g_object_get_data (G_OBJECT (textview), "pfilename");
-  gchar *text = NULL;
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
+ 
+  if (*pfilename && (!save_scheme_dialog (buffer, textview)))
+    {
+      return;
+    } 
+  
   GtkWidget *dialog = gtk_file_chooser_dialog_new (_("Open File"),
                                                    NULL /*GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view),GTK_TEXT_WINDOW_WIDGET)) */ ,
                                                    GTK_FILE_CHOOSER_ACTION_OPEN,
                                                    _("_Cancel"), GTK_RESPONSE_CANCEL,
                                                    _("_Open"), GTK_RESPONSE_OK, NULL);
 
-  if (!save_scheme_dialog (buffer, textview))
-    {
-      return;
-    }
-
-
   if (gtk_dialog_run ((GTK_DIALOG (dialog))) == GTK_RESPONSE_OK)
     {
       if (*pfilename)
         g_free (*pfilename);
       *pfilename = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
-      g_file_get_contents (*pfilename, &text, NULL, NULL);
-      gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), text, -1);
-      gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
+      load_script_file (*pfilename, buffer, NULL);
     }
-
-  g_free (text);
   gtk_widget_destroy (dialog);
+}
+static void
+open_initialization_script (GtkWidget * widget, GtkWidget * textview)
+{
+  gchar **pfilename = g_object_get_data (G_OBJECT (textview), "pfilename");
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
+  if (*pfilename && (!save_scheme_dialog (buffer, textview)))
+    {
+      return;
+    }
+  g_free (*pfilename);
+  *pfilename = g_build_filename (get_user_data_dir (TRUE), "actions", "denemo.scm", NULL);
+  load_script_file (*pfilename, buffer, ";this script will be run each time you open a score or on starting a new, blank score\n");
 
 }
+
+
+
 
 void
 clear_scheme_window (GtkWidget * widget, GtkWidget * textview)
@@ -412,19 +439,33 @@ create_editor_window (void)
   menu = gtk_menu_new ();
 
   item = gtk_menu_item_new_with_label (_("New"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);  
+  gtk_widget_set_tooltip_text (item, _( "Erase the current script"));
+
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (clear_scheme_window), (gpointer) TextView);
 
   item = gtk_menu_item_new_with_label (_("Open"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_set_tooltip_text (item, _( "Load a script file"));
+
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (load_scheme_from_file), (gpointer) TextView);
+
+  item = gtk_menu_item_new_with_label (_("Open Initialization Script"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_set_tooltip_text (item, _( "Load the script file which will be executed on each newly opened score"));
+
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (open_initialization_script), (gpointer) TextView);
 
   item = gtk_menu_item_new_with_label (_("Save"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_set_tooltip_text (item, _( "Save this script to the file it was loaded from"));
+
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (save_scheme_text), (gpointer) TextView);
 
   item = gtk_menu_item_new_with_label (_("Save as…"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  gtk_widget_set_tooltip_text (item, _( "Save this as a new file"));
+
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (save_scheme_text_as), (gpointer) TextView);
 
   item = gtk_menu_item_new_with_label (_("Find"));
