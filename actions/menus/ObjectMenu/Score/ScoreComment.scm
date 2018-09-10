@@ -1,4 +1,4 @@
-;;;;;;;;;;;;;;
+;;;ScoreComment
 (let ((tag "ScoreComment"))
 	(if (not (d-Directive-score? tag))
 		(begin
