@@ -23,6 +23,7 @@
 #include "scripting/scheme-callbacks.h"
 #include "core/menusystem.h"
 
+static GtkWidget *SchemeWindow;
 static void find_cb (DenemoAction * action, gpointer user_data);
 
 static void replace_cb (DenemoAction * action, gpointer user_data);
@@ -277,6 +278,7 @@ static void load_script_file (gchar *filename, GtkTextBuffer *buffer, gchar *ini
                 }
               text = g_strdup(init);
             }
+          gtk_window_set_title (GTK_WINDOW (SchemeWindow), g_strdup_printf("%s ; %s", _("Denemo Scheme Script"), filename));
           gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), text, -1);
           gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
           g_free (text);
@@ -331,11 +333,11 @@ clear_scheme_window (GtkWidget * widget, GtkWidget * textview)
 {
   gchar **pfilename = g_object_get_data (G_OBJECT (textview), "pfilename");
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
-  if (!save_scheme_dialog (buffer, textview))
+  if (*pfilename && (!save_scheme_dialog (buffer, textview)))
     return;
-
   g_free (*pfilename);
   *pfilename = NULL;
+  gtk_window_set_title (GTK_WINDOW (SchemeWindow), g_strdup_printf("%s", _("Denemo Scheme Script")));
   gtk_text_buffer_set_text (GTK_TEXT_BUFFER (buffer), "", 0);
   gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
 }
@@ -399,8 +401,8 @@ create_editor_window (void)
   gtk_source_view_set_indent_on_tab (GTK_SOURCE_VIEW (TextView), TRUE);
   gtk_text_view_set_wrap_mode (GTK_TEXT_VIEW (TextView), GTK_WRAP_CHAR);
 
-  GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  GtkWidget *w = window;
+  GtkWidget *w = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  SchemeWindow = w;
   gtk_window_set_title (GTK_WINDOW (w), _("Denemo Scheme Script"));
   //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
   g_signal_connect (G_OBJECT (w), "delete-event", G_CALLBACK (hide_scheme /*gtk_widget_hide_on_delete */ ), w);
