@@ -116,6 +116,7 @@
                 ((inspect)
                    (d-DisplayCurrentObject))
                   ((delete)
+                    (d-LockDirective #f)
                     (d-DirectiveDelete-standalone tag)))))
                       
 ; d-DirectivePut-standalone a convenience function for standalone directives
