@@ -1,6 +1,16 @@
  ;;;;;;;;BeamingOff
-(d-DirectivePut-standalone "BeamingOff")
-(d-DirectivePut-standalone-postfix "BeamingOff" "\\autoBeamOff")
-(d-DirectivePut-standalone-display "BeamingOff" (_ "No Beaming"))
-(d-DirectivePut-standalone-minpixels "BeamingOff" 10)
-(d-RefreshDisplay)
+(let ((tag  "BeamingOff"))
+ (if (d-Directive-standalone? tag)
+    (EditForStandaloneToggle tag)   
+    (begin
+        (if (d-MoveCursorLeft)
+            (if (d-Directive-standalone? tag)
+              (d-DirectiveDelete-standalone tag)
+              (d-MoveCursorRight)))
+        (StandAloneDirectiveProto (cons tag "\\autoBeamOff") #f #f (_ "No Beaming"))
+        (d-DirectivePut-standalone-gy tag -44)
+        (d-DirectivePut-standalone-grob tag tag)
+        (d-MoveCursorRight)
+        (d-RefreshDisplay)
+        (d-SetSaved #f))))
+        

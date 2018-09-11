@@ -1,6 +1,14 @@
  ;;;;;;;;BeamingOn
-(d-DirectivePut-standalone "BeamingOn")
-(d-DirectivePut-standalone-postfix "BeamingOn" "\\autoBeamOn")
-(d-DirectivePut-standalone-display "BeamingOn" "Automatic Beaming")
-(d-DirectivePut-standalone-minpixels "BeamingOn" 10)
-(d-RefreshDisplay)
+(let ((tag  "BeamingOn"))
+ (if (d-Directive-standalone? tag)
+    (EditForStandaloneToggle tag)   
+    (begin
+        (if (d-MoveCursorLeft)
+            (if (d-Directive-standalone? tag)
+              (d-DirectiveDelete-standalone tag)
+              (d-MoveCursorRight)))
+        (StandAloneDirectiveProto (cons tag "\\autoBeamOn") #f #f (_ "Normal Beaming"))
+        (d-MoveCursorRight)
+        (d-RefreshDisplay)
+        (d-SetSaved #f))))
+        
