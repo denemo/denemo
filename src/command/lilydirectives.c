@@ -2846,6 +2846,14 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
               g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
             }
     }
+    
+    if (directive->locked)
+      {
+              button = gtk_button_new_with_label (_("Locked Directive"));
+              set_foreground_color(button, "#a01000");
+              g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (warningdialog), _("This directive is locked - usually to offer options other than just delete. If needed you can get rid of the directive by selecting it and using Edit->Cut."));
+      }
+    
  gtk_box_pack_start (GTK_BOX (hbox), button, TRUE, TRUE, 0);
 
   hbox = gtk_hbox_new (FALSE, 8);
