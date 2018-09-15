@@ -1199,7 +1199,10 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Selects the first score layout.", DENEMO_SCHEME_PREFIX "SelectFirstLayout", scheme_select_first_layout);
   install_scm_function (0, "Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextCustomLayout", scheme_select_next_custom_layout);
   install_scm_function (0, "Selects the first custom score layout.", DENEMO_SCHEME_PREFIX "SelectFirstCustomLayout", scheme_select_first_custom_layout);
+  
   install_scm_function (0, "Returns the full path to the currently opened Denemo score or #f if it does not have a disk file yet.", DENEMO_SCHEME_PREFIX "GetFilename", scheme_get_filename);
+  install_scm_function (0, "Selects the nth open score (i.e. tab) indexed from 0, returns the current tab", DENEMO_SCHEME_PREFIX "SelectTab", scheme_select_tab);
+  install_scm_function (3, "Takes two tab indexes and optional move parameter. Compares the current objects in the two passed scores (i.e. tabs) returning #f if they differ. Moves on to next objects unless move is #f", DENEMO_SCHEME_PREFIX "CompareObjects", scheme_compare_objects);
 
   install_scm_function (1, "Returns the directory component of the passed filename.", DENEMO_SCHEME_PREFIX "PathFromFilename", scheme_path_from_filename);
   install_scm_function (1, "Returns the #t if file passed in exists.", DENEMO_SCHEME_PREFIX "FileExists", scheme_file_exists);

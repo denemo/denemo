@@ -1354,6 +1354,46 @@ scheme_get_filename (void)
 }
 
 SCM
+scheme_select_tab (SCM index)
+{
+  if (scm_is_integer (index))
+    {
+      gint num = scm_to_int (index);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num);
+    }
+  return scm_from_int (gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook)));
+}
+
+SCM
+scheme_compare_objects (SCM index1, SCM index2, SCM move)
+{
+  if (scm_is_integer (index1) && scm_is_integer (index2))
+    {
+      gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
+      gint num1 = scm_to_int (index1);
+      gint num2 = scm_to_int (index2);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+      
+
+      DenemoObject *obj1 = get_object();
+      if (scm_is_true (move))
+        cursor_to_next_object (FALSE, FALSE);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
+      
+
+      DenemoObject *obj2 =  get_object();
+      if (scm_is_true (move))
+        cursor_to_next_object (FALSE, FALSE);
+      gint compare = compare_objects (obj1, obj2);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
+      
+
+      return SCM_BOOL (compare);
+    }
+  return SCM_BOOL_F;
+}
+
+SCM
 scheme_path_from_filename (SCM filepath)
 {
   SCM ret = SCM_BOOL_F;

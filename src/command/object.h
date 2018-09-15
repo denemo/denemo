@@ -11,6 +11,8 @@
 
 DenemoObject *get_object (void);
 
+gboolean compare_objects (DenemoObject *obj1, DenemoObject *obj2);
+
 void freeobject (DenemoObject * mudobj);
 
 void display_current_object (void);

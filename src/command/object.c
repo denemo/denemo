@@ -41,6 +41,214 @@ get_object (void)
   return (DenemoObject *) si->currentobject ? (DenemoObject *) si->currentobject->data : NULL;
 }
 
+#define EQ(a) (note1->a == note2->a)
+
+static gboolean compare_note (note *note1, note *note2)
+{
+  if (
+  EQ(mid_c_offset)
+  
+  )
+  return TRUE;
+ return FALSE;
+  
+}
+#undef EQ
+static gboolean compare_notes (GList *notes1, GList *notes2)
+{
+  while (notes1 && notes2)
+    {
+      if (!compare_note (notes1->data, notes2->data))
+        return FALSE;
+        notes1=notes1->next;
+        notes2=notes2->next;
+    }
+    return notes1 == notes2;
+}
+
+
+static gboolean compare_gstring (GString *g1, GString *g2)
+{
+  if (g1 && g2 && !strcmp (g1->str, g2->str))
+    return TRUE;
+  return g1==g2;
+}
+static gboolean compare_dynamics (GList *notes1, GList *notes2)
+{
+  while (notes1 && notes2)
+    {
+      if (!compare_gstring (notes1->data, notes2->data))
+        return FALSE;
+        notes1=notes1->next;
+        notes2=notes2->next;
+    }
+    return notes1 == notes2;
+}
+static gboolean compare_layouts (GList *l1, GList *l2)
+{
+  while (l1 && l2)
+    {
+      if (l1->data!=l2->data)
+        return FALSE;
+      l1=l1->next;
+      l2=l2->next;
+    }
+  return l1 == l2;
+}
+static gboolean compare_directive (DenemoDirective *d1, DenemoDirective *d2)
+{
+  if (d1==d2) return TRUE;
+  if (d1 && d2)
+    {
+#define NEQ(a) if(!compare_gstring((GString*)d1->a, (GString*)d2->a)) return FALSE;
+      NEQ(tag);
+      NEQ(prefix);
+      NEQ(postfix);
+      NEQ(display);
+      NEQ(midibytes);
+      NEQ(graphic_name);
+      NEQ(grob);
+      NEQ(data);
+#undef NEQ
+#define NEQ(a) if(!(d1 && d2 && (d1->a == d2->a)))return FALSE;
+      NEQ(tx);
+      NEQ(ty);
+      NEQ(gx);
+      NEQ(gy);
+      NEQ(minpixels);
+      NEQ(flag);
+      NEQ(locked);
+      NEQ(override);
+#undef NEQ
+      if (!compare_layouts (d1->layouts, d2->layouts))
+        return FALSE;
+     
+     return TRUE;
+    }
+  return FALSE;
+}
+
+static gboolean compare_directive_lists (GList *dlist1, GList *dlist2)
+{
+  while (dlist1 && dlist2)
+    {
+      if (!compare_directive (dlist1->data, dlist2->data))
+        return FALSE;
+        dlist1=dlist1->next;
+        dlist2=dlist2->next;
+    }
+    return dlist1 == dlist2;
+}
+
+
+gboolean compare_objects (DenemoObject *object1, DenemoObject *object2)
+{
+#define NEQ(a) if(obj1->a !=  obj2->a) return FALSE;
+#define DECL(a) a *obj1 = object1->object,*obj2 = object2->object;
+  if ((object1->type == object2->type) && (object1->isinvisible == object2->isinvisible))
+   {
+     if (!compare_directive_lists (object1->directives, object2->directives))
+              return FALSE;
+      switch (object1->type)
+        {
+          case CHORD:
+            {
+              chord *obj1 = object1->object;
+              chord *obj2 = object2->object;
+              if (!compare_notes(obj1->notes, obj2->notes))
+              return FALSE;
+              if (!compare_dynamics(obj1->dynamics, obj2->dynamics))
+              return FALSE;
+              NEQ(baseduration)
+              NEQ(numdots);
+              NEQ(chordize)
+              NEQ(is_tied)
+              NEQ(is_stemup)
+              NEQ(slur_begin_p)
+              NEQ(slur_end_p)
+              NEQ(crescendo_begin_p)
+              NEQ(crescendo_end_p)
+              NEQ(diminuendo_begin_p)
+              NEQ(diminuendo_end_p)
+              NEQ(hasanacc)
+              NEQ(is_grace)
+
+              if ((obj1->figure || obj2->figure) && !compare_gstring (obj1->figure, obj2->figure))
+              return FALSE;
+              if ((obj1->fakechord || obj2->fakechord) && !compare_gstring (obj1->fakechord, obj2->fakechord))
+              return FALSE;
+              if (!compare_directive_lists (obj1->directives, obj2->directives))
+              return FALSE;
+            }
+          return TRUE;
+        case TUPOPEN:
+          {
+              DECL(tupopen);
+              NEQ(numerator);
+              NEQ(denominator);
+              if (!compare_directive_lists (obj1->directives, obj2->directives))
+                return FALSE;
+              
+              return TRUE;
+          }
+        case TUPCLOSE:
+                     return TRUE;
+        case CLEF:
+         {
+              DECL(clef);
+              NEQ(type);
+              if (!compare_directive_lists (obj1->directives, obj2->directives))
+                return FALSE;
+              return TRUE;
+          }
+                  
+        case TIMESIG:
+          {
+              DECL(timesig);
+              NEQ(time1);
+              NEQ(time2);
+              if (!compare_directive_lists (obj1->directives, obj2->directives))
+                return FALSE;
+              
+              return TRUE;
+          }
+        case KEYSIG:
+          {
+              DECL(keysig);
+              NEQ(number);
+              NEQ(isminor);
+              NEQ(mode);
+              if (!compare_directive_lists (obj1->directives, obj2->directives))
+                return FALSE;
+              
+              return TRUE;
+          }
+        case STEMDIRECTIVE:
+          {
+              DECL(stemdirective);
+              if (!compare_directive_lists (obj1->directives, obj2->directives))
+                return FALSE;
+              return TRUE;
+            }
+        case LILYDIRECTIVE:
+          {
+            DECL(DenemoDirective);
+            if (!compare_directive (obj1, obj2));
+                     return TRUE;
+          return FALSE;
+          }
+        default:
+          g_warning ("Unknown Type %s\n", DenemoObjTypeNames[object1->type]);
+          return FALSE;
+        }
+  }
+  else
+    return FALSE;
+    
+#undef NEQ
+#undef DECL
+}
+
 /**
  * Free the given object
  * @param mudobj the DenemoObject to free
@@ -3030,51 +3238,7 @@ directive_object_new (DenemoDirective * directive)
   return ret;
 }
 
-/**
- * Create a new dynamic object
- * @param type the dynamic to create
- * @return the dynamic
-  */
-DenemoObject *
-dynamic_new (gchar * type)
-{
-  DenemoObject *ret;
-  dynamic *newdyn = (dynamic *) g_malloc0 (sizeof (dynamic));
-  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
-  ret->type = DYNAMIC;
-  ret->isinvisible = FALSE;
-  newdyn->type = g_string_new (type);
-  ret->object = newdyn;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
 
-/**
- * Create a new lyric object
- * @param type the lyric to create
- * @param position whether it shoul be centered or not
- * @param syllable whether it is a syllable
- * @return the dynamic
-  */
-DenemoObject *
-dnm_lyric_new (gchar * type, gint position, gboolean syllable)
-{
-  DenemoObject *ret;
-  lyric *newlyric = (lyric *) g_malloc0 (sizeof (lyric));
-  ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
-  ret->type = LYRIC;
-  ret->isinvisible = FALSE;
-
-
-  newlyric->lyrics = g_string_new (type);
-  newlyric->position = position;
-  newlyric->is_syllable = syllable;
-  ret->object = newlyric;
-  set_basic_numticks (ret);
-  setpixelmin (ret);
-  return ret;
-}
 
 /**
  *  Create a DenemoObject
