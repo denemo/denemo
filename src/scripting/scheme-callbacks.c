@@ -1475,6 +1475,15 @@ scheme_difference_of_projects (SCM index1, SCM index2)
   return SCM_BOOL_F;
 }
 
+
+SCM 
+scheme_wakeup (void)
+{
+  while (gtk_events_pending ())
+  gtk_main_iteration ();
+  return SCM_BOOL_T;
+}
+
 SCM
 scheme_difference_of_movements (SCM index1, SCM index2)
 {
@@ -4479,7 +4488,6 @@ scheme_get_padding (void)
     ret = SCM_BOOL (FALSE);
   return ret;
 }
-
 
 
 /* create a dialog with the options & return the one chosen, of #f if

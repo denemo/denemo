@@ -1206,6 +1206,7 @@ create_scheme_identfiers (void)
   install_scm_function (3, "Takes two tab indexes and optional move parameter. Compares the current staffs in the two passed scores (i.e. tabs) returning a description of the first difference or #f if they are the same. Moves on to staffs below unless move is #f", DENEMO_SCHEME_PREFIX "DifferenceOfStaffs", scheme_difference_of_staffs);
   install_scm_function (2, "Takes two tab indexes. Compares the current movement headers for the scores indexed (i.e. tabs) returning a description of the first difference or #f if they are the same.", DENEMO_SCHEME_PREFIX "DifferenceOfMovements", scheme_difference_of_movements);
   install_scm_function (2, "Takes two tab indexes. Compares the score headers for the scores indexed (i.e. tabs) returning a description of the first difference or #f if they are the same.", DENEMO_SCHEME_PREFIX "DifferenceOfProjects", scheme_difference_of_projects);
+  install_scm_function (0, "Allows the display to unfreeze, but the user may cause a crash ... ", DENEMO_SCHEME_PREFIX "Wakeup", scheme_wakeup);
 
   install_scm_function (1, "Returns the directory component of the passed filename.", DENEMO_SCHEME_PREFIX "PathFromFilename", scheme_path_from_filename);
   install_scm_function (1, "Returns the #t if file passed in exists.", DENEMO_SCHEME_PREFIX "FileExists", scheme_file_exists);

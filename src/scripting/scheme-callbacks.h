@@ -335,6 +335,7 @@ SCM scheme_compare_objects (SCM index1, SCM index2, SCM move);
 SCM scheme_difference_of_staffs (SCM index1, SCM index2, SCM move);
 SCM scheme_difference_of_movements (SCM index1, SCM index2);
 SCM scheme_difference_of_projects (SCM index1, SCM index2);
+SCM scheme_wakeup (void);
 
 SCM scheme_path_from_filename (SCM);
 SCM scheme_file_exists (SCM);
