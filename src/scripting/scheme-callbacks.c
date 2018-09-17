@@ -1369,6 +1369,7 @@ scheme_compare_objects (SCM index1, SCM index2, SCM move)
 {
   if (scm_is_integer (index1) && scm_is_integer (index2))
     {
+      gboolean moved1 = TRUE, moved2 = TRUE;
       gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
       gint num1 = scm_to_int (index1);
       gint num2 = scm_to_int (index2);
@@ -1377,22 +1378,152 @@ scheme_compare_objects (SCM index1, SCM index2, SCM move)
 
       DenemoObject *obj1 = get_object();
       if (scm_is_true (move))
-        cursor_to_next_object (FALSE, FALSE);
+        moved1 = movecursorright(NULL, NULL);// cursor_to_next_object (FALSE, FALSE);
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
       
 
       DenemoObject *obj2 =  get_object();
       if (scm_is_true (move))
-        cursor_to_next_object (FALSE, FALSE);
+        moved2 = movecursorright(NULL, NULL);// cursor_to_next_object (FALSE, FALSE);
       gint compare = compare_objects (obj1, obj2);
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
       
+      if (moved1 != moved2)
+        return scm_from_int (2);
+      if ( (!moved1) || (!moved2))
+        return scm_from_int (3);
+      return compare ? scm_from_int (0):scm_from_int (1);
+    }
+  return scm_from_int (4);
+}
+SCM
+scheme_difference_of_staffs (SCM index1, SCM index2, SCM move)
+{
+  if (scm_is_integer (index1) && scm_is_integer (index2))
+    {
+      gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
+      gint num1 = scm_to_int (index1);
+      gint num2 = scm_to_int (index2);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+    
+      DenemoStaff *staff1 = (DenemoStaff *)Denemo.project->movement->currentstaff->data;
+      if (scm_is_true (move))
+        movetostaffdown (NULL, NULL);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
 
-      return SCM_BOOL (compare);
+      DenemoStaff *staff2 =  (DenemoStaff *)Denemo.project->movement->currentstaff->data;
+      if (scm_is_true (move))
+        movetostaffdown (NULL, NULL);
+      gchar *compare = difference_of_staffs (staff1, staff2);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
+      if (compare)
+        { SCM ret;
+          ret = scm_from_locale_string (compare);
+          g_free (compare);
+          return ret;
+        }
     }
   return SCM_BOOL_F;
 }
 
+SCM
+scheme_difference_of_projects (SCM index1, SCM index2)
+{
+  if (scm_is_integer (index1) && scm_is_integer (index2))
+    {
+      gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
+      gint num1 = scm_to_int (index1);
+      gint num2 = scm_to_int (index2);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+    
+      DenemoProject *p1 = Denemo.project;
+      
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
+      DenemoProject *p2 = Denemo.project;
+      //DenemoLilyControl *lc1 = p1->lilycontrol; there are papersize etc which i'm ignoring...
+      //DenemoLilyControl *lc2 = p2->lilycontrol;
+
+      gchar *compare = difference_of_directive_lists (p1->lilycontrol.directives, p2->lilycontrol.directives);
+      if (!compare)
+        compare = difference_of_directive_lists (p1->scoreheader.directives, p2->scoreheader.directives);
+      if (!compare)
+        compare = difference_of_directive_lists (p1->paper.directives, p2->paper.directives);
+       
+#if 0        
+      if (!compare)
+        {
+          gchar *text = _("Paper Directive: ");
+          compare = difference_of_directive_list (p1->paper.directives, p2->paper.directives);
+          if (compare)
+            {
+              text = strdup_printf ("%s %s", compare);
+              g_free (compare);
+              compare = text;
+            }
+        }
+#endif
+
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
+      if (compare)
+        { SCM ret;
+          ret = scm_from_locale_string (compare);
+          g_free (compare);
+          return ret;
+        }
+      
+    }
+  return SCM_BOOL_F;
+}
+
+SCM
+scheme_difference_of_movements (SCM index1, SCM index2)
+{
+  if (scm_is_integer (index1) && scm_is_integer (index2))
+    {
+      gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
+      gint num1 = scm_to_int (index1);
+      gint num2 = scm_to_int (index2);
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+    
+      DenemoMovement *mv1 = Denemo.project->movement;
+      
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
+      DenemoMovement *mv2 = Denemo.project->movement;
+      //DenemoLilyControl *lc1 = mv1->lilycontrol; there are papersize etc which i'm ignoring...
+      //DenemoLilyControl *lc2 = mv2->lilycontrol;
+
+      gchar *compare = difference_of_directive_lists (mv1->movementcontrol.directives, mv2->movementcontrol.directives);
+      if (!compare)
+        compare = difference_of_directive_lists (mv1->header.directives, mv2->header.directives);
+      if (!compare)
+        compare = difference_of_directive_lists (mv1->layout.directives, mv2->layout.directives);
+       
+#if 0        
+      if (!compare)
+        {
+          gchar *text = _("Paper Directive: ");
+          compare = difference_of_directive_list (mv1->paper.directives, mv2->paper.directives);
+          if (compare)
+            {
+              text = strdup_printf ("%s %s", compare);
+              g_free (compare);
+              compare = text;
+            }
+        }
+#endif
+
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
+      if (compare)
+        { SCM ret;
+          ret = scm_from_locale_string (compare);
+          g_free (compare);
+          return ret;
+        }
+      
+    }
+  return SCM_BOOL_F;
+}
+  
 SCM
 scheme_path_from_filename (SCM filepath)
 {

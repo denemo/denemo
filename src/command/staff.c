@@ -28,12 +28,46 @@
 
 gboolean
 signal_structural_change (DenemoProject * project)
-{
-  project->layout_sync++;//project->changecount;
-  return TRUE;
-}
+  {
+    project->layout_sync++;//project->changecount;
+    return TRUE;
+  }
+static gchar *difference_of_clefs (clef c1, clef c2)
+  {
+     if (c1.type != c2.type)
+      return g_strdup (_("Clefs differ"));
+     return difference_of_directive_lists (c1.directives, c2.directives);
+  }
+static gchar *difference_of_timesigs (timesig c1, timesig c2)
+  {
+     if ((c1.time1 != c2.time1)|| (c1.time2 != c2.time2))
+      return g_strdup (_("Time Signatures differ"));
+     return difference_of_directive_lists (c1.directives, c2.directives);
+  }
 
-
+static gchar *difference_of_keysigs (keysig c1, keysig c2)
+  {
+     if ((c1.number != c2.number) || (c1.isminor != c2.isminor)|| (c1.mode != c2.mode))
+      return g_strdup (_("Key Signatures differ"));
+     return difference_of_directive_lists (c1.directives, c2.directives);
+  }             
+              
+              
+/* return a newly allocated string describing the first difference between the staffs or NULL if none */
+gchar *difference_of_staffs (DenemoStaff *s1, DenemoStaff *s2)
+  {
+    gchar *diff = NULL;
+    diff = difference_of_clefs (s1->clef, s2->clef);
+    if (!diff)
+      diff = difference_of_keysigs (s1->keysig, s2->keysig);
+    if (!diff)
+      diff = difference_of_timesigs (s1->timesig, s2->timesig);
+    if (!diff)
+      diff = difference_of_directive_lists (s1->staff_directives, s2->staff_directives);
+    if (!diff)
+      diff = difference_of_directive_lists (s1->voice_directives, s2->voice_directives);
+   return diff; 
+  }
 /**
  * Return the first measure node of the given staffops
  * @param thestaff a staffnode

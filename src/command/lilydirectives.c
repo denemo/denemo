@@ -36,7 +36,71 @@ static gboolean text_edit_directive (DenemoDirective * directive, gchar * what);
 static GHashTable *action_scripts;
 
 
+gchar * difference_of_directive (DenemoDirective *d1, DenemoDirective *d2)
+{
+  if (d1==d2) return NULL;
+  if (d1 && d2)
+    {
+#define NEQ(a) if(!compare_gstring((GString*)d1->a, (GString*)d2->a)) return g_strdup_printf ("Directive tagged differently %s - %s", d1->tag->str, d2->tag->str);
+      NEQ(tag);
+#undef NEQ
+#define NEQ(a) if(!compare_gstring((GString*)d1->a, (GString*)d2->a)) return g_strdup_printf ("Directives tagged %s differ", d1->tag->str);
+      
+      NEQ(prefix);
+      NEQ(postfix);
+      NEQ(display);
+      NEQ(midibytes);
+      NEQ(graphic_name);
+      NEQ(grob);
+      NEQ(data);
+#undef NEQ
+#define NEQ(a) if(!(d1 && d2 && (d1->a == d2->a))) return g_strdup_printf ("Directives tagged %s differ", d1->tag->str);
+      NEQ(tx);
+      NEQ(ty);
+      NEQ(gx);
+      NEQ(gy);
+      NEQ(minpixels);
+      NEQ(flag);
+      NEQ(locked);
+      NEQ(override);
+#undef NEQ
+      if (!compare_glists (d1->layouts, d2->layouts))
+        return g_strdup_printf ("Directives tagged %s apply to different layouts", d1->tag->str);
+    }
+  return NULL;
+}
+gboolean compare_directive (DenemoDirective *d1, DenemoDirective *d2)
+{
+  gchar *ret = difference_of_directive (d1, d2);
+  g_free (ret);
+  return ret == NULL;
+}
 
+
+gboolean compare_directive_lists (GList *dlist1, GList *dlist2)
+{
+  gchar *ret = difference_of_directive_lists (dlist1, dlist2);
+  g_free (ret);
+  return ret == NULL;
+}
+
+
+gchar *difference_of_directive_lists (GList *dlist1, GList *dlist2)
+{
+  if (!dlist1 && !dlist2)
+    return NULL;
+  while (dlist1 && dlist2)
+    {
+      gchar *diff = difference_of_directive (dlist1->data, dlist2->data);
+      if (diff) 
+        return diff;
+        dlist1=dlist1->next;
+        dlist2=dlist2->next;
+    }
+  if (dlist1 || dlist2)
+    return g_strdup (_("Different number of directives"));
+  return NULL;
+}
 
 
 static void

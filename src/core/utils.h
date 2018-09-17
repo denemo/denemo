@@ -43,6 +43,8 @@
 #endif
 #endif
 
+gboolean compare_gstring (GString *g1, GString *g2);
+gboolean compare_glists (GList *l1, GList *l2);
 const gchar *get_user_data_dir (gboolean create);
 
 const gchar *locateprintdir (void);

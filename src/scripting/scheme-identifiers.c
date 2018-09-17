@@ -1202,7 +1202,10 @@ create_scheme_identfiers (void)
   
   install_scm_function (0, "Returns the full path to the currently opened Denemo score or #f if it does not have a disk file yet.", DENEMO_SCHEME_PREFIX "GetFilename", scheme_get_filename);
   install_scm_function (0, "Selects the nth open score (i.e. tab) indexed from 0, returns the current tab", DENEMO_SCHEME_PREFIX "SelectTab", scheme_select_tab);
-  install_scm_function (3, "Takes two tab indexes and optional move parameter. Compares the current objects in the two passed scores (i.e. tabs) returning #f if they differ. Moves on to next objects unless move is #f", DENEMO_SCHEME_PREFIX "CompareObjects", scheme_compare_objects);
+  install_scm_function (3, "Takes two tab indexes and optional move parameter. Compares the current objects in the two passed scores (i.e. tabs) returning 0 if they are identical, 1 if they differ.If move is specified returns 2 one staff has no more objects and 3 if both staffs have no more objects . Moves on to next objects unless move is #f", DENEMO_SCHEME_PREFIX "CompareObjects", scheme_compare_objects);
+  install_scm_function (3, "Takes two tab indexes and optional move parameter. Compares the current staffs in the two passed scores (i.e. tabs) returning a description of the first difference or #f if they are the same. Moves on to staffs below unless move is #f", DENEMO_SCHEME_PREFIX "DifferenceOfStaffs", scheme_difference_of_staffs);
+  install_scm_function (2, "Takes two tab indexes. Compares the current movement headers for the scores indexed (i.e. tabs) returning a description of the first difference or #f if they are the same.", DENEMO_SCHEME_PREFIX "DifferenceOfMovements", scheme_difference_of_movements);
+  install_scm_function (2, "Takes two tab indexes. Compares the score headers for the scores indexed (i.e. tabs) returning a description of the first difference or #f if they are the same.", DENEMO_SCHEME_PREFIX "DifferenceOfProjects", scheme_difference_of_projects);
 
   install_scm_function (1, "Returns the directory component of the passed filename.", DENEMO_SCHEME_PREFIX "PathFromFilename", scheme_path_from_filename);
   install_scm_function (1, "Returns the #t if file passed in exists.", DENEMO_SCHEME_PREFIX "FileExists", scheme_file_exists);

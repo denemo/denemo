@@ -13,6 +13,10 @@
 
 DenemoDirective *get_note_directive_number (gint num);
 
+gboolean compare_directive (DenemoDirective *d1, DenemoDirective *d2);
+gboolean compare_directive_lists (GList *dlist1, GList *dlist2);
+gchar *difference_of_directive_lists (GList *dlist1, GList *dlist2);
+gchar *difference_of_directive (DenemoDirective *d1, DenemoDirective *d2);
 
 
 gboolean unpopulate_menu (GtkWidget * menu);

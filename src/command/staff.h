@@ -26,6 +26,8 @@ enum newstaffcallbackaction
   CHORDSTAFF
 };
 
+gchar *difference_of_staffs (DenemoStaff *s1, DenemoStaff *s2);
+
 measurenode *staff_first_measure_node (staffnode * thestaff);
 
 measurenode *staff_nth_measure_node (staffnode * thestaff, gint n);

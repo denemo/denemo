@@ -142,6 +142,25 @@ static cairo_path_data_t piano_brace_data[] = {
 
 static cairo_path_t piano_brace_path = { 0, piano_brace_data, 92 };
 
+gboolean compare_gstring (GString *g1, GString *g2)
+{
+  if (g1 && g2 && !strcmp (g1->str, g2->str))
+    return TRUE;
+  return g1==g2;
+}
+
+gboolean compare_glists (GList *l1, GList *l2)
+{
+  while (l1 && l2)
+    {
+      if (l1->data!=l2->data)
+        return FALSE;
+      l1=l1->next;
+      l2=l2->next;
+    }
+  return l1 == l2;
+}
+
 /**
  * This checks to see if there's a .denemo/ directory in the user's
  * home directory,

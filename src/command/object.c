@@ -67,12 +67,7 @@ static gboolean compare_notes (GList *notes1, GList *notes2)
 }
 
 
-static gboolean compare_gstring (GString *g1, GString *g2)
-{
-  if (g1 && g2 && !strcmp (g1->str, g2->str))
-    return TRUE;
-  return g1==g2;
-}
+
 static gboolean compare_dynamics (GList *notes1, GList *notes2)
 {
   while (notes1 && notes2)
@@ -84,65 +79,17 @@ static gboolean compare_dynamics (GList *notes1, GList *notes2)
     }
     return notes1 == notes2;
 }
-static gboolean compare_layouts (GList *l1, GList *l2)
-{
-  while (l1 && l2)
-    {
-      if (l1->data!=l2->data)
-        return FALSE;
-      l1=l1->next;
-      l2=l2->next;
-    }
-  return l1 == l2;
-}
-static gboolean compare_directive (DenemoDirective *d1, DenemoDirective *d2)
-{
-  if (d1==d2) return TRUE;
-  if (d1 && d2)
-    {
-#define NEQ(a) if(!compare_gstring((GString*)d1->a, (GString*)d2->a)) return FALSE;
-      NEQ(tag);
-      NEQ(prefix);
-      NEQ(postfix);
-      NEQ(display);
-      NEQ(midibytes);
-      NEQ(graphic_name);
-      NEQ(grob);
-      NEQ(data);
-#undef NEQ
-#define NEQ(a) if(!(d1 && d2 && (d1->a == d2->a)))return FALSE;
-      NEQ(tx);
-      NEQ(ty);
-      NEQ(gx);
-      NEQ(gy);
-      NEQ(minpixels);
-      NEQ(flag);
-      NEQ(locked);
-      NEQ(override);
-#undef NEQ
-      if (!compare_layouts (d1->layouts, d2->layouts))
-        return FALSE;
-     
-     return TRUE;
-    }
-  return FALSE;
-}
-
-static gboolean compare_directive_lists (GList *dlist1, GList *dlist2)
-{
-  while (dlist1 && dlist2)
-    {
-      if (!compare_directive (dlist1->data, dlist2->data))
-        return FALSE;
-        dlist1=dlist1->next;
-        dlist2=dlist2->next;
-    }
-    return dlist1 == dlist2;
-}
 
 
 gboolean compare_objects (DenemoObject *object1, DenemoObject *object2)
 {
+  if(object1==object2)
+    return TRUE; //both are NULL
+  if (object1==NULL)
+    return FALSE;
+  if (object2==NULL)
+    return FALSE;
+   
 #define NEQ(a) if(obj1->a !=  obj2->a) return FALSE;
 #define DECL(a) a *obj1 = object1->object,*obj2 = object2->object;
   if ((object1->type == object2->type) && (object1->isinvisible == object2->isinvisible))
