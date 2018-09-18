@@ -1367,35 +1367,43 @@ scheme_select_tab (SCM index)
 SCM
 scheme_compare_objects (SCM index1, SCM index2, SCM move)
 {
+  SCM ret = SCM_BOOL_F;
+  DenemoMovement *si;
   if (scm_is_integer (index1) && scm_is_integer (index2))
     {
-      gboolean moved1 = TRUE, moved2 = TRUE;
       gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
       gint num1 = scm_to_int (index1);
       gint num2 = scm_to_int (index2);
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
-      
-
-      DenemoObject *obj1 = get_object();
-      if (scm_is_true (move))
-        moved1 = movecursorright(NULL, NULL);// cursor_to_next_object (FALSE, FALSE);
+      si = Denemo.project->movement;
+      GList *curobj1 = si->currentobject;
+      GList *curmeasure1 = si->currentmeasure;
+      gint curmeasurenum1 = si->currentmeasurenum;
+      gint curobjnum1 = si->cursor_x;
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
-      
+      si = Denemo.project->movement;
+      GList *curobj2 = si->currentobject;
+      GList *curmeasure2 = si->currentmeasure;
+      gint curmeasurenum2 = si->currentmeasurenum;
+      gint curobjnum2 = si->cursor_x;
 
-      DenemoObject *obj2 =  get_object();
-      if (scm_is_true (move))
-        moved2 = movecursorright(NULL, NULL);// cursor_to_next_object (FALSE, FALSE);
-      gint compare = compare_objects (obj1, obj2);
+      gchar *status = NULL;
+      gint compare = compare_objects (curmeasure1, curobj1, &curmeasurenum1, &curobjnum1, curmeasure2, curobj2, &curmeasurenum2, &curobjnum2, &status);
+
+      if (status)
+        {
+          ret = scm_from_locale_string (status);
+          g_free (status);
+          gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+          goto_movement_staff_obj  (NULL, -1, -1, curmeasurenum1, curobjnum1+1, 0);
+          gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
+          goto_movement_staff_obj  (NULL, -1, -1, curmeasurenum2, curobjnum2+1, 0);
+        }
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
-      
-      if (moved1 != moved2)
-        return scm_from_int (2);
-      if ( (!moved1) || (!moved2))
-        return scm_from_int (3);
-      return compare ? scm_from_int (0):scm_from_int (1);
     }
-  return scm_from_int (4);
+  return ret;
 }
+
 SCM
 scheme_difference_of_staffs (SCM index1, SCM index2, SCM move)
 {

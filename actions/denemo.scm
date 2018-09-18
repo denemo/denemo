@@ -1515,25 +1515,6 @@
             
 (define-once Transpose::Interval "c g");;; a more sensible default used by all typeset-transposed functions
 
-;;;given two indices of open scores (tabs) find first objects from the current positions of the cursor that differs
-(define (DifferentMusicInStaffs? first second)
-    (define status #f)
-    (define message #f)
-    (let loop ()
-        (set! status (d-CompareObjects first second)) ;moves to next cursor positions in each score after check
-        (case status
-            ((0)
-                (loop))
-            ((1)
-                (set! message (_ "Objects before the cursors differ")))
-            ((2)
-                (set! message (_ "More objects in one staff than the other")))
-                 
-            ((3)
-                (set! status (d-CompareObjects first second #f))
-                (if (not (zero? status))
-                    (set! message (_ "Last objects in staffs differ"))))))
-    (if (zero? status)
-       #f
-       message))
+
+        
         

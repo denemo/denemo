@@ -81,119 +81,167 @@ static gboolean compare_dynamics (GList *notes1, GList *notes2)
 }
 
 
-gboolean compare_objects (DenemoObject *object1, DenemoObject *object2)
+gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum1, gint *pobjnum1, GList *curmeasure2, GList *curobj2, gint *pmeasurenum2, gint *pobjnum2, gchar **status)
 {
-  if(object1==object2)
-    return TRUE; //both are NULL
-  if (object1==NULL)
-    return FALSE;
-  if (object2==NULL)
-    return FALSE;
-   
-#define NEQ(a) if(obj1->a !=  obj2->a) return FALSE;
-#define DECL(a) a *obj1 = object1->object,*obj2 = object2->object;
-  if ((object1->type == object2->type) && (object1->isinvisible == object2->isinvisible))
-   {
-     if (!compare_directive_lists (object1->directives, object2->directives))
-              return FALSE;
-      switch (object1->type)
-        {
-          case CHORD:
-            {
-              chord *obj1 = object1->object;
-              chord *obj2 = object2->object;
-              if (!compare_notes(obj1->notes, obj2->notes))
-              return FALSE;
-              if (!compare_dynamics(obj1->dynamics, obj2->dynamics))
-              return FALSE;
-              NEQ(baseduration)
-              NEQ(numdots);
-              NEQ(chordize)
-              NEQ(is_tied)
-              NEQ(is_stemup)
-              NEQ(slur_begin_p)
-              NEQ(slur_end_p)
-              NEQ(crescendo_begin_p)
-              NEQ(crescendo_end_p)
-              NEQ(diminuendo_begin_p)
-              NEQ(diminuendo_end_p)
-              NEQ(hasanacc)
-              NEQ(is_grace)
-
-              if ((obj1->figure || obj2->figure) && !compare_gstring (obj1->figure, obj2->figure))
-              return FALSE;
-              if ((obj1->fakechord || obj2->fakechord) && !compare_gstring (obj1->fakechord, obj2->fakechord))
-              return FALSE;
-              if (!compare_directive_lists (obj1->directives, obj2->directives))
-              return FALSE;
-            }
-          return TRUE;
-        case TUPOPEN:
-          {
-              DECL(tupopen);
-              NEQ(numerator);
-              NEQ(denominator);
-              if (!compare_directive_lists (obj1->directives, obj2->directives))
-                return FALSE;
-              
-              return TRUE;
-          }
-        case TUPCLOSE:
-                     return TRUE;
-        case CLEF:
-         {
-              DECL(clef);
-              NEQ(type);
-              if (!compare_directive_lists (obj1->directives, obj2->directives))
-                return FALSE;
-              return TRUE;
-          }
-                  
-        case TIMESIG:
-          {
-              DECL(timesig);
-              NEQ(time1);
-              NEQ(time2);
-              if (!compare_directive_lists (obj1->directives, obj2->directives))
-                return FALSE;
-              
-              return TRUE;
-          }
-        case KEYSIG:
-          {
-              DECL(keysig);
-              NEQ(number);
-              NEQ(isminor);
-              NEQ(mode);
-              if (!compare_directive_lists (obj1->directives, obj2->directives))
-                return FALSE;
-              
-              return TRUE;
-          }
-        case STEMDIRECTIVE:
-          {
-              DECL(stemdirective);
-              if (!compare_directive_lists (obj1->directives, obj2->directives))
-                return FALSE;
-              return TRUE;
-            }
-        case LILYDIRECTIVE:
-          {
-            DECL(DenemoDirective);
-            if (!compare_directive (obj1, obj2));
-                     return TRUE;
-          return FALSE;
-          }
-        default:
-          g_warning ("Unknown Type %s\n", DenemoObjTypeNames[object1->type]);
-          return FALSE;
-        }
-  }
-  else
-    return FALSE;
+  *status = NULL;
+  for (;
+        curmeasure1 && curmeasure2;
+        (!curobj1)? ((*pobjnum1)=0, curmeasure1=curmeasure1->next, (*pmeasurenum1)++, 
+                        curobj1 = (curmeasure1?((((DenemoMeasure*)curmeasure1->data)->objects)):NULL)):
+                    (((*pobjnum1)++), (curobj1 = curobj1->next)),
+        (!curobj2)? ((*pobjnum2)=0, curmeasure2=curmeasure2->next, (*pmeasurenum2)++, 
+                        curobj2 = (curmeasure2?((((DenemoMeasure*)curmeasure2->data)->objects)):NULL)):
+                    (((*pobjnum2)++), (curobj2 = curobj2->next)))            
+  {
+    //g_print ("Working on measure %d == %d objects %d == %d\n",  *pmeasurenum1, *pmeasurenum2, *pobjnum1, *pobjnum2);
     
+    if(!curobj1 && !curobj2)
+      continue;//an empty measure matches, continue
+    if (!curobj2)
+      {
+        *status = g_strdup_printf ( "%s %d:%d", _("Mis-match at measure:position"), *pmeasurenum1, *pobjnum1+1);
+        break;
+      }
+    if (!curobj1)
+      {
+        *status = g_strdup_printf ( "%s %d:d", _("Mis-match at measure:position"), *pmeasurenum2, *pobjnum2+1);
+        break;   
+      }
+    DenemoObject *object1 = curobj1->data;
+    DenemoObject *object2 = curobj2->data;
+    
+    
+    
+    if(object1==NULL || object2==NULL)
+      {
+      g_critical ("objects list in measure has NULL object");
+      return FALSE;
+      }
+
+#define DECL(a) a *obj1 = object1->object,*obj2 = object2->object;   
+#define NEQ(a) if(obj1->a !=  obj2->a)   {*status = g_strdup_printf ( "%s %d:%d", "Mis-match "#a" at measure:position", *pmeasurenum1, *pobjnum1+1); break;} 
+
+
+    if ((object1->type == object2->type) && (object1->isinvisible == object2->isinvisible))
+     {
+       if (!compare_directive_lists (object1->directives, object2->directives))
+          {
+            *status = g_strdup_printf ( "%s %d:%d", _("Mis-match Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+             break;
+          }
+        switch (object1->type)
+          {
+            case CHORD:
+              {
+                chord *obj1 = object1->object;
+                chord *obj2 = object2->object;
+                if (!compare_notes(obj1->notes, obj2->notes))
+                    {
+                      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match note at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                       break;
+                    }
+                if (!compare_dynamics(obj1->dynamics, obj2->dynamics))
+                    {
+                      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match dynamic at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                       break;
+                    }
+                NEQ(baseduration)
+                NEQ(numdots);
+                NEQ(chordize)
+                NEQ(is_tied)
+                NEQ(slur_begin_p)
+                NEQ(slur_end_p)
+                NEQ(crescendo_begin_p)
+                NEQ(crescendo_end_p)
+                NEQ(diminuendo_begin_p)
+                NEQ(diminuendo_end_p)
+                NEQ(hasanacc)
+                NEQ(is_grace)
+
+                if ((obj1->figure || obj2->figure) && !compare_gstring (obj1->figure, obj2->figure))
+                    {
+                      g_print ("%d for comp\n", compare_gstring (obj1->figure, obj2->figure));
+                      *status = g_strdup_printf ( "%s %d \"%s\" and \"%s\"", _("Mis-match bass figure at measure:position"), *pmeasurenum2, obj1->figure?((GString*)obj1->figure)->str:_( "No figure"), obj2->figure?((GString*)obj2->figure)->str:_( "No figure"));
+                       break;
+                    }
+                if ((obj1->fakechord || obj2->fakechord) && !compare_gstring (obj1->fakechord, obj2->fakechord))
+                    {
+                      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match chord symbol at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                       break;
+                    } 
+                if (!compare_directive_lists (obj1->directives, obj2->directives))
+                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match chord Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+            break;
+            }
+          case TUPOPEN:
+            {
+                DECL(tupopen);
+                NEQ(numerator);
+                NEQ(denominator);
+                if (!compare_directive_lists (obj1->directives, obj2->directives))
+                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match tuplet Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                break;
+            }
+          case TUPCLOSE:
+                break;
+          case CLEF:
+           {
+                DECL(clef);
+                NEQ(type);
+                if (!compare_directive_lists (obj1->directives, obj2->directives))
+                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match clef Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                break;
+            }
+                    
+          case TIMESIG:
+            {
+                DECL(timesig);
+                NEQ(time1);
+                NEQ(time2);
+                if (!compare_directive_lists (obj1->directives, obj2->directives))
+                  *status = g_strdup_printf ( "%s %d:%d", _("Mis-match time signature Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                break;
+                
+            }
+          case KEYSIG:
+            {
+                DECL(keysig);
+                NEQ(number);
+                NEQ(isminor);
+                NEQ(mode);
+                if (!compare_directive_lists (obj1->directives, obj2->directives))
+                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match key signature Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                break; 
+            }
+          case STEMDIRECTIVE:
+            {
+                DECL(stemdirective);
+                if (!compare_directive_lists (obj1->directives, obj2->directives))
+                  *status = g_strdup_printf ( "%s %d:%d", _("Mis-match Stem Control Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                break;
+              }
+          case LILYDIRECTIVE:
+            {
+              DECL(DenemoDirective);
+              if (!compare_directive (obj1, obj2))
+                *status = g_strdup_printf ( "%s %d:%d", _("Mis-match standalone Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+              break;
+            }
+          default:
+            g_warning ("Unknown Type %s\n", DenemoObjTypeNames[object1->type]);
+            break;
+          } //end switch for type of object
+    }
+    else
+      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match objects at measure:position"), *pmeasurenum1, *pobjnum1+1);
 #undef NEQ
 #undef DECL
+  if (*status)
+    break;
+
+  } //end for all measures and objects
+
+  return *status == NULL;
 }
 
 /**

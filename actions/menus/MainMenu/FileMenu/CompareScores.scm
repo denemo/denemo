@@ -30,7 +30,7 @@
                 (d-SelectTab second)
                 (if (d-GoToPosition 1 staff 1 1)
                     (begin
-                        (set! message (DifferentMusicInStaffs? first second))
+                        (set! message (d-CompareObjects first second))
                         (if (not message)
                                 (loop (+ 1 staff))
                                 (d-InfoDialog message)))
