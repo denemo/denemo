@@ -26,12 +26,18 @@
     (let loop ((staff 1))
         (d-SelectTab first)(disp "Doing staff " staff "\n")
         (if (d-GoToPosition 1 staff 1 1)
-            (begin
+            (let ((move #f))
                 (d-SelectTab second)
                 (if (d-GoToPosition 1 staff 1 1)
-                    (begin
-                        (set! message (d-CompareObjects first second))
+                    (let inner-loop ()
+                        (set! message (d-CompareObjects first second move))
                         (if (not message)
                                 (loop (+ 1 staff))
-                                (d-InfoDialog message)))
-                    (d-InfoDialog (_ "Different numbers of staffs.")))))))
+                                (let ((response
+                                        (d-GetUserInput (_ "Comparing Music") (string-append message "\n" (_ "Continue Searching?")) "y")))
+                                     (if (and (string? response) (equal? response "y"))
+                                        (begin
+                                            (set! move #t)
+                                            (inner-loop))))))
+                      (d-InfoDialog (_ "Different numbers of staffs."))))))
+    (d-InfoDialog (_ "No (further) differences found, but lyric verses are not checked, and additional staffs in the second score will be ignored")))
