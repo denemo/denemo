@@ -155,7 +155,6 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 NEQ(crescendo_end_p)
                 NEQ(diminuendo_begin_p)
                 NEQ(diminuendo_end_p)
-                NEQ(hasanacc)
                 NEQ(is_grace)
 
                 if ((obj1->figure || obj2->figure) && !compare_gstring (obj1->figure, obj2->figure))
