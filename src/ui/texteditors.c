@@ -214,7 +214,9 @@ save_scheme_text (GtkWidget * widget, GtkWidget * textview)
   gchar **pfilename = g_object_get_data (G_OBJECT (textview), "pfilename");
   GtkTextBuffer *buffer;
   if (*pfilename == NULL)
-    save_scheme_text_as (NULL, textview);
+        {
+          warningdialog (_ ("If you have loaded this script from a menu item or palette button then you must save it using a right click on that same menu item or palette button (and choosing \"Save Script from Scheme Window\").\nOtherwise use \"Save As\" from this menu."));
+        }
   else
     {
       gchar *text = get_script_view_text ();
