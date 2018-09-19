@@ -3690,7 +3690,7 @@ create_window (void)
   hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 #endif
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  gtk_paned_add1 (GTK_PANED (hbox), Denemo.statuslabel);
+  gtk_paned_pack1 (GTK_PANED (hbox), Denemo.statuslabel, TRUE, FALSE);
   gtk_widget_show (Denemo.statuslabel);
   //Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   //gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
@@ -3698,7 +3698,7 @@ create_window (void)
   gtk_widget_set_tooltip_text (Denemo.input_label, _("This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"));
   gtk_widget_show (Denemo.input_label);
   Denemo.input_filters = g_string_new ("");
-  gtk_paned_add2 (GTK_PANED (hbox), Denemo.input_label);
+  gtk_paned_pack2 (GTK_PANED (hbox), Denemo.input_label, FALSE, FALSE);
   gtk_paned_set_position (GTK_PANED (hbox), 600);
   gtk_widget_show (hbox);
   // End of status bar stuff - note this is not working on Windows correctly.
