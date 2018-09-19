@@ -38,6 +38,7 @@
                                      (if (and (string? response) (equal? response "y"))
                                         (begin
                                             (set! move #t)
-                                            (inner-loop))))))
+                                            (inner-loop))
+                                        (loop (+ 1 staff))))))
                       (d-InfoDialog (_ "Different numbers of staffs."))))))
     (d-InfoDialog (_ "No (further) differences found, but lyric verses are not checked, and additional staffs in the second score will be ignored")))

@@ -46,10 +46,13 @@ get_object (void)
 static gboolean compare_note (note *note1, note *note2)
 {
   if (
-  EQ(mid_c_offset)
-  
+  EQ(mid_c_offset) &&
+  EQ(enshift) &&
+  EQ(noteheadtype)
   )
-  return TRUE;
+  {
+    return compare_directive_lists (note1->directives, note2->directives);
+  }
  return FALSE;
   
 }
@@ -104,7 +107,7 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
       }
     if (!curobj1)
       {
-        *status = g_strdup_printf ( "%s %d:d", _("Mis-match at measure:position"), *pmeasurenum2, *pobjnum2+1);
+        *status = g_strdup_printf ( "%s %d:%d", _("Mis-match at measure:position"), *pmeasurenum2, *pobjnum2+1);
         break;   
       }
     DenemoObject *object1 = curobj1->data;
@@ -160,7 +163,7 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 if ((obj1->figure || obj2->figure) && !compare_gstring (obj1->figure, obj2->figure))
                     {
                       g_print ("%d for comp\n", compare_gstring (obj1->figure, obj2->figure));
-                      *status = g_strdup_printf ( "%s %d \"%s\" and \"%s\"", _("Mis-match bass figure at measure:position"), *pmeasurenum2, obj1->figure?((GString*)obj1->figure)->str:_( "No figure"), obj2->figure?((GString*)obj2->figure)->str:_( "No figure"));
+                      *status = g_strdup_printf ( "%s %d:%d \"%s\" and \"%s\"", _("Mis-match bass figure at measure:position"), *pmeasurenum2, *pobjnum1+1, obj1->figure?((GString*)obj1->figure)->str:_( "No figure"), obj2->figure?((GString*)obj2->figure)->str:_( "No figure"));
                        break;
                     }
                 if ((obj1->fakechord || obj2->fakechord) && !compare_gstring (obj1->fakechord, obj2->fakechord))

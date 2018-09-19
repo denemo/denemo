@@ -1377,14 +1377,14 @@ scheme_compare_objects (SCM index1, SCM index2, SCM move)
       gint num2 = scm_to_int (index2);
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
       si = Denemo.project->movement;
-      if (skip) movecursorright (NULL, NULL);
+      if (skip) cursor_to_next_object (FALSE, FALSE);
       GList *curobj1 = si->currentobject;
       GList *curmeasure1 = si->currentmeasure;
       gint curmeasurenum1 = si->currentmeasurenum;
       gint curobjnum1 = si->cursor_x;
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
       si = Denemo.project->movement;
-      if (skip) movecursorright (NULL, NULL);
+      if (skip) cursor_to_next_object (FALSE, FALSE);
       GList *curobj2 = si->currentobject;
       GList *curmeasure2 = si->currentmeasure;
       gint curmeasurenum2 = si->currentmeasurenum;
