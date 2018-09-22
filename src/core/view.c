@@ -550,8 +550,16 @@ autosave_recovery_check (void)
 
       if (choose_option (_("Denemo was terminated abnormally"), _("Open auto-saved file"), _("Delete auto-saved file")))
         {
+          gboolean compare = FALSE;
+          if (choose_option (_("Denemo was terminated abnormally"), _("Compare auto-saved file with last saved file"), _("Just open auto-saved file")))
+          {
+            compare = TRUE;
+            newtab ();
+          }
           open_for_real (autosave_file, Denemo.project, TRUE, REPLACE_SCORE);
           score_status (Denemo.project, TRUE);
+          if (compare)
+            call_out_to_guile ("(CheckTabs 0 1 -1)");
         }
       g_remove (autosave_file);
     }
@@ -3028,6 +3036,8 @@ addhistorymenuitem (gchar * filename)
             g_list_free (children);
         }
   }
+  static int count = 0;
+  
   item = gtk_menu_item_new_with_label (filename);
   gtk_menu_shell_insert (GTK_MENU_SHELL (menu), item, 1);//after the tear-off item
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (openrecent), g_strdup (filename)); //FIXME
