@@ -551,13 +551,16 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
               if (err != NULL)
                 {
                   file = "Unknown file name";
-                  g_warning ("%s", err->message);
+                  g_warning ("Could not convert filename to utf8 %s", err->message);
                   g_error_free (err);
                 }
+              //g_print ("Loading file %s in history\n", file);
               g_queue_push_tail (prefs->history, g_strdup (file));
               g_free (tmp);
               g_free (file);
             }
+          else
+            g_critical ("\n\n\nError reading history file!!!!!!\n\n\n");
         }
 
       cur = cur->next;
@@ -922,23 +925,23 @@ readHistory ()
 void
 writeHistory (void)
 {
-
-
-  xmlDocPtr doc;
-  xmlNodePtr parent, child;
-  static GString *filename = NULL;
-  if (!filename)
+  if(!Denemo.non_interactive)
     {
-      filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
+      xmlDocPtr doc;
+      xmlNodePtr parent, child;
+      static GString *filename = NULL;
+      if (!filename)
+        {
+          filename = g_string_new (g_build_filename (get_user_data_dir (TRUE), "denemohistory", NULL));
+        }
+
+      doc = xmlNewDoc ((xmlChar *) "1.0");
+      doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
+      child = xmlNewChild (parent, NULL, (xmlChar *) "History", NULL);
+      g_queue_foreach (Denemo.prefs.history, writeHistoryEntry, child);
+      xmlSaveFormatFile (filename->str, doc, 0);
+      xmlFreeDoc (doc);
     }
-
-  doc = xmlNewDoc ((xmlChar *) "1.0");
-  doc->xmlRootNode = parent = xmlNewDocNode (doc, NULL, (xmlChar *) "Denemo", NULL);
-  child = xmlNewChild (parent, NULL, (xmlChar *) "History", NULL);
-  g_queue_foreach (Denemo.prefs.history, writeHistoryEntry, child);
-  xmlSaveFormatFile (filename->str, doc, 0);
-  xmlFreeDoc (doc);
-
 }
 
 /**
