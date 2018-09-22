@@ -517,7 +517,7 @@ get_string_pref (gchar * prefname)
 static void
 writeHistoryEntry (gpointer data, gpointer user_data)
 {
-  //g_debug ("filename %s\n", (gchar *) data);
+  g_print ("Storing history filename %s\n", (gchar *) data);
   xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file", (xmlChar *) data);
 }
 

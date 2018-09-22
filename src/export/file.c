@@ -271,21 +271,23 @@ set_project_filename (DenemoProject * gui, gchar * filename)
   set_gui_tabname (gui, filename);
 
   if ((link = g_queue_find_custom (Denemo.prefs.history, gui->filename->str, &history_compare)))
-    g_queue_remove (Denemo.prefs.history, link->data);
+    g_print ("Removing %s\n\n", link->data), g_queue_remove (Denemo.prefs.history, link->data);
 
   g_debug ("max history now %d\n", Denemo.prefs.maxhistory);
   if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
     {
       gpointer data = g_queue_pop_head (Denemo.prefs.history);
-      g_debug ("Losing one history");
+      g_print ("Losing one file name from history %s\n\n", data);
       if (data)
         g_free (data);
     }
   if(!Denemo.non_interactive){
-    if (link)                     /* not a new one */
+    if (!link)                     /* a new one, needs to go into the menu */
       addhistorymenuitem (filename);
   }
   g_queue_push_tail (Denemo.prefs.history, g_strdup (gui->filename->str));
+  g_print ("Added %s to history\n\n", gui->filename->str);
+  writeHistory ();
 }
 
 static gchar *
@@ -619,8 +621,6 @@ filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, Dene
   if (!template && format_id == DENEMO_FORMAT)
     {
       update_file_selection_path (file);
-      if(!Denemo.non_interactive)
-        set_project_filename (gui, file);
     }
   basename = g_path_get_basename (file);
   if (basename[0] != '.')       // avoids empty filename
@@ -636,6 +636,13 @@ filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, Dene
       if(!Denemo.non_interactive)
         gui->movement->readonly = FALSE;
     }
+  if (!template && format_id == DENEMO_FORMAT)
+    {
+      if(!Denemo.non_interactive)
+        set_project_filename (gui, file);
+    }    
+    
+    
   g_free (basename);
   g_free (file);
   return ret;
