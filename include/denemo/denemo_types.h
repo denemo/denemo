@@ -503,7 +503,7 @@ typedef struct DenemoPrefs
   gboolean enable_thumbnails;
   gboolean disable_undo; /**< Do not collect undo information */
   gboolean saveparts; /**< Automatically save parts*/
-  gboolean autosave; /**< Auto save data */
+  gboolean autosave; /**< whether to Auto save data */
   gint autosave_timeout;
   gboolean autoupdate;/**< update command set from denemo.org */
   gint maxhistory;/**< how long a history of used files to retain */
@@ -974,7 +974,7 @@ typedef struct DenemoMovement
   objnode *currentobject; /**< currentobject points to the note preceding the cursor when the
    * cursor is appending. == NULL only when currentmeasure is empty. */
   gint highesty; /**< max value of highesty of chord in the staff */
-  gint cursor_x;
+  gint cursor_x;/** this is currentobjnum, that is, the position of the current object in the currentobject GList */
   gint cursor_y;
   gint staffletter_y;
   gint maxkeywidth;
@@ -1232,7 +1232,7 @@ struct DenemoRoot
   GList *projects; /**< the list of DenemoProject objects, representing pieces of music simultaneously open */
   DenemoProject *project; /**< The current project */
   DenemoPrefs prefs;  /**< Preferences stored on exit and re-loaded on startup */
-  gint autosaveid;/**< autosave timer id: only one musical score is being autosaved at present */
+  gint autosaveid;/**< autosave timer id current tab is saved, so this is only used as a flag to decide whether timer needs starting */
   gint accelerator_status; /**< if the accelerators have been saved, or extra ones for special keys defined  */
   GtkUIManager *ui_manager;  /**< UI manager */
   GtkWidget *window;
