@@ -1516,6 +1516,9 @@
 (define-once Transpose::Interval "c g");;; a more sensible default used by all typeset-transposed functions
 
 (define (CheckTabs first second staffnum)
+    (define errors-found #f)
+    (define numstaffs1 0)
+    (define numstaffs2 0)
 ;check score headers
     (define message (d-DifferenceOfProjects first second))
     (if message
@@ -1532,22 +1535,30 @@
              (d-WarningDialog (string-append (_ "Staff number ") (number->string (d-GetStaff)) ": " (_ "Staffs have different properties: ") message))))
 ;check staff contents
     (let loop ((staff 1))
-        (d-SelectTab first)(disp "Doing staff " staff "\n")
+        (d-SelectTab first)
+        (while (d-MoveToStaffDown))
+        (set! numstaffs1 (d-GetStaff))
         (if (d-GoToPosition 1 staff 1 1)
             (let ((move #f))
                 (d-SelectTab second)
+                (while (d-MoveToStaffDown))
+                (set! numstaffs2 (d-GetStaff))
                 (if (d-GoToPosition 1 staff 1 1)
                     (let inner-loop ()
                         (set! message (d-CompareObjects first second move))
-                        (if (not message)
-                                (loop (+ 1 staff))
-                                (let ((response
-                                        (d-GetUserInput (_ "Comparing Music") (string-append message "\n" (_ "Continue Searching?")) "y")))
-                                     (if (and (string? response) (equal? response "y"))
-                                        (begin
-                                            (set! move #t)
-                                            (inner-loop))
-                                        (loop (+ 1 staff))))))
-                      (d-InfoDialog (_ "Different numbers of staffs."))))))
-    (d-InfoDialog (_ "No (further) differences found, but lyric verses are not checked, and additional staffs will be ignored")))       
-        
+                        (if message ;not at end of staff
+                                (if (car message)
+                                        (let ((response
+                                                (d-GetUserInput (_ "Comparing Music") (string-append (car message) "\n" (_ "Continue Searching?")) "y")))
+                                             (set! errors-found #t)
+                                             (if (and (string? response) (equal? response "y"))
+                                                (begin
+                                                    (if (cdr message)
+                                                        (begin 
+                                                            (set! move #t)
+                                                            (inner-loop))
+                                                        (loop (+ 1 staff)))))))
+                                 (loop (+ 1 staff))))))))
+    (if (= numstaffs1 numstaffs2)
+        (d-InfoDialog (if errors-found (_ "No further differences found, but lyric verses are not checked") (_ "No differences found, but lyric verses are not checked")))
+        (d-WarningDialog (_ "Extra staff(s) in one score."))))

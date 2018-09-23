@@ -1363,7 +1363,15 @@ scheme_select_tab (SCM index)
     }
   return scm_from_int (gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook)));
 }
-
+/* compare objects at the cursor in the two passed tabs. If move is true
+ * move the cursor to the next object before doing the comparison.
+ * If move fails on both tabs return #f
+ * If it fails on one tab only return a pair (error-message #f)
+ * Otherwise (if there is no move or it succeeds on both) call compare_objects
+ * to find any mis-matching objects.
+ * If it returns NULL - all objects match and end of staff reached, return #f
+ * else return a pair (error-message #t)
+ */
 SCM
 scheme_compare_objects (SCM index1, SCM index2, SCM move)
 {
@@ -1375,35 +1383,55 @@ scheme_compare_objects (SCM index1, SCM index2, SCM move)
       gint original_index = gtk_notebook_get_current_page (GTK_NOTEBOOK (Denemo.notebook));
       gint num1 = scm_to_int (index1);
       gint num2 = scm_to_int (index2);
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+      
+      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);//sets Denemo.project to new value
       si = Denemo.project->movement;
-      if (skip) cursor_to_next_object (FALSE, FALSE);
+      gint move1 = TRUE;
+      
+      if (skip) 
+        move1 = cursor_to_next_object (FALSE, FALSE);
       GList *curobj1 = si->currentobject;
       GList *curmeasure1 = si->currentmeasure;
       gint curmeasurenum1 = si->currentmeasurenum;
       gint curobjnum1 = si->cursor_x;
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
       si = Denemo.project->movement;
-      if (skip) cursor_to_next_object (FALSE, FALSE);
+      gint move2 = TRUE;
+      if (skip) 
+        move2 = cursor_to_next_object (FALSE, FALSE);
       GList *curobj2 = si->currentobject;
       GList *curmeasure2 = si->currentmeasure;
       gint curmeasurenum2 = si->currentmeasurenum;
       gint curobjnum2 = si->cursor_x;
-
-      gchar *status = NULL;
-      gint compare = compare_objects (curmeasure1, curobj1, &curmeasurenum1, &curobjnum1, curmeasure2, curobj2, &curmeasurenum2, &curobjnum2, &status);
-
-      if (status)
+      if ((!move1) && (!move2))
         {
-          ret = scm_from_locale_string (status);
-          g_free (status);
-          gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
-          goto_movement_staff_obj  (NULL, -1, -1, curmeasurenum1, curobjnum1+1, 0);
-          gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
-          goto_movement_staff_obj  (NULL, -1, -1, curmeasurenum2, curobjnum2+1, 0);
+            ret = SCM_BOOL_F;
         }
-      gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
-    }
+      else
+        {
+          if ((!move1) || (!move2))
+            {
+              ret = scm_cons (scm_from_locale_string (_("Extra Objects in one staff")), SCM_BOOL_F);
+            }
+          else
+            {
+              gchar *status = compare_objects (curmeasure1, curobj1, &curmeasurenum1, &curobjnum1, curmeasure2, curobj2, &curmeasurenum2, &curobjnum2);
+              
+              if (status)
+                {
+                  ret = scm_cons (scm_from_locale_string (status), SCM_BOOL_T);
+                  g_free (status);
+                  gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num1);
+                  goto_movement_staff_obj  (NULL, -1, -1, curmeasurenum1, curobjnum1+1, 0);
+                  gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), num2);
+                  goto_movement_staff_obj  (NULL, -1, -1, curmeasurenum2, curobjnum2+1, 0);
+                }
+              else
+                ret = SCM_BOOL_F;
+              gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), original_index);
+            }
+        }
+      }
   return ret;
 }
 

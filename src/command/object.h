@@ -11,7 +11,7 @@
 
 DenemoObject *get_object (void);
 
-gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum1, gint *pobjnum1, GList *curmeasure2, GList *curobj2, gint *pmeasurenum2, gint *pobjnum2, gchar **status);
+gchar *compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum1, gint *pobjnum1, GList *curmeasure2, GList *curobj2, gint *pmeasurenum2, gint *pobjnum2);
 
 void freeobject (DenemoObject * mudobj);
 

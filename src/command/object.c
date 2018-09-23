@@ -84,9 +84,9 @@ static gboolean compare_dynamics (GList *notes1, GList *notes2)
 }
 
 
-gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum1, gint *pobjnum1, GList *curmeasure2, GList *curobj2, gint *pmeasurenum2, gint *pobjnum2, gchar **status)
+gchar *compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum1, gint *pobjnum1, GList *curmeasure2, GList *curobj2, gint *pmeasurenum2, gint *pobjnum2)
 {
-  *status = NULL;
+  gchar *status = NULL;
   for (;
         curmeasure1 && curmeasure2;
         (!curobj1)? ((*pobjnum1)=0, curmeasure1=curmeasure1->next, (*pmeasurenum1)++, 
@@ -102,12 +102,12 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
       continue;//an empty measure matches, continue
     if (!curobj2)
       {
-        *status = g_strdup_printf ( "%s %d:%d", _("Mis-match at measure:position"), *pmeasurenum1, *pobjnum1+1);
+        status = g_strdup_printf ( "%s %d:%d", _("Mis-match at measure:position"), *pmeasurenum1, *pobjnum1+1);
         break;
       }
     if (!curobj1)
       {
-        *status = g_strdup_printf ( "%s %d:%d", _("Mis-match at measure:position"), *pmeasurenum2, *pobjnum2+1);
+        status = g_strdup_printf ( "%s %d:%d", _("Mis-match at measure:position"), *pmeasurenum2, *pobjnum2+1);
         break;   
       }
     DenemoObject *object1 = curobj1->data;
@@ -122,14 +122,14 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
       }
 
 #define DECL(a) a *obj1 = object1->object,*obj2 = object2->object;   
-#define NEQ(a) if(obj1->a !=  obj2->a)   {*status = g_strdup_printf ( "%s %d:%d", "Mis-match "#a" at measure:position", *pmeasurenum1, *pobjnum1+1); break;} 
+#define NEQ(a) if(obj1->a !=  obj2->a)   {status = g_strdup_printf ( "%s %d:%d", "Mis-match "#a" at measure:position", *pmeasurenum1, *pobjnum1+1); break;} 
 
 
     if ((object1->type == object2->type) && (object1->isinvisible == object2->isinvisible))
      {
        if (!compare_directive_lists (object1->directives, object2->directives))
           {
-            *status = g_strdup_printf ( "%s %d:%d", _("Mis-match Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+            status = g_strdup_printf ( "%s %d:%d", _("Mis-match Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
              break;
           }
         switch (object1->type)
@@ -140,12 +140,12 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 chord *obj2 = object2->object;
                 if (!compare_notes(obj1->notes, obj2->notes))
                     {
-                      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match note at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                      status = g_strdup_printf ( "%s %d:%d", _("Mis-match note at measure:position"), *pmeasurenum1, *pobjnum1+1);
                        break;
                     }
                 if (!compare_dynamics(obj1->dynamics, obj2->dynamics))
                     {
-                      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match dynamic at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                      status = g_strdup_printf ( "%s %d:%d", _("Mis-match dynamic at measure:position"), *pmeasurenum1, *pobjnum1+1);
                        break;
                     }
                 NEQ(baseduration)
@@ -163,16 +163,16 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 if ((obj1->figure || obj2->figure) && !compare_gstring (obj1->figure, obj2->figure))
                     {
                       g_print ("%d for comp\n", compare_gstring (obj1->figure, obj2->figure));
-                      *status = g_strdup_printf ( "%s %d:%d \"%s\" and \"%s\"", _("Mis-match bass figure at measure:position"), *pmeasurenum2, *pobjnum1+1, obj1->figure?((GString*)obj1->figure)->str:_( "No figure"), obj2->figure?((GString*)obj2->figure)->str:_( "No figure"));
+                      status = g_strdup_printf ( "%s %d:%d \"%s\" and \"%s\"", _("Mis-match bass figure at measure:position"), *pmeasurenum2, *pobjnum1+1, obj1->figure?((GString*)obj1->figure)->str:_( "No figure"), obj2->figure?((GString*)obj2->figure)->str:_( "No figure"));
                        break;
                     }
                 if ((obj1->fakechord || obj2->fakechord) && !compare_gstring (obj1->fakechord, obj2->fakechord))
                     {
-                      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match chord symbol at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                      status = g_strdup_printf ( "%s %d:%d", _("Mis-match chord symbol at measure:position"), *pmeasurenum1, *pobjnum1+1);
                        break;
                     } 
                 if (!compare_directive_lists (obj1->directives, obj2->directives))
-                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match chord Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                    status = g_strdup_printf ( "%s %d:%d", _("Mis-match chord Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
             break;
             }
           case TUPOPEN:
@@ -181,7 +181,7 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 NEQ(numerator);
                 NEQ(denominator);
                 if (!compare_directive_lists (obj1->directives, obj2->directives))
-                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match tuplet Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                    status = g_strdup_printf ( "%s %d:%d", _("Mis-match tuplet Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
                 break;
             }
           case TUPCLOSE:
@@ -191,7 +191,7 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 DECL(clef);
                 NEQ(type);
                 if (!compare_directive_lists (obj1->directives, obj2->directives))
-                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match clef Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                    status = g_strdup_printf ( "%s %d:%d", _("Mis-match clef Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
                 break;
             }
                     
@@ -201,7 +201,7 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 NEQ(time1);
                 NEQ(time2);
                 if (!compare_directive_lists (obj1->directives, obj2->directives))
-                  *status = g_strdup_printf ( "%s %d:%d", _("Mis-match time signature Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
+                  status = g_strdup_printf ( "%s %d:%d", _("Mis-match time signature Directive at measure:position"), *pmeasurenum1, *pobjnum1+1); 
                 break;
                 
             }
@@ -212,21 +212,21 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
                 NEQ(isminor);
                 NEQ(mode);
                 if (!compare_directive_lists (obj1->directives, obj2->directives))
-                    *status = g_strdup_printf ( "%s %d:%d", _("Mis-match key signature Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                    status = g_strdup_printf ( "%s %d:%d", _("Mis-match key signature Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
                 break; 
             }
           case STEMDIRECTIVE:
             {
                 DECL(stemdirective);
                 if (!compare_directive_lists (obj1->directives, obj2->directives))
-                  *status = g_strdup_printf ( "%s %d:%d", _("Mis-match Stem Control Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                  status = g_strdup_printf ( "%s %d:%d", _("Mis-match Stem Control Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
                 break;
               }
           case LILYDIRECTIVE:
             {
               DECL(DenemoDirective);
               if (!compare_directive (obj1, obj2))
-                *status = g_strdup_printf ( "%s %d:%d", _("Mis-match standalone Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
+                status = g_strdup_printf ( "%s %d:%d", _("Mis-match standalone Directive at measure:position"), *pmeasurenum1, *pobjnum1+1);
               break;
             }
           default:
@@ -235,15 +235,13 @@ gboolean compare_objects  (GList *curmeasure1, GList *curobj1, gint *pmeasurenum
           } //end switch for type of object
     }
     else
-      *status = g_strdup_printf ( "%s %d:%d", _("Mis-match objects at measure:position"), *pmeasurenum1, *pobjnum1+1);
+      status = g_strdup_printf ( "%s %d:%d", _("Mis-match objects at measure:position"), *pmeasurenum1, *pobjnum1+1);
 #undef NEQ
 #undef DECL
-  if (*status)
+  if (status)
     break;
-
   } //end for all measures and objects
-
-  return *status == NULL;
+  return status;
 }
 
 /**

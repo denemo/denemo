@@ -787,13 +787,6 @@ close_project (void)
   if (Denemo.prefs.enable_thumbnails)
     create_thumbnail (TRUE, NULL);
 #endif
-  if (Denemo.autosaveid)
-    {
-      if (g_list_length (Denemo.projects) > 1)
-        g_debug ("Auto save being turned off");
-      g_source_remove (Denemo.autosaveid);
-      Denemo.autosaveid = 0;
-    }
   if (Denemo.project->autosavename)
     g_remove (Denemo.project->autosavename->str);
   if (Denemo.textwindow && gtk_widget_get_visible (Denemo.textwindow))
@@ -4063,11 +4056,7 @@ newtab (void)
 
   if (Denemo.prefs.autosave)
     {
-      if (Denemo.autosaveid)
-        {
-          g_debug ("No autosave on new tab.");
-        }
-      else
+      if (Denemo.autosaveid==0)
         {
           Denemo.autosaveid = g_timeout_add_seconds (Denemo.prefs.autosave_timeout, (GSourceFunc) auto_save_document_timeout, Denemo.project);
         }
