@@ -6670,6 +6670,13 @@ scheme_get_staffs_in_movement (SCM optional)
 }
 
 SCM
+scheme_get_movements_in_score (void)
+{
+  gint num = g_list_length (Denemo.project->movements);
+  return scm_from_int (num);
+}
+
+SCM
 scheme_set_lines_in_staff (SCM lines)
 {
   DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;

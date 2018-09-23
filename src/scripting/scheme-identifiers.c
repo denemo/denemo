@@ -103,6 +103,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Sets the range of notes playable for the current staff from the chord at the cursor.", DENEMO_SCHEME_PREFIX "SetStaffRange", scheme_set_staff_range);
   install_scm_function (0, "Sets the display color for the current staff", DENEMO_SCHEME_PREFIX "SetColorOfStaff", scheme_set_color_of_staff);
   install_scm_function (0, "Gives the number of staffs in the current movement", DENEMO_SCHEME_PREFIX "GetStaffsInMovement", scheme_get_staffs_in_movement);
+  install_scm_function (0, "Gives the number of movements in the current score", DENEMO_SCHEME_PREFIX "GetMovementsInScore", scheme_get_movements_in_score);
 
   install_scm_function (0, "Makes the current staff a voice belonging to the staff above", DENEMO_SCHEME_PREFIX "StaffToVoice", scheme_staff_to_voice);
 

@@ -559,7 +559,7 @@ autosave_recovery_check (void)
           open_for_real (autosave_file, Denemo.project, TRUE, REPLACE_SCORE);
           score_status (Denemo.project, TRUE);
           if (compare)
-            call_out_to_guile ("(CheckTabs 0 1 -1)");
+            call_out_to_guile ("(CheckTabs 0 1)");
         }
       g_remove (autosave_file);
     }

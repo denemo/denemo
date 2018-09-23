@@ -1515,35 +1515,43 @@
             
 (define-once Transpose::Interval "c g");;; a more sensible default used by all typeset-transposed functions
 
-(define (CheckTabs first second staffnum)
+;Check the scores in the tabs first and second for differences
+(define (CheckTabs first second)
+    (define staffnum 1)
     (define errors-found #f)
     (define numstaffs1 0)
     (define numstaffs2 0)
-;check score headers
-    (define message (d-DifferenceOfProjects first second))
-    (if message
-       (d-WarningDialog  (string-append (_ "Scores have different header information: ") message)))
-;check movement headers
-    (set! message (d-DifferenceOfMovements first second))
-    (if message
-            (d-WarningDialog (string-append (_ "Movement number ") (number->string (d-GetMovement))(_ "Movements have different header information: "))))
+    (define nummeasures 0)
+    (define message #f)
+
+(disp "Starting staff " (d-GetStaff))
 ;check staff headers    
-    (while (= (d-GetStaff) (1+ staffnum))
+    (let loop ((move #f))
         (set! staffnum (1+ staffnum))
         (set! message (d-DifferenceOfStaffs first second)) ;moves to staff below after creating difference string
+        (disp "Moved to staff " (d-GetStaff))
         (if message
-             (d-WarningDialog (string-append (_ "Staff number ") (number->string (d-GetStaff)) ": " (_ "Staffs have different properties: ") message))))
+             (d-WarningDialog (string-append (_ "Staff number ") (number->string (1- (d-GetStaff))) ": " (_ "Staffs have different properties: ") message)))
+        (disp "Continuing if staff " (d-GetStaff) " equals " staffnum "\n")
+        (if (= (d-GetStaff) staffnum)
+             (loop #t)))   
+             
+             
 ;check staff contents
     (let loop ((staff 1))
         (d-SelectTab first)
-        (while (d-MoveToStaffDown))
-        (set! numstaffs1 (d-GetStaff))
-        (if (d-GoToPosition 1 staff 1 1)
-            (let ((move #f))
+        (set! numstaffs1 (d-GetStaffsInMovement))
+        (set! nummeasures (d-GetMeasuresInStaff))
+        (if (d-GoToPosition #f staff 1 1)
+            (let ((move #f))        (disp "Working on movement " (d-GetMovement) " in first score")
                 (d-SelectTab second)
-                (while (d-MoveToStaffDown))
-                (set! numstaffs2 (d-GetStaff))
-                (if (d-GoToPosition 1 staff 1 1)
+                                    (disp "Working on movement " (d-GetMovement) " in second score")
+                (set! numstaffs2 (d-GetStaffsInMovement))
+                (if (not (= nummeasures (d-GetMeasuresInStaff)))
+                    (begin
+                        (set! errors-found #t)
+                        (d-WarningDialog (string-append (_ "Different number of measures in staff ") (number->string staff)))))
+                (if (d-GoToPosition #f staff 1 1)
                     (let inner-loop ()
                         (set! message (d-CompareObjects first second move))
                         (if message ;not at end of staff
