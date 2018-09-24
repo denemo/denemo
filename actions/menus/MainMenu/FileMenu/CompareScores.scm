@@ -1,14 +1,23 @@
 ;;;;;;;;;;CompareScores
-(let ((staffnum #f)(message #f)(first #f)(second #f)(movement 1)(nummv1 1)(nummv2 1)(diff 0)(num #f))
-    (d-Open)
-    (set! nummv1 (d-GetMovementsInScore))
-    (d-GoToPosition movement 1 1 1)
-    (set! first (d-SelectTab))
-    (d-NewWindow)
-    (d-Open)
-    (set! nummv2 (d-GetMovementsInScore))
-    (d-GoToPosition movement 1 1 1)
-    (set! second (d-SelectTab))        
+(let ((params CompareScores::params)(staffnum #f)(message #f)(first #f)(second #f)(movement 1)(nummv1 1)(nummv2 1)(diff 0)(num #f))
+    (if params ;; files already loaded
+        (begin
+            (set! first 0)
+            (set! second 1)
+            (d-SelectTab first)
+            (set! nummv1 (d-GetMovementsInScore))
+            (d-SelectTab second)
+            (set! nummv2 (d-GetMovementsInScore)))
+         (begin               
+            (d-Open)
+            (set! nummv1 (d-GetMovementsInScore))
+            (d-GoToPosition movement 1 1 1)
+            (set! first (d-SelectTab))
+            (d-NewWindow)
+            (d-Open)
+            (set! nummv2 (d-GetMovementsInScore))
+            (d-GoToPosition movement 1 1 1)
+            (set! second (d-SelectTab)))) 
     (set! staffnum (1- (d-GetStaff)))
     (set! diff (- nummv1 nummv2))
     (if (not (zero? diff))
@@ -27,7 +36,7 @@
         ;check movement headers
         (set! message (d-DifferenceOfMovements first second))
         (if message
-            (d-WarningDialog (string-append (_ "Movement number ") (number->string (d-GetMovement))(_ "Movements have different header information: "))))
+            (d-WarningDialog (string-append (_ "Movement number ") (number->string (d-GetMovement)) ": " (_ "Movements have different header information: "))))
 
         (CheckTabs first second)
         (if (< counter num)

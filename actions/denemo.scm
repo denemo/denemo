@@ -1567,6 +1567,5 @@
                                                             (inner-loop))
                                                         (loop (+ 1 staff)))))))
                                  (loop (+ 1 staff))))))))
-    (if (= numstaffs1 numstaffs2)
-        (d-InfoDialog (if errors-found (_ "No further differences found, but lyric verses are not checked") (_ "No differences found, but lyric verses are not checked")))
+    (if (not (= numstaffs1 numstaffs2))
         (d-WarningDialog (_ "Extra staff(s) in one score."))))
