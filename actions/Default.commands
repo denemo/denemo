@@ -1420,15 +1420,13 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
         <_label>Print Part</_label>
         <_tooltip>Typesets the current part (the one containing the cursor).</_tooltip>
       </row>
-      
       <row type="scheme">
         <action>CompareScores</action>
         <after>PrintMenu</after>
         <menupath>/MainMenu/FileMenu</menupath>
         <_label>Compare Scores</_label>
         <_tooltip>Opens two scores and reports on any differences between them.</_tooltip>
-      </row>      
-      
+      </row>
       <row type="builtin">
         <action>Close</action>
         <menupath>/MainMenu/FileMenu</menupath>
@@ -8245,7 +8243,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Convert to Whole Measure Rests</_label>
         <_tooltip>Changes rests throughout the score that have the duration of the whole measure to whole measure rests (typeset as whole-note rest by convention)</_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>CompareWithNextScore</action>
+        <after>GenerateMusicSignatureSearchScript</after>
+        <menupath>/ObjectMenu/Score</menupath>
+        <_label>Compare With Next</_label>
+        <_tooltip>Compares the current score with the score in the next tab, reporting any differences.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

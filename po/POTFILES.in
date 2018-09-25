@@ -1811,6 +1811,8 @@ actions/menus/ObjectMenu/Score/CheckScore.scm
 actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm
 actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml
 actions/menus/ObjectMenu/Score/CheckScore.xml
+actions/menus/ObjectMenu/Score/CompareWithNextScore.scm
+actions/menus/ObjectMenu/Score/CompareWithNextScore.xml
 actions/menus/ObjectMenu/Score/EditProlog.scm
 actions/menus/ObjectMenu/Score/EditProlog.xml
 actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.scm

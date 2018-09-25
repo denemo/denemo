@@ -1,0 +1,10 @@
+;CompareWithNextScore
+(let ((first (d-SelectTab))(second #f))
+    (d-GoToPosition 1 1 1 1)
+    (set! second (d-SelectTab (1+ first)))
+    (if (= first second)
+        (set! second (d-SelectTab (1- first))))
+    (d-GoToPosition 1 1 1 1)
+    (if (= first second)
+        (d-WarningDialog (_ "Only one tab is open"))
+        (d-CompareScores (cons first second))))

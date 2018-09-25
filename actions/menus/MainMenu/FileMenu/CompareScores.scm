@@ -1,22 +1,24 @@
 ;;;;;;;;;;CompareScores
-(let ((params CompareScores::params)(staffnum #f)(message #f)(first #f)(second #f)(movement 1)(nummv1 1)(nummv2 1)(diff 0)(num #f))
-    (if params ;; files already loaded
+(let ((params CompareScores::params)(staffnum #f)(message #f)(first #f)(second #f)(nummv1 1)(nummv2 1)(diff 0)(num #f))
+    (if (pair? params) ;; files already loaded
         (begin
-            (set! first 0)
-            (set! second 1)
+            (set! first (car params))
+            (set! second (cdr params))
             (d-SelectTab first)
+            (d-GoToPosition 1 1 1 1)
             (set! nummv1 (d-GetMovementsInScore))
             (d-SelectTab second)
+            (d-GoToPosition 1 1 1 1)
             (set! nummv2 (d-GetMovementsInScore)))
          (begin               
             (d-Open)
             (set! nummv1 (d-GetMovementsInScore))
-            (d-GoToPosition movement 1 1 1)
+            (d-GoToPosition 1 1 1 1)
             (set! first (d-SelectTab))
             (d-NewWindow)
             (d-Open)
             (set! nummv2 (d-GetMovementsInScore))
-            (d-GoToPosition movement 1 1 1)
+            (d-GoToPosition 1 1 1 1)
             (set! second (d-SelectTab)))) 
     (set! staffnum (1- (d-GetStaff)))
     (set! diff (- nummv1 nummv2))
@@ -41,6 +43,9 @@
         (CheckTabs first second)
         (if (< counter num)
             (begin
-                (d-WarningDialog (string-append (_ "Finished Movemnt ") (number->string counter)))
-                (loop (1+ counter))))))
- (d-InfoDialog (_ "Finished, but lyric verses are not checked"))
+                (d-WarningDialog (string-append (_ "Finished Movement ") (number->string counter) (if CheckTabsContinue? " - continuing." " - stopping.")))
+                
+                (if CheckTabsContinue?
+                    (loop (1+ counter)))))))
+(set! CheckTabsContinue? 'continue)
+(d-InfoDialog (_ "Finished, but lyric verses are not checked"))

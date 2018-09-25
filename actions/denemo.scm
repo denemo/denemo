@@ -1516,56 +1516,62 @@
 (define-once Transpose::Interval "c g");;; a more sensible default used by all typeset-transposed functions
 
 ;Check the scores in the tabs first and second for differences
+(define CheckTabsContinue? 'continue)
 (define (CheckTabs first second)
-    (define staffnum 1)
+    (define staffnum 0)
     (define errors-found #f)
     (define numstaffs1 0)
     (define numstaffs2 0)
     (define nummeasures 0)
     (define message #f)
-
-(disp "Starting staff " (d-GetStaff))
-;check staff headers    
-    (let loop ((move #f))
-        (set! staffnum (1+ staffnum))
-        (set! message (d-DifferenceOfStaffs first second)) ;moves to staff below after creating difference string
-        (disp "Moved to staff " (d-GetStaff))
-        (if message
-             (d-WarningDialog (string-append (_ "Staff number ") (number->string (1- (d-GetStaff))) ": " (_ "Staffs have different properties: ") message)))
-        (disp "Continuing if staff " (d-GetStaff) " equals " staffnum "\n")
-        (if (= (d-GetStaff) staffnum)
-             (loop #t)))   
-             
-             
-;check staff contents
-    (let loop ((staff 1))
-        (d-SelectTab first)
-        (set! numstaffs1 (d-GetStaffsInMovement))
-        (set! nummeasures (d-GetMeasuresInStaff))
-        (if (d-GoToPosition #f staff 1 1)
-            (let ((move #f))        (disp "Working on movement " (d-GetMovement) " in first score")
-                (d-SelectTab second)
-                                    (disp "Working on movement " (d-GetMovement) " in second score")
-                (set! numstaffs2 (d-GetStaffsInMovement))
-                (if (not (= nummeasures (d-GetMeasuresInStaff)))
-                    (begin
-                        (set! errors-found #t)
-                        (d-WarningDialog (string-append (_ "Different number of measures in staff ") (number->string staff)))))
-                (if (d-GoToPosition #f staff 1 1)
-                    (let inner-loop ()
-                        (set! message (d-CompareObjects first second move))
-                        (if message ;not at end of staff
-                                (if (car message)
-                                        (let ((response
-                                                (d-GetUserInput (_ "Comparing Music") (string-append (car message) "\n" (_ "Continue Searching?")) "y")))
-                                             (set! errors-found #t)
-                                             (if (and (string? response) (equal? response "y"))
-                                                (begin
-                                                    (if (cdr message)
-                                                        (begin 
-                                                            (set! move #t)
-                                                            (inner-loop))
-                                                        (loop (+ 1 staff)))))))
-                                 (loop (+ 1 staff))))))))
-    (if (not (= numstaffs1 numstaffs2))
-        (d-WarningDialog (_ "Extra staff(s) in one score."))))
+    (if CheckTabsContinue?
+        (begin
+            (disp "Starting staff " (d-GetStaff))
+            ;check staff headers    
+                (let loop ((move #f))
+                    (set! staffnum (1+ staffnum))
+                    (set! message (d-DifferenceOfStaffs first second)) ;moves to staff below after creating difference string
+                    (disp "Moved to staff " (d-GetStaff))
+                    (if message
+                         (d-WarningDialog (string-append (_ "Staff number ") (number->string (1- (d-GetStaff))) ": " (_ "Staffs have different properties: ") message)))
+                    (disp "Continuing if staff " (d-GetStaff) " equals " staffnum "\n")
+                    (if (= (d-GetStaff) staffnum)
+                         (loop #t)))   
+                         
+                         
+            ;check staff contents
+                (let loop ((staff 1))
+                    (d-SelectTab first)
+                    (set! numstaffs1 (d-GetStaffsInMovement))
+                    (set! nummeasures (d-GetMeasuresInStaff))
+                    (if (d-GoToPosition #f staff 1 1)
+                        (let ((move #f))        (disp "Working on movement " (d-GetMovement) " in first score")
+                            (d-SelectTab second)
+                                                (disp "Working on movement " (d-GetMovement) " in second score")
+                            (set! numstaffs2 (d-GetStaffsInMovement))
+                            (if (not (= nummeasures (d-GetMeasuresInStaff)))
+                                (begin
+                                    (set! errors-found #t)
+                                    (d-WarningDialog (string-append (_ "Different number of measures in staff ") (number->string staff)))))
+                            (if (d-GoToPosition #f staff 1 1)
+                                (let inner-loop ()
+                                    (set! message (d-CompareObjects first second move))
+                                    (if message ;not at end of staff
+                                            (if (car message)
+                                                    (let ((response
+                                                            (d-GetUserInput (_ "Comparing Music") (string-append (car message) "\n" (_ "Continue Searching?")) "y")))
+                                                         (set! errors-found #t)
+                                                         (if (and (string? response) (equal? response "y"))
+                                                            (begin
+                                                                (if (cdr message)
+                                                                    (begin 
+                                                                        (set! move #t)
+                                                                        (inner-loop))
+                                                                    (begin 
+                                                                        (set! CheckTabsContinue? #f) 
+                                                                        (loop (+ 1 staff)))))
+                                                            (set! CheckTabsContinue? #f))))
+                                             (if CheckTabsContinue?
+                                                (loop (+ 1 staff)))))))))
+                (if (not (= numstaffs1 numstaffs2))
+                    (d-WarningDialog (_ "Extra staff(s) in one score."))))))

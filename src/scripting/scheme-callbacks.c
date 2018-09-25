@@ -1434,7 +1434,7 @@ scheme_compare_objects (SCM index1, SCM index2, SCM move)
       }
   return ret;
 }
-
+//looks for a difference in current staffs in the passed tabs (not the music in the staff) moves to the staff below if move is not #f
 SCM
 scheme_difference_of_staffs (SCM index1, SCM index2, SCM move)
 {
