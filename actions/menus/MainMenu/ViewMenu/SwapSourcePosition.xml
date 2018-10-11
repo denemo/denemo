@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SwapSourcePosition</action>
+        <after>DisplayCurrentObject</after>
+        <_label>Swap Display and Source Window Positions</_label>
+        <_tooltip>Swaps the positions of the Denemo Display and the (first, un-iconized) Source Window currently open.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -991,7 +991,20 @@ create_scheme_function_for_script (gchar * name)
   // define_scheme_literal_variable(proc, value, "A scheme procedure to call the script of that name");
 }
 
-
+SCM
+scheme_swap_display_and_source (void)
+{
+  gint root_x, root_y, sx, sy;
+  
+  if (get_source_position (&sx, &sy))
+    {
+      gtk_window_get_position (GTK_WINDOW (Denemo.window), &root_x, &root_y);
+      move_source_window (root_x, root_y);
+      gtk_window_move (GTK_WINDOW (Denemo.window), sx, sy);
+      return SCM_BOOL_T;
+    }
+  return SCM_BOOL_F;
+}
 SCM
 scheme_debug_object (SCM optional)
 {

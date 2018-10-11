@@ -8250,6 +8250,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Compare With Next</_label>
         <_tooltip>Compares the current score with the score in the next tab, reporting any differences.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SwapSourcePosition</action>
+        <after>DisplayCurrentObject</after>
+        <menupath>/MainMenu/ViewMenu</menupath>
+        <_label>Swap Display and Source Window Positions</_label>
+        <_tooltip>Swaps the positions of the Denemo Display and the (first, un-iconized) Source Window currently open.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -28,5 +28,6 @@ gboolean open_source (gchar * filename, gint x, gint y, gint page);
 
 //gets the position in root coordinates, width and height of the source window and document scale of the (first) source file, returning FALSE if none
 gboolean source_position (gint * x, gint * y, gint * width, gint * height, gint * scale);
-
+gboolean move_source_window (gint x, gint y);
+gboolean get_source_position (gint *root_x, gint *root_y);
 #endif

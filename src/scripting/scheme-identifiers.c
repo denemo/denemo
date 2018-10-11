@@ -158,6 +158,7 @@ create_scheme_identfiers (void)
 
 
   install_scm_function (0, "Prints out information about the object at the cursor", DENEMO_SCHEME_PREFIX "DebugObject", scheme_debug_object);
+  install_scm_function (0, "Swaps the positions of the Denemo Display and the Denemo Source view", DENEMO_SCHEME_PREFIX "SwapDisplayAndSource", scheme_swap_display_and_source);
   install_scm_function (0, "Displays information about the object at the cursor position.", DENEMO_SCHEME_PREFIX "DisplayObject", scheme_display_object);
   install_scm_function (0, "Prints out the cumulative time spent editing this score.\nThe time counts any period between starting to edit and saving to disk\nThe time is accumulated over different editing sessions.", DENEMO_SCHEME_PREFIX "GetEditingTime", scheme_get_editing_time);
   install_scm_function (0, "Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);

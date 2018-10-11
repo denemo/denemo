@@ -33,6 +33,22 @@ typedef struct fileview
 } fileview;
 
 static GList *FileViews = NULL;
+
+static gboolean window_state (GtkWidget *win, GdkEventWindowState  *event)
+{
+  
+  g_object_set_data (G_OBJECT(win), "uniconified", GINT_TO_POINTER(!g_object_get_data (G_OBJECT(win),  "uniconified")));
+  //g_print("Source %x now set to %s uniconified", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
+  return FALSE; //allow other handlers
+}
+
+static gboolean is_uniconified (GtkWidget *win)
+  {
+  //g_print("Source %x is %s uniconified", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
+    return (gboolean)GPOINTER_TO_INT(g_object_get_data (G_OBJECT(win),  "uniconified"));
+  }
+  
+
 static void
 set_window_position (EvView * view, gint x, gint y, gint page)
 {
@@ -393,11 +409,15 @@ get_view (gchar * filename)
   //Highlights = NULL;
   
   view = (EvView *) ev_view_new ();
+  
+
   EvDocumentModel *model = ev_document_model_new_with_document (doc);
   //ev_document_model_set_continuous(model, FALSE);
 
   ev_view_set_model (view, model);
   GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  
+  g_signal_connect (G_OBJECT(top_vbox), "window-state-event", G_CALLBACK (window_state), NULL);
   // use a dialog when the user clicks instead  gtk_widget_set_tooltip_text (top_vbox, HELP_TEXT);
 
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
@@ -515,5 +535,45 @@ source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
   }
 
   return TRUE;
+}
+
+
+
+gboolean
+move_source_window (gint x, gint y)
+{
+  if (FileViews == NULL)
+    return FALSE;
+  GList *g;
+  for (g = FileViews; g; g=g->next)
+    {
+      EvView *view = ((fileview *) FileViews->data)->view;
+      GtkWidget *top = gtk_widget_get_toplevel (GTK_WIDGET (view));
+      if (gtk_widget_get_visible(top) && is_uniconified (top))
+        {
+          gtk_window_move (GTK_WINDOW (top), x, y);
+          break;
+        }
+    }
+  return g != NULL;
+}
+gboolean
+get_source_position (gint *root_x, gint *root_y)
+{
+  if (FileViews == NULL)
+    return FALSE;
+  
+  GList *g;
+  for (g = FileViews; g; g=g->next)
+    {
+      EvView *view = ((fileview *) g->data)->view;
+      GtkWidget *top = gtk_widget_get_toplevel (GTK_WIDGET (view));
+      if (gtk_widget_get_visible(top) && is_uniconified (top))
+        {
+          gtk_window_get_position (GTK_WINDOW (top), root_x, root_y);
+          break;
+        }
+    }
+  return g != NULL;
 }
 

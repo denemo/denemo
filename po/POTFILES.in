@@ -653,6 +653,8 @@ actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.scm
 actions/menus/MainMenu/ViewMenu/Palettes/CreateButtonForObject.xml
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.scm
 actions/menus/MainMenu/ViewMenu/Palettes/UnhidePalettes.xml
+actions/menus/MainMenu/ViewMenu/SwapSourcePosition.scm
+actions/menus/MainMenu/ViewMenu/SwapSourcePosition.xml
 actions/menus/MainMenu/ViewMenu/ToggleCursorHighlight.scm
 actions/menus/MainMenu/ViewMenu/ToggleCursorHighlight.xml
 actions/menus/MainMenu/ViewMenu/Zoom/ZoomDialog.scm

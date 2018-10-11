@@ -108,6 +108,7 @@ SCM scheme_get_cursor_note_with_octave (SCM);
 SCM scheme_get_editing_time (void);
 SCM scheme_debug_object (SCM);
 SCM scheme_display_object (void);
+SCM scheme_swap_display_and_source (void);
 SCM scheme_destroy_scheme_init (void);
 SCM scheme_get_note_names_from_user (SCM number, SCM init, SCM message);
 SCM scheme_get_multiline_user_input (SCM title, SCM instruction, SCM initial);
