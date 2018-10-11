@@ -38,13 +38,13 @@ static gboolean window_state (GtkWidget *win, GdkEventWindowState  *event)
 {
   
   g_object_set_data (G_OBJECT(win), "uniconified", GINT_TO_POINTER(!g_object_get_data (G_OBJECT(win),  "uniconified")));
-  //g_print("Source %x now set to %s uniconified", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
+  //g_print("Source %x now set to %s uniconified\n", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
   return FALSE; //allow other handlers
 }
 
 static gboolean is_uniconified (GtkWidget *win)
   {
-  //g_print("Source %x is %s uniconified", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
+    //g_print("Source %x is %s uniconified\n", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
     return (gboolean)GPOINTER_TO_INT(g_object_get_data (G_OBJECT(win),  "uniconified"));
   }
   
@@ -547,7 +547,7 @@ move_source_window (gint x, gint y)
   GList *g;
   for (g = FileViews; g; g=g->next)
     {
-      EvView *view = ((fileview *) FileViews->data)->view;
+      EvView *view = ((fileview *) g->data)->view;
       GtkWidget *top = gtk_widget_get_toplevel (GTK_WIDGET (view));
       if (gtk_widget_get_visible(top) && is_uniconified (top))
         {
