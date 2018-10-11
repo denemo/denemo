@@ -1383,8 +1383,18 @@ const gchar *
 get_system_data_dir ()
 {
   //DENEMO_datadir?g_debug("datadir is %s at %p", DENEMO_datadir, DENEMO_datadir):g_debug("datadir not yet set");
+
+  
   if (DENEMO_datadir == NULL)
     {
+    gchar *env_data = g_getenv ("DENEMO_DATA_DIR");
+    if (env_data && *env_data)
+      {
+        
+        DENEMO_datadir = env_data;
+      }      
+    else
+      {
 #ifdef G_OS_WIN32
       gchar *rootdir = g_win32_get_package_installation_directory (NULL, NULL);
       DENEMO_datadir = g_build_filename (rootdir, "share", "denemo", NULL);
@@ -1416,6 +1426,8 @@ get_system_data_dir ()
 
 #endif //_MACH_O_
 #endif /* not G_OS_WIN32 */
+      }
+    g_print ("Denemo data expected in %s\n", DENEMO_datadir);
     }
   return DENEMO_datadir;
 }
