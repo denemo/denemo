@@ -36,8 +36,8 @@ static GList *FileViews = NULL;
 
 static gboolean window_state (GtkWidget *win, GdkEventWindowState  *event)
 {
-  
-  g_object_set_data (G_OBJECT(win), "uniconified", GINT_TO_POINTER(!g_object_get_data (G_OBJECT(win),  "uniconified")));
+  if (event->changed_mask == GDK_WINDOW_STATE_ICONIFIED)
+    g_object_set_data (G_OBJECT(win), "uniconified", GINT_TO_POINTER(!g_object_get_data (G_OBJECT(win),  "uniconified")));
   //g_print("Source %x now set to %s uniconified\n", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
   return FALSE; //allow other handlers
 }
@@ -416,7 +416,7 @@ get_view (gchar * filename)
 
   ev_view_set_model (view, model);
   GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  
+  g_object_set_data (G_OBJECT(top_vbox), "uniconified", GINT_TO_POINTER(TRUE));
   g_signal_connect (G_OBJECT(top_vbox), "window-state-event", G_CALLBACK (window_state), NULL);
   // use a dialog when the user clicks instead  gtk_widget_set_tooltip_text (top_vbox, HELP_TEXT);
 
