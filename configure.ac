@@ -81,7 +81,7 @@ AC_ARG_ENABLE(
   [
     if test "x$enableval" != "xno"; then
       useguile_2_0=yes
-      PKG_CHECK_MODULES([GUILE_2], [guile-2.0])
+      PKG_CHECK_MODULES(GUILE_2, guile-2.0 >= 2.0)
       LIBS="$LIBS $GUILE_2_LIBS"
       CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
     fi
