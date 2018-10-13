@@ -517,7 +517,7 @@ get_string_pref (gchar * prefname)
 static void
 writeHistoryEntry (gpointer data, gpointer user_data)
 {
-  g_print ("Storing history filename %s\n", (gchar *) data);
+  //g_print ("Storing history filename %s\n", (gchar *) data);
   xmlNewTextChild ((xmlNodePtr) user_data, NULL, (xmlChar *) "file", (xmlChar *) data);
 }
 
@@ -897,7 +897,7 @@ readHistory ()
       return ret;
     }
   rootElem = rootElem->xmlChildrenNode;
-  g_message("Reading history file %s", history);
+  //g_message("Reading history file %s", history);
   while (rootElem != NULL)
     {
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "History"))
