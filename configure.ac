@@ -31,6 +31,7 @@ AC_PROG_INSTALL
 AC_PROG_YACC
 AM_PROG_LEX
 GUILE_FLAGS
+GUILE_SITE_DIR
 
 AC_PROG_LIBTOOL
 
@@ -60,46 +61,12 @@ AC_ARG_ENABLE(
 dnl Enable color if available
 AS_COMPILER_FLAG([-fdiagnostics-color=auto],
                  [CFLAGS="$CFLAGS -fdiagnostics-color=auto"])
+                 
+CFLAGS="$CFLAGS $GUILE_CFLAGS"
+LIBS="$LIBS $GUILE_LDFLAGS"
+
 
 AM_CONDITIONAL(ENABLE_GLIB_TEST, [test "x$enable_glibtest" = "xyes"])
-
-AC_ARG_ENABLE(
-  guile_1_8,
-  AS_HELP_STRING([--enable-guile_1_8], [use GUILE_1_8 @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      useguile_1_8=yes
-      PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
-      LIBS="$LIBS $GUILE_1_8_LIBS"
-      CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
-    fi
-  ], [ useguile_1_8=no ])
-
-AC_ARG_ENABLE(
-  guile_2_0,
-  AS_HELP_STRING([--enable-guile_2_0], [use GUILE_2_0 @<:@default=no@:>@]),
-  [
-    if test "x$enableval" != "xno"; then
-      useguile_2_0=yes
-      PKG_CHECK_MODULES(GUILE_2, guile-2.0 >= 2.0)
-      LIBS="$LIBS $GUILE_2_LIBS"
-      CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
-    fi
-  ], [ useguile_2_0=no ])
-
-if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
-  PKG_CHECK_MODULES([GUILE_2], [guile-2.0], useguile_2_0=yes, useguile_2_0=no)
-  LIBS="$LIBS $GUILE_2_LIBS"
-  CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
-  if test "x$useguile_2_0" = "xno"; then
-    PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
-    LIBS="$LIBS $GUILE_1_8_LIBS"
-    CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
-    useguile_1_8=yes
-  else
-    useguile_2_0=yes
-  fi
-fi
 
 PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.30])
 CFLAGS="$CFLAGS $GLIB_CFLAGS"
