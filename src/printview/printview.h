@@ -24,7 +24,6 @@ void install_printpreview (GtkWidget * vbox);
 void refresh_print_view (gboolean interactive);
 void printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print);
 void print_from_print_view (gboolean all_movements);
-void create_pdf_for_lilypond (gchar * lilypond);
 gboolean printview_is_stale (void);
 void unpause_continuous_typesetting (void);
 void pause_continuous_typesetting (void);

@@ -132,4 +132,5 @@ gchar *get_printfile_pathbasename (void);
 void create_pdf (gboolean part_only, gboolean all_movements);
 void show_print_view (DenemoAction * action, DenemoScriptParam * param);
 void create_svg (gboolean part_only, gboolean all_movements);
+void create_pdf_for_lilypond (gchar *lilypond);
 #endif /*PRINT_H */
