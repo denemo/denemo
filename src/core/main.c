@@ -202,14 +202,7 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
   return filenames;
 }
 
-static void
-localization_init()
-{
-  setlocale (LC_ALL, "");
-  bindtextdomain(GETTEXT_PACKAGE, get_system_locale_dir ());
-  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
-  textdomain(GETTEXT_PACKAGE);
-}
+
 
 static void
 init_environment()

@@ -195,6 +195,15 @@ get_user_data_dir (gboolean create)
   return dotdenemo;
 }
 
+void localization_init (void)
+{
+  setlocale (LC_ALL, "");
+  bindtextdomain(GETTEXT_PACKAGE, get_system_locale_dir ());
+  bind_textdomain_codeset(GETTEXT_PACKAGE, "UTF-8");
+  textdomain(GETTEXT_PACKAGE);
+}
+
+
 // Create or remove a unique temporary directory
 // If removal is FALSE, the directory will be newly
 // created or the existing temporary directory will
