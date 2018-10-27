@@ -1550,6 +1550,7 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
         {
           button = gtk_button_new_with_label (_("Conditional"));
 #if GTK_MAJOR_VERSION == 2  
+  GdkRGBA color;
   get_color (&color, 0.0, 0.0, 0.5, 1.0);
   gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
 #else
