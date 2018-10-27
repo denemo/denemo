@@ -68,11 +68,12 @@ static gboolean must_redraw_playhead = FALSE;
 
 static smf_event_t *redraw_event;
 
-#ifndef _HAVE_RUBBERBAND_
+#ifndef  _HAVE_PORTAUDIO_
 gdouble get_playback_speed (void)
 {
     return 1.0; //Rubberband can do slowdown, backend should define its own version of this
 }
+void set_playback_speed (double speed) {}
 #endif
 
 static gpointer queue_thread_func (gpointer data);

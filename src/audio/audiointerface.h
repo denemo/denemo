@@ -247,7 +247,10 @@ void update_playback_time (backend_timebase_prio_t prio, double new_time);
  * Returns the current playback time in milliseconds.
  */
 double get_playback_time ();
-
+/**
+ * sets the current playback slowdown factor.
+ */
+void set_playback_speed (double speed);
 /**
  * Called by a backend when an incoming MIDI event was received.
  *

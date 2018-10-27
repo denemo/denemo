@@ -70,6 +70,12 @@ gdouble get_playback_speed (void)
 {
     return slowdown;
 }
+#else
+gdouble get_playback_speed (void)
+{
+    return 1.0; //Rubberband can do slowdown, backend should define its own version of this
+}
+void set_playback_speed (double speed) {}
 #endif
 
 
