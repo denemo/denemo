@@ -994,7 +994,7 @@ create_palette_button_for_directive (GtkWidget * button, gchar * what)
         warningdialog (_("Cancelled"));
       g_free (label);
       g_free (button_name);
-      gtk_widget_show_all (gtk_widget_get_parent (pal->box));
+      gtk_widget_show (gtk_widget_get_parent (pal->box));
       gtk_widget_destroy (gtk_widget_get_toplevel (button));
       reset_cursors ();
     }
@@ -1082,7 +1082,7 @@ create_palette_button_for_command (GtkWidget * button, gchar * tooltip)
   if (pal)
     {
       gboolean success = palette_add_button (pal, directive->tag->str, tooltip, script);
-      gtk_widget_show_all (gtk_widget_get_parent (pal->box));
+      gtk_widget_show (gtk_widget_get_parent (pal->box));
       gtk_widget_destroy (gtk_widget_get_toplevel (button));
       reset_cursors ();
     }
