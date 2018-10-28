@@ -261,7 +261,7 @@ scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
   DenemoPalette *pal = create_palette (name, FALSE, TRUE);
 
   ret = palette_add_button (pal, label, tooltip, script) ? SCM_BOOL_T : SCM_BOOL_F;
-  gtk_widget_show_all (gtk_widget_get_parent (pal->box));
+  gtk_widget_show (gtk_widget_get_parent (pal->box));
   free (name);
   free (label);
   free (tooltip);
