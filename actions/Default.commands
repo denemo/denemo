@@ -8257,6 +8257,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Swap Display and Source Window Positions</_label>
         <_tooltip>Swaps the positions of the Denemo Display and the (first, un-iconized) Source Window currently open.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>EmailForHelp</action>
+        <after>Shortcuts</after>
+        <menupath>/MainMenu/HelpMenu</menupath>
+        <_label>Email for Help</_label>
+        <_tooltip>Uses your browser to open an email form for you to ask questions/report problems. This is the sure and certain way to get help, the chat facility is more hit and miss"</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

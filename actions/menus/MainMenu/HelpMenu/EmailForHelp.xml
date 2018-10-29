@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>EmailForHelp</action>
+        <after>Shortcuts</after>
+        <_label>Email for Help</_label>
+        <_tooltip>Uses your browser to open an email form for you to ask questions/report problems. This is the sure and certain way to get help, the chat facility is more hit and miss"</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

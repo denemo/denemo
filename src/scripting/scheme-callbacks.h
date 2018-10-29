@@ -281,6 +281,7 @@ SCM scheme_changecount (SCM);
 SCM scheme_get_saved (SCM);
 SCM scheme_mark_status (SCM);
 SCM scheme_get_help (SCM);
+SCM scheme_email_help (void);
 SCM scheme_load_keybindings (SCM);
 SCM scheme_save_keybindings (SCM);
 SCM scheme_clear_keybindings (SCM);

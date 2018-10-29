@@ -9,5 +9,6 @@
 #define HELP_H
 void about (DenemoAction * action, DenemoScriptParam* param);
 void browse_manual (DenemoAction * action, DenemoScriptParam* param);
+void email_help (void);
 void display_shortcuts (void);
 #endif

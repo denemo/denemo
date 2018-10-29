@@ -101,7 +101,13 @@ browse_manual (DenemoAction * action, DenemoScriptParam * param)
   g_free (manualpath);
   g_free (manualuri);
 }
-
+void email_help (void)
+{
+  DenemoScriptParam param;
+  param.string = g_string_new ("mailto:denemo-devel@gnu.org");
+  param.status = FALSE;
+  browse_manual (NULL, &param);
+}
 void display_shortcuts (void)
 {
   GtkWidget *window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);

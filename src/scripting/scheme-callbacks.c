@@ -2383,6 +2383,14 @@ scheme_get_help (SCM command)
 }
 
 SCM
+scheme_email_help (void)
+{
+  email_help ();
+  return SCM_BOOL_T;
+}
+
+
+SCM
 scheme_get_lily_version (SCM optional)
 {
   gchar *version = get_lily_version_string ();

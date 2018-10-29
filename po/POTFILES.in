@@ -460,6 +460,8 @@ actions/menus/MainMenu/FileMenu/SaveMenu/SaveAsTemplate.scm
 actions/menus/MainMenu/FileMenu/SaveMenu/SaveAsTemplate.xml
 actions/menus/MainMenu/FileMenu/SaveMenu/SetThumbnail.scm
 actions/menus/MainMenu/FileMenu/SaveMenu/SetThumbnail.xml
+actions/menus/MainMenu/HelpMenu/EmailForHelp.scm
+actions/menus/MainMenu/HelpMenu/EmailForHelp.xml
 actions/menus/MainMenu/HelpMenu/HelpAllFeatures.scm
 actions/menus/MainMenu/HelpMenu/HelpAllFeatures.xml
 actions/menus/MainMenu/HelpMenu/HelpForReturnKey.scm
