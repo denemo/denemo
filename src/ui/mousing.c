@@ -703,10 +703,13 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                   gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
                   latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
                   generate_midi();
-                  if ((fabs(end-earliest) < fabs(latest-earliest) + 0.01))
-                    Denemo.dragging_end_playback_marker = TRUE;
-                  else if (fabs(start-latest) < fabs(latest-earliest) + 0.01)
-                    Denemo.dragging_start_playback_marker = TRUE;
+                  if (event->state & (GDK_CONTROL_MASK|GDK_MOD1_MASK)) //ALT+CONTROL drag to shift playback markers
+                    {
+                      if ((fabs(end-earliest) < fabs(latest-earliest) + 0.01))
+                        Denemo.dragging_end_playback_marker = TRUE;
+                      else if (fabs(start-latest) < fabs(latest-earliest) + 0.01)
+                        Denemo.dragging_start_playback_marker = TRUE;
+                    }
                 }    
             }
           calcmarkboundaries (gui->movement);

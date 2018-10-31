@@ -1308,10 +1308,10 @@ draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_hei
   switch (color)
     {
     case GREEN:
-      drawlargetext_cr (cr, _("Playback Start"), pos - 100, yy);
+      drawlargetext_cr (cr, _("Ctrl+Alt-Drag Start"), pos - 100, yy-LINE_SPACE);
       break;
     case RED:
-      drawlargetext_cr (cr, _("Playback End"), pos - 100, yy);
+      drawlargetext_cr (cr, _("Ctrl+Alt-Drag End"), pos - 100, yy-LINE_SPACE);
       break;
     }
   cairo_restore (cr);
