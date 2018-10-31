@@ -705,10 +705,11 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                   generate_midi();
                   if (event->state & (GDK_CONTROL_MASK|GDK_MOD1_MASK)) //ALT+CONTROL drag to shift playback markers
                     {
-                      if ((fabs(end-earliest) < fabs(latest-earliest) + 0.01))
-                        Denemo.dragging_end_playback_marker = TRUE;
-                      else if (fabs(start-latest) < fabs(latest-earliest) + 0.01)
+                    if (fabs(start-latest) < fabs(latest-earliest) + 0.01)
                         Denemo.dragging_start_playback_marker = TRUE;
+                    else
+                        Denemo.dragging_end_playback_marker = TRUE;
+                      
                     }
                 }    
             }
