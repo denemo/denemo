@@ -2383,10 +2383,15 @@ scheme_get_help (SCM command)
 }
 
 SCM
-scheme_email_help (void)
-{
-  email_help ();
-  return SCM_BOOL_T;
+scheme_email_help (SCM text)
+{gchar *page;
+  if (scm_is_string (text))
+    {
+      page = scm_to_locale_string (text);
+      email_help (page);
+      return SCM_BOOL_T;
+    }
+  return SCM_BOOL_F;
 }
 
 

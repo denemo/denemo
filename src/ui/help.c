@@ -101,10 +101,13 @@ browse_manual (DenemoAction * action, DenemoScriptParam * param)
   g_free (manualpath);
   g_free (manualuri);
 }
-void email_help (void)
+void email_help (gchar *page)
 {
   DenemoScriptParam param;
-  param.string = g_string_new ("mailto:denemo-devel@gnu.org");
+  gchar *filename = g_build_filename (g_get_tmp_dir (), "Denemo_email", NULL);
+  
+  g_file_set_contents (filename, page, -1, NULL);
+  param.string = g_string_new (g_strdup_printf("%s%s", "file://", filename));
   param.status = FALSE;
   browse_manual (NULL, &param);
 }
