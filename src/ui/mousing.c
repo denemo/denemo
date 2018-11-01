@@ -693,26 +693,31 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
           set_cursor_y_from_click (gui, event->y);
           if (lh_down & !selecting)
             {
-              if (gui->movement->markstaffnum)
-                set_point (NULL, NULL);
-              else
-                set_mark (NULL, NULL);
-              selecting = TRUE;
+              
               if (pi.the_obj && Denemo.project->movement->smf)
                 {
                   gdouble end = Denemo.project->movement->end_time, start = Denemo.project->movement->start_time,
                   latest = ((DenemoObject*)pi.the_obj->data)->latest_time, earliest = ((DenemoObject*)pi.the_obj->data)->earliest_time;
                   generate_midi();
-                  if (event->state & (GDK_CONTROL_MASK|GDK_MOD1_MASK)) //ALT+CONTROL drag to shift playback markers
-                    {
-                    if (fabs(start-latest) < fabs(latest-earliest) + 0.01)
-                        Denemo.dragging_start_playback_marker = TRUE;
-                    else
+                  
+                   if (event->state & (GDK_CONTROL_MASK|GDK_MOD1_MASK)) //ALT+CONTROL drag to shift playback markers
+                     {//g_print ("\nend %f and earliest %f", end, earliest);
+                      if ((earliest>end) || (fabs(end-earliest) < fabs(latest-earliest) + 0.01))
                         Denemo.dragging_end_playback_marker = TRUE;
-                      
+                      else
+                         Denemo.dragging_start_playback_marker = TRUE;
                     }
-                }    
-            }
+                }
+             if (!(Denemo.dragging_end_playback_marker || Denemo.dragging_start_playback_marker)) 
+                  {
+                    if (gui->movement->markstaffnum)
+                      set_point (NULL, NULL);
+                    else
+                      set_mark (NULL, NULL);
+                    selecting = TRUE;
+                  }
+              }
+            
           calcmarkboundaries (gui->movement);
           if (pi.the_obj && (Denemo.dragging_end_playback_marker || Denemo.dragging_start_playback_marker))
             {

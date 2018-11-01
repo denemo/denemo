@@ -32,7 +32,7 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 #define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
-static DenemoObject *Startobj, *Endobj;
+static DenemoObject *Startobj, *Endobj, *Lastobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
 
@@ -71,6 +71,8 @@ set_start_and_end_objects_for_draw (void)
         }
       Startobj = get_obj_for_end_time (Denemo.project->movement->smf, start/get_playback_speed() + 0.001);
       Endobj = Denemo.project->movement->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.project->movement->smf, end/get_playback_speed() - 0.001);
+      if ((Denemo.project->movement->end_time > 0.0) && Endobj==NULL)
+        Endobj = Lastobj;
     }
 }
 
@@ -313,8 +315,6 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
   if (mudelaitem == itp->endobj)
     itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
-
-
 
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
@@ -834,6 +834,8 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       {
         DenemoObject *obj = (DenemoObject *) curobj->data;
         last_type = obj->type;
+        if (!curmeasure->next)
+          Lastobj = obj;
       }
       //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object
     }                           // for each object
@@ -894,6 +896,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
 
       if ((!curmeasure->next))
         {
+         
           /* we've reached the end of the staff and should
            * draw the heavy part of double-barline unless there is a directive here in which case it takes responsibility for the type of barline */
           x += 3;
@@ -1283,7 +1286,7 @@ print_system_separator (cairo_t * cr, gdouble position)
 typedef enum colors
 { BLACK, RED, GREEN } colors;
 static void
-draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_height)
+draw_playback_marker (cairo_t * cr, gint color, gdouble alpha, gint pos, gint yy, gint line_height)
 {
   if (!Denemo.prefs.playback_controls)
     return;
@@ -1296,10 +1299,10 @@ draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_hei
       cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 0.5);
       break;
     case GREEN:
-      cairo_set_source_rgba (cr, 0.0, 1.0, 0.0, 0.5);
+      cairo_set_source_rgba (cr, 0.0, 1.0, 0.0, alpha);
       break;
     case RED:
-      cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 0.5);
+      cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, alpha);
       break;
     }
   cairo_move_to (cr, pos, yy - STAFF_HEIGHT);
@@ -1311,7 +1314,7 @@ draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_hei
       drawlargetext_cr (cr, _("Ctrl+Alt-Drag Start"), pos - 100, yy-LINE_SPACE);
       break;
     case RED:
-      drawlargetext_cr (cr, _("Ctrl+Alt-Drag End"), pos - 100, yy-LINE_SPACE);
+      drawlargetext_cr (cr, _("Ctrl+Alt-Drag End"), pos - 100, yy-3*LINE_SPACE);
       break;
     }
   cairo_restore (cr);
@@ -1320,19 +1323,21 @@ draw_playback_marker (cairo_t * cr, gint color, gint pos, gint yy, gint line_hei
 static void
 draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_height)
 {
-static gboolean off;
   if (itp->startposition > 0)
     {
-      if (!(Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight && off))
-        draw_playback_marker (cr, GREEN, itp->startposition, yy, line_height);
-      off = !off; //this function is called twice for each draw (for start and then end) flashing off and on requires this to toggle once only.
+      if (!(Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight ))
+        draw_playback_marker (cr, GREEN,0.4,itp->startposition, yy, line_height);
+      else
+        draw_playback_marker (cr, GREEN, 0.2,itp->startposition, yy, line_height);
     }
   itp->startposition = -1;
 
   if (itp->endposition > 0)
       {
-      if (!(Denemo.dragging_end_playback_marker && Denemo.prefs.cursor_highlight && off))
-        draw_playback_marker (cr, RED, itp->endposition, yy, line_height);
+      if (!(Denemo.dragging_end_playback_marker && Denemo.prefs.cursor_highlight))
+        draw_playback_marker (cr, RED, 0.4, itp->endposition, yy, line_height);
+      else
+        draw_playback_marker (cr, RED, 0.2, itp->endposition, yy, line_height);
     }
 
   itp->endposition = -1;
