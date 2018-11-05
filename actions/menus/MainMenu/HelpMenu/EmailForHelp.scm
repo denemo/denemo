@@ -6,6 +6,11 @@
 	(if (string? text)
 		(begin
 			(set! text (string-append  "
+				<!DOCTYPE html>
+				<html>
+				<head><title>Denemo Help by Email</title>
+				</head>
+
 				<h1>Denemo Help by Email</h1>
 				<p>The link here will launch your email program with your question in it</p>
 				<a href=\"mailto:denemo-devel@gnu.org?subject=Help with Denemo Version " DENEMO_VERSION "&body=" (newline-escape (html-escape text)) "\">Send email to Denemo</a>
