@@ -1014,11 +1014,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
   if (pi.the_staff == NULL)
     return TRUE;                //could not place the cursor
-    
-    
-    
-  change_staff (gui->movement, pi.staff_number, pi.the_staff);
 
+  change_staff (gui->movement, pi.staff_number, pi.the_staff);
 
   if (left && (gui->movement->leftmeasurenum > 1) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key) && (event->x > gui->leftmargin))
     {

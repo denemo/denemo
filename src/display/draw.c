@@ -834,7 +834,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       {
         DenemoObject *obj = (DenemoObject *) curobj->data;
         last_type = obj->type;
-        if (!curmeasure->next)
+        if ((!curmeasure->next) && (itp->staffnum == si->top_staff))
           Lastobj = obj;
       }
       //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object
@@ -906,8 +906,8 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
               cairo_fill (cr);
             }
           itp->end = TRUE;
-          if(itp->startposition>-1 && itp->endposition<0)
-            itp->endposition = x + GPOINTER_TO_INT (itp->mwidthiterator->data) + 5;//end play marker after last note if not elsewhere
+          //if(itp->startposition>-1 && itp->endposition<0)
+            //itp->endposition = x + GPOINTER_TO_INT (itp->mwidthiterator->data) + 5;//end play marker after last note if not elsewhere
         }
       else
         {
@@ -1288,9 +1288,9 @@ typedef enum colors
 static void
 draw_playback_marker (cairo_t * cr, gint color, gdouble alpha, gint pos, gint yy, gint line_height)
 {
-  if (!Denemo.prefs.playback_controls)
-    return;
-  //g_debug("drawing marker %x at %d %d %d\n", color, pos, yy, line_height);
+  //if (!Denemo.prefs.playback_controls)
+  //  return;
+  //g_print("\n\tdrawing marker %s at x = %d y = %d", color==1?"Red":"Green", pos, yy);
   cairo_save (cr);
   cairo_set_line_width (cr, 4.0);
   switch (color)
@@ -1323,6 +1323,7 @@ draw_playback_marker (cairo_t * cr, gint color, gdouble alpha, gint pos, gint yy
 static void
 draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_height)
 {
+  //g_print ("\nMarkers at staff %d for top %d with start %d end %d:", itp->staffnum, Denemo.project->movement->top_staff, itp->startposition, itp->endposition);
   if (itp->startposition > 0)
     {
       if (!(Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight ))
@@ -1696,7 +1697,7 @@ draw_score (cairo_t * cr)
         repeat = TRUE;
 
       if (cr)
-        draw_playback_markers (cr, &itp, y, line_height);
+          draw_playback_markers (cr, &itp, y, line_height);
 
       gint system_num;
       system_num = 1;
