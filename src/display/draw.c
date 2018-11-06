@@ -32,7 +32,6 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 #define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
-static DenemoObject *Startobj, *Endobj, *Lastobj;
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
 
@@ -52,7 +51,7 @@ region_playhead (void)
 
 
 void
-set_start_and_end_objects_for_draw (void)
+fix_start_end_ordering (void)
 {
   if (Denemo.project->movement->smf)
     {
@@ -60,19 +59,11 @@ set_start_and_end_objects_for_draw (void)
       gdouble end = Denemo.project->movement->end_time;
       if ((end > 0.0) && (end < start))
         {
-#ifdef SWAPPING_ENDS
             Denemo.project->movement->start_time = end;
             Denemo.project->movement->end_time = start;
             start = Denemo.project->movement->start_time;
             end = Denemo.project->movement->end_time;
-#else
-            Denemo.project->movement->end_time = -1.0;
-#endif
         }
-      Startobj = get_obj_for_end_time (Denemo.project->movement->smf, start/get_playback_speed() + 0.001);
-      Endobj = Denemo.project->movement->end_time < 0.0 ? NULL : get_obj_for_start_time (Denemo.project->movement->smf, end/get_playback_speed() - 0.001);
-      if ((Denemo.project->movement->end_time > 0.0) && Endobj==NULL)
-        Endobj = Lastobj;
     }
 }
 
@@ -148,8 +139,6 @@ struct infotopass
   gint *left, *right;           //pointer into array, pointing to leftmost/rightmost measurenum for current system(line)
   gint *scale;                  //pointer into an array of scales - this entry is the percent horizontal scale applied to the current system
   GList *last_midi;             //last list of midi events for object at right of window
-  DenemoObject *startobj;       //pointer values - if drawing such an object mark as playback start
-  DenemoObject *endobj;         //pointer values - if drawing such an object mark as playback end
   gint startposition;           //x coordinate where to start playing
   gint endposition;             //x coordinate where to end playing
   gint playposition;            //x coordinate of currently played music
@@ -308,13 +297,16 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
   if (mudelaitem == Denemo.project->movement->playingnow)
     itp->playposition = x + mudelaitem->x;
 
-  if (mudelaitem == itp->startobj) {
-    itp->startposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
-    // if(curobj->prev==NULL) g_debug("item %p at %d\n", curobj, x+mudelaitem->x), itp->startposition -= mudelaitem->minpixelsalloted;
+  if (Denemo.project->movement->smf)
+    {
+      if ((itp->startposition < 0) &&  (mudelaitem->earliest_time > Denemo.project->movement->start_time)) {
+        itp->startposition = x + mudelaitem->x - mudelaitem->minpixelsalloted/2;
+        }
+      if ((itp->endposition < 0) && (mudelaitem->latest_time >= Denemo.project->movement->end_time)) {
+        itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
+        }
     }
-
-  if (mudelaitem == itp->endobj)
-    itp->endposition = x + mudelaitem->x/* + mudelaitem->minpixelsalloted*/;
+ 
 
   if (cr)
     if (mudelaitem->type == CHORD && ((chord *) mudelaitem->object)->tone_node)
@@ -834,8 +826,6 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
       {
         DenemoObject *obj = (DenemoObject *) curobj->data;
         last_type = obj->type;
-        if ((!curmeasure->next) && (itp->staffnum == si->top_staff))
-          Lastobj = obj;
       }
       //itp->rightmosttime = curobj->latest_time;//we just want this for the rightmost object
     }                           // for each object
@@ -1103,9 +1093,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
 
 
 
-  if ((gui->movement->smf) && (itp->startobj == NULL) && (itp->startposition <= 0) && (si->leftmeasurenum == 1))
-    itp->startposition = x;
-
+ 
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
@@ -1401,7 +1389,7 @@ draw_score (cairo_t * cr)
   itp.playposition = -1;
   itp.startposition = -1;
   itp.endposition = -1;
-  itp.startobj = itp.endobj = NULL;
+  
   itp.tupletstart = itp.tuplety = 0;
   itp.recordednote = si->recording?si->recording->notes:NULL;
   itp.currentframe = (get_playback_time()/get_playback_speed())*(si->recording?si->recording->samplerate:SAMPLERATE);
@@ -1409,14 +1397,7 @@ draw_score (cairo_t * cr)
 
   if (Denemo.hidden_staff_heights)  g_list_free (Denemo.hidden_staff_heights);
   Denemo.hidden_staff_heights = NULL;
-  if (gui->movement->smf)
-    {
-      itp.startobj = Startobj;
-      //g_debug("start %p\n", itp.startobj);
 
-      itp.endobj = Endobj;
-      //g_debug("Start time %p %f end time %p %f\n", itp.startobj, si->start_time, itp.endobj, si->end_time);
-    }
   if (cr)
     cairo_translate (cr, movement_transition_offset (), 0);
   /* The colour for staff lines and such is black. */
@@ -1697,6 +1678,7 @@ draw_score (cairo_t * cr)
         repeat = TRUE;
 
       if (cr)
+        if (itp.staffnum == si->top_staff)
           draw_playback_markers (cr, &itp, y, line_height);
 
       gint system_num;

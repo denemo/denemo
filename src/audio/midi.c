@@ -117,7 +117,7 @@ start_playing (gchar * callback)
   if (Denemo.project->movement->recorded_midi_track)
     safely_add_track (Denemo.project->movement->smf, Denemo.project->movement->recorded_midi_track);
 
-  set_start_and_end_objects_for_draw ();
+  fix_start_end_ordering ();
   smf_rewind (smf);
   gdouble start = (Denemo.project->movement->start_time/get_playback_speed()) - SHAVING;
   if(smf_seek_to_seconds (smf, (start>0.0)?start:0.0))

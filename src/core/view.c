@@ -1257,7 +1257,7 @@ pb_panic (GtkWidget * button)
   playback_panic ();
   Denemo.project->movement->start_time = 0.0;
   Denemo.project->movement->end_time = -1.0;    //ie unset
-  set_start_and_end_objects_for_draw ();
+  fix_start_end_ordering ();
   reset_temperament ();
   draw_score_area ();
 }

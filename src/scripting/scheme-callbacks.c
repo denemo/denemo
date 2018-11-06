@@ -2263,19 +2263,19 @@ scheme_set_playback_interval (SCM start, SCM end)
     {
       Denemo.project->movement->start_time = convert_and_adjust (start);
       Denemo.project->movement->end_time = convert_and_adjust (end);
-      set_start_and_end_objects_for_draw ();
+      fix_start_end_ordering ();
       return SCM_BOOL_T;
     }
   if (scm_is_real (start))
     {
       Denemo.project->movement->start_time = convert_and_adjust (start);
-      set_start_and_end_objects_for_draw ();
+      fix_start_end_ordering ();
       return SCM_BOOL_T;
     }
   if (scm_is_real (end))
     {
       Denemo.project->movement->end_time = convert_and_adjust (end);
-      set_start_and_end_objects_for_draw ();
+      fix_start_end_ordering ();
       return SCM_BOOL_T;
     }
   if (scm_is_string (start) && scm_is_string (end))
@@ -2293,7 +2293,7 @@ scheme_set_playback_interval (SCM start, SCM end)
           Denemo.project->movement->end_time = atof (name);
           free (name);
         }
-      set_start_and_end_objects_for_draw ();
+      fix_start_end_ordering ();
       return SCM_BOOL_T;
     }
   if (scm_is_string (start))
@@ -2305,7 +2305,7 @@ scheme_set_playback_interval (SCM start, SCM end)
           Denemo.project->movement->start_time = atof (name);
           free (name);
         }
-      set_start_and_end_objects_for_draw ();
+      fix_start_end_ordering ();
       return SCM_BOOL_T;
     }
   if (scm_is_string (end))
@@ -2317,7 +2317,7 @@ scheme_set_playback_interval (SCM start, SCM end)
           Denemo.project->movement->end_time = atof (name);
           free (name);
         }
-      set_start_and_end_objects_for_draw ();
+      fix_start_end_ordering ();
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
@@ -2336,7 +2336,7 @@ scheme_adjust_playback_start (SCM adj)
       else
         ret = SCM_BOOL_T;
     }
-  set_start_and_end_objects_for_draw ();
+  fix_start_end_ordering ();
   return ret;
 }
 
@@ -2352,7 +2352,7 @@ scheme_adjust_playback_end (SCM adj)
       if (Denemo.project->movement->end_time > 0.0)
         ret = SCM_BOOL_T;
     }
-  set_start_and_end_objects_for_draw ();
+  fix_start_end_ordering ();
   return ret;
 }
 
