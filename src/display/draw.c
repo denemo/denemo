@@ -34,7 +34,6 @@
 #define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
 static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
-
 static gboolean last_tied = FALSE;
 void
 initialize_playhead (void)
@@ -299,8 +298,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
   if (Denemo.project->movement->smf)
     {
-      if ((itp->startposition < 0) &&  (mudelaitem->earliest_time > Denemo.project->movement->start_time)) {
-        itp->startposition = x + mudelaitem->x - mudelaitem->minpixelsalloted/2;
+      if ((itp->startposition < 0) &&  (mudelaitem->earliest_time > (Denemo.project->movement->start_time - 0.001))) {
+        itp->startposition = x + mudelaitem->x;
         }
       if ((itp->endposition < 0) && (mudelaitem->latest_time >= Denemo.project->movement->end_time)) {
         itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
