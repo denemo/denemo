@@ -2360,7 +2360,7 @@ write_status (DenemoProject * gui)
         case LILYDIRECTIVE:
           {
             DenemoDirective *directive = (DenemoDirective *) curObj->object;
-            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.50s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->layouts ? _("Not all layouts") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
+            selection = g_strdup_printf (_("Directive:(%.20s) %.20s%.20s"), directive->tag ? directive->tag->str : _("Unknown Tag"), directive->layouts ? _("Not all layouts") : "", directive->postfix ? directive->postfix->str : directive->prefix ? directive->prefix->str : directive->graphic_name ? directive->graphic_name->str : directive->display ? directive->display->str : "empty");
           }
           break;
         default:
