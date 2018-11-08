@@ -362,7 +362,7 @@ change_page (GtkSpinButton * widget, EvView *view)
 static void
 next_page (GtkWidget * button, EvView * view)
 {
-  ev_view_next_page (view);
+  //ev_view_next_page (view);
   GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (view), "spinner");
   if (spinner)
     gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), gtk_spin_button_get_value (GTK_SPIN_BUTTON(spinner))+1.0);
@@ -371,12 +371,19 @@ next_page (GtkWidget * button, EvView * view)
 static void
 prev_page (GtkWidget * button, EvView * view)
 {
-  ev_view_previous_page (view);
+  //ev_view_previous_page (view);
   GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (view), "spinner");
   if (spinner)
-    gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), gtk_spin_button_get_value (GTK_SPIN_BUTTON(spinner))+1.0);
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), gtk_spin_button_get_value (GTK_SPIN_BUTTON(spinner))-1.0);
 }
 
+static void
+page_changed (EvDocumentModel *evdocumentmodel, gint old_page,gint new_page, gpointer view)
+    {
+      GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (view), "spinner");
+      if (spinner)
+          gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), new_page+1.0);
+    }
 
 static gboolean
 position_source_window (EvView * view)
@@ -404,6 +411,8 @@ static gchar *locate_file (gchar *filename) {
     }
     return filename;
 }
+
+
 static EvView *
 get_view (gchar * filename)
 {
@@ -438,6 +447,11 @@ get_view (gchar * filename)
   GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   g_object_set_data (G_OBJECT(top_vbox), "uniconified", GINT_TO_POINTER(TRUE));
   g_signal_connect (G_OBJECT(top_vbox), "window-state-event", G_CALLBACK (window_state), NULL);
+  
+  
+  g_signal_connect (G_OBJECT(model), "page-changed", G_CALLBACK (page_changed), view);
+  
+  
   // use a dialog when the user clicks instead  gtk_widget_set_tooltip_text (top_vbox, HELP_TEXT);
 
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
