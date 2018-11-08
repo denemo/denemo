@@ -346,15 +346,35 @@ button_press (EvView * view, GdkEventButton * event)
 }
 
 static void
+goto_page (EvView *view, gint page)
+{
+ EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
+ ev_document_model_set_page (model, page);
+}
+
+static void
+change_page (GtkSpinButton * widget, EvView *view)
+{
+  gint page = (gint)gtk_spin_button_get_value (widget);
+  goto_page(view, page - 1);
+}
+  
+static void
 next_page (GtkWidget * button, EvView * view)
 {
   ev_view_next_page (view);
+  GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (view), "spinner");
+  if (spinner)
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), gtk_spin_button_get_value (GTK_SPIN_BUTTON(spinner))+1.0);
 }
 
 static void
 prev_page (GtkWidget * button, EvView * view)
 {
   ev_view_previous_page (view);
+  GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (view), "spinner");
+  if (spinner)
+    gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), gtk_spin_button_get_value (GTK_SPIN_BUTTON(spinner))+1.0);
 }
 
 
@@ -458,7 +478,13 @@ get_view (gchar * filename)
   g_signal_connect (button, "clicked", G_CALLBACK (prev_page), (gpointer) view);
   gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
 
-
+  GtkWidget *label = gtk_label_new (_("... or Set Page Number:"));
+  gtk_box_pack_start (GTK_BOX (main_hbox), label, FALSE, TRUE, 0);
+  GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (1.0, 1.0, 999.0, 1.0, 1.0, 1.0);
+  GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 100.0, 0);
+  gtk_box_pack_start (GTK_BOX (main_hbox), spinner, FALSE, TRUE, 0);
+  g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_page), view);
+  g_object_set_data (G_OBJECT (view), "spinner", spinner);
 
   GtkAdjustment *viewvadjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   gtk_vscrollbar_new (GTK_ADJUSTMENT (viewvadjustment));
@@ -507,6 +533,8 @@ open_source (gchar * filename, gint x, gint y, gint page)
     return FALSE;
   EvView *eview = get_view (filename);
   gboolean ret = position_view (eview, x, y, page);
+  GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (eview), "spinner");
+  gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), page+1.0);
   switch_back_to_main_window ();
   return ret;
 }
