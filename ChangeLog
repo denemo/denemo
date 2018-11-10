@@ -1,3 +1,44 @@
+2018-11-09
+New Features for release 2.3
+
+    Syntax highlighting in LilyPond view
+    Playback Start/End markers draggable
+    Source window navigation by page number
+        Page number always visible
+    Rapid marking of passages
+    Two-chord Tremolos
+    Allowing breaks at half-measure for whole movement
+    Search for lost scores
+        Interval-based
+        Searches whole directory hierarchy
+        Works for transposed scores
+    Compare Scores
+    Improved Score etc editor appearance
+    Improvements to Scheme Editor
+        Title bar shows open file
+        Save dialog gives help
+    Colors now differentiate palettes, titles etc. in main display
+    Swapping Display and Source positions
+        for switching between entering music and editing
+        a single keypress or MIDI command
+    Help via Email
+
+Bug Fixes
+
+    Adding buttons to palettes no longer brings hidden buttons back
+
+    MIDI playback of empty measures containing non-notes
+
+    Instrument name with Ambitus clash in staff properties menu fixed
+
+    Visibility of emmentaler glyphs fixed
+
+    Update of layout on staff to voice change
+
+    Open Recent anomalies fixed
+
+
+
 2017-07-08
 New Features for release 2.2
 
