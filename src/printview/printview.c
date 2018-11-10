@@ -101,8 +101,7 @@ libevince_print (void)
     }
     
   EvDocumentModel *model = (EvDocumentModel*)g_object_get_data (G_OBJECT (Denemo.printarea), "model"); 
-  ev_document_model_set_inverted_colors (model, FALSE);    
-    
+
 #ifdef G_OS_WIN32
   infodialog (_("Direct Printing not available under Windows. Create PDF and print from that"));
   return -1;
@@ -166,8 +165,9 @@ set_printarea_doc (EvDocument * doc)
       ev_document_model_set_document (model, doc);
     }
    gint dual = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex"));
+   gint invert = GPOINTER_TO_INT (g_object_get_data (G_OBJECT (Denemo.printarea), "Invert"));
   
-   ev_document_model_set_inverted_colors (model, dual);
+   ev_document_model_set_inverted_colors (model, invert);
 #if 0 // it is Evince version we need to test ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 8))
   if (dual)
     {
@@ -2204,7 +2204,13 @@ dual_page (GtkWidget * button)
   g_object_set_data (G_OBJECT (Denemo.printarea), "Duplex", GINT_TO_POINTER (!g_object_get_data (G_OBJECT (Denemo.printarea), "Duplex")));
   set_printarea (&err);
 }
-
+static void
+invert_page (GtkWidget * button)
+{
+  GError *err = NULL; 
+  g_object_set_data (G_OBJECT (Denemo.printarea), "Invert", GINT_TO_POINTER (!g_object_get_data (G_OBJECT (Denemo.printarea), "Invert")));
+  set_printarea (&err);
+}
 #if 0
 gint
 printarea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
@@ -2545,6 +2551,10 @@ install_printpreview (GtkWidget * top_vbox)
   button = gtk_button_new_with_label (_("Duplex"));
   gtk_widget_set_tooltip_text (button, _("Shows pages side by side, so you can see page turns for back-to-back printing\n"));
   g_signal_connect (button, "clicked", G_CALLBACK (dual_page), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  button = gtk_button_new_with_label (_("Invert"));
+  gtk_widget_set_tooltip_text (button, _("Inverts colors in page\n"));
+  g_signal_connect (button, "clicked", G_CALLBACK (invert_page), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
   button = gtk_button_new_with_label (_("Next"));
