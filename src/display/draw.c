@@ -143,6 +143,8 @@ struct infotopass
   gint playposition;            //x coordinate of currently played music
   gdouble leftmosttime;         //MIDI time of left most object on last system line displayed
   gdouble rightmosttime;        //MIDI time of last object  displayed
+  GList *leftmostobj;           //left most object displayed
+  gboolean startisoffscreen;    //left most object is after the start time
   GList *recordednote;//list of notes when recorded audio or MIDI is present
   gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
   gboolean highlight_next_note;//the last CHORD was the one before the currently playing one.
@@ -298,8 +300,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
   if (Denemo.project->movement->smf)
     {
-      if ((itp->startposition < 0) &&  (mudelaitem->earliest_time > (Denemo.project->movement->start_time - 0.001))) {
-        itp->startposition = x + mudelaitem->x;
+      if ( (!itp->startisoffscreen) && (itp->startposition < 0) &&  (mudelaitem->earliest_time > (Denemo.project->movement->start_time - 0.001))) 
+        {
+          if (((curobj==itp->leftmostobj) && (fabs (mudelaitem->earliest_time - Denemo.project->movement->start_time)>0.001)))
+            itp->startisoffscreen = TRUE;
+          else
+            itp->startposition = x + mudelaitem->x;
         }
       if ((itp->endposition < 0) && (mudelaitem->latest_time >= Denemo.project->movement->end_time)) {
         itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
@@ -1113,6 +1119,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
           itp->leftmosttime = mudelaitem->earliest_time;
         else
           itp->leftmosttime = 1000000.0;
+        itp->leftmostobj = curobj;
       }
     //g_debug("Drawing staff %d leftmost time %f, measurenum %d\n",itp->staffnum, itp->leftmosttime, itp->measurenum);
   }
@@ -1388,6 +1395,7 @@ draw_score (cairo_t * cr)
   itp.playposition = -1;
   itp.startposition = -1;
   itp.endposition = -1;
+  itp.startisoffscreen = FALSE;
   
   itp.tupletstart = itp.tuplety = 0;
   itp.recordednote = si->recording?si->recording->notes:NULL;
