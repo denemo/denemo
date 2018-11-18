@@ -8,14 +8,15 @@
   (d-DirectiveDelete-scoreheader "ScoreIncipit")
   (if (not (d-GoToSelectionStart))
       (begin
-    (while (d-PreviousMovement))
-    (while (d-MoveToStaffUp))
-    (d-MoveToBeginning)
-    (d-SetMark)
-    (d-MeasureRight)
-    (RepeatProcWhileTest d-CursorRight (lambda () (not (Appending?))))))
-
-  (SingleAndSelectionSwitcher accum)
+        (while (d-PreviousMovement))
+        (while (d-MoveToStaffUp))
+        (d-MoveToBeginning)
+        (accum)
+        (while (d-NextObject)
+          (if (< (d-GetMeasure) 3)
+            (accum))))
+      (begin
+  (SingleAndSelectionSwitcher accum)))
   (set! lily (string-append (d-GetPrevailingClefAsLilyPond) " "  (d-GetPrevailingTimesigAsLilyPond) " "  (d-GetPrevailingKeysigAsLilyPond) " " lily))
   (set! lily (string-append "\n\\markup \\score {\\DenemoGlobalTranspose\n{" lily "\n}\n\\layout {\nindent = 0.0\\cm\n #(layout-set-staff-size 18)\n}}"))
   (d-SetSaved #f)
