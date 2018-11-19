@@ -251,7 +251,8 @@ name_scoreblock (DenemoScoreblock * sb, gchar * name)
   if (value)
     {
       sb->name = g_strdup (value);
-      gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (get_score_layout_notebook (Denemo.project)), sb->widget, value);
+      if (!Denemo.non_interactive) 
+        gtk_notebook_set_tab_label_text (GTK_NOTEBOOK (get_score_layout_notebook (Denemo.project)), sb->widget, value);
       //FIXME if name==NULL g_free(value) I think.
       return TRUE;
     }
@@ -2177,6 +2178,7 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 static void
 recreate_standard_scoreblock (DenemoScoreblock ** psb)
 {
+  if (Denemo.non_interactive) return;
   if ((*psb)->layout_sync == Denemo.project->layout_sync)
     return;
   gint movement = (*psb)->movement;
@@ -2308,6 +2310,7 @@ current_scoreblock_is_custom (void)
 DenemoScoreblock *
 selected_scoreblock (void)
 {
+  if (Denemo.non_interactive) return NULL;
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   gint pagenum = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));       // value passed in appears to be something else - it is not documented what.
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), pagenum);
@@ -2526,20 +2529,21 @@ static void
 create_standard_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname)
 {
   DenemoProject *gui = Denemo.project;
-  GtkWidget *notebook = get_score_layout_notebook (gui);
-
   gchar *label_text = movement_part_name (movement, partname);
   (*psb)->name = g_strdup (label_text);
   Denemo.project->layout_id = (*psb)->id = crc32 ((guchar *) (*psb)->name);
   set_default_scoreblock (psb, movement, partname);
-
-  GtkWidget *label = gtk_label_new (label_text);
-  g_free (label_text);
-  gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), (*psb)->widget, label);
-  gtk_widget_set_tooltip_markup ((*psb)->widget,
-                                 _
-                                 ("This is a score layout - the buttons mostly customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
-  gtk_widget_show_all (notebook);
+  if (!Denemo.non_interactive)
+    {
+    GtkWidget *notebook = get_score_layout_notebook (gui);
+    GtkWidget *label = gtk_label_new (label_text);
+    g_free (label_text);
+    gtk_notebook_prepend_page (GTK_NOTEBOOK (notebook), (*psb)->widget, label);
+    gtk_widget_set_tooltip_markup ((*psb)->widget,
+                                   _
+                                   ("This is a score layout - the buttons mostly customize the layout\nYou can have several layouts and use them to print different versions of your score.\nOnce customized e.g. by adding page breaks, deleting certain parts etc the layout will be saved with your score and can be used for printing from even though you may have made corrections to the music.\nStandard layouts are created by invoking the standard print commands - print, print part, print movement etc.\nThese standard layouts provide a convenient starting point for your customized layouts.<b>Note 1</b>Custom layouts are not saved for further graphical editing, only the typesetting commands are saved, so, unless you are familiar with LilyPond do all your work on the layout in one session.<b>Note 2</b>The first comment in the LilyPond text of the layout holds the name of the layout. If you change it any conditional directives that are for the layout will need refreshing"));
+    gtk_widget_show_all (notebook);
+    }
 }
 
 static void
