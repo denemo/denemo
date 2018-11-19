@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CreateIndex</action>
+        <after>CompareWithNextScore</after>
+        <_label>Index Scores</_label>
+        <_tooltip>Creates an index of all the Denemo scores in a folder and sub-folders. </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

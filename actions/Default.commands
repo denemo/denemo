@@ -8264,6 +8264,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Email for Help</_label>
         <_tooltip>Uses your browser to open an email form for you to ask questions/report problems. This is the sure and certain way to get help, the chat facility is more hit and miss"</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CreateIndex</action>
+        <after>CompareWithNextScore</after>
+        <menupath>/MainMenu/FileMenu/Indexing</menupath>
+        <_label>Index Scores</_label>
+        <_tooltip>Creates an index of all the Denemo scores in a folder and sub-folders. </_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
