@@ -1575,3 +1575,55 @@
                                                 (loop (+ 1 staff)))))))))
                 (if (not (= numstaffs1 numstaffs2))
                     (d-WarningDialog (_ "Extra staff(s) in one score."))))))
+;;;;;Create an Index entry for the current score as a LilyPond include file, the contents markup to display the index entry
+;;;;;The include file is named after the current filename with .DenemoIndex.ily appended
+
+(define (CreateIndexEntry filename)
+    (let ((outputfile (string-append filename ".DenemoIndex.ily")) (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) (title (d-DirectiveGet-scoreheader-display "BookTitle"))
+        (composer (d-DirectiveGet-scoreheader-display "BookComposer"))
+        ;(filename (d-GetFilename))
+        (incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))
+        (instruments ""))
+        (define (instrument-name)
+            (let ((name (d-DirectiveGet-staff-display "InstrumentName")))
+                (if name
+                    name
+                    (set! name (d-StaffProperties "query=denemo_name")))
+                (if name
+                    name
+                    (set! name "Unknown"))))
+            (if (not transpose)
+                (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
+            (if (not incipit)
+                (begin
+                    (d-RefreshLilyPond)
+                    (d-IncipitFromSelection)
+                    (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
+            (if (not title)
+                (set! title "simple titles"))
+            (if (not composer)
+                (set! composer "simple titles"))
+            (while (d-MoveToStaffUp))
+            (let loop ()
+                (if (d-IsVoice)
+                    (begin
+                        (if (d-MoveToStaffDown)
+                            (loop)))
+                    (begin
+                        (set! instruments (string-append instruments ":" (instrument-name)))
+                        (if (d-MoveToStaffDown)
+                            (loop)))))
+            (let ((port (open-file outputfile "w")))
+                (format port "~A" (string-append 
+                        "\\markup \"" composer ": " title "\"\n"
+                        "\\markup {instrumentation:" instruments "}\n"
+                        transpose
+                        incipit "\n\\incipit\n"
+                        "\\markup {Filename: " filename "}\n"
+                        "\\markup {\\column {\\draw-hline}}"))
+                (close-port port)
+                (if (zero? (system* "lilypond" "-l NONE" "-dno-print-pages" outputfile))
+                    (d-Quit "0")
+                    (begin (disp "File " outputfile " does not compile with LilyPond")
+                        (close-port (open-file outputfile "w")) ;empty the file as it does not compile
+                        (d-Quit "1"))))))
