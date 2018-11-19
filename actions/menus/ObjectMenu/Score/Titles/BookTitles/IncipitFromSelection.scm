@@ -16,9 +16,15 @@
           (if (< (d-GetMeasure) 3)
             (accum))))
       (begin
-  (SingleAndSelectionSwitcher accum)))
+          (SingleAndSelectionSwitcher accum)))
+  ;;;avoid mis-matched curly braces in lily
+  (let ((open (string-count lily #\{))(close (string-count lily #\})))
+    (let loop ((count (- open close)))
+      (if (> count 0)
+        (begin
+          (set! lily (string-append lily "}"))
+          (loop (1- count))))))
   (set! lily (string-append (d-GetPrevailingClefAsLilyPond) " "  (d-GetPrevailingTimesigAsLilyPond) " "  (d-GetPrevailingKeysigAsLilyPond) " " lily))
   (set! lily (string-append "\n\\markup \\score {\\DenemoGlobalTranspose\n{" lily "\n}\n\\layout {\nindent = 0.0\\cm\n #(layout-set-staff-size 18)\n}}"))
   (d-SetSaved #f)
   (SetScoreHeaderField "incipit" (_ "Incipit") #f lily))
-
