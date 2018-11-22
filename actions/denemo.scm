@@ -1575,55 +1575,96 @@
                                                 (loop (+ 1 staff)))))))))
                 (if (not (= numstaffs1 numstaffs2))
                     (d-WarningDialog (_ "Extra staff(s) in one score."))))))
-;;;;;Create an Index entry for the current score as a LilyPond include file, the contents markup to display the index entry
-;;;;;The include file is named after the current filename with .DenemoIndex.ily appended
-
+;;;;;Create an Index entry for the current score as a scheme file holding an alist
+;;;;;The include file is named after the current filename with .DenemoIndex.scm appended
+(define-once DenemoIndexEntrySuffix ".DenemoIndex.scm")
 (define (CreateIndexEntry filename)
-    (let ((outputfile (string-append filename ".DenemoIndex.ily")) (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) (title (d-DirectiveGet-scoreheader-display "BookTitle"))
-        (composer (d-DirectiveGet-scoreheader-display "BookComposer"))
-        ;(filename (d-GetFilename))
+    (let ((data #f)
+        (outputfile (string-append filename ".DenemoIndex.scm")) 
+        (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) 
+        (title #f)
+        (composer #f)
         (incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))
-        (instruments ""))
+        (instruments '()))
+
         (define (instrument-name)
             (let ((name (d-DirectiveGet-staff-display "InstrumentName")))
                 (if name
                     name
                     (set! name (d-StaffProperties "query=denemo_name")))
                 (if name
-                    name
-                    (set! name "Unknown"))))
-            (if (not transpose)
-                (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
-            (if (not incipit)
+                    (set! name (scheme-escape name))
+                    (set! name "Unknown"))
+                (set! name (scheme-escape name))))
+                
+            ;;are there simple titles? FIXME can there be both?
+            
+        (let ((data (d-DirectiveGet-scoreheader-data "ScoreTitles")))
+        ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode 50 octal.
+            (if (and data (eq? (string-ref data 0) #\') (eq? (string-ref current 1) #\50))
                 (begin
-                    (d-RefreshLilyPond)
-                    (d-IncipitFromSelection)
-                    (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
-            (if (not title)
-                (set! title "simple titles"))
-            (if (not composer)
-                (set! composer "simple titles"))
-            (while (d-MoveToStaffUp))
-            (let loop ()
-                (if (d-IsVoice)
+                    (set! data (eval-string current))
+                    (set! title (assq-ref data 'title)))
+                    (set! composer (assq-ref data 'composer))))
+                
+        (if (not title)
+            (begin
+                (set! title (d-DirectiveGet-scoreheader-display "BookTitle"))
+                (if (not title)
                     (begin
-                        (if (d-MoveToStaffDown)
-                            (loop)))
+                        (d-GoToPosition 1 1 1 1)
+                        (set! title (d-DirectiveGet-header-display "ScoreTitle"))))))                      
+        (if (not composer)
+            (begin
+                (set! composer (d-DirectiveGet-scoreheader-display "BookComposer"))
+                (if (not composer)
                     (begin
-                        (set! instruments (string-append instruments ":" (instrument-name)))
-                        (if (d-MoveToStaffDown)
-                            (loop)))))
-            (let ((port (open-file outputfile "w")))
-                (format port "~A" (string-append 
-                        "\\markup \"" composer ": " title "\"\n"
-                        "\\markup {instrumentation:" instruments "}\n"
-                        transpose
-                        incipit "\n\\incipit\n"
-                        "\\markup {Filename: " filename "}\n"
-                        "\\markup {\\column {\\draw-hline}}"))
-                (close-port port)
-                (if (zero? (system* "lilypond" "-l NONE" "-dno-print-pages" outputfile))
-                    (d-Quit "0")
-                    (begin (disp "File " outputfile " does not compile with LilyPond")
-                        (close-port (open-file outputfile "w")) ;empty the file as it does not compile
-                        (d-Quit "1"))))))
+                        (d-GoToPosition 1 1 1 1)
+                        (set! composer (d-DirectiveGet-header-display "ScoreComposer")))))) 
+            
+                    
+        (if (not transpose)
+            (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
+
+        (if (not incipit)
+            (begin
+                (d-RefreshLilyPond)
+                (d-IncipitFromSelection)
+                (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
+
+         (let ((port (open-file outputfile "w")))
+            (format port "~A" (string-append 
+                    transpose
+                    incipit "\n\\incipit\n"))
+            (close-port port)
+            (if (not (zero? (system* "lilypond" "-l" "NONE" "-dno-print-pages" outputfile)))
+                 (set! incipit "incipit = \\markup {No Incipit Available}")))       
+        (if (not title)
+            (set! title (_ "No Title")))
+        (if (not composer)
+            (set! composer (_ "No Composer")))
+            
+        (set! title (scheme-escape title))
+        (set! composer (scheme-escape composer))
+
+        (while (d-MoveToStaffUp))
+        (let loop ()
+            (if (d-IsVoice)
+                (begin
+                    (if (d-MoveToStaffDown)
+                        (loop)))
+                (begin
+                    (set! instruments (cons* (instrument-name) instruments))
+                    (if (d-MoveToStaffDown)
+                        (loop)))))
+
+        (set! data (assq-set! data 'thefile filename))
+        (set! data (assq-set! data 'composer composer))
+        (set! data (assq-set! data 'title title))
+        (set! data (assq-set! data 'transpose transpose))
+        (set! data (assq-set! data 'incipit incipit))
+        (set! data (assq-set! data 'instruments instruments))
+        (let ((port (open-file outputfile "w")))
+            (format port "~s" data)
+            (close-port port))
+    (d-Quit "0")))

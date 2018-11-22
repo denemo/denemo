@@ -1,29 +1,50 @@
+;;; CreateIndex
 (use-modules (ice-9 ftw))
-(let ((tag "IndexEntry"))
+(let ((tag "IndexEntry")(data #f))
+   (define (create-lilypond) 
+        (if data
+            (let ((thefile #f)(transpose #f)(title #f)(composer #f)(incipit #f)(instruments #f))
+                (set! thefile (assq-ref data 'thefile))
+                (set! transpose (assq-ref data 'transpose))
+                (set! title (assq-ref data 'title))
+                (set! composer (assq-ref data 'composer))
+                (set! incipit (assq-ref data 'incipit))
+                (set! instruments (apply string-append (assq-ref data 'instruments)))
+                (string-append 
+                        "\\markup {\"" composer ": " title "\"}\n"
+                        "\\markup {\"Instrumentation:" instruments "\"}\n"
+                        transpose
+                        incipit
+                        "\n\\incipit\n"
+                        "\\markup {\"Filename: " thefile "\"}\n"
+                        "\\markup {\\column {\\draw-hline}}"))
+            "\\markup { BLANK ENTRY }"))
       (define (theproc filename statinfo flag) ;(disp "searching file " filename "\nwith flag " flag "\n")
       	   (define status -1)
            (d-KeepAlive)
            (if (and (eq? flag 'regular) (or (string-suffix? ".denemo" filename) (string-suffix? ".denemo.gz" filename)))
-                (let ()
+                (let ((scmfile (string-append filename DenemoIndexEntrySuffix)))
                      (set! status  (system* 
                             (string-append DENEMO_BIN_DIR  "/denemo")
                             "-n" 
                             "-a" 
                             (string-append "(CreateIndexEntry \"" filename "\")")
-                            filename))))
-             
-            (if (zero? status)
-                (begin
-                    (d-DirectivePut-movementcontrol-postfix tag (string-append (d-DirectiveGet-movementcontrol-postfix tag) "\n\\include \"" (string-append filename ".DenemoIndex.ily") "\"\n")))
-                 (if (= 256 status) ; 255 is added by system, Denemo exited with 1
-                    (begin
-                      (d-DirectivePut-movementcontrol-postfix tag (string-append (d-DirectiveGet-movementcontrol-postfix tag) "\n\\markup {\\column {\\draw-hline}}
-                          \n\\markup  \"Note:" filename " cannot be indexed\" \\markup \"try creating a self-contained incipit for it.\"\n \\markup {\\column {\\draw-hline}}
-                          ")))))
-            (d-SetSaved #f)
+                            filename))
+                    (if (zero? status)
+                    
+                            (let ((port (open-file scmfile "r"))) 
+                                (if port
+                                    (begin 
+                                        (set! data (read port))
+                                        (close-port port)
+                                        (d-SetSaved #f)
+                                        (d-DirectivePut-movementcontrol-postfix tag (string-append (d-DirectiveGet-movementcontrol-postfix tag) (create-lilypond)))
+                                        (d-SetSaved #f))
+                                    (disp "\n\n\nFatal error " scmfile "not opened for read\n\n\n"))))))
+                           
             #t); continue traversal
-;;;;actual procedure        
-  (define startdir (d-ChooseDirectory "Where to search" DENEMO_HOME_DIR '() ))
+;;;;actual procedure   
+  (define startdir (d-ChooseDirectory (_ "Where to search") DENEMO_HOME_DIR '() ))    
   (d-New)
   (d-NonPrintingStaff 'set)
   (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View"))
