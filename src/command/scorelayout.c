@@ -2512,6 +2512,8 @@ selected_layout_id (void)
 GtkWidget *
 get_score_layout_notebook (DenemoProject * gui)
 {
+  if (Denemo.non_interactive)
+    return NULL;
   GtkWidget *notebook = gtk_bin_get_child (GTK_BIN (gui->score_layout));
   if (notebook == NULL)
     {
