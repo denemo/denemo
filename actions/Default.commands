@@ -1427,6 +1427,13 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
         <_label>Compare Scores</_label>
         <_tooltip>Opens two scores and reports on any differences between them.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CreateIndex</action>
+        <after>CompareWithNextScore</after>
+        <menupath>/MainMenu/FileMenu/Indexing</menupath>
+        <_label>Index Scores</_label>
+        <_tooltip>Creates an index of all the Denemo scores in a folder and sub-folders. </_tooltip>
+      </row>
       <row type="builtin">
         <action>Close</action>
         <menupath>/MainMenu/FileMenu</menupath>
@@ -8265,11 +8272,11 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_tooltip>Uses your browser to open an email form for you to ask questions/report problems. This is the sure and certain way to get help, the chat facility is more hit and miss"</_tooltip>
       </row>
       <row type="scheme">
-        <action>CreateIndex</action>
-        <after>CompareWithNextScore</after>
+        <action>SortByComposer</action>
+        <after>CreateIndex</after>
         <menupath>/MainMenu/FileMenu/Indexing</menupath>
-        <_label>Index Scores</_label>
-        <_tooltip>Creates an index of all the Denemo scores in a folder and sub-folders. </_tooltip>
+        <_label>Sort by Composer</_label>
+        <_tooltip>Sorts an index already created into alphabetical order by composer. The files are not re-indexed, so may be out-of-date, use Index Scores command if so.</_tooltip>
       </row>
     </map>
   </merge>

@@ -37,7 +37,8 @@
                                     (begin 
                                         (set! data (read port))
                                         (close-port port)
-                                        (d-SetSaved #f)
+                                        (d-SetSaved #f)                                        
+                                        (set! DenemoIndexEntries (cons data DenemoIndexEntries))
                                         (d-DirectivePut-movementcontrol-postfix tag (string-append (d-DirectiveGet-movementcontrol-postfix tag) (create-lilypond)))
                                         (d-SetSaved #f))
                                     (disp "\n\n\nFatal error " scmfile "not opened for read\n\n\n"))))))
@@ -50,4 +51,6 @@
   (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View"))
   (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 
         "}} \\column {\\draw-hline}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}   "))
-  (ftw startdir theproc)) 
+  (set! DenemoIndexEntries '())
+  (ftw startdir theproc)
+  (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))) 

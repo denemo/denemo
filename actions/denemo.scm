@@ -1578,6 +1578,7 @@
 ;;;;;Create an Index entry for the current score as a scheme file holding an alist
 ;;;;;The include file is named after the current filename with .DenemoIndex.scm appended
 (define-once DenemoIndexEntrySuffix ".DenemoIndex.scm")
+(define-once DenemoIndexEntries '())
 (define (CreateIndexEntry filename)
     (let ((data #f)
         (outputfile (string-append filename ".DenemoIndex.scm")) 

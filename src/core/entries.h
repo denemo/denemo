@@ -250,6 +250,7 @@
 {"PrintMovement", GTK_STOCK_PRINT, N_("Print Movement"), "",N_("Typesets the current movement and opens a print dialog"),G_CALLBACK (printmovement_cb)},
 {"Print", GTK_STOCK_PRINT, N_("Print"), "",N_("Typesets the score using LilyPond and opens a print dialog"),G_CALLBACK (printall_cb)},
 {"PrintPart", GTK_STOCK_PRINT, N_("Print Part"), "",N_("Typesets the current part (the one containing the cursor)."),G_CALLBACK (printpart_cb)},
+{"Indexing", NULL, N_("Indexing"), "",N_("Menu:\nCommands to Index directories of Denemo Scores.")},
 {"Close", GTK_STOCK_CLOSE, N_("Close Score"), "",N_("Close the current score. Other scores (tabs) will stay open"),G_CALLBACK (close_gui_with_check)},
 {"Quit", GTK_STOCK_QUIT, N_("Quit"), "",N_("Quit the Denemo program - closes tabs one at a time."),G_CALLBACK (closewrapper)},
 {"Undo", GTK_STOCK_UNDO, N_("Undo"), "",N_("Undoes one (more) step of your edits to the music in the Display Window. Does not work for titles, settings etc - repeat the command for those."),G_CALLBACK (undowrapper)},
