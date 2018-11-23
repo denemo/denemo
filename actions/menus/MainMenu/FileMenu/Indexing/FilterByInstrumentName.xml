@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FilterByInstrumentName</action>
+        <after>SortByComposer</after>
+        <_label>Filter by Instrument</_label>
+        <_tooltip>Filters the currently loaded index of scores by your choice of instrument name.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -8278,6 +8278,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Sort by Composer</_label>
         <_tooltip>Sorts an index already created into alphabetical order by composer. The files are not re-indexed, so may be out-of-date, use Index Scores command if so.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FilterByInstrumentName</action>
+        <after>SortByComposer</after>
+        <menupath>/MainMenu/FileMenu/Indexing</menupath>
+        <_label>Filter by Instrument</_label>
+        <_tooltip>Filters the currently loaded index of scores by your choice of instrument name.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

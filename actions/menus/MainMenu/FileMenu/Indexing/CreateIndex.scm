@@ -49,8 +49,9 @@
   (d-New)
   (d-NonPrintingStaff 'set)
   (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View"))
-  (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 
-        "}} \\column {\\draw-hline}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}   "))
+  (d-DirectivePut-movementcontrol-postfix (string-append tag "Header") (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 
+        "}} \\column {\\draw-hline}}"))
+  (d-DirectivePut-movementcontrol-postfix tag "\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}") ;you cannot store an empty string here - it is read back as #f
   (set! DenemoIndexEntries '())
   (ftw startdir theproc)
   (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))) 
