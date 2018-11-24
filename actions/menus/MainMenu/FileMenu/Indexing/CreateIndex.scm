@@ -47,6 +47,7 @@
 ;;;;actual procedure   
   (define startdir (d-ChooseDirectory (_ "Where to search") DENEMO_HOME_DIR '() ))    
   (d-New)
+  ;(d-AppendSchemeText (string-append "(set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data \"" tag "\"))"))
   (d-NonPrintingStaff 'set)
   (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View"))
   (d-DirectivePut-movementcontrol-postfix (string-append tag "Header") (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 

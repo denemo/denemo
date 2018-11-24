@@ -15,20 +15,20 @@
                         "\\markup {instrumentation:"  instruments "}\n"
                         transpose "\n"
                         incipit "\n\\incipit\n"
-                        "\\markup {Filename: " thefile "}\n"
+                         "\\markup {\"Filename: " thefile "\"}\n"
                         "\\markup {\\column {\\draw-hline}}"))))
             ""))
 
 ;;;;actual procedure        
-  (set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data tag)) 
-  (if DenemoIndexEntries
-    (begin
-       (set! search-instrument (d-GetUserInput (_ "Index Filter") (_ "Give Instrument Name to filter on:") (_ "Violino")))
-        (set! DenemoIndexEntries (eval-string DenemoIndexEntries))
-        (map  create-lilypond DenemoIndexEntries)
-        (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by Instrument "
-                    search-instrument 
-                    "}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}"
-                    str)))
-    (d-WarningDialog (_ "Create index first"))))
+   (let ((data (d-DirectiveGet-movementcontrol-data tag)))
+        (if data
+           (begin
+              (set! DenemoIndexEntries (eval-string data))
+              (set! search-instrument (d-GetUserInput (_ "Index Filter") (_ "Give Instrument Name to filter on:") (_ "Violino")))
+              (map  create-lilypond DenemoIndexEntries)
+              (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by Instrument "
+                      search-instrument 
+                      "}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}"
+                      str)))
+            (d-WarningDialog (_ "Create index first")))))
 

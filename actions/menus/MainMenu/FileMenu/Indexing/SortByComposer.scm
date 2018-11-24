@@ -16,7 +16,7 @@
                         "\\markup {instrumentation:"  (apply string-append instruments) "}\n"
                         transpose "\n"
                         incipit "\n\\incipit\n"
-                        "\\markup {Filename: " thefile "}\n"
+                         "\\markup {\"Filename: " thefile "\"}\n"
                         "\\markup {\\column {\\draw-hline}}")))
 
             "\\markup { BLANK ENTRY }"))
@@ -35,22 +35,14 @@
                 (set! DenemoIndexEntries (cons data DenemoIndexEntries))))
         #t); continue traversal
 ;;;;actual procedure        
-  
 
-  (set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data tag))
-  (if DenemoIndexEntries
-    (begin
-        (set! DenemoIndexEntries (eval-string DenemoIndexEntries)))
-    (let ((startdir #f))
-      (define startdir (d-ChooseDirectory "Where to start indexing from" DENEMO_HOME_DIR '()))
-      (d-New)
-      (d-NonPrintingStaff 'set)
-      (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View"))
-      (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 
-            "}} \\column {\\draw-hline}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}   "))
-      (set! DenemoIndexEntries '())
-      (ftw startdir theproc))) 
-  (sort! DenemoIndexEntries comparison)
-  (map  create-lilypond DenemoIndexEntries)
-  (d-DirectivePut-movementcontrol-postfix tag str)
-  (d-DirectivePut-movementcontrol-data tag (format #t "~s" DenemoIndexEntries)))
+  (let ((data (d-DirectiveGet-movementcontrol-data tag)))
+        (if data
+         (begin
+            (set! DenemoIndexEntries (eval-string data))
+            (sort! DenemoIndexEntries comparison)
+            (map  create-lilypond DenemoIndexEntries)
+            (d-DirectivePut-movementcontrol-postfix tag str)
+            (d-DirectivePut-movementcontrol-data tag (format #t "~s" DenemoIndexEntries)))
+        (d-WarningDialog (_ "Create index first")))))
+    

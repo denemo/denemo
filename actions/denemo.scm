@@ -1590,40 +1590,69 @@
 
         (define (instrument-name)
             (let ((name (d-DirectiveGet-staff-display "InstrumentName")))
-                (if name
-                    name
+                (if (not name)
                     (set! name (d-StaffProperties "query=denemo_name")))
                 (if name
-                    (set! name (scheme-escape name))
-                    (set! name "Unknown"))
-                (set! name (scheme-escape name))))
-                
-            ;;are there simple titles? FIXME can there be both?
-            
-        (let ((data (d-DirectiveGet-scoreheader-data "ScoreTitles")))
+                    (set! name (string-delete #\" name))
+                    (set! name "Unknown"))))
+ 
+        (let ((data (d-DirectiveGet-scoreheader-data "ScoreTitles")));;are there simple titles? FIXME can there be both? 
         ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode 50 octal.
-            (if (and data (eq? (string-ref data 0) #\') (eq? (string-ref current 1) #\50))
+            ;(if (and data (or (string-prefix "'(" data) (string-prefix "(list " data)))
+            (if data
                 (begin
-                    (set! data (eval-string current))
-                    (set! title (assq-ref data 'title)))
-                    (set! composer (assq-ref data 'composer))))
+                    (set! data (eval-string data))
+                    (set! title (assq-ref data 'title))
+                    (set! composer (assq-ref data 'composer)))
+               ; (set! title data))
+               ))
                 
         (if (not title)
             (begin
                 (set! title (d-DirectiveGet-scoreheader-display "BookTitle"))
                 (if (not title)
-                    (begin
+                   (begin
                         (d-GoToPosition 1 1 1 1)
-                        (set! title (d-DirectiveGet-header-display "ScoreTitle"))))))                      
+                        (set! title (d-DirectiveGet-scoreheader-display "Title"))
+                        (if (not title)
+                            (begin
+                                (set! title (d-DirectiveGet-header-display "ScoreTitle"))
+                                    (if (not title)
+                                        (begin
+                                            (set! title (d-DirectiveGet-scoreheader-display "ScoreTitle"))))
+                                            (if (not title)
+                                                (begin
+                                                    (set! title (d-DirectiveGet-header-display "Movement-title"))))))))))   
+ 
         (if (not composer)
             (begin
                 (set! composer (d-DirectiveGet-scoreheader-display "BookComposer"))
                 (if (not composer)
                     (begin
                         (d-GoToPosition 1 1 1 1)
-                        (set! composer (d-DirectiveGet-header-display "ScoreComposer")))))) 
+                        (set! composer (d-DirectiveGet-scoreheader-display "Composer"))
+                        (if (not composer)
+                            (begin
+                                (set! composer (d-DirectiveGet-header-display "Movement-composer"))
+                                (if (not composer)
+                                    (begin
+                                        (set! composer (d-DirectiveGet-header-display "ScoreComposer"))
+                                        (if (not composer)
+                                            (begin
+                                                (set! composer (d-DirectiveGet-scoreheader-display "ScoreComposer")))))))))))) 
             
-                    
+       (if (and title (string-prefix? "Score Title: " title))
+            (set! title (substring title (string-length "Score Title: "))))
+            
+       (if (and title (string-prefix? "title: " title))
+            (set! title (substring title (string-length "title: "))))
+            
+        (if (and composer (string-prefix? "composer: " composer))
+            (set! composer (substring composer (string-length "composer: "))))
+            
+        (if (and composer (string-prefix? "Score Composer: " composer))
+            (set! composer (substring composer (string-length "Score Composer: "))))
+                                
         (if (not transpose)
             (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
 
