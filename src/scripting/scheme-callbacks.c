@@ -1048,6 +1048,20 @@ scheme_destroy_scheme_init (void)
   return SCM_BOOL_F;
 }
 
+
+
+SCM
+scheme_append_scheme_text (SCM script)
+  {
+    if (scm_is_string (script))
+    {
+      gchar *text = scm_to_locale_string (script);
+      appendSchemeText (text);
+      return SCM_BOOL_T;
+    }
+  return SCM_BOOL_F;
+}
+
 SCM
 scheme_load_keybindings (SCM name)
 {
