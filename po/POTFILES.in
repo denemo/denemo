@@ -428,6 +428,8 @@ actions/menus/MainMenu/FileMenu/Indexing/CreateIndex.scm
 actions/menus/MainMenu/FileMenu/Indexing/CreateIndex.xml
 actions/menus/MainMenu/FileMenu/Indexing/FilterByInstrumentName.scm
 actions/menus/MainMenu/FileMenu/Indexing/FilterByInstrumentName.xml
+actions/menus/MainMenu/FileMenu/Indexing/FilterByUserCondition.scm
+actions/menus/MainMenu/FileMenu/Indexing/FilterByUserCondition.xml
 actions/menus/MainMenu/FileMenu/Indexing/SortByComposer.scm
 actions/menus/MainMenu/FileMenu/Indexing/SortByComposer.xml
 actions/menus/MainMenu/FileMenu/OpenMenu/GuidedMidiImport.scm

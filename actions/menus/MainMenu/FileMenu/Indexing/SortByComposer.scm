@@ -13,7 +13,7 @@
                 
                 (set! str (string-append str
                         "\\markup \"" composer ": " title "\"\n"
-                        "\\markup {instrumentation:"  (apply string-append instruments) "}\n"
+                        "\\markup {instrumentation:"  (string-join instruments ", ") "}\n"
                         transpose "\n"
                         incipit "\n\\incipit\n"
                          "\\markup {\"Filename: " thefile "\"}\n"
@@ -31,7 +31,6 @@
             (let ((port (open-file filename "r")))
                 (define data (read port))
                 (close-port port)
-                (d-SetSaved #f)
                 (set! DenemoIndexEntries (cons data DenemoIndexEntries))))
         #t); continue traversal
 ;;;;actual procedure        
@@ -42,6 +41,7 @@
             (set! DenemoIndexEntries (eval-string data))
             (sort! DenemoIndexEntries comparison)
             (map  create-lilypond DenemoIndexEntries)
+            (d-SetSaved #f)
             (d-DirectivePut-movementcontrol-postfix tag str)
             (d-DirectivePut-movementcontrol-data tag (format #t "~s" DenemoIndexEntries)))
         (d-WarningDialog (_ "Create index first")))))

@@ -9,7 +9,7 @@
                 (set! title (assq-ref data 'title))
                 (set! composer (assq-ref data 'composer))
                 (set! incipit (assq-ref data 'incipit))
-                (set! instruments (apply string-append (assq-ref data 'instruments)))
+                (set! instruments (string-join (assq-ref data 'instruments) ", "))
                 (string-append 
                         "\\markup {\"" composer ": " title "\"}\n"
                         "\\markup {\"Instrumentation:" instruments "\"}\n"
