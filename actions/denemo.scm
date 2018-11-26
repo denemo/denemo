@@ -1693,7 +1693,7 @@
         (set! data (assq-set! data 'title title))
         (set! data (assq-set! data 'transpose transpose))
         (set! data (assq-set! data 'incipit incipit))
-        (set! data (assq-set! data 'instruments instruments))
+        (set! data (assq-set! data 'instruments (reverse instruments)))
         (let ((port (open-file outputfile "w")))
             (format port "~s" data)
             (close-port port))
