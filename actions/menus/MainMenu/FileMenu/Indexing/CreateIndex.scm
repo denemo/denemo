@@ -55,4 +55,5 @@
   (d-DirectivePut-movementcontrol-postfix tag "\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}") ;you cannot store an empty string here - it is read back as #f
   (set! DenemoIndexEntries '())
   (ftw startdir theproc)
+  (d-SetSaved #f)
   (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))) 

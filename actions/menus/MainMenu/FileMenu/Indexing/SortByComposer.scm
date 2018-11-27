@@ -25,14 +25,6 @@
         (define comp2 (assq-ref b 'composer))
         (string-ci< comp1 comp2))
 
-    (define (theproc filename statinfo flag) 
-       (d-KeepAlive)
-       (if (and (eq? flag 'regular) (or (string-suffix? ".DenemoIndex.scm" filename)))
-            (let ((port (open-file filename "r")))
-                (define data (read port))
-                (close-port port)
-                (set! DenemoIndexEntries (cons data DenemoIndexEntries))))
-        #t); continue traversal
 ;;;;actual procedure        
 
   (let ((data (d-DirectiveGet-movementcontrol-data tag)))
@@ -43,6 +35,6 @@
             (map  create-lilypond DenemoIndexEntries)
             (d-SetSaved #f)
             (d-DirectivePut-movementcontrol-postfix tag str)
-            (d-DirectivePut-movementcontrol-data tag (format #t "~s" DenemoIndexEntries)))
+            (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries)))
         (d-WarningDialog (_ "Create index first")))))
     
