@@ -40,11 +40,11 @@
                         (set! instruments (string-join instruments ", "))
                         (set! str (string-append str
                             "\\markup \"" composer ": " title "\"\n"
-                            "\\markup {instrumentation:"  instruments "}\n"
+                            "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
                             transpose "\n"
-                            incipit "\n\\incipit\n"
-                             "\\markup {\"Filename: " filename "\"}\n"
-                            "\\markup {\\column {\\draw-hline}}")))
+                            incipit "\n\\noPageBreak\\incipit\n"
+                             "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " filename "\"}\n"
+                            "\\noPageBreak\\markup {\\column {\\draw-hline}}")))
                     (delq! data DenemoIndexEntries)))))
 
 ;;;;actual procedure        
@@ -61,7 +61,7 @@
                     (set! DenemoIndexEntries (cdr DenemoIndexEntries)) 
                     (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by "
                             condition 
-                            "}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}"
+                            "}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}\n\n"
                             str))
                     (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))
                     (d-SetSaved #f))

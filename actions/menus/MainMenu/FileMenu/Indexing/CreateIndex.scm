@@ -12,12 +12,12 @@
                 (set! instruments (string-join (assq-ref data 'instruments) ", "))
                 (string-append 
                         "\\markup {\"" composer ": " title "\"}\n"
-                        "\\markup {\"Instrumentation:" instruments "\"}\n"
+                        "\\noPageBreak\\markup {\"Instrumentation:" instruments "\"}\n"
                         transpose
                         incipit
-                        "\n\\incipit\n"
-                        "\\markup {\"Filename: " thefile "\"}\n"
-                        "\\markup {\\column {\\draw-hline}}"))
+                        "\n\\noPageBreak\\incipit\n"
+                        "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " thefile "\"}\n"
+                        "\\noPageBreak\\markup {\\column {\\draw-hline}}"))
             "\\markup { BLANK ENTRY }"))
       (define (theproc filename statinfo flag) ;(disp "searching file " filename "\nwith flag " flag "\n")
       	   (define status -1)

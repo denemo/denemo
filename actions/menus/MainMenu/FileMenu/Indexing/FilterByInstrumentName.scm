@@ -13,11 +13,11 @@
                    (begin
                       (set! str (string-append str
                         "\\markup \"" composer ": " title "\"\n"
-                        "\\markup {instrumentation:"  instruments "}\n"
+                        "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
                         transpose "\n"
-                        incipit "\n\\incipit\n"
-                         "\\markup {\"Filename: " thefile "\"}\n"
-                        "\\markup {\\column {\\draw-hline}}")))
+                        incipit "\n\\noPageBreak\\incipit\n"
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " thefile "\"}\n"
+                        "\\noPageBreak\\markup {\\column {\\draw-hline}}")))
               (delq! data DenemoIndexEntries)))))
 ;;;;actual procedure        
    (let ((data (d-DirectiveGet-movementcontrol-data tag)))

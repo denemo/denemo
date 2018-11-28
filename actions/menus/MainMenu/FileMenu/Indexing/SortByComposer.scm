@@ -13,11 +13,11 @@
                 
                 (set! str (string-append str
                         "\\markup \"" composer ": " title "\"\n"
-                        "\\markup {instrumentation:"  (string-join instruments ", ") "}\n"
+                        "\\noPageBreak\\markup {instrumentation:"  (string-join instruments ", ") "}\n"
                         transpose "\n"
-                        incipit "\n\\incipit\n"
-                         "\\markup {\"Filename: " thefile "\"}\n"
-                        "\\markup {\\column {\\draw-hline}}")))
+                        incipit "\n\\noPageBreak\\incipit\n"
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " thefile "\"}\n"
+                        "\\noPageBreak\\markup {\\column {\\draw-hline}}")))
 
             "\\markup { BLANK ENTRY }"))
     (define (comparison a b)
@@ -31,7 +31,8 @@
         (if data
          (begin
             (set! DenemoIndexEntries (eval-string data))
-            (sort! DenemoIndexEntries comparison)
+            ;(sort! DenemoIndexEntries comparison)
+            (set! DenemoIndexEntries (sort-list DenemoIndexEntries comparison))
             (map  create-lilypond DenemoIndexEntries)
             (d-SetSaved #f)
             (d-DirectivePut-movementcontrol-postfix tag str)
