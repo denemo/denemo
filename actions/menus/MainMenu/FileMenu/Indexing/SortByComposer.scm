@@ -31,8 +31,8 @@
         (if data
          (begin
             (set! DenemoIndexEntries (eval-string data))
-            ;(sort! DenemoIndexEntries comparison)
-            (set! DenemoIndexEntries (sort-list DenemoIndexEntries comparison))
+            (sort! DenemoIndexEntries comparison)
+            ;(set! DenemoIndexEntries (sort-list DenemoIndexEntries comparison))
             (map  create-lilypond DenemoIndexEntries)
             (d-SetSaved #f)
             (d-DirectivePut-movementcontrol-postfix tag str)
