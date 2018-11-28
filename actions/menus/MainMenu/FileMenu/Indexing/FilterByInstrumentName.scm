@@ -12,12 +12,12 @@
                 (if (string-contains instruments search-instrument)
                    (begin
                       (set! str (string-append str
-                        "\\markup \"" composer ": " title "\"\n"
+                        "\\noPageBreak\\markup \"" composer ": " title "\"\n"
                         "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
                         transpose "\n"
                         incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " thefile "\"}\n"
-                        "\\noPageBreak\\markup {\\column {\\draw-hline}}")))
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
+                        "\\markup {\\column {\\draw-hline}}")))
               (delq! data DenemoIndexEntries)))))
 ;;;;actual procedure        
    (let ((data (d-DirectiveGet-movementcontrol-data tag)))

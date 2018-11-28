@@ -12,12 +12,12 @@
                 (set! instruments (assq-ref data 'instruments))
                 
                 (set! str (string-append str
-                        "\\markup \"" composer ": " title "\"\n"
+                        "\\noPageBreak\\markup \"" composer ": " title "\"\n"
                         "\\noPageBreak\\markup {instrumentation:"  (string-join instruments ", ") "}\n"
                         transpose "\n"
                         incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " thefile "\"}\n"
-                        "\\noPageBreak\\markup {\\column {\\draw-hline}}")))
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
+                        "\\markup {\\column {\\draw-hline}}")))
 
             "\\markup { BLANK ENTRY }"))
     (define (comparison a b)

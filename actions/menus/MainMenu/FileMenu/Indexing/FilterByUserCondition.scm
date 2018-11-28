@@ -39,12 +39,12 @@
                     (begin
                         (set! instruments (string-join instruments ", "))
                         (set! str (string-append str
-                            "\\markup \"" composer ": " title "\"\n"
+                            "\\noPageBreak\\markup \"" composer ": " title "\"\n"
                             "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
                             transpose "\n"
                             incipit "\n\\noPageBreak\\incipit\n"
                              "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " filename "\"}\n"
-                            "\\noPageBreak\\markup {\\column {\\draw-hline}}")))
+                            "\\markup {\\column {\\draw-hline}}")))
                     (delq! data DenemoIndexEntries)))))
 
 ;;;;actual procedure        
