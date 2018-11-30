@@ -1,5 +1,5 @@
 ;;FilterByUserCondition
-(let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (filename #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '()))
+(let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '())(startdir ""))
 
     (define (indexTest condn) 
                 
@@ -17,7 +17,7 @@
                    ;'pre (string-append "\"" (scheme-escape incipit) "\"") 'post)))
             (if (string-contains condn "filename")     
                 (set! condn (regexp-substitute/global #f "filename" condn
-                   'pre (string-append "\"" filename "\"") 'post)))
+                   'pre (string-append "\"" thefile "\"") 'post)))
             ;(if (string-contains condn "transpose")     
                 ;(set! condn (regexp-substitute/global #f (string-match "transpose" condn)
                    ;'pre (string-append "\"" transpose "\"") 'post)))
@@ -29,7 +29,7 @@
     (define (create-lilypond data)
         (if data
             (begin
-                (set! filename (assq-ref data 'thefile))
+                (set! thefile (assq-ref data 'thefile))
                 (set! transpose (assq-ref data 'transpose))
                 (set! title (assq-ref data 'title))
                 (set! composer (assq-ref data 'composer))
@@ -43,7 +43,7 @@
                             "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
                             transpose "\n"
                             incipit "\n\\noPageBreak\\incipit\n"
-                             "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" filename "\\\")\" \"Filename: " filename "\"}\n"
+                             "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
                             "\\markup {\\column {\\draw-hline}}")))
                     (delq! data DenemoIndexEntries)))))
 
@@ -56,6 +56,9 @@
                (_ "Give condition to filter on in Scheme syntax\nvariables are the strings\nfilename composer title instruments") "(and (string-contains title \"Sonata\")(= (length instruments) 2))"))
               (if condition
                   (begin
+                    (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
+                    (if (not startdir)
+                        (set! startdir ""))
                     (d-SetSaved #f)
                     (map  create-lilypond (cdr DenemoIndexEntries))
                     (set! DenemoIndexEntries (cdr DenemoIndexEntries)) 

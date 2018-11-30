@@ -1,5 +1,5 @@
   ;;FilterByInstrumentName
-(let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '()))
+(let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '())(startdir ""))
     (define (create-lilypond data)
         (if data
             (begin
@@ -16,13 +16,16 @@
                         "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
                         transpose "\n"
                         incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
                         "\\markup {\\column {\\draw-hline}}")))
               (delq! data DenemoIndexEntries)))))
 ;;;;actual procedure        
    (let ((data (d-DirectiveGet-movementcontrol-data tag)))
         (if data
            (begin
+              (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
+              (if (not startdir)
+                (set! startdir ""))
               (set! search-instrument (d-GetUserInput (_ "Index Filter") (_ "Give Instrument Name to filter on:") (_ "Violino")))
               (set! DenemoIndexEntries (cons #f (eval-string data))) ;;add an element #f to the start that will match nothing, so delq! does not delete the first element
               (map  create-lilypond (cdr DenemoIndexEntries)) ;start after dummy

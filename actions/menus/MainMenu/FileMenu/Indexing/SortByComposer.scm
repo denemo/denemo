@@ -1,6 +1,6 @@
 ;;;SortByComposer takes the IndexEntry data sorts them by composer and creates and index PDF FIXME take last ascii word of composer not first.
 (use-modules (ice-9 ftw))
-(let ((str "")(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '()))
+(let ((str "")(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '())(startdir ""))
     (define (create-lilypond data)
         (if data
             (begin
@@ -16,7 +16,7 @@
                         "\\noPageBreak\\markup {instrumentation:"  (string-join instruments ", ") "}\n"
                         transpose "\n"
                         incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
                         "\\markup {\\column {\\draw-hline}}")))))
     (define (comparison a b)
         (define comp1 (assq-ref a 'composer))
@@ -44,6 +44,9 @@
   (let ((data (d-DirectiveGet-movementcontrol-data tag)))
         (if data
          (begin
+            (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
+            (if (not startdir)
+                (set! startdir ""))
             (set! DenemoIndexEntries (eval-string data))
             (disp "Before sorting there are " (length DenemoIndexEntries) " index entries\n")
             (set! DenemoIndexEntries (sort! DenemoIndexEntries comparison))

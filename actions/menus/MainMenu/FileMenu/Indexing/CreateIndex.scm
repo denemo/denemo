@@ -39,8 +39,7 @@
                                         (close-port port)
                                         (d-SetSaved #f)                                        
                                         (set! DenemoIndexEntries (cons data DenemoIndexEntries))
-                                        (d-DirectivePut-movementcontrol-postfix tag (string-append (d-DirectiveGet-movementcontrol-postfix tag) (create-lilypond)))
-                                        (d-SetSaved #f))
+                                        (d-DirectivePut-movementcontrol-postfix tag (string-append (d-DirectiveGet-movementcontrol-postfix tag) (create-lilypond))))
                                     (disp "\n\n\nFatal error " scmfile "not opened for read\n\n\n"))))))
                            
             #t); continue traversal
@@ -59,6 +58,6 @@
                   (d-DirectiveGet-movementcontrol-postfix tag) 
                   "\n\\noPageBreak\\markup {\\column {\\draw-hline}}\\noPageBreak\\markup {\\center-column {\\vspace #2 }}\\noPageBreak\\markup\\huge{" 
                   (_ "End of Index. Number of entries ") (number->string (length DenemoIndexEntries)) ".}"))
-
+  (d-DirectivePut-movementcontrol-data (string-append tag "StartDir") startdir)
   (d-SetSaved #f)
   (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))) 
