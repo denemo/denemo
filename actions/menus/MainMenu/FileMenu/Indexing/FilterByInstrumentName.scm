@@ -23,7 +23,6 @@
    (let ((data (d-DirectiveGet-movementcontrol-data tag)))
         (if data
            (begin
-             
               (set! search-instrument (d-GetUserInput (_ "Index Filter") (_ "Give Instrument Name to filter on:") (_ "Violino")))
               (set! DenemoIndexEntries (cons #f (eval-string data))) ;;add an element #f to the start that will match nothing, so delq! does not delete the first element
               (map  create-lilypond (cdr DenemoIndexEntries)) ;start after dummy
@@ -33,6 +32,8 @@
               (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by Instrument "
                       search-instrument 
                       "}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}"
-                      str)))
+                      str
+                      "\n\\noPageBreak\\markup {\\column {\\draw-hline}}\\noPageBreak\\markup {\\center-column {\\vspace #2 }}\\noPageBreak\\markup\\huge{" 
+                      (_ "End of Index. Number of entries ") (number->string (length DenemoIndexEntries)) ".}")))
             (d-WarningDialog (_ "Create index first")))))
 

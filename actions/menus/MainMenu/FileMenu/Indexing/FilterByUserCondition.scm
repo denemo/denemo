@@ -62,7 +62,9 @@
                     (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by "
                             condition 
                             "}}\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}\n\n"
-                            str))
+                            str
+                            "\n\\noPageBreak\\markup {\\column {\\draw-hline}}\\noPageBreak\\markup {\\center-column {\\vspace #2 }}\\noPageBreak\\markup\\huge{"
+                             (_ "End of Index. Number of entries ") (number->string (length DenemoIndexEntries)) ".}"))
                     (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))
                     (d-SetSaved #f))
                     (d-WarningDialog (_ "Cancelled"))))

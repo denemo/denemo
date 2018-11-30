@@ -1593,53 +1593,55 @@
                 (if (not name)
                     (set! name (d-StaffProperties "query=denemo_name")))
                 (if name
-                    (set! name (string-delete #\" name))
-                    (set! name "Unknown"))))
+                   (string-delete #\" name)
+                   "Unknown")))
  
         (let ((data (d-DirectiveGet-scoreheader-data "ScoreTitles")));;are there simple titles? FIXME can there be both? 
-        ;;;old versions have a string, new versions an alist beginning 'right paren ie ' 0x28 in Unicode 50 octal.
-            ;(if (and data (or (string-prefix "'(" data) (string-prefix "(list " data)))
             (if data
                 (begin
                     (set! data (eval-string data))
                     (set! title (assq-ref data 'title))
-                    (set! composer (assq-ref data 'composer)))
-               ; (set! title data))
-               ))
+                    (set! composer (assq-ref data 'composer)))))
                 
         (if (not title)
             (begin
-                (set! title (d-DirectiveGet-scoreheader-display "BookTitle"))
+                (set! title (d-DirectiveGet-scoreheader-data "BookTitle"))
                 (if (not title)
-                   (begin
-                        (d-GoToPosition 1 1 1 1)
-                        (set! title (d-DirectiveGet-scoreheader-display "Title"))
+                    (begin
+                        (set! title (d-DirectiveGet-scoreheader-display "BookTitle"))
                         (if (not title)
-                            (begin
-                                (set! title (d-DirectiveGet-header-display "ScoreTitle"))
-                                    (if (not title)
-                                        (begin
-                                            (set! title (d-DirectiveGet-scoreheader-display "ScoreTitle"))))
+                           (begin
+                                (d-GoToPosition 1 1 1 1)
+                                (set! title (d-DirectiveGet-scoreheader-display "Title"))
+                                (if (not title)
+                                    (begin
+                                        (set! title (d-DirectiveGet-header-display "ScoreTitle"))
                                             (if (not title)
                                                 (begin
-                                                    (set! title (d-DirectiveGet-header-display "Movement-title"))))))))))   
+                                                    (set! title (d-DirectiveGet-scoreheader-display "ScoreTitle"))))
+                                                    (if (not title)
+                                                        (begin
+                                                            (set! title (d-DirectiveGet-header-display "Movement-title"))))))))))))   
  
         (if (not composer)
             (begin
-                (set! composer (d-DirectiveGet-scoreheader-display "BookComposer"))
+                (set! composer (d-DirectiveGet-scoreheader-data "BookComposer"))
                 (if (not composer)
                     (begin
-                        (d-GoToPosition 1 1 1 1)
-                        (set! composer (d-DirectiveGet-scoreheader-display "Composer"))
+                        (set! composer (d-DirectiveGet-scoreheader-display "BookComposer"))
                         (if (not composer)
-                            (begin
-                                (set! composer (d-DirectiveGet-header-display "Movement-composer"))
-                                (if (not composer)
-                                    (begin
-                                        (set! composer (d-DirectiveGet-header-display "ScoreComposer"))
-                                        (if (not composer)
-                                            (begin
-                                                (set! composer (d-DirectiveGet-scoreheader-display "ScoreComposer")))))))))))) 
+                                (begin
+                                    (d-GoToPosition 1 1 1 1)
+                                    (set! composer (d-DirectiveGet-scoreheader-display "Composer"))
+                                    (if (not composer)
+                                        (begin
+                                            (set! composer (d-DirectiveGet-header-display "Movement-composer"))
+                                            (if (not composer)
+                                                (begin
+                                                    (set! composer (d-DirectiveGet-header-display "ScoreComposer"))
+                                                    (if (not composer)
+                                                        (begin
+                                                            (set! composer (d-DirectiveGet-scoreheader-display "ScoreComposer")))))))))))))) 
             
        (if (and title (string-prefix? "Score Title: " title))
             (set! title (substring title (string-length "Score Title: "))))
@@ -1647,12 +1649,14 @@
        (if (and title (string-prefix? "title: " title))
             (set! title (substring title (string-length "title: "))))
             
+            
         (if (and composer (string-prefix? "composer: " composer))
             (set! composer (substring composer (string-length "composer: "))))
             
         (if (and composer (string-prefix? "Score Composer: " composer))
             (set! composer (substring composer (string-length "Score Composer: "))))
-                                
+            
+                            
         (if (not transpose)
             (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
 
@@ -1674,6 +1678,9 @@
         (if (not composer)
             (set! composer (_ "No Composer")))
             
+        (set! title (regexp-substitute/global #f "\"" title 'pre 'post))
+        (set! composer (regexp-substitute/global #f "\"" composer 'pre 'post))
+    
         (set! title (scheme-escape title))
         (set! composer (scheme-escape composer))
 
