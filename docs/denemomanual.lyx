@@ -8392,7 +8392,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8400,7 +8399,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
@@ -9994,6 +9992,67 @@ mask out
 inside
 \emph default
  them whereon you get a menu of choices.
+\end_layout
+
+\begin_layout Section
+Comparing Scores
+\end_layout
+
+\begin_layout Standard
+In the File menu is a command that lets you compare two Denemo scores for
+ differences.
+ You are given a dialog to choose each Denemo score and then these are loaded
+ into two tabs and Denemo then scans for differences.
+ It first flags up any differences in the Score, Movement and Staff/Voice
+ information and then starts going through the scores note-by-note.
+ You can stop the checking at any particular note or other music object
+ where there is a difference and the cursor is left on that note in each
+ score.
+\end_layout
+
+\begin_layout Section
+Creating an Index
+\end_layout
+
+\begin_layout Standard
+In the File menu there is a sub-menu Indexing that allows you to create
+ an index for all the Denemo scores you have in all the sub-directories
+ starting from some chosen directory (
+\begin_inset Quotes eld
+\end_inset
+
+folder
+\begin_inset Quotes erd
+\end_inset
+
+).
+ With the Create Index command you choose the starting directory for the
+ scores you want to index and Denemo then scans all the scores below that
+ creating a new score that typesets as an index to your scores.
+ For each score the composer, title, instrumentation and and the music for
+ the incipit of the piece is typeset.
+ This index can be further refined by the Sort and Filter commands in the
+ same menu.
+ You can create your own selection of scores to be indexed using the Filter
+ by Scheme Condition.
+ For this you write a valid Scheme expression that is true for the files
+ you want; the symbols composer, title, filename and instruments can tested.
+ These are all strings except for instruments which is a list of strings
+ (for example (= 2 (length instruments)) will select all scores that have
+ two staffs).
+\end_layout
+
+\begin_layout Standard
+The Print View shows the index and looking down it you can identify a score
+ by the first few bars shown - then you can click on the filename to open
+ the score.
+\end_layout
+
+\begin_layout Standard
+You can save the index score just as any other Denemo score, just remember
+ to re-run Create Index if you add files to the directory and want those
+ included.
+ 
 \end_layout
 
 \begin_layout Section
