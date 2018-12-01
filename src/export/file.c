@@ -347,10 +347,36 @@ static void enquire_rhythms (void) {
 if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _("Drop Music Snippets"), _("Keep Music Snippets")))
     delete_all_rhythms ();
 }
+
+static gchar *try_to_find (gchar *base, gchar *filename)
+{
+  gchar *c;
+  gchar *name = g_build_filename (base, filename, NULL);
+    if (g_file_test (name, G_FILE_TEST_IS_REGULAR))
+      return name;
+  g_free (name);
+  name = g_strdup (filename);
+  for (c=name;*c; c++)
+    {
+      if (*c && (*c==G_DIR_SEPARATOR) || (*c=='\\') && *(c+1))
+        {
+            gchar *try = g_build_filename (base, c+1, NULL); g_print ("try %s c now %s\n", try, c);
+            if (g_file_test (try, G_FILE_TEST_IS_REGULAR))
+              {
+                g_string_assign (Denemo.prefs.denemopath, g_path_get_dirname (try));
+                g_free (name);
+                return try;
+              }
+            g_free (try);
+        }
+    }
+  g_free (name);
+  return NULL;
+}
 /**
  * The function that actually determines the file type and calls the
- *  function that opens the file.  (So many layers of indirection...)
- *filename must be full path
+ * function that opens the file.
+ * filename must be full path else it is looked for below Denemo.prefs.denemopath or user is asked for location
  * @return 0 for success non zero for failure
  */
 gint
@@ -359,6 +385,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
   if(!Denemo.non_interactive)
     g_signal_handlers_block_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
   gint result;
+  gchar *zipfile = NULL;
   gboolean xml = FALSE;
   result = 1;                   //FAILURE
   if (type == REPLACE_SCORE)
@@ -368,7 +395,35 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     else
         enquire_rhythms ();
   }
-  //if (g_file_test (filename, G_FILE_TEST_EXISTS))
+  
+  if (has_extension (filename, ".denemo"))
+      zipfile = g_strconcat (filename, ".gz", NULL);
+
+  if ((!g_file_test (filename, G_FILE_TEST_IS_REGULAR)) && (!g_file_test (zipfile, G_FILE_TEST_IS_REGULAR)))
+    {
+     gchar *base = Denemo.prefs.denemopath->str;
+     gchar *found = try_to_find (base, filename);
+     if (zipfile && (!found))
+      found = try_to_find (base, zipfile);
+     if(!Denemo.non_interactive)
+       while (!found)
+        { gchar *message = g_strdup_printf ("%s%s%s", _("Unable to find file: "), filename, _("\nChoose a directory (below which to search)\nin the next dialog"));
+          gchar *path; 
+          warningdialog (message);
+          path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
+          if (path)
+            {
+              found = try_to_find (path, filename);
+              if (zipfile && (!found))
+                found = try_to_find (path, zipfile);
+            }
+          else
+            break;
+        }
+    if (found)
+      filename = found;
+    }
+  g_free (zipfile);
   if (filename)
     {
       if (has_extension (filename, ".denemo") || has_extension (filename, ".denemo.gz"))
