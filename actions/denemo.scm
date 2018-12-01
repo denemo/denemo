@@ -1585,6 +1585,7 @@
         (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) 
         (title #f)
         (composer #f)
+        (comment (d-DirectiveGet-score-display "ScoreComment"))
         (incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))
         (instruments '()))
 
@@ -1655,7 +1656,8 @@
             
         (if (and composer (string-prefix? "Score Composer: " composer))
             (set! composer (substring composer (string-length "Score Composer: "))))
-            
+        (if (not comment)
+                (set! comment ""))
                             
         (if (not transpose)
             (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
@@ -1697,6 +1699,7 @@
 
         (set! data (assq-set! data 'thefile filename))
         (set! data (assq-set! data 'composer composer))
+        (set! data (assq-set! data 'comment comment))
         (set! data (assq-set! data 'title title))
         (set! data (assq-set! data 'transpose transpose))
         (set! data (assq-set! data 'incipit incipit))

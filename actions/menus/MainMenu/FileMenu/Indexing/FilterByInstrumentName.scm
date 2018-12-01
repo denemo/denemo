@@ -1,5 +1,5 @@
   ;;FilterByInstrumentName
-(let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '())(startdir ""))
+(let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
     (define (create-lilypond data)
         (if data
             (begin
@@ -7,6 +7,7 @@
                 (set! transpose (assq-ref data 'transpose))
                 (set! title (assq-ref data 'title))
                 (set! composer (assq-ref data 'composer))
+                (set! comment (assq-ref data 'comment))
                 (set! incipit (assq-ref data 'incipit))
                 (set! instruments (string-join (assq-ref data 'instruments) ", "))
                 (if (string-contains instruments search-instrument)
@@ -14,9 +15,10 @@
                       (set! str (string-append str
                         "\\noPageBreak\\markup \"" composer ": " title "\"\n"
                         "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
+                        (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))
                         transpose "\n"
                         incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
                         "\\markup {\\column {\\draw-hline}}")))
               (delq! data DenemoIndexEntries)))))
 ;;;;actual procedure        

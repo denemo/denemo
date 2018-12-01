@@ -3,16 +3,18 @@
 (let ((tag "IndexEntry")(data #f))
    (define (create-lilypond) 
         (if data
-            (let ((thefile #f)(transpose #f)(title #f)(composer #f)(incipit #f)(instruments #f))
+            (let ((thefile #f)(transpose #f)(title #f)(composer #f)(comment #f)(incipit #f)(instruments #f))
                 (set! thefile (assq-ref data 'thefile))
                 (set! transpose (assq-ref data 'transpose))
                 (set! title (assq-ref data 'title))
                 (set! composer (assq-ref data 'composer))
+                (set! comment (assq-ref data 'comment))
                 (set! incipit (assq-ref data 'incipit))
                 (set! instruments (string-join (assq-ref data 'instruments) ", "))
                 (string-append 
                         "\\markup {\"" composer ": " title "\"}\n"
                         "\\noPageBreak\\markup {\"Instrumentation:" instruments "\"}\n"
+                        (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))
                         transpose
                         incipit
                         "\n\\noPageBreak\\incipit\n"

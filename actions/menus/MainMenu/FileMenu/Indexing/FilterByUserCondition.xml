@@ -8,7 +8,7 @@
         <action>FilterByUserCondition</action>
         <after>FilterByInstrumentName</after>
         <_label>Filter by Scheme Condition</_label>
-        <_tooltip>Filters the currently loaded index of scores by a Scheme expression involving the variables filename, title, composer (all strings) and the list of instruments (a list of strings)</_tooltip>
+        <_tooltip>Filters the currently loaded index of scores by a Scheme expression involving the variables filename, title, composer, comment (all strings) and the list of instruments (a list of strings)</_tooltip>
       </row>
     </map>
   </merge>

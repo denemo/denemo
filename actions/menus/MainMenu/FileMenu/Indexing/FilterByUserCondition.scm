@@ -1,5 +1,5 @@
 ;;FilterByUserCondition
-(let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (incipit #f) (instruments '())(startdir ""))
+(let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
 
     (define (indexTest condn) 
                 
@@ -9,6 +9,9 @@
             (if (string-contains condn "composer")     
                 (set! condn (regexp-substitute/global #f "composer" condn
                    'pre (string-append "\"" composer "\"") 'post)))
+            (if (string-contains condn "comment")     
+                (set! condn (regexp-substitute/global #f "comment" condn
+                   'pre (string-append "\"" comment "\"") 'post)))
             (if (string-contains condn "instruments")     
                 (set! condn (regexp-substitute/global #f "instruments" condn
                    'pre (format #f "'~s" instruments) 'post)))
@@ -33,6 +36,7 @@
                 (set! transpose (assq-ref data 'transpose))
                 (set! title (assq-ref data 'title))
                 (set! composer (assq-ref data 'composer))
+                (set! comment (assq-ref data 'comment))
                 (set! incipit (assq-ref data 'incipit))
                 (set! instruments (assq-ref data 'instruments))
                 (if (indexTest condition)
@@ -41,9 +45,10 @@
                         (set! str (string-append str
                             "\\noPageBreak\\markup \"" composer ": " title "\"\n"
                             "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
+                            (if (string-null? comment) "" (string-append  "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))                            
                             transpose "\n"
                             incipit "\n\\noPageBreak\\incipit\n"
-                             "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
+                             "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
                             "\\markup {\\column {\\draw-hline}}")))
                     (delq! data DenemoIndexEntries)))))
 
