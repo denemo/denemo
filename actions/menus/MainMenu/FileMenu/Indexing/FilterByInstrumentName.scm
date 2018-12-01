@@ -18,7 +18,7 @@
                         (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))
                         transpose "\n"
                         incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
+                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-OpenNewWindow \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
                         "\\markup {\\column {\\draw-hline}}")))
               (delq! data DenemoIndexEntries)))))
 ;;;;actual procedure        

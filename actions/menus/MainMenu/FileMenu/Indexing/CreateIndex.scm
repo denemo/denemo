@@ -18,7 +18,7 @@
                         transpose
                         incipit
                         "\n\\noPageBreak\\incipit\n"
-                        "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-Open \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
+                        "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-OpenNewWindow \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
                         "\\noPageBreak\\markup {\\column {\\draw-hline}}"))
             "\\markup { BLANK ENTRY }"))
       (define (theproc filename statinfo flag) ;(disp "searching file " filename "\nwith flag " flag "\n")
