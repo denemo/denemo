@@ -1754,6 +1754,26 @@ scheme_open_source (SCM link)
           x = xstr ? atoi (xstr) : 0;
           y = ystr ? atoi (ystr) : 0;
           page = pstr ? atoi (pstr) : 0;
+          //check on file exists otherwise try Denemo.prefs.denemopath
+          if(!Denemo.non_interactive)
+            if (!g_file_test (filename, G_FILE_TEST_IS_REGULAR))
+              {
+                gchar *base = Denemo.prefs.denemopath->str;
+                gchar *found = try_to_find_file (base, filename);
+
+                while (!found)
+                  { gchar *message = g_strdup_printf ("%s%s%s", _("Unable to find file: "), filename, _("\nChoose a directory (below which to search)\nin the next dialog"));
+                    gchar *path; 
+                    warningdialog (message);
+                    path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
+                    if (path)
+                      found = try_to_find_file (path, filename);
+                    else
+                      break;
+                  }
+                if (found)
+                  filename = found;
+              }
 
           if (open_source (filename, x, y, page))
             ret = SCM_BOOL_T;

@@ -2564,6 +2564,31 @@ choose_directory (gchar * title, gchar * startdir, GList * extensions)
  return choose_file_or_directory (title, startdir, extensions, TRUE);
 }
 
+gchar *try_to_find_file (gchar *base, gchar *filename)
+{
+  gchar *c;
+  gchar *name = g_build_filename (base, filename, NULL);
+    if (g_file_test (name, G_FILE_TEST_IS_REGULAR))
+      return name;
+  g_free (name);
+  name = g_strdup (filename);
+  for (c=name;*c; c++)
+    {
+      if (*c && (*c==G_DIR_SEPARATOR) || (*c=='\\') && *(c+1))
+        {
+            gchar *try = g_build_filename (base, c+1, NULL); g_print ("try %s c now %s\n", try, c);
+            if (g_file_test (try, G_FILE_TEST_IS_REGULAR))
+              {
+                g_string_assign (Denemo.prefs.denemopath, g_path_get_dirname (try));
+                g_free (name);
+                return try;
+              }
+            g_free (try);
+        }
+    }
+  g_free (name);
+  return NULL;
+}
 
 static void
 hide_windows (void)

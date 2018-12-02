@@ -348,31 +348,7 @@ if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _
     delete_all_rhythms ();
 }
 
-static gchar *try_to_find (gchar *base, gchar *filename)
-{
-  gchar *c;
-  gchar *name = g_build_filename (base, filename, NULL);
-    if (g_file_test (name, G_FILE_TEST_IS_REGULAR))
-      return name;
-  g_free (name);
-  name = g_strdup (filename);
-  for (c=name;*c; c++)
-    {
-      if (*c && (*c==G_DIR_SEPARATOR) || (*c=='\\') && *(c+1))
-        {
-            gchar *try = g_build_filename (base, c+1, NULL); g_print ("try %s c now %s\n", try, c);
-            if (g_file_test (try, G_FILE_TEST_IS_REGULAR))
-              {
-                g_string_assign (Denemo.prefs.denemopath, g_path_get_dirname (try));
-                g_free (name);
-                return try;
-              }
-            g_free (try);
-        }
-    }
-  g_free (name);
-  return NULL;
-}
+
 /**
  * The function that actually determines the file type and calls the
  * function that opens the file.
@@ -402,9 +378,9 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     if ((!g_file_test (filename, G_FILE_TEST_IS_REGULAR)) && (!g_file_test (zipfile, G_FILE_TEST_IS_REGULAR)))
       {
        gchar *base = Denemo.prefs.denemopath->str;
-       gchar *found = try_to_find (base, filename);
+       gchar *found = try_to_find_file (base, filename);
        if (zipfile && (!found))
-        found = try_to_find (base, zipfile);
+        found = try_to_find_file (base, zipfile);
       
        while (!found)
         { gchar *message = g_strdup_printf ("%s%s%s", _("Unable to find file: "), filename, _("\nChoose a directory (below which to search)\nin the next dialog"));
@@ -413,9 +389,9 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
           path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
           if (path)
             {
-              found = try_to_find (path, filename);
+              found = try_to_find_file (path, filename);
               if (zipfile && (!found))
-                found = try_to_find (path, zipfile);
+                found = try_to_find_file (path, zipfile);
             }
           else
             break;
