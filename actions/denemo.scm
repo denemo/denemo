@@ -62,7 +62,7 @@
 (define DenemoWholeMeasureRestParams 'WholeMeasureRest::params)  ;these three must match for this to work.
 
 (define DenemoKeypressActivatedCommand #f) ;;;is true while a keyboard shortcut is invoking a script, unless the script has set it to #f
-
+(define-once DenemoPref_applytoselection #t) ;;other denemo prefs may be needed to enable denemo to be run with scripts from the command line, FIXME is -n ignoring setting prefs?
 (define (lyimport::load-file pathname filename)
   (load (string-append DENEMO_ACTIONS_DIR "lyimport.scm"))
   (set! lyimport::pathname pathname) 
