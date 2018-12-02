@@ -203,6 +203,7 @@ gchar *get_lilypond_syntax_from_user (gchar* title, gchar *instruction, gchar *p
     Prior = prior_context;
     Post = post_context;
     gchar *ret = NULL;
+    Denemo.printstatus->background = STATE_OFF;
     GtkWidget *textview = gtk_text_view_new ();
     GtkWidget *dialog = gtk_dialog_new_with_buttons (title,
                                                    GTK_WINDOW (Denemo.window),
