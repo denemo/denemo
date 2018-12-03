@@ -1396,10 +1396,9 @@ get_system_data_dir ()
   
   if (DENEMO_datadir == NULL)
     {
-    gchar *env_data = g_getenv ("DENEMO_DATA_DIR");
+    gchar *env_data = (gchar *)g_getenv ("DENEMO_DATA_DIR");
     if (env_data && *env_data)
       {
-        
         DENEMO_datadir = env_data;
       }      
     else
