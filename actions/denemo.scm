@@ -1577,11 +1577,11 @@
                     (d-WarningDialog (_ "Extra staff(s) in one score."))))))
 ;;;;;Create an Index entry for the current score as a scheme file holding an alist
 ;;;;;The include file is named after the current filename with .DenemoIndex.scm appended
-(define-once DenemoIndexEntrySuffix ".DenemoIndex.scm")
+(define-once DenemoIndexEntryFile "DenemoIndexEntry.scm")
 (define-once DenemoIndexEntries '())
 (define (CreateIndexEntry filename)
     (let ((data #f)
-        (outputfile (string-append filename ".DenemoIndex.scm")) 
+        (outputfile (string-append DenemoUserDataDir file-name-separator-string DenemoIndexEntryFile)) 
         (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) 
         (title #f)
         (composer #f)

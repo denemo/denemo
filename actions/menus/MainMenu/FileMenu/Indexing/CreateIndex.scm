@@ -25,7 +25,7 @@
       	   (define status -1)
            (d-KeepAlive)
            (if (and (eq? flag 'regular) (or (string-suffix? ".denemo" filename) (string-suffix? ".denemo.gz" filename)))
-                (let ((scmfile (string-append filename DenemoIndexEntrySuffix)))
+                (let ((scmfile (string-append DenemoUserDataDir file-name-separator-string DenemoIndexEntryFile)))
                      (set! status  (system* 
                             (string-append DENEMO_BIN_DIR  "/denemo")
                             "-n" 
