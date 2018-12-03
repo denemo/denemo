@@ -601,6 +601,8 @@ inner_main (void *files)
         gchar *old_templates_dir = g_build_filename (Denemo.old_user_data_dir, "templates", NULL);
         copy_files (old_templates_dir, templates_dir);
     }
+    
+  define_scheme_literal_variable ("DenemoUserDataDir", get_user_data_dir (TRUE), "Directory ~/.denemo-x.y.z");
   init_lilypond_buffer ();
   initialize_print_status ();
   //project Initializations
