@@ -143,6 +143,7 @@ void
 install_markup_preview (GtkWidget * top_vbox, gchar *tooltip)
 {
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);
+  Denemo.printstatus->background = STATE_OFF;
   gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
   ev_init ();
   DenemoMarkupArea = (GtkWidget *) ev_view_new ();
