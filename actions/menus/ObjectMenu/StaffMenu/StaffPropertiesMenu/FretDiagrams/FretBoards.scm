@@ -11,6 +11,8 @@
             (d-LilyPondInclude (string-append "predefined-" choice "-fretboards.ly"))
             (ToggleDirective "staff" "postfix" tag 
                 (string-append " \\new FretBoards <<\n\\set Staff.stringTunings = #" choice "-tuning\n")  DENEMO_OVERRIDE_LILYPOND))
-        (ToggleDirective "staff" "postfix" tag " \\new FretBoards <<\n"  DENEMO_OVERRIDE_LILYPOND)))
+        (ToggleDirective "staff" "postfix" tag " \\new FretBoards <<\n"  DENEMO_OVERRIDE_LILYPOND))
+    (if (and (= 1 (d-GetStaffsInMovement)) (not (GetMeasureTicks)))
+        (d-WarningDialog (_ "This score cannot be typeset until you have entered some chords in this staff (which will then be typeset as fret diagrams)"))))
         
 
