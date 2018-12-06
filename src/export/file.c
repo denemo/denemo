@@ -364,6 +364,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
   gchar *zipfile = NULL;
   gboolean xml = FALSE;
   result = 1;                   //FAILURE
+  if (!filename) return result;
   if (type == REPLACE_SCORE)
   {
     if(Denemo.non_interactive)
