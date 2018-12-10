@@ -8,7 +8,7 @@
         <after>ExtendSlur</after>
         <action>ReduceSlur</action>
         <_label>Shorten Slur from End</_label>
-        <_tooltip>Shorten a slur that ends at the cursor.</_tooltip>
+        <_tooltip>Shorten a slur that ends or starts at the cursor.</_tooltip>
       </row>
     </map>
   </merge>
