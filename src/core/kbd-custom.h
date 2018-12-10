@@ -36,8 +36,6 @@ typedef struct _keyboard_dialog_data
 } keyboard_dialog_data;
 
 guint dnm_sanitize_key_event (GdkEventKey * event);
-guint dnm_hyper_sanitize_key_event (GdkEventKey * event);
-guint dnm_meta_sanitize_key_state (GdkEventKey * event);
 gboolean isModifier (GdkEventKey * event);
 
 //adapted from gtk because we want to allow uppercase accelerator through

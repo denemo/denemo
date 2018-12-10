@@ -142,29 +142,15 @@ get_or_create_command(gchar* name){
 
 void
 dnm_clean_event (GdkEventKey * event)
-{
+{ 
   if (!Denemo.prefs.strictshortcuts)
     {
       guint ret = event->keyval;
-#ifdef G_OS_WIN32
-      if (!((ret >= 'a' && ret <= 'g') || ((ret>= '0') && (ret <= '9'))))
-#endif
-    {
-      //g_print("dnm_clean_event hardware keycode = %d,  %s\n", event->hardware_keycode, gdk_keyval_name(event->keyval));
-      gdk_keymap_translate_keyboard_state (gdk_keymap_get_default (), event->hardware_keycode, 
-#ifndef G_OS_WIN32
-      GDK_MOD2_MASK /*NumLock forcing numeric keypad to give numbers */
-#else
-      0
-#endif      
-       ,
-                                           0 /*group 0 */ , &ret, NULL, NULL, NULL); /* this call with A results in Aacute when GDK_MOD2_MASK is present like this on the windows version, not on the Unix one */
       if (ret >= 'A' && ret <= 'G')
         ret += ('a' - 'A');
       event->keyval = ret;
     }
-  }
-  //g_print("Key val is %s\n", gdk_keyval_name(event->keyval));
+  //g_print("Key val has been cleaned to %d -> %s\n", event->keyval, gdk_keyval_name(event->keyval));
 }
 
 
@@ -194,50 +180,6 @@ dnm_sanitize_key_state (GdkEventKey * event)
 #endif
   return ret;
 }
-
-/* Returns the state of the event after removing the modifiers consumed by the
- * system and even more unwanted modifiers. Use this if sanitize is insufficient.
- */
-guint
-dnm_hyper_sanitize_key_state (GdkEventKey * event)
-{
-  guint ret = event->state;
-#if 1
-  GdkModifierType consumed;
-  /* We want to ignore irrelevant modifiers like ScrollLock */
-
-  gdk_keymap_translate_keyboard_state (gdk_keymap_get_default (), event->hardware_keycode, event->state, event->group, NULL, NULL, NULL, &consumed);
-  /* removing consumed modifiers from ret */
-  ret &= ~consumed;
-  /* removing other unwanted modifiers from event->state */
-  ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
-#endif
-  return ret;
-}
-
-/* Returns the state of the event as for hyper_sanitize
- * additionally undoes the effect of CapsLock on keyval when Shift is not pressed.
- * note that event->keycode & keystring are not altered, leaving event inconsistent.
- * this could conceivably become a problem in other developments.
- * Use this if hyper sanitize is insufficient.
- */
-guint
-dnm_meta_sanitize_key_state (GdkEventKey * event)
-{
-  guint ret = event->state;
-#if 1
-  if (ret & GDK_LOCK_MASK)
-    {
-      if (!(ret & GDK_SHIFT_MASK))
-        event->keyval += ('a' - 'A');
-    }
-
-  /* removing everything other than control shift and alt modifiers from event->state */
-  ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK);
-#endif
-  return ret;
-}
-
 
 
 /*
@@ -456,12 +398,29 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
       GString *name;
 
       name = g_string_new (gdk_keyval_name (accelerator_key));
+      //g_print ("Keyval %d name %s\n", accelerator_key, name->str);
       if (name->len > 3 && (*name->str == 'K') && (*(name->str + 1) == 'P') && (*(name->str + 2) == '_'))
         {
-          if((*(name->str + 3) !='7') && (*(name->str + 3) !='8') && (*(name->str + 3) !='9'))
-            g_string_erase (name, 0, 3);    //force numeric keypad KP_ names to normal except for 7 8 9 which are not needed for duration entry
+           if((*(name->str + 3) >='0') && (*(name->str + 3) <='6'))
+            g_string_erase (name, 0, 3);    //force numeric keypad KP_n names to normal except for 7 8 9 which are not needed for duration entry also ignore NumLock for these
+          else if(!strcmp(name->str, "KP_Insert"))
+                  g_string_assign (name, "0");
+          else if(!strcmp(name->str, "KP_Delete"))
+                  g_string_assign (name, "KP_Decimal");
+          else if(!strcmp(name->str, "KP_End"))
+                  g_string_assign (name, "1");
+          else if(!strcmp(name->str, "KP_Down"))
+                  g_string_assign (name, "2");
+          else if(!strcmp(name->str, "KP_Next"))
+                  g_string_assign (name, "3");
+          else if(!strcmp(name->str, "KP_Left"))
+                  g_string_assign (name, "4");
+          else if(!strcmp(name->str, "KP_Begin"))
+                  g_string_assign (name, "5");
+          else if(!strcmp(name->str, "KP_Right"))
+                  g_string_assign (name, "6");
         }
-      //g_debug("label %s\nname %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
+      //g_print("\ndnm_accelerator_name using gtk_accelerator_get label %s\n gdk_keyval_name name %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
       //g_debug("mods were %x\n", accelerator_mods);
 #if 0
       //do not let caps lock affect shift of backspace etc
@@ -499,6 +458,7 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
         g_string_prepend (name, "Mod4+");
       if ((accelerator_mods & GDK_MOD5_MASK))
         g_string_prepend (name, "Mod5+");
+      //g_print ("Transformed with mods 0x%x to name %s\n", accelerator_mods, name->str);
       return g_string_free (name, FALSE);
     }
 
@@ -830,17 +790,6 @@ lookup_command_for_keyevent (GdkEventKey * event)
   keymap *the_keymap = Denemo.map;
   gint command_id = lookup_command_for_keybinding (the_keymap, event->keyval,
                                                     dnm_sanitize_key_state (event));
-#if 0
-  if (!Denemo.prefs.strictshortcuts)
-    {
-      //    lookup_command_for_keybinding (the_keymap, event->keyval,
-      //                             dnm_sanitize_key_state(event));
-      if (command_id == -1)
-        command_id = lookup_command_for_keybinding (the_keymap, event->keyval, dnm_hyper_sanitize_key_state (event));
-      if (command_id == -1)
-        command_id = lookup_command_for_keybinding (the_keymap, event->keyval, dnm_meta_sanitize_key_state (event));
-    }
-#endif
   return command_id;
 }
 

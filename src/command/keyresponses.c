@@ -177,7 +177,9 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
       set_cursor_for (state);   // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
   }
   dnm_clean_event (event);
-
+  static guint last_keyval;
+  gboolean repeated_key =  (event->keyval==last_keyval);
+  last_keyval = event->keyval;
 
   if (isModifier (event))
     return NULL;
@@ -252,6 +254,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
           toggle_to_drawing_area (TRUE);        //restore menus, in case the user is lost and needs to look up a keypress
           if (Denemo.project->view != DENEMO_MENU_VIEW)
                         toggle_to_drawing_area (TRUE);
+
         }
       g_string_assign (prefix_store, "");
       Denemo.continuations = NULL;
@@ -284,12 +287,17 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         {
           if ((Denemo.project->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
             {
-                            Denemo.prefs.learning = TRUE;
+              Denemo.prefs.learning = TRUE;
               KeyStrokeDecline (name);
             }
           toggle_to_drawing_area (TRUE);  //restore menus, in case the user is lost and needs to look up a keypress
           if (Denemo.project->view != DENEMO_MENU_VIEW)
-                        toggle_to_drawing_area (TRUE);
+              toggle_to_drawing_area (TRUE);
+          if (repeated_key)
+             {
+               Denemo.prefs.learning = TRUE;
+               KeyStrokeShow (name, command_idx, TRUE);
+             }
         }
       return NULL;
     }
@@ -305,7 +313,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
-  //g_print ("Scorearea key press event: keyval %d (%s), state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->state, event->hardware_keycode, event->group, event->is_modifier);
+ // g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
       if(!Denemo.keyboard_state_locked)
           {
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
