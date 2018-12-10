@@ -178,7 +178,7 @@
       </row>
       <row>
         <action>Flatten</action>
-        <bind>Shft+minus</bind>
+        <bind>Shft+underscore</bind>
         <bind>KP_Subtract</bind>
       </row>
       <row>
@@ -259,11 +259,11 @@
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
-        <bind>Shft+Add</bind>
+        <bind>Shft+KP_Add</bind>
       </row>
       <row>
         <action>FlattenEnharmonicSet</action>
-        <bind>Shft+Subtract</bind>
+        <bind>Shft+KP_Subtract</bind>
       </row>
       <row>
         <action>Save</action>
@@ -577,7 +577,7 @@
       </row>
       <row>
         <action>CautionaryAccidental</action>
-        <bind>Shft+slash</bind>
+        <bind>Shft+question</bind>
       </row>
       <row>
         <action>AllegroAssai</action>
