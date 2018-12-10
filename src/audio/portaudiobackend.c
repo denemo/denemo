@@ -37,9 +37,9 @@ static gboolean reset_audio = FALSE;
 static gint ready = FALSE;
 
 static double slowdown = 1.0; //2.0 = twice as long ie half speed.
-static gboolean rubberband_active = FALSE;
 
 #ifdef _HAVE_RUBBERBAND_
+static gboolean rubberband_active = FALSE;
 static RubberBandState rubberband;
 static gint rubberband_init(DenemoPrefs *config) {
     rubberband = rubberband_new(sample_rate, 2 /* channels */, RubberBandOptionProcessRealTime | RubberBandOptionStretchPrecise,
