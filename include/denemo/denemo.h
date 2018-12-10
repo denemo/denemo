@@ -72,7 +72,9 @@ extern "C" {
 
 
 #define gtk_widget_reparent(w,p) (g_object_ref(G_OBJECT(w)),gtk_container_remove(GTK_CONTAINER(gtk_widget_get_parent(w)), w),gtk_container_add(GTK_CONTAINER(p), w),g_object_unref(G_OBJECT(w)))
-
+#if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 22))
+#define gdk_keymap_get_default() gdk_keymap_get_for_display(gdk_display_get_default ())
+#endif
 
 #if ((GTK_MAJOR_VERSION == 3) && (GTK_MINOR_VERSION >= 10))
 #define FAKE_TOOLTIPS 1
