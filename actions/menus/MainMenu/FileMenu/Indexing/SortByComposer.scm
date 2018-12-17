@@ -1,6 +1,7 @@
 ;;;SortByComposer takes the IndexEntry data sorts them by composer and creates and index PDF FIXME take last ascii word of composer not first.
 (use-modules (ice-9 ftw))
 (let ((str "")(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
+    (define DenemoIndexEntries '())
     (define (create-lilypond data)
         (if data
             (begin

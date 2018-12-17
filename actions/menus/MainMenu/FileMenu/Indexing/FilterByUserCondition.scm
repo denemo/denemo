@@ -1,5 +1,6 @@
 ;;FilterByUserCondition
 (let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
+    (define DenemoIndexEntries '())
 
     (define (indexTest condn) 
                 

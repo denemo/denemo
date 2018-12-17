@@ -1,5 +1,6 @@
   ;;FilterByInstrumentName
 (let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
+    (define DenemoIndexEntries '())
     (define (create-lilypond data)
         (if data
             (begin
