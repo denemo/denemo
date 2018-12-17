@@ -736,6 +736,10 @@
         <bind>9</bind>
       </row>
       <row>
+        <action>LaterSlurStart</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>StagedDelete</action>
         <bind>Delete,Delete</bind>
       </row>
