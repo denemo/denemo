@@ -5572,7 +5572,7 @@ for second and subsequent systems</_tooltip>
         <action>ReduceSlur</action>
         <after>ExtendSlur</after>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
-        <_label>Shorten Slur from End</_label>
+        <_label>Shorten Slur</_label>
         <_tooltip>Shorten a slur that ends or starts at the cursor.</_tooltip>
       </row>
       <row type="scheme">
