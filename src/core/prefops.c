@@ -142,6 +142,7 @@ initprefs ()
   ret->ignore_ties = FALSE;
   ret->createclones = FALSE;
   ret->enable_thumbnails = TRUE;
+  ret->opensources = TRUE;
   ret->autosave = TRUE;
   ret->autosave_timeout = 5;
   ret->compression = 3;
@@ -354,6 +355,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READINTXMLENTRY (tooltip_browse_mode_timeout)
         READBOOLXMLENTRY (overlays)
         READBOOLXMLENTRY (enable_thumbnails)
+        READBOOLXMLENTRY (opensources)
         READBOOLXMLENTRY (continuous)
         READBOOLXMLENTRY (spillover)
         READBOOLXMLENTRY (ignore_ties)
@@ -428,6 +430,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (menunavigation)
     GETBOOLPREF (overlays)
     GETBOOLPREF (enable_thumbnails)
+    GETBOOLPREF (opensources)
     GETBOOLPREF (continuous)
     GETBOOLPREF (spillover)
     GETBOOLPREF (ignore_ties)
@@ -808,6 +811,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (tooltip_browse_mode_timeout)
     WRITEBOOLXMLENTRY (overlays)
     WRITEBOOLXMLENTRY (enable_thumbnails)
+    WRITEBOOLXMLENTRY (opensources)
     WRITEBOOLXMLENTRY (continuous)
     WRITEBOOLXMLENTRY (toolbar)
     WRITEBOOLXMLENTRY (midi_in_controls)

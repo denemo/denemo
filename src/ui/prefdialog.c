@@ -141,6 +141,7 @@ struct callbackdata
   GtkWidget *resolution;
   GtkWidget *overlays;
   GtkWidget *enable_thumbnails;
+  GtkWidget *opensources;
   GtkWidget *continuous;
 
   GList *audio_backend_list;
@@ -280,6 +281,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (menunavigation)
     ASSIGNBOOLEAN (overlays)
     ASSIGNBOOLEAN (enable_thumbnails)
+    ASSIGNBOOLEAN (opensources)
     ASSIGNBOOLEAN (continuous)
     ASSIGNINT (resolution)
     ASSIGNINT (maxhistory)
@@ -642,6 +644,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
 
   INTENTRY_LIMITS (_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY (_("Enable Thumbnails"), enable_thumbnails);
+  BOOLEANENTRY (_("Auto Open Sources on File Load"), opensources);
   INTENTRY (_("Max recent files"), maxhistory)
   TEXTENTRY (_("User Name"), username)
   //PASSWORDENTRY (_("Password for Denemo.org"), password)

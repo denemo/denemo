@@ -501,6 +501,7 @@ typedef struct DenemoPrefs
   gboolean visible_directive_buttons; /**< This option makes the hbox containing score/movement directives visible */
   gboolean hide_windows; /**< whether to hide windows when a modal dialog is active */
   gboolean enable_thumbnails;
+  gboolean opensources; /**< whether to search and open source files in the first measure of newly opened scores */
   gboolean disable_undo; /**< Do not collect undo information */
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< whether to Auto save data */
