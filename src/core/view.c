@@ -1033,22 +1033,23 @@ openinnew (DenemoAction * action, DenemoScriptParam * param)
 gboolean
 close_gui_with_check (DenemoAction * action, DenemoScriptParam * param)
 {
+  
   DenemoProject *project = Denemo.project;
   Denemo.prefs.mode = Denemo.project->mode;
   if (action_callbacks (Denemo.project))
     return FALSE;               //Denemo.project may have been closed, depends on script callbacks;
-  if (Denemo.accelerator_status)
+  if (Denemo.accelerator_status && !param)
     {
       if (confirm (_("You have made changes to the commands you have"), _("Do you want to save the changes?")))
         save_accels ();
     }
-  //do not ask for confirm if scripted FIXME
-  if ((!project->notsaved) || (project->notsaved && confirmbox (project)))
+  
+  if ( (!param) || (!project->notsaved) || (project->notsaved && confirmbox (project)))
     close_project ();
   else
     return FALSE;
 
-  if (action)                   //called as Close not Quit
+  if (action || param)                   //called as Close not Quit, or scripted
     {
       if (Denemo.projects == NULL)
         newtab ();
