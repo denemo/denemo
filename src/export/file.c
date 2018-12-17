@@ -408,7 +408,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
       if (has_extension (filename, ".denemo") || has_extension (filename, ".denemo.gz"))
         {
             xml = TRUE, result = importXML (filename, gui, type);
-            if (result)
+            if (result  && has_extension (filename, ".denemo"))
               {
                 gchar *zip = g_strconcat (filename, ".gz", NULL);
                 result = importXML (zip, gui, type);
@@ -431,7 +431,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
           return type==PROOFREAD? (!open_proofread_file(filename)) : !open_source (filename, 0, 0, 0);
 #endif
         }
-    g_message("Opening file %s", filename);
+    if (result == 0) g_message("Opening file %s", filename);
     }
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
@@ -500,29 +500,33 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     g_signal_handlers_unblock_by_func (G_OBJECT (Denemo.scorearea), G_CALLBACK (scorearea_draw_event), NULL);
     gui->movement->undo_guard = 1;
   }
-  denemo_scheme_init ();        //to re-instate any user defined directives for whole score
-  if(!Denemo.non_interactive){
-    if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
-      score_status (gui, FALSE);
+  if (result==0)
+    {
+      denemo_scheme_init ();        //to re-instate any user defined directives for whole score
+      if(!Denemo.non_interactive){
+        if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
+          score_status (gui, FALSE);
+    }
 #ifdef DISABLE_AUBIO
 #else
     rewind_audio ();
 #endif
-  if(!Denemo.non_interactive)
+  if((result==0) && !Denemo.non_interactive)
     panic_all ();// g_print ("Reset synth in file open\n");
   gui->movement->undo_guard = Denemo.prefs.disable_undo;      //user pref to (dis)allow undo information to be collected
   }
   //look for a link to a source file at the start of the score, open it if there is one
-  if ((result==0) && (type != ADD_STAFFS) && (type != ADD_MOVEMENTS) && Denemo.project->movement && Denemo.project->movement->thescore)
+  if ((result==0) && (Denemo.prefs.opensources) && (type != ADD_STAFFS) && (type != ADD_MOVEMENTS) && Denemo.project->movement && Denemo.project->movement->thescore)
         {
         DenemoStaff*thestaff = (DenemoStaff*)Denemo.project->movement->thescore->data;
         DenemoMeasure* themeasure = (DenemoMeasure*)thestaff->themeasures->data;
-        if (themeasure->objects)
+        GList *theobjs = themeasure->objects;
+        for (;theobjs;theobjs=theobjs->next)
             {
-                DenemoObject *firstobj = (DenemoObject *)themeasure->objects->data;
-                if (firstobj->type == LILYDIRECTIVE)
+                DenemoObject *theobj = (DenemoObject *)theobjs->data;
+                if (theobj->type == LILYDIRECTIVE)
                     {
-                        DenemoDirective *direc = (DenemoDirective *)firstobj->object;
+                        DenemoDirective *direc = (DenemoDirective *)theobj->object;
                         if (direc->tag && !strcmp (direc->tag->str, "DenemoLink") &&direc->data)
                             {
                                 gchar *script = g_strdup_printf ("(d-OpenSource (scheme-escape \"%s\"))", direc->data->str);
@@ -998,7 +1002,7 @@ file_open_dialog(gchar* message, gchar* format, FileFormatNames save_type, Denem
       gchar *name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (file_selection));
       if((ret=open_for_real (name, Denemo.project, template, type))) {
         gchar *warning = g_strdup_printf(_("Load of file %s failed"), name);
-        warningdialog(warning);
+        infodialog(warning);//FIXME keep track of if this is called from a script or not, and so should be interactive or not
         g_free(warning);
       }
       g_free (name);
