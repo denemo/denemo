@@ -11,7 +11,7 @@
         #t))
   (define (create-index-entry filename)
     (let (
-        (outputfile #f)
+        
         (data #f)
         (tempfile (string-append DenemoUserDataDir file-name-separator-string "DenemoIndexEntry.ly")) 
         (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) 
@@ -102,14 +102,7 @@
                 (d-IncipitFromSelection)
                 (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
 
-         (if outputfile 
-          (let ((port (open-file tempfile "w"))) (disp "Testing the incipit")
-            (format port "~A" (string-append 
-                    transpose
-                    incipit "\n\\incipit\n"))
-            (close-port port)
-            (if (not (zero? (system* "lilypond" "-l" "NONE" "-dno-print-pages" tempfile)))
-                 (set! incipit "incipit = \\markup {No Incipit Available}"))))
+
                  
                  
                         
@@ -142,17 +135,8 @@
         (set! data (assq-set! data 'transpose transpose))
         (set! data (assq-set! data 'incipit incipit))
         (set! data (assq-set! data 'instruments (reverse instruments)))
-        (let ((port (if outputfile (open-file outputfile "w") #f)))
-            (if port 
-                (begin
-                    (format port "~s" data)
-                    (close-port port)
-                    (d-Quit "0"))
-               (begin
-                    (d-SetSaved #t)
-                    (format port "~s" data))))))
-
-
+        (d-SetSaved #t)
+        (format #f "~s" data)))
 
 
   (define (create-lilypond) 
