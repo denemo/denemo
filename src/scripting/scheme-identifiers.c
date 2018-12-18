@@ -163,6 +163,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Prints out the cumulative time spent editing this score.\nThe time counts any period between starting to edit and saving to disk\nThe time is accumulated over different editing sessions.", DENEMO_SCHEME_PREFIX "GetEditingTime", scheme_get_editing_time);
   install_scm_function (0, "Remove the user's customized buttons and other scheme startup stuff created by the user in actions/denemo.scm", DENEMO_SCHEME_PREFIX "DestroySchemeInit", scheme_destroy_scheme_init);
   install_scm_function (1, "Append the passed scheme script to the Scheme Window.", DENEMO_SCHEME_PREFIX "AppendSchemeText", scheme_append_scheme_text);
+  install_scm_function (0, "Returns the script from Scheme Window.", DENEMO_SCHEME_PREFIX "GetSchemeText", scheme_get_scheme_text);
 
 
 

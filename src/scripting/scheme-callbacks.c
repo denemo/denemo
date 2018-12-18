@@ -1061,8 +1061,13 @@ scheme_append_scheme_text (SCM script)
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
-}
-
+  }
+SCM
+scheme_get_scheme_text (void)
+  {
+  return scm_from_locale_string (get_script_view_text());
+  }
+  
 SCM
 scheme_load_keybindings (SCM name)
 {
