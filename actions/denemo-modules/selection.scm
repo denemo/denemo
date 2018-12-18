@@ -342,6 +342,19 @@
       (if (d-NextMovement)
       (loop))))
   (d-PopPosition))
+
+;Execute the passed procedure on each movement of a score return a list of the results  
+(define (ForAllMovementsExecute* proc)
+ (define result '())
+  (d-PushPosition)
+  (d-GoToPosition 1 1 1 1)
+  (let loop ()
+    (begin
+      (set! result (cons (proc) result))
+      (if (d-NextMovement)
+      (loop))))
+  (d-PopPosition)
+  result)
     
 ;Execute the passed procedure on each staff of a movement
 (define (ForAllStaffsExecute proc)
