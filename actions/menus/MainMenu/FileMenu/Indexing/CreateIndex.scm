@@ -2,6 +2,7 @@
 ;;invoke as e.g. (d-CreateIndex "(begin (while (d-StaffDown))(d-HasFigures))")       
 
 (use-modules (ice-9 ftw))
+
 (let ((tag "IndexEntry")(params CreateIndex::params)(data #f))
   (define DenemoIndexEntries '())
   (define (condition)
@@ -96,6 +97,8 @@
         (if (not incipit)
             (begin
                 (d-RefreshLilyPond)
+                (d-GoToPosition 1 1 1 1)
+                (d-UnsetMark) 
                 (d-IncipitFromSelection)
                 (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
 
@@ -195,6 +198,8 @@
   (define startdir (d-ChooseDirectory (_ "Where to search") DENEMO_HOME_DIR '() ))  
   (define enable_thumbnails DenemoPref_enable_thumbnails)
   (define opensources DenemoPref_opensources)
+  
+  (disp "Executing Create Index with parameter " params " a string? " (string? params) "\n\n")
   
   (d-New)
   ;(d-AppendSchemeText (string-append "(set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data \"" tag "\"))"))
