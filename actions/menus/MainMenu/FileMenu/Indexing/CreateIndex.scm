@@ -204,7 +204,10 @@
   (d-New)
   ;(d-AppendSchemeText (string-append "(set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data \"" tag "\"))"))
   (d-NonPrintingStaff 'set)
-  (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View"))
+  (d-DirectivePut-standalone-display "Info" (_ "The Index to scores will appear in the Print View."))
+  (TimedNotice (_ "Note that the display will be very sluggish until indexing completes."))
+  (d-SetLinesInStaff 1)
+   
   (d-DirectivePut-movementcontrol-postfix (string-append tag "Header") (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 
         "}} \\column {\\draw-hline}}"))
   (d-DirectivePut-movementcontrol-postfix tag "\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}") ;you cannot store an empty string here - it is read back as #f
