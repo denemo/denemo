@@ -804,7 +804,7 @@ close_project (void)
    */
   gint index = g_list_index (Denemo.projects, oldproject);
   gtk_notebook_remove_page (GTK_NOTEBOOK (Denemo.notebook), index);
-  g_message ("Closing project %d", index);
+  //g_message ("Closing project %d", index);
   Denemo.projects = g_list_remove (Denemo.projects, oldproject);        //FIXME ?? or in the destroy callback??
   g_free (oldproject);
   if (Denemo.projects)
@@ -815,7 +815,7 @@ close_project (void)
         index = 0;
 
       Denemo.project = g_list_nth_data (Denemo.projects, index);
-      g_message ("Selecting score (tab) %d\n", index);
+      //g_message ("Selecting score (tab) %d\n", index);
       gtk_notebook_set_current_page (GTK_NOTEBOOK (Denemo.notebook), index);
     }
   else
@@ -831,7 +831,7 @@ free_movements (DenemoProject * project)
   gint success;
   if (!is_playing ())
     success = delete_imported_midi ();
-  g_print ("Success %d\n", success);
+  //g_message ("Success %d\n", success);
   GList *g;
   free_scoreblocks (project);
   for (g = project->movements; g; g = g->next)
@@ -3085,7 +3085,7 @@ visible_rhythm_buttons (GList * rhythms, gboolean on)
 static void
 switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 {
-  g_print("switching pagenum %d\n",pagenum);
+  //g_message("switching pagenum %d\n",pagenum);
   DenemoProject *project = Denemo.project;
   if (project == NULL)
     return;
