@@ -612,7 +612,7 @@ audio_play (void)
 void
 midi_stop (void)
 {
-  g_message ("Stopping playback");
+  //g_message ("Stopping playback");
 
   get_backend (AUDIO_BACKEND)->stop_playing ();
   get_backend (MIDI_BACKEND)->stop_playing ();
