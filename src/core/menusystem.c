@@ -1391,9 +1391,12 @@ void set_toggle (gchar *name, gboolean value)
             if (!strcmp (name,    toggle_menu_entries[i].name))
                 {
                   if(gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item)) != value)
-                    {gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item), value); g_print ("Set %s to %s\n", name, value? "active":"inactive");}
+                    {
+                      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item), value); 
+                      g_message ("Set %s to %s\n", name, value? "active":"inactive");
+                      }
                   else
-                    g_print (":eft %s to %s\n", name, value? "active":"inactive");
+                    g_message ("Set %s to %s\n", name, value? "active":"inactive");
                     return;
                 }
         }
