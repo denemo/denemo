@@ -272,22 +272,24 @@ set_project_filename (DenemoProject * gui, gchar * filename)
 
   if ((link = g_queue_find_custom (Denemo.prefs.history, gui->filename->str, &history_compare)))
      g_queue_remove (Denemo.prefs.history, link->data);
-
-  //g_debug ("max history now %d\n", Denemo.prefs.maxhistory);
-  if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
+  if (Denemo.prefs.maxhistory>0)
     {
-      gpointer data = g_queue_pop_head (Denemo.prefs.history);
-      //g_print ("Losing one file name from history %s\n\n", data);
-      if (data)
-        g_free (data);
-    }
-  if(!Denemo.non_interactive){
-    if (!link)                     /* a new one, needs to go into the menu */
-      addhistorymenuitem (filename);
+        //g_debug ("max history now %d\n", Denemo.prefs.maxhistory);
+      if (g_queue_get_length (Denemo.prefs.history) > Denemo.prefs.maxhistory)
+        {
+          gpointer data = g_queue_pop_head (Denemo.prefs.history);
+          //g_print ("Losing one file name from history %s\n\n", data);
+          if (data)
+            g_free (data);
+        }
+      if(!Denemo.non_interactive){
+        if (!link)                     /* a new one, needs to go into the menu */
+          addhistorymenuitem (filename);
+      }
+      g_queue_push_tail (Denemo.prefs.history, g_strdup (gui->filename->str));
+      //g_print ("Added %s to history, now %d in history\n\n", gui->filename->str, g_queue_get_length (Denemo.prefs.history));
+      writeHistory ();
   }
-  g_queue_push_tail (Denemo.prefs.history, g_strdup (gui->filename->str));
-  //g_print ("Added %s to history, now %d in history\n\n", gui->filename->str, g_queue_get_length (Denemo.prefs.history));
-  writeHistory ();
 }
 
 static gchar *
@@ -407,7 +409,9 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
     {
       if (has_extension (filename, ".denemo") || has_extension (filename, ".denemo.gz"))
         {
-            xml = TRUE, result = importXML (filename, gui, type);
+            xml = TRUE;
+            if (g_file_test (filename, G_FILE_TEST_IS_REGULAR))
+              result = importXML (filename, gui, type);
             if (result  && has_extension (filename, ".denemo"))
               {
                 gchar *zip = g_strconcat (filename, ".gz", NULL);
@@ -431,7 +435,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
           return type==PROOFREAD? (!open_proofread_file(filename)) : !open_source (filename, 0, 0, 0);
 #endif
         }
-    if (result == 0) g_message("Opening file %s", filename);
+    //if (result == 0) g_message("Opening file %s", filename);
     }
   //printf("\nResult == %d type == %d template == %d xml == %d\n",result,type,template,(int)xml);
   if (result == 0)
@@ -468,8 +472,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
       if (!xml)
         updatescoreinfo (gui);
       else
-        {
-          if ((gui->script) && (*gui->script) && !(type == ADD_STAFFS || type == ADD_MOVEMENTS))
+        { 
+          if ((!Denemo.prefs.ignorescripts) && (gui->script) && (*gui->script) && !(type == ADD_STAFFS || type == ADD_MOVEMENTS))
             {
               gui->has_script = TRUE;
               cache_all ();
@@ -502,7 +506,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
   }
   if (result==0)
     {
-      denemo_scheme_init ();        //to re-instate any user defined directives for whole score
+      if((!Denemo.prefs.ignorescripts))
+            denemo_scheme_init ();        //to re-instate any user defined directives for whole score
       if(!Denemo.non_interactive){
         if (!(type == ADD_STAFFS || type == ADD_MOVEMENTS))
           score_status (gui, FALSE);
