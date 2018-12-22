@@ -502,6 +502,7 @@ typedef struct DenemoPrefs
   gboolean hide_windows; /**< whether to hide windows when a modal dialog is active */
   gboolean enable_thumbnails;
   gboolean opensources; /**< whether to search and open source files in the first measure of newly opened scores */
+  gboolean ignorescripts; /**< whether to execute Scheme embedded in files and initializations on file load*/
   gboolean disable_undo; /**< Do not collect undo information */
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< whether to Auto save data */

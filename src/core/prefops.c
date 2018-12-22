@@ -303,7 +303,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
               g_free (curname);
               prefs->maxhistory = atoi ((gchar *) tmp);
               if (prefs->maxhistory < 1)
-                prefs->maxhistory = 1;
+                prefs->maxhistory = 0;
               xmlFree (tmp);
             }
         }
@@ -356,6 +356,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READBOOLXMLENTRY (overlays)
         READBOOLXMLENTRY (enable_thumbnails)
         READBOOLXMLENTRY (opensources)
+        READBOOLXMLENTRY (ignorescripts)
         READBOOLXMLENTRY (continuous)
         READBOOLXMLENTRY (spillover)
         READBOOLXMLENTRY (ignore_ties)
@@ -431,6 +432,7 @@ get_bool_pref (gchar * prefname)
     GETBOOLPREF (overlays)
     GETBOOLPREF (enable_thumbnails)
     GETBOOLPREF (opensources)
+    GETBOOLPREF (ignorescripts)
     GETBOOLPREF (continuous)
     GETBOOLPREF (spillover)
     GETBOOLPREF (ignore_ties)
@@ -812,6 +814,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (overlays)
     WRITEBOOLXMLENTRY (enable_thumbnails)
     WRITEBOOLXMLENTRY (opensources)
+    WRITEBOOLXMLENTRY (ignorescripts)
     WRITEBOOLXMLENTRY (continuous)
     WRITEBOOLXMLENTRY (toolbar)
     WRITEBOOLXMLENTRY (midi_in_controls)

@@ -142,6 +142,7 @@ struct callbackdata
   GtkWidget *overlays;
   GtkWidget *enable_thumbnails;
   GtkWidget *opensources;
+  GtkWidget *ignorescripts;
   GtkWidget *continuous;
 
   GList *audio_backend_list;
@@ -282,6 +283,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (overlays)
     ASSIGNBOOLEAN (enable_thumbnails)
     ASSIGNBOOLEAN (opensources)
+    ASSIGNBOOLEAN (ignorescripts)
     ASSIGNBOOLEAN (continuous)
     ASSIGNINT (resolution)
     ASSIGNINT (maxhistory)
@@ -383,7 +385,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   // GtkWidget *tooltip_timeout;
   //   GtkWidget *tooltip_browse_timeout;
   //    GtkWidget *tooltip_browse_mode_timeout;
-  GtkWidget *maxhistory;
+ // GtkWidget *maxhistory;
   GtkWidget *notebook;
   GtkWidget *hbox;
 #ifdef _HAVE_JACK_
@@ -645,7 +647,8 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   INTENTRY_LIMITS (_("Excerpt Resolution"), resolution, 72, 600);
   BOOLEANENTRY (_("Enable Thumbnails"), enable_thumbnails);
   BOOLEANENTRY (_("Auto Open Sources on File Load"), opensources);
-  INTENTRY (_("Max recent files"), maxhistory)
+  BOOLEANENTRY (_("Ignore Scheme Scripts on File Load"), ignorescripts);
+  INTENTRY_LIMITS (_("Max recent files"), maxhistory, 0, 100);
   TEXTENTRY (_("User Name"), username)
   //PASSWORDENTRY (_("Password for Denemo.org"), password)
   BOOLEANENTRY (_("Autosave Parts"), saveparts);
@@ -860,7 +863,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   cbdata.prefs = &Denemo.prefs;
   SETCALLBACKDATA (autosave);
   SETCALLBACKDATA (autosave_timeout);
-  SETCALLBACKDATA (maxhistory);
+//  SETCALLBACKDATA (maxhistory);
 
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
     {
