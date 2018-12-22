@@ -1575,3 +1575,151 @@
                                                 (loop (+ 1 staff)))))))))
                 (if (not (= numstaffs1 numstaffs2))
                     (d-WarningDialog (_ "Extra staff(s) in one score."))))))
+                    
+;;;;;Create an Index entry for the current score as a scheme file holding an alist
+;;;;;The include file is named after the current filename with .DenemoIndex.scm appended
+(define-once DenemoIndexEntryFile "DenemoIndexEntry.scm")
+(define-once DenemoIndexEntries '())
+(define* (CreateIndexEntry filename #:optional (script #f))
+  (d-SetPrefs "<enable_thumbnails>0</enable_thumbnails>")
+  (d-SetPrefs "<opensources>0</opensources>")
+  (d-SetPrefs "<ignorescripts>1</ignorescripts>")
+  (d-SetPrefs "<autosave>0</autosave>")
+  (d-SetPrefs "<maxhistory>0</maxhistory>")                      
+  (if (d-Open filename)
+    (if (and script (not (script)))
+        (d-Quit "1")
+        (let ((data #f)
+            (outputfile (string-append DenemoUserDataDir file-name-separator-string DenemoIndexEntryFile)) 
+            (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) 
+            (title #f)
+            (composer #f)
+            (comment (d-DirectiveGet-score-display "ScoreComment"))
+            (incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))
+            (instruments '()))
+
+            (define (instrument-name)
+                (let ((name (d-DirectiveGet-staff-display "InstrumentName")))
+                    (if (not name)
+                        (set! name (d-StaffProperties "query=denemo_name")))
+                    (if name
+                       (string-delete #\" name)
+                       "Unknown")))
+                       
+               
+                       
+                       
+     
+            (let ((data (d-DirectiveGet-scoreheader-data "ScoreTitles")));;are there simple titles? FIXME can there be both? 
+                (if data
+                    (begin
+                        (set! data (eval-string data))
+                        (set! title (assq-ref data 'title))
+                        (set! composer (assq-ref data 'composer)))))
+                    
+            (if (not title)
+                (begin
+                    (set! title (d-DirectiveGet-scoreheader-data "BookTitle"))
+                    (if (not title)
+                        (begin
+                            (set! title (d-DirectiveGet-scoreheader-display "BookTitle"))
+                            (if (not title)
+                               (begin
+                                    (d-GoToPosition 1 1 1 1)
+                                    (set! title (d-DirectiveGet-scoreheader-display "Title"))
+                                    (if (not title)
+                                        (begin
+                                            (set! title (d-DirectiveGet-header-display "ScoreTitle"))
+                                                (if (not title)
+                                                    (begin
+                                                        (set! title (d-DirectiveGet-scoreheader-display "ScoreTitle"))))
+                                                        (if (not title)
+                                                            (begin
+                                                                (set! title (d-DirectiveGet-header-display "Movement-title"))))))))))))   
+     
+            (if (not composer)
+                (begin
+                    (set! composer (d-DirectiveGet-scoreheader-data "BookComposer"))
+                    (if (not composer)
+                        (begin
+                            (set! composer (d-DirectiveGet-scoreheader-display "BookComposer"))
+                            (if (not composer)
+                                    (begin
+                                        (d-GoToPosition 1 1 1 1)
+                                        (set! composer (d-DirectiveGet-scoreheader-display "Composer"))
+                                        (if (not composer)
+                                            (begin
+                                                (set! composer (d-DirectiveGet-header-display "Movement-composer"))
+                                                (if (not composer)
+                                                    (begin
+                                                        (set! composer (d-DirectiveGet-header-display "ScoreComposer"))
+                                                        (if (not composer)
+                                                            (begin
+                                                                (set! composer (d-DirectiveGet-scoreheader-display "ScoreComposer")))))))))))))) 
+                
+           (if (and title (string-prefix? "Score Title: " title))
+                (set! title (substring title (string-length "Score Title: "))))
+                
+           (if (and title (string-prefix? "title: " title))
+                (set! title (substring title (string-length "title: "))))
+                
+                
+            (if (and composer (string-prefix? "composer: " composer))
+                (set! composer (substring composer (string-length "composer: "))))
+                
+            (if (and composer (string-prefix? "Score Composer: " composer))
+                (set! composer (substring composer (string-length "Score Composer: "))))
+            (if (not comment)
+                    (set! comment ""))
+                                
+            (if (not transpose)
+                (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
+
+            (if (not incipit)
+                (begin
+                    (d-RefreshLilyPond)
+                    (d-IncipitFromSelection)
+                    (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
+
+             (let ((port (open-file outputfile "w")))
+                (format port "~A" (string-append 
+                        transpose
+                        incipit "\n\\incipit\n"))
+                (close-port port)
+                (if (not (zero? (system* "lilypond" "-l" "NONE" "-dno-print-pages" outputfile)))
+                     (set! incipit "incipit = \\markup {No Incipit Available}")))       
+            (if (not title)
+                (set! title (_ "No Title")))
+            (if (not composer)
+                (set! composer (_ "No Composer")))
+                
+            (set! title (regexp-substitute/global #f "\"" title 'pre 'post))
+            (set! composer (regexp-substitute/global #f "\"" composer 'pre 'post))
+        
+            (set! title (scheme-escape title))
+            (set! composer (scheme-escape composer))
+
+            (while (d-MoveToStaffUp))
+            (let loop ()
+                (if (d-IsVoice)
+                    (begin
+                        (if (d-MoveToStaffDown)
+                            (loop)))
+                    (begin
+                        (set! instruments (cons* (instrument-name) instruments))
+                        (if (d-MoveToStaffDown)
+                            (loop)))))
+
+            (set! data (assq-set! data 'thefile filename))
+            (set! data (assq-set! data 'composer composer))
+            (set! data (assq-set! data 'comment comment))
+            (set! data (assq-set! data 'title title))
+            (set! data (assq-set! data 'transpose transpose))
+            (set! data (assq-set! data 'incipit incipit))
+            (set! data (assq-set! data 'instruments (reverse instruments)))
+            (let ((port (open-file outputfile "w")))
+                (format port "~s" data)
+                (close-port port))
+        (d-Quit "0")))
+        (d-Quit "2")))
+    
