@@ -660,7 +660,7 @@ inner_main (void *files)
     
     if (Denemo.scheme_commands) //do any command line scheme after loading files and before running any scheme script file specified on the command line
     {
-      g_print ("Executing '%s'\n", Denemo.scheme_commands);
+      //g_print ("Executing '%s'\n", Denemo.scheme_commands);
       call_out_to_guile (Denemo.scheme_commands);
     }
 
