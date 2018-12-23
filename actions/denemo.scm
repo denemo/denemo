@@ -1580,6 +1580,8 @@
 ;;;;;The include file is named after the current filename with .DenemoIndex.scm appended
 (define-once DenemoIndexEntryFile "DenemoIndexEntry.scm")
 (define-once DenemoIndexEntries '())
+(define (DenemoIndexCommentDisplay comment)
+        (d-DirectivePut-score-display "ScoreComment" comment))
 (define* (CreateIndexEntry filename #:optional (script #f))
   (d-SetPrefs "<enable_thumbnails>0</enable_thumbnails>")
   (d-SetPrefs "<opensources>0</opensources>")

@@ -38,7 +38,8 @@
                             (string-append "(CreateIndexEntry \"" filename "\" \"" params "\")")
                             "NON-EXISTANT-FILE"))
             #t); continue traversal
-;;;;actual procedure   
+;;;;actual procedure
+
   (define startdir (d-ChooseDirectory (_ "Where to search") DENEMO_HOME_DIR '() ))  
   (define enable_thumbnails DenemoPref_enable_thumbnails)
   (define opensources DenemoPref_opensources)
@@ -47,7 +48,8 @@
   (define maxhistory DenemoPref_maxhistory)
   
   (disp "Executing Create Index with parameter " params "\n\n")
-  
+  (if params
+      (set! params (scheme-escape params)))  
   (d-New)
   
   ;(d-AppendSchemeText (string-append "(set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data \"" tag "\"))"))
@@ -75,6 +77,7 @@
   (d-SetPrefs "<maxhistory>0</maxhistory>")
   (ftw startdir theproc)
   (TimedNotice (string-append (_ "Indexing Complete in ") (number->string (- (current-time) Start-time)) " seconds."))
+  (disp (string-append (_ "Indexing Complete in ") (number->string (- (current-time) Start-time)) " seconds."))
   (d-SetPrefs (string-append "<enable_thumbnails>" (if enable_thumbnails "1" "0") "</enable_thumbnails>"))
   (d-SetPrefs (string-append "<opensources>" (if opensources "1" "0") "</opensources>"))
   (d-SetPrefs (string-append "<ignorescripts>" (if ignorescripts "1" "0") "</ignorescripts>"))

@@ -1,6 +1,5 @@
 ;CreateConditionalIndex
-(define (DenemoIndexCommentDisplay comment)
-        (d-DirectivePut-score-display "ScoreComment" comment))
+
         
 (let ((condition (d-GetSchemeText)))  
     (if (string-null? condition)

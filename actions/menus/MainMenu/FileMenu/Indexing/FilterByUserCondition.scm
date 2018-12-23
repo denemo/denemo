@@ -58,9 +58,11 @@
         (if data
            (begin
               (set! DenemoIndexEntries (cons #f (eval-string data))) 
-              (set! condition (d-GetUserInput (_ "Index Filter")
-               (_ "Give condition to filter on in Scheme syntax\nvariables are the strings\nfilename composer title instruments") "(and (string-contains title \"Sonata\")(= (length instruments) 2))"))
-              (if condition
+              (set! condition (d-GetSchemeText))
+              (if (string-null? condition)
+                 (begin
+                    (d-WarningDialog (_ "No Scheme condition in the Scheme Script window - see View menu"))
+                    (d-InfoDialog (_ "Open the Scheme window from the View menu and write a condition to filter on (in Scheme syntax)\nThe variables available are:\nfilename composer title \nwhich are strings and\ninstruments\nwhich is a list of strings.")))
                   (begin
                     (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
                     (if (not startdir)
@@ -75,7 +77,6 @@
                             "\n\\noPageBreak\\markup {\\column {\\draw-hline}}\\noPageBreak\\markup {\\center-column {\\vspace #2 }}\\noPageBreak\\markup\\huge{"
                              (_ "End of Index. Number of entries ") (number->string (length DenemoIndexEntries)) ".}"))
                     (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))
-                    (d-SetSaved #f))
-                    (d-WarningDialog (_ "Cancelled"))))
+                    (d-SetSaved #f))))
             (d-WarningDialog (_ "Create index first")))))
 
