@@ -1587,10 +1587,11 @@
   (d-SetPrefs "<autosave>0</autosave>")
   (d-SetPrefs "<maxhistory>0</maxhistory>")                      
   (if (d-Open filename)
-    (if (and script (not (script)))
+    (if (and script (not (eval-string script)))
         (d-Quit "1")
         (let ((data #f)
             (outputfile (string-append DenemoUserDataDir file-name-separator-string DenemoIndexEntryFile)) 
+            (lilyfile (string-append DenemoUserDataDir file-name-separator-string "DenemoIndexEntry.ly")) 
             (transpose  (d-DirectiveGet-score-prefix "GlobalTranspose")) 
             (title #f)
             (composer #f)
@@ -1604,12 +1605,8 @@
                         (set! name (d-StaffProperties "query=denemo_name")))
                     (if name
                        (string-delete #\" name)
-                       "Unknown")))
-                       
-               
-                       
-                       
-     
+                        "Unknown")))
+            (d-GoToPosition 1 1 1 1)
             (let ((data (d-DirectiveGet-scoreheader-data "ScoreTitles")));;are there simple titles? FIXME can there be both? 
                 (if data
                     (begin
@@ -1625,7 +1622,7 @@
                             (set! title (d-DirectiveGet-scoreheader-display "BookTitle"))
                             (if (not title)
                                (begin
-                                    (d-GoToPosition 1 1 1 1)
+                                    
                                     (set! title (d-DirectiveGet-scoreheader-display "Title"))
                                     (if (not title)
                                         (begin
@@ -1678,15 +1675,16 @@
             (if (not incipit)
                 (begin
                     (d-RefreshLilyPond)
+                    (d-UnsetMark)
                     (d-IncipitFromSelection)
                     (set! incipit (d-DirectiveGet-scoreheader-postfix "ScoreIncipit"))))
 
-             (let ((port (open-file outputfile "w")))
+             (let ((port (open-file lilyfile "w")))
                 (format port "~A" (string-append 
                         transpose
                         incipit "\n\\incipit\n"))
                 (close-port port)
-                (if (not (zero? (system* "lilypond" "-l" "NONE" "-dno-print-pages" outputfile)))
+                (if (not (zero? (system* "lilypond" "-l" "NONE" "-dno-print-pages" lilyfile)))
                      (set! incipit "incipit = \\markup {No Incipit Available}")))       
             (if (not title)
                 (set! title (_ "No Title")))
@@ -1717,8 +1715,8 @@
             (set! data (assq-set! data 'transpose transpose))
             (set! data (assq-set! data 'incipit incipit))
             (set! data (assq-set! data 'instruments (reverse instruments)))
-            (let ((port (open-file outputfile "w")))
-                (format port "~s" data)
+            (let ((port (open-file outputfile "a")))
+                (write data port)
                 (close-port port))
         (d-Quit "0")))
         (d-Quit "2")))
