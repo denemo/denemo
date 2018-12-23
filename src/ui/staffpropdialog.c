@@ -285,7 +285,7 @@ set_properties (struct callbackdata *cbdata)
     {
       unsigned char buffer[3];/* third byte is unused but is put into the queue so must be accessible */
       /* set selected midi program on the synthesizer so that users can play MIDI controller with current staff instrument without having to do playback first*/
-      g_info ("Using channel %d port %d prognum %d\n",  staffstruct->midi_channel, staffstruct->midi_port, staffstruct->midi_prognum);
+      //g_info ("Using channel %d port %d prognum %d\n",  staffstruct->midi_channel, staffstruct->midi_port, staffstruct->midi_prognum);
       buffer[0] = 0xC0 /*MIDI_PROG_CHANGE*/ | staffstruct->midi_channel;
       buffer[1] = staffstruct->midi_prognum;
       play_midi_event (DEFAULT_BACKEND, staffstruct->midi_port, buffer);
