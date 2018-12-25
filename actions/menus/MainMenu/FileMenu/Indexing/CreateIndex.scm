@@ -48,8 +48,8 @@
   (define maxhistory DenemoPref_maxhistory)
   
   (disp "Executing Create Index with parameter " params "\n\n")
-  (if params
-      (set! params (scheme-escape params)))  
+  
+  (set! params (if params (scheme-escape params) "#t"))  
   (d-New)
   
   ;(d-AppendSchemeText (string-append "(set! DenemoIndexEntries (d-DirectiveGet-movementcontrol-data \"" tag "\"))"))
