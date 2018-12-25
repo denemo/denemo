@@ -1044,7 +1044,7 @@ close_gui_with_check (DenemoAction * action, DenemoScriptParam * param)
         save_accels ();
     }
   
-  if ( (!param) || (!project->notsaved) || (project->notsaved && confirmbox (project)))
+  if ( param || (!project->notsaved) || (project->notsaved && confirmbox (project)))
     close_project ();
   else
     return FALSE;
