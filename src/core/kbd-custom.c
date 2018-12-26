@@ -146,7 +146,7 @@ dnm_clean_event (GdkEventKey * event)
   if (!Denemo.prefs.strictshortcuts)
     {
       guint ret = event->keyval;
-      if (ret >= 'A' && ret <= 'G')
+      if (ret >= 'A' && ret <= 'Z')
         ret += ('a' - 'A');
       event->keyval = ret;
     }
