@@ -148,9 +148,17 @@ dnm_clean_event (GdkEventKey * event)
       guint ret = event->keyval;
       if (ret >= 'A' && ret <= 'Z')
         ret += ('a' - 'A');
+      else
+        if (event->hardware_keycode>9 && event->hardware_keycode<20)
+          {
+            ret = 39 + event->hardware_keycode;
+            if (ret==58)
+              ret = 48;
+          }
       event->keyval = ret;
+      
     }
-  //g_print("Key val has been cleaned to %d -> %s\n", event->keyval, gdk_keyval_name(event->keyval));
+  //g_print("Hardware key %d Key val has been cleaned to %d -> %s\n", event->hardware_keycode, event->keyval, gdk_keyval_name(event->keyval));
 }
 
 
