@@ -10113,12 +10113,12 @@ begin{verbatim}
 
 \begin_layout Plain Layout
 
-					(define time (d-GetMidiOffTime)) 
+						(define time (d-GetMidiOffTime)) 
 \end_layout
 
 \begin_layout Plain Layout
 
-					(if time time 0)) 
+						(if time time 0)) 
 \end_layout
 
 \begin_layout Plain Layout
@@ -10128,7 +10128,12 @@ begin{verbatim}
 
 \begin_layout Plain Layout
 
-					(d-MoveToEnd) (off)))))
+					(d-MoveToEnd) 
+\end_layout
+
+\begin_layout Plain Layout
+
+					(off)))))
 \end_layout
 
 \begin_layout Plain Layout
