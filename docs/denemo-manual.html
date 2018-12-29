@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2018-12-05"/>
+<meta name="create-date" content="2018-12-29"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -797,7 +797,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  
+<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic  
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music – the input display window shows you what you are working on in music notation – and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry – thanks to the Lilypond music typesetting program.
@@ -3164,7 +3164,22 @@ In the File menu is a command that lets you compare two Denemo scores for differ
 <a class="toc" name="toc-Section-23">23</a> Creating an Index
 </h1>
 <div class="Unindented">
-In the File menu there is a sub-menu Indexing that allows you to create an index for all the Denemo scores you have in all the sub-directories starting from some chosen directory (&ldquo;folder&rdquo;). With the Create Index command you choose the starting directory for the scores you want to index and Denemo then scans all the scores below that creating a new score that typesets as an index to your scores. For each score the composer, title, instrumentation and and the music for the incipit of the piece is typeset. This index can be further refined by the Sort and Filter commands in the same menu. You can create your own selection of scores to be indexed using the Filter by Scheme Condition. For this you write a valid Scheme expression that is true for the files you want; the symbols composer, title, comment, filename and instruments can tested. These are all strings except for instruments which is a list of strings [for example the Scheme condition (= 2 (length instruments)) will select all scores that have two staffs].
+In the File menu there is a sub-menu Indexing that allows you to create an index for all the Denemo scores you have in all the sub-directories starting from some chosen directory (&ldquo;folder&rdquo;). 
+</div>
+<div class="Indented">
+With the Create Index command you choose the starting directory for the scores you want to index and Denemo then scans all the scores below that creating a new score that typesets as an index to your scores. For each score the composer, title, instrumentation and the music for the incipit of the piece is typeset, together with the Score Comment if there is one. This index can be further refined by the Sort and Filter commands in the same menu. 
+</div>
+<div class="Indented">
+You can create your own selection of scores indexed using the Filter by Scheme Condition<a class="Reference" href="#sec:Writing-Scheme-Scripts">28↓</a>. For this you write a valid Scheme expression that is true for the files you want. You write this Scheme expression in the Scheme Script window (show this via the View menu). The expression can involve the symbols called composer, title, comment, filename and instruments. These are all strings except for &ldquo;instruments&rdquo; which is a list of strings [for example the Scheme condition (= 2 (length instruments)) will select all scores that have two staffs]. This filtering of an already created index is very quick as the files do not have to be found again, however the selection is limited to just those properties of the score.
+</div>
+<div class="Indented">
+With Create Conditional Index you can create more complex conditions to determine which scores should be included in the index, and in addition you can create a comment for the index entry based on the score’s content. A convenience function DenemoIndexCommentDisplay is provided to set the comment you wish to include in the index entry for a given score. Here is an example which computes the durations of all the movements in the score and prints that as the comment:
+</div>
+<div class="Indented">
+ (define total (ForAllMovementsExecute* (lambda () (let ((tot ’())) (define (off) (define time (d-GetMidiOffTime)) (if time time 0)) (d-RecreateTimebase) (d-MoveToEnd) (off))))) (set! total (round (apply + total))) (DenemoIndexCommentDisplay (string-append " Duration is: " (number-&gt;string (inexact-&gt;exact (floor-quotient total 60))) " m. " (number-&gt;string (inexact-&gt;exact (floor-remainder total 60))) " s.")) #t 
+</div>
+<div class="Indented">
+This example ends with the symbol #t to make it clear that all the scores are to be included in the index. If the last expression was something like (= (d-GetStaffsInMovement) 2) then it would only include scores with two staffs in the index.
 </div>
 <div class="Indented">
 The Print View shows the index and looking down it you can identify a score by the first few bars shown - then you can click on the filename to open the score.
@@ -3404,7 +3419,7 @@ There is another way of adding your own favorite LilyPond tweaks, which is by mo
 Once you have created the script, it can be saved in the menu system by right clicking on an item in the menu where you want to place the command, and choosing "Save Script as New Menu Item" as above. An alternative to creating a command in the menu system is to create a palette button (see the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>).
 </div>
 <h1 class="Section">
-<a class="toc" name="toc-Section-28">28</a> Writing Scheme<a class="IndexReference" name="entry-Scheme-1" href="#index-Scheme">↓</a> Scripts 
+<a class="toc" name="toc-Section-28">28</a> <a class="Label" name="sec:Writing-Scheme-Scripts"> </a>Writing Scheme<a class="IndexReference" name="entry-Scheme-1" href="#index-Scheme">↓</a> Scripts 
 </h1>
 <div class="Unindented">
 <img class="embedded" src="images/SchemeWindow.png" alt="figure images/SchemeWindow.png" style="max-width: 464px; max-height: 376px;"/>
@@ -5751,7 +5766,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2018-12-05T11:20:30.618784</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2018-12-29T16:23:16.928932</span>
 </div>
 </div>
 </body>

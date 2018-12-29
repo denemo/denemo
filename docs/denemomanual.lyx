@@ -8392,6 +8392,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8399,6 +8400,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
@@ -10026,21 +10028,152 @@ folder
 \end_inset
 
 ).
- With the Create Index command you choose the starting directory for the
+ 
+\end_layout
+
+\begin_layout Standard
+With the Create Index command you choose the starting directory for the
  scores you want to index and Denemo then scans all the scores below that
  creating a new score that typesets as an index to your scores.
- For each score the composer, title, instrumentation and and the music for
- the incipit of the piece is typeset.
+ For each score the composer, title, instrumentation and the music for the
+ incipit of the piece is typeset, together with the Score Comment if there
+ is one.
  This index can be further refined by the Sort and Filter commands in the
  same menu.
- You can create your own selection of scores to be indexed using the Filter
- by Scheme Condition.
+ 
+\end_layout
+
+\begin_layout Standard
+You can create your own selection of scores indexed using the Filter by
+ Scheme Condition
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Writing-Scheme-Scripts"
+
+\end_inset
+
+.
  For this you write a valid Scheme expression that is true for the files
- you want; the symbols composer, title, comment, filename and instruments
- can tested.
- These are all strings except for instruments which is a list of strings
- [for example the Scheme condition (= 2 (length instruments)) will select
- all scores that have two staffs].
+ you want.
+ You write this Scheme expression in the Scheme Script window (show this
+ via the View menu).
+ The expression can involve the symbols called composer, title, comment,
+ filename and instruments.
+ These are all strings except for 
+\begin_inset Quotes eld
+\end_inset
+
+instruments
+\begin_inset Quotes erd
+\end_inset
+
+ which is a list of strings [for example the Scheme condition (= 2 (length
+ instruments)) will select all scores that have two staffs].
+ This filtering of an already created index is very quick as the files do
+ not have to be found again, however the selection is limited to just those
+ properties of the score.
+\end_layout
+
+\begin_layout Standard
+With Create Conditional Index you can create more complex conditions to
+ determine which scores should be included in the index, and in addition
+ you can create a comment for the index entry based on the score's content.
+ A convenience function DenemoIndexCommentDisplay is provided to set the
+ comment you wish to include in the index entry for a given score.
+ Here is an example which computes the durations of all the movements in
+ the score and prints that as the comment:
+\end_layout
+
+\begin_layout Standard
+\noindent
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{verbatim}
+\end_layout
+
+\begin_layout Plain Layout
+
+(define total (ForAllMovementsExecute* (lambda ()
+\end_layout
+
+\begin_layout Plain Layout
+
+				(let ((tot '())) 
+\end_layout
+
+\begin_layout Plain Layout
+
+					(define (off) 
+\end_layout
+
+\begin_layout Plain Layout
+
+					(define time (d-GetMidiOffTime)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+					(if time time 0)) 
+\end_layout
+
+\begin_layout Plain Layout
+
+					(d-RecreateTimebase) 
+\end_layout
+
+\begin_layout Plain Layout
+
+					(d-MoveToEnd) (off)))))
+\end_layout
+
+\begin_layout Plain Layout
+
+(set! total (round (apply + total))) 
+\end_layout
+
+\begin_layout Plain Layout
+
+(DenemoIndexCommentDisplay (string-append " Duration is: " 
+\end_layout
+
+\begin_layout Plain Layout
+
+		(number->string (inexact->exact (floor-quotient total 60))) " m.
+ " 
+\end_layout
+
+\begin_layout Plain Layout
+
+		(number->string (inexact->exact (floor-remainder total 60))) " s.")) 
+\end_layout
+
+\begin_layout Plain Layout
+
+#t
+\end_layout
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{verbatim}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This example ends with the symbol #t to make it clear that all the scores
+ are to be included in the index.
+ If the last expression was something like (= (d-GetStaffsInMovement) 2)
+ then it would only include scores with two staffs in the index.
 \end_layout
 
 \begin_layout Standard
@@ -11030,6 +11163,12 @@ reference "sec:Object-Editor"
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Writing-Scheme-Scripts"
+
+\end_inset
+
 Writing Scheme
 \begin_inset Index idx
 status open
