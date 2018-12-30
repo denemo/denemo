@@ -11,11 +11,14 @@
                                 (begin
                                     (d-SetMark)
                                     (d-Copy)))
+                            (d-DirectiveDelete-scoreheader "ScoreIncipit")
+                            (d-DeleteFromCursorToEnd 'all)
                             (let loop () 
-                                (d-DeleteFromCursorToEnd 'all)
-                                (if (and (d-NextMovement) (d-GoToPosition #f 1 1 1))
-                                    (loop)))
-                            (d-GoToPosition 1 1 1 1)
+                                (if (d-NextMovement)
+                                    (begin 
+                                    	(d-DeleteMovement)
+                                    	(d-GoToPosition 1 1 1 1) 
+                                    	 (loop))))
                             (d-Paste)))))
             (set! warning (string-append (_ "Cancelled: ") (_ "Score is not saved")))))
     (if warning
