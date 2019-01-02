@@ -28,7 +28,8 @@
 # clef -> nøgle
 # cue -> stiknode ?
 # deprecate -> foræld/forældet (måske afskriv/afskrevet/misbillig)
-# directiv -> kommando  (husk at ændre mange er stadig direktiv)
+# directiv -> kommando  (husk at ændre mange er stadig direktiv) men hvad gør vi så ved f.eks. 
+#             Directive for command: <span weight=\"bold\">\"%s\"</span>\n der er en del af disse.
 # duplet -> duol
 # duration -> længde (tid i ordlisten)
 # fermata -> fermat
@@ -93,7 +94,7 @@ msgstr ""
 "Project-Id-Version: denemo 2.2-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2017-07-10 11:13+0100\n"
-"PO-Revision-Date: 2018-06-17 11:03+0200\n"
+"PO-Revision-Date: 2018-08-12 11:03+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -463,11 +464,11 @@ msgstr ""
 #: ../src/command/lilydirectives.c:1782
 #, c-format
 msgid "This button was created for the Denemo Directive whose tag is %s. Usually you click on it to alter the setting made or perform the action it is labelled with"
-msgstr "Denne knap blev oprettet for Denemodirektiv, hvis mærke er %s. Normalt klikker du på den for at ændre indstillingen eller udføre handlingen, som den har som etiket"
+msgstr "Denne knap blev oprettet for Denemokommando, hvis mærke er %s. Normalt klikker du på den for at ændre indstillingen eller udføre handlingen, som den har som etiket"
 
 #: ../src/command/lilydirectives.c:2255 ../src/command/lilydirectives.c:2397
 msgid "Select Directive"
-msgstr "Vælg direktiv"
+msgstr "Vælg kommando"
 
 #. DeleteCurrentVerse
 #. DeleteCurrentStaff
@@ -488,30 +489,30 @@ msgstr "Afbryd"
 
 #: ../src/command/lilydirectives.c:2321
 msgid "Select a directive attached to the tuplet start object"
-msgstr "Vælg et direktiv vedhæftet til den irregulære nodeværdis startobjekt"
+msgstr "Vælg en kommando vedhæftet til den irregulære nodeværdis startobjekt"
 
 #: ../src/command/lilydirectives.c:2322
 msgid "Select a directive attached to the tuplet end object"
-msgstr "Vælg et direktiv vedhæftet til den irregulære nodeværdi og objektet"
+msgstr "Vælg en kommando vedhæftet til den irregulære nodeværdi og objektet"
 
 #: ../src/command/lilydirectives.c:2329
 msgid "Select a directive attached to the stem control object"
-msgstr "Vælg et direktiv vedhæftet til nodehalsens kontrolobjekt"
+msgstr "Vælg en kommando vedhæftet til nodehalsens kontrolobjekt"
 
 #: ../src/command/lilydirectives.c:2350 ../src/command/lilydirectives.c:2384
 #, c-format
 msgid "Select a directive attached to the note \"%s\""
-msgstr "Vælg et direktiv vedhæftet til denne node »%s«"
+msgstr "Vælg en kommando vedhæftet til denne node »%s«"
 
 #. not exactly on a note, offer any chord directives
 #: ../src/command/lilydirectives.c:2367
 msgid "Select a directive attached to the chord"
-msgstr "Vælg et direktiv vedhæftet til akkorden"
+msgstr "Vælg en kommando vedhæftet til akkorden"
 
 #: ../src/command/lilydirectives.c:2395
 #, c-format
 msgid "Select the directive %s on note \"%s\"?"
-msgstr "Vælg direktivet %s på node »%s«?"
+msgstr "Vælg kommandoen %s på node »%s«?"
 
 #: ../src/command/lilydirectives.c:2465 ../src/command/object.c:1525
 msgid "No object here to edit"
@@ -550,12 +551,12 @@ msgstr "Skriv redigeringsskriptfil til ~/.denemo/editscripts"
 #. for reset
 #: ../src/command/lilydirectives.c:2715
 msgid "Low Level Denemo Directive Edit"
-msgstr "Redigering af Denemodirektiv på lavt niveau"
+msgstr "Redigering af Denemokommando på lavt niveau"
 
 #. gtk_window_set_title (GTK_WINDOW (dialog), _("Denemo Object Editor"));
 #: ../src/command/lilydirectives.c:2723
 msgid "Delete Directive"
-msgstr "Slet direktiv"
+msgstr "Slet kommando"
 
 #: ../src/command/lilydirectives.c:2724
 msgid "Create Script"
@@ -623,7 +624,7 @@ msgstr "Gælder for alle layout"
 
 #: ../src/command/lilydirectives.c:2816
 msgid "This directive is honored by all layouts. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part."
-msgstr "Dette direktiv overholdes af alle layout. Brug partitur/sats/nodesystem/stemme/objekt-redigeringsprogrammet for at gøre det betinget af det nuværende layout, standardlayouttet eller standardlayouttet for den nuværende del."
+msgstr "Denne kommando overholdes af alle layout. Brug partitur/sats/nodesystem/stemme/objekt-redigeringsprogrammet for at gøre det betinget af det nuværende layout, standardlayouttet eller standardlayouttet for den nuværende del."
 
 #: ../src/command/lilydirectives.c:2824
 msgid "Applies only to certain layouts, excluding the current one."
@@ -635,7 +636,7 @@ msgstr "Anvendes kun på bestemet layout, inklusive det nuværende."
 
 #: ../src/command/lilydirectives.c:2832
 msgid "This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."
-msgstr "Dette direktiv overholdes kun i bestemte layout, Brug partitur/sats/nodesystem/stemme/objekt-redigeringsprogrammet for at ændre denne opførsel."
+msgstr "Denne kommando overholdes kun i bestemte layout, Brug partitur/sats/nodesystem/stemme/objekt-redigeringsprogrammet for at ændre denne opførsel."
 
 #: ../src/command/lilydirectives.c:2837
 msgid "Excludes the current layout."
@@ -647,7 +648,7 @@ msgstr "Ekskluderer bestemte layout, men gælder for det nuværende."
 
 #: ../src/command/lilydirectives.c:2846
 msgid "This directive is disregarded by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."
-msgstr "Dette direktiv ignoreres af bestemte layout. Brug partitur/sats/nodesystem/stemme/objekt-redigeringsprogrammet for at ændre denne opførsel."
+msgstr "Denne kommando ignoreres af bestemte layout. Brug partitur/sats/nodesystem/stemme/objekt-redigeringsprogrammet for at ændre denne opførsel."
 
 #: ../src/command/lilydirectives.c:2853
 msgid "Get Edit Script"
@@ -668,11 +669,11 @@ msgstr "Vis nuværende skript"
 
 #: ../src/command/lilydirectives.c:2990 ../src/command/lilydirectives.c:3067
 msgid "Directive Delete"
-msgstr "Direktivsletning"
+msgstr "Kommandosletning"
 
 #: ../src/command/lilydirectives.c:2990 ../src/command/lilydirectives.c:3067
 msgid "Are you sure you want to delete the directive?"
-msgstr "Er du sikker på, at du ønsker at slette direktivet?"
+msgstr "Er du sikker på, at du ønsker at slette kommandoer?"
 
 #. Vibrato
 #. here  ) to match the string paren open
@@ -732,15 +733,15 @@ msgstr "Afbrudt"
 
 #: ../src/command/lilydirectives.c:3023
 msgid "Use the ObjectMenu to modify this object - there are no directives here"
-msgstr "Brug objektmenuen til at ændre dette objekt - der er ingen direktiver her"
+msgstr "Brug objektmenuen til at ændre dette objekt - der er ingen kommandoer her"
 
 #: ../src/command/lilydirectives.c:3057
 msgid "No directives here"
-msgstr "Ingen direktiver her"
+msgstr "Ingen kommandoer her"
 
 #: ../src/command/lilydirectives.c:3062
 msgid "No directive selected"
-msgstr "Intet direktiv valgt"
+msgstr "Ingen kommando valgt"
 
 #. (TweakRelativeOffset tag (car amount) (cdr amount))
 #: ../src/command/lilydirectives.c:3070 ../src/core/menusystem.c:307
@@ -883,12 +884,12 @@ msgstr "Intet værktøjsfif"
 #: ../src/command/object.c:130
 #, c-format
 msgid "Directive for command: <span weight=\"bold\">\"%s\"</span>\n"
-msgstr "Direktiv for kommando: <span weight=\"bold\">»%s«</span>\n"
+msgstr "Kommando: <span weight=\"bold\">»%s«</span>\n"
 
 #: ../src/command/object.c:132
 #, c-format
 msgid "Directive tagged: <span foreground=\"red\"weight=\"bold\">\"%s\"</span>\n"
-msgstr "Direktiv mærket: <span foreground=\"red\"weight=\"bold\">»%s«</span>\n"
+msgstr "Kommando: <span foreground=\"red\"weight=\"bold\">»%s«</span>\n"
 
 #: ../src/command/object.c:137 ../src/command/object.c:579
 #, c-format
@@ -13358,12 +13359,12 @@ msgstr "Opret tidsbase"
 
 #: ../actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml.h:2
 msgid "Recalculates the timing of each note."
-msgstr ""
+msgstr "Genberegner timingen for hver tone."
 
 #. ToggleConduct
 #: ../actions/menus/MainMenu/PlaybackMenu/ToggleConduct.xml.h:1
 msgid "Mouse Conductor (Off/On)"
-msgstr ""
+msgstr "Musdirigent (deaktiveret/aktiveret)"
 
 #: ../actions/menus/MainMenu/PlaybackMenu/ToggleConduct.xml.h:2
 msgid "Turns on/off moving the playback on by moving the mouse over the score area."
@@ -13371,7 +13372,7 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/PlaybackMenu/ToggleImmediatePlayback.xml.h:1
 msgid "Toggle Immediate Playback"
-msgstr ""
+msgstr "Skift øjeblikkelig afspilning"
 
 #: ../actions/menus/MainMenu/PlaybackMenu/ToggleImmediatePlayback.xml.h:2
 msgid "Toggle on/off if you want to hear the note directly after inserting/changing."
@@ -13380,11 +13381,11 @@ msgstr ""
 #. TogglePlayAlongPlayback
 #: ../actions/menus/MainMenu/PlaybackMenu/TogglePlayAlongPlayback.xml.h:1
 msgid "Play Along Playback (Off/On)"
-msgstr ""
+msgstr "Spil med-afspilning (deaktiveret/aktiveret)"
 
 #: ../actions/menus/MainMenu/PlaybackMenu/TogglePlayAlongPlayback.xml.h:2
 msgid "Turns off play along playback: when this is on the playback does not advance past the cursor unless you play along the correct note via Midi In."
-msgstr ""
+msgstr "Deaktiverer spil med-afspilning: når denne er aktiveret går afspilningen ikke forbi markøren med mindre, at du spiller den korrekte tone via Midi-ind."
 
 #: ../actions/menus/MainMenu/ViewMenu/DisplayCurrentObject.xml.h:2
 msgid "Pops up a window which displays the object at the cursor, including anything attached to it."
@@ -21631,7 +21632,7 @@ msgstr "Ingen node eller akkord ved markøren at vedhæfte fodnote til"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.xml.h:2
 msgid "Prints a footnote at the bottom of the current page. The mark is placed above the note at the cursor."
-msgstr ""
+msgstr "Udskriver en fodnote i bunden af den nuværende side. Mærket er placeret oven noden ved markøren."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:4
 msgid "Minimum Length"
@@ -21640,57 +21641,57 @@ msgstr "Minimumslængde"
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:1
 msgid "Glissando"
-msgstr ""
+msgstr "Glissando"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:10
 msgid "Give minimum length for glissando line: "
-msgstr ""
+msgstr "Giv minimumængde for glissandolinje: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:2
 msgid "Inserts a glissando (portamento, slide), a line joining the notehead of this and the next note."
-msgstr ""
+msgstr "Indsætter en glissando (portamento, slide), en linje der sammenføjer nodehovedet for denne og den næste node."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.xml.h:1
 msgid "Parenthesize Note"
-msgstr ""
+msgstr "Parentesnode"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.xml.h:2
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.xml.h:2
 msgid "Enclose the note at the cursor in ( ) when printed."
-msgstr ""
+msgstr "Omslut noden ved markøren i { } under udskrivning."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:16
 msgid "Sorry, not yet implemented"
-msgstr ""
+msgstr "Beklager, endnu ikke implementeret"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:29
 msgid "Text Span Start deleted. The end text span later should also be deleted ..."
-msgstr ""
+msgstr "Start på tekstspænd slettet. Slut på tesktspænd senere skal også slettes ..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
 msgid "Text Spanner"
-msgstr ""
+msgstr "Tekstspænd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
 msgid "Give text "
-msgstr ""
+msgstr "Angiv tekst "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:1
 msgid "Text Span Start"
-msgstr ""
+msgstr "Start på tekstspænd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:2
 msgid "Starts text which spans several notes, e.g. rallentando poco a poco. Terminate with Stop Text Span command."
-msgstr ""
+msgstr "Starter tekst som spænder over flere noder, f.eks. rallentando poco a poco. Afslut med kommandoen Stop Text Span."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:1
 msgid "Text Span Stop"
-msgstr ""
+msgstr "Text Span Stop"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:2
 msgid "Stops the spanning text started earlier."
-msgstr ""
+msgstr "Stopper tekstspændet startet tidligere."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:1
@@ -25262,25 +25263,25 @@ msgstr "Vælg hvilken stemme dette nodesystem vil være født med. For at ændre
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOff.xml.h:1
 msgid "Merge Differently Dotted Off"
-msgstr ""
+msgstr "Sammenføj forskellige stiplede deaktiveret"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOff.xml.h:2
 #: ../actions/palettes.xml.h:111
 msgid "From this point notes in different voices that begin at the same time will not be merged onto the same stem if they differ in the dotting."
-msgstr ""
+msgstr "Fra dette punkt vil noder i forskellige stemmer, som begynder på samme tidspunkt, ikke blive sammenføjet til den samme nodehals, hvis de har forskellige mærkninger."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOn.xml.h:1
 msgid "Differently Dotted Merge On"
-msgstr ""
+msgstr "Sammenføj forskellige stiplede aktiveret"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeDifferentlyDottedOn.xml.h:2
 #: ../actions/palettes.xml.h:110
 msgid "From this point in the music notes in different voices beginning at the same time will be merged onto the same stem even if they differ in the dotting."
-msgstr ""
+msgstr "Fra dette punkt vil noder i forskellige stemmer, som begynder på samme tidspunkt, blive sammenføjet til den samme nodehals, hvis de har forskellige mærkninger."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.scm:6
 msgid "Turning off merging of rests, use Merge Rests command to turn it on"
-msgstr ""
+msgstr "Slukker for sammenføjning af pauser, brug kommandoen Merge Reste for at aktivere"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.xml.h:1
 msgid "Merge Rests"
@@ -25288,12 +25289,12 @@ msgstr "Sammenføj pauser"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/MergeRests.xml.h:2
 msgid "Merges rests where two voices have a common rest. Applies to the whole movement. For multi-measure rests you need to additionally suppress one of the multi-measure rest counts."
-msgstr ""
+msgstr "Sammenføjer pauser hvor to stemmer har en fælles pause. Anvendes på hele satsen. For flertaktspauser skal du derudover undertrykke en af flertaktspausetællerne."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/NewVoice.xml.h:2
 #: ../actions/palettes.xml.h:102
 msgid "Adds a voice to the current staff, initially displayed on a staff of its own, for readability. It will print on the staff above, and can be displayed there using Join Voices command if desired."
-msgstr ""
+msgstr "Tilføjer en stemme til det nuværende nodesystem, oprindelig vist på sit eget nodesystem, for nemmere læsning. Vil udskrives på nodesystemet ovenfor og kan vises der via kommandoen Join Voices, såfremt det ønskes."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/NoteColumnShift.scm:5
 msgid "Horizontal Shift"
@@ -25313,20 +25314,20 @@ msgstr "Ved udskrivning vil den nuværende node/akkord blive flyttet fra noder i
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.scm:6
 msgid "Clashing Note Columns will generate a warning from the LilyPond typesetter"
-msgstr ""
+msgstr "Sammenbrudte nodekolonner vil oprette en advarsel fra LilyPond-opsætteren"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.scm:10
 msgid "Ignore Clashing Columns"
-msgstr ""
+msgstr "Ignorer sammenbrudte kolonner"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.xml.h:1
 msgid "Clashing Note Column Warnings (Off/On)"
-msgstr ""
+msgstr "Advarsel fo sammenbrudte nodekolonner (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/IgnoreClashingNoteColumns.xml.h:2
 #: ../actions/palettes.xml.h:116
 msgid "Turns warnings from the LilyPond typesetter about clashing note columns off or on. These can be harmless but can cause a warning to check the score."
-msgstr ""
+msgstr "Slår advarseler fra LilyPond-opsætteren om sammenbrudte nodekolonner fra eller til. Disse kan være harmløse, men kan medføre en advarel om at kontrollere partituret."
 
 #. partcombineApart
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.scm:2
@@ -25335,6 +25336,9 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
+"Denne kommando instruerer LilyPond-opsætteren i ikke at kombinere noder fra stemmerne når stemmekombinering er angivet.\n"
+"Brug med kommandoen Part Combine.\n"
+"Du kan slette kommandoen som ethvert andet objekt."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.xml.h:1
 msgid "Keep Voices Apart"
@@ -25343,7 +25347,7 @@ msgstr "Hold stemmer fra hinanden"
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineApart.xml.h:2
 #: ../actions/palettes.xml.h:115
 msgid "When part combining, from this point the parts will be kept apart even though they could be combined."
-msgstr ""
+msgstr "Når der er stemmekombinering; fra dette punkt vil stemmerne blive hold adskilt selv når de kan kombineres."
 
 #. partcombineAutomatic
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineAutomatic.scm:2
@@ -25352,6 +25356,9 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
+"Denne kommando instruerer LilyPond-opsætteren i at kombinere noder fra stemmerne via stemmekombineringen.\n"
+"Brug kommandoen Part Combine.\n"
+"Du kan slette kommandoen som ethvert andet objekt."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineAutomatic.xml.h:1
 msgid "Automatic"
@@ -25360,7 +25367,7 @@ msgstr "Automatisk"
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineAutomatic.xml.h:2
 #: ../actions/palettes.xml.h:114
 msgid "Reverts to the default part combining."
-msgstr ""
+msgstr "Vender tilbage til stemmekombinering."
 
 #. partcombineChords
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineChords.scm:2
@@ -25369,36 +25376,39 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
+"Denne kommando instruerer LilyPond-opsætteren i at kombine noder fra stemmerne i akkorder.\n"
+"Brug med kommandoen Part Combine.\n"
+"Du kan slette denne kommando som ethvert andet objekt."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineChords.xml.h:1
 msgid "Part Combine Chords"
-msgstr ""
+msgstr "Stemmekombiner akkorder"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineChords.xml.h:2
 #: ../actions/palettes.xml.h:112
 msgid "From the cursor onwards chords will be combined from the parts included in the part combine command."
-msgstr ""
+msgstr "Fra markøren og fremad vil akkorder blive kombineret fra stemmerne inkluderet i part combine-kommandoen."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:9
 msgid "Parts are now uncombined"
-msgstr ""
+msgstr "Stemmer er nu ikke længere kombineret"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:14
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:18
 msgid "Part Combine "
-msgstr ""
+msgstr "Stemmekombineret "
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:25
 msgid "Can only part-combine two voices"
-msgstr ""
+msgstr "Kan kun delvis kombinere to stemmer"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:31
 msgid "Only two voices can be part-combined"
-msgstr ""
+msgstr "Kun to stemmer kan delvis kombineres"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.scm:33
 msgid "Must be on a staff with two voices"
-msgstr ""
+msgstr "Skal være et nodesystem med to stemmer"
 
 #. partcombineUnisono
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineUnisono.scm:2
@@ -25407,24 +25417,27 @@ msgid ""
 "Use with the Part Combine command.\n"
 "You can delete the directive as any other object."
 msgstr ""
+"Denne kommando instruerer LilyPond-opsætteren til at kombinere noder fra stemmerne som unison.\n"
+"Brug med kommandoen Part Combine.\n"
+"Du kan slette denne kommando som ethvert andet objekt."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineUnisono.xml.h:1
 msgid "Unisono"
-msgstr ""
+msgstr "Unisono"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombineUnisono.xml.h:2
 #: ../actions/palettes.xml.h:113
 msgid "Combine parts as unison."
-msgstr ""
+msgstr "Kombiner stemmer som unison."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.xml.h:1
 msgid "Part Combine Two Voices"
-msgstr ""
+msgstr "Stemmekombiner to stemmer"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/Part-Combining/PartCombine.xml.h:2
 #: ../actions/palettes.xml.h:104
 msgid "The two voices will be printed only once when they are the same, otherwise they will be printed as parts. (Off/On)"
-msgstr ""
+msgstr "De to stemmer vil kun blive udskrevet når de er ens, ellers vil de blive udskrevet som stemmer. (Deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/SetCurrentStaffAsVoice.scm:4
 msgid "Current staff is already a voice or not suitable"
@@ -25461,7 +25474,7 @@ msgstr "Ingen vandrettet flytninger"
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOff.xml.h:2
 #: ../actions/palettes.xml.h:106
 msgid "Turns off horizontal displacement of notes (which avoid collisions between parts)"
-msgstr ""
+msgstr "Deaktiverer vandret forskydning af noder (hvilket undgår kollisioner mellem dele)"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOn.scm:6
 msgid "Shift"
@@ -25474,7 +25487,7 @@ msgstr "Brug vandrette flytninger"
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/ShiftOn.xml.h:2
 #: ../actions/palettes.xml.h:107
 msgid "Turns on horizontal displacements of notes where needed."
-msgstr ""
+msgstr "Aktiverer vandrette forskydninger af noder hvor krævet."
 
 #: ../actions/menus/ObjectMenu/StaffMenu/Voices/TransposeVoices.scm:6
 msgid "<-- Transpose to -->"
@@ -25486,32 +25499,32 @@ msgstr "Udskriver stemmerne transponeret af det angivne interval. Dette er en ti
 
 #: ../actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.xml.h:1
 msgid "Apparent Time Signature"
-msgstr ""
+msgstr "Tilsyneladende taktart"
 
 #: ../actions/menus/ObjectMenu/TimeSig/ApparentTimeSignature.xml.h:2
 msgid "Typesets a time signature which is not the one actually being used. This is used in polymetric music, often in conjunction with a tuplet spanning the whole staff."
-msgstr ""
+msgstr "Opsætter en taktart som ikke er den faktiske der bruges. Dette bruges i polymetrisk musik, ofte sammen med en irregulær nodeværdi der spænder over hele nodesystemt."
 
 #: ../actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.scm:5
 msgid "Beaming at half measure allowed"
-msgstr ""
+msgstr "Bjælker med halv takt tilladt"
 
 #: ../actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.scm:8
 msgid "Beaming breaks at half-measure"
-msgstr ""
+msgstr "Bjælker bryder ved halv takt"
 
 #: ../actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.xml.h:1
 msgid "Beam at Half Measure (Off/On)"
-msgstr ""
+msgstr "Bjælke ved halv takt (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/TimeSig/BeamHalfMeasure.xml.h:2
 msgid "In time signatures 3/N prevent beaming across the beat. Repeat the command to allow such beaming."
-msgstr ""
+msgstr "I taktarter 3/N forhindrer bjælker på tværs af beatet. Gentag kommandoen for at tillade sådanne bjælker."
 
 #: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm:6
 #: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.xml.h:2
 msgid "Inserts a non-printing timesignature to indicate a cadenza follows. You must insert any barlines and beaming you require (otherwise none will typeset). End the cadenza by inserting an End Cadenza Time in a new Denemo bar."
-msgstr ""
+msgstr "Indsætter en taktart der ikke udskrives for at indikere at en kadence følger efter. Du skal indsætte bjælkelinjer og bjælker du har brug for (ellers vil ingen blive opsat). Afslut kadencen ved at indsætte en End Cadenza Time i en ny Denemobjælke."
 
 #: ../actions/menus/ObjectMenu/TimeSig/CadenzaTime.scm:14
 msgid "Cadenza"
@@ -25869,7 +25882,7 @@ msgstr "Ved udskrivning vil den nuværende node/akkord blive flyttet fra noder i
 
 #: ../actions/palettes.xml.h:109
 msgid "Choose which voice this staff will initially be set to. To change voice during music see the Directives->Voices menu."
-msgstr ""
+msgstr "Vælg hvilken stemme dette nodesystem startes med. For at ændre stemme under musik se Kommandoer->Stemmemenu."
 
 #: ../actions/palettes.xml.h:122
 msgid "Adds the > accent"

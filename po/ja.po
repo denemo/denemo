@@ -1,16 +1,16 @@
 # Japanese translations for denemo package
 # denemo パッケージのための和訳.
-# Copyright (C) 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2017 Free Software Foundation, Inc.
+# Copyright (C) 2007, 2009, 2010, 2011, 2012, 2015, 2016, 2017, 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the denemo package.
 # <ffreshers@ya...>, 2007.
-# Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2009,2010,2011,2012,2015,2016,2017.
+# Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>, 2009,2010,2011,2012,2015,2016,2017,2019.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: denemo 2.2-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2017-07-10 11:13+0100\n"
-"PO-Revision-Date: 2017-12-30 23:19+0900\n"
+"PO-Revision-Date: 2019-01-01 20:52+0900\n"
 "Last-Translator: Takeshi Hamasaki <hmatrjp@users.sourceforge.jp>\n"
 "Language-Team: Japanese <translation-team-ja@lists.sourceforge.net>\n"
 "Language: ja\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.1.1\n"
 "X-Poedit-Basepath: denemo-2.0.9/po\n"
 "X-Poedit-SearchPath-0: .\n"
 
@@ -1986,10 +1986,8 @@ msgid "Appends the current movement at the end of this layout. Select the moveme
 msgstr ""
 
 #: ../src/command/scorelayout.c:519
-#, fuzzy
-#| msgid "Add Movement"
 msgid "Re-order Movement"
-msgstr "楽章 "
+msgstr "楽章を並べ替える"
 
 #: ../src/command/scorelayout.c:520
 msgid ""
@@ -1998,7 +1996,6 @@ msgid ""
 msgstr ""
 
 #: ../src/command/scorelayout.c:527 ../src/printview/printview.c:2533
-#, fuzzy
 msgid "Refresh"
 msgstr "更新"
 
@@ -8430,35 +8427,29 @@ msgid "Repeat"
 msgstr "リピート(_R)"
 
 #: ../src/printview/printview.c:2203 ../src/printview/printview.c:2545
-#, fuzzy
 msgid "Duplex"
-msgstr "連符"
+msgstr "2ページ"
 
 #: ../src/printview/printview.c:2203
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:55
-#, fuzzy
 msgid "Single"
-msgstr "片"
+msgstr "1ページ"
 
 #: ../src/printview/printview.c:2369
-#, fuzzy
 msgid "Measures before cursor:"
-msgstr "小節"
+msgstr "カーソルの前の小節数:"
 
 #: ../src/printview/printview.c:2378
-#, fuzzy
 msgid "Measures after cursor:"
-msgstr "小節"
+msgstr "カーソルの後の小節数:"
 
 #: ../src/printview/printview.c:2389
-#, fuzzy
 msgid "Staffs before cursor:"
-msgstr "五線を低くする"
+msgstr "カーソルの前の五線数:"
 
 #: ../src/printview/printview.c:2397
-#, fuzzy
 msgid "Staffs after cursor:"
-msgstr "カーソルは追加する位置にあり、"
+msgstr "カーソルの後の五線数:"
 
 #. hbox = gtk_hbox_new (FALSE, 1);
 #. gtk_box_pack_start (GTK_BOX (vbox), hbox, TRUE, TRUE, 0);
@@ -8475,23 +8466,20 @@ msgid "If checked the current movement is re-typeset at every change"
 msgstr ""
 
 #: ../src/printview/printview.c:2423
-#, fuzzy
 msgid "Cursor Context"
-msgstr "カーソル位置のオブジェクトに合わせて編集"
+msgstr "カーソル位置で指定"
 
 #: ../src/printview/printview.c:2425
 msgid "If checked the range around the current cursor position is re-typeset at every change or when the cursor moves out of range."
 msgstr ""
 
 #: ../src/printview/printview.c:2451
-#, fuzzy
 msgid "Set background updates on/off."
-msgstr " --reverse       [on|off]          文字色と背景色を入れ替える\n"
+msgstr "バックグラウンドでの更新を ON/OFF"
 
 #: ../src/printview/printview.c:2455
-#, fuzzy
 msgid "Range"
-msgstr "開始セクタ番号 %ju が範囲外の値です。"
+msgstr "範囲を指定"
 
 #: ../src/printview/printview.c:2456
 msgid "Set how much of the score to re-draw."
@@ -8499,21 +8487,19 @@ msgstr ""
 
 #: ../src/printview/printview.c:2474
 msgid "Set background updater on/off. This controls if typesetting is re-done after each change to the music. The amount of the score to be re-typeset can be set via this button."
-msgstr ""
+msgstr "バックグラウンドでの更新を ON/OFF します。音楽に変更が加わるたびに組版を行うかを設定します。再組版する分量もこのボタンから設定できます。"
 
 #: ../src/printview/printview.c:2507
 msgid "Pops up a Print dialog. From this you can send your typeset score to a printer or to a PDF file."
-msgstr ""
+msgstr "印刷ダイアログを表示します。版組した楽譜をプリンターまたはPDFファイルに送ります。"
 
 #: ../src/printview/printview.c:2511
-#, fuzzy
 msgid "PDF"
-msgstr "PDF にエクスポート"
+msgstr "PDF"
 
 #: ../src/printview/printview.c:2512
-#, fuzzy
 msgid "Exports a pdf file for this layout"
-msgstr "楽譜をPDFファイルとしてエクスポートする"
+msgstr "楽譜をこのレイアウトでPDFファイルにエクスポートする"
 
 #: ../src/printview/printview.c:2518
 msgid "Typesets the music using the one of the created layouts. See View → Score Layouts to see the layouts you have created."
@@ -8521,7 +8507,7 @@ msgstr ""
 
 #: ../src/printview/printview.c:2524
 msgid "Typesets the music from the current movement. This creates a score layout comprising one movement."
-msgstr ""
+msgstr "現在の楽章から組版します。1つの楽章のみを含む楽譜を生成します。"
 
 #: ../src/printview/printview.c:2528
 msgid "Part"
@@ -8568,6 +8554,10 @@ msgid ""
 "In this Print View window you can click on a note to move to that place in the main Denemo display window. The right-click to get a menu of \"tweaks\" which you can apply to drag slurs, beams etc if they are not quite right.\n"
 "<b>Note</b>: It can take some time to generate a beautifully typeset score, especially for a large score on a slow machine so choose just a range to be continually updated in that case, or turn off continuous update."
 msgstr ""
+"このウィンドウは版組みの済んだ楽譜を表示します。印刷、ファイルへの保存、PDFの作成ができます。\n"
+"メインウィンドウでの編集にしたがい、更新され続けます。\n"
+"この印刷表示ウィンドウで音符をクリックすると Denemo のメインウィンドウで該当する場所に移動します。右クリックは 変更 メニュー（スラーを引く、小節区切り）を呼び出します。\n"
+"<b>注記</b>: きれいな版組のために、少々時間がかかることがあります。特に遅いマシンで大きな楽譜を扱う場合は、連続更新の対象を部分に限定するか、連続更新を使わないでください。"
 
 #: ../src/printview/svgview.c:685
 msgid ""
@@ -8661,7 +8651,7 @@ msgstr "Denemo 再生ビュー"
 
 #: ../src/printview/svgview.c:1298
 msgid "This window shows the typeset score as one long page. During playback the notes playing are highlighted"
-msgstr ""
+msgstr "このウィンドウは版組された楽譜を1つの長いページとして表示します。再生の間、演奏されている音符がハイライトされます。"
 
 #: ../src/scripting/scheme-callbacks.c:179
 #, fuzzy
@@ -8704,7 +8694,7 @@ msgstr "タイトル、ボタンなど"
 
 #: ../src/scripting/scheme-callbacks.c:1029
 msgid "Remove buttons and other customized scheme on startup?"
-msgstr ""
+msgstr "起動時にボタンとその他のカスタマイズされた scheme を削除しますか？"
 
 #: ../src/scripting/scheme-callbacks.c:1387
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:62
@@ -8746,6 +8736,8 @@ msgid ""
 "Please delete the font size and bold/italic indications,\n"
 "leaving just the font family name."
 msgstr ""
+"フォントサイズと太字/斜体の指定を削除し、\n"
+"フォントファミリーの名前のみを残してください。"
 
 #: ../src/scripting/scheme-callbacks.c:3808
 #: ../src/scripting/scheme-callbacks.c:3865
@@ -9600,9 +9592,8 @@ msgid ""
 msgstr ""
 
 #: ../src/ui/mousing.c:997 ../src/ui/mousing.c:1020 ../src/ui/mousing.c:1062
-#, fuzzy
 msgid "Press Left."
-msgstr "キーを押す..."
+msgstr "左ボタン"
 
 #: ../src/ui/mousing.c:997
 msgid "This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."
@@ -19802,7 +19793,7 @@ msgstr "楽譜のチェック: この小節にエラーがあります"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/IgnoreMeasureDurationError.xml.h:2
 msgid "Allow too few notes/rests in this measure. Only affects the Denemo display and error checking, the typesetting will place barlines according to the actual durations of notes as usual."
-msgstr ""
+msgstr "この小節で音符/休符の不足を許容します。Denemo での表示とエラーチェックのみに影響します。組版では小節区切りは通常通り音符の長さに従って配置されます。"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/InsertBreakInStaff.xml.h:1
 #, fuzzy
@@ -19889,7 +19880,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:8
 #: ../actions/menus/ObjectMenu/MeasureMenu/Upbeat.scm:8
 msgid "Upbeat/Short Measure can only be used in an underfull, non-empty measure"
-msgstr ""
+msgstr "上拍/短い小節は、内容が不足している空でない小節でのみ使用できます"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:46
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.scm:52
@@ -19903,9 +19894,8 @@ msgid "This object fills up the duration of this measure, without taking space i
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.xml.h:1
-#, fuzzy
 msgid "Short Measure"
-msgstr "そのような小節はありません"
+msgstr "短い小節"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/ShortMeasure.xml.h:2
 #: ../actions/palettes.xml.h:140
