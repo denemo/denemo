@@ -19,6 +19,7 @@ typedef enum mouse_gesture
   GESTURE_MOVE
 } mouse_gesture;
 
+gboolean activate_right_click (gint state);
 
 GString *mouse_shortcut_name (gint mod, mouse_gesture gesture, gboolean left);
 void append_modifier_name (GString * ret, gint mod);

@@ -44,6 +44,7 @@ SCM scheme_hide_menus (SCM);
 SCM scheme_hide_buttons (SCM);
 SCM scheme_destroy_buttons (void);
 SCM scheme_hide_window (SCM);
+SCM scheme_activate_object (void);
 SCM scheme_script_callback (SCM script, SCM params);
 SCM scheme_get_option (SCM str, SCM title);
 SCM scheme_get_text_selection (void);

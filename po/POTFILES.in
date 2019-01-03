@@ -241,6 +241,8 @@ actions/lyimport-lexer.scm
 actions/lyimport-parser.scm
 actions/lyimport.scm
 actions/lyimport-todenemo.scm
+actions/menus/MainMenu/EditMenu/ActivateObjectAtCursor.scm
+actions/menus/MainMenu/EditMenu/ActivateObjectAtCursor.xml
 actions/menus/MainMenu/EditMenu/ActivatePaletteButtonByLabel.scm
 actions/menus/MainMenu/EditMenu/ActivatePaletteButtonByLabel.xml
 actions/menus/MainMenu/EditMenu/AdvancedEdit.scm

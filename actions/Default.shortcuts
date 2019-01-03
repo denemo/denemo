@@ -1054,6 +1054,12 @@
         <action>FillUpMeasure</action>
         <bind>KP_8</bind>
       </row>
+      <row>
+        <action>ActivateObjectAtCursor</action>
+        <bind>Ctrl+F2</bind>
+        <bind>Shft+F2</bind>
+        <bind>F2</bind>
+      </row>
     </map>
   </merge>
 </Denemo>

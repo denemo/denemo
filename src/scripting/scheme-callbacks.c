@@ -29,6 +29,7 @@
 #include "ui/keysigdialog.h"
 #include "ui/virtualkeyboard.h"
 #include "ui/texteditors.h"
+#include "ui/mousing.h"
 #include "printview/svgview.h"
 #include "printview/printview.h"
 #include "printview/markupview.h"
@@ -933,6 +934,17 @@ scheme_hide_window (SCM hide)
   return SCM_BOOL (showing == show);
 }
 
+SCM
+scheme_activate_object (void)
+{
+  activate_right_click (Denemo.keyboard_state);
+  GString *modname = mouse_shortcut_name (Denemo.keyboard_state, GESTURE_PRESS, FALSE);
+  gint command_idx = lookup_command_for_keybinding_name (Denemo.map, modname->str);
+  if (command_idx>=0) 
+    execute_callback_from_idx (Denemo.map, command_idx);
+  g_string_free (modname, TRUE);
+  return SCM_BOOL_T;
+}
 
 /* when a script calls a command which is itself a script it comes through here */
 SCM

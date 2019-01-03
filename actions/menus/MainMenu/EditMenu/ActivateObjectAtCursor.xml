@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ActivateObjectAtCursor</action>
+        <after>EditCursorObject</after>
+        <_label>Activate Object</_label>
+        <_tooltip>Activates the object at the Denemo cursor, equivalent to right-clicking on it. Control and Shift keys will affect the response if used in the key shortcut for this command.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -890,7 +890,38 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   return TRUE;
 }
 
+//action to take on right clicking
+gboolean activate_right_click (gint state)
+    {
+      DenemoProject *gui = Denemo.project;
+      if (gui->movement->cursor_appending && (state==0))
+        {
+          if (Denemo.prefs.learning)
+           {
 
+                    MouseGestureShow(_("Right Click Appending."), _("This pops up the append menu"),
+                        MouseGesture);
+
+           }
+          popup_menu ("InsertDuration");
+          return TRUE;
+        }
+
+        if ((GDK_CONTROL_MASK & state) == GDK_CONTROL_MASK) {
+            if (Denemo.prefs.learning)
+                    MouseGestureShow(_("Control-Right Click."), _("This pops up menu for inserting barlines and many other sorts of objects"),
+                        MouseGesture);
+            popup_menu ("Markings");
+            return TRUE;
+        }
+      if ((GDK_SHIFT_MASK & state) == GDK_SHIFT_MASK) {
+            if (Denemo.prefs.learning)
+                    MouseGestureShow(_("Shift-Right Click."), _("This allows editing the directives/attributes of the object at the cursor"),
+                        MouseGesture);
+            call_out_to_guile ("(d-EditSimilar 'once)");
+            return TRUE;
+        }
+    }
 /**
  * Mouse button press callback
  *
@@ -1243,37 +1274,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       lh_down = TRUE;
     }
   else
-    {
-      if (gui->movement->cursor_appending && (event->state==0))
-        {
-          if (Denemo.prefs.learning)
-           {
-
-                    MouseGestureShow(_("Right Click Appending."), _("This pops up the append menu"),
-                        MouseGesture);
-
-           }
-          popup_menu ("InsertDuration");
-          return TRUE;
-        }
-
-        if ((GDK_CONTROL_MASK & event->state) == GDK_CONTROL_MASK) {
-            if (Denemo.prefs.learning)
-                    MouseGestureShow(_("Control-Right Click."), _("This pops up menu for inserting barlines and many other sorts of objects"),
-                        MouseGesture);
-            popup_menu ("Markings");
-            return TRUE;
-        }
-      if ((GDK_SHIFT_MASK & event->state) == GDK_SHIFT_MASK) {
-            if (Denemo.prefs.learning)
-                    MouseGestureShow(_("Shift-Right Click."), _("This allows editing the directives/attributes of the object at the cursor"),
-                        MouseGesture);
-            call_out_to_guile ("(d-EditSimilar 'once)");
-            return TRUE;
-        }
-    }
-
-
+    activate_right_click (event->state);
 
   if (left && (GDK_SHIFT_MASK & event->state) && (GDK_CONTROL_MASK & event->state))
   {
