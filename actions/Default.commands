@@ -8306,6 +8306,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Activate Object</_label>
         <_tooltip>Activates the object at the Denemo cursor, equivalent to right-clicking on it. Control and Shift keys will affect the response if used in the key shortcut for this command.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MoveToEarliestEmptyMeasure</action>
+        <after>MoveToPreviousEmptyMeasure</after>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <_label>Move to Earliest Empty Measure</_label>
+        <_tooltip>Moves the cursor back until the a non-empty measure is found. Stops in the empty measure after that.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

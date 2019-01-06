@@ -613,6 +613,8 @@ actions/menus/MainMenu/NavigationMenu/Seek/GoToEmptyMeasure.scm
 actions/menus/MainMenu/NavigationMenu/Seek/GoToEmptyMeasure.xml
 actions/menus/MainMenu/NavigationMenu/Seek/GoToMeasureEnd.scm
 actions/menus/MainMenu/NavigationMenu/Seek/GoToMeasureEnd.xml
+actions/menus/MainMenu/NavigationMenu/Seek/MoveToEarliestEmptyMeasure.scm
+actions/menus/MainMenu/NavigationMenu/Seek/MoveToEarliestEmptyMeasure.xml
 actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.scm
 actions/menus/MainMenu/NavigationMenu/Seek/MoveToPreviousEmptyMeasure.xml
 actions/menus/MainMenu/NavigationMenu/Seek/NextHigher.scm

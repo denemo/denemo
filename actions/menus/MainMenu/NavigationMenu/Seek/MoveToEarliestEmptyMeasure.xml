@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MoveToEarliestEmptyMeasure</action>
+        <after>MoveToPreviousEmptyMeasure</after>
+        <_label>Move to Earliest Empty Measure</_label>
+        <_tooltip>Moves the cursor back until the a non-empty measure is found. Stops in the empty measure after that.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
