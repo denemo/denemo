@@ -1650,6 +1650,8 @@ actions/menus/ObjectMenu/NotesRests/NoteheadSizes/SmallNotehead.scm
 actions/menus/ObjectMenu/NotesRests/NoteheadSizes/SmallNotehead.xml
 actions/menus/ObjectMenu/NotesRests/NoteheadSizes/TinyNotehead.scm
 actions/menus/ObjectMenu/NotesRests/NoteheadSizes/TinyNotehead.xml
+actions/menus/ObjectMenu/NotesRests/OmitChord-Note-Rest.scm
+actions/menus/ObjectMenu/NotesRests/OmitChord-Note-Rest.xml
 actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.scm
 actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.xml
 actions/menus/ObjectMenu/NotesRests/Percussion/BassDrum.scm
