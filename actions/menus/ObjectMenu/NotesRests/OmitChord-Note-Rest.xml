@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>OmitChord-Note-Rest</action>
+        <after>ParenthesizeNote</after>
+        <_label>Omit (Print)</_label>
+        <_tooltip>Omits the current chord, note or rest when typesetting. By default this will be conditional: exclusive to current layout. Use the Object Editor to change the condition if needed.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

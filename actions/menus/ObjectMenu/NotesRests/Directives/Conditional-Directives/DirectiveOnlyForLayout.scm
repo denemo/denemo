@@ -1,5 +1,5 @@
 ;;;;;;;; DirectiveOnlyForLayout
-(let ((params DirectiveOnlyForLayout::params)(tag (d-DirectiveGetTag-standalone)) ( id (d-GetLayoutId)) (text #f) (note #f))
+(let ((params DirectiveOnlyForLayout::params)(tag (d-DirectiveGetTag-standalone)) (id (d-GetLayoutId)) (text #f) (note #f))
  (define (d-InfoDialog string)
         (Help::TimedNotice (string-append string "\n") 5000))
   (define (do-rest)
@@ -29,18 +29,8 @@
               (if note
                 (d-DirectivePut-note-allow tag id)
                 (d-DirectivePut-chord-allow tag id))
-                
-              (if  (RadioBoxMenu
-                (cons (_ "Just for this one") #f)
-                (cons (_ "Apply condition to all further cases in this staff")   'yes))
-                     (begin
-                            (do-rest)
-                            (d-InfoDialog (string-append (_ "Directives ") "\"" tag "\"" (_ " on ") (if note (_ "Notes") (_ "Chords")) (_ "  in this staff from the cursor onwards will be typeset for the layout ") "\"" (car layout) "\"" )))
-                     (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will be typeset for the layout ") "\"" (car layout) "\"")))
-                
-                
-                
-              (d-SetSaved #f))
+             (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will be typeset for the layout ") "\"" (car layout) "\""))
+             (d-SetSaved #f))
             (begin
               (d-WarningDialog (_ "Cancelled")))))))
         
