@@ -140,6 +140,7 @@ get_or_create_command(gchar* name){
   return command;
 }
 
+
 void
 dnm_clean_event (GdkEventKey * event)
 { 
@@ -148,6 +149,13 @@ dnm_clean_event (GdkEventKey * event)
       guint ret = event->keyval;
       if (ret >= 'A' && ret <= 'Z')
         ret += ('a' - 'A');
+#ifdef G_OS_WIN32
+      else
+        if (event->hardware_keycode>47 && event->hardware_keycode<58)
+          {
+            ret = event->hardware_keycode;
+          }
+#else
       else
         if (event->hardware_keycode>9 && event->hardware_keycode<20)
           {
@@ -155,12 +163,11 @@ dnm_clean_event (GdkEventKey * event)
             if (ret==58)
               ret = 48;
           }
+#endif
       event->keyval = ret;
-      
     }
   //g_print("Hardware key %d Key val has been cleaned to %d -> %s\n", event->hardware_keycode, event->keyval, gdk_keyval_name(event->keyval));
 }
-
 
 
 /* Returns the state of the event after removing the modifiers consumed by the
@@ -396,7 +403,6 @@ dnm_accelerator_parse (const gchar * accelerator, guint * accelerator_key, GdkMo
 //}
 // if((gdk_keymap_get_caps_lock_state (gdk_keymap_get_default())!=0) != ((accelerator_mods&GDK_SHIFT_MASK)!=0))
 
-
 gchar *
 dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
 {
@@ -406,8 +412,9 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
       GString *name;
 
       name = g_string_new (gdk_keyval_name (accelerator_key));
-      //g_print ("Keyval %d name %s\n", accelerator_key, name->str);
+      //g_print ("Keyval %d gdk name %s\n", accelerator_key, name->str);
       if (name->len > 3 && (*name->str == 'K') && (*(name->str + 1) == 'P') && (*(name->str + 2) == '_'))
+#ifndef G_OS_WIN32  
         {
            if((*(name->str + 3) >='0') && (*(name->str + 3) <='6'))
             g_string_erase (name, 0, 3);    //force numeric keypad KP_n names to normal except for 7 8 9 which are not needed for duration entry also ignore NumLock for these
@@ -428,6 +435,12 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
           else if(!strcmp(name->str, "KP_Right"))
                   g_string_assign (name, "6");
         }
+#else
+        {
+          if((*(name->str + 3) !='7') && (*(name->str + 3) !='8') && (*(name->str + 3) !='9'))
+            g_string_erase (name, 0, 3);    //force numeric keypad KP_ names to normal except for 7 8 9 which are not needed for duration entry
+        }
+#endif
       //g_print("\ndnm_accelerator_name using gtk_accelerator_get label %s\n gdk_keyval_name name %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
       //g_debug("mods were %x\n", accelerator_mods);
 #if 0
@@ -582,6 +595,7 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
 
   return accelerator;
 }
+
 
 
 /**
