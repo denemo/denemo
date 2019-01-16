@@ -7,3 +7,4 @@
 	(if (d-NextObject)
 		(loop)))
 (d-PopPosition)
+(d-SetSaved #f)
