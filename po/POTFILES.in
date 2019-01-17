@@ -1690,6 +1690,8 @@ actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.xml
+actions/menus/ObjectMenu/NotesRests/RestEntry/ToggleNonPrinting.scm
+actions/menus/ObjectMenu/NotesRests/RestEntry/ToggleNonPrinting.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm
 actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.scm

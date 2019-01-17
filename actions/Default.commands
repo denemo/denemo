@@ -8320,6 +8320,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Omit (Print)</_label>
         <_tooltip>Omits the current chord, note or rest when typesetting. By default this will be conditional: exclusive to current layout. Use the Object Editor to change the condition if needed.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleNonPrinting</action>
+        <after>WholeMeasureSpacer</after>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <_label>Spacer/Normal Rest</_label>
+        <_tooltip>Makes the rest at the cursor a spacer rest restores it as a printing rest.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
