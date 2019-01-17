@@ -8325,7 +8325,7 @@ Start Ligature earlier in the same staff.</_tooltip>
         <after>WholeMeasureSpacer</after>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Spacer/Normal Rest</_label>
-        <_tooltip>Makes the rest at the cursor a spacer rest restores it as a printing rest.</_tooltip>
+        <_tooltip>Makes the rest at the cursor a spacer rest/restores it as a printing rest.</_tooltip>
       </row>
     </map>
   </merge>
