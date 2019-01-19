@@ -49,6 +49,7 @@
    (define (end-passage?)
         (d-Directive-standalone? "EndPassage"))
     ;;; procedure starts here
+    (d-PushPosition)
     (d-MoveToBeginning)
     (let loop ()
         (if (start-passage?)
@@ -56,5 +57,6 @@
             (while (d-MoveCursorRight)
                 (loop)))
         (if (d-MoveCursorRight)
-            (loop))))
+            (loop)))
+     (d-PopPosition))
     
