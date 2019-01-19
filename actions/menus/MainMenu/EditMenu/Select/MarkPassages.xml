@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MarkPassages</action>
+        <after>InsertDirectivesAroundSelection</after>
+        <_label>Mark Passages</_label>
+        <_tooltip>Invoke this command with no selection to initialize it. Then select passages to be marked and invoke it again to mark them. (Use with the command Swap Passages in the Notation Magick menu to swap the passages marked with the corresponding music in the staff below the current staff).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

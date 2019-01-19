@@ -1496,11 +1496,6 @@ You open the LilyPond file in a texteditor, copy the stretch of notes (control-c
         <_tooltip>Change built-in properties of the current score. This will start up a dialog window</_tooltip>
       </row>
       <row type="builtin">
-        <action>SaveSelection</action>
-        <_label>Save Selection</_label>
-        <_tooltip>Save the selected music. Not sure if this is working</_tooltip>
-      </row>
-      <row type="builtin">
         <action>SaveAccels</action>
         <_label>Save Command Set</_label>
         <_tooltip>Save the current commands and keyboard shortcuts as the default</_tooltip>
@@ -8326,6 +8321,20 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Spacer/Normal Rest</_label>
         <_tooltip>Makes the rest at the cursor a spacer rest/restores it as a printing rest.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MarkPassages</action>
+        <after>InsertDirectivesAroundSelection</after>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <_label>Mark Passages</_label>
+        <_tooltip>Invoke this command with no selection to initialize it. Then select passages to be marked and invoke it again to mark them. (Use with the command Swap Passages in the Notation Magick menu to swap the passages marked with the corresponding music in the staff below the current staff).</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SwapPassages</action>
+        <after>NotationMagick-ReverseSelectedObjects</after>
+        <menupath>/MainMenu/EditMenu/NotationMagick</menupath>
+        <_label>Swap Passages</_label>
+        <_tooltip>Passages of music in the current staff that have been marked using the Mark Passages command will be swapped with the corresponding music from the staff below.</_tooltip>
       </row>
     </map>
   </merge>

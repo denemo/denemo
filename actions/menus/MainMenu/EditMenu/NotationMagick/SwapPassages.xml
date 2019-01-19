@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SwapPassages</action>
+        <after>NotationMagick-ReverseSelectedObjects</after>
+        <_label>Swap Passages</_label>
+        <_tooltip>Passages of music in the current staff that have been marked using the Mark Passages command will be swapped with the corresponding music from the staff below.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
