@@ -1024,13 +1024,6 @@ typedef struct DenemoMovement
   gint stafftoplay;
   guint smfsync;/**< value of changecount when the smf MIDI data was last refreshed */
 
-
-
-  GList *savebuffer;
-
-
-
-
   /*list of undo data */
   GQueue *undodata;
   GQueue *redodata;

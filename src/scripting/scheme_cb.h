@@ -728,9 +728,6 @@ SCM scheme_PasteComment (SCM optional) {
 SCM scheme_ScoreProperties (SCM optional) {
   return scheme_call_callback(optional, (callback_function)score_properties_dialog);
 }
-SCM scheme_SaveSelection (SCM optional) {
-  return scheme_call_callback(optional, (callback_function)saveselwrapper);
-}
 SCM scheme_Preferences (SCM optional) {
   return scheme_call_callback(optional, (callback_function)preferences_change);
 }

@@ -639,7 +639,6 @@ init_score (DenemoMovement * si, DenemoProject * gui)
     set_master_tempo (si, 1.0);
   else
     si->master_tempo = 1.0;
-  si->savebuffer = NULL;
   si->smfsync = G_MAXINT;
   if (gui->filename == NULL)
       gui->filename = g_string_new ("");

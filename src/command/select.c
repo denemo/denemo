@@ -185,35 +185,6 @@ insert_clipboard (GList * clipboard)
     }
 }
 
-/**
- *  saveselection
- *  Saves the current selection to a given file
- *
- *  @param si pointer to the score information structure
- *  @return none
- */
-void
-saveselection (DenemoMovement * si)
-{
-  if (si->markstaffnum == 0)    /* Indicator that there's no selection.  */
-    return;
-  clearbuffer ();
-
-  staffsinbuffer = si->selection.laststaffmarked - si->selection.firststaffmarked + 1;
-
-  copytobuffer (si);
-  si->savebuffer = copybuffer;
-  /* Test code for save selection
-     FILE *fp;
-     GString *file = NULL;
-     file = g_string_new(get_user_data_dir());
-     g_string_append(file, "/denemoanalysispattern");
-
-     filesaveselection(file->str, si);
-     clearbuffer ();
-     g_free(file);
-   */
-}
 
 /**
  *   copytobuffer
@@ -926,21 +897,6 @@ pastewrapper (DenemoAction * action, DenemoScriptParam * param)
   stage_undo (Denemo.project->movement, ACTION_STAGE_START);
 
   score_status (Denemo.project, TRUE);
-}
-
-
-/**
- * saveselwrapper
- * Wrapper function for the Save selection command
- *
- * @param action pointer to the DenemoAction event
- * @param gui pointer to the DenemoProject structure
- */
-void
-saveselwrapper (DenemoAction * action, DenemoScriptParam * param)
-{
-  DenemoProject *gui = Denemo.project;
-  saveselection (gui->movement);
 }
 
 

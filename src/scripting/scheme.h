@@ -727,9 +727,6 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "PasteComment", scheme_Paste
 /*ScoreProperties score_properties_dialog*/
 SCM scheme_ScoreProperties(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ScoreProperties", scheme_ScoreProperties);
-/*SaveSelection saveselwrapper*/
-SCM scheme_SaveSelection(SCM optional);
-install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveSelection", scheme_SaveSelection);
 /*Preferences preferences_change*/
 SCM scheme_Preferences(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "Preferences", scheme_Preferences);
