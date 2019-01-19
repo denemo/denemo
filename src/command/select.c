@@ -81,15 +81,17 @@ push_clipboard (void)
   clip->staffsinbuffer = staffsinbuffer;
   clipboards = g_list_prepend (clipboards, clip);
 }
-
+//takes the count'th stored clipboard and makes it the current clipboard
 gboolean
-pop_clipboard (void)
+pop_clipboard (gint count)
 {
   GList *thecopy = NULL;
   DenemoClipboard *clip;
   if (clipboards == NULL)
     return FALSE;
-  clip = (DenemoClipboard *) clipboards->data;
+  clip = (DenemoClipboard *) g_list_nth_data (clipboards, count);
+  if (!clip)
+    return FALSE;
   clipboards = g_list_remove (clipboards, clip);
   clearbuffer ();
   if (clip->objectlist)
@@ -158,7 +160,7 @@ free_clipboard (GList * clipboard)
       measurebreaksinbuffer = 0;
       staffsinbuffer = 1;
       clearbuffer ();
-      pop_clipboard ();
+      pop_clipboard (0);
     }
 }
 
@@ -179,7 +181,7 @@ insert_clipboard (GList * clipboard)
       staffsinbuffer = 1;
       call_out_to_guile ("(d-Paste)");
       copybuffer = NULL;
-      pop_clipboard ();
+      pop_clipboard (0);
       displayhelper (Denemo.project);
       score_status(Denemo.project, TRUE);
     }

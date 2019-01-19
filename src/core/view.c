@@ -1740,7 +1740,7 @@ attach_clipboard (RhythmPattern * r)
       push_clipboard ();
       r->clipboard = pop_off_clipboard ();
       remove_breaks (r->clipboard);
-      pop_clipboard ();
+      pop_clipboard (0);
     }
 }
 

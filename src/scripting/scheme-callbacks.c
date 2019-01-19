@@ -1152,9 +1152,12 @@ scheme_push_clipboard (SCM optional)
 }
 
 SCM
-scheme_pop_clipboard (SCM optional)
-{
-  if (pop_clipboard ())
+scheme_pop_clipboard (SCM num)
+{ 
+  gint count = 0;
+  if (scm_is_integer (num))
+    count = scm_to_int (num);
+  if (pop_clipboard (count))
     return SCM_BOOL_T;
   else
     return SCM_BOOL_F;

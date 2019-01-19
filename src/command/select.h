@@ -76,7 +76,7 @@ void swap_point_and_mark (DenemoAction * action, DenemoScriptParam * param);
 
 GList *pop_off_clipboard (void);
 
-gboolean pop_clipboard (void);
+gboolean pop_clipboard (gint count);
 
 void push_clipboard (void);
 
