@@ -32,27 +32,33 @@
                         (if (eq? start-tick (d-GetStartTick))
                             (let ()
                                 (define (at-end?)
-                                    (and (eq? end-measure (d-GetMeasure)) (eq? end-tick (d-GetEndTick))))
+                                    (if (or (start-passage?) (end-passage?))
+                                        (begin
+                                            (set! continue #f)
+                                            #t)
+                                        (and (eq? end-measure (d-GetMeasure)) (eq? end-tick (d-GetEndTick)))))
                                 (set! position (GetPosition)) 
                                 (d-SetMark)
                                 (while (and (not (at-end?)) (d-CursorRight)))
-                                (if (at-end?)
-                                    (begin
-                                        (d-Cut)
-                                        (d-PushClipboard)
-                                        (apply d-GoToPosition position)
-                                        (d-PopClipboard 1)
-                                        (d-Paste)
-                                        (merge-if-needed)
-                                        (apply d-GoToPosition startpos)
-                                        (d-MoveCursorRight)
-                                        (d-PopClipboard)
-                                        (d-Paste)
-                                        (merge-if-needed))
-                                    (begin
-                                        (set! continue #f)
-                                       
-                                        (d-WarningDialog (_ "Unable to find corresponding passage end.")))))
+                                (if (not continue)
+                                    (d-WarningDialog (_ "Badly placed Passage marker. Mark passages only in the upper staff."))
+                                    (if (at-end?)
+                                        (begin
+                                            (d-Cut)
+                                            (d-PushClipboard)
+                                            (apply d-GoToPosition position)
+                                            (d-PopClipboard 1)
+                                            (d-Paste)
+                                            (merge-if-needed)
+                                            (apply d-GoToPosition startpos)
+                                            (d-MoveCursorRight)
+                                            (d-PopClipboard)
+                                            (d-Paste)
+                                            (merge-if-needed))
+                                        (begin
+                                            (set! continue #f)
+                                           
+                                            (d-WarningDialog (_ "Unable to find corresponding passage end."))))))
                          (begin
                             (set! continue #f)
                             
@@ -84,4 +90,5 @@
       ;(d-DecreaseGuard)      
       (if (not continue)
       	(d-WarningDialog (_ "Use Undo(s) to restore any cut music.")))
+     (d-RefreshDisplay)
      (d-PopPosition))
