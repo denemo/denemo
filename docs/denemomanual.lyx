@@ -1696,7 +1696,7 @@ The
 Edit
 \series default
  menu collects command for editing: mostly editing objects in the display,
- the Denemo Objects
+ the 
 \begin_inset CommandInset ref
 LatexCommand nameref
 reference "sec:Denemo-Objects"
@@ -1762,8 +1762,18 @@ Preferences
 
 \begin_layout Standard
 The NotationMagick submenu is for generating random notes, reflecting, reversing
-, shuffling notes etc – the sort of things computers can do with music easily
- but humans find more difficult.
+, shuffling notes, swapping passages
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Passages
+\end_layout
+
+\end_inset
+
+ etc – the sort of things computers can do with music easily but humans
+ find more difficult.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -1818,6 +1828,32 @@ heard
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsubsection*
+Select submenu
+\end_layout
+
+\begin_layout Standard
+Here are commands for selection parts of the music (e.g.
+ for cut and paste, or to apply a command to the selection).
+ Here selected music can be 
+\emph on
+spanned
+\emph default
+ by being bracketed with a pair of Denemo Directives.
+ A special case of this is creating a passage
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Passages
+\end_layout
+
+\end_inset
+
+ which can then be swapped with the corresponding music in the staff below
+ using a command in the NotationMagick menu.
 \end_layout
 
 \begin_layout Subsubsection
@@ -10084,97 +10120,75 @@ With Create Conditional Index you can create more complex conditions to
  the score and prints that as the comment:
 \end_layout
 
-\begin_layout Standard
-\noindent
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-begin{verbatim}
-\end_layout
-
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
 (define total (ForAllMovementsExecute* (lambda ()
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-				(let ((tot '())) 
+                 (let ((tot '())) 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-					(define (off) 
+                        (define (off) 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-						(define time (d-GetMidiOffTime)) 
+                           (define time (d-GetMidiOffTime))
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-						(if time time 0)) 
+                           (if time time 0))
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-					(d-RecreateTimebase) 
+                        (d-RecreateTimebase) 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-					(d-MoveToEnd) 
+                        (d-MoveToEnd) 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-					(off)))))
+                        (off)))))
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-(set! total (round (apply + total))) 
+                        (set! total (round (apply + total))) 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
 (DenemoIndexCommentDisplay (string-append " Duration is: " 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-		(number->string (inexact->exact (floor-quotient total 60))) " m.
+        (number->string (inexact->exact (floor-quotient total 60))) " m.
  " 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
-		(number->string (inexact->exact (floor-remainder total 60))) " s.")) 
+        (number->string (inexact->exact (floor-remainder total 60))) " s."))
+ 
 \end_layout
 
-\begin_layout Plain Layout
+\begin_layout LyX-Code
 
 #t
 \end_layout
 
-\begin_layout Plain Layout
-
-
-\backslash
-end{verbatim}
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
 \begin_layout Standard
+\noindent
 This example ends with the symbol #t to make it clear that all the scores
  are to be included in the index.
  If the last expression was something like (= (d-GetStaffsInMovement) 2)
