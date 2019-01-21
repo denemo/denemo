@@ -51,13 +51,16 @@
                                         (merge-if-needed))
                                     (begin
                                         (set! continue #f)
-                                        (d-Undo)
+                                       
                                         (d-WarningDialog (_ "Unable to find corresponding passage end.")))))
                          (begin
                             (set! continue #f)
-                            (d-Undo)
+                            
                             (d-WarningDialog (_ "Unable to find corresponding passage start.")))))
-                   (d-WarningDialog (_ "No staff below to swap passages with."))))
+                   (begin
+                   	(set! continue #f)
+                   	
+                   	(d-WarningDialog (_ "No staff below to swap passages with.")))))
             (begin
                 (set! continue #f)
                 (d-WarningDialog (_ "Start Passage with no End Passage.")))))
@@ -69,6 +72,7 @@
     ;;; procedure starts here
     (d-PushPosition)
     (d-MoveToBeginning)
+    ;(d-IncreaseGuard)
     (let loop ()
         (if (start-passage?)
             (swap-passage)
@@ -77,5 +81,7 @@
                     (loop))))
         (if (and continue (d-MoveCursorRight))
             (loop)))
+      ;(d-DecreaseGuard)      
+      (if (not continue)
+      	(d-WarningDialog (_ "Use Undo(s) to restore any cut music.")))
      (d-PopPosition))
-    
