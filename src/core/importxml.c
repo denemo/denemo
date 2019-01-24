@@ -2403,7 +2403,7 @@ parseInitVoiceParams (xmlNodePtr initVoiceParamsElem, DenemoMovement * si)
 
         else if (ELEM_NAME_EQ (childElem, "sources"))
           {
-            curVoice->sources = parseSources (childElem);
+            g_warning ("Embedded source images no longer supported");//curVoice->sources = parseSources (childElem);
           }
 
 

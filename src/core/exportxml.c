@@ -690,30 +690,6 @@ newXMLNoteHead (xmlNodePtr parent, xmlNsPtr ns, enum headtype noteHeadType)
 }
 
 
-static void
-outputSources (xmlNodePtr mvmntElem, xmlNsPtr ns, GList * sources)
-{
-  GList *g = sources;
-  xmlNodePtr curElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "sources", NULL);
-  for (; g; g = g->next)
-    {
-      gsize len;
-      GError *error = NULL;
-      gchar *buf;
-      gdk_pixbuf_save_to_buffer (g->data, &buf, &len, "png", &error, NULL);
-      gchar *cdata = g_base64_encode ((guchar *) buf, len);
-      g_free (buf);
-      xmlNewChild (curElem, ns, (xmlChar *) "pixbuf", (xmlChar *) cdata);
-      g_free (cdata);
-      //??? xmlNodePtr xmlNewCDataBlock       (xmlDocPtr doc, const xmlChar *content, int len);
-
-      //use gboolean  gdk_pixbuf_save_to_buffer(GdkPixbuf *pixbuf, gchar **buffer, gsize *buffer_size, const char *type, GError **error, ...);
-//g_base64_encode(guchar *buf, gsize len);
-//g_base64_decode(guchar *buf, gsize* outlen);
-//g_base64_decode_inplace(guchar *buf, gsize* outlen);//overwrites buf with decoded data.
-    }
-}
-
 
 static void
 outputAudio (xmlNodePtr mvmntElem, xmlNsPtr ns, DenemoRecording * audio)
@@ -1354,8 +1330,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
           // output staff->sources
           if (curStaffStruct->sources)
-            outputSources (parentElem, ns, curStaffStruct->sources);
-
+            //outputSources (parentElem, ns, curStaffStruct->sources);
+            g_warning ("Embedded source images no longer supported");
 
           /* Write out the measures. */
           measuresElem = xmlNewChild (voiceElem, ns, (xmlChar *) "measures", NULL);
