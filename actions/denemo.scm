@@ -1579,6 +1579,8 @@
 ;;;;;Create an Index entry for the current score as a scheme file holding an alist
 ;;;;;The include file is named after the current filename with .DenemoIndex.scm appended
 (define-once DenemoIndexEntryFile "DenemoIndexEntry.scm")
+(define-once DenemoIndexStartdir "")
+(define-once DenemoIndexProtocol #f)
 (define-once DenemoIndexEntries '())
 (define (DenemoIndexCommentDisplay comment)
         (d-DirectivePut-score-display "ScoreComment" comment))
@@ -1723,3 +1725,28 @@
         (d-Quit "0")))
         (d-Quit "2")))
     
+   (define (CreateLilyPondForDenemoIndexEntry data)
+        (define startdir DenemoIndexStartdir)
+        (define protocol DenemoIndexProtocol)
+        (if data
+            (let ((thefile #f)(short-file #f)(transpose #f)(title #f)(composer #f)(comment #f)(incipit #f)(instruments #f))
+                (set! thefile (assq-ref data 'thefile))
+                (set! transpose (assq-ref data 'transpose))
+                (set! title (assq-ref data 'title))
+                (set! composer (assq-ref data 'composer))
+                (set! comment (assq-ref data 'comment))
+                (set! incipit (assq-ref data 'incipit))
+                (set! instruments (string-join (assq-ref data 'instruments) ", "))
+                (set! short-file (substring thefile (string-prefix-length thefile startdir)))
+                (string-append 
+                        "\\markup {\"" composer ": " title "\"}\n"
+                        "\\noPageBreak\\markup {\"Instrumentation:" instruments "\"}\n"
+                        (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))
+                        transpose
+                        incipit
+                        "\n\\noPageBreak\\incipit\n"
+                        "\\noPageBreak\\markup \\with-color #blue {\\with-url #'\""
+                        (if protocol protocol "scheme:(d-OpenNewWindow \\\"") (if protocol short-file thefile) (if protocol "" "\\\")")
+                                  "\"\"Filename: " short-file "\"}\n"
+                        "\\noPageBreak\\markup {\\column {\\draw-hline}}"))
+            "\\markup { BLANK ENTRY }"))

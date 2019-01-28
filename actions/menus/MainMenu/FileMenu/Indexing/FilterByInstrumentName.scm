@@ -1,7 +1,7 @@
   ;;FilterByInstrumentName
-(let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
+(let ((str "")(search-instrument #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '()))
     (define DenemoIndexEntries '())
-    (define (create-lilypond data)
+    (define (select_and_create_lilypond data)
         (if data
             (begin
                 (set! thefile (assq-ref data 'thefile))
@@ -12,27 +12,20 @@
                 (set! incipit (assq-ref data 'incipit))
                 (set! instruments (string-join (assq-ref data 'instruments) ", "))
                 (if (string-contains instruments search-instrument)
-                   (begin
-                      (set! str (string-append str
-                        "\\noPageBreak\\markup \"" composer ": " title "\"\n"
-                        "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
-                        (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))
-                        transpose "\n"
-                        incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-OpenNewWindow \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
-                        "\\markup {\\column {\\draw-hline}}")))
-              (delq! data DenemoIndexEntries)))))
+                   (set! str (string-append str (CreateLilyPondForDenemoIndexEntry data)))
+                   (delq! data DenemoIndexEntries)))))
 ;;;;actual procedure        
    (let ((data (d-DirectiveGet-movementcontrol-data tag)))
         (if data
            (begin
-              (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
-              (if (not startdir)
-                (set! startdir ""))
+              (set! DenemoIndexStartdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
+              (if (not DenemoIndexStartdir)
+                (set! DenemoIndexStartdir ""))
               (set! search-instrument (d-GetUserInput (_ "Index Filter") (_ "Give Instrument Name to filter on:") (_ "Violino")))
               (set! DenemoIndexEntries (cons #f (eval-string data))) ;;add an element #f to the start that will match nothing, so delq! does not delete the first element
-              (map  create-lilypond (cdr DenemoIndexEntries)) ;start after dummy
+              (map  select_and_create_lilypond (cdr DenemoIndexEntries)) ;start after dummy
               (set! DenemoIndexEntries (cdr DenemoIndexEntries)) ;remove dummy first element
+
               (d-SetSaved #f)
               (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))
               (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by Instrument "

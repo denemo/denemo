@@ -1,26 +1,7 @@
 ;;;SortByComposer takes the IndexEntry data sorts them by composer and creates and index PDF FIXME take last ascii word of composer not first.
 (use-modules (ice-9 ftw))
-(let ((str "")(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
+(let ((str "")(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '()))
     (define DenemoIndexEntries '())
-    (define (create-lilypond data)
-        (if data
-            (begin
-                (set! thefile (assq-ref data 'thefile))
-                (set! transpose (assq-ref data 'transpose))
-                (set! title (assq-ref data 'title))
-                (set! composer (assq-ref data 'composer))
-                (set! comment (assq-ref data 'comment))
-                (set! incipit (assq-ref data 'incipit))
-                (set! instruments (assq-ref data 'instruments))
-                
-                (set! str (string-append str
-                        "\\noPageBreak\\markup \"" composer ": " title "\"\n"
-                        "\\noPageBreak\\markup {instrumentation:"  (string-join instruments ", ") "}\n"
-                        (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))                                                    
-                        transpose "\n"
-                        incipit "\n\\noPageBreak\\incipit\n"
-                         "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-OpenNewWindow \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
-                        "\\markup {\\column {\\draw-hline}}")))))
     (define (comparison a b)
         (define comp1 (assq-ref a 'composer))
         (define comp2 (assq-ref b 'composer))
@@ -47,14 +28,14 @@
   (let ((data (d-DirectiveGet-movementcontrol-data tag)))
         (if data
          (begin
-            (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
-            (if (not startdir)
-                (set! startdir ""))
+            (set! DenemoIndexStartdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
+            (if (not DenemoIndexStartdir)
+                (set! DenemoIndexStartdir ""))
             (set! DenemoIndexEntries (eval-string data))
             (disp "Before sorting there are " (length DenemoIndexEntries) " index entries\n")
             (set! DenemoIndexEntries (sort! DenemoIndexEntries comparison))
             (disp "After sorting there are " (length DenemoIndexEntries) " index entries\n")
-            (map  create-lilypond DenemoIndexEntries)
+            (set! str (string-join (map  CreateLilyPondForDenemoIndexEntry DenemoIndexEntries)))
             (d-SetSaved #f)
             (d-DirectivePut-movementcontrol-postfix tag 
                                 (string-append str                      

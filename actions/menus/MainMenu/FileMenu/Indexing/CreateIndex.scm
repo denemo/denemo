@@ -7,26 +7,7 @@
       (count 0)
       (total-files 0)
       (Start-time (current-time)))
-   (define (create-lilypond data)
-        (if data
-            (let ((thefile #f)(transpose #f)(title #f)(composer #f)(comment #f)(incipit #f)(instruments #f))
-                (set! thefile (assq-ref data 'thefile))
-                (set! transpose (assq-ref data 'transpose))
-                (set! title (assq-ref data 'title))
-                (set! composer (assq-ref data 'composer))
-                (set! comment (assq-ref data 'comment))
-                (set! incipit (assq-ref data 'incipit))
-                (set! instruments (string-join (assq-ref data 'instruments) ", "))
-                (string-append 
-                        "\\markup {\"" composer ": " title "\"}\n"
-                        "\\noPageBreak\\markup {\"Instrumentation:" instruments "\"}\n"
-                        (if (string-null? comment) "" (string-append "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))
-                        transpose
-                        incipit
-                        "\n\\noPageBreak\\incipit\n"
-                        "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-OpenNewWindow \\\"" thefile "\\\")\" \"Filename: " thefile "\"}\n"
-                        "\\noPageBreak\\markup {\\column {\\draw-hline}}"))
-            "\\markup { BLANK ENTRY }"))
+
             
       (define (theproc filename statinfo flag) ;(disp "searching file " filename "\nwith flag " flag "\n")
            (d-KeepAlive)
@@ -40,14 +21,21 @@
             #t); continue traversal
 ;;;;actual procedure
 
-  (define startdir (d-ChooseDirectory (_ "Where to search") DENEMO_HOME_DIR '() ))  
+  
   (define enable_thumbnails DenemoPref_enable_thumbnails)
   (define opensources DenemoPref_opensources)
   (define ignorescripts DenemoPref_ignorescripts)
   (define autosave DenemoPref_autosave)
   (define maxhistory DenemoPref_maxhistory)
+  (set! DenemoIndexStartdir (d-ChooseDirectory (_ "Where to search") DENEMO_HOME_DIR '() ))  
   
   (disp "Executing Create Index with parameter " params "\n\n")
+  (if (pair? params)
+    (begin
+      (set! DenemoIndexProtocol (car params)) ;;eg "http://www.denemo.org/~rshann/DenemoScores"
+      (set! params (cdr params))))
+ 
+      
   
   (set! params (if params (scheme-escape params) "#t"))  
   (d-New)
@@ -58,7 +46,8 @@
   (d-WriteStatus (string-append "<span font-desc=\"20\" foreground=\"red\"weight=\"bold\">" (_ "Note that the display will be very sluggish until indexing completes.") "</span>"))
   (d-SetLinesInStaff 1)
    
-  (d-DirectivePut-movementcontrol-postfix (string-append tag "Header") (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\italic {" startdir 
+  (d-DirectivePut-movementcontrol-postfix (string-append tag "Header") 
+    (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\with-url #'\"" (if DenemoIndexProtocol (string-append DenemoIndexProtocol "/" DenemoIndexStartdir) "") "\" \\with-color #blue \\italic {" DenemoIndexStartdir 
         "}} \\column {\\draw-hline}}"))
   (d-DirectivePut-movementcontrol-postfix tag "\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}") ;you cannot store an empty string here - it is read back as #f
   (set! DenemoIndexEntries '())
@@ -75,7 +64,7 @@
   (d-SetPrefs "<ignorescripts>1</ignorescripts>")
   (d-SetPrefs "<autosave>0</autosave>")
   (d-SetPrefs "<maxhistory>0</maxhistory>")
-  (ftw startdir theproc)
+  (ftw DenemoIndexStartdir theproc)
   (TimedNotice (string-append (_ "Indexing Complete in ") (number->string (- (current-time) Start-time)) " seconds."))
   (disp (string-append (_ "Indexing Complete in ") (number->string (- (current-time) Start-time)) " seconds."))
   (d-SetPrefs (string-append "<enable_thumbnails>" (if enable_thumbnails "1" "0") "</enable_thumbnails>"))
@@ -97,12 +86,12 @@
   (if (null? DenemoIndexEntries)
     (d-WarningDialog (if params (_ "No scores found for the given condition")(_ "No scores found")))
     (begin
-        (d-DirectivePut-movementcontrol-postfix tag (string-join  (map create-lilypond DenemoIndexEntries)))
+        (d-DirectivePut-movementcontrol-postfix tag (string-join  (map CreateLilyPondForDenemoIndexEntry DenemoIndexEntries)))
         
         (d-DirectivePut-movementcontrol-postfix tag (string-append 
                         (d-DirectiveGet-movementcontrol-postfix tag) 
                         "\n\\noPageBreak\\markup {\\column {\\draw-hline}}\\noPageBreak\\markup {\\center-column {\\vspace #2 }}\\noPageBreak\\markup\\huge{" 
                         (_ "End of Index. Number of entries ") (number->string (length DenemoIndexEntries)) ".}"))
-        (d-DirectivePut-movementcontrol-data (string-append tag "StartDir") startdir)
+        (d-DirectivePut-movementcontrol-data (string-append tag "StartDir") DenemoIndexStartdir)
         (d-SetSaved #f)
         (d-DirectivePut-movementcontrol-data tag (format #f "'~s" DenemoIndexEntries))))) 

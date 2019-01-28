@@ -1,5 +1,5 @@
 ;;FilterByUserCondition
-(let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '())(startdir ""))
+(let ((str "")(condition #f)(tag "IndexEntry")(list-of-entries '()) (thefile #f) (transpose #f) (title #f) (composer #f) (comment #f) (incipit #f) (instruments '()))
     (define DenemoIndexEntries '())
 
     (define (indexTest condn) 
@@ -30,7 +30,7 @@
           (eval-string condn))
                    
 
-    (define (create-lilypond data)
+    (define (select_and_create_lilypond data)
         (if data
             (begin
                 (set! thefile (assq-ref data 'thefile))
@@ -41,16 +41,7 @@
                 (set! incipit (assq-ref data 'incipit))
                 (set! instruments (assq-ref data 'instruments))
                 (if (indexTest condition)
-                    (begin
-                        (set! instruments (string-join instruments ", "))
-                        (set! str (string-append str
-                            "\\noPageBreak\\markup \"" composer ": " title "\"\n"
-                            "\\noPageBreak\\markup {instrumentation:"  instruments "}\n"
-                            (if (string-null? comment) "" (string-append  "\\noPageBreak\\markup\\bold\\italic {\"Comment:" comment "\"}\n"))                            
-                            transpose "\n"
-                            incipit "\n\\noPageBreak\\incipit\n"
-                             "\\noPageBreak\\markup {\\with-url #'\"scheme:(d-OpenNewWindow \\\"" thefile "\\\")\" \"Filename: ." (substring thefile (string-prefix-length startdir thefile)) "\"}\n"
-                            "\\markup {\\column {\\draw-hline}}")))
+                    (set! str (string-append str (CreateLilyPondForDenemoIndexEntry data)))
                     (delq! data DenemoIndexEntries)))))
 
 ;;;;actual procedure        
@@ -64,11 +55,12 @@
                     (d-WarningDialog (_ "No Scheme condition in the Scheme Script window - see View menu"))
                     (d-InfoDialog (_ "Open the Scheme window from the View menu and write a condition to filter on (in Scheme syntax)\nThe variables available are:\nfilename composer title \nwhich are strings and\ninstruments\nwhich is a list of strings.")))
                   (begin
-                    (set! startdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
-                    (if (not startdir)
-                        (set! startdir ""))
+                    (set! DenemoIndexStartdir (d-DirectiveGet-movementcontrol-data (string-append tag "StartDir")))
+                    (if (not DenemoIndexStartdir)
+                        (set! DenemoIndexStartdir ""))
                     (d-SetSaved #f)
-                    (map  create-lilypond (cdr DenemoIndexEntries))
+                    (set! DenemoIndexEntries (cons #f (eval-string data))) ;;add an element #f to the start that will match nothing, so delq! does not delete the first element
+                    (map  select_and_create_lilypond (cdr DenemoIndexEntries))
                     (set! DenemoIndexEntries (cdr DenemoIndexEntries)) 
                     (d-DirectivePut-movementcontrol-postfix tag (string-append "\\markup \\bold\\center-column{\\line{Filtered by "
                             condition 
