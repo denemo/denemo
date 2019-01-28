@@ -47,7 +47,7 @@
   (d-SetLinesInStaff 1)
    
   (d-DirectivePut-movementcontrol-postfix (string-append tag "Header") 
-    (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\with-url #'\"" (if DenemoIndexProtocol (string-append DenemoIndexProtocol "/" DenemoIndexStartdir) "") "\" \\with-color #blue \\italic {" DenemoIndexStartdir 
+    (string-append "\\markup \\bold \\huge\\center-column{\\line{Index of Music in \\with-url #'\"" (if DenemoIndexProtocol (string-append DenemoIndexProtocol "/" DenemoIndexStartdir) "") "\"  \\italic {" DenemoIndexStartdir 
         "}} \\column {\\draw-hline}}"))
   (d-DirectivePut-movementcontrol-postfix tag "\\markup {\\column {\\draw-hline}} \\markup {\\center-column {\\vspace #2 }}") ;you cannot store an empty string here - it is read back as #f
   (set! DenemoIndexEntries '())
