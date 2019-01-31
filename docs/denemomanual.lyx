@@ -164,7 +164,7 @@ status open
 \backslash
 pagenumbering{arabic} 
 \backslash
-setcounter{page}{1} 
+setcounter{page}{1}
 \end_layout
 
 \end_inset
@@ -8428,7 +8428,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8436,7 +8435,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
@@ -10121,69 +10119,56 @@ With Create Conditional Index you can create more complex conditions to
 \end_layout
 
 \begin_layout LyX-Code
-
 (define total (ForAllMovementsExecute* (lambda ()
 \end_layout
 
 \begin_layout LyX-Code
-
                  (let ((tot '())) 
 \end_layout
 
 \begin_layout LyX-Code
-
                         (define (off) 
 \end_layout
 
 \begin_layout LyX-Code
-
                            (define time (d-GetMidiOffTime))
 \end_layout
 
 \begin_layout LyX-Code
-
                            (if time time 0))
 \end_layout
 
 \begin_layout LyX-Code
-
                         (d-RecreateTimebase) 
 \end_layout
 
 \begin_layout LyX-Code
-
                         (d-MoveToEnd) 
 \end_layout
 
 \begin_layout LyX-Code
-
                         (off)))))
 \end_layout
 
 \begin_layout LyX-Code
-
                         (set! total (round (apply + total))) 
 \end_layout
 
 \begin_layout LyX-Code
-
 (DenemoIndexCommentDisplay (string-append " Duration is: " 
 \end_layout
 
 \begin_layout LyX-Code
-
         (number->string (inexact->exact (floor-quotient total 60))) " m.
  " 
 \end_layout
 
 \begin_layout LyX-Code
-
         (number->string (inexact->exact (floor-remainder total 60))) " s."))
  
 \end_layout
 
 \begin_layout LyX-Code
-
 #t
 \end_layout
 
@@ -11298,6 +11283,9 @@ More ambitious programmers will need to know all the commands available.
  Besides the complete Denemo command set (the list is given in the Command
  Center window) there are the following additional Scheme procedures defined
  (see the files actions/denemo.scm and actions/denemo-modules/*.scm for more).
+ A brief summary of any Scheme procedure can be obtained by typing its name
+ into the Scheme Window in the command line interface (CLI) and pressing
+ Enter.
 \end_layout
 
 \begin_layout Subsection
