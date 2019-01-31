@@ -92,8 +92,12 @@ executeCLI (GtkWidget * button, GtkEntry * entry)
   gchar *display = NULL;
   if (entry)
     {
+#ifndef G_OS_WIN32      
       display = g_strdup_printf ("%s%s%s", "(format #t \"~%=> ~A~%\"", gtk_entry_get_text (entry), ")\n");
-      //g_debug("displaying %s\n", display);
+#else
+      display = g_strdup_printf ("(d-WarningDialog (format #f \"The expression evaluates to:~%~A\" %s))",  gtk_entry_get_text (entry));
+#endif
+     //g_print ("Passing to scheme: %s\n", display);
       (void) call_out_to_guile (display);
       g_free (display);
     }
