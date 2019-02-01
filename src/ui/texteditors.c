@@ -92,7 +92,7 @@ executeCLI (GtkWidget * button, GtkEntry * entry)
   gchar *display = NULL;
   if (entry)
     {
-#ifndef G_OS_WIN32      
+#ifndef POPUP_RESULT_VIA_GUI      
       display = g_strdup_printf ("%s%s%s", "(format #t \"~%=> ~A~%\"", gtk_entry_get_text (entry), ")\n");
 #else
       display = g_strdup_printf ("(d-WarningDialog (format #f \"The expression evaluates to:~%~A\" %s))",  gtk_entry_get_text (entry));
