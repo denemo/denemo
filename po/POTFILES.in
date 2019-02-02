@@ -430,6 +430,7 @@ actions/menus/MainMenu/FileMenu/Import/Import-MusicXml.scm
 actions/menus/MainMenu/FileMenu/Import/Import-MusicXml.xml
 actions/menus/MainMenu/FileMenu/Import/SelectMidiImportStrategy.scm
 actions/menus/MainMenu/FileMenu/Import/SelectMidiImportStrategy.xml
+actions/menus/MainMenu/FileMenu/Indexing/AddToIndex.scm
 actions/menus/MainMenu/FileMenu/Indexing/CreateConditionalIndex.scm
 actions/menus/MainMenu/FileMenu/Indexing/CreateConditionalIndex.xml
 actions/menus/MainMenu/FileMenu/Indexing/CreateIndex.scm
@@ -583,6 +584,10 @@ actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementBeginning.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToMovementEnd.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffDownAppending.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffDownAppending.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffUpAppending.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffUpAppending.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.scm
