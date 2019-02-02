@@ -431,6 +431,7 @@ actions/menus/MainMenu/FileMenu/Import/Import-MusicXml.xml
 actions/menus/MainMenu/FileMenu/Import/SelectMidiImportStrategy.scm
 actions/menus/MainMenu/FileMenu/Import/SelectMidiImportStrategy.xml
 actions/menus/MainMenu/FileMenu/Indexing/AddToIndex.scm
+actions/menus/MainMenu/FileMenu/Indexing/AddToIndex.xml
 actions/menus/MainMenu/FileMenu/Indexing/CreateConditionalIndex.scm
 actions/menus/MainMenu/FileMenu/Indexing/CreateConditionalIndex.xml
 actions/menus/MainMenu/FileMenu/Indexing/CreateIndex.scm

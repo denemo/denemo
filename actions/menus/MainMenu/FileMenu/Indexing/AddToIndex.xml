@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AddToIndex</action>
+        <after>CreateConditionalIndex</after>
+        <_label>Add to Index</_label>
+        <_tooltip>Adds an index entry for the file chosen to the currently open Index.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
