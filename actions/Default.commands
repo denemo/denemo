@@ -8336,6 +8336,20 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Swap Passages</_label>
         <_tooltip>Passages of music in the current staff that have been marked using the Mark Passages command will be swapped with the corresponding music from the staff below.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MoveToStaffDownAppending</action>
+        <after>MoveToStaffDown</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Move to Staff Down, Appending</_label>
+        <_tooltip>Moves to the appending position in the staff below.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MoveToStaffUpAppending</action>
+        <after>MoveToStaffUp</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Move to Staff Up, Appending</_label>
+        <_tooltip>Moves to the appending position in the staff above.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

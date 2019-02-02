@@ -9,6 +9,7 @@
         FullDurationMeasure?
         OverfullMeasure?
         MeasureComplete?
+        ChangeDuration value
         duration::GuessBaseNoteInTicks
         duration::CalculateTicksWithDots
         duration::CalculateDotsFromTicks
@@ -35,6 +36,17 @@
         ;d-GetStartTick
         )) !#
 
+(define (ChangeDuration value)
+    (case value
+        ((0) (d-ChangeTo0))
+        ((1) (d-ChangeTo1))
+        ((2) (d-ChangeTo2))
+        ((3) (d-ChangeTo3))
+        ((4) (d-ChangeTo4))
+        ((5) (d-ChangeTo5))
+        ((6) (d-ChangeTo6))
+        ((7) (d-ChangeTo7))))
+        
 (define* (GetPrevailingTimeSig #:optional (numberorstring #f) ) 
     (if numberorstring
         (string->number (d-GetPrevailingTimesig))
