@@ -147,7 +147,16 @@ static gchar *system_example_path = NULL;
 static gchar *local_template_path = NULL;
 static gchar *default_template_path = NULL;
 
-
+static void warn_export_lilypond_parts (char *filename, DenemoProject * gui)
+{
+  static gboolean shown;
+  if (!shown)
+  {
+    warningdialog (_("Because you have the preference \"Create Parts\" set, Score Layouts for all the parts are now created.\nChoose Typeset in the Print View to select the Default Layout if reqquired."));
+    shown = TRUE;
+  }
+  export_lilypond_parts (filename, gui);
+}
 /**
  * Display a message box asking the user whether to save unsaved changes
  * or close without saving
@@ -675,7 +684,7 @@ filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, Dene
 
       /*export parts as lilypond files */
       if (Denemo.prefs.saveparts)
-        export_lilypond_parts (file, gui);
+        warn_export_lilypond_parts (file, gui);
       if(!Denemo.non_interactive)
         gui->movement->readonly = FALSE;
     }
@@ -1170,7 +1179,7 @@ file_save (GtkWidget * widget, DenemoProject * gui)
 
   /*Save parts as lilypond files */
   if (Denemo.prefs.saveparts)
-    export_lilypond_parts (gui->filename->str, gui);
+    warn_export_lilypond_parts (gui->filename->str, gui);
 
   score_status (gui, FALSE);
   return ret;

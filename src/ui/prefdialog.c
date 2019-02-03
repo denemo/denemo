@@ -651,7 +651,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   INTENTRY_LIMITS (_("Max recent files"), maxhistory, 0, 100);
   TEXTENTRY (_("User Name"), username)
   //PASSWORDENTRY (_("Password for Denemo.org"), password)
-  BOOLEANENTRY (_("Autosave Parts"), saveparts);
+  BOOLEANENTRY (_("Create Parts Layouts"), saveparts);
 
   hbox = gtk_hbox_new (FALSE, 8);
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
