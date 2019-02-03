@@ -2,16 +2,11 @@
 <score xmlns="http://denemo.org/xmlns/Denemo" version="8">
   <scoreheader-directives>
     <directive>
-      <tag>ScoreHeaderTagline</tag>
-      <override>32</override>
-    </directive>
-    <directive>
       <tag>test</tag>
       <prefix>%{scoreheader prefix%}
 </prefix>
       <postfix>%{scoreheader postfix%}
 </postfix>
-      <override>32</override>
     </directive>
   </scoreheader-directives>
   <paper-directives>
@@ -21,179 +16,50 @@
 </prefix>
       <postfix>%{paper postfix%}
 </postfix>
-      <override>32</override>
-    </directive>
-    <directive>
-      <tag>LimitInterSystemSpace</tag>
-      <postfix>
-page-limit-inter-system-space = ##t
-page-limit-inter-system-space-factor = 1.2</postfix>
-      <data>1.2</data>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
-    <fontsize>16</fontsize>
+    <fontsize>18</fontsize>
     <orientation>1</orientation>
     <total-edit-time>0</total-edit-time>
     <score-directives>
       <directive>
         <tag>test</tag>
-        <prefix>%{score prefix%}</prefix>
-        <postfix>%{score postfix%}</postfix>
-        <override>32</override>
+        <prefix>%{score prefix%}
+</prefix>
+        <postfix>%{score postfix%}
+</postfix>
       </directive>
     </score-directives>
   </lilycontrol>
-  <movement-number>2</movement-number>
+  <movement-number>1</movement-number>
   <movement>
     <edit-info>
       <staffno>1</staffno>
-      <measureno>1</measureno>
-      <cursorposition>0</cursorposition>
-      <tonalcenter>0</tonalcenter>
-      <zoom>100</zoom>
-      <system-height>100</system-height>
-      <page-zoom>100</page-zoom>
-      <page-system-height>100</page-system-height>
-    </edit-info>
-    <score-info>
-      <tempo>
-        <duration>
-          <numerator>1</numerator>
-          <denominator>4</denominator>
-        </duration>
-        <bpm>60</bpm>
-      </tempo>
-    </score-info>
-    <staves>
-      <staff id="id0"></staff>
-    </staves>
-    <voices>
-      <voice id="id1">
-        <voice-info>
-          <voice-name>voice 1</voice-name>
-          <first-measure-number>1</first-measure-number>
-        </voice-info>
-        <initial-voice-params>
-          <staff-ref staff="id0"></staff-ref>
-          <clef name="treble">
-            <directives>
-              <directive>
-                <tag>test</tag>
-                <prefix>%{clef prefix%}</prefix>
-                <postfix>%{clef postfix%}</postfix>
-                <override>32</override>
-              </directive>
-            </directives>
-          </clef>
-          <key-signature>
-            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
-          </key-signature>
-          <time-signature>
-            <simple-time-signature>
-              <numerator>4</numerator>
-              <denominator>4</denominator>
-            </simple-time-signature>
-          </time-signature>
-        </initial-voice-params>
-        <voice-props>
-          <number-of-lines>5</number-of-lines>
-          <voice-control>1</voice-control>
-          <transpose>0</transpose>
-          <instrument>acoustic grand</instrument>
-          <device-port>NONE</device-port>
-          <volume>65</volume>
-          <override_volume>0</override_volume>
-          <mute>0</mute>
-          <midi_prognum>0</midi_prognum>
-          <midi_channel>0</midi_channel>
-          <hasfigures>0</hasfigures>
-          <hasfakechords>0</hasfakechords>
-          <staff-directives>
-            <directive>
-              <tag>test</tag>
-              <prefix>%{staff prefix%}</prefix>
-              <postfix>%{staff postfix%}</postfix>
-              <override>32</override>
-            </directive>
-          </staff-directives>
-          <voice-directives>
-            <directive>
-              <tag>test</tag>
-              <prefix>%{voice prefix%}</prefix>
-              <postfix>%{voice postfix%}</postfix>
-              <override>32</override>
-            </directive>
-          </voice-directives>
-          <clef-directives>
-            <directive>
-              <tag>test</tag>
-              <prefix>%{clef prefix%}</prefix>
-              <postfix>%{clef postfix%}</postfix>
-              <override>32</override>
-            </directive>
-          </clef-directives>
-        </voice-props>
-        <measures>
-          <measure>
-            <chord show="true" id="id2">
-              <duration base="quarter"></duration>
-              <directives>
-                <directive>
-                  <tag>test</tag>
-                  <prefix>%{chord prefix%}</prefix>
-                  <postfix>%{chord postfix%}</postfix>
-                  <override>32</override>
-                </directive>
-              </directives>
-              <notes>
-                <note id="id3">
-                  <middle-c-offset>0</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>test</tag>
-                      <prefix>%{note prefix%}</prefix>
-                      <postfix>%{note postfix%}</postfix>
-                      <override>32</override>
-                    </directive>
-                  </directives>
-                </note>
-                <note id="id4">
-                  <middle-c-offset>5</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-          </measure>
-        </measures>
-      </voice>
-    </voices>
-  </movement>
-  <movement>
-    <edit-info>
-      <staffno>1</staffno>
-      <measureno>1</measureno>
+      <measureno>2</measureno>
       <cursorposition>4</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>100</page-zoom>
-      <page-system-height>100</page-system-height>
+      <page-zoom>0</page-zoom>
+      <page-system-height>0</page-system-height>
     </edit-info>
     <header-directives>
-      <directive>
-        <tag>HeaderPiece</tag>
-        <postfix>piece = "Movement 2"
-</postfix>
-        <override>32</override>
-      </directive>
       <directive>
         <tag>test</tag>
         <prefix>%{header prefix%}
 </prefix>
         <postfix>%{header postfix%}
 </postfix>
-        <override>32</override>
       </directive>
     </header-directives>
     <layout-directives>
@@ -203,7 +69,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
 </prefix>
         <postfix>%{layout postfix%}
 </postfix>
-        <override>32</override>
       </directive>
     </layout-directives>
     <movementcontrol-directives>
@@ -214,6 +79,14 @@ page-limit-inter-system-space-factor = 1.2</postfix>
         <postfix>%{movementcontrol postfix%}
 </postfix>
       </directive>
+      <directive>
+        <tag>movementcontrolwithaffix</tag>
+        <prefix>%{movementcontrol prefix with affix%}
+</prefix>
+        <postfix>%{movementcontrol postfix with affix%}
+</postfix>
+        <override>16</override>
+      </directive>
     </movementcontrol-directives>
     <score-info>
       <tempo>
@@ -221,27 +94,28 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <numerator>1</numerator>
           <denominator>4</denominator>
         </duration>
-        <bpm>60</bpm>
+        <bpm>120</bpm>
       </tempo>
     </score-info>
     <staves>
-      <staff id="id5"></staff>
+      <staff id="id0"></staff>
     </staves>
     <voices>
-      <voice id="id6">
+      <voice id="id1">
         <voice-info>
-          <voice-name>voice 1</voice-name>
+          <voice-name>Part 1</voice-name>
           <first-measure-number>1</first-measure-number>
         </voice-info>
         <initial-voice-params>
-          <staff-ref staff="id5"></staff-ref>
+          <staff-ref staff="id0"></staff-ref>
           <clef name="treble">
             <directives>
               <directive>
                 <tag>test</tag>
-                <prefix>%{clef prefix%}</prefix>
-                <postfix>%{clef postfix%}</postfix>
-                <override>32</override>
+                <prefix>%{clef prefix%}
+</prefix>
+                <postfix>%{clef postfix%}
+</postfix>
               </directive>
             </directives>
           </clef>
@@ -259,9 +133,9 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <number-of-lines>5</number-of-lines>
           <voice-control>1</voice-control>
           <transpose>0</transpose>
-          <instrument>acoustic grand</instrument>
+          <instrument></instrument>
           <device-port>NONE</device-port>
-          <volume>65</volume>
+          <volume>127</volume>
           <override_volume>0</override_volume>
           <mute>0</mute>
           <midi_prognum>0</midi_prognum>
@@ -271,94 +145,119 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <staff-directives>
             <directive>
               <tag>test</tag>
-              <prefix>%{staff prefix%}</prefix>
-              <postfix>%{staff postfix%}</postfix>
-              <override>32</override>
+              <prefix>%{staff prefix%}
+</prefix>
+              <postfix>%{staff postfix%}
+</postfix>
             </directive>
           </staff-directives>
           <voice-directives>
             <directive>
               <tag>test</tag>
-              <prefix>%{voice prefix%}</prefix>
-              <postfix>%{voice postfix%}</postfix>
-              <override>32</override>
+              <prefix>%{voice prefix%}
+</prefix>
+              <postfix>%{voice postfix%}
+</postfix>
             </directive>
           </voice-directives>
           <clef-directives>
             <directive>
               <tag>test</tag>
-              <prefix>%{clef prefix%}</prefix>
-              <postfix>%{clef postfix%}</postfix>
-              <override>32</override>
+              <prefix>%{clef prefix%}
+</prefix>
+              <postfix>%{clef postfix%}
+</postfix>
             </directive>
           </clef-directives>
         </voice-props>
         <measures>
           <measure>
-            <lily-directive>
-              <tag>test</tag>
-              <prefix>%{standalone prefix%}</prefix>
-              <postfix> </postfix>
-            </lily-directive>
+            <chord show="true" id="id2">
+              <duration base="whole"></duration>
+              <directives>
+                <directive>
+                  <tag>test</tag>
+                  <prefix>%{chord prefix%}
+</prefix>
+                  <postfix>%{chord postfix%}
+</postfix>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id3">
+                  <middle-c-offset>-2</middle-c-offset>
+                </note>
+                <note id="id4">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+          </measure>
+          <measure>
+            <chord show="true" id="id5">
+              <duration base="half"></duration>
+              <directives>
+                <directive>
+                  <tag>testwithaffix</tag>
+                  <prefix>%{chord prefix with affix override set%}
+</prefix>
+                  <postfix>%{chord postfix with affix override set%}
+</postfix>
+                  <override>16</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id6">
+                  <middle-c-offset>-1</middle-c-offset>
+                </note>
+                <note id="id7">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id8">
+              <duration base="quarter"></duration>
+              <directives>
+                <directive>
+                  <tag>testwithaffixandlilyoverride</tag>
+                  <prefix>%{chord prefix with lily and affix override set%}
+</prefix>
+                  <postfix>%{chord postfix with lily and affix override set%}
+</postfix>
+                  <override>17</override>
+                </directive>
+              </directives>
+              <notes>
+                <note id="id9">
+                  <middle-c-offset>0</middle-c-offset>
+                </note>
+                <note id="id10">
+                  <middle-c-offset>1</middle-c-offset>
+                </note>
+              </notes>
+            </chord>
+            <chord show="true" id="id11">
+              <duration base="quarter"></duration>
+              <notes>
+                <note id="id12">
+                  <middle-c-offset>1</middle-c-offset>
+                  <directives>
+                    <directive>
+                      <tag>test</tag>
+                      <prefix>%{note prefix%}
+</prefix>
+                      <postfix>%{note postfix%}
+</postfix>
+                    </directive>
+                  </directives>
+                </note>
+              </notes>
+            </chord>
             <lily-directive>
               <tag>test</tag>
               <prefix>%{standalone prefix%}</prefix>
               <postfix>%{standalone postfix%}</postfix>
             </lily-directive>
-            <chord show="true" id="id7">
-              <duration base="quarter"></duration>
-              <directives>
-                <directive>
-                  <tag>test</tag>
-                  <prefix>%{chord prefix%}</prefix>
-                  <postfix>%{chord postfix%}</postfix>
-                  <override>32</override>
-                </directive>
-                <directive>
-                  <tag>testprefix</tag>
-                  <prefix>%{chord prefix%}</prefix>
-                </directive>
-                <directive>
-                  <tag>testprefixwithaffix</tag>
-                  <prefix>%{chord prefix with affix override set%}</prefix>
-                  <override>16</override>
-                </directive>
-              </directives>
-              <notes>
-                <note id="id8">
-                  <middle-c-offset>0</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>test</tag>
-                      <prefix>%{note prefix%}</prefix>
-                      <postfix>%{note postfix%}</postfix>
-                      <override>32</override>
-                    </directive>
-                  </directives>
-                </note>
-                <note id="id9">
-                  <middle-c-offset>5</middle-c-offset>
-                </note>
-              </notes>
-            </chord>
-            <chord show="true" id="id10">
-              <duration base="quarter"></duration>
-              <notes>
-                <note id="id11">
-                  <middle-c-offset>7</middle-c-offset>
-                  <directives>
-                    <directive>
-                      <tag>test</tag>
-                      <prefix>%{note prefix and DENEMO_OVERRIDE_AFFIX%}
-</prefix>
-                      <postfix>%{note postfix and DENEMO_OVERRIDE_AFFIX%}
-</postfix>
-                      <override>16</override>
-                    </directive>
-                  </directives>
-                </note>
-              </notes>
-            </chord>
           </measure>
         </measures>
       </voice>

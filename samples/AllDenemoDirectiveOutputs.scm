@@ -40,6 +40,9 @@
 (d-DirectivePut-movementcontrol-prefix "test" "%{movementcontrol prefix%}\n")
 (d-DirectivePut-movementcontrol-postfix "test" "%{movementcontrol postfix%}\n")
 
+(d-DirectivePut-movementcontrol-prefix "movementcontrolwithaffix" "%{movementcontrol prefix with affix%}\n")
+(d-DirectivePut-movementcontrol-postfix "movementcontrolwithaffix" "%{movementcontrol postfix with affix%}\n")
+(d-DirectivePut-movementcontrol-override "movementcontrolwithaffix" DENEMO_OVERRIDE_AFFIX)
 
 ;;(d-DirectivePut-movementcontrol-override "test" DENEMO_OVERRIDE_LILYPOND)
 
