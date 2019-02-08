@@ -1095,7 +1095,7 @@ static gchar *get_label_for_name (gchar *name)
     for (i=0;i<G_N_ELEMENTS (menu_entries);i++)
         {
             if (!strcmp (menu_entries[i].name, name))
-                return menu_entries[i].label;
+                return gettext(menu_entries[i].label);
             
         }
    return NULL;
@@ -1353,7 +1353,7 @@ void denemo_menusystem_add_actions (void)
     gint i;
     for (i=0;i<G_N_ELEMENTS (menu_entries);i++)
         {
-          DenemoAction *action = denemo_action_new (menu_entries[i].name, menu_entries[i].label, menu_entries[i].tooltip);
+          DenemoAction *action = denemo_action_new (menu_entries[i].name, gettext(menu_entries[i].label), gettext(menu_entries[i].tooltip));
           action->type = DENEMO_MENU_ITEM;
           action->callback = menu_entries[i].callback;
         }  
@@ -1369,10 +1369,10 @@ static void denemo_action_group_add_toggle_actions (void)
     gint i;
     for ( i=0;i<G_N_ELEMENTS (toggle_menu_entries);i++)
         {
-        DenemoAction *action = denemo_action_new (toggle_menu_entries[i].name, toggle_menu_entries[i].label, toggle_menu_entries[i].tooltip);
+        DenemoAction *action = denemo_action_new (toggle_menu_entries[i].name, gettext(toggle_menu_entries[i].label), gettext(toggle_menu_entries[i].tooltip));
         action->type = DENEMO_MENU_ITEM;
         action->callback = toggle_menu_entries[i].callback;
-        item = gtk_check_menu_item_new_with_label (toggle_menu_entries[i].label);
+        item = gtk_check_menu_item_new_with_label (gettext(toggle_menu_entries[i].label));
        // toggle_menu_entries[i].item = item;
         gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM(item), toggle_menu_entries[i].initial);
        
@@ -1416,10 +1416,10 @@ void denemo_action_group_add_radio_actions (void)
 
     for (i=0;i<G_N_ELEMENTS (input_menu_entries);i++)
         {
-        DenemoAction *action = denemo_action_new (input_menu_entries[i].name, input_menu_entries[i].label, input_menu_entries[i].tooltip);
+        DenemoAction *action = denemo_action_new (input_menu_entries[i].name, gettext(input_menu_entries[i].label), gettext(input_menu_entries[i].tooltip));
         action->type = DENEMO_MENU_ITEM;
         
-        item = gtk_radio_menu_item_new_with_label (group, input_menu_entries[i].label);
+        item = gtk_radio_menu_item_new_with_label (group, gettext(input_menu_entries[i].label));
         
         group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (item));
         gtk_menu_shell_insert (GTK_MENU_SHELL (parent), item, i+1);//placed after the tear-off item.
