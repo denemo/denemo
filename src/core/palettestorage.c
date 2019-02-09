@@ -133,7 +133,7 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
   if (ELEM_NAME_EQ (childElem, "button"))
   {
     gchar *label = (gchar *) xmlGetProp (childElem, (xmlChar *) "label");
-    gchar *tooltip = (gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip");
+    gchar *tooltip = gettext((gchar *) xmlGetProp (childElem, (xmlChar *) "_tooltip"));
     gchar *script = (gchar *) xmlGetProp (childElem, (xmlChar *) "script");
     if(label && tooltip && script)
         palette_add_button (pal, label, tooltip, script);
@@ -146,7 +146,7 @@ for ((childElem) = (parentElem)->xmlChildrenNode; \
 
 static void install_palette (xmlNodePtr palette, gboolean hide)
 {
-    gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");
+    gchar *name = gettext((gchar *) xmlGetProp (palette, (xmlChar *) "_name"));
     gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
     gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
     gboolean dock =  getXMLIntProp (palette, (xmlChar *) "dock");
@@ -168,7 +168,7 @@ static void install_palette (xmlNodePtr palette, gboolean hide)
 }
 static gint merge_palette (xmlNodePtr palette, const gchar *sought)
 {
-    gchar *name = (gchar *) xmlGetProp (palette, (xmlChar *) "_name");
+    gchar *name = gettext((gchar *) xmlGetProp (palette, (xmlChar *) "_name"));
     gboolean hidden =  getXMLIntProp (palette, (xmlChar *) "hidden");
     gboolean row_wise =  getXMLIntProp (palette, (xmlChar *) "row-wise");
     gboolean dock =  getXMLIntProp (palette, (xmlChar *) "dock");
