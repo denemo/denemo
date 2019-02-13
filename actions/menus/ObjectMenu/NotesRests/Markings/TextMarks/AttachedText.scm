@@ -21,7 +21,7 @@
      (if (not current)
                 (set! current "")) 
     (if (not text)
-        (set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond sytax, the others must be paired.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") current)));;cannot popup menu after this, it runs gtk_main
+        (set! text (d-GetUserInputWithSnippets (_ "Text") (_ "Give text to appear with note/chord:\nThe characters \\, \", §, { and } have a special meaning in the text,\nthe backslash \\ starts some LilyPond syntax, the others must be paired.\nTo apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\nOther markup commands \\super, \\tiny etc, see LilyPond documentation.") current)));;cannot popup menu after this, it runs gtk_main
  
     (if text
         (if (string-null? (car text))
