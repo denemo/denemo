@@ -5,6 +5,7 @@
 			(d-DirectiveDelete-timesig tag)
 			(d-InitialTimeSig))
 		(begin
+		    (d-InfoDialog (_ "Set initial time signatures on other staffs as needed. To restore normal time signatures repeat this command (Unmeasured Staff)"))
 		    (d-InitialTimeSig "256/1")
 		    (d-DirectivePut-timesig-postfix tag "\\cadenzaOn ")
 		     (d-DirectivePut-timesig-override tag (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND))
