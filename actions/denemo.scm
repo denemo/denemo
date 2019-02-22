@@ -883,6 +883,15 @@
         #f))        
 (define (RadioBoxMenu . parameters)
     (RadioBoxMenuList parameters))
+    
+(define (RadioBoxMenuPairs . parameters)
+    (define answer #f)
+    (define radiostring (string-append (string-join (map (lambda (x) (car x)) parameters) stop) stop))
+    (set! answer (d-GetOption radiostring))
+    (if answer
+        (list-ref  parameters (list-index (lambda (x) (equal?  answer (car x))) parameters))
+        #f))         
+    
 
 (define (TitledRadioBoxMenuList title parameters)
    (define answer #f)
