@@ -959,6 +959,8 @@ actions/menus/ObjectMenu/Directives/Typesetter/BeamingOff.scm
 actions/menus/ObjectMenu/Directives/Typesetter/BeamingOff.xml
 actions/menus/ObjectMenu/Directives/Typesetter/BeamingOn.scm
 actions/menus/ObjectMenu/Directives/Typesetter/BeamingOn.xml
+actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.scm
+actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.xml
 actions/menus/ObjectMenu/Directives/Typesetter/ChordChangesOnly.scm
 actions/menus/ObjectMenu/Directives/Typesetter/ChordChangesOnly.xml
 actions/menus/ObjectMenu/Directives/Typesetter/ChordSymbols/ColorChordSymbol.scm

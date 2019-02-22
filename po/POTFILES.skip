@@ -1,3 +1,11 @@
 tools/cairo_svg2path.c
+tools/CreateTokenizerSedScriptFromMusicGlossary.c
+tools/CreateUnTokenizerSedScriptFromMusicGlossary.c
+tools/GenerateApplyMusicGlossary.c
+tools/GeneratePo.c
 tools/generate_source.c
+tools/GetTranslatableFromDenemoPot.c
+tools/MusicGlossaryToX.c
+tools/PotToPo.c
+tools/TranslatePO.c
 src/lilypond.lang

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChangeStencil</action>
+        <after>ShiftNext</after>
+        <_label>Change Stencil for Object</_label>
+        <_tooltip>Lets you create your own stencil for typesetting the next occurence of the chosen layout object. The stencil is created using LilyPond markup - this can be anything from a single character to a drawing in encapsulated Postscript format. See LilyPond documentation for details.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
