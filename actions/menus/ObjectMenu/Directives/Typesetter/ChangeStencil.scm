@@ -10,6 +10,7 @@
         	(cons (_ "Cue End Clef") "Staff.CueEndClef")
         	(cons (_ "Key Signature") "Staff.KeySignature")
         	(cons (_ "Key Cancellation") "Staff.KeyCancellation")
+        	(cons (_ "Time Signature") "Staff.TimeSignature")
         	(cons (_ "Arpeggio") "Staff.Arpeggio")
         	(cons (_ "Breath") "Staff.BreathingSign")
         	(cons (_ "Custos") "Staff.Custos")
