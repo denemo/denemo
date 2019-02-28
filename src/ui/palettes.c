@@ -452,6 +452,12 @@ static void fixup_image (GtkWidget *button, gchar *label) {
     //g_debug("Fixing up image");
     set_image_for_button (button, label);
 }
+
+void switch_and_call_out_to_guile (gchar *script)
+    {
+        switch_back_to_main_window ();
+        call_out_to_guile (script);
+    }
 gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tooltip, gchar *script)
 {
     if (already_present(pal, label))
@@ -482,7 +488,7 @@ gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tool
     gtk_widget_set_tooltip_text (button, _(tooltip));
     g_object_set_data (G_OBJECT(button), "script", thescript);
     g_object_set_data (G_OBJECT(button), "palette", pal);
-    g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), thescript);
+    g_signal_connect_swapped ( G_OBJECT (button), "clicked", G_CALLBACK (switch_and_call_out_to_guile), thescript);
     g_signal_connect_after ( G_OBJECT (button), "clicked", G_CALLBACK (switch_back_to_main_window), NULL);
     g_signal_connect (G_OBJECT (button), "button-press-event", G_CALLBACK (button_pressed), (gpointer)pal);
     Denemo.currentpalette = pal;
