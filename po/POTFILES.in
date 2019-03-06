@@ -633,6 +633,8 @@ actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.scm
 actions/menus/MainMenu/NavigationMenu/Seek/SearchMusic.xml
 actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.scm
 actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.xml
+actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.scm
+actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.xml
 actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.scm
 actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.xml
 actions/menus/MainMenu/PlaybackMenu/Audio/CloseSourceAudioFile.scm

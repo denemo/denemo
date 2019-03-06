@@ -8292,7 +8292,7 @@ Start Ligature earlier in the same staff.</_tooltip>
         <after>CreateIndex</after>
         <menupath>/MainMenu/FileMenu/Indexing</menupath>
         <_label>Create Conditional Index</_label>
-        <_tooltip>Creates an index including only those scores for which the script in the Scheme Window evaluates to true (i.e. the last expression evaluates as not #f). The comment for each index entry can be created using the procedure DenemoIndexComment, e.g. (DenemoIndexComment mycomment).</_tooltip>
+        <_tooltip>Creates an index including only those scores for which the script in the Scheme Window evaluates to true (i.e. the last expression evaluates as not #f). The comment for each index entry can be created using the procedure DenemoIndexCommentDisplay, e.g. (DenemoIndexCommentDisplay mycomment).</_tooltip>
       </row>
       <row type="scheme">
         <action>ActivateObjectAtCursor</action>
@@ -8356,6 +8356,13 @@ Start Ligature earlier in the same staff.</_tooltip>
         <menupath>/ObjectMenu/Directives/Typesetter</menupath>
         <_label>Change Stencil for Object</_label>
         <_tooltip>Lets you create your own stencil for typesetting the next occurence of the chosen layout object. The stencil is created using LilyPond markup - this can be anything from a single character to a drawing in encapsulated Postscript format. See LilyPond documentation for details.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SeekLocations</action>
+        <after>SearchMusic</after>
+        <menupath>/MainMenu/NavigationMenu/Seek</menupath>
+        <_label>Seek Locations</_label>
+        <_tooltip>Seek for locations in the score satisfying a certain condition e.g. exceeding a range or at a clef change etc. A list of such locations is created which can be selected from. Repeating the command after choosing one location re-presents the remainder of the list.</_tooltip>
       </row>
     </map>
   </merge>
