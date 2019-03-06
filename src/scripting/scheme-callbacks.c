@@ -2963,8 +2963,7 @@ SCM
 scheme_get_cursor_note_with_octave (SCM optional)
 {
   DenemoProject *gui = Denemo.project;
-  scm_from_locale_string (mid_c_offsettolily (gui->movement->cursor_y, 0));
-  return SCM_BOOL_T;
+  return scm_from_locale_string (mid_c_offsettolily (gui->movement->cursor_y, 0));
 }
 
 
