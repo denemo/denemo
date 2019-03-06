@@ -65,7 +65,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (1, "Takes the the name of a scripted command. Runs the script stored for that command. Scripts which invoke other scripted commands use this (implicitly?) ", DENEMO_SCHEME_PREFIX "ScriptCallback", scheme_script_callback);
 
-  install_scm_function (1, "create a dialog with the options (null separated string) & return the one chosen, of #f if the user cancels, takes optional title", DENEMO_SCHEME_PREFIX "GetOption", scheme_get_option);
+  install_scm_function (1, "create a dialog with the options (null separated string) & return the one chosen, or #f if the user cancels, takes optional title", DENEMO_SCHEME_PREFIX "GetOption", scheme_get_option);
   /* test with (display (d-GetOption "this\0and\0that\0")) */
   install_scm_function (0, "Returns the text on the clipboard", DENEMO_SCHEME_PREFIX "GetTextSelection", scheme_get_text_selection);
   install_scm_function (0, "Returns the padding that has been set by dragging in the Print view window", DENEMO_SCHEME_PREFIX "GetPadding", scheme_get_padding);
