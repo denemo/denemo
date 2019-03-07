@@ -661,15 +661,19 @@
       </row>
       <row>
         <action>SearchPattern</action>
-        <bind>Ctrl+f,Ctrl+f</bind>
+        <bind>Alt+f,Alt+f</bind>
+      </row>
+      <row>
+        <action>SeekLocations</action>
+        <bind>Ctrl+f</bind>
       </row>
       <row>
         <action>FindNextLowerNote</action>
-        <bind>Ctrl+f,l</bind>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>NextHigher</action>
-        <bind>Ctrl+f,h</bind>
+        <hidden>true</hidden>
       </row>      
       <row>
         <action>FindEditPoint</action>
