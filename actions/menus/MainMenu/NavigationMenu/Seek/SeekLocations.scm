@@ -1,5 +1,6 @@
 ;SeekLocations
 (define-once SeekLocations::positions '())
+(define-once SeekLocations::type "")
 (let ((menu-choices #f)
         (initialize #f)
         (test #f)
@@ -8,7 +9,7 @@
         (condition-proc #f)
         (positions #f))
     (define (make-menu position)
-        (cons (format #f "'~s" position) (format #f "'~s" position)))
+        (cons (format #f "(Mvmnt, Staff/Voice, Measure, Object = ~s" position) (format #f "'~s" position)))
 
     (define find-positions-for-movement   
         (lambda ()
@@ -31,21 +32,29 @@
 
 
     (if (null? SeekLocations::positions)
-        (let (
-                
-                (choice (RadioBoxMenu
+        (let ((menu-list '())(choice #f))
+           (set! current-staff (if (d-MakeChoice (_ "Search locations in all staffs") (string-append (_ "Search in only in staff") ": " (number->string (d-GetStaff))) (_ "Choose where to search"))
+                                    #f
+                                    (d-GetStaff)))  
+            (set! menu-list (cons*  
                             (cons (_ "Key Signature Changes") 'keychange)
                             (cons (_ "Time Signature Changes") 'timechange)
                             (cons (_ "Changes of Clef") 'clefchange)
+                            menu-list))
+                            
+            (set! menu-list (cons* 
                             (cons (string-append (_ "Notes Higher Than Note") ": " (d-GetCursorNoteWithOctave))  'higher)
-                            (cons (string-append (_ "Notes Lower Than Note") ": " (d-GetCursorNoteWithOctave)) 'lower))))
-                            
-           (set! current-staff (if (d-MakeChoice (_ "Search locations in all staffs") (string-append (_ "Search in only in staff") ": " (number->string (d-GetStaff))) (_ "Choose where to search"))
-                                    #f
-                                    (d-GetStaff)))                 
-                            
+                            (cons (string-append (_ "Notes Lower Than Note") ": " (d-GetCursorNoteWithOctave)) 'lower)
+                            menu-list))
+            (let ((tag (d-DirectiveGetForTag-standalone)))
+                (if tag
+                    (set! menu-list (cons* (cons (string-append (_ "Denemo Directives tagged") ": " tag) 'directive) menu-list))))
+                
+            (set! choice (RadioBoxMenuList menu-list))
+            
             (case choice
                     ((lower)
+                        (set! SeekLocations::type (string-append (_ "Note lower than") ": " (d-GetCursorNoteWithOctave)))
                         (set! initialize 
                             (let ((current (d-GetCursorNoteWithOctave))) 
                                 (lambda ()
@@ -56,6 +65,8 @@
                             (not (or (zero? current) (>= current (d-GetCursorNoteAsMidi))))))
                         (set! navigate d-MoveCursorRight))
                     ((higher)
+                        (set! SeekLocations::type (string-append (_ "Note higher than") ": " (d-GetCursorNoteWithOctave)))
+
                         (set! initialize 
                             (let ((current (d-GetCursorNoteWithOctave))) 
                                 (lambda ()
@@ -66,20 +77,28 @@
                             (not (or (zero? current) (<= current (d-GetCursorNoteAsMidi))))))
                         (set! navigate d-MoveCursorRight))                    
                     ((keychange)
+                        (set! SeekLocations::type (_ "Key Changes"))
                         (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
                         (set! test Keysignature?)
                         (set! navigate d-MoveCursorRight))
                     ((timechange)
+                        (set! SeekLocations::type (_ "Time Signature Changes"))
                         (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
                         (set! test Timesignature?)
                         (set! navigate d-MoveCursorRight))   
                     ((clefchange)
+                        (set! SeekLocations::type (_ "Clef Changes"))
                         (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
                         (set! test Clef?)
                         (set! navigate d-MoveCursorRight))           
-                
+                    ((directive)
+                        (set! SeekLocations::type (string-append (_ "Denemo Directives tagged") ": " (d-DirectiveGetForTag-standalone)))
+                        (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
+                        (set! test  (let ((tag (d-DirectiveGetForTag-standalone))) (lambda () (d-DirectiveGetForTag-standalone tag))))
+                        (set! navigate d-MoveCursorRight))                           
                 )
-            (ForAllMovementsExecute find-positions-for-movement)))
+            (if choice
+                (ForAllMovementsExecute find-positions-for-movement))))
     (set! positions SeekLocations::positions)
     
     ;(disp "positions are " positions "\n")
@@ -88,7 +107,7 @@
         (begin
             (set! menu-choices (map make-menu positions))
                 ;(disp "menu-choices " menu-choices " \n\nwhich is a list " (list? menu-choices) "\n\n")
-            (let ((choice (TitledRadioBoxMenuList (_ "Choose a position in the score to go to (Movement, Staff, Measure, Object)") menu-choices)))
+            (let ((choice (TitledRadioBoxMenuList (string-append SeekLocations::type ": " (_ "Choose a location to go to (Movement, Staff, Measure, Object) and click OK")) (reverse menu-choices))))
                     ;(disp  "choice " choice "which is " (string? choice) "\n")
                 (if choice
                         (let ((pos (eval-string  choice)))
@@ -96,4 +115,3 @@
                             (apply d-GoToPosition pos)
                             (set! SeekLocations::positions (delete (eval-string choice) positions)))
                         (set! SeekLocations::positions '()))))))
-      
