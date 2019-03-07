@@ -114,7 +114,7 @@ void define_scheme_int_variable (gchar * varname, gint value, gchar * tooltip);
 void define_scheme_double_variable (gchar * varname, gdouble value, gchar * tooltip);
 void define_scheme_bool_variable (gchar * varname, gint value, gchar * tooltip);
 SCM scheme_next_note (SCM optional);
-void define_scheme_literal_variable (gchar * varname, gchar * value, gchar * tooltip);
+void define_scheme_literal_variable (const gchar * varname, const gchar * value, gchar * tooltip);
 gboolean show_midi_record_control (void);
 gint eval_file_with_catch (gchar * filename);
 

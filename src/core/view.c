@@ -167,7 +167,7 @@ define_scheme_variable (gchar * varname, gchar * value, gchar * tooltip)
 }
 
 void
-define_scheme_literal_variable (gchar * varname, gchar * value, gchar * tooltip)
+define_scheme_literal_variable (const gchar * varname, const gchar * value, gchar * tooltip)
 {
   scm_c_define (varname, scm_from_locale_string (value));
 }
