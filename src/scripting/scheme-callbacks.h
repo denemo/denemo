@@ -47,6 +47,7 @@ SCM scheme_hide_window (SCM);
 SCM scheme_activate_object (void);
 SCM scheme_script_callback (SCM script, SCM params);
 SCM scheme_get_option (SCM str, SCM title);
+SCM scheme_make_choice (SCM default_choice, SCM alternative, SCM title);
 SCM scheme_get_text_selection (void);
 SCM scheme_get_padding (void);
 SCM scheme_get_relative_font_size (void);

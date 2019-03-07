@@ -67,6 +67,9 @@ create_scheme_identfiers (void)
 
   install_scm_function (1, "create a dialog with the options (null separated string) & return the one chosen, or #f if the user cancels, takes optional title", DENEMO_SCHEME_PREFIX "GetOption", scheme_get_option);
   /* test with (display (d-GetOption "this\0and\0that\0")) */
+  
+    install_scm_function (3, "Takes two option strings and a title, creates a dialog with the optionss and returns #f if the second is chosen or the user cancels", DENEMO_SCHEME_PREFIX "MakeChoice", scheme_make_choice);
+
   install_scm_function (0, "Returns the text on the clipboard", DENEMO_SCHEME_PREFIX "GetTextSelection", scheme_get_text_selection);
   install_scm_function (0, "Returns the padding that has been set by dragging in the Print view window", DENEMO_SCHEME_PREFIX "GetPadding", scheme_get_padding);
   install_scm_function (0, "Deprecated - gets an integer from the user via a dialog", DENEMO_SCHEME_PREFIX "GetRelativeFontSize", scheme_get_relative_font_size);

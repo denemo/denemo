@@ -4609,6 +4609,30 @@ scheme_get_padding (void)
 }
 
 
+
+/* create a dialog with two strings & title
+ * return #t if the first is chosen else #f 
+*/
+SCM
+scheme_make_choice (SCM default_option, SCM alternative, SCM title)
+{
+  gchar *first, *second, *thetitle;
+  if (scm_is_string (title))
+    {
+      thetitle = scm_to_locale_string (title);
+      if (scm_is_string (default_option))
+        {
+          first = scm_to_locale_string (default_option);  
+          if (scm_is_string (alternative))
+            {
+              second = scm_to_locale_string (alternative);
+              return SCM_BOOL (confirm_first_choice (thetitle, first, second));
+            }
+        }
+    }
+  return SCM_BOOL_F;
+}
+
 /* create a dialog with the options & return the one chosen, of #f if
    the user cancels
 */
