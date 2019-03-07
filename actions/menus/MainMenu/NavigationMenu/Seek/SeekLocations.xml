@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SeekLocations</action>
+        <after>SearchMusic</after>
+        <_label>Seek Locations</_label>
+        <_tooltip>Seek for locations in the score satisfying a certain condition e.g. exceeding a range or at a clef change etc. A list of such locations is created which can be selected from. Repeating the command after choosing one location re-presents the remainder of the list.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
