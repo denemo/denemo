@@ -106,11 +106,11 @@
                                     (d-WarningDialog (_ "You need a Scheme expression Scheme Script window\nto use this option\nLocations where the expression evaluates are true will be found."))
                                     (if (d-MakeChoice (_ "Install a template script in the Scheme Script window") (_ "Cancel") (_ "Seek Locations"))
                                         (begin
-                                            (d-AppendSchemeText ";create your own procedure here, evaluating anything not #f (i.e. not false) at locations desired\n(lambda ()\n     #f\n       )\n")
+                                            (d-AppendSchemeText ";create your own condition here, evaluating to anything not #f (i.e. not false) at locations desired\n;Here is an example, which will choose all locations where there is a tied note\n     (d-IsTied)\n")
                                             (d-WarningDialog (_ "Open View->Scheme Script to edit the script to test for the locations you want to find")))))
                                 (begin
                                    (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
-                                    (set! test   (eval-string scheme))
+                                    (set! test   (eval-string (string-append "(lambda () " scheme ")")))
                                     (set! navigate d-MoveCursorRight)  
                                     (if (not (and (procedure? initialize) (procedure? test) (procedure? navigate)))
                                         (begin
