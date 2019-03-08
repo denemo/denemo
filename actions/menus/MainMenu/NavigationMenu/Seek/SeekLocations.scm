@@ -9,7 +9,7 @@
         (condition-proc #f)
         (positions #f))
     (define (make-menu position)
-        (cons (format #f "(Mvmnt, Staff/Voice, Measure, Object = ~s" position) (format #f "'~s" position)))
+        (cons (format #f "(Mvmnt, Staff/Voice, Measure, Object) = ~s" position) (format #f "'~s" position)))
 
     (define find-positions-for-movement   
         (lambda ()
@@ -36,10 +36,11 @@
            (set! current-staff (if (d-MakeChoice (_ "Search locations in all staffs") (string-append (_ "Search in only in staff") ": " (number->string (d-GetStaff))) (_ "Choose where to search"))
                                     #f
                                     (d-GetStaff)))  
-            (set! menu-list (cons*  
+            (set! menu-list (cons*
                             (cons (_ "Key Signature Changes") 'keychange)
                             (cons (_ "Time Signature Changes") 'timechange)
                             (cons (_ "Changes of Clef") 'clefchange)
+                            (cons (_ "Custom") 'custom)
                             menu-list))
                             
             (set! menu-list (cons* 
@@ -95,9 +96,30 @@
                         (set! SeekLocations::type (string-append (_ "Denemo Directives tagged") ": " (d-DirectiveGetForTag-standalone)))
                         (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
                         (set! test  (let ((tag (d-DirectiveGetForTag-standalone))) (lambda () (d-DirectiveGetForTag-standalone tag))))
-                        (set! navigate d-MoveCursorRight))                           
-                )
-            (if choice
+                        (set! navigate d-MoveCursorRight)) 
+                        
+                     ((custom)
+                        (let ((scheme (d-GetSchemeText)))
+                            (if (string-null? scheme)
+                                (begin
+                                    (set! choice #f)
+                                    (d-WarningDialog (_ "You need a Scheme expression Scheme Script window\nto use this option\nLocations where the expression evaluates are true will be found."))
+                                    (if (d-MakeChoice (_ "Install a template script in the Scheme Script window") (_ "Cancel") (_ "Seek Locations"))
+                                        (begin
+                                            (d-AppendSchemeText ";create your own procedure here, evaluating anything not #f (i.e. not false) at locations desired\n(lambda ()\n     #f\n       )\n")
+                                            (d-WarningDialog (_ "Open View->Scheme Script to edit the script to test for the locations you want to find")))))
+                                (begin
+                                   (set! initialize (lambda () (d-GoToPosition #f 1 1 1)))
+                                    (set! test   (eval-string scheme))
+                                    (set! navigate d-MoveCursorRight)  
+                                    (if (not (and (procedure? initialize) (procedure? test) (procedure? navigate)))
+                                        (begin
+                                            (d-WarningDialog (_ "The procedures initialize etc are not defined"))
+                                            (set! choice #f)))))
+                            (set! SeekLocations::type (_ "Scheme Script")))))
+                            
+                            
+    (if choice
                 (ForAllMovementsExecute find-positions-for-movement))))
     (set! positions SeekLocations::positions)
     
@@ -115,3 +137,4 @@
                             (apply d-GoToPosition pos)
                             (set! SeekLocations::positions (delete (eval-string choice) positions)))
                         (set! SeekLocations::positions '()))))))
+      
