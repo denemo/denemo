@@ -8365,11 +8365,11 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_tooltip>Seek for locations in the score satisfying a certain condition e.g. exceeding a range or at a clef change etc. A list of such locations is created which can be selected from. Repeating the command after choosing one location re-presents the remainder of the list.</_tooltip>
       </row>
       <row type="scheme">
-        <action>CopyFromAbove</action>
+        <action>PasteFromAbove</action>
         <after>PasteComment</after>
         <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Copy From Staff Above</_label>
-        <_tooltip>Copies any non-musical objects for the current musical moment from the staff above into this staff after the cursor.</_tooltip>
+        <_label>Paste From Staff Above</_label>
+        <_tooltip>Copies any non-musical objects for the current musical moment from the staff above and pastes them into this staff after the cursor.</_tooltip>
       </row>
     </map>
   </merge>

@@ -301,6 +301,8 @@ actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-R
 actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-RandomWithinClefRangeDiatonic.xml
 actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm
 actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.xml
+actions/menus/MainMenu/EditMenu/PasteFromAbove.scm
+actions/menus/MainMenu/EditMenu/PasteFromAbove.xml
 actions/menus/MainMenu/EditMenu/PasteReplaceSelection.scm
 actions/menus/MainMenu/EditMenu/PasteReplaceSelection.xml
 actions/menus/MainMenu/EditMenu/ReloadDrumHash.scm
