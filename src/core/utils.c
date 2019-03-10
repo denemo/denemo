@@ -2416,7 +2416,7 @@ write_status (DenemoProject * gui)
   if (gui->movement->smf && (gui->movement->smfsync == gui->movement->changecount) && Denemo.prefs.playback_controls)
     g_string_append_printf (status, _("start %.2f end %.2f"), early, late);
   else
-    g_string_append_printf (status, _(" Staff %d Measure %d Position %d %s"), gui->movement->currentstaffnum, gui->movement->currentmeasurenum, gui->movement->cursor_x + 1, gui->movement->cursor_appending ? _("Appending") : _("Not Appending") /*not understood this one... , gui->movement->cursoroffend?"Off End":"Not Off End" */ );
+    g_string_append_printf (status, _(" Staff %d Measure %d Position %d %s"), gui->movement->currentstaffnum, gui->movement->currentmeasurenum, gui->movement->cursor_x + 1, (gui->movement->cursor_appending || !gui->movement->currentobject) ? _("Appending") : _("Not Appending") /*not understood this one... , gui->movement->cursoroffend?"Off End":"Not Off End" */ );
 
   if (Denemo.prefs.midi_in_controls)
     {
