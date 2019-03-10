@@ -13,6 +13,6 @@
 			    (d-CursorLeft)
 			    (d-Copy)
 			    (d-PopPosition)
-			    (d-MoveCursorRight)
+			    (if (not (or (EmptyMeasure?) (Appending?))) (d-MoveCursorRight))
 			    (d-Paste))
 			   (d-PopPosition)))))
