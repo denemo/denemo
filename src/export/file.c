@@ -1399,7 +1399,7 @@ lilypond_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar
         }
       dnm_setinitialclef (Denemo.project->movement, (DenemoStaff *) Denemo.project->movement->currentstaff->data, theclef);
       call_out_to_guile ("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
-      if (confirm (_("Paste from Selection"), _("Paste this music into your score?")))
+      if (confirm (_("Paste LilyPond Notes"), _("Paste this music into your score?")))
         {
           DenemoProject *gui = Denemo.project;
           tohome (NULL, NULL);
