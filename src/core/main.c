@@ -157,7 +157,7 @@ process_command_line (int argc, char **argv, gboolean gtkstatus)
                           "Denemo is part of the GNU project."), NULL);
   const gchar* footer = _("Report bugs to http://www.denemo.org\n"
                           "GNU Denemo, a free and open music notation editor");
-
+  Denemo.LastCommandId = -1;
   context = g_option_context_new (subtitle);
   g_option_context_set_summary (context, header);
   g_free(header);

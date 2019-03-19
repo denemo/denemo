@@ -1247,6 +1247,7 @@ struct DenemoRoot
 #define NB_SINGLETON_RHYTHMS 256
   struct RhythmPattern *singleton_rhythms[NB_SINGLETON_RHYTHMS]; /**< rhythm patterns for the EntryToolbar */
   gboolean ScriptRecording;/**< TRUE when menuitems presses are being recorded as scheme script*/
+  gint LastCommandId; /**< id of last command used */
   gint keyboard_state;/**< state of last keypress/release controlling MIDI in*/
   gboolean keyboard_state_locked;/**< lock against changes by shift and control keypresses */
 

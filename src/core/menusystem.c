@@ -790,6 +790,7 @@ menu_click (GtkWidget * widget, GdkEventButton * event, DenemoAction * action)
   //g_print("In menu click action is %p name is %s button %d\n",action, func_name, event->button);
 
   gint idx = lookup_command_from_name (the_keymap, func_name);
+  Denemo.LastCommandId = idx;
   command_row *row = NULL;
   keymap_get_command_row (the_keymap, &row, idx);
   if (!row)

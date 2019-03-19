@@ -191,6 +191,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
     prefix_store = g_string_new ("");
 
   gint command_idx = lookup_command_for_keyevent (event);
+  Denemo.LastCommandId = command_idx;
   if ((prefix_store->len == 0) && (command_idx != -1))
     {
       const gchar *command_name = lookup_name_from_idx (the_keymap, command_idx);
@@ -313,7 +314,16 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
- // g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
+  //g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
+  if ((event->keyval == 65481) && (event->state == 0)) //Fn12 hardwired to repeat last command
+    {
+      if (Denemo.LastCommandId != -1)
+        {
+          execute_callback_from_idx (Denemo.map, Denemo.LastCommandId);
+        }
+      return TRUE;
+    }
+
       if(!Denemo.keyboard_state_locked)
           {
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));

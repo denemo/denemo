@@ -66,6 +66,13 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
   GtkTreePath *path;
   gint *array;
   keyboard_dialog_data *cbdata = (keyboard_dialog_data *) user_data;
+  
+  if ((event->keyval == 65481) && (event->state == 0)) //Fn12 hardwired to repeat last command
+    {
+      warningdialog (_("Fn12 is hard-wired to repeat the last command"));
+      return TRUE;
+    }
+  
   //get the shortcut
   if (isModifier (event))
     return TRUE;
