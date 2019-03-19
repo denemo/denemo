@@ -161,7 +161,7 @@ perform_command (const gchar * command_name, GdkEventKey * event)
   if (Denemo.project->movement)
     displayhelper (Denemo.project);
 #endif
-  g_string_assign (Denemo.input_filters, command_name);
+  g_string_printf (Denemo.input_filters, "%s <span foreground=\"blue\">%s</span>", command_name, _(" (use Fn12 to Repeat)"));
   write_input_status();
   return NULL;
 }
@@ -324,7 +324,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       if (Denemo.LastCommandId != -1)
         {
           execute_callback_from_idx (Denemo.map, Denemo.LastCommandId);
-          g_string_assign (Denemo.input_filters, _("Repeated Last Command"));
+          g_string_assign (Denemo.input_filters, _("<span foreground=\"green\">Fn12</span>: Repeated Last Command"));
           write_input_status();
         }
       return TRUE;
