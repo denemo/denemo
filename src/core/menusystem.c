@@ -797,13 +797,15 @@ menu_click (GtkWidget * widget, GdkEventButton * event, DenemoAction * action)
     return TRUE;//stop other handlers running
   //g_debug("event button %d, idx %d for %s recording = %d scm = %d\n", event->button, idx, func_name, Denemo.ScriptRecording,g_object_get_data(G_OBJECT(action), "scm") );
   if (event->button != 3)       //Not right click
-    if (Denemo.ScriptRecording)
+    {
+      if (Denemo.ScriptRecording)
         {
           append_scheme_call ((gchar *) func_name);
         }
-
-  if (event->button != 3)
-    return FALSE;
+      g_string_assign (Denemo.input_filters, func_name);
+      write_input_status();
+     return FALSE;
+   }
 
   gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));   //some buttons should be insensitive if the Scheme window is not visible
   GtkWidget *menu = gtk_menu_new ();

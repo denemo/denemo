@@ -456,6 +456,8 @@ static void fixup_image (GtkWidget *button, gchar *label) {
 void switch_and_call_out_to_guile (gchar *script)
     {
         switch_back_to_main_window ();
+        g_string_assign (Denemo.input_filters, _("Palette Button Activated"));
+        write_input_status();
         call_out_to_guile (script);
     }
 gboolean palette_add_button (DenemoPalette *pal, gchar *label, const gchar *tooltip, gchar *script)

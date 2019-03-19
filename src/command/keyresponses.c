@@ -161,6 +161,8 @@ perform_command (const gchar * command_name, GdkEventKey * event)
   if (Denemo.project->movement)
     displayhelper (Denemo.project);
 #endif
+  g_string_assign (Denemo.input_filters, command_name);
+  write_input_status();
   return NULL;
 }
 
@@ -191,7 +193,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
     prefix_store = g_string_new ("");
 
   gint command_idx = lookup_command_for_keyevent (event);
-  Denemo.LastCommandId = command_idx;
+
   if ((prefix_store->len == 0) && (command_idx != -1))
     {
       const gchar *command_name = lookup_name_from_idx (the_keymap, command_idx);
@@ -208,6 +210,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
                 append_scheme_call ((gchar *) command_name);
             }
           //g_debug("Single Key shortcut %s invokes %s\n", dnm_accelerator_name(event->keyval, event->state), command_name);
+          Denemo.LastCommandId = command_idx;
           return perform_command (command_name, event);
         }
       else
@@ -240,6 +243,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
                 {
                 append_scheme_call ((gchar *) command_name);
                 }
+              Denemo.LastCommandId = command_idx;
               ret = perform_command (command_name, event);
             }
         }
@@ -320,6 +324,8 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       if (Denemo.LastCommandId != -1)
         {
           execute_callback_from_idx (Denemo.map, Denemo.LastCommandId);
+          g_string_assign (Denemo.input_filters, _("Repeated Last Command"));
+          write_input_status();
         }
       return TRUE;
     }
@@ -343,7 +349,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
       gtk_main_quit ();
       return TRUE;              //*is* reached main loop exits to the caller of the loop when it next gains control
     }
-
+ 
   (void) process_key_event (event, perform_command);
   return TRUE;                  //I think this means do not run any other handlers after this.
 }
