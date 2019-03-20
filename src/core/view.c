@@ -3168,7 +3168,7 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
       gtk_button_set_image (GTK_BUTTON (button), gtk_image_new_from_icon_name (image, GTK_ICON_SIZE_BUTTON));
     }
   if (callback)
-    g_signal_connect (button, "clicked", G_CALLBACK (callback), NULL);
+    g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (callback), NULL);
   gtk_box_pack_start (GTK_BOX (box), button, FALSE, TRUE, 0);
   gtk_widget_set_tooltip_text (button, tooltip);
   return button;
@@ -3233,6 +3233,11 @@ toggle_dynamic_compression (gboolean * compression)
 {
   *compression = 100 * (!*compression);
   Denemo.project->movement->smfsync = G_MAXINT;
+}
+
+static void open_command_center_on_LastID (void)
+{
+  command_center_select_idx (NULL, Denemo.LastCommandId);
 }
 
 /* create_window() creates the toplevel window and all the menus - it only
@@ -3700,11 +3705,16 @@ create_window (void)
   gtk_widget_show (Denemo.statuslabel);
   //Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   //gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
-  Denemo.input_label = gtk_label_new (_("No MIDI filter"));
+  GtkWidget *input_button = gtk_button_new_with_label ("");
+  g_signal_connect (G_OBJECT(input_button), "clicked", G_CALLBACK (open_command_center_on_LastID), NULL);
+  Denemo.input_label = gtk_bin_get_child (GTK_BIN(input_button));
+  gtk_label_set_use_markup (GTK_LABEL (Denemo.input_label), TRUE);
+  gtk_label_set_markup(GTK_LABEL (Denemo.input_label), _("No MIDI filter"));
+ 
   gtk_widget_set_tooltip_text (Denemo.input_label, _("This area shows which MIDI filters are active. It can also be used by commands to pass information to the user"));
-  gtk_widget_show (Denemo.input_label);
+  gtk_widget_show_all (input_button);
   Denemo.input_filters = g_string_new ("");
-  gtk_paned_pack2 (GTK_PANED (hbox), Denemo.input_label, FALSE, FALSE);
+  gtk_paned_pack2 (GTK_PANED (hbox), input_button, FALSE, FALSE);
   gtk_paned_set_position (GTK_PANED (hbox), 600);
   gtk_widget_show (hbox);
   // End of status bar stuff - note this is not working on Windows correctly.
