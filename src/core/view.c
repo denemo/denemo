@@ -3691,7 +3691,10 @@ create_window (void)
 
   // This section creates an hbox and places it in the main vbox. Inside this hbox are placed a status bar and a label.
   // The status bar is not properly used within Denemo, and could just as well be a label too.
-  Denemo.statuslabel = gtk_label_new ("");
+  GtkWidget *status_button = gtk_button_new_with_label ("");
+  g_signal_connect (G_OBJECT(status_button), "clicked", G_CALLBACK (display_current_object), NULL);
+  Denemo.statuslabel = gtk_bin_get_child (GTK_BIN(status_button));
+  gtk_widget_show_all (status_button);
   gtk_widget_set_tooltip_text (Denemo.statuslabel,
                                _
                                ("This bar shows:\nPending ♯ or ♭ sign (if the next note entered will be sharpened or flattened)\nThe movement number\nDescription of the object at the Denemo cursor\nPosition and status (appending or inserting) of the cursor.\nIf the Playback Controls are visible then the timing of the object at the cursor is shown.\nIf MIDI in controls are visible the current enharmonic range is shown.\nWhen the first key of a two-key shortcut is pressed the possible continuations are shown here."));
@@ -3701,8 +3704,8 @@ create_window (void)
   hbox = gtk_paned_new (GTK_ORIENTATION_HORIZONTAL);
 #endif
   gtk_box_pack_start (GTK_BOX (main_vbox), hbox, FALSE, TRUE, 0);
-  gtk_paned_pack1 (GTK_PANED (hbox), Denemo.statuslabel, TRUE, FALSE);
-  gtk_widget_show (Denemo.statuslabel);
+  gtk_paned_pack1 (GTK_PANED (hbox), status_button, TRUE, FALSE);
+  //gtk_widget_show (Denemo.statuslabel);
   //Denemo.status_context_id = gtk_statusbar_get_context_id (GTK_STATUSBAR (Denemo.statusbar), "Denemo");
   //gtk_statusbar_push (GTK_STATUSBAR (Denemo.statusbar), Denemo.status_context_id, "Denemo");
   GtkWidget *input_button = gtk_button_new_with_label ("");
