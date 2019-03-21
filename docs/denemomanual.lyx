@@ -118,7 +118,7 @@ target "http://creativecommons.org/licenses/by-sa/3.0"
 
 \begin_layout Standard
 \align center
-Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
+Copyright © 2009 - 2019 Denemo Project
 \end_layout
 
 \begin_layout Standard
@@ -595,6 +595,12 @@ g.
 \begin_layout Standard
 Alternatively, a list is available in the Help menu.
  There are thousands of commands in Denemo, so get to know the Command Center
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:The-Command-Center"
+
+\end_inset
+
  where you can search for commands by key words such as slur, ossia, beam,
  Da Capo, cresc.
  etc.
@@ -1235,11 +1241,21 @@ Denemo Main Window
 The main window has menus and toolbars at the top, and palettes at top and/or
  right hand side.
  Which menus and palettes are shown are selected via the View menu.
- At the bottom is a status line showing which movement you are in and what
- sort of object the Denemo Cursor is on.
- If there are any MIDI filters active or other messages they will be noted
- at the right in the status bar.
- 
+ At the bottom right is a status button showing which movement you are in
+ and what sort of object the Denemo Cursor is on - clicking on this button
+ lets you inspect/edit that object.
+ Bottom left is a command button - it shows the last used command, any messages
+ the commands may give.
+ Clicking on this button opens the Command Center
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:The-Command-Center"
+
+\end_inset
+
+ on the last used command, giving full information about what the command
+ did.
+ The function key Fn12 re-executes the command.
 \end_layout
 
 \begin_layout Standard
@@ -11286,6 +11302,17 @@ More ambitious programmers will need to know all the commands available.
  A brief summary of any Scheme procedure can be obtained by typing its name
  into the Scheme Window in the command line interface (CLI) and pressing
  Enter.
+ The help text attached to built-in commands is available in a Scheme variable
+ constructed by prefixing the command name with 
+\begin_inset Quotes eld
+\end_inset
+
+Help-
+\begin_inset Quotes erd
+\end_inset
+
+, however there are older, hardwired commands for which this doesn't work
+ at present.
 \end_layout
 
 \begin_layout Subsection

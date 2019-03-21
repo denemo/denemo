@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2019-01-31"/>
+<meta name="create-date" content="2019-03-21"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -30,7 +30,7 @@ This Manual is released under the <a class="URL" href="http://creativecommons.or
 </div>
 <div class="Indented">
 <div class="center">
-Copyright © 2009, 2010, 2011, 2012, 2013, 2014, 2015 Denemo Project
+Copyright © 2009 - 2019 Denemo Project
 </div>
 
 </div>
@@ -800,7 +800,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  <span class="unknown">\pagenumbering</span>arabic 
+<a class="toc" name="toc-Section--1"></a>Introduction  
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music – the input display window shows you what you are working on in music notation – and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry – thanks to the Lilypond music typesetting program.
@@ -866,7 +866,7 @@ When in the appending position the cursor shows as a large blue or red rectangle
 For a more detailed description of Denemo’s various input methods, see <a class="Reference" href="#sec:A-Survey-of-Input-Methods">A Survey of the Input Methods↓</a>. You can find more shortcuts by exploring the menu system – e. g. under the Notes/Rests menu the Select Duration submenu gives Remove Dot with the shortcut Control-period shown in blue next to the command. 
 </div>
 <div class="Indented">
-Alternatively, a list is available in the Help menu. There are thousands of commands in Denemo, so get to know the Command Center where you can search for commands by key words such as slur, ossia, beam, Da Capo, cresc. etc.
+Alternatively, a list is available in the Help menu. There are thousands of commands in Denemo, so get to know the Command Center<a class="Reference" href="#subsec:The-Command-Center">5↓</a> where you can search for commands by key words such as slur, ossia, beam, Da Capo, cresc. etc.
 </div>
 <div class="Indented">
 Initially, Denemo starts with tooltips popping up almost everywhere. When they become too annoying you can tame them with Help-&gt;Turn Excessive Tooltips (Off/On), and you can further delay the remaining tooltips appearing via Edit-&gt;Change Preferences.
@@ -1046,7 +1046,7 @@ Figure 1 Denemo Main Window
 
 </div>
 <div class="Indented">
-The main window has menus and toolbars at the top, and palettes at top and/or right hand side. Which menus and palettes are shown are selected via the View menu. At the bottom is a status line showing which movement you are in and what sort of object the Denemo Cursor is on. If there are any MIDI filters active or other messages they will be noted at the right in the status bar. 
+The main window has menus and toolbars at the top, and palettes at top and/or right hand side. Which menus and palettes are shown are selected via the View menu. At the bottom right is a status button showing which movement you are in and what sort of object the Denemo Cursor is on - clicking on this button lets you inspect/edit that object. Bottom left is a command button - it shows the last used command, any messages the commands may give. Clicking on this button opens the Command Center<a class="Reference" href="#subsec:The-Command-Center">5↓</a> on the last used command, giving full information about what the command did. The function key Fn12 re-executes the command.
 </div>
 <div class="Indented">
 In between is where the music input is displayed, the Denemo Display area. When zoomed out you see just the few measures you are working on. By dragging the red bar at the bottom of the score upwards you get space for more of the music. If you have many staffs they may not all fit: you can still scroll the display to see several lines of just one or two staffs for instance. 
@@ -3492,7 +3492,7 @@ default")
 which is inserting the LilyPond directive "\mark \default" which inserts the default rehearsal mark. (The extra backslashes are needed to tell Scheme that you literally mean a \ sign). You can change this to insert any other LilyPond that you need – always doubling the \ signs. Then you can save as a new menu item, a palette button, or use Save Script from Scheme Window to customize the command you started with.
 </div>
 <div class="Indented">
-More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined (see the files actions/denemo.scm and actions/denemo-modules/*.scm for more). A brief summary of any Scheme procedure can be obtained by typing its name into the Scheme Window in the command line interface (CLI) and pressing Enter.
+More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined (see the files actions/denemo.scm and actions/denemo-modules/*.scm for more). A brief summary of any Scheme procedure can be obtained by typing its name into the Scheme Window in the command line interface (CLI) and pressing Enter. The help text attached to built-in commands is available in a Scheme variable constructed by prefixing the command name with &ldquo;Help-&rdquo;, however there are older, hardwired commands for which this doesn’t work at present.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-28.1">28.1</a> Commands Getting User Input
@@ -5790,7 +5790,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2019-01-31T12:46:21.942613</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2019-03-21T08:47:27.851759</span>
 </div>
 </div>
 </body>
