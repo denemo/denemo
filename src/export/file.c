@@ -74,7 +74,7 @@ struct FileFormatData
 
 /* WARNING this array has to match the FileFormatNames enum above which is used to index it!!!!!!!!!" */
 static struct FileFormatData supported_file_formats[] = {
-  {"*.denemo", N_("Denemo format (*.denemo *.denemo.gz)"),  ".denemo", 0},
+  {"*.denemo*", N_("Denemo format (*.denemo *.denemo.gz)"),  ".denemo", 0},
   {"*.denemo.gz",    N_("CompressedDenemo XML format (*.denemo.gz)"),     ".denemo", 0},
   {"*.ly",     N_("Lilypond (*.ly)"),               ".ly", 0},
   {"*.pdf",    N_("PDF (*.pdf)"),                   ".pdf", 1},
@@ -1192,6 +1192,8 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
   if (response_id == GTK_RESPONSE_ACCEPT)
     {
       gchar *file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
+      if (g_str_has_suffix (file_name, ".gz"))
+        *(file_name + strlen (file_name) - strlen (".gz")) = 0;
       if (replace_existing_file_dialog (file_name, data->format_id))
         {
           gint status = filesel_save (gui, file_name, data->format_id, data->template);
