@@ -2310,7 +2310,28 @@ current_scoreblock_is_custom (void)
 DenemoScoreblock *
 selected_scoreblock (void)
 {
-  if (Denemo.non_interactive) return NULL;
+  if (Denemo.non_interactive) 
+    {
+      GList *g;
+      //g_print ("Layout id %d scoreblocks %p and %p\n\n", Denemo.project->layout_id, Denemo.project->custom_scoreblocks, Denemo.project->standard_scoreblocks);
+      for (g = Denemo.project->custom_scoreblocks; g; g = g->next)
+      {
+        DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
+        if (sb->id == Denemo.project->layout_id)
+            return sb;
+      }
+      for (g = Denemo.project->standard_scoreblocks; g; g = g->next)
+      {
+        DenemoScoreblock *sb = ((DenemoScoreblock *) g->data);
+        if (sb->id == Denemo.project->layout_id)
+            return sb;
+      }
+    create_default_scoreblock ();
+    return Denemo.project->standard_scoreblocks->data;
+    }
+  
+  
+  
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   gint pagenum = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));       // value passed in appears to be something else - it is not documented what.
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), pagenum);
@@ -2829,7 +2850,7 @@ DenemoScoreblock *
 select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation)
 {
   GList *g;
-  DenemoScoreblock *sb;
+  DenemoScoreblock *sb;//g_print ("select_layout %s\n", partname);
   if (Denemo.project->movement->markstaffnum)
     return selection_layout ();
 
@@ -2837,11 +2858,12 @@ select_layout (gboolean all_movements, gchar * partname, gchar * instrumentation
     {
       sb = selected_scoreblock ();
       if (sb)
-        {
+        { //g_print ("selected scoreblock %s\n\n", sb->name);
           if (is_in_standard_scoreblock (sb))
             {
               recreate_standard_scoreblock (&sb);
               refresh_lilypond (sb);
+              //g_print ("refreshed scoreblock %s\n\n", sb->name);
             }
           set_notebook_page (sb->widget);
           return sb;
