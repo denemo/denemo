@@ -61,7 +61,12 @@ get_wysiwyg_info(){
   static WysiwygInfo Ww;                   //Wysywyg information
   return &Ww;
 }
-
+static gchar *include = NULL;
+static gchar *local_include = NULL;
+static void initialize_lilypond_includes(void) {
+        local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
+        include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+  }
 void initialize_print_status (void)
 {
 
@@ -513,7 +518,20 @@ run_lilypond (gchar ** arguments)
     }
   console_output (NULL);
   console_output (_("Typesetting ..."));
-  gboolean lilypond_launch_success = g_spawn_async_with_pipes (locateprintdir (),       /* dir */
+   gboolean lilypond_launch_success;
+if (Denemo.non_interactive)
+  g_spawn_sync (locateprintdir (),       /* dir */
+                 arguments,
+                 NULL,    /* env */
+                 G_SPAWN_SEARCH_PATH,
+                 NULL,    /* child setup func */
+                 NULL,    /* user data */
+                 NULL,    /* stdout */
+                 NULL, /* stderr */
+                 &lilypond_launch_success,
+                 &lily_err);
+else
+  lilypond_launch_success = g_spawn_async_with_pipes (locateprintdir (),       /* dir */
                                                                arguments,
                                                                NULL,    /* env */
                                                                G_SPAWN_SEARCH_PATH | G_SPAWN_DO_NOT_REAP_CHILD,
@@ -572,12 +590,7 @@ generate_lilypond (gchar * lilyfile, gboolean part_only, gboolean all_movements)
 static void
 run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 {
-    static gchar *include = NULL;
-    static gchar *local_include = NULL;
-    if(!include) {
-        local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
-        include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
-    }
+  if(!include) initialize_lilypond_includes();
   /*arguments to pass to lilypond to create a pdf for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
@@ -596,12 +609,8 @@ run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 static void
 run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
 {
-    static gchar *include = NULL;
-    static gchar *local_include = NULL;
-    if(!include) {
-        local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
-        include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
-    }
+    if(!include) initialize_lilypond_includes();
+
   /*arguments to pass to lilypond to create a svg for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
@@ -921,6 +930,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
   gchar *psfile;
   GList *filelist = NULL;
 
+  if(!include) initialize_lilypond_includes();
   basename = get_printfile_pathbasename ();
   lilyfile = g_strconcat (basename, ".ly", NULL);
   psfile = g_strconcat (filename, ".ps", NULL);
@@ -938,6 +948,8 @@ export_pdf (gchar * filename, DenemoProject * gui)
     "-dgui",
     "--loglevel=WARN",
     "--pdf",
+    local_include,
+    include,
     "-o",
     filename,
     lilyfile,
@@ -953,8 +965,10 @@ export_pdf (gchar * filename, DenemoProject * gui)
       Denemo.printstatus->printpid = GPID_NONE;
       return;
     }
-
-  g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printpdf_finished, filelist);
+  if (Denemo.non_interactive)
+    printpdf_finished (0, 0, filelist);
+  else
+    g_child_watch_add (Denemo.printstatus->printpid, (GChildWatchFunc) printpdf_finished, filelist);
 }
 
 /* callback to print current part (staff) of score */
