@@ -18,6 +18,12 @@
                   (set! Figures (cons  (cdr fig) Figures))))
                   
        (define (GetFigures)
+            (if (not (null? Figures))
+                (begin
+                    (if (and (> (length Figures) 1) (equal? "~" (car Figures)))
+                        (set! Figures (cdr Figures)))
+                    (if (equal? " | " (car Figures))
+                        (set! Figures (cdr Figures)))))
                 (string-append "figures=" (string-join (reverse Figures))))
        (define (AddFiguresLoop bassnote lastnote)
             (let* (
