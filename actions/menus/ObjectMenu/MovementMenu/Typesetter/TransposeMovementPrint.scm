@@ -1,6 +1,6 @@
 ;;;; TransposeMovementPrint
 (define-once Transpose::Interval "c ees")
-(let ((text #f) (tag "TransposeOnPrint"))
+(let ((text #f) (tag "TransposeMovementPrint"))
     (if (and TransposeScorePrint::params (not (equal?  TransposeScorePrint::params "edit")))
         (set! Transpose::Interval TransposeScorePrint::params)
         (set! Transpose::Interval (d-GetUserInput (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
