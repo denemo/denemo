@@ -161,7 +161,7 @@ perform_command (const gchar * command_name, GdkEventKey * event)
   if (Denemo.project->movement)
     displayhelper (Denemo.project);
 #endif
-  g_string_printf (Denemo.input_filters, "%s <span foreground=\"blue\">%s</span>", command_name, _(" (use Fn12 to Repeat)"));
+  g_string_printf (Denemo.input_filters, "%s  <span foreground=\"Green\">%s.</span> <span foreground=\"blue\">%s</span>", command_name, _("Help"), _("(use Fn12 to Repeat)"));
   write_input_status();
   return NULL;
 }
