@@ -7617,7 +7617,7 @@ and others in the LilyPond documentation.</_tooltip>
         <action>SetStaffRangeFromChord</action>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
         <_label>Set Staff Range</_label>
-        <_tooltip>Sets the highest and lowest notes playable on the current staff to the highest and lowest pitches of the chord at the cursor.</_tooltip>
+        <_tooltip>Sets the highest and lowest notes valid for the current staff to the highest and lowest pitches of the chord at the cursor. Notes outside that range will be typeset but will display as red notes to warn you that you are outside the range of the current instrument.</_tooltip>
       </row>
       <row type="scheme">
         <action>AddInstrumentStaff</action>
