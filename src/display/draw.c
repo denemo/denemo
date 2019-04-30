@@ -630,7 +630,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       {
         DenemoDirective *directive = mudelaitem->object;
         if (cr)
-          draw_lily_dir (cr, x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark, (si->currentobject == curobj));
+          draw_lily_dir (cr, x + mudelaitem->x, y, 0, 0, mudelaitem, itp->mark, (Denemo.object_hovering_over==curobj) || (si->currentobject == curobj));
         if ((directive->ty - 10) < itp->highy)
           itp->highy = directive->ty - 10 /* for height of text */ ;
         if ((directive->gy - 10) < itp->highy)
