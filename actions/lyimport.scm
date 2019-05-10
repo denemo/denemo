@@ -126,7 +126,8 @@
 ;;;;;;;;;;;;;;;;;;;SILEX LEXER;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-
+#!
+;Guile 2.n does not succeed in generating these - instead we include them with the system
 ;If needed: Generate a loadable, standalone lexer file from the .l syntax file 
 (if (and (file-exists? (lyimport::localdirectory "notes.l.scm")) (not lyimport::create_lexer_each_time))
 	(display "Using existing lexer file\n")
@@ -147,6 +148,8 @@
     (display "Using existing lexer file\n")
     (begin ; The user wants a new generation or the file does not exist yet.
       (lex-tables (lyimport::sysdirectory "incl.l") "incl-table"  (lyimport::localdirectory "incl.l.scm")  'counters 'all)))
+!#
+
 
 (define lyimport::input-ports #f);; a stack of include files
 
@@ -182,17 +185,17 @@
     
     
     
-    (load (lyimport::localdirectory "notes.l.scm"))
+    (load (lyimport::sysdirectory "notes.l.scm"))
     (set! lyimport::noteslexer (lexer-make-lexer notes-table IS))
     
     
-    (load (lyimport::localdirectory "quote.l.scm"))
+    (load (lyimport::sysdirectory "quote.l.scm"))
     (set! lyimport::quotelexer (lexer-make-lexer quote-table IS))
     
-    (load (lyimport::localdirectory "block.l.scm"))
+    (load (lyimport::sysdirectory "block.l.scm"))
     (set! lyimport::blocklexer (lexer-make-lexer block-table IS))
 
-    (load (lyimport::localdirectory "incl.l.scm"))
+    (load (lyimport::sysdirectory "incl.l.scm"))
     (set! lyimport::incllexer (lexer-make-lexer incl-table IS))
     )
 
