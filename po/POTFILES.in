@@ -237,6 +237,7 @@ actions/editscripts/StaffSize.scm
 actions/editscripts/StringNum.scm
 actions/editscripts/UnknownScoreTag.scm
 actions/lalr.scm
+actions/notes.l.scm
 actions/lyimport-lexer.scm
 actions/lyimport-parser.scm
 actions/lyimport.scm
