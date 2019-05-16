@@ -8371,6 +8371,27 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Paste From Staff Above</_label>
         <_tooltip>Copies any non-musical objects for the current musical moment from the staff above and pastes them into this staff after the cursor.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>IgnoreOn</action>
+        <after>ShowStems</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Ignore On</_label>
+        <_tooltip>Start commenting-out of the LilyPond output. You must resume the typesetting with Ignore Off before the end of the staff or the score will not typeset.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>IgnoreOff</action>
+        <after>IgnoreOn</after>
+        <menupath>/ObjectMenu/Directives/Typesetter</menupath>
+        <_label>Ignore Off</_label>
+        <_tooltip>End commenting-out of the LilyPond output. Normal typesetting resumes from this point.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ConditionalSecondTimeBar</action>
+        <after>DoubleBarRepeatStart</after>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <_label>Conditional 2nd Time Bar(s)</_label>
+        <_tooltip>Duplicates the bar(s) from the cursor to the end as an identical 2nd time bar to be used only when not typesetting the part on its own. Inserts a end/start repeat barline for use in that case only.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

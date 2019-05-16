@@ -206,6 +206,7 @@ src/ui/tupletdialog.c
 src/ui/virtualkeyboard.c
 src/ui/virtualkeyboard.h
 actions/Arranger.scm
+actions/block.l.scm
 actions/checkMusicSignature.scm
 actions/Composer.scm
 actions/Default.scm
@@ -236,8 +237,8 @@ actions/editscripts/Slur.scm
 actions/editscripts/StaffSize.scm
 actions/editscripts/StringNum.scm
 actions/editscripts/UnknownScoreTag.scm
+actions/incl.l.scm
 actions/lalr.scm
-actions/notes.l.scm
 actions/lyimport-lexer.scm
 actions/lyimport-parser.scm
 actions/lyimport.scm
@@ -805,6 +806,8 @@ actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.xml
 actions/menus/ObjectMenu/Directives/Barlines/ClosingBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/ClosingBarline.xml
+actions/menus/ObjectMenu/Directives/Barlines/ConditionalSecondTimeBar.scm
+actions/menus/ObjectMenu/Directives/Barlines/ConditionalSecondTimeBar.xml
 actions/menus/ObjectMenu/Directives/Barlines/DottedBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/DottedBarline.xml
 actions/menus/ObjectMenu/Directives/Barlines/DoubleBarline.scm
@@ -978,6 +981,10 @@ actions/menus/ObjectMenu/Directives/Typesetter/Hide.scm
 actions/menus/ObjectMenu/Directives/Typesetter/HideStems.scm
 actions/menus/ObjectMenu/Directives/Typesetter/HideStems.xml
 actions/menus/ObjectMenu/Directives/Typesetter/Hide.xml
+actions/menus/ObjectMenu/Directives/Typesetter/IgnoreOff.scm
+actions/menus/ObjectMenu/Directives/Typesetter/IgnoreOff.xml
+actions/menus/ObjectMenu/Directives/Typesetter/IgnoreOn.scm
+actions/menus/ObjectMenu/Directives/Typesetter/IgnoreOn.xml
 actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.scm
 actions/menus/ObjectMenu/Directives/Typesetter/InstallCue.xml
 actions/menus/ObjectMenu/Directives/Typesetter/MeasureCountDelimeter.scm
@@ -2256,8 +2263,10 @@ actions/menus/ObjectMenu/TimeSig/TwoTimeSignatures.xml
 actions/menus/ObjectMenu/TimeSig/Unmeasured.scm
 actions/menus/ObjectMenu/TimeSig/Unmeasured.xml
 actions/multilex.scm
+actions/notes.l.scm
 actions/nwc2denemo/import_nwctext.scm
 actions/palettes.xml
+actions/quote.l.scm
 actions/silex.scm
 actions/Simple.scm
 denemo.appdata.xml.in

@@ -832,6 +832,14 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>IgnoreOff</action>
+        <hidden>true</hidden>
+      </row>      
+      <row>
+        <action>IgnoreOn</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>GraceAfter</action>
         <bind>G,a</bind>
       </row>

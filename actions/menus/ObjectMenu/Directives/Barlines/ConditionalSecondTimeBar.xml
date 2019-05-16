@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ConditionalSecondTimeBar</action>
+        <after>DoubleBarRepeatStart</after>
+        <_label>Conditional 2nd Time Bar(s)</_label>
+        <_tooltip>Duplicates the bar(s) from the cursor to the end as an identical 2nd time bar to be used only when not typesetting the part on its own. Inserts a end/start repeat barline for use in that case only.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

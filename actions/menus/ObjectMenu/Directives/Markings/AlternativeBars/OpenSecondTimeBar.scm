@@ -5,6 +5,8 @@
             (begin
             (d-OpenNthTimeBar "edit")))
         (begin
+            (if (FullDurationMeasure?)
+                  (d-AddMeasure))
             (d-Directive-standalone tag)
             (d-DirectivePut-standalone-minpixels tag 50)
             (d-DirectivePut-standalone-postfix tag "
@@ -15,6 +17,9 @@
             (d-DirectivePut-standalone-gy  tag -34)
             (d-DirectivePut-standalone-graphic tag "SecondTimeBar")
             (d-DirectivePut-standalone-data tag (format #f "'~s" (list (cons 'volta 2))))
+            (d-MoveCursorRight)
+            (if (Confirm (_ "Start Second Time Bar") (_ "Adjust the typeset bar number to ignore second time bar(s)"))
+           	 (d-SetBarNumber))
             (d-MoveCursorRight)
             (d-RefreshDisplay)
             (d-SetSaved #f))))

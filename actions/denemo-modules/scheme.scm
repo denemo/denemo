@@ -333,3 +333,7 @@
             (append! returnlist (list return))))
         functions)  
     (list-tail returnlist 1)) !#
+    
+(define (Confirm title msg)
+  (let ((ch (d-GetUserInput title msg (_ "y"))))
+        (and ch (equal? ch (_ "y")))))

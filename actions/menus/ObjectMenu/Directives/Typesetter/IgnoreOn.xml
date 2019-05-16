@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>RTS</author>
+    <map>
+      <row type="scheme">
+        <after>ShowStems</after>
+        <action>IgnoreOn</action>
+        <_label>Ignore On</_label>
+        <_tooltip>Start commenting-out of the LilyPond output when typesetting the current part. You must resume the typesetting with Ignore Off before the end of the staff or the score will not typeset.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
