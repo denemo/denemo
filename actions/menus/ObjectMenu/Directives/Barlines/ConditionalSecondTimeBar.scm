@@ -8,7 +8,7 @@
                                 ((end) (d-RepeatEnd))
                                 ((mid) (d-RepeatEndStart))))
 (d-OnlyForLayout (cons 'noninteractive (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))
-(d-AddMeasure)
+(d-InsertMeasureAfter)
 (d-IgnoreOn 'noninteractive)
 (d-OnlyForLayout (cons 'noninteractive (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))
 (d-MoveCursorRight)
