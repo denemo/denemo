@@ -1241,11 +1241,11 @@ Denemo Main Window
 The main window has menus and toolbars at the top, and palettes at top and/or
  right hand side.
  Which menus and palettes are shown are selected via the View menu.
- At the bottom right is a status button showing which movement you are in
+ At the bottom left is a status button showing which movement you are in
  and what sort of object the Denemo Cursor is on - clicking on this button
  lets you inspect/edit that object.
- Bottom left is a command button - it shows the last used command, any messages
- the commands may give.
+ Bottom right is a command button - it shows the last used command and any
+ messages the commands may have given.
  Clicking on this button opens the Command Center
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -1256,6 +1256,7 @@ reference "subsec:The-Command-Center"
  on the last used command, giving full information about what the command
  did.
  The function key Fn12 re-executes the command.
+ When a MIDI filter is active it is displayed at bottom right.
 \end_layout
 
 \begin_layout Standard
@@ -9161,6 +9162,11 @@ In the Directives->Markings->Spanning Directives->Typesetter>Spanning menus
 
 e.
  use this for a first time bar if the indication should be other that 1.).
+ The bar numbering can be adjusted at second (nth) time bars, especially
+ important if you have conditional second time bars (ones that are not printed
+ when typesetting a part in which the first and second time bars would be
+ identical).
+ There is a command for inserting conditional second time bars.
 \end_layout
 
 \begin_layout Subsubsection
