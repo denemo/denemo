@@ -757,6 +757,8 @@ actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect5.scm
 actions/menus/ObjectMenu/ChordMenu/AddBelowTop/AddHighestDownPerfect5.xml
 actions/menus/ObjectMenu/ChordMenu/AlternateNote.scm
 actions/menus/ObjectMenu/ChordMenu/AlternateNote.xml
+actions/menus/ObjectMenu/ChordMenu/Arpeggiate.scm
+actions/menus/ObjectMenu/ChordMenu/Arpeggiate.xml
 actions/menus/ObjectMenu/ChordMenu/BassInversionSequence.scm
 actions/menus/ObjectMenu/ChordMenu/BassInversionSequence.xml
 actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicDown.scm

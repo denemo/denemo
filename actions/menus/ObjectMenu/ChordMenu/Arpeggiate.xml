@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>Arpeggiate</action>
+        <after>CloseParenthesizeChord</after>
+        <_label>Arpeggiate</_label>
+        <_tooltip>Transforms the three-note chord at the cursor into a triplet of notes.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
