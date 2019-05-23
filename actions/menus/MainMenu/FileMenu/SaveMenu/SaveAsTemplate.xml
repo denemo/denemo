@@ -8,7 +8,7 @@
         <action>SaveAsTemplate</action>
         <after>SaveParts</after>
         <_label>Save Template</_label>
-        <_tooltip>Saves the current score as a template, offering to remove the music if desired.</_tooltip>
+        <_tooltip>Saves the current score as a template, offering to remove the music if desired. When removing the music, all movements except the first movement are deleted and all the contents of the staffs except the first source reference, and any Incipit is deleted too.</_tooltip>
       </row>
     </map>
   </merge>
