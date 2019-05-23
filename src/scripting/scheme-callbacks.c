@@ -1882,12 +1882,6 @@ scheme_stop_audio_play (SCM annotate)
 }
 
 SCM
-scheme_audio_is_playing (void)
-{
-  return SCM_BOOL (audio_is_playing ());
-}
-
-SCM
 scheme_next_audio_timing (SCM optional)
 {
   if (Denemo.project->movement->recording)
@@ -1899,6 +1893,13 @@ scheme_next_audio_timing (SCM optional)
   return SCM_BOOL_F;
 }
 #endif
+
+SCM
+scheme_audio_is_playing (void)
+{
+  return SCM_BOOL (/*audio_*/is_playing ()); //the  audio_is_playing() is AUBIO only, for playing source audio. So the name of this command d-AudioIsPlaying is now less than ideal.
+}
+
 SCM
 scheme_take_snapshot (SCM optional)
 {
