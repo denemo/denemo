@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>DenemoLink</action>
         <_label>Follow Link to Source</_label>
-        <_tooltip>Follows the link at the cursor to a source document.</_tooltip>
+        <_tooltip>Follows the link at or before the cursor to a source document.</_tooltip>
       </row>
     </map>
   </merge>

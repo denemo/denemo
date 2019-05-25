@@ -15,5 +15,15 @@
 		    (if link
 		        (begin
 		            (d-OpenSource link)
-		            (d-MoveCursorRight))
-		        (d-WarningDialog (_ "There is no link here, open the source document and click on it to place one.")))))))
+		            (d-MoveCursorRight))))
+		(begin
+		         	(d-PushPosition)
+		         	(while (and (not (d-Directive-standalone? tag)) (d-MoveCursorLeft)))
+		         	(if (d-Directive-standalone? tag)
+		         		(begin
+		         			(set! link (d-DirectiveGet-standalone-postfix tag))
+		         			 (d-OpenSource link)
+		         			 (d-PopPosition))
+		         		(begin
+		         			(d-PopPosition)
+		         			(d-WarningDialog (_ "There is no link here, open the source document and click on it to place one."))))))))
