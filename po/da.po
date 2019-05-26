@@ -1,7 +1,7 @@
 # Danish translation denemo.
-# Copyright (C) 2017 Free Software Foundation, Inc.
+# Copyright (C) 2019 Free Software Foundation, Inc.
 # This file is distributed under the same license as the denemo package.
-# Joe Hansen <joedalton2@yahoo.dk>, 2015, 2016, 2017, 2018.
+# Joe Hansen <joedalton2@yahoo.dk>, 2015, 2016, 2017, 2018, 2019.
 # korrekturlæsning og gode forslag: Lars Henrik Ørn, 2015.
 #
 # Konventioner:
@@ -94,7 +94,7 @@ msgstr ""
 "Project-Id-Version: denemo 2.2-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2017-07-10 11:13+0100\n"
-"PO-Revision-Date: 2018-08-12 11:03+0200\n"
+"PO-Revision-Date: 2019-01-12 11:03+0200\n"
 "Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
 "Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
 "Language: da\n"
@@ -6480,6 +6480,10 @@ msgid ""
 "_________________________________\n"
 "Last selected command was:\n"
 msgstr ""
+"INGEN KOMMANDO VALGT.\n"
+"Tryk -> for at søge igen\n"
+"_________________________________\n"
+"Sidste valgte kommando var:\n"
 
 #: ../src/core/kbd-custom.c:1959
 msgid "Command"
@@ -7002,7 +7006,7 @@ msgstr ""
 
 #: ../src/core/menusystem.c:1161
 msgid "This menu holds no commands"
-msgstr ""
+msgstr "Denne menu indeholder ingen kommandoer"
 
 #: ../src/core/menusystem.c:1196
 msgid "Tool Bar"
@@ -8933,6 +8937,9 @@ msgid ""
 "Find them using the Find button\n"
 "Delete it/those first or start again selecting an unused keypress."
 msgstr ""
+"Der er mindst en to-tast genvej, der begynder med: %s\n"
+"Find dem via Søg-knappen\n"
+"Slet den/dem først eller start igen ved at vælge et ubrugt tastetryk."
 
 #: ../src/ui/kbd-interface.c:193
 msgid "No command has this keyboard shortcut"
@@ -9542,15 +9549,15 @@ msgstr "Tryk venstre."
 
 #: ../src/ui/mousing.c:997
 msgid "This moved the cursor to the measure offscreen left. The display is shifted to place that measure on screen."
-msgstr ""
+msgstr "Dette flyttede markøren til takten uden for skærmen til venstre. Visningen flyttes for at placere den takt på skærmen."
 
 #: ../src/ui/mousing.c:1020
 msgid "This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."
-msgstr ""
+msgstr "Dette flyttede markøren til takten uden for skærmen til højre. Visningen flyttes for at flytte markrøen til midten."
 
 #: ../src/ui/mousing.c:1045
 msgid "Double Click on Click Track"
-msgstr ""
+msgstr "Dobbeltklik på klik på spor"
 
 #: ../src/ui/mousing.c:1045
 msgid "This will mark the MIDI note onset."
@@ -13331,19 +13338,19 @@ msgstr ""
 
 #: ../actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml.h:1
 msgid "Play Chord at Cursor"
-msgstr ""
+msgstr "Afspil akkord ved markør"
 
 #: ../actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml.h:2
 msgid "Sounds the note or chord at the cursor, using the current staffs instrument."
-msgstr ""
+msgstr "Afspiller noden eller akkorden ved markøren, via det nuværende nodesystems instrument."
 
 #: ../actions/menus/MainMenu/PlaybackMenu/PlaybackView.scm:3
 msgid "Please turn continuous typsetting off first"
-msgstr ""
+msgstr "Sluk venligst først for fortsættende opsætning"
 
 #: ../actions/menus/MainMenu/PlaybackMenu/PlaybackView.scm:33
 msgid "You should typeset this movement first in the Print View, otherwise positioning may not work."
-msgstr ""
+msgstr "Du bør opsætte denne sats først i udskrivningsvisning, ellers vil positionering måske ikke virke."
 
 #: ../actions/menus/MainMenu/PlaybackMenu/PlaybackView.xml.h:1
 msgid "Playback View"
@@ -17761,7 +17768,7 @@ msgstr "Moderne"
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.scm:8
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:11
 msgid "Modern Cautionary"
-msgstr "Moderne Cautionary"
+msgstr "Moderne hjælpefortegn"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.scm:9
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:15
@@ -23389,15 +23396,15 @@ msgstr "Piano"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:14
 msgid "Piano Cautionary"
-msgstr ""
+msgstr "Pianohjælpefortegn"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:16
 msgid "Neo-Modern Cautionary"
-msgstr ""
+msgstr "Neo-moderne hjælpetegn"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:17
 msgid "Neo-Modern Voice Cautionary"
-msgstr ""
+msgstr "Neo-moderne stemmefortegn"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:18
 msgid "Dodecaphonic"
@@ -23409,36 +23416,36 @@ msgstr "Ingen nulstilling"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.xml.h:1
 msgid "Accidental Style"
-msgstr ""
+msgstr "Fortegnsstil"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.xml.h:2
 msgid "Choose the style for typesetting accidentals. Determines whether or not an accidental is printed in particular circumstances (such as repeated notes in different measures, octaves, voices etc)."
-msgstr ""
+msgstr "Vælg stilen for opsætning af fortegn. Bestemmer hvorvidt et fortegn udskrives i bestemte omstændigheder (såsom gentagne noder i forskellige takter, oktaver, stemmer etc.)."
 
 #. AccompanistsScore
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:1
 msgid "Accompanist's Score (Off/On)"
-msgstr ""
+msgstr "Akkompagnatørs partitur (deaktiveret/aktiveret)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:2
 msgid "Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."
-msgstr ""
+msgstr "Angiver/fjerner det øverste nodesystem for hver sats til en meget lille skrifttype, med de lavere nodesystemer - akkompagnementet - med normal skrifttype. Udskriver kun effekt."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.scm:4
 msgid "Ending a Repeat Alternative"
-msgstr ""
+msgstr "Afslutte et gentagelsesalternativ"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.scm:4
 msgid "Give barline to end at: "
-msgstr ""
+msgstr "Angiv at bjælkelinje stopper ved: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.xml.h:1
 msgid "Barline to end Repeat Alternative"
-msgstr ""
+msgstr "Bjælkelinje til at afslutte gentagelsesalternativ"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.xml.h:2
 msgid "Choose an additional type of barline to close a second (or n'th) time bar with a downward tick."
-msgstr ""
+msgstr "Vælg en yderligere type for bjælkelinje for at lukke et sukund (eller n.) tidsbjælke med en nedadrettet afkrydsning."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.scm:11
 msgid "Connect Arpeggios"
@@ -23492,7 +23499,7 @@ msgstr "Tilpassede bjælkelinjer er uændrede"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml.h:2
 msgid "Create a custom barline. These can be named, or can simply override a standard LilyPond bar line type. A bar line is defined by four forms, which describe 1) the appearance normally (during a line), 2) appearance when the barline is at the beginning or 3) end of a line , and 4) what to show when joining staffs together as with a Piano Staff. Barline forms are made of characters including |,:,.,[,],: and others in the LilyPond documentation."
-msgstr ""
+msgstr "Opret en brugerbjælkelinje. Desse kan navngives, eller kan overskrive en LilyPond-bjælketype. Et bjælkelinje er defineret af fire former, som beskriver 1) det normale udseende (i en linje), 2) udseende når bjælkelinjen er i begyndelsen eller 3) slutningen af en linje, og 4) hvad der vises når nodesystemer samles som i et pianonodesystem. Bjælkelinjeformer er lavet af tegn inklusive |,:,.,[,],: og andre i LilyPond-dokumentationen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm:12
 msgid "Time Signatures will not be typeset for this score"
@@ -23500,15 +23507,15 @@ msgstr "Taktarter vil ikke blive opsat for dette partitur"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml.h:1
 msgid "(Print) Don't Engrave Time Signatures"
-msgstr ""
+msgstr "(Udskriv) Engraver ikke tidssignaturer"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml.h:2
 msgid "Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active."
-msgstr ""
+msgstr "Deaktiverer stencilen for taktarter for hele partituret, hvilket forhindrer dem i at blive tegnet og optage plads. Men logikken er stadig aktiv."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm:5
 msgid "Automatic barlines and beaming rules re-instated"
-msgstr ""
+msgstr "Automatiske bjælkelinjer og -regler genindsat"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm:9
 msgid "Literal Barlines now ON. Execute the command a second time to turn it off. This command is for un-metered music. You will have to manually beam the music. Do not use this for an upbeat (pickup, anacrusis), there is a proper command for that."
@@ -24542,7 +24549,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:79
 msgid "Click Track Creation"
-msgstr ""
+msgstr "Klik på spor-oprettelse"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.scm:79
 msgid "Give number of measures required: "
@@ -24550,7 +24557,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.xml.h:1
 msgid "Create Click Track Staff"
-msgstr ""
+msgstr "Opret klik på spor-nodesystem"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/MIDI/CreateClickStaffForMidi.xml.h:2
 msgid "Creates a staff (a click track) at the top of this score from the imported MIDI file, using tempo and time signature information (if present). The measures are filled with drum beats so that pitches in the MIDI tracks can be displayed above them. When you have finished the import you can delete this staff."
@@ -25926,15 +25933,15 @@ msgstr "Angiv venligst et nummer for at ændre LilyPond-bjælkenummeret. Udskriv
 
 #: ../actions/palettes.xml.h:143
 msgid "Help with beaming commands."
-msgstr ""
+msgstr "Hjælp med bjælkekommandoer."
 
 #: ../actions/palettes.xml.h:155
 msgid "Inserts a time signature with indication for how to beam the notes. Insert at beginning of staff in order to replace the initial time signature. Time Signature can be hidden on printing - see Time Signatures menu."
-msgstr ""
+msgstr "Indsætter en taktart med indikation for hvordan noderne sætes på bjælken. Indsæt i begyndelsen af nodesystem for at erstatte den oprindelige taktart. Taktarter kan skjules ved uskrivning - se menue Taktarter."
 
 #: ../actions/palettes.xml.h:156
 msgid "Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will set exceptions to the regular rule. In this case indicate the beaming desired using the manual beam commands [ and ]."
-msgstr ""
+msgstr "Angiver reglerne for brug ved bjælpeopsætning. Uden noget valg fås beat for bjælker til opdeling for den resterende taktart ved markøren. Hvis der er et valg, vil undtagelser blive angivet for den normale regel. I dette tilfælde indikeres den ønskede bjælkeopsætning via de manuelle bjælkekommandoer [ og ]."
 
 #: ../actions/palettes.xml.h:167
 msgid "Mensural Notation"
@@ -25942,7 +25949,7 @@ msgstr "Mensural notation"
 
 #: ../actions/palettes.xml.h:168
 msgid "Set this staff to use mensural notation (on/off)"
-msgstr ""
+msgstr "Dette nodesystem indstilles til at bruge mensural notation (aktiveret/deaktiveret)"
 
 #: ../actions/palettes.xml.h:169
 msgid "Inserts a whole measure rest in mensural notation."
@@ -25950,7 +25957,7 @@ msgstr "Indsætter et hel takt-pause i mensural notation."
 
 #: ../actions/palettes.xml.h:170
 msgid "Hides dots on the current chord/rest.&#10;Makes it conditional on the current layout."
-msgstr ""
+msgstr "Skuler punktummer på den nuværende akkord/pause.&#10;Gør den betinget på det nuværende layout."
 
 #: ../actions/palettes.xml.h:171
 msgid "Chord Symbols or Fake Chords"
@@ -25958,11 +25965,11 @@ msgstr "Akkordsymboler eller falske akkorder"
 
 #: ../actions/palettes.xml.h:172
 msgid "Attach a chord symbol to the note at the cursor position. E.G.cis:dim7 for c-sharp diminished 7th. See Lilypond docs for notation"
-msgstr ""
+msgstr "Tilføj et akkordsymbol til noden ved markørpositionen. E.G.cis:dim7 for c-sæt kryds for formindsket 7. Se Lilypond-dokumentationen for notation"
 
 #: ../actions/palettes.xml.h:173
 msgid "The current staff becomes a chord symbol staff. The music on this staff will be typeset as chord symbols. Normally you will make this staff a voice on the melody staff, so that the chord symbols print on the melody staff."
-msgstr ""
+msgstr "Det nuværende nodesystem bliver et akkordsymbolnodesystem. Musikken i dette nodesystem vil blive opsat som akkordsymboler. Normalt vil du gøre dette nodesystem til en stemme på melodinodesystemet, så at akkordsymbolerne udskrives på melodinodesystemet."
 
 #: ../actions/palettes.xml.h:174
 msgid "Midi Import"
@@ -26007,7 +26014,7 @@ msgstr "Akkorddiagrammer"
 
 #: ../actions/palettes.xml.h:204
 msgid "Insert a previously created barline. (Any other LilyPond definitions  - see Score->LilyPond Definition - are here too)."
-msgstr ""
+msgstr "Indsæt en tidligere oprettet bjælkelinje. (Andre LilyPond-definitioner - se Partitur->LilyPond-definition - er her også)."
 
 #: ../actions/palettes.xml.h:205
 msgid "Start a new line at this measure."
