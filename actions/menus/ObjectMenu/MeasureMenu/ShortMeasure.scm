@@ -60,6 +60,7 @@
                 )))
         ;;;if upbeat not already present
         (ComputeAndCreate))
+(d-PushClipboard)
 (d-SetMark)
 (d-Copy)
 (d-UnsetMark)
@@ -72,6 +73,7 @@
     (if (d-MoveToStaffDown)
         (loop)))
 (d-PopPosition)
+(d-PopClipboard)
  (d-RefreshDisplay)
  (if Upbeat::params 
     (disp "Short recalculated\n")
