@@ -808,8 +808,6 @@ actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/ChooseBarline.xml
 actions/menus/ObjectMenu/Directives/Barlines/ClosingBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/ClosingBarline.xml
-actions/menus/ObjectMenu/Directives/Barlines/ConditionalSecondTimeBar.scm
-actions/menus/ObjectMenu/Directives/Barlines/ConditionalSecondTimeBar.xml
 actions/menus/ObjectMenu/Directives/Barlines/DottedBarline.scm
 actions/menus/ObjectMenu/Directives/Barlines/DottedBarline.xml
 actions/menus/ObjectMenu/Directives/Barlines/DoubleBarline.scm
@@ -850,6 +848,8 @@ actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.scm
 actions/menus/ObjectMenu/Directives/InsertDefinedLilyPond.xml
 actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.scm
 actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml
+actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/ConditionalSecondTimeBar.scm
+actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/ConditionalSecondTimeBar.xml
 actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/EndVolta.scm
 actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/EndVolta.xml
 actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/OpenFirstTimeBar.scm
