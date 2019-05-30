@@ -1679,6 +1679,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
                 gui->total_edit_time =  edit;
                 reset_editing_timer ();
               }
+
         else if (ELEM_NAME_EQ (childElem, "score-directives"))
           {
             gui->lilycontrol.directives = parseWidgetDirectives (childElem, (gpointer) score_directive_put_graphic, NULL, &(gui->lilycontrol.directives));
@@ -3079,6 +3080,12 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               {
                 point_to_empty_movement (gui);
                 ret |= parseMovement (childElem, gui, type);
+              }
+            else if (ELEM_NAME_EQ (childElem, "printhistory"))
+              {
+                gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+                gui->printhistory =  g_string_new (temp);
+                g_free (temp);
               }
             else
               {

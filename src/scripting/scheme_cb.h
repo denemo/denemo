@@ -923,6 +923,9 @@ SCM scheme_About (SCM optional) {
 SCM scheme_Shortcuts (SCM optional) {
   return scheme_call_callback(optional, (callback_function)display_shortcuts);
 }
+SCM scheme_PrintHistory (SCM optional) {
+  return scheme_call_callback(optional, (callback_function)display_printhistory);
+}
 SCM scheme_MoreCommands (SCM optional) {
   return scheme_call_callback(optional, (callback_function)morecommands);
 }

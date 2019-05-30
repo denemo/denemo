@@ -1147,6 +1147,9 @@ exportXML (gchar * thefilename, DenemoProject * gui)
     {
       xmlNewTextChild (scoreElem, ns, (xmlChar *) "scheme", (xmlChar *) gui->script);
     }
+    
+  if(gui->printhistory)
+    xmlNewTextChild (scoreElem, ns, (xmlChar *) "printhistory", (xmlChar *) gui->printhistory->str); 
 
   if (gui->scoreheader.directives)
     newDirectivesElem (scoreElem, ns, gui->scoreheader.directives, "scoreheader-directives");
@@ -1176,6 +1179,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   newXMLIntChild (parentElem, ns, (xmlChar *) "orientation", gui->lilycontrol.orientation);
   newXMLIntChild (parentElem, ns, (xmlChar *) "total-edit-time", gui->total_edit_time);
 
+    
   if (gui->lilycontrol.directives)
     newDirectivesElem (parentElem, ns, gui->lilycontrol.directives, "score-directives");
 

@@ -1064,7 +1064,7 @@ typedef struct DenemoProject
 
 
   gchar *namespec;/**< A spec of which parts/movements to print */
-
+  GString *printhistory;
 
 
   InputSource input_source;/**< Where pitches are coming into Denemo (keyboard, audio, midi) */

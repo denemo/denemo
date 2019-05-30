@@ -27,4 +27,5 @@ void print_from_print_view (gboolean all_movements);
 gboolean printview_is_stale (void);
 void unpause_continuous_typesetting (void);
 void pause_continuous_typesetting (void);
+void display_printhistory (void);
 #endif

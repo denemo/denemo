@@ -72,13 +72,27 @@ void pause_continuous_typesetting (void)
                                                         GtkPrintOperationResult arg1,
                                                         gpointer                user_data)             : Run Last */
 static void
-printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult arg1, GtkPrintSettings ** psettings)
+printop_done (EvPrintOperation * printop, GtkPrintOperationResult arg1, GtkPrintSettings ** psettings)
 {
   if (*psettings)
     g_object_unref (*psettings);
   *psettings = ev_print_operation_get_print_settings (printop);
   g_object_ref (*psettings);
-  //g_debug("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
+  //g_print("Came away with uri %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
+  //g_print("And with printer %s\n", gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_PRINTER));
+  //g_print("With result %d FOR %s\n", arg1, Denemo.project->namespec);
+  if (arg1 == GTK_PRINT_OPERATION_RESULT_APPLY)
+    {
+      gchar *time = g_date_time_format (g_date_time_new_now_local (), _("on %d/%m/%y at %H:%M:%S"));
+      if (Denemo.project->printhistory==NULL)
+        Denemo.project->printhistory = g_string_new("");
+      
+      g_string_append_printf(Denemo.project->printhistory, "\n%s %s printer: %s", Denemo.project->namespec, time, gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_PRINTER));
+      //g_print ( "\n%s %s printer: %s", Denemo.project->namespec, time, gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_PRINTER));
+      g_free (time);
+      if ((!Denemo.project->notsaved) && (*Denemo.project->filename->str))
+        file_save (NULL, Denemo.project);
+    }
   gchar *uri = g_strdup (gtk_print_settings_get (*psettings, GTK_PRINT_SETTINGS_OUTPUT_URI));
   gchar *unesc = g_uri_unescape_string (uri, NULL);
   g_free (uri);
@@ -87,6 +101,28 @@ printop_done (EvPrintOperation * printop, G_GNUC_UNUSED GtkPrintOperationResult 
  
   call_out_to_guile ("(FinalizePrint)");
 }
+void display_printhistory (void)
+{
+  static 
+  GtkWidget *window = NULL;
+  if (GTK_IS_WIDGET (window))
+    gtk_widget_destroy (window);
+  window =  gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  GtkTextView *text_view = (GtkTextView*)gtk_text_view_new ();
+  gtk_text_view_set_editable (GTK_TEXT_VIEW (text_view), FALSE);
+  GtkWidget *scrolled_text_view = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
+  gtk_container_add (GTK_CONTAINER (scrolled_text_view), GTK_WIDGET(text_view));
+  gtk_scrolled_window_set_policy (GTK_SCROLLED_WINDOW (scrolled_text_view), GTK_POLICY_AUTOMATIC, GTK_POLICY_AUTOMATIC);
+  gchar *title = g_strdup_printf ("%s %s", _("Print History for "), *Denemo.project->filename->str?Denemo.project->filename->str:_("Unsaved Score"));
+  gtk_window_set_title (GTK_WINDOW (window), title);
+  g_free (title);
+  gtk_widget_set_size_request (GTK_WIDGET (scrolled_text_view), 650, 300);
+  gtk_container_add (GTK_CONTAINER (window), scrolled_text_view);
+  GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
+  gtk_text_buffer_set_text (buffer, (Denemo.project->printhistory && Denemo.project->printhistory->len)?Denemo.project->printhistory->str:_("No saved version of this score has been printed yet"), -1);
+  gtk_widget_show_all(window);
+}
+
 
 static gboolean
 libevince_print (void)

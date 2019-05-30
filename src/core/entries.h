@@ -249,6 +249,7 @@
 {"PrintExcerptPreview", GTK_STOCK_PRINT_PREVIEW, N_("Export Selection as PNG"), "",N_("Displays a musical excerpt in your image viewer"),G_CALLBACK (printexcerptpreview_cb)},
 {"PrintMovement", GTK_STOCK_PRINT, N_("Print Movement"), "",N_("Typesets the current movement and opens a print dialog"),G_CALLBACK (printmovement_cb)},
 {"Print", GTK_STOCK_PRINT, N_("Print"), "",N_("Typesets the score using LilyPond and opens a print dialog"),G_CALLBACK (printall_cb)},
+{"PrintHistory", NULL, N_("Print History"), "",N_("Shows the history of print outs for this score. Only saved documents have their printing recorded"),G_CALLBACK (display_printhistory)},
 {"PrintPart", GTK_STOCK_PRINT, N_("Print Part"), "",N_("Typesets the current part (the one containing the cursor)."),G_CALLBACK (printpart_cb)},
 {"Indexing", NULL, N_("Indexing"), "",N_("Menu:\nCommands to Index directories of Denemo Scores.")},
 {"Close", GTK_STOCK_CLOSE, N_("Close Score"), "",N_("Close the current score. Other scores (tabs) will stay open"),G_CALLBACK (close_gui_with_check)},
