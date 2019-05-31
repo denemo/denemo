@@ -86,8 +86,9 @@ printop_done (EvPrintOperation * printop, GtkPrintOperationResult arg1, GtkPrint
       gchar *time = g_date_time_format (g_date_time_new_now_local (), _("on %d/%m/%y at %H:%M:%S"));
       if (Denemo.project->printhistory==NULL)
         Denemo.project->printhistory = g_string_new("");
-      
-      g_string_append_printf(Denemo.project->printhistory, "\n%s %s printer: %s", Denemo.project->namespec, time, gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_PRINTER));
+      gchar *version = score_directive_get_display ("ScoreVersion");
+
+      g_string_append_printf(Denemo.project->printhistory, "\n%s: %s %s printer: %s", version?version:time_spent_editing(), Denemo.project->namespec, time, gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_PRINTER));
       //g_print ( "\n%s %s printer: %s", Denemo.project->namespec, time, gtk_print_settings_get(*psettings, GTK_PRINT_SETTINGS_PRINTER));
       g_free (time);
       if ((!Denemo.project->notsaved) && (*Denemo.project->filename->str))
