@@ -1883,7 +1883,11 @@ time_spent_editing ()
   seconds -= hours * (60 * 60);
   minutes = seconds / 60;
   seconds -= minutes * 60;
-  return g_strdup_printf ("%d days %d hours %d minutes %d seconds\n", days, hours, minutes, seconds);
+  gchar *format = days?"%d days %d hours %d minutes %d seconds"
+                        :hours?"%.0d%d hours %d minutes %d seconds"
+                        :minutes?"%.0d%.0d%d minutes %d seconds"
+                        :"%.0d%.0d%.0d%d seconds: ";
+  return g_strdup_printf (format, days, hours, minutes, seconds);
 }
 
 /* set the status of the current musical score - its change count and
