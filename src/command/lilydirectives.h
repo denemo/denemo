@@ -137,6 +137,14 @@ DECL_PUT_FIELD (clef, postfix)
 DECL_PUT_FIELD (clef, display)
   // end of block to copy
 
+DECL_PUT_GRAPHIC (score)
+DECL_GET_FIELD (score, prefix)
+DECL_GET_FIELD (score, postfix)
+DECL_GET_FIELD (score, display)
+DECL_PUT_FIELD (score, prefix)
+DECL_PUT_FIELD (score, postfix)
+DECL_PUT_FIELD (score, display)
+
 DECL_PUT_FIELD (header, postfix)
 DECL_PUT_FIELD (header, display)
 DECL_PUT_FIELD (paper, postfix)
