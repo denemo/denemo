@@ -10,6 +10,9 @@
     (set! size (d-GetUserInput (_ "Notehead Font Magnification") (_  "Give size required: ") current))
     (if size
         (begin
-            (d-DirectivePut-note-prefix tag (string-append " \\tweak  font-size #" size " "))
-            (d-DirectivePut-note-data tag size)
-            (d-SetSaved #f))))
+        	(if (eq? (string->number size) 0)
+        		(d-DirectiveDelete-note tag)
+        		(begin
+			    (d-DirectivePut-note-prefix tag (string-append " \\tweak  font-size #" size " "))
+			    (d-DirectivePut-note-data tag size)))
+            	(d-SetSaved #f))))
