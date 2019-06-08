@@ -120,7 +120,12 @@ void display_printhistory (void)
   gtk_widget_set_size_request (GTK_WIDGET (scrolled_text_view), 650, 300);
   gtk_container_add (GTK_CONTAINER (window), scrolled_text_view);
   GtkTextBuffer *buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (text_view));
-  gtk_text_buffer_set_text (buffer, (Denemo.project->printhistory && Denemo.project->printhistory->len)?Denemo.project->printhistory->str:_("No saved version of this score has been printed yet"), -1);
+  gchar *text = g_strdup_printf ( "%s\n%s%s\n", (Denemo.project->printhistory && Denemo.project->printhistory->len)?Denemo.project->printhistory->str:
+                                                    _("No saved version of this score has been printed yet"), 
+                                              _("The file was last saved with editing time: "),
+                                              time_spent_editing());
+  gtk_text_buffer_set_text (buffer, text, -1);
+  g_free (text);
   gtk_widget_show_all(window);
 }
 
