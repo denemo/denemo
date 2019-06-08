@@ -2998,6 +2998,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           reset_editing_timer ();
           gui->total_edit_time = 0;
           gui->has_script = FALSE;
+          gui->printhistory =  g_string_new ("");
           /* this is dependent on the order of elements, which is not strictly correct */
           FOREACH_CHILD_ELEM (childElem, rootElem)
           {
@@ -3084,7 +3085,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
             else if (ELEM_NAME_EQ (childElem, "printhistory"))
               {
                 gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-                gui->printhistory =  g_string_new (temp);
+                g_string_assign (gui->printhistory, temp);
                 g_free (temp);
               }
             else
