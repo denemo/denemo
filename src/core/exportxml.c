@@ -1148,7 +1148,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       xmlNewTextChild (scoreElem, ns, (xmlChar *) "scheme", (xmlChar *) gui->script);
     }
     
-  if(gui->printhistory)
+  if(gui->printhistory && gui->printhistory->len)
     xmlNewTextChild (scoreElem, ns, (xmlChar *) "printhistory", (xmlChar *) gui->printhistory->str); 
 
   if (gui->scoreheader.directives)
