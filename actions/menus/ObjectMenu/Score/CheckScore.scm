@@ -16,16 +16,18 @@
       (d-EvenOutStaffLengths)
       (while (d-MoveToStaffUp))   
       (let staff ()
-        (d-KeepAlive)
-        (d-FixSlursInStaff)     
-        (d-CheckTiesInStaff 'noninteractive)
-        (if CheckTiesInStaff::return
-                (set! CheckScore::return CheckTiesInStaff::return))
-        (if (not CheckScore::return)
+        (d-KeepAlive) 
+        (if (not (d-Directive-voice? "SubstituteMusic"))
             (begin
-                (d-CheckDirectivePairs 'noninteractive)
-                (if CheckDirectivePairs::return
-                    (set! CheckScore::return CheckDirectivePairs::return))))
+                (d-FixSlursInStaff)     
+                (d-CheckTiesInStaff 'noninteractive)
+                (if CheckTiesInStaff::return
+                        (set! CheckScore::return CheckTiesInStaff::return))
+                (if (not CheckScore::return)
+                    (begin
+                        (d-CheckDirectivePairs 'noninteractive)
+                        (if CheckDirectivePairs::return
+                            (set! CheckScore::return CheckDirectivePairs::return))))))
         (if (not CheckScore::return)
             (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
                 (staff))))
@@ -33,19 +35,21 @@
           (begin
             (while (d-MoveToStaffUp))   
             (let staff ()
-                (d-MoveToBeginning)
-                (let measure ()
-                    (d-CheckTupletsInMeasure 'noninteractive)           
-                    (set! CheckScore::return CheckTupletsInMeasure::return)
-                    (if (not CheckScore::return)
-                        (begin
-                            (d-CheckBeamsInMeasure 'noninteractive)
-                            (set! CheckScore::return CheckBeamsInMeasure::return)))
-                    (if (not CheckScore::return)
-                        (if (d-MoveToMeasureRight)
-                          (measure)
-                          (if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
-                               (staff))))))))
+              (if (not (d-Directive-voice? "SubstituteMusic"))
+            	(begin
+				(d-MoveToBeginning)
+				(let measure ()
+				    (d-CheckTupletsInMeasure 'noninteractive)           
+				    (set! CheckScore::return CheckTupletsInMeasure::return)
+				    (if (not CheckScore::return)
+				        (begin
+				            (d-CheckBeamsInMeasure 'noninteractive)
+				            (set! CheckScore::return CheckBeamsInMeasure::return)))
+				    (if (not CheckScore::return)
+				        (if (d-MoveToMeasureRight)
+				          (measure))))))
+		(if (or (d-MoveToVoiceDown) (d-MoveToStaffDown))
+			(staff)))))
                                
          (if (not CheckScore::return)                      
                    (begin
@@ -89,19 +93,21 @@
                 (set! CheckScore::return CheckBraces::Return)))
  
          (if (not CheckScore::return) 
-               (begin
-               (while (d-MoveToStaffUp))
-           	(d-MoveToEnd) 
-           	(let ((ticks (GetMeasureTicks))) 
-           		(while (and
-           				(d-MoveToStaffDown)
-           				(eq? ticks (GetMeasureTicks))))		
-           		(if (not (eq? ticks (GetMeasureTicks)))
-           			(begin
-           				(set! CheckScore::error-position (GetPosition))
-           				(set! CheckScore::return (_ "Final Measures not all equal duration")))))))
-    
-                
+         	(begin
+         		(while (d-MoveToStaffUp))
+         		(while (and (d-Directive-voice? "SubstituteMusic") (d-MoveToStaffDown)))
+         		(d-MoveToEnd) 
+         		(let ((ticks (GetMeasureTicks))) 
+		      		 (let staff ()
+					(d-KeepAlive) 
+					(if (and (not (d-Directive-voice? "SubstituteMusic"))
+				   			(not (eq? ticks (GetMeasureTicks))))
+				   				(begin
+				   					(set! CheckScore::error-position (GetPosition))
+				   					(set! CheckScore::return (_ "Final Measures not all equal duration"))))
+				   	(if (d-MoveToStaffDown)
+				   		(staff))))))
+
         (if (not CheckScore::return)           
            (d-InstallGraceNoteHints))               
                                             
