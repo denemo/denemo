@@ -2212,16 +2212,16 @@ notes_choice_dialog (gint number_of_notes /* 1 or 2 */, gchar *initial_value, gc
             gtk_box_pack_start (GTK_BOX (hbox), frame, FALSE, TRUE, 0);
             GtkWidget *octbox = gtk_vbox_new (FALSE, 1);
             gtk_container_add (GTK_CONTAINER (frame), octbox);
-            button0 = gtk_radio_button_new_with_label_from_widget (NULL,oct_name[0]);
+            button0 = gtk_radio_button_new_with_label_from_widget (NULL,oct_name[7]);
             gtk_box_pack_start (GTK_BOX (octbox), button0, TRUE, TRUE, 0);
-            for (i=1; i<7; i++)
+            for (i=6; i>-1; i--)
                 {
                     GtkWidget *button = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON(button0), oct_name[i]);
                     if (i == ((j?oct2:oct1) -1)) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(button), TRUE);
                     g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (set_note_name_encoding), GINT_TO_POINTER((i+1)<<8));
                     gtk_box_pack_start (GTK_BOX (octbox), button, TRUE, TRUE, 0);
                 } 
-           g_signal_connect (G_OBJECT (button0), "clicked", G_CALLBACK (set_note_name_encoding),GINT_TO_POINTER(1<<8));            
+           g_signal_connect (G_OBJECT (button0), "clicked", G_CALLBACK (set_note_name_encoding),GINT_TO_POINTER(8<<8));            
           }
                 
         }
