@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>Glissando</action>
         <_label>Glissando</_label>
-        <_tooltip>Inserts a glissando (portamento, slide), a line joining the notehead of this and the next note.</_tooltip>
+        <_tooltip>Inserts a glissando (portamento, slide), a line joining the notehead of this and the next note. You may need to displace the following note horizontally to make the gliss marking visible enough.</_tooltip>
       </row>
     </map>
   </merge>
