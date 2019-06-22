@@ -3180,8 +3180,9 @@ create_custom_lilypond_scoreblock (void)
         }
     }
   //if none, create the default and convert that to lilypoond.
-  create_default_scoreblock ();
-  sb = (DenemoScoreblock *) (Denemo.project->standard_scoreblocks->data);
+  create_default_scoreblock (); // does not necessarily create a standard scoreblock, can be a custom scoreblock
+  sb =  (Denemo.project->standard_scoreblocks? (DenemoScoreblock *) (Denemo.project->standard_scoreblocks->data):
+                                               (DenemoScoreblock *) (Denemo.project->custom_scoreblocks->data));
   convert_to_lilypond_callback (NULL, sb);
   return sb;
 }
