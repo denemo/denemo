@@ -8,7 +8,7 @@
         <after>BreathMark</after>
         <action>Ottava</action>
         <_label>Ottava</_label>
-        <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started. Combine with a Print Transposition if you want to see the notes as typeset.</_tooltip>
+        <_tooltip>Inserts an 8va mark (or 15ma) mark or terminates one already started. Either octave up or octave down can be specified. The notes should be entered at the true (sounding) pitch. Combine with a Print Transposition if you want to see the notes in the display at the transposed pitch (affects the MIDI playback).</_tooltip>
       </row>
     </map>
   </merge>

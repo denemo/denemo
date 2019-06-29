@@ -158,7 +158,7 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <action>Ottava</action>
         <menupath>/ObjectMenu/Directives/Markings/Spanning</menupath>
         <_label>Ottava</_label>
-        <_tooltip>Inserts an 8va mark (transposing the notes accordingly) or terminates one already started.</_tooltip>
+        <_tooltip>Inserts an 8va mark (or 15ma) mark or terminates one already started. Either octave up or octave down can be specified. The notes should be entered at the true (sounding) pitch. Combine with a Print Transposition if you want to see the notes in the display at the transposed pitch (affects the MIDI playback).</_tooltip>
       </row>
       <row type="builtin">
         <action>AddVerse</action>
