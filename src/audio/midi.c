@@ -979,8 +979,8 @@ intercept_midi_event (gint * midi)
 {
   if (divert_midi_event)
     {
-      infodialog (_("Not exiting the previous MIDI capture loop"));
-      g_warning ("Cannot return to script");
+      //infodialog (_("Not exiting the previous MIDI capture loop"));
+      g_warning ("intercept_midi_event called while divert_midi_event is TRUE - Cannot return to script");
       // divert_midi_event = NULL;
       // return FALSE;
       set_midi_capture (FALSE);
