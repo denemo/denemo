@@ -391,6 +391,8 @@ actions/menus/MainMenu/Educational/MIDI/Conductor.scm
 actions/menus/MainMenu/Educational/MIDI/Conductor.xml
 actions/menus/MainMenu/Educational/MIDI/FiguredBassExercises.scm
 actions/menus/MainMenu/Educational/MIDI/FiguredBassExercises.xml
+actions/menus/MainMenu/Educational/MIDI/NoteRecognition.scm
+actions/menus/MainMenu/Educational/MIDI/NoteRecognition.xml
 actions/menus/MainMenu/Educational/Note-Reading/BassClefNoteNameSpeedTest.scm
 actions/menus/MainMenu/Educational/Note-Reading/BassClefNoteNameSpeedTest.xml
 actions/menus/MainMenu/Educational/Note-Reading/CountSteps.scm

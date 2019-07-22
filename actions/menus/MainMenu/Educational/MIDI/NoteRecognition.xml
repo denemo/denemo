@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NoteRecognition</action>
+        <after>CheckPitches</after>
+        <_label>Note Recognition (Off/On)</_label>
+        <_tooltip>Five notes are played at random from the current bar.
+You must play the last one on the MIDI keyboard to score. 
+You can paste as many different notes as you like into a bar -
+if you include the same note many times you will get that one more often.
+You can cheat by looking at the Denemo cursor position.
+Invoke the command again to stop.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
