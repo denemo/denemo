@@ -2012,6 +2012,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarku
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.scm

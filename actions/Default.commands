@@ -2641,6 +2641,15 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Prints this staff (only) transposed. This is in addition to any score-wide transposition</_tooltip>
       </row>
       <row type="scheme">
+        <action>StaffToStaffSpacing</action>
+        <after>TopMarkupSpacingDist</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing</menupath>
+        <_label>Spacing between Staffs</_label>
+        <_tooltip>Allows setting of various parameters controlling the space between staffs and between and within staffs grouped with braces.</_tooltip>
+      </row>      
+      
+      
+      <row type="scheme">
         <action>MarkupSystemSpacingDist</action>
         <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
         <_label>Titling Markup to System Spacing</_label>
@@ -8417,6 +8426,7 @@ if you include the same note many times you will get that one more often.
 You can cheat by looking at the Denemo cursor position.
 Invoke the command again to stop.</_tooltip>
       </row>
+
     </map>
   </merge>
 </Denemo>
