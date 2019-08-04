@@ -31,6 +31,10 @@
 (d-DirectivePut-score-prefix "test" "%{score prefix%}\n")
 (d-DirectivePut-score-postfix "test" "%{score postfix%}\n")
 
+(d-DirectivePut-score-override "scorewithaffix" DENEMO_OVERRIDE_AFFIX)
+(d-DirectivePut-score-prefix "scorewithaffix" "%{score prefix with affix%}\n")
+(d-DirectivePut-score-postfix "scorewithaffix" "%{score postfix with affix%}\n")
+
 (d-DirectivePut-clef-prefix "test" "%{clef prefix%}\n")
 (d-DirectivePut-clef-postfix "test" "%{clef postfix%}\n")
 

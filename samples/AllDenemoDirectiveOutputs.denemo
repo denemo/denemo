@@ -30,7 +30,7 @@
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
-    <total-edit-time>0</total-edit-time>
+    <total-edit-time>214</total-edit-time>
     <score-directives>
       <directive>
         <tag>test</tag>
@@ -38,6 +38,14 @@
 </prefix>
         <postfix>%{score postfix%}
 </postfix>
+      </directive>
+      <directive>
+        <tag>scorewithaffix</tag>
+        <prefix>%{score prefix with affix%}
+</prefix>
+        <postfix>%{score postfix with affix%}
+</postfix>
+        <override>16</override>
       </directive>
     </score-directives>
   </lilycontrol>
