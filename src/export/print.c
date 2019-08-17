@@ -424,8 +424,7 @@ open_viewer (gint status, gchar * filename)
 #if GLIB_CHECK_VERSION(2,34,0)
   {
     GError* err = NULL;
-    status = g_spawn_check_exit_status (status, &err);
-    if(!status)
+     if (!g_spawn_check_exit_status (status, &err))
         g_warning ("Lilypond did not end successfully: %s", err->message);
   }
 #endif
