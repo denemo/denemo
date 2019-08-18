@@ -2285,7 +2285,11 @@ typeset_part (void)
 {
   typeset_control (create_part_pdf);
 }
-
+void
+typeset_current_movement (void)
+{
+  typeset_control (create_movement_pdf);
+}
 static gboolean
 retypeset (void)
 {

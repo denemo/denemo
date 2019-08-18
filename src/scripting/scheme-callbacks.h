@@ -330,6 +330,7 @@ SCM scheme_get_current_staff_layout_id (void);
 SCM scheme_select_layout_id (SCM);
 SCM scheme_lilypond_for_part (void);
 SCM scheme_typeset_part (void);
+SCM scheme_typeset_current_movement (void);
 SCM scheme_reduce_layout_to_lilypond (void);
 SCM scheme_get_layout_name (void);
 SCM scheme_select_next_layout (void);

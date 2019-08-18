@@ -1302,6 +1302,17 @@ scheme_typeset_part (void)
   return SCM_BOOL_T;
 #endif
 }
+SCM
+scheme_typeset_current_movement (void)
+{
+#ifndef USE_EVINCE
+  g_debug ("This feature requires denemo to be built with evince");
+  return SCM_BOOL_F;
+#else
+  typeset_current_movement ();
+  return SCM_BOOL_T;
+#endif
+}
 
 SCM
 scheme_reduce_layout_to_lilypond (void)

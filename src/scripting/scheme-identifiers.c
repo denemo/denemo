@@ -1202,6 +1202,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Selects the score layout with the passed id. Returns #f if there is no such layout.", DENEMO_SCHEME_PREFIX "SelectLayoutId", scheme_select_layout_id);
   install_scm_function (0, "Generates LilyPond layout for the current part (ie staffs with the name of the staff with the cursor), all movements and staffs with that staff name are generated.", DENEMO_SCHEME_PREFIX "LilyPondForPart", scheme_lilypond_for_part);
   install_scm_function (0, "Typesets the current part (ie the staff with the cursor), all movements and staffs with that staff name are typeset.", DENEMO_SCHEME_PREFIX "TypesetPart", scheme_typeset_part);
+  install_scm_function (0, "Typesets the current movement.", DENEMO_SCHEME_PREFIX "TypesetCurrentMovement", scheme_typeset_current_movement);
   install_scm_function (0, "Converts the current score layout to editable LilyPond text. After this the score layout is only affected by editing the LilyPond syntax.", DENEMO_SCHEME_PREFIX "ReduceLayoutToLilyPond", scheme_reduce_layout_to_lilypond);
   install_scm_function (0, "Returns the name of the currently selected score layout (see View->Score Layout). Returns #f if no layout is selected.", DENEMO_SCHEME_PREFIX "GetLayoutName", scheme_get_layout_name);
   install_scm_function (0, "Selects the next score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextLayout", scheme_select_next_layout);
