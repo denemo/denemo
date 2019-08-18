@@ -1,11 +1,7 @@
- ;;;;;;;;;;;TwoGraceInsert with beaming into the score
+;;;;;;;;;;;TwoGraceInsert with beaming into the score
  ;(Help::Push (cons 'doublestroketemp (_ "Press a duration key to get two, beamed, grace notes")))
-
 (Help::Push (cons 'doublestroketemp
 (string-append " <span font_desc=\"22\" foreground=\"blue\">"  (_ "Press a duration key to get two, beamed, grace notes")  "</span>")))
-
-
-
 (let ()
 (define command #f)
 (define duration (d-GetCommand))
@@ -20,12 +16,17 @@
  ((equal? duration "d-7") (set! command d-7)))
 
 (if command
-   	(begin
+   	(let ((middle(not (Appending?))))
 		(command)
+		(if middle
+			(d-MoveCursorLeft))
 		(d-ToggleGrace)
 		(d-StartBeam)
-		(d-RefreshDisplay)
+		(if middle
+			(d-MoveCursorRight))
 		(command)
+		(if middle
+			(d-MoveCursorLeft))
 		(d-ToggleGrace)
 		(d-EndBeam)
 		(Help::Pop))
