@@ -2593,15 +2593,20 @@ gchar *try_to_find_file (gchar *base, gchar *filename)
   return NULL;
 }
 
+static gboolean printarea_visible = FALSE;
 static void
 hide_windows (void)
 {
+ 
   if (Denemo.prefs.hide_windows)
     {
       if (Denemo.window)
         gtk_widget_hide (Denemo.window);
       if (Denemo.printarea)
-        gtk_widget_hide (gtk_widget_get_toplevel (Denemo.printarea));
+        {
+         printarea_visible = gtk_widget_get_visible(gtk_widget_get_toplevel (Denemo.printarea));
+         gtk_widget_hide (gtk_widget_get_toplevel (Denemo.printarea));
+       }
     }
 }
 
@@ -2613,7 +2618,10 @@ show_windows (void)
       if (Denemo.window)
         gtk_widget_show (Denemo.window);
       if (Denemo.printarea)
-        gtk_widget_show (gtk_widget_get_toplevel (Denemo.printarea));
+        {
+          if (printarea_visible)
+            gtk_widget_show (gtk_widget_get_toplevel (Denemo.printarea));
+        }
     }
 }
 
