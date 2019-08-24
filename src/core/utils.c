@@ -221,7 +221,7 @@ make_temp_dir (gboolean removal)
           gchar *newdir = g_build_filename (g_get_tmp_dir (), "Denemo_XXXXXX", NULL);
 #ifdef G_OS_WIN32
           // Windows does not delete the temporary directory, use a constant one.
-          if (!g_mkdir_with_parents (newdir, 0700))
+          if (g_mkdir_with_parents (newdir, 0700))
             g_warning ("Creation of temp dir %s failed\n", newdir);
 #else
           if (!g_mkdtemp (newdir))
