@@ -498,11 +498,11 @@ G
 .
  When the cursor is green the keys
 \family typewriter
- 
+ Shift
 \family default
-Shift-
+-
 \family typewriter
-20-6
+0 to Shift-6
 \family default
  change the duration of the note, while 
 \family typewriter
@@ -8445,6 +8445,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8452,6 +8453,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
