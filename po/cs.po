@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.3\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2019-05-22 16:00+0100\n"
-"PO-Revision-Date: 2019-08-25 22:17+0200\n"
+"PO-Revision-Date: 2019-08-28 15:07+0200\n"
 "Last-Translator: Pavel Fric <pavelfric@seznam.cz>\n"
 "Language-Team: Czech <translation-team-cs@lists.sourceforge.net>\n"
 "Language: cs\n"
@@ -11972,7 +11972,7 @@ msgstr "Vložit z osnovy nad"
 
 #: ../actions/menus/MainMenu/EditMenu/PasteFromAbove.xml.h:2
 msgid "Copies any non-musical objects for the current musical moment from the staff above and pastes them into this staff after the cursor."
-msgstr ""
+msgstr "Zkopíruje z osnovy nahoře všechny nehudební předměty pro nynější hudební větu a vloží je do této osnovy po ukazateli."
 
 #. Goes to the beginning of the selection afterwards
 #: ../actions/menus/MainMenu/EditMenu/PasteReplaceSelection.xml.h:1
@@ -12054,7 +12054,7 @@ msgstr "Zahrnout do výběru dvojici předmětů"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/InsertDirectivesAroundSelection.xml.h:2
 msgid "If the selection comprises two objects - directives, clef changes, tuplet markers etc. - it cuts them to the clipboard. Subsequent invocations of the command with music selected places the two objects before and after the music."
-msgstr ""
+msgstr "Pokud výběr sestává ze dvou předmětů - příkazy, změny klíče, značky pro nepravidelné rytmické notové skupiny atd., vyjme je do schránky. Následná zavolání příkazu s vybranými notami umístí ty dva předměty před a po notách"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/MarkPassages.xml.h:1
 msgid "Mark Passages"
@@ -12062,7 +12062,7 @@ msgstr "Označit pasáže"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/MarkPassages.xml.h:2
 msgid "Invoke this command with no selection to initialize it. Then select passages to be marked and invoke it again to mark them. (Use with the command Swap Passages in the Notation Magick menu to swap the passages marked with the corresponding music in the staff below the current staff)."
-msgstr ""
+msgstr "Vyvolejte tento příkaz bez výběru pro jeho spuštění. Potom vyberte pasáže k označení a zavolejte jej znovu pro jejich označení. (Použijte s příkazem Prohodit pasáže v kouzelné notační nabídce pro vyměnění označených pasáží s odpovídajícími notami v osnově pod nynější osnovou)."
 
 #: ../actions/menus/MainMenu/EditMenu/Select/SelectAllStaffs.xml.h:1
 msgid "Select All Staffs"
@@ -13838,12 +13838,13 @@ msgid ""
 "to use this option\n"
 "Locations where the expression evaluates are true will be found."
 msgstr ""
+"Potřebujete okno pro skript Scheme výrazu Scheme,\n"
+"abyste mohl použít tuto volbu.\n"
+"Umístění, kde jsou vyhodnocení výrazu pravdivá, budou nalezena."
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.scm:107
-#, fuzzy
-#| msgid "Get Script into Scheme Window"
 msgid "Install a template script in the Scheme Script window"
-msgstr "Dostat skript do okna Scheme"
+msgstr "Nainstalovat skript s předlohou do okna se skriptem Scheme"
 
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.scm:107
 #: ../actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.xml.h:1
