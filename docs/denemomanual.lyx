@@ -445,11 +445,19 @@ Most people will start with playing around with Denemo using the mouse,
  Try using the pc keyboard.
  By default, keys 
 \family typewriter
-a-g
+a
+\family default
+ to 
+\family typewriter
+g
 \family default
  represent the note names and 
 \family typewriter
-0-6
+0
+\family default
+ to
+\family typewriter
+ 6
 \family default
  the different durations (whole note, half note etc).
  When the cursor is appending (blue) pressing key 
@@ -478,9 +486,9 @@ When the cursor is moved on to a note (with the arrow key or mouse) the
 \family typewriter
 a
 \family default
--
+ to
 \family typewriter
-g
+ g
 \family default
  edits the note name.
  To insert a note before a note at the cursor use a double strike 
@@ -489,35 +497,55 @@ A
 \family default
 ,
 \family typewriter
-A-G
+A
+\family default
+ to
+\family typewriter
+ G
 \family default
 ,
 \family typewriter
 G
 \family default
 .
- When the cursor is green the keys
+ When the cursor is green tothe keys
 \family typewriter
  Shift
 \family default
 -
 \family typewriter
-0 to Shift-6
+0
+\family default
+ to
+\family typewriter
+ Shift-6
 \family default
  change the duration of the note, while 
 \family typewriter
-0-6
+0
+\family default
+ to
+\family typewriter
+ 6
 \family default
  insert a note before the cursor.
  (If you use the numeric keypad you can use 
 \family typewriter
-Shift-KP 0-6
+Shift-KP0
+\family default
+ to
+\family typewriter
+ Shift-KP6
 \family default
  for this).
  The arrow keys move the cursor around, the period key adds a dot while
  
 \family typewriter
-Alt-a-g
+Alt-a
+\family default
+ to
+\family typewriter
+ Alt-g
 \family default
  add notes to the chord at the cursor.
  
@@ -630,7 +658,11 @@ Here are a few of the keyboard shortcuts that are commonly used in Denemo.
 \begin_layout Itemize
 Letters 
 \family typewriter
-a-g
+a
+\family default
+ to
+\family typewriter
+ g
 \family default
  edit the note at the cursor to be A-G, if the cursor is in the appending
  position then notes are added.
@@ -653,7 +685,7 @@ Shift
 \begin_layout Itemize
 Numbers 
 \family typewriter
-0-6
+0 to 6
 \family default
  are used to refer to the note durations Whole Note \SpecialChar ldots
  64th Note.
@@ -661,7 +693,7 @@ Numbers
  a note name.
  With the shift key held (or the CapsLock on) 
 \family typewriter
-0-6
+0 to 6
 \family default
  edits the duration of the note at the cursor.
  The corresponding Numeric Keypad keys can be used instead.
@@ -684,7 +716,7 @@ Ctrl-.
 \begin_layout Itemize
 
 \family typewriter
-Alt-0-6
+Alt-0 to Alt-6
 \family default
  inserts a rest.
 \end_layout
@@ -692,7 +724,7 @@ Alt-0-6
 \begin_layout Itemize
 
 \family typewriter
-Alt-a-g
+Alt-a to Alt-g
 \family default
  Add notes to a chord.
  Or position the cursor and use 
@@ -807,11 +839,15 @@ e
 " for end repeat barline.
  An alternative set of shortcuts for 
 \family typewriter
-a-g 
+a 
+\family default
+to
+\family typewriter
+ g 
 \family default
 and
 \family typewriter
- 0-6 
+ 0 to 6 
 \family default
 is available via the Input menu.
 \end_layout
@@ -9598,12 +9634,16 @@ Note Entry
 The default keyboard shortcuts appends a note when you type a number key
  
 \family typewriter
-0-6
+0 to 6
 \family default
  with the pitch taken from the cursor height and inserts a note when pressing
- a letter key 
+ a letter key
 \family typewriter
-a-g
+ a
+\family default
+ to 
+\family typewriter
+g
 \family default
 .
  This provides one way of entering notes – move the cursor up or down to
@@ -11388,8 +11428,15 @@ GetType returns a scheme string indicating the type of the current object
 \end_layout
 
 \begin_layout Itemize
-GetNoteName returns a scheme string, giving the note name a-g of the current
- note
+GetNoteName returns a scheme string, giving the note name 
+\family typewriter
+a
+\family default
+ to 
+\family typewriter
+g
+\family default
+ of the current note
 \end_layout
 
 \begin_layout Itemize
