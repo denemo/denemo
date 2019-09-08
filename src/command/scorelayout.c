@@ -2326,12 +2326,11 @@ selected_scoreblock (void)
         if (sb->id == Denemo.project->layout_id)
             return sb;
       }
-    create_default_scoreblock ();
-    return Denemo.project->standard_scoreblocks->data;
+    create_default_scoreblock ();// does not necessarily create a standard scoreblock, can be a custom scoreblock
+    return (Denemo.project->standard_scoreblocks? (DenemoScoreblock *) (Denemo.project->standard_scoreblocks->data):
+                                               (DenemoScoreblock *) (Denemo.project->custom_scoreblocks->data));
     }
-  
-  
-  
+
   GtkWidget *notebook = get_score_layout_notebook (Denemo.project);
   gint pagenum = gtk_notebook_get_current_page (GTK_NOTEBOOK (notebook));       // value passed in appears to be something else - it is not documented what.
   GtkWidget *page = gtk_notebook_get_nth_page (GTK_NOTEBOOK (notebook), pagenum);
@@ -2507,6 +2506,11 @@ iterate_custom_layout (gboolean init)
     }
   else
     {
+      if (Denemo.non_interactive)
+        {
+          Denemo.project->layout_id = sb->id;//this is the bit of set_notebook_page() that is needed for non-interactive case I think
+          return TRUE;
+        }
       g_debug ("No custom layout %d sb = %p\n", current, sb);
       return FALSE;
     }
