@@ -536,7 +536,7 @@ static gboolean clicked (GtkWidget * view, GdkEventButton * event)
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (gtk_main_quit), NULL);     
 
       gtk_widget_show_all (menu);
-#if GTK_MAJOR_VERSION==3
+#if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=22))
       gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
 #else
 // FIXME something for gtk2
@@ -692,7 +692,7 @@ int main(int argc, char **argv)
  {
    gtk_init(&argc, &argv);
    GdkRectangle r;
-#if GTK_MAJOR_VERSION==3
+#if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=22))
    gdk_monitor_get_workarea (gdk_display_get_primary_monitor (gdk_display_get_default ()), &r);
 #else
 // FIXME something for gtk2
