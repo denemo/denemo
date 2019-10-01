@@ -29,6 +29,92 @@ static GList *current_page;
 static GtkWidget *top_window;
 static gchar *help_text = NULL;
 
+//Warning - this structure has to be sync'd with the definition in the (independent) pageturner program - see tools/pageturner.c
+typedef struct Annotation {
+     gchar *annotation;
+     gint page;
+     gint  adj;
+     gint x, y;
+} Annotation;
+static  gint width=720;//width and
+static  gint height=1030;//height of proof read screen
+static GtkAdjustment *VAdj;//vertical scroll of the score
+static GList *annotations = NULL;// a list of annotations to be displayed on the score
+static gchar *markings_file = NULL;//full path to file for storing repeat marks and annotations for currently loaded pdf
+static void free_annotation (Annotation *a)
+{
+   g_free (a->annotation);
+   g_free (a);
+}
+//load annotations from the file associated with the opened pdf score
+static void load_markings (gchar *pdfname)
+{
+   g_list_free_full (annotations, (GDestroyNotify)free_annotation);
+   annotations = NULL;
+   if (markings_file) 
+      g_free (markings_file);
+   markings_file = g_strdup_printf ("%s%s", pdfname, ".marks");
+   FILE *fp = fopen (markings_file, "r");
+   if (fp)
+      {
+         char type[20];
+         
+         if (2==fscanf (fp, "%d%d%d", &width, &height))
+            {
+              g_print ("Using window size %.2f %d %d\n", width, height);
+            }
+          else
+            {
+              width = 720;
+              height = 1030;
+            }
+         while (1 == fscanf (fp, "%20s", type))
+            {
+               if (!strcmp(type, "Repeat:"))
+                  {
+                    fscanf (fp, "%*d %*d %*d");
+                     g_info ("Repeat Markings are ignored");
+                  }
+               else
+                 if (!strcmp(type, "Annotate:"))
+                     {
+                        Annotation *ann = g_malloc (sizeof (Annotation));
+                        if (4 == fscanf (fp, "%d %d  %d %d", &ann->page, &ann->adj, &ann->x, &ann->y))
+                           {
+                              gchar text[100];
+                              if (fgets (text, 100, fp))
+                                 ann->annotation = g_strdup (text);
+                              else
+                                 ann->annotation = g_strdup ("???");
+                              annotations = g_list_append (annotations, ann);
+                           } 
+                     }
+                  else g_warning ("Corrupt markings file");
+            }
+        fclose (fp);
+      }
+}
+static gboolean overdraw (GtkWidget* view, cairo_t * cr)
+{
+   GList *g;
+   for (g = annotations; g; g=g->next)
+      {
+         Annotation *ann = (Annotation*)g->data;
+         gdouble x = ann->x, y = ann->y;
+       // g_print ("ann y %d ann adj %d adj val %.2f ps %d\n", ann->y, ann->adj, (gtk_adjustment_get_value (VAdj)), (int)(gtk_adjustment_get_page_size (VAdj)));
+         if (((ann->adj + ann->y) > gtk_adjustment_get_value (VAdj)) && ((ann->adj + ann->y) < (gtk_adjustment_get_value (VAdj) + gtk_adjustment_get_page_size (VAdj))))
+            {
+               y += (ann->adj - gtk_adjustment_get_value (VAdj));
+               cairo_set_source_rgba (cr, 0.2, 0.4, 1, 1);
+               cairo_set_font_size (cr, 16);
+               cairo_move_to (cr, x, y);
+               cairo_show_text (cr, ann->annotation);  
+            }
+      }
+  return FALSE;
+}
+
+
 //signal handler for link
 static gint
 action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
@@ -51,6 +137,9 @@ action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
         {
           DenemoTarget old_target = Denemo.project->movement->target;
           gboolean ObjectLocated = goto_lilypond_position (atoi (vec[2]), atoi (vec[3]));     //sets si->target
+          
+
+          
           if (ObjectLocated && nearest_annotation_text)
             { DenemoScriptParam param;
                 param.string = g_string_new (nearest_annotation_text);
@@ -58,7 +147,8 @@ action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
                 g_string_free (param.string, TRUE);
             }
            else {
-                warningdialog (_("Object not located, no annotation on page, or empty annotation.\n"));
+                if (annotations && !ObjectLocated)
+                    warningdialog (_("Object not located, no annotation on page, or empty annotation.\n"));
             }
         }
     }
@@ -102,27 +192,27 @@ press (EvView * view,  GdkEventButton  *event, EvDocumentModel *model)
     if (event->button != 1)
         infodialog (help_text);
     nearest_annotation_text = NULL;
-            extern EvMappingList * ev_document_annotations_get_annotations();
-            EvMappingList *mapping_list = ev_document_annotations_get_annotations (doc, ev_document_get_page(doc, i));
-            if(mapping_list)
-            {
-            gdouble nearest = G_MAXDOUBLE;
-            GList *g = ev_mapping_list_get_list (mapping_list);
+    extern EvMappingList * ev_document_annotations_get_annotations();
+    EvMappingList *mapping_list = ev_document_annotations_get_annotations (doc, ev_document_get_page(doc, i));
+    if(mapping_list)
+    {
+    gdouble nearest = G_MAXDOUBLE;
+    GList *g = ev_mapping_list_get_list (mapping_list);
 
-            for (;g;g=g->next)
-                {
-                EvMapping *mapping = g->data;
-                EvAnnotation *annot = mapping->data;
-                gdouble annottx = ev_document_model_get_scale (model)*(mapping->area.x1 + mapping->area.x2)/2;
-                gdouble annotty = ev_document_model_get_scale (model)*(mapping->area.y1 + mapping->area.y2)/2;
-                gdouble dist = (annottx-event->x)*(annottx-event->x) + (annotty-event->y)*(annotty-event->y);
+    for (;g;g=g->next)
+        {
+        EvMapping *mapping = g->data;
+        EvAnnotation *annot = mapping->data;
+        gdouble annottx = ev_document_model_get_scale (model)*(mapping->area.x1 + mapping->area.x2)/2;
+        gdouble annotty = ev_document_model_get_scale (model)*(mapping->area.y1 + mapping->area.y2)/2;
+        gdouble dist = (annottx-event->x)*(annottx-event->x) + (annotty-event->y)*(annotty-event->y);
 
-                if(dist < nearest) {
-                    nearest = dist;
-                    nearest_annotation_text = ev_annotation_get_contents (annot);
-                    }
-                }
+        if(dist < nearest) {
+            nearest = dist;
+            nearest_annotation_text = ev_annotation_get_contents (annot);
             }
+        }
+    }
   //g_print("\n\npress signal (%f, %f) %s\n", event->x, event->y, nearest_annotation_text);
   return   FALSE;
 }
@@ -165,6 +255,7 @@ get_view (gchar * filename)
   GList *g;
   help_text = _("For each annotation on the page click on the (nearby) notehead or rest etc that the annotation refers to. This will insert a comment in the score. Transfer all the annotations in this way before editing the score, otherwise the locations will not match. You can use the EditSimilar (Ctrl-e,e and Ctrl-e,r) command to move from one comment to the next, stopping and editing the score as suggested by the comment.");
   filename = locate_file (filename);
+  load_markings (filename);
   file = g_file_new_for_commandline_arg (filename);
   gchar *uri = g_file_get_uri (file);
   g_object_unref (file);
@@ -185,9 +276,13 @@ get_view (gchar * filename)
 #ifndef EV_SIZING_FIT_PAGE
 #define EV_SIZING_FIT_PAGE EV_SIZING_BEST_FIT
 #endif
-  ev_document_model_set_sizing_mode (model, EV_SIZING_FIT_PAGE);
-  ev_document_model_set_continuous (model, FALSE);
+  if (!annotations)
+    {
+      ev_document_model_set_sizing_mode (model, EV_SIZING_FIT_PAGE);
+      ev_document_model_set_continuous (model, FALSE);
+    }
   ev_view_set_model (view, model);
+
 
   if (find_annotated_pages (model))
   {
@@ -220,8 +315,35 @@ get_view (gchar * filename)
   return view;
   } else
   {
-    warningdialog (_("This PDF file contains no annotations. It has to be a PDF file generated by Denemo for the current score to which annotations have been added."));
-    return NULL;
+    
+    if (annotations)
+      {
+         GtkWidget *score_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+         gtk_window_set_title (GTK_WINDOW (score_window), g_strdup_printf ("Denemo - Annotated: %s", filename));
+         gtk_window_set_default_size (GTK_WINDOW (score_window), width + 14, height);//width + 14 fudge to get annotations correctly placed
+         
+         GtkWidget *box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+         gtk_container_add (GTK_CONTAINER(score_window), box);         
+         GtkWidget *eventbox = gtk_event_box_new ();
+         gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
+         gtk_box_pack_start (GTK_BOX(box), eventbox, TRUE, TRUE, 0);
+         GtkWidget *scroll = gtk_scrolled_window_new (NULL, NULL);
+         gtk_container_add (GTK_CONTAINER(eventbox), scroll);
+         gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
+          
+         VAdj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(scroll));
+        
+         g_signal_connect (G_OBJECT (view), "external-link", G_CALLBACK (action_for_link), (gpointer)model);
+         
+         g_signal_connect_after (G_OBJECT (view), "draw", G_CALLBACK (overdraw), NULL);
+
+         gtk_widget_show_all (score_window); 
+        
+      }
+    else {
+      warningdialog (_("This PDF file contains no annotations. It has to be a PDF file generated by Denemo for the current score to which annotations have been added."));
+      return NULL;
+    }
   }
 }
 
@@ -234,8 +356,6 @@ open_proofread_file (gchar * filename)
   EvView *eview = get_view (filename);
  return eview  != NULL;
 }
-
-
 
 
 
