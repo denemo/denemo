@@ -40,6 +40,7 @@ static  gint width=720;//width and
 static  gint height=1030;//height of proof read screen
 static GtkAdjustment *VAdj;//vertical scroll of the score
 static GList *annotations = NULL;// a list of annotations to be displayed on the score
+static GList *current_annotation = NULL;//last visited annotation
 static gchar *markings_file = NULL;//full path to file for storing repeat marks and annotations for currently loaded pdf
 static void free_annotation (Annotation *a)
 {
@@ -90,6 +91,7 @@ static void load_markings (gchar *pdfname)
                            } 
                      }
                   else g_warning ("Corrupt markings file");
+              current_annotation = annotations;
             }
         fclose (fp);
       }
@@ -105,7 +107,9 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
          if (((ann->adj + ann->y) > gtk_adjustment_get_value (VAdj)) && ((ann->adj + ann->y) < (gtk_adjustment_get_value (VAdj) + gtk_adjustment_get_page_size (VAdj))))
             {
                y += (ann->adj - gtk_adjustment_get_value (VAdj));
-               cairo_set_source_rgba (cr, 0.2, 0.4, 1, 1);
+               g==current_annotation?  
+                  cairo_set_source_rgba (cr, 1.0, 0.4, 0.3, 1):
+                  cairo_set_source_rgba (cr, 0.3, 0.4, 1.0, 1);
                cairo_set_font_size (cr, 16);
                cairo_move_to (cr, x, y);
                cairo_show_text (cr, ann->annotation);  
@@ -158,31 +162,53 @@ action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
 static void
 next_page (GtkWidget * button, EvDocumentModel *model)
 {
-    if (current_page->next)
+  if (annotations)
     {
-        current_page = current_page->next;
+      current_annotation = current_annotation->next;
+      if (current_annotation == NULL)
+        current_annotation = annotations;
+      ev_document_model_set_page (model, GPOINTER_TO_INT(((Annotation*)current_annotation->data)->page));
+      gtk_widget_queue_draw (top_window);
     }
-    else
+  else
     {
-        current_page = annotated_pages;
+      if (current_page->next)
+      {
+          current_page = current_page->next;
+      }
+      else
+      {
+          current_page = annotated_pages;
+      }
+      ev_document_model_set_page (model, GPOINTER_TO_INT(current_page->data));
     }
-    ev_document_model_set_page (model, GPOINTER_TO_INT(current_page->data));
-
 }
 
 static void
 prev_page (GtkWidget * button, EvDocumentModel *model)
 {
-    if (current_page->prev)
-    {
-        current_page = current_page->prev;
-    }
-    else
-    {
-        current_page = g_list_last (annotated_pages);
-    }
-    ev_document_model_set_page (model, GPOINTER_TO_INT(current_page->data));
+    if (annotations)
+      {
+        current_annotation = current_annotation->prev;
+        if (current_annotation == NULL)
+          current_annotation = g_list_last (annotations);
+        ev_document_model_set_page (model, GPOINTER_TO_INT(((Annotation*)current_annotation->data)->page));
+        gtk_widget_queue_draw (top_window);
+      }
+  else
+      {
+      if (current_page->prev)
+      {
+          current_page = current_page->prev;
+      }
+      else
+      {
+          current_page = g_list_last (annotated_pages);
+      }
+      ev_document_model_set_page (model, GPOINTER_TO_INT(current_page->data));
+      }
 }
+
 static gboolean
 press (EvView * view,  GdkEventButton  *event, EvDocumentModel *model)
 {
@@ -264,10 +290,14 @@ get_view (gchar * filename)
       g_critical("Error creating view from URI <%s> : message was %s", uri, err->message);
       return NULL;
     }
-  if (annotated_pages)
+  if (top_window)
     {
         gtk_widget_destroy (top_window);
-        top_window = NULL;
+        top_window = NULL;     
+    }
+  if (annotated_pages)
+    {
+
         g_list_free (annotated_pages);
         current_page = annotated_pages = NULL;
     }
@@ -318,26 +348,36 @@ get_view (gchar * filename)
     
     if (annotations)
       {
-         GtkWidget *score_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
-         gtk_window_set_title (GTK_WINDOW (score_window), g_strdup_printf ("Denemo - Annotated: %s", filename));
-         gtk_window_set_default_size (GTK_WINDOW (score_window), width + 14, height);//width + 14 fudge to get annotations correctly placed
+         ev_document_model_set_page (model, ((Annotation*)annotations->data)->page);
+         top_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+         gtk_window_set_title (GTK_WINDOW (top_window), g_strdup_printf ("Denemo - Annotated: %s", filename));
+         gtk_window_set_default_size (GTK_WINDOW (top_window), width + 14, height);//width + 14 fudge to get annotations correctly placed
          
-         GtkWidget *box = gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
-         gtk_container_add (GTK_CONTAINER(score_window), box);         
+         GtkWidget *box =  gtk_vbox_new (FALSE, 0);//gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
+         gtk_container_add (GTK_CONTAINER(top_window), box);
+         GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
+         gtk_box_pack_start (GTK_BOX (box), main_hbox, FALSE, TRUE, 0);
+          GtkWidget *button = gtk_button_new_with_label (_("Next Annotation"));
+          g_signal_connect (button, "clicked", G_CALLBACK (next_page), (gpointer) model);
+          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
+          button = gtk_button_new_with_label (_("Previous Annotation"));
+          g_signal_connect (button, "clicked", G_CALLBACK (prev_page), (gpointer) model);
+          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
+         
+                  
          GtkWidget *eventbox = gtk_event_box_new ();
          gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
          gtk_box_pack_start (GTK_BOX(box), eventbox, TRUE, TRUE, 0);
          GtkWidget *scroll = gtk_scrolled_window_new (NULL, NULL);
          gtk_container_add (GTK_CONTAINER(eventbox), scroll);
          gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
-          
          VAdj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(scroll));
         
          g_signal_connect (G_OBJECT (view), "external-link", G_CALLBACK (action_for_link), (gpointer)model);
          
          g_signal_connect_after (G_OBJECT (view), "draw", G_CALLBACK (overdraw), NULL);
 
-         gtk_widget_show_all (score_window); 
+         gtk_widget_show_all (top_window); 
         
       }
     else {
