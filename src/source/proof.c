@@ -234,7 +234,6 @@ static void set_page (void)
   }
 }
 
-
 static void delete_annotation(void)
   {
     GList *next = NULL;
@@ -329,9 +328,14 @@ get_view (gchar * filename)
   GError *err = NULL;
   EvView *view = NULL;
   GList *g;
-  help_text = _("For each annotation on the page click on the (nearby) notehead or rest etc that the annotation refers to. This will insert a comment in the score. Transfer all the annotations in this way before editing the score, otherwise the locations will not match. You can use the EditSimilar (Ctrl-e,e and Ctrl-e,r) command to move from one comment to the next, stopping and editing the score as suggested by the comment.");
   filename = locate_file (filename);
   load_markings (filename);
+  help_text = annotations?
+        _("For each annotation on the page click on the (nearby) notehead or rest etc that the annotation refers to (look for the hand-shaped cursor). This will position the Denemo cursor at that point and you can then make any necessary edits. You can drop the current annotation and the page will move to show the next one."): 
+        _("For each annotation on the page click on the (nearby) notehead or rest etc that the annotation refers to. This will insert a comment in the score. Transfer all the annotations in this way before editing the score, otherwise the locations will not match. You can use the EditSimilar (Ctrl-e,e and Ctrl-e,r) command to move from one comment to the next, stopping and editing the score as suggested by the comment.");
+  
+  
+  
   file = g_file_new_for_commandline_arg (filename);
   gchar *uri = g_file_get_uri (file);
   g_object_unref (file);
@@ -382,6 +386,9 @@ get_view (gchar * filename)
   button = gtk_button_new_with_label (_("Previous Annotated Page"));
   g_signal_connect (button, "clicked", G_CALLBACK (prev_page), (gpointer) model);
   gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
+  button = gtk_button_new_with_label (_("Help"));
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (infodialog), help_text);
+  gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);  
 
   g_signal_connect (G_OBJECT (view), "external-link", G_CALLBACK (action_for_link), (gpointer)model);
   g_signal_connect (G_OBJECT (view), "button-press-event", G_CALLBACK (press), (gpointer)model);
@@ -400,6 +407,7 @@ get_view (gchar * filename)
       {
          ev_document_model_set_page (model, ((Annotation*)annotations->data)->page);
          top_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+         gtk_widget_set_tooltip_text (top_window, help_text);
          gtk_window_set_title (GTK_WINDOW (top_window), g_strdup_printf ("Denemo - Annotated: %s", filename));
          gtk_window_set_default_size (GTK_WINDOW (top_window), width + 14, height);//width + 14 fudge to get annotations correctly placed
          
@@ -415,8 +423,12 @@ get_view (gchar * filename)
           gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
           button = gtk_button_new_with_label (_("Drop Current Annotation"));
           g_signal_connect (button, "clicked", G_CALLBACK (delete_annotation), NULL);
+          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);  
+                 
+          button = gtk_button_new_with_label (_("Help"));
+          g_signal_connect_swapped (button, "clicked", G_CALLBACK (infodialog), help_text);
           gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);         
-                  
+                    
          GtkWidget *eventbox = gtk_event_box_new ();
          gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
          gtk_box_pack_start (GTK_BOX(box), eventbox, TRUE, TRUE, 0);
