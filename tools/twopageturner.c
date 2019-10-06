@@ -24,6 +24,11 @@
 #include<gtk/gtk.h>
 #include <evince-view.h>
 
+#if !((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=18))
+#define gtk_overlay_reorder_overlay(a,b,c) g_critical("Must be Gtk version 3.18 or greater"), exit(-1)
+#endif
+
+
 #define SPOT_SIZE (20) //size of spot indicating the position of a repeat to be marked
 typedef struct Location {
      gint  adj;
@@ -69,11 +74,11 @@ static  gint width=0;
 static  gint height=0;
 static gdouble aspect_ratio=1.414; //A4 page size default
 static  EvDocumentModel *model1, *model2, *model3;
-static gboolean cpl;//current page is on left
 
 static void next_page (void);//turn to the next page
-
 static void previous_page (void);//turn back one page
+static void goto_page (gint page);//page number starting at 1
+
 static gchar *markings_file = NULL;//full patht to file for storing repeat marks and annotations for currently loaded score
 static gboolean markings_unsaved = FALSE; //TRUE when user has created or deleted markings in the current score 
 static gchar page_on = 'a', page_back = 'c', skip_page = 'b';
@@ -172,15 +177,10 @@ load_score (gchar *pdfname, GError ** err)
     }
   else
    {
-
-     //model1 = g_object_get_data (G_OBJECT (view1), "model");  
-     //model2 = g_object_get_data (G_OBJECT (view2), "model");  
-     //model3 = g_object_get_data (G_OBJECT (view3), "model");  
      if (model1 == NULL)
        {
          model1 = ev_document_model_new_with_document (doc);
          ev_view_set_model ((EvView *) view1, model1);
-         //g_object_set_data (G_OBJECT (view1), "model", model1); 
       }
      else
       {
@@ -190,7 +190,6 @@ load_score (gchar *pdfname, GError ** err)
        {          
          model2 = ev_document_model_new_with_document (doc);
          ev_view_set_model ((EvView *) view2, model2);
-         //g_object_set_data (G_OBJECT (view2), "model", model2);        
        }
      else
        {
@@ -200,7 +199,6 @@ load_score (gchar *pdfname, GError ** err)
        {          
          model3 = ev_document_model_new_with_document (doc);
          ev_view_set_model ((EvView *) view3, model3);
-         //g_object_set_data (G_OBJECT (view3), "model", model3);        
        }
      else
        {
@@ -212,7 +210,7 @@ load_score (gchar *pdfname, GError ** err)
             if (!ev_view_next_page ((EvView*)view1))
                break;
          }
-       g_print ("Number of pages %d\n", num_pages);
+      g_print ("Number of pages %d\n", num_pages);
       page1.model = model1;
       page1.eventbox = eventbox1;
       page1.pnum = 0;
@@ -235,12 +233,12 @@ load_score (gchar *pdfname, GError ** err)
       page3.ovi = 3;
       os_page = &page3;
 
-      cpl = TRUE;
       g_list_free_full (repeat_locations, g_free);
       repeat_locations = NULL;
       g_list_free_full (annotations, (GDestroyNotify)free_annotation);
       annotations = NULL;
       load_markings (pdfname);
+      goto_page (1);
    }
 
   return;
@@ -421,7 +419,23 @@ static void advance_right_page (void)
    return;
 
 }
-
+static void goto_page (gint page)
+{
+   rh_page->pnum = page;
+   lh_page->pnum = page-1;
+   os_page->ovi = 0; //underneath
+   lh_page->ovi = 1;
+   rh_page->ovi = 2;
+   ev_document_model_set_page (lh_page->model, lh_page->pnum);
+   ev_document_model_set_page (rh_page->model, rh_page->pnum);
+   ev_document_model_set_page (os_page->model, rh_page->pnum);
+   force_page_recalc ();   
+   
+}
+static void change_page (GtkSpinButton * widget)
+{
+   goto_page ((gint)gtk_spin_button_get_value (widget));
+}
 
 static gboolean keypress (GtkWidget *eventbox, GdkEventKey * event)
 {
@@ -492,30 +506,26 @@ static void set_delay (void)
   gtk_widget_show_all (window); 
 }
 
-static void change_page (GtkSpinButton * widget, EvDocumentModel *model)
-{
-  gint page = (gint)gtk_spin_button_get_value (widget);
-  ev_document_model_set_page (model, page - 1);
-}
+
 
 static void navigate (void)
 {
-  static GtkWidget *window = NULL;
-  if (window == NULL)
-   {
-     window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-     g_signal_connect (window, "delete-event", G_CALLBACK(gtk_widget_hide), NULL);
-     GtkWidget *label = gtk_label_new ("Set Page Number:");
-     GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
-     gtk_container_add (GTK_CONTAINER (window), box);
-     gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-     GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (1.0, 1.0, 999.0, 1.0, 1.0, 1.0);
-     GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 100.0, 0);
-     gtk_box_pack_start (GTK_BOX (box), spinner, FALSE, TRUE, 0);
-     g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_page), model1);
-  }
-     gtk_widget_show_all (window);
-     gtk_window_present (GTK_WINDOW (window)); 
+   static GtkWidget *window = NULL;
+   if (window) gtk_widget_destroy (window);
+
+   window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+   g_signal_connect (window, "delete-event", G_CALLBACK(gtk_widget_hide), NULL);
+   GtkWidget *label = gtk_label_new ("Set Page Number:");
+   GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+   gtk_container_add (GTK_CONTAINER (window), box);
+   gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
+   GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (1.0, 1.0, num_pages, 1.0, 1.0, 1.0);
+   GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 100.0, 0);
+   gtk_box_pack_start (GTK_BOX (box), spinner, FALSE, TRUE, 0);
+   g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_page), NULL);
+
+   gtk_widget_show_all (window);
+   gtk_window_present (GTK_WINDOW (window)); 
 }
 
 static Annotation *create_annotation (gchar *text, gint page, gdouble adjust, gdouble x, gdouble y)
