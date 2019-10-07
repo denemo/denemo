@@ -37,8 +37,8 @@ typedef struct Location {
 typedef struct Annotation {
      gchar *annotation;
      gint page;
-     gint  adj;
      gint x, y;
+     gchar *font;
 } Annotation;
 
 typedef struct Page {
@@ -115,6 +115,7 @@ static void show_help (void)
 static void free_annotation (Annotation *a)
 {
    g_free (a->annotation);
+   g_free (a->font);
    g_free (a);
 }
 //load repeat marks and annotations from the file associated with the opened pdf score
@@ -126,38 +127,36 @@ static void load_markings (gchar *pdfname)
    FILE *fp = fopen (markings_file, "r");
    if (fp)
       {
-         char type[20];
          gint window_width, window_height;
          if (2==fscanf (fp, "%d%d", &window_width, &window_height))
             {
                if ((width != window_width) || (height != window_height))
                   g_warning ("Height and Width of markings file does not match current window - expect misplaced marks %d %d %d %d\n", width, height, window_width, window_height);
-               while (1 == fscanf (fp, "%20s", type))
-                  {
-                     if (!strcmp(type, "Repeat:"))
-                        {
-                           Location *loc = g_malloc (sizeof (Location));
-                           if (3 == fscanf (fp, "%d %d %d", &loc->adj, &loc->x, &loc->y))
-                              repeat_locations = g_list_append (repeat_locations, loc);
-                        }
-                     else
-                       if (!strcmp(type, "Annotate:"))
-                           {
-                              Annotation *ann = g_malloc (sizeof (Annotation));
-                              if (4 == fscanf (fp, "%d %d  %d %d", &ann->page, &ann->adj, &ann->x, &ann->y))
+               gint page, x, y;  
+               gchar text1[100], text2[100];
+               *text1 = *text2 = 0;   
+               while ( 3 == fscanf (fp, "%d%d%d\n", &page, &x, &y))
                                  {
-                                    gchar text[100];
-                                    if (fgets (text, 100, fp))
-                                       ann->annotation = g_strdup (text);
+                                    Annotation *ann = (Annotation*)g_malloc (sizeof (Annotation));
+                                    ann->x = x;
+                                    ann->y = y;
+                                    ann->page = page;
+                                    if (fgets (text1, 100, fp))
+                                       ann->font = g_strdup (text1);
                                     else
-                                       ann->annotation = g_strdup ("???");
+                                       ann->font = g_strdup ("Times 12\n");  
+                                    
+                                    if (fgets (text2, 100, fp))
+                                       ann->annotation = g_strdup (text2);
+                                    else
+                                       ann->annotation = g_strdup ("???\n"); 
+                                    *(ann->font + strlen (ann->font) - 1) = 0;   
+                                    *(ann->annotation + strlen (ann->annotation) - 1) = 0;   
+                                          
                                     annotations = g_list_append (annotations, ann);
                                  } 
-                           }
-                        else g_warning ("Corrupt markings file");
-                  }
             }
-            else  g_warning ("Corrupt markings file");
+         else  g_warning ("Corrupt markings file");
         fclose (fp);
       }
    markings_unsaved = FALSE;
@@ -528,16 +527,16 @@ static void navigate (void)
    gtk_window_present (GTK_WINDOW (window)); 
 }
 
-static Annotation *create_annotation (gchar *text, gint page, gdouble adjust, gdouble x, gdouble y)
+static Annotation *create_annotation (gchar *text, gint page, gdouble x, gdouble y, gchar *font)
 {
     Annotation *ann;
     markings_unsaved = TRUE;
     ann = g_malloc (sizeof (Annotation));
     ann->annotation = text;
     ann->page = page;
-    ann->adj = adjust;
     ann->x = x;
     ann->y = y;
+    ann->font = font;
     return ann;
 }
 
@@ -546,19 +545,25 @@ static void delete_annotations (void)
     GList *g;
     for (g=annotations;g;g=g->next)
       {
-       Annotation *ann = (Annotation *)g->data;
-       if (((ann->adj + ann->y) > gtk_adjustment_get_value (VAdj1)) && ((ann->adj + ann->y) < (gtk_adjustment_get_value (VAdj1) + gtk_adjustment_get_page_size (VAdj1))))
+       //Annotation *ann = (Annotation *)g->data;
+       if (1)
             {
              markings_unsaved = TRUE;
+             //free ann here FIXME
              annotations = g_list_delete_link (annotations, g);
              break;
             }
       }
 }
+static gchar *fontdesc;
+static void font_chosen (GtkWidget *fontchooser)
+{
+   fontdesc = gtk_font_chooser_get_font (GTK_FONT_CHOOSER(fontchooser));
+}
 
 
-gchar *
-get_annotation_from_user (void)
+
+Annotation *get_annotation_from_user (gint page, gint x, gint y)
 {
   GtkWidget *dialog;
   GtkWidget *entry;
@@ -570,7 +575,8 @@ get_annotation_from_user (void)
   label = gtk_label_new ("Give annotation");
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-  GtkWidget *widget = NULL;//a widget to insert "#" etc...
+  GtkWidget *widget = gtk_font_button_new ();//a widget to insert "#" etc...
+  g_signal_connect (G_OBJECT (widget), "font-set", G_CALLBACK (font_chosen), NULL);
   if (widget)
     gtk_container_add (GTK_CONTAINER (content_area), widget);
   gtk_entry_set_text (GTK_ENTRY (entry), "O^O");//FIXME add options for inserting ♯ ♮ ♭ 𝄫 𝄪  etc
@@ -583,13 +589,15 @@ get_annotation_from_user (void)
   if (gtk_dialog_run (GTK_DIALOG (dialog)) == GTK_RESPONSE_ACCEPT)
         {
           gchar *string = NULL;
+          
           if (GTK_DIALOG (dialog))
             {
-              entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
-              string = g_strdup (entry_string);
-              gtk_widget_destroy (dialog);
-            }
-          return string;
+               entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
+               string = g_strdup (entry_string);
+               gtk_widget_destroy (dialog);
+               Annotation *ann = create_annotation (string, page, x, y, fontdesc?fontdesc:g_strdup ("Times italic 16"));
+               return ann;
+           }
        }
   else
    {
@@ -602,13 +610,9 @@ get_annotation_from_user (void)
   
 static void mark_annotation (Annotation *p)
 {
-   gchar *text = get_annotation_from_user ();
-   if (text)
-      {
-      Annotation *ann = create_annotation (text, p->page, 0, p->x, p->y);
-      if (ann)
-         annotations = g_list_append (annotations, ann);
-      }
+   Annotation *ann = get_annotation_from_user (p->page, p->x, p->y);
+   if (ann)
+      annotations = g_list_append (annotations, ann);
 }
 
 static void save_markings (void)
@@ -620,21 +624,19 @@ static void save_markings (void)
             {
                GList *g;
                fprintf (fp, "%d %d\n", width, height);
-               for (g=repeat_locations;g;g=g->next)
-                  {
-                   Location *loc = (Location *)g->data;
-                   fprintf (fp, "Repeat: %d %d %d\n", (int)loc->adj, (int)loc->x, (int)loc->y);
-                  }
+             
                for (g=annotations;g;g=g->next)
                   {
                    Annotation *ann = (Annotation *)g->data;
-                   fprintf (fp, "Annotate: %d %d %d %d %s\n", ann->page, (int)ann->adj, (int)ann->x, (int)ann->y, ann->annotation);
+                   fprintf (fp, "%d %d %d\n%s\n%s\n", ann->page, (int)ann->x, (int)ann->y, ann->font, ann->annotation);
                   }  
                fclose (fp);
             }
          else
             g_warning ("Could not write %s for markings\n", markings_file);
       }
+   else
+      g_warning ("No file for markings");
 }
 
 static gint get_page_num_for_view (GtkWidget *view)
@@ -711,7 +713,30 @@ static void draw_page_break (cairo_t *cr)
    cairo_fill (cr);
 }
 
+static void draw_text (cairo_t * cr, const char *font, const char *text, double x, double y, gboolean invert)
+{
+  //y -= size;
+  //size *= 0.75;
+  PangoLayout *layout;
+  PangoFontDescription *desc;
+  /* Create a PangoLayout, set the font and text */
+  layout = pango_cairo_create_layout (cr);
 
+  pango_layout_set_text (layout, text, -1);
+  desc = pango_font_description_from_string (font);
+ // pango_font_description_set_size (desc, size * PANGO_SCALE);
+  pango_layout_set_font_description (layout, desc);
+  pango_font_description_free (desc);
+  pango_cairo_update_layout (cr, layout);
+
+
+  cairo_move_to (cr, x, y);
+  if (invert)
+    cairo_scale (cr, 1, -1);
+  pango_cairo_show_layout (cr, layout);
+  /* free the layout object */
+  g_object_unref (layout);
+}
 
 static gboolean overdraw (GtkWidget* view, cairo_t * cr)
 {
@@ -724,10 +749,17 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
          gdouble x = ann->x, y = ann->y; //g_print ("annotation %s page %d for page %d?\n", ann->annotation, ann->page, pnum);
          if (ann->page == pnum)
             {
+#if 0
                cairo_set_source_rgba (cr, 0.2, 0.4, 1, 1);
                cairo_set_font_size (cr, 16);
                cairo_move_to (cr, x, y);
                cairo_show_text (cr, ann->annotation);  
+#else
+               cairo_set_source_rgba (cr, 0.2, 0.4, 1, 1);
+               draw_text (cr, ann->font, ann->annotation, x, y, FALSE);
+
+
+#endif
             }
       }
     if ((lh_page->pnum != (rh_page->pnum - 1)) &&
