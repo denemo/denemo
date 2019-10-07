@@ -29,7 +29,7 @@
 #endif
 
 
-#define SPOT_SIZE (20) //size of spot indicating the position of a repeat to be marked
+#define SPOT_SIZE (50) //size of spot for picking out an annotation
 typedef struct Location {
      gint  adj;
      gint x, y;
@@ -38,6 +38,7 @@ typedef struct Annotation {
      gchar *annotation;
      gint page;
      gint x, y;
+     double r,g,b,a;
      gchar *font;
 } Annotation;
 
@@ -86,20 +87,18 @@ static gchar *help_text =
 "The music page-turner allows hands-free turning of pages as you play from a musical score."
 "\nIt also allows for annotations to be added to the score - anything from reminder accidentals"
 " to the spectacles O^O that warn of a tricky passage to take special care with."
+" The screen is devoted to two pages so the one you are going to play next is always kept in view"
 "\nControl of page turning is via foot pedals which send key press signals just like those of a normal keyboard."
-" The whole screen height is devoted to a single page so when you go to the following page the"
-" transition is made in two stages: first the top of the page changes to the next page, and then"
-" after a delay the lower part of the page"
-" is rendered. This means you do not have to suddenly switch at just the right point in the music.\n"
-"\nOne pedal moves to the next page, one goes back to the previous page and the third pedal forces"
-" completion of the page. This last is not normally needed, except in the case of repeats that start low on a page."
-" The location of the start of a repeat in the score can be marked with the effect that the repeat appears at the top of"
-" the screen when you go back to it. In this case you go on to the next page when you reach the bottom of the page,"
-" rather than when you reach the bottom of the screen."
-"\nTo set a repeat location you scroll the music (using the mouse-wheel or arrow keys) until it is at the top of the screen"
-" and then right-click with the mouse and choose \"Mark a repeat here\" from the menu."
-"\nThe menu also lets you enter annotations, navigate the score, set the delay for page completion etc."
-"\n Currently Keypresses '%c' to go one page on, '%c' to go one page back and '%c' to complete the page."
+" For example, when you are on the right page you press the right foot pedal to go on"
+" and the pages slowly scroll to the left as you play bringing the next page into view before you reach it."
+" An additional right press speeds up the slide if needed.\n"
+"The left pedal is for repeats: it quickly moves the left hand page back (while you are playing on the right hand page) "
+" to be ready for the start of a repeat.\n"
+" The center pedal moves the right hand page onwards for the case where you need to skip forward (while playing on the left hand page)."
+"\nTo mark up the score for reminders or proof-reading right click with the mouse at the point where you want the annotation to be placed"
+" and choose \"Annotate here\" from the menu."
+"\nThe menu also lets you to delete an annotation, navigate the score, set the speed with which the pages slide etc."
+"\n Currently Keypresses '%c' to go one page on, '%c' to go back for a repeat and '%c' to skip forward."
 "\nTo change the defaults you can pass values on the command line - type pageturner --help to see the command line usage."
 ;
 static void show_help (void)
@@ -134,13 +133,19 @@ static void load_markings (gchar *pdfname)
                   g_warning ("Height and Width of markings file does not match current window - expect misplaced marks %d %d %d %d\n", width, height, window_width, window_height);
                gint page, x, y;  
                gchar text1[100], text2[100];
-               *text1 = *text2 = 0;   
-               while ( 3 == fscanf (fp, "%d%d%d\n", &page, &x, &y))
+               *text1 = *text2 = 0;
+               double r,g,b,a;   
+               while ( 7 == fscanf (fp, "%d%d%d%lf%lf%lf%lf\n", &page, &x, &y, &r, &g, &b, &a))
                                  {
                                     Annotation *ann = (Annotation*)g_malloc (sizeof (Annotation));
                                     ann->x = x;
                                     ann->y = y;
+                              
                                     ann->page = page;
+                                    ann->r = r;
+                                    ann->g = g;
+                                    ann->b = b;
+                                    ann->a = a;
                                     if (fgets (text1, 100, fp))
                                        ann->font = g_strdup (text1);
                                     else
@@ -442,7 +447,6 @@ static gboolean keypress (GtkWidget *eventbox, GdkEventKey * event)
 
    if (keyval==page_on)
     {
-   
       next_page();
     }
 
@@ -491,14 +495,14 @@ static void change_delay (GtkSpinButton * widget)
    //g_print ("Value is %f\n", gtk_spin_button_get_value (widget));
   timeout = (guint)(1000*gtk_spin_button_get_value (widget));
 }
-static void set_delay (void)
+static void set_slide_time_step (void)
 {
   GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  GtkWidget *label = gtk_label_new ("Set delay (secs) before bottom half of page synchronizes: ");
+  GtkWidget *label = gtk_label_new ("Set time (secs) for each step sliding pages: ");
   GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_container_add (GTK_CONTAINER (window), box);
   gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-  GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (timeout/1000.0, 0.001, 1000.0, 0.1, 1.0, 0.0);
+  GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (0.001, 0.001, 0.1, 0.001, 1.0, 0.0);
   GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 1.0, 3);
   gtk_box_pack_start (GTK_BOX (box), spinner, FALSE, TRUE, 0);
   g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_delay), NULL);
@@ -527,7 +531,7 @@ static void navigate (void)
    gtk_window_present (GTK_WINDOW (window)); 
 }
 
-static Annotation *create_annotation (gchar *text, gint page, gdouble x, gdouble y, gchar *font)
+static Annotation *create_annotation (gchar *text, gint page, gdouble x, gdouble y, gchar *font, GdkRGBA *color)
 {
     Annotation *ann;
     markings_unsaved = TRUE;
@@ -536,30 +540,41 @@ static Annotation *create_annotation (gchar *text, gint page, gdouble x, gdouble
     ann->page = page;
     ann->x = x;
     ann->y = y;
+    ann->r = color->red;
+    ann->g = color->green;
+    ann->b = color->blue;
+    ann->a = color->alpha;
     ann->font = font;
     return ann;
 }
 
-static void delete_annotations (void)
+static void delete_annotation (GList *annlink)
 {
-    GList *g;
-    for (g=annotations;g;g=g->next)
-      {
-       //Annotation *ann = (Annotation *)g->data;
-       if (1)
-            {
+   
              markings_unsaved = TRUE;
              //free ann here FIXME
-             annotations = g_list_delete_link (annotations, g);
-             break;
-            }
-      }
+             annotations = g_list_delete_link (annotations, annlink);
+
 }
 static gchar *fontdesc;
 static void font_chosen (GtkWidget *fontchooser)
 {
    fontdesc = gtk_font_chooser_get_font (GTK_FONT_CHOOSER(fontchooser));
 }
+
+static GdkRGBA colordesc = {1.0,0.0,0.0,1.0};
+#if 1 //!((GTK_MAJOR_VERSION>=3) && (GTK_MINOR_VERSION>=4)) bizarrely gtk_color_button_get_rgba is declared deprecated but gtk_color_chooser_get_color is not available.
+static void color_chosen (GtkWidget *colorchooser)
+   {
+      gtk_color_button_get_rgba (GTK_COLOR_BUTTON(colorchooser), &colordesc);
+   }                    
+#else
+static void color_chosen (GtkWidget *colorchooser)
+   {
+      gtk_color_chooser_get_color (GTK_COLOR_CHOOSER(colorchooser), &colordesc);
+   }
+#endif
+
 
 
 
@@ -575,10 +590,18 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
   label = gtk_label_new ("Give annotation");
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-  GtkWidget *widget = gtk_font_button_new ();//a widget to insert "#" etc...
+  GtkWidget *widget = gtk_font_button_new ();
   g_signal_connect (G_OBJECT (widget), "font-set", G_CALLBACK (font_chosen), NULL);
   if (widget)
     gtk_container_add (GTK_CONTAINER (content_area), widget);
+  widget = gtk_color_button_new ();
+
+   gtk_color_button_set_rgba (GTK_COLOR_BUTTON(widget),
+                           &colordesc);
+  g_signal_connect (G_OBJECT (widget), "color-set", G_CALLBACK (color_chosen), NULL);
+  if (widget)
+    gtk_container_add (GTK_CONTAINER (content_area), widget);   
+    
   gtk_entry_set_text (GTK_ENTRY (entry), "O^O");//FIXME add options for inserting ♯ ♮ ♭ 𝄫 𝄪  etc
   gtk_container_add (GTK_CONTAINER (content_area), entry);
 
@@ -595,7 +618,7 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
                entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
                string = g_strdup (entry_string);
                gtk_widget_destroy (dialog);
-               Annotation *ann = create_annotation (string, page, x, y, fontdesc?fontdesc:g_strdup ("Times italic 16"));
+               Annotation *ann = create_annotation (string, page, x, y, fontdesc?fontdesc:g_strdup ("Times italic 16"), &colordesc);
                return ann;
            }
        }
@@ -628,7 +651,7 @@ static void save_markings (void)
                for (g=annotations;g;g=g->next)
                   {
                    Annotation *ann = (Annotation *)g->data;
-                   fprintf (fp, "%d %d %d\n%s\n%s\n", ann->page, (int)ann->x, (int)ann->y, ann->font, ann->annotation);
+                   fprintf (fp, "%d %d %d %f %f %f %f\n%s\n%s\n", ann->page, (int)ann->x, (int)ann->y, ann->r, ann->g, ann->b, ann->a, ann->font, ann->annotation);
                   }  
                fclose (fp);
             }
@@ -644,6 +667,20 @@ static gint get_page_num_for_view (GtkWidget *view)
     return view == view1?page1.pnum:(view==view2?page2.pnum:page3.pnum); 
    }
    
+static GList *nearby_annotation (gint page, gint x, gint y)
+{
+   GList *g;
+   for (g = annotations; g; g=g->next)
+      {
+        Annotation *ann = g->data;
+         if ((ann->page == page) && abs(ann->x-x)<SPOT_SIZE && abs(ann->y-y)<SPOT_SIZE)
+            {
+              return g;
+            }
+      }
+   return NULL;
+}
+
 static gboolean clicked (GtkWidget * view, GdkEventButton * event)
 {
   if (event->button != 1)
@@ -662,11 +699,13 @@ static gboolean clicked (GtkWidget * view, GdkEventButton * event)
       item = gtk_menu_item_new_with_label ("Annotate here");
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (mark_annotation), &current_position);
-      item = gtk_menu_item_new_with_label ("Delete annotations from this page");
+      GList *annlink = nearby_annotation (current_position.page, current_position.x, current_position.y);
+      item = gtk_menu_item_new_with_label ("Delete this annotation");
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK ((view==view1)?delete_annotations:delete_annotations), NULL);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_annotation), annlink);
+      gtk_widget_set_sensitive (item,(annlink != NULL));
       
-      item = gtk_menu_item_new_with_label ("Save Annotations");
+      item = gtk_menu_item_new_with_label ("Save annotations");
       gtk_widget_set_sensitive (item,markings_unsaved);
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (save_markings), NULL);
@@ -674,9 +713,9 @@ static gboolean clicked (GtkWidget * view, GdkEventButton * event)
       item = gtk_menu_item_new_with_label ("Navigate");
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (navigate), NULL);
-      item = gtk_menu_item_new_with_label ("Set delay for page completion");
+      item = gtk_menu_item_new_with_label ("Set slide speed");
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_delay), NULL);  
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_slide_time_step), NULL);  
       item = gtk_menu_item_new_with_label ("Help");
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (show_help), NULL); 
@@ -738,6 +777,9 @@ static void draw_text (cairo_t * cr, const char *font, const char *text, double 
   g_object_unref (layout);
 }
 
+
+
+      
 static gboolean overdraw (GtkWidget* view, cairo_t * cr)
 {
    GList *g;
@@ -749,17 +791,8 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
          gdouble x = ann->x, y = ann->y; //g_print ("annotation %s page %d for page %d?\n", ann->annotation, ann->page, pnum);
          if (ann->page == pnum)
             {
-#if 0
-               cairo_set_source_rgba (cr, 0.2, 0.4, 1, 1);
-               cairo_set_font_size (cr, 16);
-               cairo_move_to (cr, x, y);
-               cairo_show_text (cr, ann->annotation);  
-#else
-               cairo_set_source_rgba (cr, 0.2, 0.4, 1, 1);
+               cairo_set_source_rgba (cr, ann->r, ann->g, ann->b, ann->a);
                draw_text (cr, ann->font, ann->annotation, x, y, FALSE);
-
-
-#endif
             }
       }
     if ((lh_page->pnum != (rh_page->pnum - 1)) &&
