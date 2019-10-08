@@ -29,13 +29,16 @@ static GList *current_page;
 static GtkWidget *top_window;
 static gchar *help_text = NULL;
 
-//Warning - this structure has to be sync'd with the definition in the (independent) pageturner program - see tools/pageturner.c
+//Warning - this structure has to be sync'd with the definition in the (independent) twopageturner program - see tools/twopageturner.c
+//it is not compatible with the older pageturner.c program
 typedef struct Annotation {
      gchar *annotation;
      gint page;
-     gint  adj;
      gint x, y;
+     double r,g,b,a;
+     gchar *font;
 } Annotation;
+
 static  gint width=720;//width and
 static  gint height=1030;//height of proof read screen
 static GtkAdjustment *VAdj;//vertical scroll of the score
@@ -57,43 +60,44 @@ static void load_markings (gchar *pdfname)
       g_free (markings_file);
    markings_file = g_strdup_printf ("%s%s", pdfname, ".marks");
    FILE *fp = fopen (markings_file, "r");
-   if (fp)
+      if (fp)
       {
-         char type[20];
-         
-         if (2==fscanf (fp, "%d%d%d", &width, &height))
+         gint window_width, window_height;
+         if (2==fscanf (fp, "%d%d", &window_width, &window_height))
             {
-              g_print ("Using window size %.2f %d %d\n", width, height);
+               if ((width != window_width) || (height != window_height))
+                  g_warning ("Height and Width of markings file does not match current window - expect misplaced marks %d %d %d %d\n", width, height, window_width, window_height);
+               gint page, x, y;  
+               gchar text1[100], text2[100];
+               *text1 = *text2 = 0;
+               double r,g,b,a;   
+               while ( 7 == fscanf (fp, "%d%d%d%lf%lf%lf%lf\n", &page, &x, &y, &r, &g, &b, &a))
+                                 {
+                                    Annotation *ann = (Annotation*)g_malloc (sizeof (Annotation));
+                                    ann->x = x;
+                                    ann->y = y;
+                              
+                                    ann->page = page;
+                                    ann->r = r;
+                                    ann->g = g;
+                                    ann->b = b;
+                                    ann->a = a;
+                                    if (fgets (text1, 100, fp))
+                                       ann->font = g_strdup (text1);
+                                    else
+                                       ann->font = g_strdup ("Times 12\n");  
+                                    
+                                    if (fgets (text2, 100, fp))
+                                       ann->annotation = g_strdup (text2);
+                                    else
+                                       ann->annotation = g_strdup ("???\n"); 
+                                    *(ann->font + strlen (ann->font) - 1) = 0;   
+                                    *(ann->annotation + strlen (ann->annotation) - 1) = 0;   
+                                          
+                                    annotations = g_list_append (annotations, ann);
+                                 } 
             }
-          else
-            {
-              width = 720;
-              height = 1030;
-            }
-         while (1 == fscanf (fp, "%20s", type))
-            {
-               if (!strcmp(type, "Repeat:"))
-                  {
-                    fscanf (fp, "%*d %*d %*d");
-                     g_info ("Repeat Markings are ignored");
-                  }
-               else
-                 if (!strcmp(type, "Annotate:"))
-                     {
-                        Annotation *ann = g_malloc (sizeof (Annotation));
-                        if (4 == fscanf (fp, "%d %d  %d %d", &ann->page, &ann->adj, &ann->x, &ann->y))
-                           {
-                              gchar text[100];
-                              if (fgets (text, 100, fp))
-                                 ann->annotation = g_strdup (text);
-                              else
-                                 ann->annotation = g_strdup ("???");
-                              annotations = g_list_append (annotations, ann);
-                           } 
-                     }
-                  else g_warning ("Corrupt markings file");
-              current_annotation = annotations;
-            }
+         else  g_warning ("Corrupt markings file");
         fclose (fp);
       }
 }
@@ -101,19 +105,17 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
 {
    GList *g;
    static gboolean phase = FALSE;
-   for (g = annotations; g; g=g->next)
+    for (g = annotations; g; g=g->next)
       {
          Annotation *ann = (Annotation*)g->data;
-         gdouble x = ann->x, y = ann->y;
-       // g_print ("ann y %d ann adj %d adj val %.2f ps %d\n", ann->y, ann->adj, (gtk_adjustment_get_value (VAdj)), (int)(gtk_adjustment_get_page_size (VAdj)));
-         if (((ann->adj + ann->y) > gtk_adjustment_get_value (VAdj)) && ((ann->adj + ann->y) < (gtk_adjustment_get_value (VAdj) + gtk_adjustment_get_page_size (VAdj))))
+         gdouble x = ann->x, y = ann->y; 
+         y -= (int)gtk_adjustment_get_value (VAdj) - (ann->page * gtk_adjustment_get_page_size (VAdj));
+          if (ann->page == ev_document_model_get_page (model))
             {
-               y += (ann->adj - gtk_adjustment_get_value (VAdj));
                g==current_annotation?  
                   (phase?cairo_set_source_rgba (cr, 1.0, 0.2, 0.2, 0.5):
                          cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1)):
                   cairo_set_source_rgba (cr, 0.3, 0.4, 1.0, 0.5);
-                  
                  ((g==current_annotation) && phase)?
                     cairo_set_font_size (cr, 17):
                     cairo_set_font_size (cr, 16);
@@ -402,9 +404,9 @@ get_view (gchar * filename)
   return view;
   } else
   {
-    
     if (annotations)
       {
+         current_annotation = annotations;
          ev_document_model_set_page (model, ((Annotation*)annotations->data)->page);
          top_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
          gtk_widget_set_tooltip_text (top_window, help_text);
@@ -452,13 +454,13 @@ get_view (gchar * filename)
   }
 }
 
-
 gboolean
 open_proofread_file (gchar * filename)
 {
   if (Denemo.non_interactive)
     return FALSE;
   EvView *eview = get_view (filename);
+ //g_print ("returning with %p so value returned %d\n", eview, eview  != NULL);
  return eview  != NULL;
 }
 
