@@ -29,7 +29,7 @@
 #endif
 
 
-#define SPOT_SIZE (50) //size of spot for picking out an annotation
+#define SPOT_SIZE (5) //size of spot for picking out an annotation
 typedef struct Location {
      gint  adj;
      gint x, y;
@@ -95,8 +95,8 @@ static gchar *help_text =
 " to be ready for the start of a repeat.\n"
 " The center pedal moves the right hand page onwards for the case where you need to skip forward (while playing on the left hand page)."
 "\nTo mark up the score for reminders or proof-reading right click with the mouse at the point where you want the annotation to be placed"
-" and choose \"Annotate here\" from the menu."
-"\nThe menu also lets you to delete an annotation, navigate the score, set the speed with which the pages slide etc."
+" and choose \"Annotate here\" from the menu. You can drag an annotation if it is misplaced."
+"\nThe menu also lets you delete an annotation, navigate the score, set the speed with which the pages slide etc."
 "\n Currently Keypresses '%c' to go one page on, '%c' to go back for a repeat and '%c' to skip forward."
 "\nTo change the defaults you can pass values on the command line - type pageturner --help to see the command line usage."
 ;
@@ -689,7 +689,7 @@ static GList *nearby_annotation (gint page, gint x, gint y)
    for (g = annotations; g; g=g->next)
       {
         Annotation *ann = g->data;
-         if ((ann->page == page) && abs(ann->x-x)<SPOT_SIZE && abs(ann->y-y)<SPOT_SIZE)
+         if ((ann->page == page) && abs(ann->x-x+5)<SPOT_SIZE && abs(ann->y-y+5)<SPOT_SIZE)
             {
               return g;
             }
@@ -697,11 +697,78 @@ static GList *nearby_annotation (gint page, gint x, gint y)
    return NULL;
 }
 
-static gboolean clicked (GtkWidget * view, GdkEventButton * event)
+
+void
+hot_cursor (void)
 {
+  static GdkCursor *circ = NULL;
+  if (!circ)
+    circ = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CIRCLE);
+  gdk_window_set_cursor (gtk_widget_get_window (score_window), circ);
+}
+
+void
+normal_cursor (void)
+{
+  static GdkCursor *arrowcursor = NULL;
+  if (!arrowcursor)
+    arrowcursor = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_LEFT_PTR);
+  gdk_window_set_cursor (gtk_widget_get_window (score_window), arrowcursor);
+}
+
+
+static GList *dragging_annlink = NULL;
+static gboolean button_press (GtkWidget * view, GdkEventButton * event)
+{
+  if (event->button == 1)
+   { 
+      Annotation current_position;//just as a page, x, y , not a real annotation
+      current_position.page = get_page_num_for_view (view);
+      current_position.x = (int)event->x;
+      current_position.y = (int)event->y;
+      dragging_annlink = nearby_annotation (current_position.page, current_position.x, current_position.y);
+    //  if (dragging_annlink)
+     //    hot_cursor();
+   }
+  return FALSE;                 //propagate further 
+}
+
+static gboolean motion_notify (GtkWidget * view, GdkEventMotion * event)
+{
+   if (dragging_annlink)
+      { 
+         Annotation *ann = dragging_annlink->data;
+         if (ann->page == get_page_num_for_view (view))
+           {
+               markings_unsaved = TRUE;
+               ann->x = event->x, ann->y = event->y;
+               gtk_widget_queue_draw (view);
+               return TRUE;
+            }
+      }
+      Annotation current_position;//just as a page, x, y , not a real annotation
+      current_position.page = get_page_num_for_view (view);
+      current_position.x = (int)event->x;
+      current_position.y = (int)event->y;
+      if (nearby_annotation (current_position.page, current_position.x, current_position.y))
+         hot_cursor ();
+      else
+         normal_cursor ();
+ 
+   return FALSE;                 //propagate further
+}
+
+static gboolean button_release (GtkWidget * view, GdkEventButton * event)
+{
+  if (dragging_annlink)
+      {
+      normal_cursor ();
+      dragging_annlink = NULL;
+      return TRUE;
+      }
   if (event->button != 1)
    { 
-      static Annotation current_position;
+      static Annotation current_position;//just as a page, x, y , not a real annotation
       current_position.page = get_page_num_for_view (view);
       current_position.x = (int)event->x;
       current_position.y = (int)event->y;
@@ -837,7 +904,9 @@ static gboolean adjust_page_positions (GtkOverlay   *overlay,
 
       return TRUE;
    }               
-        
+
+
+
 
 
 int main(int argc, char **argv)
@@ -902,7 +971,11 @@ int main(int argc, char **argv)
    gtk_container_add (GTK_CONTAINER(eventbox1), scroll1); 
    g_signal_connect (G_OBJECT(eventbox1), "key-press-event", G_CALLBACK (keypress), NULL);
    view1 = (GtkWidget *) ev_view_new ();
-   g_signal_connect (G_OBJECT(view1), "button-release-event", G_CALLBACK (clicked), NULL);
+   g_signal_connect (G_OBJECT(view1), "button-release-event", G_CALLBACK (button_release), NULL);
+   g_signal_connect (G_OBJECT(view1), "button-press-event", G_CALLBACK (button_press), NULL);
+
+   g_signal_connect (G_OBJECT (view1), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
+
    g_signal_connect_after (G_OBJECT (view1), "draw", G_CALLBACK (overdraw), NULL);
    gtk_container_add (GTK_CONTAINER (scroll1), view1);
 
@@ -914,7 +987,10 @@ int main(int argc, char **argv)
    gtk_container_add (GTK_CONTAINER(eventbox2), scroll2); 
    g_signal_connect (G_OBJECT(eventbox2), "key-press-event", G_CALLBACK (keypress), NULL);
    view2 = (GtkWidget *) ev_view_new ();
-   g_signal_connect (G_OBJECT(view2), "button-release-event", G_CALLBACK (clicked), NULL);
+   g_signal_connect (G_OBJECT(view2), "button-release-event", G_CALLBACK (button_release), NULL);
+   g_signal_connect (G_OBJECT(view2), "button-press-event", G_CALLBACK (button_press), NULL);
+        g_signal_connect (G_OBJECT (view2), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
+
    g_signal_connect_after (G_OBJECT (view2), "draw", G_CALLBACK (overdraw), NULL);
    gtk_container_add (GTK_CONTAINER (scroll2), view2); 
    
@@ -925,7 +1001,11 @@ int main(int argc, char **argv)
    gtk_container_add (GTK_CONTAINER(eventbox3), scroll3); 
    g_signal_connect (G_OBJECT(eventbox3), "key-press-event", G_CALLBACK (keypress), NULL);
    view3 = (GtkWidget *) ev_view_new ();
-   g_signal_connect (G_OBJECT(view3), "button-release-event", G_CALLBACK (clicked), NULL);
+   g_signal_connect (G_OBJECT(view3), "button-release-event", G_CALLBACK (button_release), NULL);
+      g_signal_connect (G_OBJECT(view3), "button-press-event", G_CALLBACK (button_press), NULL);
+
+     g_signal_connect (G_OBJECT (view3), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
+
    g_signal_connect_after (G_OBJECT (view3), "draw", G_CALLBACK (overdraw), NULL);
    gtk_container_add (GTK_CONTAINER (scroll3), view3); 
 
