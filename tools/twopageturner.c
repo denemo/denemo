@@ -29,7 +29,7 @@
 #endif
 
 
-#define SPOT_SIZE (5) //size of spot for picking out an annotation
+#define SPOT_SIZE (10) //size of spot for picking out an annotation
 typedef struct Location {
      gint  adj;
      gint x, y;
@@ -703,7 +703,7 @@ hot_cursor (void)
 {
   static GdkCursor *circ = NULL;
   if (!circ)
-    circ = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CIRCLE);
+    circ = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_TARGET);
   gdk_window_set_cursor (gtk_widget_get_window (score_window), circ);
 }
 
@@ -730,6 +730,7 @@ static gboolean button_press (GtkWidget * view, GdkEventButton * event)
     //  if (dragging_annlink)
      //    hot_cursor();
    }
+   return TRUE;
   return FALSE;                 //propagate further 
 }
 
