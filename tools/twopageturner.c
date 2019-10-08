@@ -52,7 +52,6 @@ typedef struct Page {
 
 static const gchar *music_home;//the directory where your scores are stored
 static GtkWidget *score_window;//the window containing the two halves of the score
-static GtkAdjustment *VAdj1, *VAdj2, *VAdj3;//control over the parts of the score visible in each half
 static GList *repeat_locations = NULL;// a list of locations for use when a repeat starts in the middle/lower half of a page
 static GList *annotations = NULL;// a list of annotations to be displayed on the score
 static GtkWidget *view1, *view2, *view3;//the two halves of the score - the top moves on to the next page while you are still reading the bottom 
@@ -884,7 +883,6 @@ int main(int argc, char **argv)
    gtk_overlay_add_overlay (GTK_OVERLAY (overlay), eventbox1);
    GtkWidget *scroll1 = gtk_scrolled_window_new (NULL, NULL);
    gtk_container_add (GTK_CONTAINER(eventbox1), scroll1); 
-   VAdj1 = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(scroll1));
    g_signal_connect (G_OBJECT(eventbox1), "key-press-event", G_CALLBACK (keypress), NULL);
    view1 = (GtkWidget *) ev_view_new ();
    g_signal_connect (G_OBJECT(view1), "button-release-event", G_CALLBACK (clicked), NULL);
@@ -897,7 +895,6 @@ int main(int argc, char **argv)
    gtk_overlay_add_overlay (GTK_OVERLAY (overlay), eventbox2);
    GtkWidget *scroll2 = gtk_scrolled_window_new (NULL, NULL);
    gtk_container_add (GTK_CONTAINER(eventbox2), scroll2); 
-   VAdj2 = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(scroll2));
    g_signal_connect (G_OBJECT(eventbox2), "key-press-event", G_CALLBACK (keypress), NULL);
    view2 = (GtkWidget *) ev_view_new ();
    g_signal_connect (G_OBJECT(view2), "button-release-event", G_CALLBACK (clicked), NULL);
@@ -909,7 +906,6 @@ int main(int argc, char **argv)
    gtk_overlay_add_overlay (GTK_OVERLAY (overlay), eventbox3);   
    GtkWidget *scroll3 = gtk_scrolled_window_new (NULL, NULL);
    gtk_container_add (GTK_CONTAINER(eventbox3), scroll3); 
-   VAdj3 = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(scroll3));
    g_signal_connect (G_OBJECT(eventbox3), "key-press-event", G_CALLBACK (keypress), NULL);
    view3 = (GtkWidget *) ev_view_new ();
    g_signal_connect (G_OBJECT(view3), "button-release-event", G_CALLBACK (clicked), NULL);
