@@ -555,7 +555,7 @@ static void delete_annotation (GList *annlink)
              annotations = g_list_delete_link (annotations, annlink);
 
 }
-static gchar *fontdesc;
+static gchar *fontdesc="sans 14";
 static void font_chosen (GtkWidget *fontchooser)
 {
    fontdesc = gtk_font_chooser_get_font (GTK_FONT_CHOOSER(fontchooser));
@@ -574,9 +574,20 @@ static void color_chosen (GtkWidget *colorchooser)
    }
 #endif
 
+static void insert_button_text (GtkWidget *button, GtkWidget *entry)
+{
+    gchar *text = g_strdup_printf ("%s%s", gtk_entry_get_text (GTK_ENTRY (entry)), gtk_button_get_label(GTK_BUTTON(button)));
+    gtk_entry_set_text (GTK_ENTRY (entry), text);
+    g_free (text);
+}
 
+static void create_button (GtkWidget *hbox, GtkWidget *entry, gchar *text)
+{
+  GtkWidget *widget = gtk_button_new_with_label (text);
+  g_signal_connect (G_OBJECT (widget), "clicked", G_CALLBACK (insert_button_text), entry);
+  gtk_box_pack_start (GTK_BOX (hbox), widget, FALSE, FALSE,2); 
 
-
+}
 Annotation *get_annotation_from_user (gint page, gint x, gint y)
 {
   GtkWidget *dialog;
@@ -589,19 +600,25 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
   label = gtk_label_new ("Give annotation");
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-  GtkWidget *widget = gtk_font_button_new ();
+  GtkWidget *widget = gtk_font_button_new_with_font (fontdesc);
   g_signal_connect (G_OBJECT (widget), "font-set", G_CALLBACK (font_chosen), NULL);
-  if (widget)
-    gtk_container_add (GTK_CONTAINER (content_area), widget);
+  gtk_container_add (GTK_CONTAINER (content_area), widget);
   widget = gtk_color_button_new ();
-
-   gtk_color_button_set_rgba (GTK_COLOR_BUTTON(widget),
-                           &colordesc);
+  gtk_color_button_set_rgba (GTK_COLOR_BUTTON(widget),  &colordesc);
   g_signal_connect (G_OBJECT (widget), "color-set", G_CALLBACK (color_chosen), NULL);
-  if (widget)
-    gtk_container_add (GTK_CONTAINER (content_area), widget);   
+  gtk_container_add (GTK_CONTAINER (content_area), widget); 
+  GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
+  gtk_container_add (GTK_CONTAINER (content_area), hbox); 
+  
+  create_button (hbox, entry, "O^O");
+  create_button (hbox, entry, "♯");
+  create_button (hbox, entry, "♭");
+  create_button (hbox, entry, "♮");
+  create_button (hbox, entry, "𝄪");
+  create_button (hbox, entry, "𝄫");
+   
     
-  gtk_entry_set_text (GTK_ENTRY (entry), "O^O");//FIXME add options for inserting ♯ ♮ ♭ 𝄫 𝄪  etc
+  gtk_entry_set_text (GTK_ENTRY (entry), "");
   gtk_container_add (GTK_CONTAINER (content_area), entry);
 
   gtk_entry_set_activates_default (GTK_ENTRY (entry), TRUE);
