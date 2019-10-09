@@ -262,6 +262,9 @@ static gboolean slide_left (void)
 {
    if ((lh_page->x - transition_step) <0)
       {
+       lh_page->x = 0;
+       rh_page->x = width;
+       force_page_recalc ();
        tr1_running = FALSE;
        transition_step = default_transition_step;
       }
@@ -491,18 +494,17 @@ static gboolean choose (gchar *filename)
 
 static void change_delay (GtkSpinButton * widget)
 {
-   //g_print ("Value is %f\n", gtk_spin_button_get_value (widget));
-  timeout = (guint)(1000*gtk_spin_button_get_value (widget));
+  timeout = (guint)(gtk_spin_button_get_value (widget));
 }
 static void set_slide_time_step (void)
 {
   GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  GtkWidget *label = gtk_label_new ("Set time (secs) for each step sliding pages: ");
+  GtkWidget *label = gtk_label_new ("Set time (ms) for each step sliding pages (1=100): ");
   GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_container_add (GTK_CONTAINER (window), box);
   gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
-  GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (0.001, 0.001, 0.1, 0.001, 1.0, 0.0);
-  GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 1.0, 3);
+  GtkWidget *spinner_adj = (GtkWidget *) gtk_adjustment_new (timeout, 1, 100, 1, 1.0, 0.0);
+  GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 1.0, 0);
   gtk_box_pack_start (GTK_BOX (box), spinner, FALSE, TRUE, 0);
   g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_delay), NULL);
   gtk_widget_show_all (window); 
