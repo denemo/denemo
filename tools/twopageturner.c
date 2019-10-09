@@ -553,11 +553,14 @@ static void delete_annotation (GList *annlink)
 {
    
              markings_unsaved = TRUE;
-             //free ann here FIXME
+             free_annotation (annlink->data);
              annotations = g_list_delete_link (annotations, annlink);
+             gtk_widget_queue_draw (view1);
+             gtk_widget_queue_draw (view2);
+             gtk_widget_queue_draw (view3);
 
 }
-static gchar *fontdesc="sans 14";
+static gchar *fontdesc=NULL;
 static void font_chosen (GtkWidget *fontchooser)
 {
    fontdesc = gtk_font_chooser_get_font (GTK_FONT_CHOOSER(fontchooser));
@@ -602,7 +605,7 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
   label = gtk_label_new ("Give annotation");
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-  GtkWidget *widget = gtk_font_button_new_with_font (fontdesc);
+  GtkWidget *widget = gtk_font_button_new_with_font (fontdesc?fontdesc:"Sans 14");
   g_signal_connect (G_OBJECT (widget), "font-set", G_CALLBACK (font_chosen), NULL);
   gtk_container_add (GTK_CONTAINER (content_area), widget);
   widget = gtk_color_button_new ();
@@ -618,6 +621,8 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
   create_button (hbox, entry, "♮");
   create_button (hbox, entry, "𝄪");
   create_button (hbox, entry, "𝄫");
+  create_button (hbox, entry, "FIX -->");
+  create_button (hbox, entry, "<---FIX");
    
     
   gtk_entry_set_text (GTK_ENTRY (entry), "");
@@ -653,7 +658,12 @@ static void mark_annotation (Annotation *p)
 {
    Annotation *ann = get_annotation_from_user (p->page, p->x, p->y);
    if (ann)
-      annotations = g_list_append (annotations, ann);
+      {
+         annotations = g_list_append (annotations, ann);
+         gtk_widget_queue_draw (view1);
+         gtk_widget_queue_draw (view2);
+         gtk_widget_queue_draw (view3);
+      }
 }
 
 static void save_markings (void)
