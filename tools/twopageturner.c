@@ -605,7 +605,7 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
   label = gtk_label_new ("Give annotation");
   GtkWidget *content_area = gtk_dialog_get_content_area (GTK_DIALOG (dialog));
   gtk_container_add (GTK_CONTAINER (content_area), label);
-  GtkWidget *widget = gtk_font_button_new_with_font (fontdesc?fontdesc:"Sans 14");
+  GtkWidget *widget = gtk_font_button_new_with_font (fontdesc?fontdesc:"Sans 16");
   g_signal_connect (G_OBJECT (widget), "font-set", G_CALLBACK (font_chosen), NULL);
   gtk_container_add (GTK_CONTAINER (content_area), widget);
   widget = gtk_color_button_new ();
@@ -641,7 +641,7 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
                entry_string = (gchar *) gtk_entry_get_text (GTK_ENTRY (entry));
                string = g_strdup (entry_string);
                gtk_widget_destroy (dialog);
-               Annotation *ann = create_annotation (string, page, x, y, fontdesc?fontdesc:g_strdup ("Times italic 16"), &colordesc);
+               Annotation *ann = create_annotation (string, page, x, y, fontdesc?fontdesc:g_strdup ("Sans 16"), &colordesc);
                return ann;
            }
        }
