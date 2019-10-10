@@ -324,7 +324,7 @@ static gchar *locate_file (gchar *filename) {
 static void drop_proof_read_window (GtkWidget *controls)
 {
   g_print ("Window was created at %d %d\n", width, height);
-  gtk_window_get_size (top_window,
+  gtk_window_get_size (GTK_WINDOW(top_window),
                              &width,
                              &height);
   g_print ("Window now at %d %d\n", width, height);
