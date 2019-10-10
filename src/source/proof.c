@@ -62,16 +62,13 @@ static void load_markings (gchar *pdfname)
    FILE *fp = fopen (markings_file, "r");
       if (fp)
       {
-         gint window_width, window_height;
-         if (2==fscanf (fp, "%d%d", &window_width, &window_height))
+         if (2==fscanf (fp, "%d%d", &width, &height))
             {
-               if ((width != window_width) || (height != window_height))
-                  g_warning ("Height and Width of markings file does not match current window - expect misplaced marks %d %d %d %d\n", width, height, window_width, window_height);
                gint page, x, y;  
                gchar text1[100], text2[100];
                *text1 = *text2 = 0;
                double r,g,b,a;   
-               while ( 7 == fscanf (fp, "%d%d%d%lf%lf%lf%lf\n", &page, &x, &y, &r, &g, &b, &a))
+               while (7 == fscanf (fp, "%d%d%d%lf%lf%lf%lf\n", &page, &x, &y, &r, &g, &b, &a))
                                  {
                                     Annotation *ann = (Annotation*)g_malloc (sizeof (Annotation));
                                     ann->x = x;
@@ -323,6 +320,18 @@ static gchar *locate_file (gchar *filename) {
     }
     return filename;
 }
+
+static void drop_proof_read_window (GtkWidget *controls)
+{
+  g_print ("Window was created at %d %d\n", width, height);
+  gtk_window_get_size (top_window,
+                             &width,
+                             &height);
+  g_print ("Window now at %d %d\n", width, height);
+
+  gtk_widget_destroy (controls);
+  gtk_widget_destroy (top_window);
+}
 static EvView *
 get_view (gchar * filename)
 {
@@ -410,13 +419,17 @@ get_view (gchar * filename)
          ev_document_model_set_page (model, ((Annotation*)annotations->data)->page);
          top_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
          gtk_widget_set_tooltip_text (top_window, help_text);
-         gtk_window_set_title (GTK_WINDOW (top_window), g_strdup_printf ("Denemo - Annotated: %s", filename));
-         gtk_window_set_default_size (GTK_WINDOW (top_window), width + 14, height);//width + 14 fudge to get annotations correctly placed
+         gtk_window_set_decorated (GTK_WINDOW (top_window), FALSE);
+         gtk_window_set_default_size (GTK_WINDOW (top_window), width, height);// - 5);//height-5 fudge to get annotations correctly placed
          
          GtkWidget *box =  gtk_vbox_new (FALSE, 0);//gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
          gtk_container_add (GTK_CONTAINER(top_window), box);
-         GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
-         gtk_box_pack_start (GTK_BOX (box), main_hbox, FALSE, TRUE, 0);
+         
+         
+          GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
+          GtkWidget *float_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+          gtk_window_set_title (GTK_WINDOW (top_window), g_strdup_printf ("Denemo - Controls for Proof-Read File: %s", filename));
+          gtk_container_add (GTK_CONTAINER (float_window), main_hbox);
           GtkWidget *button = gtk_button_new_with_label (_("Next Annotation"));
           g_signal_connect (button, "clicked", G_CALLBACK (next_page), (gpointer) model);
           gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
@@ -426,10 +439,13 @@ get_view (gchar * filename)
           button = gtk_button_new_with_label (_("Drop Current Annotation"));
           g_signal_connect (button, "clicked", G_CALLBACK (delete_annotation), NULL);
           gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);  
-                 
           button = gtk_button_new_with_label (_("Help"));
           g_signal_connect_swapped (button, "clicked", G_CALLBACK (infodialog), help_text);
-          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);         
+          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0); 
+          button = gtk_button_new_with_label (_("Drop proof read window"));
+          g_signal_connect_swapped (button, "clicked", G_CALLBACK (drop_proof_read_window), float_window);
+          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0); 
+          gtk_widget_show_all (float_window); 
                     
          GtkWidget *eventbox = gtk_event_box_new ();
          gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
@@ -438,14 +454,14 @@ get_view (gchar * filename)
          gtk_container_add (GTK_CONTAINER(eventbox), scroll);
          gtk_container_add (GTK_CONTAINER (scroll), GTK_WIDGET (view));
          VAdj = gtk_scrolled_window_get_vadjustment (GTK_SCROLLED_WINDOW(scroll));
-        
+
          g_signal_connect (G_OBJECT (view), "external-link", G_CALLBACK (action_for_link), (gpointer)model);
          
          g_signal_connect_after (G_OBJECT (view), "draw", G_CALLBACK (overdraw), NULL);
          g_timeout_add (400, (GSourceFunc) refresh_draw, top_window);
 
          gtk_widget_show_all (top_window); 
-        
+         gtk_widget_hide (gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW(scroll)));        
       }
     else {
       warningdialog (_("This PDF file contains no annotations. It has to be a PDF file generated by Denemo for the current score to which annotations have been added."));

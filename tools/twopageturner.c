@@ -970,7 +970,7 @@ int main(int argc, char **argv)
    g_signal_connect (score_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
    gtk_window_move (GTK_WINDOW (score_window), x, y);
-   gtk_window_set_default_size (GTK_WINDOW (score_window), 2*width, height - 20);//Last page cannot be scrolled to the bottom in the lower pane without -20
+   gtk_window_set_default_size (GTK_WINDOW (score_window), 2*width, height);
    
    overlay = gtk_overlay_new ();
    g_signal_connect (G_OBJECT(overlay), "get-child-position", G_CALLBACK (adjust_page_positions), NULL);   
