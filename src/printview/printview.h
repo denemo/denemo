@@ -19,6 +19,7 @@ int check_lily_version (gchar * version);
 gboolean typeset_for_script (gchar * script);
 gboolean print_typeset_pdf (void);
 void typeset_current_layout (void);
+void typeset_current_movement (void);
 void implement_show_print_view (gboolean refresh_if_needed);
 void install_printpreview (GtkWidget * vbox);
 void refresh_print_view (gboolean interactive);
