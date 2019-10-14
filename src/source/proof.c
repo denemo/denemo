@@ -17,6 +17,7 @@
 //      Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 //      MA 02110-1301, USA.
 #include <string.h>
+#include <math.h>
 #include "source/proof.h"
 #include "core/view.h"
 #include "core/utils.h"
@@ -98,10 +99,28 @@ static void load_markings (gchar *pdfname)
         fclose (fp);
       }
 }
+static void draw_text (cairo_t * cr, const char *font, const char *text, double x, double y)
+{
+  PangoLayout *layout;
+  PangoFontDescription *desc;
+  /* Create a PangoLayout, set the font and text */
+  layout = pango_cairo_create_layout (cr);
+  pango_layout_set_text (layout, text, -1);
+  desc = pango_font_description_from_string (font);
+  pango_layout_set_font_description (layout, desc);
+  pango_font_description_free (desc);
+  pango_cairo_update_layout (cr, layout);
+  cairo_move_to (cr, x, y);
+  pango_cairo_show_layout (cr, layout);
+  g_object_unref (layout);
+}
+
 static gboolean overdraw (GtkWidget* view, cairo_t * cr)
 {
    GList *g;
    static gboolean phase = FALSE;
+   cairo_set_source_rgba (cr,0, 0, 0, 0.5);
+   draw_text (cr, "Sans 20", _("Right click for menu"), 10, 10);
     for (g = annotations; g; g=g->next)
       {
          Annotation *ann = (Annotation*)g->data;
@@ -113,11 +132,14 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   (phase?cairo_set_source_rgba (cr, 1.0, 0.2, 0.2, 0.5):
                          cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1)):
                   cairo_set_source_rgba (cr, 0.3, 0.4, 1.0, 0.5);
-                 ((g==current_annotation) && phase)?
-                    cairo_set_font_size (cr, 17):
-                    cairo_set_font_size (cr, 16);
-               cairo_move_to (cr, x, y);
-               cairo_show_text (cr, ann->annotation);  
+
+               draw_text (cr, ann->font, ann->annotation, x, y);
+               if (phase && (g==current_annotation))
+                {
+                  cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 0.5);
+                  cairo_arc (cr, x, y, 40.0, 0.0, 2 * M_PI);
+                  cairo_fill (cr);
+                }
             }
       }
   phase = !phase;
@@ -175,7 +197,7 @@ action_for_link (EvView * view, EvLinkAction * obj, EvDocumentModel *model)
 }
 
 static void
-next_page (GtkWidget * button, EvDocumentModel *model)
+next_page (EvDocumentModel *model)
 {
   if (annotations)
     {
@@ -200,7 +222,7 @@ next_page (GtkWidget * button, EvDocumentModel *model)
 }
 
 static void
-prev_page (GtkWidget * button, EvDocumentModel *model)
+prev_page (EvDocumentModel *model)
 {
     if (annotations)
       {
@@ -321,17 +343,43 @@ static gchar *locate_file (gchar *filename) {
     return filename;
 }
 
-static void drop_proof_read_window (GtkWidget *controls)
+static gboolean button_release (GtkWidget * view, GdkEventButton * event)
 {
-  g_print ("Window was created at %d %d\n", width, height);
-  gtk_window_get_size (GTK_WINDOW(top_window),
-                             &width,
-                             &height);
-  g_print ("Window now at %d %d\n", width, height);
-
-  gtk_widget_destroy (controls);
-  gtk_widget_destroy (top_window);
+ if (event->button != 1)
+   { 
+      GtkWidget *menu = gtk_menu_new ();
+      GtkWidget *item;
+      item = gtk_menu_item_new_with_label (_("Next Annotation"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (next_page), (gpointer) model);
+      item = gtk_menu_item_new_with_label (_("Previous Annotation"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (prev_page), (gpointer) model);
+      
+      item = gtk_menu_item_new_with_label (_("Drop Current Annotation"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_annotation), NULL);
+      
+      item = gtk_menu_item_new_with_label  (_("Help"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate",  G_CALLBACK (infodialog), help_text);
+      
+      item = gtk_menu_item_new_with_label (_("Drop proof read window"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate",  G_CALLBACK (gtk_widget_destroy), top_window);
+ 
+      gtk_widget_show_all (menu);
+#if ((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=22))
+      gtk_menu_popup_at_pointer (GTK_MENU (menu), NULL);
+#else
+// FIXME something for gtk2
+#endif   
+      return TRUE;
+   }
+ return FALSE;
 }
+
+
 static EvView *
 get_view (gchar * filename)
 {
@@ -420,32 +468,10 @@ get_view (gchar * filename)
          top_window=gtk_window_new(GTK_WINDOW_TOPLEVEL);
          gtk_widget_set_tooltip_text (top_window, help_text);
          gtk_window_set_decorated (GTK_WINDOW (top_window), FALSE);
-         gtk_window_set_default_size (GTK_WINDOW (top_window), width, height);// - 5);//height-5 fudge to get annotations correctly placed
+         gtk_window_set_default_size (GTK_WINDOW (top_window), width, height);//height-5 fudge to get annotations correctly placed
          
          GtkWidget *box =  gtk_vbox_new (FALSE, 0);//gtk_box_new (GTK_ORIENTATION_VERTICAL, 0);
          gtk_container_add (GTK_CONTAINER(top_window), box);
-         
-         
-          GtkWidget *main_hbox = gtk_hbox_new (FALSE, 1);
-          GtkWidget *float_window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-          gtk_window_set_title (GTK_WINDOW (top_window), g_strdup_printf ("Denemo - Controls for Proof-Read File: %s", filename));
-          gtk_container_add (GTK_CONTAINER (float_window), main_hbox);
-          GtkWidget *button = gtk_button_new_with_label (_("Next Annotation"));
-          g_signal_connect (button, "clicked", G_CALLBACK (next_page), (gpointer) model);
-          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
-          button = gtk_button_new_with_label (_("Previous Annotation"));
-          g_signal_connect (button, "clicked", G_CALLBACK (prev_page), (gpointer) model);
-          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);
-          button = gtk_button_new_with_label (_("Drop Current Annotation"));
-          g_signal_connect (button, "clicked", G_CALLBACK (delete_annotation), NULL);
-          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0);  
-          button = gtk_button_new_with_label (_("Help"));
-          g_signal_connect_swapped (button, "clicked", G_CALLBACK (infodialog), help_text);
-          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0); 
-          button = gtk_button_new_with_label (_("Drop proof read window"));
-          g_signal_connect_swapped (button, "clicked", G_CALLBACK (drop_proof_read_window), float_window);
-          gtk_box_pack_start (GTK_BOX (main_hbox), button, FALSE, TRUE, 0); 
-          gtk_widget_show_all (float_window); 
                     
          GtkWidget *eventbox = gtk_event_box_new ();
          gtk_widget_add_events (eventbox, (GDK_BUTTON_RELEASE_MASK | GDK_BUTTON_PRESS_MASK | GDK_KEY_PRESS_MASK | GDK_KEY_RELEASE_MASK ));
@@ -458,6 +484,8 @@ get_view (gchar * filename)
          g_signal_connect (G_OBJECT (view), "external-link", G_CALLBACK (action_for_link), (gpointer)model);
          
          g_signal_connect_after (G_OBJECT (view), "draw", G_CALLBACK (overdraw), NULL);
+         g_signal_connect (G_OBJECT(view), "button-release-event", G_CALLBACK (button_release), NULL);
+         
          g_timeout_add (400, (GSourceFunc) refresh_draw, top_window);
 
          gtk_widget_show_all (top_window); 
