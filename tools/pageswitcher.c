@@ -55,18 +55,14 @@ static const gchar *music_home;//the directory where your scores are stored
 static GtkWidget *score_window;//the window containing the two halves of the score
 static GList *repeat_locations = NULL;// a list of locations for use when a repeat starts in the middle/lower half of a page
 static GList *annotations = NULL;// a list of annotations to be displayed on the score
-static GtkWidget *view1, *view2;//the two pages of the score - the one that is not currently being read is switched to the next page to play 
+static GtkWidget *lh_view, *rh_view;//the two pages of the score - the one that is not currently being read is switched to the next page to play 
 static GtkWidget *eventbox1, *eventbox2;
 static Page page1, page2;//the two Page objects
 static Page *lh_page, *rh_page;//pointers to the two Page objects.
 static gint num_pages;
-gboolean tr1_running = FALSE;//transition1 is happening, both pages are sliding to left and the off-screen page is entering from right
-gboolean tr2_running = FALSE;//transition2 is happening, lh page is sliding under rh page and off-screen page is entering from left
-gboolean tr3_running = FALSE;//transition3 is happening, rh page is being updated to match lh
-gboolean tr4_running = FALSE;//transition4 is happening, right hand page is sliding under lh_page and off-screen page is entering from right
+
 static guint timeout=30; //number of milliseconds between transition steps
-gint default_transition_step = 1, transition_step = 1;//how far to shift horizontally in the timeout milliseconds while comfortably reading the shifting music page
-gint default_quick_transition_step = 20, quick_transition_step = 20;//how far to shift per timeout ms - the transition is just to aid the user understand what is happening
+
 static  gint x=0;//Window size and position on screen: 0 0 is top left corner of screen
 static  gint y=0;
 static  gint width=0;
@@ -96,7 +92,7 @@ static gchar *help_text =
 " and the left transitions to the next page."
 "The left pedal is for repeats: it moves backwards instead of forwards "
 " to be ready for the start of a repeat.\n"
-" The center pedal moves the right hand page onwards for the case where you need to skip forward (while playing on the left hand page)."
+" The center pedal moves the next-to-play page onwards for the case where you need to skip forward over a page or pages."
 "\nTo mark up the score for reminders or proof-reading right click with the mouse at the point where you want the annotation to be placed"
 " and choose \"Annotate here\" from the menu. You can drag an annotation if it is misplaced."
 "\nThe menu also lets you delete an annotation, navigate the score, set the speed with which the pages slide etc."
@@ -117,7 +113,7 @@ static guint64 elapsed_time ()
    gint64 thistime = g_get_monotonic_time ();
    guint64 elapsed = 
    (thistime - last_pedal_time) / 1000; //in milliseconds
-   last_pedal_time = g_get_monotonic_time ();g_print ("time %ld\n", elapsed);
+   last_pedal_time = g_get_monotonic_time ();
    return elapsed;
 }
 
@@ -186,15 +182,15 @@ load_score (gchar *pdfname, GError ** err)
   if (*err)
     {
       g_warning ("Trying to read the pdf file %s gave an error: %s", uri, (*err)->message);
-      gtk_widget_queue_draw (view1);
-      gtk_widget_queue_draw (view2);
+      gtk_widget_queue_draw (lh_view);
+      gtk_widget_queue_draw (rh_view);
     }
   else
    {
      if (model1 == NULL)
        {
          model1 = ev_document_model_new_with_document (doc);
-         ev_view_set_model ((EvView *) view1, model1);
+         ev_view_set_model ((EvView *) lh_view, model1);
       }
      else
       {
@@ -203,7 +199,7 @@ load_score (gchar *pdfname, GError ** err)
      if (model2 == NULL)
        {          
          model2 = ev_document_model_new_with_document (doc);
-         ev_view_set_model ((EvView *) view2, model2);
+         ev_view_set_model ((EvView *) rh_view, model2);
        }
      else
        {
@@ -212,7 +208,7 @@ load_score (gchar *pdfname, GError ** err)
 
        for (num_pages=1;;num_pages++)
          {
-            if (!ev_view_next_page ((EvView*)view1))
+            if (!ev_view_next_page ((EvView*)lh_view))
                break;
          }
       g_print ("Number of pages %d\n", num_pages);
@@ -240,14 +236,26 @@ load_score (gchar *pdfname, GError ** err)
 static void set_page (Page *p, gint num)
 {
    if ((num >= num_pages) || (num <0))
-      {
-         g_warning ("Attempt to go off page %d\n", num);
+      {  static gboolean once = FALSE;
+         if (once)
+            {
+               if(num>0)
+                  goto_page (1);
+               else
+                  goto_page (num_pages - 1);
+               once = FALSE;
+            }
+         else
+            {
+               g_warning ("Attempt to go off page %d\n", num);// two presses of forward wraps round
+               once = TRUE;
+            }
          return;
       }
   p->pnum = num;
   ev_document_model_set_page (p->model, num);
-  gtk_widget_queue_draw (view1);
-  gtk_widget_queue_draw (view2);
+  gtk_widget_queue_draw (lh_view);
+  gtk_widget_queue_draw (rh_view);
 }
 static void next_page (void)
 {
@@ -418,8 +426,8 @@ static void delete_annotation (GList *annlink)
              markings_unsaved = TRUE;
              free_annotation (annlink->data);
              annotations = g_list_delete_link (annotations, annlink);
-             gtk_widget_queue_draw (view1);
-             gtk_widget_queue_draw (view2);
+             gtk_widget_queue_draw (lh_view);
+             gtk_widget_queue_draw (rh_view);
 }
 static gchar *fontdesc=NULL;
 static void font_chosen (GtkWidget *fontchooser)
@@ -526,8 +534,8 @@ static void mark_annotation (Annotation *p)
    if (ann)
       {
          annotations = g_list_append (annotations, ann);
-         gtk_widget_queue_draw (view1);
-         gtk_widget_queue_draw (view2);
+         gtk_widget_queue_draw (lh_view);
+         gtk_widget_queue_draw (rh_view);
       }
 }
 
@@ -538,8 +546,8 @@ static void mark_spot (Annotation *p)
    if (ann)
       {
          annotations = g_list_append (annotations, ann);
-         gtk_widget_queue_draw (view1);
-         gtk_widget_queue_draw (view2);
+         gtk_widget_queue_draw (lh_view);
+         gtk_widget_queue_draw (rh_view);
       }
 }
 
@@ -569,7 +577,7 @@ static void save_markings (void)
 
 static gint get_page_num_for_view (GtkWidget *view)
    {
-    return view == view1?page1.pnum:page2.pnum; 
+    return view == lh_view?page1.pnum:page2.pnum; 
    }
    
 static GList *nearby_annotation (gint page, gint x, gint y)
@@ -779,7 +787,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
             {
                draw_page_break (cr);
             }   
-         if (view == view1)
+         if (view == lh_view)
             {
                   cairo_pattern_t *pat = cairo_pattern_create_linear (20, 0, 20, 20);
                   cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 0, 0.1);
@@ -825,7 +833,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
       }
       else //pages in order
       {
-         if (view == view1)
+         if (view == lh_view)
             {
                   cairo_pattern_t *pat = cairo_pattern_create_linear (width - 20, 0, width, 0);
                   cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 0, 0.1);
@@ -916,14 +924,14 @@ int main(int argc, char **argv)
    GtkWidget *scroll1 = gtk_scrolled_window_new (NULL, NULL);
    gtk_container_add (GTK_CONTAINER(eventbox1), scroll1); 
    g_signal_connect (G_OBJECT(eventbox1), "key-press-event", G_CALLBACK (keypress), NULL);
-   view1 = (GtkWidget *) ev_view_new ();
-   g_signal_connect (G_OBJECT(view1), "button-release-event", G_CALLBACK (button_release), NULL);
-   g_signal_connect (G_OBJECT(view1), "button-press-event", G_CALLBACK (button_press), NULL);
+   lh_view = (GtkWidget *) ev_view_new ();
+   g_signal_connect (G_OBJECT(lh_view), "button-release-event", G_CALLBACK (button_release), NULL);
+   g_signal_connect (G_OBJECT(lh_view), "button-press-event", G_CALLBACK (button_press), NULL);
 
-   g_signal_connect (G_OBJECT (view1), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
+   g_signal_connect (G_OBJECT (lh_view), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
 
-   g_signal_connect_after (G_OBJECT (view1), "draw", G_CALLBACK (overdraw), NULL);
-   gtk_container_add (GTK_CONTAINER (scroll1), view1);
+   g_signal_connect_after (G_OBJECT (lh_view), "draw", G_CALLBACK (overdraw), NULL);
+   gtk_container_add (GTK_CONTAINER (scroll1), lh_view);
 
 
    eventbox2 = gtk_event_box_new ();
@@ -933,13 +941,13 @@ int main(int argc, char **argv)
    GtkWidget *scroll2 = gtk_scrolled_window_new (NULL, NULL);
    gtk_container_add (GTK_CONTAINER(eventbox2), scroll2); 
    g_signal_connect (G_OBJECT(eventbox2), "key-press-event", G_CALLBACK (keypress), NULL);
-   view2 = (GtkWidget *) ev_view_new ();
-   g_signal_connect (G_OBJECT(view2), "button-release-event", G_CALLBACK (button_release), NULL);
-   g_signal_connect (G_OBJECT(view2), "button-press-event", G_CALLBACK (button_press), NULL);
-   g_signal_connect (G_OBJECT (view2), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
+   rh_view = (GtkWidget *) ev_view_new ();
+   g_signal_connect (G_OBJECT(rh_view), "button-release-event", G_CALLBACK (button_release), NULL);
+   g_signal_connect (G_OBJECT(rh_view), "button-press-event", G_CALLBACK (button_press), NULL);
+   g_signal_connect (G_OBJECT (rh_view), "motion_notify_event", G_CALLBACK (motion_notify), NULL);
 
-   g_signal_connect_after (G_OBJECT (view2), "draw", G_CALLBACK (overdraw), NULL);
-   gtk_container_add (GTK_CONTAINER (scroll2), view2); 
+   g_signal_connect_after (G_OBJECT (rh_view), "draw", G_CALLBACK (overdraw), NULL);
+   gtk_container_add (GTK_CONTAINER (scroll2), rh_view); 
 
    gtk_widget_show_all (score_window);
    gtk_widget_hide (gtk_scrolled_window_get_vscrollbar (GTK_SCROLLED_WINDOW(scroll1)));
