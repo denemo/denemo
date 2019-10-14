@@ -1,5 +1,6 @@
 tools/cairo_svg2path.c
 tools/generate_source.c
+tools/pageswitcher.c
 tools/pageturner.c
 tools/twopageturner.c
 src/lilypond.lang
