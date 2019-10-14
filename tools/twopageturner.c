@@ -64,7 +64,7 @@ gboolean tr1_running = FALSE;//transition1 is happening, both pages are sliding 
 gboolean tr2_running = FALSE;//transition2 is happening, lh page is sliding under rh page and off-screen page is entering from left
 gboolean tr3_running = FALSE;//transition3 is happening, rh page is being updated to match lh
 gboolean tr4_running = FALSE;//transition4 is happening, right hand page is sliding under lh_page and off-screen page is entering from right
-static guint timeout=5; //number of milliseconds between transition steps
+static guint timeout=30; //number of milliseconds between transition steps
 gint default_transition_step = 1, transition_step = 1;//how far to shift horizontally in the timeout milliseconds while comfortably reading the shifting music page
 gint default_quick_transition_step = 20, quick_transition_step = 20;//how far to shift when *not* reading that page - the transition is just to aid the user understand what is happening
 static gboolean went_back;//lh and rh pages are out of sync because of going back (for repeat) else because of going forward (for couplet)
@@ -81,7 +81,12 @@ static void goto_page (gint page);//page number starting at 1
 
 static gchar *markings_file = NULL;//full patht to file for storing repeat marks and annotations for currently loaded score
 static gboolean markings_unsaved = FALSE; //TRUE when user has created or deleted markings in the current score 
-static gchar page_on = 'a', page_back = 'c', skip_page = 'b';
+static gchar page_on = 'c', page_back = 'a', skip_page = 'b';
+static guint64 last_pedal_time = 0;
+
+static void goto_page (gint page);
+
+
 static gchar *help_text =
 "The music page-turner allows hands-free turning of pages as you play from a musical score."
 "\nIt also allows for annotations to be added to the score - anything from reminder accidentals"
@@ -109,6 +114,14 @@ static void show_help (void)
    g_signal_connect (dialog, "response", G_CALLBACK (gtk_widget_destroy), NULL);
 }
 
+static guint64 elapsed_time ()
+{
+   gint64 thistime = g_get_monotonic_time ();
+   guint64 elapsed = 
+   (thistime - last_pedal_time) / 1000; //in milliseconds
+   last_pedal_time = g_get_monotonic_time ();g_print ("time %ld\n", elapsed);
+   return elapsed;
+}
 
 static void free_annotation (Annotation *a)
 {
@@ -389,7 +402,7 @@ static void transition3 (gint to_page)
 //move rh page on to another verse for a rondeau
 static void transition4 (gint to_page)
 {
-   if (rh_page->pnum == num_pages)
+   if (to_page == num_pages)//asking for page beyond last page.
       return;
    if (tr1_running)
       return;
@@ -408,9 +421,18 @@ static void transition4 (gint to_page)
 
 static void next_page (void)
 {
+   if ((rh_page->pnum + 1) >= num_pages)
+      {
+         goto_page (lh_page->pnum + 1);
+        // rh_page->pnum = lh_page->pnum + 1;
+         //force_page_recalc();
+      }
+   else
+      {
       (rh_page->pnum == (1 + lh_page->pnum) || !went_back)? 
       transition1(rh_page->pnum + 1):
       transition3(lh_page->pnum + 1);
+      }
 }
 
 
@@ -446,20 +468,23 @@ static void change_page (GtkSpinButton * widget)
 static gboolean keypress (GtkWidget *eventbox, GdkEventKey * event)
 {
   guint keyval = event->keyval; 
+  
+ if (elapsed_time()>100)
+      {
+      if (keyval==page_on)
+       {
+         next_page();
+       }
 
-   if (keyval==page_on)
-    {
-      next_page();
-    }
-
-   if (keyval==skip_page)
-    {
-       advance_right_page();
-    }
-   if (keyval==page_back)
-    {
-     previous_page();
-    }
+      if (keyval==skip_page)
+       {
+         advance_right_page();
+       }
+      if (keyval==page_back)
+       {
+         previous_page();
+       }
+      }
  
   return FALSE;
 }
@@ -499,7 +524,7 @@ static void change_delay (GtkSpinButton * widget)
 static void set_slide_time_step (void)
 {
   GtkWidget *window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  GtkWidget *label = gtk_label_new ("Set time (ms) for each step sliding pages (1=100): ");
+  GtkWidget *label = gtk_label_new ("Set time (ms) for each step sliding pages (1-100): ");
   GtkWidget *box = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
   gtk_container_add (GTK_CONTAINER (window), box);
   gtk_box_pack_start (GTK_BOX (box), label, FALSE, TRUE, 0);
@@ -570,7 +595,9 @@ static GdkRGBA colordesc = {1.0,0.0,0.0,1.0};
 #if 1 //!((GTK_MAJOR_VERSION>=3) && (GTK_MINOR_VERSION>=4)) bizarrely gtk_color_button_get_rgba is declared deprecated but gtk_color_chooser_get_color is not available.
 static void color_chosen (GtkWidget *colorchooser)
    {
+   G_GNUC_BEGIN_IGNORE_DEPRECATIONS    
       gtk_color_button_get_rgba (GTK_COLOR_BUTTON(colorchooser), &colordesc);
+   G_GNUC_END_IGNORE_DEPRECATIONS
    }                    
 #else
 static void color_chosen (GtkWidget *colorchooser)
@@ -609,7 +636,10 @@ Annotation *get_annotation_from_user (gint page, gint x, gint y)
   g_signal_connect (G_OBJECT (widget), "font-set", G_CALLBACK (font_chosen), NULL);
   gtk_container_add (GTK_CONTAINER (content_area), widget);
   widget = gtk_color_button_new ();
-  gtk_color_button_set_rgba (GTK_COLOR_BUTTON(widget),  &colordesc);
+  G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+ gtk_color_button_set_rgba (GTK_COLOR_BUTTON(widget), &colordesc); 
+ G_GNUC_END_IGNORE_DEPRECATIONS
+
   g_signal_connect (G_OBJECT (widget), "color-set", G_CALLBACK (color_chosen), NULL);
   gtk_container_add (GTK_CONTAINER (content_area), widget); 
   GtkWidget *hbox = gtk_box_new (GTK_ORIENTATION_HORIZONTAL, 0);
@@ -1034,7 +1064,7 @@ int main(int argc, char **argv)
 
    return 0;  
    error:
-        g_print ("Usage: pageturner [delay ms] [page down, default '%c'] [page up, default '%c']  [complete page, default '%c']  [aspect ratio, default 1.414, ie A4] [width in pixels, default maximum][height in pixels - overrides monitor size and aspect ratio]\n",
-               page_on, page_back, skip_page);
+        g_print ("Usage: pageturner [delay ms default 30] [page onward, default %d (ie '%c')] [lh page back, default  %d (ie '%c')]  [rh page forward, default  %d (ie '%c')]  [aspect ratio, default 1.414, ie A4] [width in pixels, default maximum][height in pixels - overrides monitor size and aspect ratio]\n",
+               page_on, page_on, page_back, page_back, skip_page, skip_page);
          return -1;
  }
