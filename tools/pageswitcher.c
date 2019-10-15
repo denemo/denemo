@@ -89,13 +89,13 @@ static gchar *help_text =
 " The screen is devoted to two pages so the one you are going to play next is always kept in view"
 "\nControl of page turning is via foot pedals which send key press signals just like those of a normal keyboard."
 " For example, when you are on the right page you press the right foot pedal to go on"
-" and the left transitions to the next page."
+" and the left changes to the next page."
 "The left pedal is for repeats: it moves backwards instead of forwards "
 " to be ready for the start of a repeat.\n"
 " The center pedal moves the next-to-play page onwards for the case where you need to skip forward over a page or pages."
 "\nTo mark up the score for reminders or proof-reading right click with the mouse at the point where you want the annotation to be placed"
 " and choose \"Annotate here\" from the menu. You can drag an annotation if it is misplaced."
-"\nThe menu also lets you delete an annotation, navigate the score, set the speed with which the pages slide etc."
+"\nThe menu also lets you delete an annotation, navigate the score etc."
 "\n Currently Keypresses '%c' to go one page on, '%c' to go back for a repeat and '%c' to skip forward."
 "\nTo change the defaults you can pass values on the command line - type pageturner --help to see the command line usage."
 ;
@@ -542,7 +542,7 @@ static void mark_annotation (Annotation *p)
 static void mark_spot (Annotation *p)
 {
    GdkRGBA color = { 0.98, 0.91, 0.3, 0.8 };
-   Annotation *ann = create_annotation  (" ", p->page, p->x, p->y, "wasy10 Bold 40", &color);
+   Annotation *ann = create_annotation  ("●", p->page, p->x, p->y, "denemo medium 40", &color);
    if (ann)
       {
          annotations = g_list_append (annotations, ann);
@@ -804,7 +804,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   cairo_rel_line_to (cr, -10, -40);
                   cairo_close_path (cr);
                   cairo_set_source_rgba (cr, 0.4, 0.4, 0, 0.8);
-                  cairo_fill_preserve (cr);
+                  cairo_fill (cr);
             }
          else
             {
@@ -828,16 +828,18 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   cairo_rel_line_to (cr, w/2, h);
                   cairo_close_path (cr);
                   cairo_set_source_rgba (cr, 0.4, 0.4, 0, 0.8);
-                  cairo_fill_preserve (cr);
+                  cairo_fill (cr);
             }
       }
       else //pages in order
       {
          if (view == lh_view)
             {
-                  cairo_pattern_t *pat = cairo_pattern_create_linear (width - 20, 0, width, 0);
+                 //a line up the center and triangle at bottom pointing up
+                  
+                  cairo_pattern_t *pat = cairo_pattern_create_linear (width, 0, width, height);
                   cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 0, 0.1);
-                  cairo_pattern_add_color_stop_rgba (pat, 0, 0.2, 0.2, 0, 0.8);
+                  cairo_pattern_add_color_stop_rgba (pat, 0, 0.4, 0.4, 0, 0.8);
                   cairo_rectangle (cr, width - 20, 10, width, height - 50);
                   cairo_set_source (cr, pat);
                   cairo_fill (cr);
@@ -848,16 +850,16 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   cairo_rel_line_to (cr, -w/2, h);
                   cairo_close_path (cr);
                   cairo_set_source_rgba (cr, 0.4, 0.4, 0, 0.8);
-                  cairo_fill_preserve (cr);
+                  cairo_fill (cr);
             }   
             else {
-                  cairo_move_to (cr, 0, 10);
+                  cairo_move_to (cr, -5, 9); //rightwards pointing triangle at top
                   cairo_rel_line_to (cr, 0, w);
                   cairo_rel_line_to (cr, h, -w/2);
                   cairo_rel_line_to (cr, -h, -w/2);
                   cairo_close_path (cr);
                   cairo_set_source_rgba (cr, 0.4, 0.4, 0, 0.8);
-                  cairo_fill_preserve (cr);
+                  cairo_fill (cr);
             }      
       }  
   return FALSE;
