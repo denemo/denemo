@@ -61,8 +61,6 @@ static Page page1, page2;//the two Page objects
 static Page *lh_page, *rh_page;//pointers to the two Page objects.
 static gint num_pages;
 
-static guint timeout=30; //number of milliseconds between transition steps
-
 static  gint x=0;//Window size and position on screen: 0 0 is top left corner of screen
 static  gint y=0;
 static  gint width=0;
@@ -76,7 +74,7 @@ static void goto_page (gint page);//page number starting at 1
 
 static gchar *markings_file = NULL;//full path to file for storing repeat marks and annotations for currently loaded score
 static gboolean markings_unsaved = FALSE; //TRUE when user has created or deleted markings in the current score 
-static gchar page_on = 'c', page_back = 'a', skip_page = 'b';
+static gint page_on = 'c', page_back = 'a', skip_page = 'b';
 static guint64 last_pedal_time = 0;
 
 static void goto_page (gint page);
@@ -877,24 +875,20 @@ int main(int argc, char **argv)
 #endif   
    width = r.width;
    height = 0;
-   if (argc>1)
-      timeout = atoi (argv[1]);
-   if (timeout<0.001)
-      goto error;
-      
-   if (argc>2 && (1 != sscanf (argv[2], "%c", &page_on)))
+ 
+   if (argc>1 && (1 != sscanf (argv[1], "%d", (int*)&page_on)))
     goto error;      
-   if (argc>3 && (1 != sscanf (argv[3], "%c", &page_back)))
+   if (argc>2 && (1 != sscanf (argv[2], "%d", (int*)&page_back)))
     goto error;      
-   if (argc>4 && (1 != sscanf (argv[4], "%c", &skip_page)))
+   if (argc>3 && (1 != sscanf (argv[3], "%d", (int*)&skip_page)))
     goto error;      
 
       
-   if (argc>5 && (1 != sscanf (argv[5], "%lf", &aspect_ratio)))
+   if (argc>4 && (1 != sscanf (argv[4], "%lf", &aspect_ratio)))
     goto error;
-   if (argc>6 && (1 != sscanf (argv[6], "%d", &width)))
+   if (argc>5 && (1 != sscanf (argv[5], "%d", &width)))
     goto error;
-   if (argc>7 && (1 != sscanf (argv[7], "%d", &height)))
+   if (argc>6 && (1 != sscanf (argv[6], "%d", &height)))
     goto error;
    if (height == 0)
          {
@@ -963,7 +957,7 @@ int main(int argc, char **argv)
 
    return 0;  
    error:
-        g_print ("Usage: pageturner [delay ms default 30] [page onward, default %d (ie '%c')] [lh page back, default  %d (ie '%c')]  [rh page forward, default  %d (ie '%c')]  [aspect ratio, default 1.414, ie A4] [width in pixels, default maximum][height in pixels - overrides monitor size and aspect ratio]\n",
+        g_print ("Usage: pageswitcher [page onward, default %d (ie '%c')] [lh page back, default  %d (ie '%c')]  [rh page forward, default  %d (ie '%c')]  [aspect ratio, default 1.414, ie A4] [width in pixels, default maximum][height in pixels - overrides monitor size and aspect ratio]\n",
                page_on, page_on, page_back, page_back, skip_page, skip_page);
          return -1;
  }
