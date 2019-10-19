@@ -381,6 +381,12 @@ static gboolean choose (gchar *filename)
   return FALSE; //remove this callback
 }
 
+static void back_to_main_window ()
+{
+   gtk_widget_grab_focus (score_window);
+   gtk_window_present (GTK_WINDOW (score_window)); 
+}
+
 static void navigate (void)
 {
    static GtkWidget *window = NULL;
@@ -396,10 +402,11 @@ static void navigate (void)
    GtkWidget *spinner = (GtkWidget *) gtk_spin_button_new (GTK_ADJUSTMENT(spinner_adj), 100.0, 0);
    gtk_box_pack_start (GTK_BOX (box), spinner, FALSE, TRUE, 0);
    g_signal_connect (G_OBJECT (spinner), "value-changed", G_CALLBACK (change_page), NULL);
+   g_signal_connect_after (G_OBJECT (spinner),  "value-changed", G_CALLBACK (back_to_main_window), NULL);
 
    gtk_widget_show_all (window);
-   gtk_window_present (GTK_WINDOW (window)); 
 }
+
 
 static Annotation *create_annotation (gchar *text, gint page, gdouble x, gdouble y, gchar *font, GdkRGBA *color)
 {
