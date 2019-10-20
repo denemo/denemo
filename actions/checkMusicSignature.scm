@@ -1,6 +1,6 @@
 ;;;This script requires a Scheme variable DenemoMusicSignature to be set to a list of semitone steps
 ;;;It will test the current denemo score to see if it matches at the opening bars
-(d-GoToPosition 1 1 1 1) ; this could check for the opening bars of each movement by looping with d-NextMovement from here
+(d-GoToPosition DenemoSearchMovement 1 1 1) ; this could check for the opening bars of each movement by looping with d-NextMovement from here
 (disp "\nChecking score " (d-GetFilename))
 (let ((current (d-GetNoteFromTopAsMidi))
         (sig DenemoMusicSignature)
