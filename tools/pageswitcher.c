@@ -24,11 +24,6 @@
 #include<gtk/gtk.h>
 #include <evince-view.h>
 
-#if !((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=18))
-#define gtk_overlay_reorder_overlay(a,b,c) g_critical("Must be Gtk version 3.18 or greater"), exit(-1)
-#endif
-
-
 #define SPOT_SIZE (10) //size of spot for picking out an annotation
 typedef struct Location {
      gint  adj;
@@ -741,7 +736,25 @@ static void draw_page_break (cairo_t *cr)
    cairo_pattern_destroy (pat);
    cairo_fill (cr);
 }
-
+static void graying_page (cairo_t *cr)
+{
+   double x0, y0, x1, y1;
+   x0 = 0;
+   x1 = width;
+   y0 = 0;
+   y1 = height;
+   
+   cairo_pattern_t *pat = cairo_pattern_create_linear (x0, y0, x0, y1);
+   cairo_pattern_add_color_stop_rgba (pat, 1, 0, 0, 0, 0.7);
+   cairo_pattern_add_color_stop_rgba (pat, 0.6, 1, 1, 1, 0.1);
+   cairo_pattern_add_color_stop_rgba (pat, 0.4, 1, 1, 1, 0.0);
+   cairo_pattern_add_color_stop_rgba (pat, 0, 1, 1, 1, 0.0);
+   cairo_rectangle (cr, x0, y0, x1 - x0, y1 - y0);
+   cairo_set_source (cr, pat);
+   cairo_fill (cr);
+   cairo_pattern_destroy (pat);
+   cairo_fill (cr);
+}
 static void draw_text (cairo_t * cr, const char *font, const char *text, double x, double y, gboolean invert)
 {
   //y -= size;
@@ -787,13 +800,15 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
       }
    gint w=20,h=40;
     if (lh_page->pnum != (rh_page->pnum - 1))           
-      {
+      { //pages out-of-order
          if (pnum == lh_page->pnum)
             {
                draw_page_break (cr);
             }   
          if (view == lh_view)
             {
+                  if (pnum + 1 != num_pages) // LAST PAGE SHOULDN't be grayed out
+                     graying_page (cr);
                   cairo_pattern_t *pat = cairo_pattern_create_linear (20, 0, 20, 20);
                   cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 0, 0.1);
                   cairo_pattern_add_color_stop_rgba (pat, 0, 0.2, 0.2, 0, 0.8);
@@ -801,8 +816,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   cairo_set_source (cr, pat);
                   cairo_fill (cr);
                   cairo_pattern_destroy (pat);
-                  
-                  //cairo_set_line_width (cr, 10.0); 
+                  //triangle pointing downwards at top left of left-hand page
                   cairo_move_to (cr, 15, 0);
                   cairo_rel_line_to (cr, w, 0);
                   cairo_rel_line_to (cr, -w/2, h);
@@ -813,6 +827,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
             }
          else
             {
+               //line up right hand side and along top (of right hand page)
                   cairo_pattern_t *pat = cairo_pattern_create_linear (width, 0, width - 20, 0);
                   cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 0, 0.1);
                   cairo_pattern_add_color_stop_rgba (pat, 0, 0.2, 0.2, 0, 0.8);
@@ -827,6 +842,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   cairo_set_source (cr, pat);
                   cairo_fill (cr);
                   cairo_pattern_destroy (pat);
+                  //triangle at bottom right pointing upwards on right-hand page
                   cairo_move_to (cr, width, height - 50);
                   cairo_rel_line_to (cr, -w, 0);
                   cairo_rel_line_to (cr, w/2, -h);
@@ -840,7 +856,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
       {
          if (view == lh_view)
             {
-                 //a line up the center and triangle at bottom pointing up
+                 //a line up the center and triangle at bottom pointing up drawn on the left hand page
                   
                   cairo_pattern_t *pat = cairo_pattern_create_linear (width, 0, width, height);
                   cairo_pattern_add_color_stop_rgba (pat, 1, 1, 1, 0, 0.1);
@@ -857,8 +873,11 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                   cairo_set_source_rgba (cr, 0.4, 0.4, 0, 0.8);
                   cairo_fill (cr);
             }   
-            else {
-                  cairo_move_to (cr, -5, 9); //rightwards pointing triangle at top
+      else {
+                  if (pnum + 1 != num_pages) // LAST PAGE SHOULDN't be grayed out
+                        graying_page (cr);
+                  if (pnum + 1 == num_pages) g_warning ("LAST PAGE SHOULDN't be grayed out\n\n");
+                  cairo_move_to (cr, -5, 9); //rightwards pointing triangle at top drawn on the right hand page
                   cairo_rel_line_to (cr, 0, w);
                   cairo_rel_line_to (cr, h, -w/2);
                   cairo_rel_line_to (cr, -h, -w/2);
