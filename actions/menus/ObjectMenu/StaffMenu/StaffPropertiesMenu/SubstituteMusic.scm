@@ -33,7 +33,9 @@
                     (begin
                         (d-WarningDialog (_ "There are no other staffs for this one to mirror.")))
                     (begin
-                        (set! cuename (RadioBoxMenuList cuename))
+                        (if (number? params)
+                            (set! cuename (cdr (list-ref cuename (1- params))))
+                            (set! cuename (RadioBoxMenuList cuename)))
                         (if cuename
                             (let ((dynamics-staff (cadr cuename)))
                                 (if dynamics-staff
@@ -58,6 +60,4 @@
                                 (d-DirectivePut-standalone-graphic tag (string-append "\n"
                                 (_ "Music here is mirrored from ") (d-DirectiveGet-voice-display tag) "\nDenemo\n20"))
                                 ;;;(d-ToggleCurrentStaffDisplay) dynamics staffs don't display well when hidden
-                                (d-SetSaved #f))))))))
-
-
+                                (d-SetSaved #f))))))))          

@@ -8,7 +8,7 @@
         <action>SubstituteMusic</action>
         <after>NonPrintingStaff</after>
         <_label>Substitute Music (Borrowed/Mirrored)</_label>
-        <_tooltip>Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored.</_tooltip>
+        <_tooltip>Typesets this staff with the music from another staff, ignoring any music entered on this staff. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored. Staff number to mirror is chosen interactively or passed as a parameter to the command.</_tooltip>
       </row>
     </map>
   </merge>
