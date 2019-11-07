@@ -1,2 +1,7 @@
 ;;AddMirrorStaff
-(d-AddMirrorVoice 'staff)
+(let ((params AddMirrorStaff::params))
+    (if (not params)
+        (set! params 'staff))
+    (d-AddMirrorVoice params)
+    (if (number? params)
+        (d-SetCurrentVoiceAsStaff)))

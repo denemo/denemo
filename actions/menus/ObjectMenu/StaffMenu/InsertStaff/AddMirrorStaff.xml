@@ -8,7 +8,7 @@
         <action>AddMirrorStaff</action>
         <after>NewStructuredStaff</after>
         <_label>Add Staff (Borrowed/Mirrored Music)</_label>
-        <_tooltip>Adds a staff whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored. Interactive command: use AddMirrorVoice and SetCurrentVoiceAsStaff for non-interactive use.</_tooltip>
+        <_tooltip>Adds a staff whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored. Staff number to mirror is chosen interactively or passed as a parameter to the command.</_tooltip>
       </row>
     </map>
   </merge>
