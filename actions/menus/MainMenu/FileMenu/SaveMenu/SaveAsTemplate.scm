@@ -2,7 +2,7 @@
 (let ((warning #f))
     (d-GoToPosition 1 1 1 1)
     (if (not (EmptyMeasure?))
-        (if (d-SetSaved)
+        (if (d-GetSaved)
             (let ((choice (RadioBoxMenu (cons (_ "Remove All Music?") 'remove) (cons (_ "Keep Music?") 'keep))))
                 (case choice
                     ((remove)
