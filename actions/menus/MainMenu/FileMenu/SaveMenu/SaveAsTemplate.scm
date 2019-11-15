@@ -10,7 +10,8 @@
                             (if (d-Directive-standalone? "DenemoLink")
                                 (begin
                                     (d-SetMark)
-                                    (d-Copy)))
+                                    (d-Copy))
+                                (d-ClearClipboard))
                             (d-DirectiveDelete-scoreheader "ScoreIncipit")
                             (d-DeleteFromCursorToEnd 'all)
                             (let loop () 
