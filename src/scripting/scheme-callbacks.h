@@ -338,6 +338,7 @@ SCM scheme_select_first_layout (void);
 SCM scheme_select_next_custom_layout (void);
 SCM scheme_select_first_custom_layout (void);
 SCM scheme_get_filename (void);
+SCM scheme_clear_filename (void);
 SCM scheme_select_tab (SCM index);
 SCM scheme_compare_objects (SCM index1, SCM index2, SCM move);
 SCM scheme_difference_of_staffs (SCM index1, SCM index2, SCM move);

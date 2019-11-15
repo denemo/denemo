@@ -24,6 +24,7 @@
 #include "export/audiofile.h"
 #include "export/guidedimportmidi.h"
 #include "export/print.h"
+#include "export/file.h"
 #include "export/exportmidi.h"
 #include "ui/markup.h"
 #include "ui/keysigdialog.h"
@@ -1411,6 +1412,18 @@ scheme_get_filename (void)
     return scm_from_locale_string (Denemo.project->filename->str);
   return SCM_BOOL_F;
 }
+
+SCM
+scheme_clear_filename (void)
+{
+  if (Denemo.project && Denemo.project->filename)
+    {
+      set_project_filename (Denemo.project, "");
+      return SCM_BOOL_T;
+    } else
+    return SCM_BOOL_F;
+}
+
 
 SCM
 scheme_select_tab (SCM index)

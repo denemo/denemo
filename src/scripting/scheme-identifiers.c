@@ -1210,6 +1210,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextCustomLayout", scheme_select_next_custom_layout);
   install_scm_function (0, "Selects the first custom score layout.", DENEMO_SCHEME_PREFIX "SelectFirstCustomLayout", scheme_select_first_custom_layout);
   
+  install_scm_function (0, "Removes the associaton between the current score and its file, the current score becomes Untitled.", DENEMO_SCHEME_PREFIX "ClearFilename", scheme_clear_filename);
   install_scm_function (0, "Returns the full path to the currently opened Denemo score or #f if it does not have a disk file yet.", DENEMO_SCHEME_PREFIX "GetFilename", scheme_get_filename);
   install_scm_function (0, "Selects the nth open score (i.e. tab) indexed from 0, returns the current tab", DENEMO_SCHEME_PREFIX "SelectTab", scheme_select_tab);
   install_scm_function (3, "Takes two tab indexes and optional move parameter. Compares the current objects from the cursors in the two passed scores (i.e. tabs). Returns a string describing the first difference, placing the cursors on the differing objects else returs #f. Unless move is #f it moves the cursor right before starting comparisons.", DENEMO_SCHEME_PREFIX "CompareObjects", scheme_compare_objects);
