@@ -320,7 +320,7 @@ bookTitle =
    (make-music 'Music 'void #t))
 
 chapter =
-#(define-music-function (parser location title) (string?)
+#(define-music-function (parser location title) (markup?)
   (increase-rehearsal-major-number)
   (add-page-break parser)
   (add-toc-item parser 'tocChapterMarkup title)
@@ -341,8 +341,7 @@ piece =
 #(define-music-function (parser location title) (markup?)
   (add-toc-item parser 'tocPieceMarkup title)
   (add-no-page-break parser)
-  (if (*use-rehearsal-numbers*)
-      (add-toplevel-markup parser (markup #:rehearsal-number (rehearsal-number))))
+  (add-toplevel-markup parser (markup #:piece-title (string-upper-case title)))
   (add-no-page-break parser)
   (make-music 'Music 'void #t))
                         
