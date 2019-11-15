@@ -8424,6 +8424,13 @@ if you include the same note many times you will get that one more often.
 You can cheat by looking at the Denemo cursor position.
 Invoke the command again to stop.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>NewScoreFromCurrent</action>
+        <after>NewWindow</after>
+        <menupath>/MainMenu/FileMenu</menupath>
+        <_label>New from Current</_label>
+        <_tooltip>Creates a new score from the current score omitting the actual music and prompting for  possible new values for clef, key, time signature, titles etc.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

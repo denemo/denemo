@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>NewScoreFromCurrent</action>
+        <after>NewWindow</after>
+        <_label>New from Current</_label>
+        <_tooltip>Creates a new score from the current score omitting the actual music and prompting for  possible new values for clef, key, time signature, titles etc.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
