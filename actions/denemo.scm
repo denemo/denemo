@@ -1264,8 +1264,8 @@
                 (if (and (not score) (not (d-Directive-scoreheader? "ScoreTitles")))
                         (DenemoSetTitles "ScoreTitles" 'initialize #f))))
                         
-(define (form-pair name title)
-    (string-append "(cons '" name (if (string? title) (string-append " \"" (scheme-escape title) "\"") " #f") ")"))
+    (define (form-pair name title)
+        (string-append "(cons '" name (if (string? title) (string-append " \"" (scheme-escape title) "\"") " #f") ")"))
 ;;; procedure starts here
         (if score
             (set! data (d-DirectiveGet-scoreheader-data tag))
