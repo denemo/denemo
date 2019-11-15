@@ -272,13 +272,13 @@ set_gui_tabname (DenemoProject * gui, gchar * filename)
  * Sets the filename for storing the passed in gui.
  * and adds it to the history
  */
-static void
-set_project_filename (DenemoProject * gui, gchar * filename)
+void set_project_filename (DenemoProject * gui, gchar * filename)
 {
   GList *link = NULL;
   g_string_assign (gui->filename, filename);
   set_gui_tabname (gui, filename);
-
+  if (*filename == 0)
+    return;
   if ((link = g_queue_find_custom (Denemo.prefs.history, gui->filename->str, &history_compare)))
      g_queue_remove (Denemo.prefs.history, link->data);
   if (Denemo.prefs.maxhistory>0)

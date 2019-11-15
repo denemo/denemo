@@ -51,6 +51,7 @@ void openrecent (GtkWidget * widget, gchar * filename);
 gint open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, ImportType type);
 
 gchar *file_dialog (gchar * message, gboolean type, gchar * location);
+void set_project_filename (DenemoProject * gui, gchar * filename);
 
 gint lyinput (gchar * filename);
 gint open_source_file (void);
