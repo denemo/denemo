@@ -19,10 +19,13 @@
                         (d-PushPosition)
                         (while (d-MoveToStaffUp))
                         (let loop ((count 0))
-                            (set! voicenames (cons 
-                                (cons (unique-staff-name)  (cons  (unique-staff-name)
-                                          (cons (if (d-Directive-staff? "DynamicsStaff") "(d-DynamicsStaff 'noninteractive)" #f) (string-append "{" (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond) "\\" (d-GetVoiceIdentifier) " } \\void "))))
-                                                 voicenames))      
+                            (set! voicenames (cons
+                                (cons (unique-staff-name)  
+                                	(cons  (unique-staff-name)
+                                          (cons (if (d-Directive-staff? "DynamicsStaff") "(d-DynamicsStaff 'noninteractive)" #f) 
+                                          	(cons (string-append "{" (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond) "\\" (d-GetVoiceIdentifier) " } \\void ")
+                                          	 (number->string (1+ count))))))
+                                                 	voicenames))
                             (if (d-MoveToStaffDown)
                                 (loop (1+ count))))
                         (d-PopPosition)
@@ -40,7 +43,8 @@
                             (let ((dynamics-staff (cadr cuename)))
                                 (if dynamics-staff
                                     (eval-string dynamics-staff))
-                                (d-DirectivePut-voice-prefix tag (cddr cuename))    
+                                (d-DirectivePut-voice-prefix tag (caddr cuename))    
+                                (d-DirectivePut-voice-data tag (cdddr cuename))
                                 (d-DirectivePut-voice-override tag  (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_GRAPHIC))
                                 (d-DirectivePut-voice-display tag (car cuename))
                                 (d-SetColorOfStaff #xF0202000)
