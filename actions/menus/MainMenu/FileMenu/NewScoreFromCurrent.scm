@@ -37,6 +37,7 @@
            (let ()
                 (define (delete-music)
                         (let loop ()
+                                (while (d-GetVerseNumber) (d-DeleteVerse))
                                 (while (Music?)
                                         (d-DeleteObject))
                                 (if (and (d-MoveCursorRight) (not (Appending?)))
