@@ -32,23 +32,30 @@
             (if staff-num
                 (d-SubstituteMusic (string->number staff-num)))))
 
-    (d-GoToPosition 1 1 1 1)
+
     (if (d-GetSaved)
-           (begin
-                (if (d-Directive-standalone? "DenemoLink")
-                    (begin
-                        (d-SetMark)
-                        (d-Copy))
-                     (d-ClearClipboard))
+           (let ()
+                (define (delete-music)
+                        (let loop ()
+                                (while (Music?)
+                                        (d-DeleteObject))
+                                (if (and (d-MoveCursorRight) (not (Appending?)))
+                                        (loop))))
+                
                 (d-DirectiveDelete-scoreheader "ScoreIncipit")
-                (d-DeleteFromCursorToEnd 'all)
+                (if (d-GoToPosition 1 1 2 1) ;;leave first measure
+                        (d-DeleteFromCursorToEnd 'all))
+                (d-GoToPosition 1 1 1 1)
+                (delete-music)
+                (while (d-StaffDown)
+                        (delete-music))
+                (d-GoToPosition 1 1 1 1)                
                 (let loop () 
                     (if (d-NextMovement)
                         (begin 
                             (d-DeleteMovement)
                             (d-GoToPosition 1 1 1 1) 
                              (loop))))
-                (d-Paste)
                 (let ((key (d-GetPrevailingKeysigName)))
                     (set! key (d-GetUserInput (_ "Create Template") (_ "Give key") key))
                     (if key
