@@ -2540,10 +2540,10 @@ static gchar *create_new_condition (void)
     gchar *name = string_dialog_entry (Denemo.project, _("New Omission Criterion"), _("Give a name for this new criterion"), _("Not transposed"));
     if (name)
       {
-        DenemoNamedCondition *condition = g_malloc (sizeof (DenemoNamedCondition));
+        DenemoOmissionCriterion *condition = g_malloc (sizeof (DenemoOmissionCriterion));
         condition->name = name;
         condition->id = get_layout_id_for_name (name);
-        Denemo.project->conditions = g_list_append (Denemo.project->conditions, condition);
+        Denemo.project->criteria = g_list_append (Denemo.project->criteria, condition);
         conditions_menu ();
       }
 }
@@ -2551,32 +2551,32 @@ static gchar *create_new_condition (void)
 static GtkWidget *condition_button; 
 
 
-static void  set_condition (DenemoNamedCondition *condition)
+void  set_condition (DenemoOmissionCriterion *condition)
   {
-    Denemo.project->condition = condition;
+    Denemo.project->criterion = condition;
     gchar *text = condition? g_strdup_printf ("%s", condition->name) : g_strdup (NO_CONDITION_LABEL);
     gtk_button_set_label (GTK_BUTTON (condition_button), text);
     g_free (text);
     update_standard_scoreblocks ();
   }
   
-static void drop_condition (DenemoNamedCondition *condition)
+static void drop_condition (DenemoOmissionCriterion *condition)
 {
   g_free (condition->name);
-  Denemo.project->conditions = g_list_remove (Denemo.project->conditions, condition);
-  Denemo.project->condition = NULL;
+  Denemo.project->criteria = g_list_remove (Denemo.project->criteria, condition);
+  Denemo.project->criterion = NULL;
   gtk_button_set_label (GTK_BUTTON (condition_button), NO_CONDITION_LABEL);
 }
 void delete_conditions (DenemoProject *gui)
 {
   GList *g;
-  for (g=gui->conditions;g;g=g->next)
+  for (g=gui->criteria;g;g=g->next)
     {
-      g_free (((DenemoNamedCondition*)g->data)->name);
+      g_free (((DenemoOmissionCriterion*)g->data)->name);
     }
-  g_list_free (gui->conditions);
-  gui->condition = NULL;
-  gui->conditions = NULL;
+  g_list_free (gui->criteria);
+  gui->criterion = NULL;
+  gui->criteria = NULL;
   gtk_button_set_label (GTK_BUTTON (condition_button), NO_CONDITION_LABEL);
 }
 static GtkWidget *get_conditions_menu (void)
@@ -2586,7 +2586,7 @@ static GtkWidget *get_conditions_menu (void)
   GList *g;
   menu = gtk_menu_new ();
   
-  if (Denemo.project->condition)
+  if (Denemo.project->criterion)
     {
      item = gtk_menu_item_new_with_label (_("Unconditional Typesetting"));
       gtk_widget_set_tooltip_text (item, _("Typesetting will ignore any omission criteria that may have been set on Denemo Directives."));
@@ -2599,10 +2599,10 @@ static GtkWidget *get_conditions_menu (void)
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (create_new_condition), NULL);
       
-  for (g=Denemo.project->conditions;g;g=g->next)
+  for (g=Denemo.project->criteria;g;g=g->next)
     {
-      DenemoNamedCondition *condition = g->data;
-      if (condition == Denemo.project->condition)
+      DenemoOmissionCriterion *condition = g->data;
+      if (condition == Denemo.project->criterion)
         continue;
       gchar *text = g_strdup_printf ("%s%s", _("Omit: "), condition->name);
       item = gtk_menu_item_new_with_label (text);
@@ -2612,14 +2612,14 @@ static GtkWidget *get_conditions_menu (void)
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_condition), g->data);
     }
     
- if (Denemo.project->condition)
+ if (Denemo.project->criterion)
     {
-      gchar *text = g_strdup_printf ("%s %s", _("Destroy criterion:"),  Denemo.project->condition->name);
+      gchar *text = g_strdup_printf ("%s %s", _("Destroy criterion:"),  Denemo.project->criterion->name);
       item = gtk_menu_item_new_with_label (text);
       g_free (text);
       gtk_widget_set_tooltip_text (item, _("No longer use this as an omission criterion for this score"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (drop_condition), Denemo.project->condition);       
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (drop_condition), Denemo.project->criterion);       
     }    
     
   gtk_widget_show_all (menu);

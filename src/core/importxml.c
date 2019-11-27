@@ -1194,10 +1194,10 @@ parseOmissionCriterion (xmlNodePtr parentElem, DenemoProject *gui)
 
   gchar *name = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
   guint id = get_layout_id_for_name (name);
-  DenemoNamedCondition *condition = g_malloc (sizeof (DenemoNamedCondition));
+  DenemoOmissionCriterion *condition = g_malloc (sizeof (DenemoOmissionCriterion));
   condition->name = name;
   condition->id = id;
-  gui->conditions = g_list_append (gui->conditions, condition);
+  gui->criteria = g_list_append (gui->criteria, condition);
 
 }
 

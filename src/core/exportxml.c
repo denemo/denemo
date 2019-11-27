@@ -1166,9 +1166,9 @@ exportXML (gchar * thefilename, DenemoProject * gui)
     newRhythmsElem (scoreElem, ns, gui->rhythms);
     
   GList *conditions;
-  for (conditions = gui->conditions; conditions; conditions = conditions->next)
+  for (conditions = gui->criteria; conditions; conditions = conditions->next)
     {
-      DenemoNamedCondition *condition = (DenemoNamedCondition *)conditions->data;
+      DenemoOmissionCriterion *condition = (DenemoOmissionCriterion *)conditions->data;
       xmlNewTextChild (scoreElem, ns, (xmlChar *) "omission-criterion", (xmlChar *) (condition->name));
     }
     

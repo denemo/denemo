@@ -1309,10 +1309,10 @@ static GList *remove_layout (GList *layouts, guint id)
 static gboolean is_omission_criterion (guint id)
   {
     GList *g;
-    if (Denemo.project->conditions)
-      for (g=Denemo.project->conditions; g; g = g->next)
+    if (Denemo.project->criteria)
+      for (g=Denemo.project->criteria; g; g = g->next)
         {
-          DenemoNamedCondition *condition = g->data;
+          DenemoOmissionCriterion *condition = g->data;
           if (condition->id == id)
             return TRUE;
         }
@@ -1334,7 +1334,7 @@ static void action_ignore (DenemoDirective *directive, guint value) {
                  directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to ignored layouts\n", value);
                 }
             else {
-                    if (Denemo.project->condition && (value == Denemo.project->condition->id))
+                    if (Denemo.project->criterion && (value == Denemo.project->criterion->id))
                       directive->layouts = g_list_append (directive->layouts, GUINT_TO_POINTER(value)); //an omission criterion is always added
                     else
                       {
@@ -2911,10 +2911,10 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   else
     {
  
-        if (Denemo.project->condition && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->condition->id))>=0)
+        if (Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
           {
-            gchar *name = Denemo.project->condition->name;
-            guint id = Denemo.project->condition->id;
+            gchar *name = Denemo.project->criterion->name;
+            guint id = Denemo.project->criterion->id;
             gchar *text = g_strdup_printf ("%s%s", _("Turned off by omission criterion: "), name);
             button = gtk_button_new_with_label (text);
             g_free (text);
@@ -4016,7 +4016,7 @@ REORDER_TAG (movementcontrol, directives);
 
 gboolean wrong_layout (DenemoDirective *directive, guint id)
 {
- if (directive->layouts && Denemo.project->condition && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->condition->id))>=0)
+ if (directive->layouts && Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
     return TRUE; // an omit criterion always means omit
     
  if (Denemo.pending_layout_id)

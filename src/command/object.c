@@ -1337,10 +1337,10 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
   gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);
   if (directive && directive->tag)
     {
-       if (Denemo.project->condition && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->condition->id))>=0)
+       if (Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
         {
-          gchar *name = Denemo.project->condition->name;
-          guint id = Denemo.project->condition->id;
+          gchar *name = Denemo.project->criterion->name;
+          guint id = Denemo.project->criterion->id;
           gchar *text = g_strdup_printf ("%s%s%s", _("Omission Criterion: "), name, _(" is set on this Directive"));
           gchar *text2 = g_strdup_printf ("%s%s%s%s%s", _("Remove: "), ("\""), name, ("\""), _(" from this Directive"));
           g_free (script);
@@ -1361,8 +1361,8 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
 
 static void standalone_with_omission_criterion (DenemoDirective *directive)
     {
-    gchar *name = Denemo.project->condition->name;
-    guint id = Denemo.project->condition->id;
+    gchar *name = Denemo.project->criterion->name;
+    guint id = Denemo.project->criterion->id;
     gchar *text = g_strdup_printf ("%s%s%s", _("Omission Criterion: "), name, _(" is set on this Directive"));
     gchar *text2 = g_strdup_printf ("%s%s%s%s%s", _("Remove: "), ("\""), name, ("\""), _(" from this Directive"));
     if (confirm_first_choice (text, text2, "Leave as is"))
@@ -2126,7 +2126,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
           {
             button = gtk_button_new_with_label (_("Conditional"));
             set_foreground_color (button, "#000080");
-            if (Denemo.project->condition && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->condition->id))>=0)
+            if (Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
                 g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (standalone_with_omission_criterion), (gpointer) directive);
             else
                 g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), (gpointer) "(d-ChooseCondition #f)");
