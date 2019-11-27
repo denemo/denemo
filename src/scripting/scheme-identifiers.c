@@ -1209,6 +1209,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Selects the first score layout.", DENEMO_SCHEME_PREFIX "SelectFirstLayout", scheme_select_first_layout);
   install_scm_function (0, "Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextCustomLayout", scheme_select_next_custom_layout);
   install_scm_function (0, "Selects the first custom score layout.", DENEMO_SCHEME_PREFIX "SelectFirstCustomLayout", scheme_select_first_custom_layout);
+  install_scm_function (0, "If there is a current omission criterion set in the Print View this returns it as a pair (name id), else returns #f", DENEMO_SCHEME_PREFIX "GetOmitCriterion", scheme_get_omit_criterion);
+  install_scm_function (0, "Returns a list of omission criteria defined for the current score", DENEMO_SCHEME_PREFIX "GetOmitCriteria", scheme_get_omit_criteria);
   
   install_scm_function (0, "Removes the associaton between the current score and its file, the current score becomes Untitled.", DENEMO_SCHEME_PREFIX "ClearFilename", scheme_clear_filename);
   install_scm_function (0, "Returns the full path to the currently opened Denemo score or #f if it does not have a disk file yet.", DENEMO_SCHEME_PREFIX "GetFilename", scheme_get_filename);

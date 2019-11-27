@@ -23,6 +23,7 @@
 #include "display/calculatepositions.h"
 #include "command/scorelayout.h"
 #include "audio/pitchentry.h"
+#include "printview/printview.h"
 #include <string.h>
 #include "core/cache.h"
 
@@ -280,13 +281,13 @@ addContext (gchar * string)
 
 static GList *parseLayouts (xmlNodePtr parentElem)
 {
-    GList *g = NULL;
-   xmlNodePtr childElem;
+  GList *g = NULL;
+  xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
     g = g_list_append (g,  GUINT_TO_POINTER(getXMLUIntChild(childElem)));
-    }
-return g;
+  }
+  return g;
 }
 static void
 parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
@@ -1179,6 +1180,30 @@ parseSources (xmlNodePtr parentElem)
   FOREACH_CHILD_ELEM (childElem, parentElem) sources = g_list_append (sources, parseSource (childElem));
   return sources;
 }
+
+
+
+/**
+ * Parse the given omission criterion element.
+ *
+ * @param chordElem the XML node to process
+ * @param  Denemo project  */
+static void
+parseOmissionCriterion (xmlNodePtr parentElem, DenemoProject *gui)
+{
+
+  gchar *name = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  guint id = get_layout_id_for_name (name);
+  DenemoNamedCondition *condition = g_malloc (sizeof (DenemoNamedCondition));
+  condition->name = name;
+  condition->id = id;
+  gui->conditions = g_list_append (gui->conditions, condition);
+
+}
+
+
+
+
 DenemoScrollPoint *parseScrollPoint (xmlNodePtr parentElem)
 {   xmlNodePtr childElem;
     DenemoScrollPoint *sp = (DenemoScrollPoint*)g_malloc (sizeof (DenemoScrollPoint));
@@ -2994,6 +3019,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
         case REPLACE_SCORE:
           free_movements (gui);
           deleteSchemeText ();
+          delete_conditions (gui);
           gui->has_script = FALSE;
           reset_editing_timer ();
           gui->total_edit_time = 0;
@@ -3036,6 +3062,10 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               {
                 parseSourceFileElem (childElem, gui);
               }
+            else if (ELEM_NAME_EQ (childElem, "omission-criterion"))
+              {
+                parseOmissionCriterion (childElem, gui);
+              }              
             else if (ELEM_NAME_EQ (childElem, "rhythms"))
               {
                 parseRhythmsElem (childElem, gui);

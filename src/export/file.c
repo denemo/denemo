@@ -1300,6 +1300,7 @@ file_newwrapper (DenemoAction * action, DenemoScriptParam * param)
       deletescore (NULL, gui);
     }
   deleteSchemeText ();
+  delete_conditions (gui);
   gui->has_script = FALSE;
   set_enharmonic_position (0);
  // if (Denemo.printarea)

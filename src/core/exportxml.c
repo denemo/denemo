@@ -1164,10 +1164,15 @@ exportXML (gchar * thefilename, DenemoProject * gui)
 
   if (gui->rhythms)
     newRhythmsElem (scoreElem, ns, gui->rhythms);
-
+    
+  GList *conditions;
+  for (conditions = gui->conditions; conditions; conditions = conditions->next)
+    {
+      DenemoNamedCondition *condition = (DenemoNamedCondition *)conditions->data;
+      xmlNewTextChild (scoreElem, ns, (xmlChar *) "omission-criterion", (xmlChar *) (condition->name));
+    }
+    
   /* lilycontrol for the whole musical score */
-
-
   parentElem = xmlNewChild (scoreElem, ns, (xmlChar *) "lilycontrol", NULL);
 #define NEWCHILD(field) if(gui->lilycontrol.field->len) \
                        xmlNewTextChild (parentElem, ns, (xmlChar *) #field,\

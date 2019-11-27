@@ -6,11 +6,15 @@
 #include "printview/printview.h"
 #include "export/print.h"
 #include "core/view.h"
+#include "core/menusystem.h"
 #include "scripting/scheme-callbacks.h"
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
 #include "source/sourceaudio.h"
+
+#define NO_CONDITION_LABEL _( "No Omission Criterion Set")
+
 
 static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
 static gchar *thumbnailsdirN = NULL;
@@ -219,8 +223,10 @@ set_printarea_doc (EvDocument * doc)
     {
       ev_document_model_set_page_layout (model, EV_PAGE_LAYOUT_SINGLE);
     }
-#else       
+#else 
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS      
      ev_document_model_set_dual_page (model, dual);
+G_GNUC_BEGIN_IGNORE_DEPRECATIONS
 #endif
   get_wysiwyg_info ()->Mark.width = 0;  //indicate that there should no longer be any Mark placed on the score
 }
@@ -2528,6 +2534,113 @@ get_updates_button (void)
   return button;
 }
 
+static void conditions_menu (void);
+static gchar *create_new_condition (void)
+{
+    gchar *name = string_dialog_entry (Denemo.project, _("New Omission Criterion"), _("Give a name for this new criterion"), _("Not transposed"));
+    if (name)
+      {
+        DenemoNamedCondition *condition = g_malloc (sizeof (DenemoNamedCondition));
+        condition->name = name;
+        condition->id = get_layout_id_for_name (name);
+        Denemo.project->conditions = g_list_append (Denemo.project->conditions, condition);
+        conditions_menu ();
+      }
+}
+
+static GtkWidget *condition_button; 
+
+
+static void  set_condition (DenemoNamedCondition *condition)
+  {
+    Denemo.project->condition = condition;
+    gchar *text = condition? g_strdup_printf ("%s", condition->name) : g_strdup (NO_CONDITION_LABEL);
+    gtk_button_set_label (GTK_BUTTON (condition_button), text);
+    g_free (text);
+    update_standard_scoreblocks ();
+  }
+  
+static void drop_condition (DenemoNamedCondition *condition)
+{
+  g_free (condition->name);
+  Denemo.project->conditions = g_list_remove (Denemo.project->conditions, condition);
+  Denemo.project->condition = NULL;
+  gtk_button_set_label (GTK_BUTTON (condition_button), NO_CONDITION_LABEL);
+}
+void delete_conditions (DenemoProject *gui)
+{
+  GList *g;
+  for (g=gui->conditions;g;g=g->next)
+    {
+      g_free (((DenemoNamedCondition*)g->data)->name);
+    }
+  g_list_free (gui->conditions);
+  gui->condition = NULL;
+  gui->conditions = NULL;
+  gtk_button_set_label (GTK_BUTTON (condition_button), NO_CONDITION_LABEL);
+}
+static GtkWidget *get_conditions_menu (void)
+{
+  GtkWidget *menu;
+  GtkWidget *item;
+  GList *g;
+  menu = gtk_menu_new ();
+  
+  if (Denemo.project->condition)
+    {
+     item = gtk_menu_item_new_with_label (_("Unconditional Typesetting"));
+      gtk_widget_set_tooltip_text (item, _("Typesetting will ignore any omission criteria that may have been set on Denemo Directives."));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_condition), NULL);
+    }
+  
+  item = gtk_menu_item_new_with_label (_("New Named Omission Criterion"));
+  gtk_widget_set_tooltip_text (item, _("Create a new omission criterion to say which condtional directives should be ignored."));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (create_new_condition), NULL);
+      
+  for (g=Denemo.project->conditions;g;g=g->next)
+    {
+      DenemoNamedCondition *condition = g->data;
+      if (condition == Denemo.project->condition)
+        continue;
+      gchar *text = g_strdup_printf ("%s%s", _("Omit: "), condition->name);
+      item = gtk_menu_item_new_with_label (text);
+      g_free (text);
+      gtk_widget_set_tooltip_text (item, _("Select this as the active omission criterion"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_condition), g->data);
+    }
+    
+ if (Denemo.project->condition)
+    {
+      gchar *text = g_strdup_printf ("%s %s", _("Destroy criterion:"),  Denemo.project->condition->name);
+      item = gtk_menu_item_new_with_label (text);
+      g_free (text);
+      gtk_widget_set_tooltip_text (item, _("No longer use this as an omission criterion for this score"));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (drop_condition), Denemo.project->condition);       
+    }    
+    
+  gtk_widget_show_all (menu);
+ return menu;
+}
+
+static void conditions_menu (void)
+{
+  gtk_menu_popup (GTK_MENU (get_conditions_menu ()), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+}
+static GtkWidget *
+create_condition_button (void)
+{
+  condition_button = gtk_button_new_with_label (NO_CONDITION_LABEL);
+  gtk_widget_set_tooltip_text (condition_button, _("Make an ommision criterion active. Any directive set to be ignored for the named criterion will not affect the typesetting."));
+  g_signal_connect (condition_button, "clicked", G_CALLBACK (conditions_menu), NULL);
+  return condition_button;
+}
+
+
+
 //pops up a menu of layouts with the action being to typeset that layout. If only one, typeset that.
 static void
 popup_layouts_menu (void)
@@ -2587,11 +2700,17 @@ install_printpreview (GtkWidget * top_vbox)
   g_signal_connect (button, "clicked", G_CALLBACK (typeset_action), NULL);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
+  button = create_condition_button ();
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  //(void) get_conditions_menu ();     //this is to initialize the conditions available
+//  hbox = gtk_hbox_new (FALSE, 1);
+//  gtk_box_pack_end (GTK_BOX (main_hbox), hbox, FALSE, TRUE, 0);
+  
   button = get_updates_button ();
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
   (void) get_updates_menu (button);     //this is to initialize the continuous/manual state
-  hbox = gtk_hbox_new (FALSE, 1);
-  gtk_box_pack_end (GTK_BOX (main_hbox), hbox, FALSE, TRUE, 0);
+//  hbox = gtk_hbox_new (FALSE, 1);
+//  gtk_box_pack_end (GTK_BOX (main_hbox), hbox, FALSE, TRUE, 0);
 
 
   button = gtk_button_new_with_label (_("Duplex"));

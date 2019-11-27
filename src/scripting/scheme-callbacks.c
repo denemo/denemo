@@ -1406,6 +1406,27 @@ scheme_select_first_custom_layout (void)
 }
 
 SCM
+scheme_get_omit_criterion (void)
+{
+  if (Denemo.project->condition)
+    return scm_cons (scm_from_locale_string (Denemo.project->condition->name), scm_from_int (Denemo.project->condition->id));
+  else return SCM_BOOL_F;
+}
+SCM
+scheme_get_omit_criteria (void)
+{
+  GList *g;
+  SCM ret = scm_list_n (SCM_UNDEFINED);
+  for (g=Denemo.project->conditions; g; g=g->next)
+    {
+      DenemoNamedCondition *condition = g->data;
+      ret = scm_cons (scm_cons (scm_from_locale_string (condition->name), scm_from_int (condition->id)), ret);
+    }
+  return ret;
+}
+
+
+SCM
 scheme_get_filename (void)
 {
   if (Denemo.project && Denemo.project->filename && Denemo.project->filename->len && strcmp ("Unnamed", Denemo.project->filename->str))

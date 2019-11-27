@@ -1042,21 +1042,17 @@ create_duplicate_directive (GtkWidget * button, gchar * what)
   DenemoPalette *pal = NULL;
   GList **directives = (GList **) g_object_get_data (G_OBJECT (button), "directives");
   gpointer rerun = get_rerun (what);
-  DenemoScoreblock *sb = (DenemoScoreblock *) selected_scoreblock ();
   if (directive && directives)
     {
-      gchar *tag_suffix = string_dialog_entry (Denemo.project, _("Duplicate Directive"), _("Give layout duplicate directive is for: "), (sb && sb->name) ? sb->name : _("Score"));
+      gchar *tag_suffix = string_dialog_entry (Denemo.project, _("Duplicate Directive"), _("Give name identifying purpose of this duplicate "), _("Transposed Version"));
       if (tag_suffix)
         {
           DenemoDirective *newdirective = clone_directive (directive);
           newdirective->tag = g_string_new (g_strdup_printf ("%s\n%s", directive->tag->str, tag_suffix));
-          *directives = g_list_append (*directives, newdirective);      //g_print ("override was %x", newdirective->override);
-          newdirective->override &= ~DENEMO_OVERRIDE_GRAPHIC;   //g_print ("override becomes %x", newdirective->override);
+          *directives = g_list_append (*directives, newdirective);
+          newdirective->override &= ~DENEMO_OVERRIDE_GRAPHIC;
 
-          newdirective->flag = DENEMO_ALLOW_FOR_LAYOUTS;
-          newdirective->layouts = g_list_append (NULL, GUINT_TO_POINTER (get_layout_id_for_name (tag_suffix)));
-          gchar *info = g_strdup_printf ("%s: %c%s%c %s", _("The duplicate will be typeset only for layout: "), '\"', tag_suffix, '\"',
-                                         _("The original directive should be made to ignore that layout even though later directives generally override earlier ones. The duplicate directive will appear at the end of the directives of its type in the editor, tagged with the name of the layout (you can change the conditional behavior regardless of this name though). "));
+          gchar *info = g_strdup_printf ("%s", _("The duplicate directive will appear at the end of the directives, so it will override the original. Use the Conditional button to choose which directive is active for an omission criterion or for specific layouts."));
           warningdialog (info);
           g_free (info);
           gtk_widget_destroy (gtk_widget_get_toplevel (button));
@@ -1327,7 +1323,7 @@ static void
 make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
 {
   static gboolean notwarned = TRUE;
-  if (Denemo.project->custom_scoreblocks)
+  if (Denemo.project->custom_scoreblocks && notwarned)
     {
       warningdialog (_("You have custom score layout(s). Making this directive conditional will not affect them until you Reload Score-wide Settings in the Score Layout view."));
       notwarned = FALSE;
@@ -1338,17 +1334,42 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
   rerun = g_object_get_data (G_OBJECT (button), "rerun");
   if (!rerun) rerun = dummy_rerun;
   field = (const gchar *) g_object_get_data (G_OBJECT (button), "field");
+  gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);
   if (directive && directive->tag)
     {
-      gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);       // g_print ("Calling %s\n\n", script);
+       if (Denemo.project->condition && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->condition->id))>=0)
+        {
+          gchar *name = Denemo.project->condition->name;
+          guint id = Denemo.project->condition->id;
+          gchar *text = g_strdup_printf ("%s%s%s", _("Omission Criterion: "), name, _(" is set on this Directive"));
+          gchar *text2 = g_strdup_printf ("%s%s%s%s%s", _("Remove: "), ("\""), name, ("\""), _(" from this Directive"));
+          g_free (script);
+          script = NULL;
+          if (confirm_first_choice (text, text2, "Leave as is"))
+            directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(id));
+          else
+           script = g_strdup_printf ("(SetDirectiveConditionalOnLayout  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);
+        }
       signal_structural_change (Denemo.project);        //changing the conditional behavior of non-object directives requires score layouts to be reconstructed
-      call_out_to_guile (script);
+      if (script)
+        call_out_to_guile (script);
       g_free (script);
       score_status (Denemo.project, TRUE);
     }
   G_CALLBACK (rerun) ();
 }
 
+static void standalone_with_omission_criterion (DenemoDirective *directive)
+    {
+    gchar *name = Denemo.project->condition->name;
+    guint id = Denemo.project->condition->id;
+    gchar *text = g_strdup_printf ("%s%s%s", _("Omission Criterion: "), name, _(" is set on this Directive"));
+    gchar *text2 = g_strdup_printf ("%s%s%s%s%s", _("Remove: "), ("\""), name, ("\""), _(" from this Directive"));
+    if (confirm_first_choice (text, text2, "Leave as is"))
+      directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(id));
+    else
+     call_out_to_guile ("(d-ChooseCondition #f)");
+    }
 
 static void
 install_conditional_button (GtkWidget * hbox, DenemoDirective * directive, gchar * field)
@@ -2061,15 +2082,9 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
         gchar *filename = get_editscript_filename (directive->tag->str);
         GtkWidget *frame = gtk_frame_new (_("Standalone Denemo Directive:"));
         gtk_frame_set_shadow_type ((GtkFrame *) frame, GTK_SHADOW_IN);
-        //GdkRGBA color;
-        //get_color (&color, 0.5, 0.5, 0.1, 1.0); // .red = 0.5;
-        //color.green = 0.5; color.blue = 0.1; color.alpha = 1;
-        //gtk_widget_override_color (frame, GTK_STATE_FLAG_NORMAL, &color);
         set_foreground_color (frame, "rgb(128,128,25)");
         gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
         GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-        //get_color (&color, 0.8, 0.1, 0.1, 1.0);
-        //gtk_widget_override_color (inner_box, GTK_STATE_FLAG_NORMAL, &color);
         set_foreground_color (frame, "rgb(200,25,25)");
         gtk_container_add (GTK_CONTAINER (frame), inner_box);
 
@@ -2096,13 +2111,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
         {
           GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
           gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
-
-
           button = gtk_button_new_with_label (_("Delete"));
-          //GtkWidget *labelwidget = (GtkWidget *) gtk_bin_get_child (GTK_BIN (button));
-          //get_color (&color, 1.0, 0.0, 0.0, 1.0);
-          //color.red = 1.0; color.green = color.blue = 0.0; color.alpha = 1.0;
-          //gtk_widget_override_color (labelwidget, GTK_STATE_FLAG_NORMAL, &color);
           
           set_foreground_color (button, "rgb(255,0,0)");
           g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
@@ -2110,19 +2119,17 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 30);
 
           button = gtk_button_new_with_label (_("Next ➡"));
-         // get_color (&color, 0.0, 0.7, 0.7, 1.0);
-         // gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
           set_foreground_color (button, "rgb(0,180,180)");
           g_signal_connect (G_OBJECT (button), "clicked", G_CALLBACK (seek_standalone_directive), (gpointer) label);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
           {
             button = gtk_button_new_with_label (_("Conditional"));
-            //get_color (&color, 0.0, 0., 0.5, 1.0);
-            //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
             set_foreground_color (button, "#000080");
-
-            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), (gpointer) "(d-ChooseCondition #f)");
+            if (Denemo.project->condition && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->condition->id))>=0)
+                g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (standalone_with_omission_criterion), (gpointer) directive);
+            else
+                g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (call_out_to_guile), (gpointer) "(d-ChooseCondition #f)");
 
             gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
           }
@@ -2417,7 +2424,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
         tooltip = _("No tooltip");
 
       button = gtk_button_new_with_label (_("Create Duplicate"));
-      gtk_widget_set_tooltip_text (button, _("Duplicate this directive with a new name. Usually only makes sense when the two directives are conditional applying to different layouts."));
+      gtk_widget_set_tooltip_text (button, _("Duplicate this directive with a new name. Usually only makes sense when the two directives are conditional - different omission criteria or different layouts."));
       g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
       g_object_set_data (G_OBJECT (button), "directives", pdirectives);
       g_signal_connect (button, "clicked", G_CALLBACK (create_duplicate_directive), (gpointer) (field));

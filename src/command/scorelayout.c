@@ -143,7 +143,7 @@ free_scoreblock (DenemoScoreblock * sb)
 }
 
 void
-free_scoreblocks (DenemoProject * gui)
+free_standard_scoreblocks (DenemoProject * gui)
 {
   if (gui->standard_scoreblocks)
     {
@@ -156,6 +156,12 @@ free_scoreblocks (DenemoProject * gui)
       g_list_free (gui->standard_scoreblocks);
       gui->standard_scoreblocks = NULL;
     }
+}
+
+void
+free_custom_scoreblocks (DenemoProject * gui)
+{
+
   if (gui->custom_scoreblocks)
     {
       GList *g;
@@ -168,8 +174,12 @@ free_scoreblocks (DenemoProject * gui)
       gui->custom_scoreblocks = NULL;
     }
 }
-
-
+void
+free_scoreblocks (DenemoProject * gui)
+{
+  free_standard_scoreblocks (gui);
+  free_custom_scoreblocks (gui);
+}
 
 static gboolean
 is_in_standard_scoreblock (DenemoScoreblock * sb)
@@ -2229,6 +2239,14 @@ check_for_update (void)
   return FALSE;
 }
 
+void update_standard_scoreblocks (void)
+{
+  //DenemoScoreblock *sb = selected_scoreblock ();
+  guint id = selected_layout_id ();
+  Denemo.project->layout_sync = layout_sync + 1;
+  check_for_update ();
+  select_layout_id (id);
+}
 static gboolean
 change_tab (GtkNotebook * notebook, GtkWidget * page, gint pagenum)
 {
