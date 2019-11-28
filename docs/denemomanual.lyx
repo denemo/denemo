@@ -123,7 +123,7 @@ Copyright © 2009 - 2019 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.2.10
+Updates for version 2.4
 \end_layout
 
 \begin_layout Standard
@@ -5366,6 +5366,28 @@ Refresh.
 \end_layout
 
 \begin_layout Itemize
+Omission Criteria.
+ This button is labelled either 
+\begin_inset Quotes eld
+\end_inset
+
+No Omission Criterion Set
+\begin_inset Quotes erd
+\end_inset
+
+ or with the name of an Omission Criterion.
+ With it you can create an omission criterion and set it to control the
+ typesetting of the score - see Omission Criteria
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Omission-Criteria"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
 Continuous/Manual.
  This both indicates the current mode of typesetting and acts as a menu
  for altering it and choosing how much to typeset in continuous mode.
@@ -6559,7 +6581,25 @@ Making the Directive Conditional
 \end_layout
 
 \begin_layout Standard
-The conditional button allows you to designate certain score layouts (e.
+The conditional button allows make the directive inactive for certain Omission
+ Criteria
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Omission-Criteria"
+
+\end_inset
+
+ or Score Layouts
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Score-Layouts"
+
+\end_inset
+
+.
+ You can name omission criteria as meaning the directive should be ignored
+ on typesetting.
+ Or you can designate certain score layouts (e.
 \begin_inset space \thinspace{}
 \end_inset
 
@@ -7061,6 +7101,72 @@ Conditional Directive
 \end_inset
 
  use in the various layouts you may need.
+\end_layout
+
+\begin_layout Section
+Omission Criteria
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Omission Criteria
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Omission-Criteria"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Omission Criteria are a sort of lightweight easy-to-use alternative to full-scal
+e Score Layouts.
+ So, for example, if you want to generate score and parts for both a transposed
+ and an un-transposed version of your score you can create an omission criterion
+ (say, 
+\begin_inset Quotes eld
+\end_inset
+
+untransposed
+\begin_inset Quotes erd
+\end_inset
+
+) and set it on the Denemo Directive(s) that control the transposition of
+ the score.
+ Then you only have to turn the omission criterion on or off in the Print
+ View and the typesetting switches between versions.
+ If the instrument names should change as well then you can duplicate the
+ instrument name directive in the Staff Editor and set the omission criterion
+ on the second of those so that it is not used when the score is untransposed.
+\end_layout
+
+\begin_layout Standard
+You create omission criterion names in the Print View
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:The-Print-View"
+
+\end_inset
+
+using the button labelled 
+\begin_inset Quotes eld
+\end_inset
+
+No Omission Criterion Set
+\begin_inset Quotes erd
+\end_inset
+
+ and apply them to directives using the Conditional Directive commands.
+ For standalone directives the Conditional Directive commands are in the
+ Directives menu and in the Object Editor, for score, movement, staff etc
+ directives you use Conditional button on the Directive in the respective
+ editor (Score Editor, Movement Editor, Staff Editor etc).
 \end_layout
 
 \begin_layout Section
@@ -8481,7 +8587,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8489,7 +8594,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
