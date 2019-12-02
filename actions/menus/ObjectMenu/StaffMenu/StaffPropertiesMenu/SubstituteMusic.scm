@@ -1,5 +1,5 @@
 ;;;SubstituteMusic
-(let ((params SubstituteMusic::params)(tag "SubstituteMusic"))
+(let ((params SubstituteMusic::params)(tag "SubstituteMusic")(voice (d-IsVoice)))
         (if (and (not params)(d-Directive-voice? tag))
             (begin
                 (d-MoveToBeginning)
@@ -23,7 +23,7 @@
                                 (cons (unique-staff-name)  
                                 	(cons  (unique-staff-name)
                                           (cons (if (d-Directive-staff? "DynamicsStaff") "(d-DynamicsStaff 'noninteractive)" #f) 
-                                          	(cons (string-append "{" (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond) "\\" (d-GetVoiceIdentifier) " } \\void ")
+                                          	(cons (string-append "{" (if voice "" (string-append (d-GetPrevailingClefAsLilyPond)(d-GetPrevailingTimesigAsLilyPond)(d-GetPrevailingKeysigAsLilyPond))) "\\" (d-GetVoiceIdentifier) " } \\void ")
                                           	 (number->string (1+ count))))))
                                                  	voicenames))
                             (if (d-MoveToStaffDown)
