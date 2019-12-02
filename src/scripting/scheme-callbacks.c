@@ -6331,9 +6331,10 @@ scheme_timer (SCM duration_amount, SCM callback)
       cb_scheme_and_id *scheme = g_malloc (sizeof (cb_scheme_and_id));
       scheme->scheme_code = scheme_code;
       scheme->id = Denemo.project->id;
-      g_timeout_add (duration, (GSourceFunc) scheme_callback_timer, GINT_TO_POINTER (scheme));
+      gint id = g_timeout_add (duration, (GSourceFunc) scheme_callback_timer, GINT_TO_POINTER (scheme));
       //if(scheme_code) free(scheme_code);
-      return scm_from_int (GPOINTER_TO_INT (scheme));   //FIXME pointer may not fit in int
+      g_print ("Starting %x\n", id);
+      return scm_from_int (id);
     }
   else
     return SCM_BOOL_F;
@@ -6345,12 +6346,12 @@ scheme_kill_timer (SCM id)
   if (scm_is_integer (id))
     {
       //FIXME the int may not be large enough for a pointer
-      cb_scheme_and_id *scheme = GINT_TO_POINTER (scm_to_int (id));
+      gint scheme = scm_to_int (id);
       if (scheme)
         {
-          g_source_remove_by_user_data (scheme);
-          free (scheme->scheme_code);
-          g_free (scheme);
+          g_source_remove (scheme);g_print ("Removing %x\n", scheme);
+          //free (scheme->scheme_code); FIXME leaks memory
+          //g_free (scheme);
           return SCM_BOOL_T;
         }
     }
