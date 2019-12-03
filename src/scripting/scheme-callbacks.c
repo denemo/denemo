@@ -6277,6 +6277,7 @@ scheme_insert_marked_midi_note (void)
 typedef struct cb_scheme_and_id
 {
   char *scheme_code;
+  gint timeout_id;
   gint id;
 } cb_scheme_and_id;
 
@@ -6306,9 +6307,17 @@ scheme_one_shot_timer (SCM duration_amount, SCM callback)
   return SCM_BOOL (TRUE);
 }
 
+GList *killed_timers = NULL;//a list of timers scheduled to be killed next time they are called
 static gboolean
 scheme_callback_timer (cb_scheme_and_id * scheme)
 {
+  if (g_list_index (killed_timers, GUINT_TO_POINTER(scheme->timeout_id))>=0)
+    {
+      killed_timers = g_list_remove (killed_timers, GUINT_TO_POINTER(scheme->timeout_id));
+      free (scheme->scheme_code);
+      g_free (scheme);
+      return FALSE; //kill the timer
+    }
   char *scheme_code = scheme->scheme_code;
   if (scheme->id == Denemo.project->id)
     call_out_to_guile (scheme_code);
@@ -6325,15 +6334,14 @@ scheme_timer (SCM duration_amount, SCM callback)
   char *scheme_code;
   if (scm_is_string (callback))
     {
-      scheme_code = scm_to_locale_string (callback);    //FIXME check that type of callback is tring
+      scheme_code = scm_to_locale_string (callback);
       gint duration = scm_to_int (duration_amount);
       //g_debug("setting timer for %s after %d ms", scheme_code, duration);
       cb_scheme_and_id *scheme = g_malloc (sizeof (cb_scheme_and_id));
       scheme->scheme_code = scheme_code;
       scheme->id = Denemo.project->id;
       gint id = g_timeout_add (duration, (GSourceFunc) scheme_callback_timer, GINT_TO_POINTER (scheme));
-      //if(scheme_code) free(scheme_code);
-      g_print ("Starting %x\n", id);
+      scheme->timeout_id = id;
       return scm_from_int (id);
     }
   else
@@ -6345,13 +6353,11 @@ scheme_kill_timer (SCM id)
 {
   if (scm_is_integer (id))
     {
-      //FIXME the int may not be large enough for a pointer
-      gint scheme = scm_to_int (id);
-      if (scheme)
+      gint timeout_id = scm_to_int (id);
+      if (timeout_id)
         {
-          g_source_remove (scheme);g_print ("Removing %x\n", scheme);
-          //free (scheme->scheme_code); FIXME leaks memory
-          //g_free (scheme);
+          //g_source_remove (scheme);g_print ("Removing %x\n", scheme);
+          killed_timers = g_list_append (killed_timers, GUINT_TO_POINTER(timeout_id));
           return SCM_BOOL_T;
         }
     }

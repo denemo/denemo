@@ -937,7 +937,10 @@ play_adjusted_midi_event (gchar * buf)
 void
 handle_midi_event (gchar * buf)
 {
-  //g_debug("%x : ready %d %x queue %d\n", midi_capture_on, divert_midi_event!=NULL, (0xFFFFFF & *(gint*)buf), g_queue_get_length(&midi_queue));
+  //g_print ("play adj midibytes 0x%hhX 0x%hhX 0x%hhX\n", *(buf+0), *(buf+1), *(buf+2));
+  if ((((*buf)&0xF0) != MIDI_NOTE_ON) && (((*buf)&0xF0) != MIDI_NOTE_OFF))
+        {g_print ("Dropping messages other than note on/off\n"); *buf=0;  return;}
+  //g_print("%x : ready %d %x queue %d\n", midi_capture_on, divert_midi_event!=NULL, (0xFFFFFF & *(gint*)buf), g_queue_get_length(&midi_queue));
   if (midi_capture_on && divert_midi_id == Denemo.project->id)
     {
       // this is only good for one endianness - FIXME ??
