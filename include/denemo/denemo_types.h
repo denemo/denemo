@@ -473,6 +473,7 @@ typedef struct DenemoPrefs
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
   gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
   gboolean startmidiin; /**< try to start midi in on startup */
+  gboolean notesonlymidiin; /**< whether to ignore MIDI signals other than note on/off from MIDI in source. */
   gboolean applytoselection; /**< apply commands to selection */
 
   gboolean quickshortcuts;/**< TRUE if pressing a key while hovering over a menu item sets a shortcut */

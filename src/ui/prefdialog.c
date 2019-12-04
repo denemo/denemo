@@ -64,6 +64,7 @@ struct callbackdata
   GtkWidget *learning;
   GtkWidget *persistence;
   GtkWidget *startmidiin;
+  GtkWidget *notesonlymidiin;
   GtkWidget *applytoselection;
   GtkWidget *quickshortcuts;
   GtkWidget *saveparts;
@@ -311,6 +312,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNBOOLEAN (newbie)
     ASSIGNBOOLEAN (learning)
     ASSIGNBOOLEAN (startmidiin)
+    ASSIGNBOOLEAN (notesonlymidiin)
     ASSIGNBOOLEAN (applytoselection)
     ASSIGNBOOLEAN (quickshortcuts)
     ASSIGNBOOLEAN (autosave)
@@ -758,6 +760,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   NEWPAGE (_("MIDI"));
 
   BOOLEANENTRY (_("Rhythm Entry for MIDI in"), startmidiin);
+  BOOLEANENTRY (_("Ignore MIDI in except for Note On/Off messages"), notesonlymidiin);
   COMBOBOX (_("MIDI backend"), midi_driver, cbdata.midi_driver_option_list, driver, FALSE);
   g_signal_connect (G_OBJECT (GTK_COMBO_BOX (midi_driver)), "changed", G_CALLBACK (midi_audio_tab_update), &audio_cbdata);
   /*
