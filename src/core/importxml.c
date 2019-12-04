@@ -2307,13 +2307,10 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, DenemoMovement * si)
         if (ELEM_NAME_EQ (childElem, "voice-name"))
           {
             voiceName = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-            if (voiceName != NULL)
-              {
-                DenemoStaff *thestaffstruct = (DenemoStaff *) si->currentstaff->data;
-                g_string_assign (thestaffstruct->denemo_name, voiceName);
-                g_free (voiceName);
-                set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
-              }
+            DenemoStaff *thestaffstruct = (DenemoStaff *) si->currentstaff->data;
+            g_string_assign (thestaffstruct->denemo_name, voiceName?voiceName:"");
+            g_free (voiceName);
+            set_lily_name (thestaffstruct->denemo_name, thestaffstruct->lily_name);
           }
 
         else if (ELEM_NAME_EQ (childElem, "subpart"))
