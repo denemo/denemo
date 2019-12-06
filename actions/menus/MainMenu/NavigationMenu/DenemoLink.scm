@@ -20,4 +20,4 @@
 						(d-PopPosition))
 		         		(begin
 		         			(d-PopPosition)
-		         			(d-WarningDialog (_ "There is no link here, open the source document and click on it to place one."))))))))
+		         			(d-WarningDialog (_ "There is no link before this bar in this staff, open the source document and click on it to place one."))))))))
