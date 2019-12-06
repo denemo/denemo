@@ -986,13 +986,15 @@
   
 
 ;;; The routine called by the DenemoLink command to follow the link
-;(define (FollowLink)
-;  (let ((link (d-DirectiveGet-standalone-postfix "DenemoLink")))
-;    (if link
-;     (begin
-     ;(disp "link is " link "ok\n")
-;      (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%)))))
-;  (d-OpenSource link)))))
+(define (DenemoFollowLink)
+  (let ((link (d-DirectiveGet-standalone-data "DenemoLink")))
+    (if (not link)
+        (begin
+            (set! link (d-DirectiveGet-standalone-postfix tag))
+                (if link
+                    (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%))))))))
+        (if link
+            (d-OpenSource link))))
 
 ;;;; Routines for audio annotation
 (define (DenemoAudioAnnotation timing)
