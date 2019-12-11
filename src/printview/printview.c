@@ -1539,6 +1539,11 @@ is_near (gint x, gint y, WwPoint p)
 }
 
 static gboolean
+printarea_leave_notify (void)
+{
+  show_tooltip (NULL, NULL, NULL);
+}
+static gboolean
 printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * event)
 {
   get_wysiwyg_info ()->ObjectLocated = FALSE;
@@ -2769,6 +2774,8 @@ install_printpreview (GtkWidget * top_vbox)
 #endif
 
   g_signal_connect (G_OBJECT (Denemo.printarea), "motion_notify_event", G_CALLBACK (printarea_motion_notify), NULL);
+  
+  g_signal_connect (G_OBJECT (Denemo.printarea), "leave-notify-event", G_CALLBACK (printarea_leave_notify), NULL);
 
 
   //g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",

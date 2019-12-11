@@ -454,6 +454,7 @@ static void extend_selection (DragDirection direction)
 gint
 scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event)
 {
+    show_tooltip (NULL, NULL, NULL);
     if(Denemo.object_hovering_over)
       {
         Denemo.object_hovering_over = NULL;
