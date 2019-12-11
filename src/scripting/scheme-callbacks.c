@@ -1050,7 +1050,18 @@ scheme_get_editing_time (void)
   g_free (edit_time);
   return ret;
 }
-
+SCM
+scheme_set_editing_time (SCM secs)
+{
+  if (scm_is_integer (secs))
+    {
+      gint time = scm_to_int (secs);
+      Denemo.project->total_edit_time = time;
+      reset_editing_timer ();
+      return SCM_BOOL_T;
+    }
+   return SCM_BOOL_F;
+}
 SCM
 scheme_destroy_scheme_init (void)
 {

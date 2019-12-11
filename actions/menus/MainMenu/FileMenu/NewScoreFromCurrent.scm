@@ -99,6 +99,7 @@
                     (refresh-mirror-staff))
                 (if (d-Directive-score? "ScoreComment")
                 	(d-ScoreComment))
+                (d-SetEditingTime 0)
                 )
             (set! warning (string-append (_ "Cancelled: ") (_ "Score is not saved"))))
     (if warning
