@@ -42,7 +42,7 @@
                                         (d-DeleteObject))
                                 (if (and (d-MoveCursorRight) (not (Appending?)))
                                         (loop))))
-                
+                (d-IncreaseGuard)
                 (d-DirectiveDelete-scoreheader "ScoreIncipit")
                 (if (d-GoToPosition 1 1 2 1) ;;leave first measure
                         (d-DeleteFromCursorToEnd 'all))
@@ -100,7 +100,7 @@
                 (if (d-Directive-score? "ScoreComment")
                 	(d-ScoreComment))
                 (d-SetEditingTime 0)
-                )
+                (d-DecreaseGuard))
             (set! warning (string-append (_ "Cancelled: ") (_ "Score is not saved"))))
     (if warning
         (d-WarningDialog warning)
