@@ -285,8 +285,23 @@ freeobject (DenemoObject * mudobj)
       g_free (mudobj->object);
       g_free (mudobj);
       break;
-    default:
+ 
+    case BARLINE:
+    case STEMDIRECTIVE:
+    case MEASUREBREAK:
+    case STAFFBREAK:
+    case DYNAMIC:
+    case GRACE_START:
+    case GRACE_END:
+    case LYRIC:
+    case FIGURE:
+    case LILYDIRECTIVE:
+    case FAKECHORD:
+    case PARTIAL:
       g_free (mudobj);
+      break;
+    default:
+      g_critical ("Unknown type %d", mudobj->type); 
       break;
     }
 }
