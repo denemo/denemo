@@ -11,7 +11,7 @@
 
 measurenode *addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all);
 
-void freeobjlist (gpointer data);
+void freeobjlist (GList *objs);
 
 measurenode *removemeasures (DenemoMovement * si, guint pos, guint nummeasures, gboolean all);
 

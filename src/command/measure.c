@@ -103,27 +103,18 @@ dnm_addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
   return addmeasures (si, pos, nummeasures, all);
 }
 
-/**
- * g_list_foreach function called by freeobjlist
- */
-static void
-freeit_object (gpointer data, gpointer user_data)
-{
-  freeobject ((DenemoObject *) data);
-}
 
 /**
  * Free a measures objects
  *
  */
 void
-freeobjlist (gpointer data)
+freeobjlist (objnode *delobjs)
 {
-  objnode *delobjs = (objnode *) data;
   if (delobjs)
     {
       /* Free all the Denemo objects */
-      g_list_foreach (delobjs, freeit_object, NULL);
+      g_list_foreach (delobjs, (GFunc) freeobject, NULL);
       /* Free the object list itself */
       g_list_free (delobjs);
     }
@@ -141,12 +132,9 @@ clone_measure (DenemoMeasure* m)
     return ret;
 }
 
-void
-free_measure (DenemoMeasure *m)
+void free_measure (DenemoMeasure *m)
 {
-  GList *g;
-   for (g=m->objects;g;g=g->next)
-     freeobjlist (g);
+  g_list_foreach (m->objects, (GFunc)freeobject, NULL);  
   m->objects = NULL;
 }
 /**
