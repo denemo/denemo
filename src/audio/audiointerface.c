@@ -593,7 +593,7 @@ midi_play (gchar * callback)
     playback_time = playback_start_time;
     get_backend (AUDIO_BACKEND)->start_playing ();// this must pick up the playback_start_time, which won't happen if an interrrupt has occurred meanwhile.
     } while(fabs(playback_time - playback_start_time) > 0.0001);
-  g_message ("Starting playback at %f", playback_start_time);
+  g_message ("Starting playback at %f - should be %f", playback_start_time, playback_time);
   get_backend (MIDI_BACKEND)->start_playing ();
 }
 
