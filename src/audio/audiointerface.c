@@ -36,6 +36,7 @@
 #include <glib.h>
 #include <string.h>
 #include <stdint.h>
+#include <math.h>
 
 static backend_t *backends[NUM_BACKENDS] = { NULL };
 
@@ -587,11 +588,11 @@ midi_play (gchar * callback)
   g_message ("Starting playback");
   start_playing (callback);
   do {//FIXME, this is a crude attempt to get the playback_time set without the callback from portaudio re-writing it.
-  playback_time = playback_start_time;
+    playback_time = playback_start_time;
     time_reset = TRUE;
     playback_time = playback_start_time;
     get_backend (AUDIO_BACKEND)->start_playing ();// this must pick up the playback_start_time, which won't happen if an interrrupt has occurred meanwhile.
-    } while(playback_time != playback_start_time);
+    } while(fabs(playback_time - playback_start_time) > 0.0001);
   g_message ("Starting playback at %f", playback_start_time);
   get_backend (MIDI_BACKEND)->start_playing ();
 }
