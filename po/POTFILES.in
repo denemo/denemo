@@ -1165,6 +1165,8 @@ actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm
 actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.xml
 actions/menus/ObjectMenu/MovementMenu/EvenOutStaffLengths.scm
 actions/menus/ObjectMenu/MovementMenu/EvenOutStaffLengths.xml
+actions/menus/ObjectMenu/MovementMenu/InsertMovement/AddMovement.scm
+actions/menus/ObjectMenu/MovementMenu/InsertMovement/AddMovement.xml
 actions/menus/ObjectMenu/MovementMenu/MvntComment.scm
 actions/menus/ObjectMenu/MovementMenu/MvntComment.xml
 actions/menus/ObjectMenu/MovementMenu/Playback/SetMovementTempo.scm

@@ -278,7 +278,7 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>NewMovement</action>
+        <action>AddMovement</action>
         <bind>M,n</bind>
       </row>
       <row>
