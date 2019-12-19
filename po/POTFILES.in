@@ -482,6 +482,8 @@ actions/menus/MainMenu/FileMenu/PrintMenu/PrintTwoReduced.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintTwoReduced.xml
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.scm
 actions/menus/MainMenu/FileMenu/PrintMenu/PrintWithAmbitus.xml
+actions/menus/MainMenu/FileMenu/ReloadScore.scm
+actions/menus/MainMenu/FileMenu/ReloadScore.xml
 actions/menus/MainMenu/FileMenu/SaveMenu/SaveAsTemplate.scm
 actions/menus/MainMenu/FileMenu/SaveMenu/SaveAsTemplate.xml
 actions/menus/MainMenu/FileMenu/SaveMenu/SetThumbnail.scm

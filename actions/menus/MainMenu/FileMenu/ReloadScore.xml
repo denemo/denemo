@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ReloadScore</action>
+        <after>NewScoreFromCurrent</after>
+        <_label>Reload Score</_label>
+        <_tooltip>Reloads the current score from last saved version on disk.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
