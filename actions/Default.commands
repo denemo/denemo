@@ -1339,12 +1339,7 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <_label>New Movement</_label>
         <_tooltip>Create a new movement, using any default template</_tooltip>
       </row>
-      <row type="builtin">
-        <action>SaveParts</action>
-        <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
-        <_label>Save Parts</_label>
-        <_tooltip>Save Parts: each staff becomes a file in lilypond format</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>ExportMUDELA</action>
         <menupath>/MainMenu/FileMenu/Export</menupath>
@@ -1357,6 +1352,7 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <_label>Export PDF</_label>
         <_tooltip>Export the score as a PDF document file</_tooltip>
       </row>
+
       <row type="builtin">
         <action>ExportPNG</action>
         <menupath>/MainMenu/FileMenu/Export</menupath>
@@ -5272,9 +5268,16 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Program</_label>
         <_tooltip>Change the Program of the current channel/staff</_tooltip>
       </row>
+      <row type="builtin">
+        <action>SaveParts</action>
+        <after>ExportMUDELA</after>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Export LilyPond Parts</_label>
+        <_tooltip>Save Parts: each staff becomes a file in lilypond format</_tooltip>
+      </row>
       <row type="scheme">
         <action>QuickLilyPondExport</action>
-        <after>ExportMUDELA</after>
+        <after>SaveParts</after>
         <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Quick LilyPond Export</_label>
         <_tooltip>Exports as LilyPond to a file named the same as the .denemo file but with .ly suffix.</_tooltip>
@@ -7933,7 +7936,7 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>SaveAsTemplate</action>
-        <after>SaveParts</after>
+        <after>SaveCopy</after>
         <menupath>/MainMenu/FileMenu/SaveMenu</menupath>
         <_label>Save Template</_label>
         <_tooltip>Saves the current score as a template, offering to remove the music if desired. When removing the music, all movements except the first movement are deleted and all the contents of the staffs except the first source reference, and any Incipit is deleted too.</_tooltip>
