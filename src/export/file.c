@@ -1219,7 +1219,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
                         _("_Save"),\
                         GTK_RESPONSE_ACCEPT, NULL);\
   /*set default folder for saving */\
-  set_current_folder(file_selection, template?SAVE_TEMPLATE:SAVE_NORMAL);\
+  set_current_folder(file_selection, template==SAVE_TEMPLATE?SAVE_TEMPLATE:SAVE_NORMAL);\
   \
   /* assign title */ \
   gchar *title = get_scoretitle();\
