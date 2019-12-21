@@ -103,7 +103,7 @@ initprefs ()
   ret->persistence = TRUE;
   ret->learning = TRUE;
   ret->immediateplayback = TRUE;
-  ret->measureswitchsound = 72;
+  ret->measureswitchsound = 75;
   ret->manualtypeset = FALSE;
   ret->typesetrefresh = 10;
   ret->typesettype = TYPESET_ALL_MOVEMENTS;
