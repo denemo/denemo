@@ -576,7 +576,25 @@ get_playback_time (void)
   return playback_time;
 }
 
+#ifdef _HAVE_JACK_
+void midi_play(gchar *callback) {
+  generate_midi();
 
+  reset_playback_queue(AUDIO_BACKEND);
+  reset_playback_queue(MIDI_BACKEND);
+
+  g_print("JACK starting playback\n");
+
+  playback_start_time = get_start_time();
+  playback_time = playback_start_time;
+
+  start_playing(callback);
+
+  get_backend(AUDIO_BACKEND)->start_playing();
+  get_backend(MIDI_BACKEND)->start_playing();
+}
+
+#else
 void
 midi_play (gchar * callback)
 {
@@ -596,6 +614,8 @@ midi_play (gchar * callback)
   g_message ("Starting playback at %f - should be %f", playback_start_time, playback_time);
   get_backend (MIDI_BACKEND)->start_playing ();
 }
+#endif
+
 
 void
 audio_play (void)
