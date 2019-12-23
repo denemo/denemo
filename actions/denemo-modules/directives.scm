@@ -309,7 +309,7 @@
            (d-SetSaved #f))))      
         
         
-(define* (SetDirectiveConditionalOnCondition criteria #:optional (directive #f) (type/tag #f))
+(define* (SetDirectiveConditionalOnCondition criteria #:optional (directive #f) (type/tag #f) (action 'omit))
   (define criterion (RadioBoxMenuList criteria))
   (if criterion
     (begin
@@ -322,10 +322,11 @@
         (if (pair? directive)                                
           (begin
             (disp "pair Not Implemented\n\n\n"))
-          (begin (disp "criterion " criterion " being set\n\n")
-            (d-DirectivePut-standalone-ignore (d-DirectiveGetTag-standalone) criterion)
-            (d-SetSaved #f))
-          )))))
+          (begin (disp "criterion " criterion " being set/unset for " action "\n\n")
+            (if (eq? action 'omit)
+              (d-DirectivePut-standalone-ignore (d-DirectiveGetTag-standalone) criterion)
+              (d-DirectivePut-standalone-allow (d-DirectiveGetTag-standalone) criterion))
+            (d-SetSaved #f)))))))
         
         
         
@@ -336,10 +337,11 @@
  (if (not (null? criteria))
     (set! choice
           (RadioBoxMenu 
+            (cons (_ "Conditional on Layout") #f)
             (cons (_ "Omit for an Omission Criterion") 'omit)
-            (cons (_ "Conditional on Layout") #f))))
+            (cons (_ "Allow when Omission Criterion set") 'drop))))
   (if choice
-      (SetDirectiveConditionalOnCondition criteria directive type/tag) 
+      (SetDirectiveConditionalOnCondition criteria directive type/tag choice) 
       (SetDirectiveConditionalOnLayout directive type/tag)))
 
 (define* (SetDirectiveConditionalOnLayout #:optional (directive #f) (type/tag #f))

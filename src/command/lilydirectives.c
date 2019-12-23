@@ -1334,7 +1334,7 @@ static void action_ignore (DenemoDirective *directive, guint value) {
                  directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to ignored layouts\n", value);
                 }
             else {
-                    if (Denemo.project->criterion && (value == Denemo.project->criterion->id))
+                     if (is_omission_criterion(value))
                       directive->layouts = g_list_append (directive->layouts, GUINT_TO_POINTER(value)); //an omission criterion is always added
                     else
                       {
@@ -1349,47 +1349,51 @@ static void action_ignore (DenemoDirective *directive, guint value) {
           for (g=directive->layouts;g;g=g->next)
             {
               //g_list_free (directive->layouts);//g_print("Removed conditions\n");
-              gpointer id = g->data;
-              if (is_omission_criterion(value))
+              guint id = (guint)g->data;
+              if (is_omission_criterion(id))
                 continue;
               else
-                directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(value));
+                directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(id));
             }
-          if(directive->layouts==NULL)
-            directive->flag = 0;
+          directive->flag = 0;
         }
 }
 static void action_allow (DenemoDirective *directive, guint value) {
   if (value)
       {
-        if(directive->layouts==NULL)
-          {
-              directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
-              directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the allowed layout\n", value);
-          } else
-          {
-          if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
-            {
-                directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to allowed layouts\n", value);
-            }
-          else {
-            directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from ignored layouts\n", value);
-            if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
-            }
-        }
+        if (is_omission_criterion(value))
+           directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(value));
+        else {
+        
+                if(directive->layouts==NULL)
+                  {
+                      directive->flag = DENEMO_ALLOW_FOR_LAYOUTS;
+                      directive->layouts = add_layout (directive->layouts, value);//g_print("Made %x the allowed layout\n", value);
+                  } else
+                  {
+                  if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+                    {
+                        directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to allowed layouts\n", value);
+                    }
+                  else 
+                    {
+                    directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from ignored layouts\n", value);
+                    if(directive->layouts == NULL) directive->flag = 0;//, g_print("No conditions left\n");
+                    }
+                  }
+              }
     } else
     {
       GList *g;
       for (g=directive->layouts;g;g=g->next)
         {
           //g_list_free (directive->layouts);//g_print("Removed conditions\n");
-          if (is_omission_criterion(value))
+          if (is_omission_criterion((guint)g->data))
               continue;
           else
-            directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(value));
+            directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(g->data));
         }
-        if(directive->layouts==NULL)
-          directive->flag = 0;
+      directive->flag = 0;
     }
 }
 

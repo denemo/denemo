@@ -3063,9 +3063,11 @@ clone_directive (DenemoDirective * directive)
     }
   GList *g;
   GList *start = directive->layouts;
-  directive->layouts = NULL;
+  ret->layouts = NULL;
   for (g = start; g; g = g->next)
-    directive->layouts = g_list_append (directive->layouts, g->data);
+    ret->layouts = g_list_append (ret->layouts, g->data);
+  if(ret->layouts)
+    ret->flag = directive->flag;
   return ret;
 }
 
