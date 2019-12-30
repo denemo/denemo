@@ -1062,6 +1062,17 @@ scheme_set_editing_time (SCM secs)
     }
    return SCM_BOOL_F;
 }
+
+SCM
+scheme_clear_print_history (void)
+{
+  if (Denemo.project->printhistory==NULL)
+        Denemo.project->printhistory = g_string_new("");
+  else
+    g_string_assign (Denemo.project->printhistory, "");
+  return SCM_BOOL_T;
+}
+
 SCM
 scheme_destroy_scheme_init (void)
 {

@@ -100,6 +100,7 @@
                 (if (d-Directive-score? "ScoreComment")
                 	(d-ScoreComment))
                 (d-SetEditingTime 0)
+                (d-ClearPrintHistory)
                 (d-DecreaseGuard))
             (set! warning (string-append (_ "Cancelled: ") (_ "Score is not saved"))))
     (if warning

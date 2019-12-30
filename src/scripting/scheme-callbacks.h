@@ -109,6 +109,7 @@ SCM scheme_get_cursor_note (SCM);
 SCM scheme_get_cursor_note_with_octave (SCM);
 SCM scheme_get_editing_time (void);
 SCM scheme_set_editing_time (SCM secs);
+SCM scheme_clear_print_history (void);
 SCM scheme_debug_object (SCM);
 SCM scheme_display_object (void);
 SCM scheme_swap_display_and_source (void);
