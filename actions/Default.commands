@@ -8092,8 +8092,8 @@ Start Ligature earlier in the same staff.</_tooltip>
         <action>Unmeasured</action>
         <after>NumericTimeSig</after>
         <menupath>/ObjectMenu/TimeSig</menupath>
-        <_label>Unmeasured Staff</_label>
-        <_tooltip>Makes the staff accept any duration per Denemo measure. Equivalent to Cadenza Time from the first bar.</_tooltip>
+        <_label>Unmeasured Staffs (Off/On)</_label>
+        <_tooltip>Makes the staffs accept any duration per Denemo measure and typesets as a cadenza. Equivalent to Cadenza Time from the first bar.</_tooltip>
       </row>
       <row type="scheme">
         <action>InsertMirroredVerse</action>

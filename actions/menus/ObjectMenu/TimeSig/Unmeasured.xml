@@ -7,8 +7,8 @@
       <row type="scheme">
         <action>Unmeasured</action>
         <after>NumericTimeSig</after>
-        <_label>Unmeasured Staff</_label>
-        <_tooltip>Makes the staff accept any duration per Denemo measure. Equivalent to Cadenza Time from the first bar.</_tooltip>
+        <_label>Unmeasured Staffs (Off/On)</_label>
+        <_tooltip>Makes the staffs accept any duration per Denemo measure and typesets as a cadenza. Equivalent to Cadenza Time from the first bar.</_tooltip>
       </row>
     </map>
   </merge>
