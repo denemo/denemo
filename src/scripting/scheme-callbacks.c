@@ -1271,12 +1271,18 @@ scheme_exit (SCM optional)
 SCM
 scheme_create_layout (SCM name)
 {
+  SCM ret = SCM_BOOL_F;
   if (scm_is_string (name))
     {
       gchar *layout_name = scm_to_locale_string (name);
-      return scm_from_bool (create_custom_scoreblock (layout_name, TRUE));
+      Denemo.pending_layout_id = get_layout_id_for_name (layout_name);
+      signal_structural_change (Denemo.project);
+      select_layout (1, NULL, NULL);
+      ret = scm_from_bool (create_custom_scoreblock (layout_name, TRUE));
+      (void)selected_scoreblock (); //FIXME this is needed to make Accompanist's score work
+      Denemo.pending_layout_id = 0;
     }
-  return SCM_BOOL_F;
+  return ret;
 }
 SCM
 scheme_set_pending_layout (SCM name)
@@ -1468,6 +1474,17 @@ scheme_get_omit_criteria (void)
   return ret;
 }
 
+SCM
+scheme_get_id_for_name (SCM layout_name)
+{
+  if (scm_is_string (layout_name))
+    {
+      gchar* lay = scm_to_locale_string (layout_name);
+      guint id = get_layout_id_for_name (lay);
+      return scm_from_int (id);
+    }
+  return SCM_BOOL_F;
+}
 
 SCM
 scheme_get_filename (void)

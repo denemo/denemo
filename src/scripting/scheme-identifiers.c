@@ -1214,6 +1214,13 @@ create_scheme_identfiers (void)
   install_scm_function (0, "If there is a current omission criterion set in the Print View this returns it as a pair (name id), else returns #f", DENEMO_SCHEME_PREFIX "GetOmitCriterion", scheme_get_omit_criterion);
   install_scm_function (0, "Sets an omission criterion for typesetting in the Print View takes a name or #f to set unconditional typesetting", DENEMO_SCHEME_PREFIX "SetOmitCriterion", scheme_set_omit_criterion);
   install_scm_function (0, "Returns a list of omission criteria defined for the current score", DENEMO_SCHEME_PREFIX "GetOmitCriteria", scheme_get_omit_criteria);
+  install_scm_function (1, "Takes a name and returns the corresponding (layout or omission criterion) id.", DENEMO_SCHEME_PREFIX "GetIdForName", scheme_get_id_for_name);
+  
+  install_scm_function (2, "Takes a tag name and a layout name, sets the staff directive of that tag to be allowed only for that layout", DENEMO_SCHEME_PREFIX "StaffDirectivePutAllow", scheme_staff_directive_put_allow);
+  install_scm_function (2, "Takes a tag name and a layout name, sets the scoreheader directive of that tag to be allowed only for that layout", DENEMO_SCHEME_PREFIX "ScoreheaderDirectivePutAllow", scheme_scoreheader_directive_put_allow);
+//FIXME here enter all the other directive types, and a further set for *_directive_put_ignore functions should the need arise...
+
+
   
   install_scm_function (0, "Removes the associaton between the current score and its file, the current score becomes Untitled.", DENEMO_SCHEME_PREFIX "ClearFilename", scheme_clear_filename);
   install_scm_function (0, "Returns the full path to the currently opened Denemo score or #f if it does not have a disk file yet.", DENEMO_SCHEME_PREFIX "GetFilename", scheme_get_filename);

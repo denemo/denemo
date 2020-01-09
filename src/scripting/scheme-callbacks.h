@@ -342,6 +342,7 @@ SCM scheme_select_first_custom_layout (void);
 SCM scheme_get_omit_criterion (void);
 SCM scheme_set_omit_criterion (SCM name);
 SCM scheme_get_omit_criteria (void);
+SCM scheme_get_id_for_name (SCM name);
 SCM scheme_get_filename (void);
 SCM scheme_clear_filename (void);
 SCM scheme_select_tab (SCM index);
