@@ -476,7 +476,8 @@ progress_timeout (void)
 GtkWindow *
 progressbar (gchar * msg, gpointer callback)
 {
-
+  if (Denemo.non_interactive)
+    return NULL;
   GtkWidget *vbox;
   ProgressData *pdata = &progress_data;
   if (pdata->progressing)
