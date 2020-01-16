@@ -1000,6 +1000,10 @@ parseBaseChord (xmlNodePtr chordElem)
   gchar *grace_type = (gchar*) xmlGetProp (chordElem, (xmlChar *) "grace");
   gint grace = (grace_type ? (strcmp (grace_type, "true") ? ACCIACCATURA : GRACED_NOTE) : 0);   //we only store this for grace notes
   g_free (grace_type);
+  gchar *grace_duration_set = (gchar*) xmlGetProp (chordElem, (xmlChar *) "grace-duration");
+  if (grace_duration_set != NULL)
+    grace |= DURATION_SET;
+  g_free (grace_duration_set);
 
   /*
    * First, in order to actually create a chord object, we must figure out the
@@ -1276,8 +1280,13 @@ parseChord (xmlNodePtr chordElem, clef *currentClef)
           }
         else if (ELEM_NAME_EQ (childElem, "ticks"))
           {
-            chordObj->basic_durinticks = getXMLIntChild (childElem);
-            ((chord *) chordObj->object)->baseduration = -chordObj->basic_durinticks;
+            
+            gint ticks = getXMLIntChild (childElem);
+            chordObj->durinticks = chordObj->basic_durinticks = ticks;
+            if (ticks < 1000) //swung notes
+                ((chord *) chordObj->object)->baseduration *= -1;
+            else // breve etc
+              ((chord *) chordObj->object)->baseduration = -ticks;
           }
 
          else if (ELEM_NAME_EQ (childElem, "slur-begin"))

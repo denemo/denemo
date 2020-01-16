@@ -234,12 +234,11 @@ determineDuration (gint duration, gchar ** durationName)
       *durationName = "one-hundred-twenty-eighth";
       break;
     default:
-      if (duration < 0)
+      if (duration < -7)
         *durationName = "whole";
-      else
+      else  if (duration < 0)
         {
-          g_warning ("Unknown note duration 1/%d, using quarter", 1 << duration);
-          *durationName = "quarter";
+          return determineDuration (-duration, durationName);
         }
       break;
     }
@@ -750,7 +749,8 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList * curObjNode)
               xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *) "true");
             else if (thechord->is_grace & ACCIACCATURA)
               xmlSetProp (objElem, (xmlChar *) "grace", (xmlChar *) "acciaccatura");
-
+            if (thechord->is_grace & DURATION_SET)
+              xmlSetProp (objElem, (xmlChar *) "grace-duration", (xmlChar *) "set");
             /* Output the duration. */
 
             determineDuration ((thechord)->baseduration, &durationType);
@@ -809,10 +809,10 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList * curObjNode)
               {
                 newDirectivesElem (objElem, ns, (thechord)->directives, "directives");
               }
-            if (thechord->baseduration < 0)
+            if (thechord->baseduration < -7) //breve etc have negative of actual ticks stored here
               newXMLIntChild (objElem, ns, (xmlChar *) "ticks", -thechord->baseduration);
-
-
+            else if (thechord->baseduration < 0) //a swung note, swung notes have negative of the nominal duration, usually 1/8th notes ie 3
+              newXMLIntChild (objElem, ns, (xmlChar *) "ticks", curObj->durinticks);
             /*
              *  Output Dynamic which is now part of note
              *
