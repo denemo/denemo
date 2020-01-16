@@ -3392,20 +3392,39 @@ SCM
 scheme_set_duration_in_ticks (SCM duration)
 {
   DenemoObject *curObj;
+
+  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
+    return SCM_BOOL_F;
   gint thedur = 0;
   if (scm_is_integer (duration))
     {
       thedur = scm_to_int (duration);
     }
-  if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
-    return SCM_BOOL_F;
   if (thedur >= 0)
     {
       curObj->basic_durinticks = curObj->durinticks = thedur;
       if (curObj->type == CHORD)
-        {
-          ((chord *) curObj->object)->baseduration = -thedur;
-          ((chord *) curObj->object)->numdots = 0;
+        { 
+          chord *thechord = (chord *) curObj->object;
+          
+            if (scm_is_integer (duration))
+              {
+                thechord->baseduration *= -1;// = -thedur;
+                if (thechord->baseduration == 0)
+                  thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here
+                //thechord->numdots = 0;
+                if (thechord->is_grace)
+                  thechord->is_grace |= DURATION_SET;
+              }
+          else
+              {
+                if (thechord->is_grace)
+                  thechord->is_grace &= ~DURATION_SET;
+                gint duration = thechord->baseduration;
+                if ((duration >= -7) && (duration < 0))
+                  duration *= -1;
+                changedur (curObj, duration, thechord->numdots);
+              }
         }
       objnode *prev = Denemo.project->movement->currentobject->prev;
       DenemoObject *prevObj = prev ? (DenemoObject *) prev->data : NULL;
@@ -3502,7 +3521,7 @@ scheme_get_base_duration_in_ticks (void)
     return SCM_BOOL (FALSE);
   if (curObj->type == CHORD)
     return scm_from_int (((chord *) curObj->object)->baseduration >= 0 ?        /* (* (expt 2 (- 8 number)) 6) */
-                         (int) pow (2.0, (8.0 - ((chord *) curObj->object)->baseduration)) * 6 : ((chord *) curObj->object)->baseduration);
+                         (int) pow (2.0, (8.0 - ((chord *) curObj->object)->baseduration)) * 6 : ((chord *) curObj->object)->baseduration);//this should just return basic_durinticks
   return SCM_BOOL (FALSE);
 }
 
