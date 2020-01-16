@@ -1320,7 +1320,8 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                         }       //for each directive attached to the chord
                     }           //if there are directives
                   /* FIXME sound grace notes either simultaneously for shorter duration or steal time .... */
-                  if (chordval.is_grace)
+                  if (curobj->durinticks == 0) 
+                  //if (chordval.is_grace)
                     {
                         curobj->latest_time = curobj->earliest_time;
                         break;
