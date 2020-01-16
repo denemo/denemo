@@ -334,6 +334,7 @@ settickvalsinmeasure (objnode * theobjs)
 
       if (theobj->type == CHORD)
         {
+          chord *thechord = ((chord *) theobj->object);
           if (in_tuplet)
             {
               if (!((chord *) theobj->object)->is_grace)
@@ -342,11 +343,12 @@ settickvalsinmeasure (objnode * theobjs)
                   basic_ticks_in_tuplet_group += theobj->basic_durinticks;
                 }  else
                 {
+                    if (!(thechord->is_grace & DURATION_SET))
+                      theobj->durinticks = 0;
                     if(is_end_grace (curobjnode))
-                      ((chord *) theobj->object)->is_grace |= ENDGRACE;
+                      thechord->is_grace |= ENDGRACE;
                     else
-                      ((chord *) theobj->object)->is_grace &= (~ENDGRACE);    //and re-instate if needed
-                    theobj->durinticks = 0;
+                      thechord->is_grace &= (~ENDGRACE);    //and re-instate if needed
                 }
 
 
@@ -354,15 +356,16 @@ settickvalsinmeasure (objnode * theobjs)
           else
             {
 
-              ((chord *) theobj->object)->is_grace &= (GRACED_NOTE | ACCIACCATURA);     //leave any fixed grace, changed by toggle.
+              thechord->is_grace &= (GRACED_NOTE | ACCIACCATURA | DURATION_SET);     //leave any fixed grace, changed by toggle.
 
-              if (((chord *) theobj->object)->is_grace)
+              if (thechord->is_grace)
                 {
+                    if (!(thechord->is_grace & DURATION_SET))
+                      theobj->durinticks = 0;
                     if(is_end_grace (curobjnode))
-                      ((chord *) theobj->object)->is_grace |= ENDGRACE;
+                      thechord->is_grace |= ENDGRACE;
                     else
-                      ((chord *) theobj->object)->is_grace &= (~ENDGRACE);    //and re-instate if needed
-                    theobj->durinticks = 0;
+                      thechord->is_grace &= (~ENDGRACE);    //and re-instate if needed
                 }
               else
                 theobj->durinticks = theobj->basic_durinticks;

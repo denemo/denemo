@@ -31,6 +31,7 @@
 #define GRACED_NOTE (1<<1) /*Note is an (appogiatura) grace note */
 #define ENDGRACE (1<<2) /*Note is last grace note in a group */
 #define ACCIACCATURA (1<<3) /*Note is an acciacatura grace note */
+#define DURATION_SET (1<<4) /*Note has been assigned a duration (stored in durinticks) */
 
 
 typedef void (*GActionCallback) (GtkAction *action, gpointer data);
