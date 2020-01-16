@@ -877,6 +877,12 @@ set_basic_numticks (DenemoObject * theobj)
     case CHORD:
       if (((chord *) theobj->object)->baseduration < 0)
         {
+          if (((chord *) theobj->object)->baseduration > -7)
+            {
+              g_warning ("Attempt to change duration of a custom-duration chord");
+              return;//this object has had its duration fixed
+            }
+          //the high value ticks are breve, longa, maxima
           withoutdots = -((chord *) theobj->object)->baseduration;
         }
       else
@@ -885,10 +891,12 @@ set_basic_numticks (DenemoObject * theobj)
           withoutdots = WHOLE_NUMTICKS / power;
         }
       addperdot = withoutdots / 2;
-      theobj->basic_durinticks = withoutdots;
+      // theobj->durinticks = theobj->basic_durinticks = withoutdots; this should be correct, but the display thinks the duration is wrong.
+      theobj->durinticks = theobj->basic_durinticks = withoutdots; //this fails to set durinticks and sets basic_durinticks to the value with dots...
       for (i = 0; i < ((chord *) theobj->object)->numdots; addperdot /= 2, i++)
-        theobj->basic_durinticks += addperdot;
-
+        theobj->basic_durinticks += addperdot;//FIXME this should be theobj->durinticks += addperdot;
+      if (((chord *) theobj->object)->is_grace)
+        theobj->durinticks = 0;
       break;
     default:
       theobj->basic_durinticks = 0;
