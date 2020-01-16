@@ -1376,7 +1376,7 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                 if (pchord->notes->next || pchord->chordize)    //multi-note chord
                   g_string_append_printf (ret, ">");
 
-                if (duration != prevduration || numdots != prevnumdots || duration < 0)
+                if (duration != prevduration || numdots != prevnumdots || pchord->baseduration < 0)
                   {
                     /* only in this case do we explicitly note the duration */
                     outputret;
