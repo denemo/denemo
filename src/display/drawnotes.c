@@ -120,7 +120,15 @@ draw_notehead (cairo_t * cr, note * thenote, gint duration, gint numdots, gint x
       noteheadtype = 3;
     }
   if (duration < 0)
-    noteheadtype = 0;
+    {
+        if (duration < -7)
+          noteheadtype = 0;
+        else
+          {
+             cairo_set_source_rgba (cr, 0.2, 0.2, 0.8, 1.0);
+             noteheadtype = MIN (-duration, 2);
+          }
+    }
 
   /* Draw the accidental, if necessary.  Note that this has to be
      done before xx is modified, as the the value in
@@ -241,13 +249,16 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
   DenemoObject *nextmuditem = (DenemoObject *) (curobj->next ? curobj->next->data : NULL);
   chord thechord = *(chord *) mudelaitem->object;
+  gint noteheadtype;
   gint duration = thechord.baseduration;
-  gint noteheadtype = MIN (duration, 2);
-
-  /* Change those two so that they're cached instead */
-  if (duration < 0)
-    noteheadtype = 0;
-
+   if (duration < 0)
+    {
+      duration = -duration;
+      noteheadtype = 2; //3;!!!! instead of diamond it does reversealign
+    }
+   else
+    noteheadtype = MIN (duration, 2);
+  
   gint i;
   gint beampainty, arcwidth;
 
@@ -409,7 +420,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
           for (curnode = thechord.notes; curnode; curnode = curnode->next)
             {
               note *thenote = (note *) curnode->data;
-              draw_notehead (cr, thenote, duration, thechord.numdots, xx, y, accs, thechord.is_stemup, override_notehead, gx, gy, at_cursor, mudelaitem->isinvisible);
+              draw_notehead (cr, thenote, thechord.baseduration, thechord.numdots, xx, y, accs, thechord.is_stemup, override_notehead, gx, gy, at_cursor, mudelaitem->isinvisible);
             }
         }
     }
@@ -438,7 +449,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                   else
                     prevbaseduration = ((chord *) prevmuditem->object)->baseduration;
                   nextbaseduration = ((chord *) nextmuditem->object)->baseduration;
-                  for (i = 4, beampainty = thechord.stemy + FIRSTBEAMSPACE; i <= thechord.baseduration; i++, beampainty += SUBSQBEAMSPACE)
+                  for (i = 4, beampainty = thechord.stemy + FIRSTBEAMSPACE; i <= duration; i++, beampainty += SUBSQBEAMSPACE)
                     {
                       if (nextbaseduration >= i)
                         {
@@ -458,7 +469,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
               else
                 {               /* We're at the end of a beamgroup */
                   if (prevmuditem)
-                    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1, 4), beampainty = thechord.stemy + FIRSTBEAMSPACE + (SUBSQBEAMSPACE * (i - 4)); i <= thechord.baseduration; i++, beampainty += SUBSQBEAMSPACE)
+                    for (i = MAX (((chord *) prevmuditem->object)->baseduration + 1, 4), beampainty = thechord.stemy + FIRSTBEAMSPACE + (SUBSQBEAMSPACE * (i - 4)); i <= duration; i++, beampainty += SUBSQBEAMSPACE)
                       {
                         /* Draw a stub to the left of the staff */
                         cairo_rectangle (cr, xx + headwidths[noteheadtype] - 1 - STUB_WIDTH, y + beampainty, STUB_WIDTH, THICKBEAM_HEIGHT);
@@ -520,7 +531,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
                     prevbaseduration = ((chord *) prevmuditem->object)->baseduration;
 
                   nextbaseduration = ((chord *) nextmuditem->object)->baseduration;
-                  for (i = 4, beampainty = thechord.stemy - FIRSTBEAMSPACE - THICKBEAM_HEIGHT + 1; i <= thechord.baseduration; i++, beampainty -= SUBSQBEAMSPACE)
+                  for (i = 4, beampainty = thechord.stemy - FIRSTBEAMSPACE - THICKBEAM_HEIGHT + 1; i <= duration; i++, beampainty -= SUBSQBEAMSPACE)
                     {
                       if (nextbaseduration >= i)
                         {
@@ -540,7 +551,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
               else
                 {               /* We're at the end of a beamgroup */
                   if (prevmuditem)      //sanity check
-                    for (i = MAX (((chord *) prevmuditem->object)->baseduration, 4), beampainty = thechord.stemy - FIRSTBEAMSPACE - THICKBEAM_HEIGHT + 1 - (SUBSQBEAMSPACE * (i - 4)); i <= thechord.baseduration; i++, beampainty -= SUBSQBEAMSPACE)
+                    for (i = MAX (((chord *) prevmuditem->object)->baseduration, 4), beampainty = thechord.stemy - FIRSTBEAMSPACE - THICKBEAM_HEIGHT + 1 - (SUBSQBEAMSPACE * (i - 4)); i <= duration; i++, beampainty -= SUBSQBEAMSPACE)
                       {
                         /* Draw a stub to the left of the staff */
                         cairo_rectangle (cr, xx - STUB_WIDTH, y + beampainty, STUB_WIDTH, THICKBEAM_HEIGHT);
