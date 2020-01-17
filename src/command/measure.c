@@ -454,7 +454,7 @@ setsdir (objnode * starter, objnode * ender, gint beamgroup_sum, gint beamgroup_
       theobj = (DenemoObject *) curobjnode->data;
       if (theobj->type == CHORD)
         {
-          if ((((chord *) theobj->object)->baseduration <= 0))
+          if ((((chord *) theobj->object)->baseduration == 0) || (((chord *) theobj->object)->baseduration <-7))
             /* Whole notes are always laid out stemup */
             ((chord *) theobj->object)->is_stemup = TRUE;
           else
@@ -640,6 +640,10 @@ set_accidental_positions (DenemoObject * the_chord)
   gint i;
   chord chordval = *(chord *) the_chord->object;
   gint baseduration = chordval.baseduration;
+  if (baseduration<-7)
+    baseduration = 0;
+  if (baseduration < 0)
+    baseduration = -baseduration;
   if (g_list_length (chordval.notes) > ACCS_TOO_CLOSE)
     return;
 
