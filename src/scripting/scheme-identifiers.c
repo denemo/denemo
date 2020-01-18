@@ -251,6 +251,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Moves the cursor to object to the left returning #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevObject", scheme_prev_object);
   install_scm_function (0, "Moves the cursor to the next object in the current measure, returning #f if there were no more objects to the left in the current measure", DENEMO_SCHEME_PREFIX "NextObjectInMeasure", scheme_next_object_in_measure);
   install_scm_function (0, "Moves the cursor to the previous object in the current measure, returning #f if the cursor was on the first object", DENEMO_SCHEME_PREFIX "PrevObjectInMeasure", scheme_prev_object_in_measure);
+  install_scm_function (0, "Returns #f if there are objects in the measure after the cursor", DENEMO_SCHEME_PREFIX "IsMeasureEnd", scheme_is_measure_end);
+
   install_scm_function (0, "Moves the cursor to the next object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "NextSelectedObject", scheme_next_selected_object);
   install_scm_function (0, "Moves the cursor to the previous object in the selection. Returns #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevSelectedObject", scheme_prev_selected_object);
   install_scm_function (0, "Moves the cursor the the next object of type CHORD in the current staff. Returns #f if the cursor did not move", DENEMO_SCHEME_PREFIX "NextChord", scheme_next_chord);

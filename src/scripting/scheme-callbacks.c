@@ -3395,44 +3395,41 @@ scheme_set_duration_in_ticks (SCM duration)
 
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
     return SCM_BOOL_F;
-  gint thedur = 0;
+  gint thedur = -1; //unset
   if (scm_is_integer (duration))
     {
       thedur = scm_to_int (duration);
     }
+
   if (thedur >= 0)
-    {
-      curObj->basic_durinticks = curObj->durinticks = thedur;
-      if (curObj->type == CHORD)
-        { 
-          chord *thechord = (chord *) curObj->object;
-          
-            if (scm_is_integer (duration))
-              {
-                thechord->baseduration *= -1;// = -thedur;
-                if (thechord->baseduration == 0)
-                  thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here
-                //thechord->numdots = 0;
-                if (thechord->is_grace)
-                  thechord->is_grace |= DURATION_SET;
-              }
-          else
-              {
-                if (thechord->is_grace)
-                  thechord->is_grace &= ~DURATION_SET;
-                gint duration = thechord->baseduration;
-                if ((duration >= -7) && (duration < 0))
-                  duration *= -1;
-                changedur (curObj, duration, thechord->numdots);
-              }
-        }
-      objnode *prev = Denemo.project->movement->currentobject->prev;
-      DenemoObject *prevObj = prev ? (DenemoObject *) prev->data : NULL;
-      gint starttick = (prevObj ? prevObj->starttickofnextnote : 0);
-      curObj->starttickofnextnote = starttick + thedur;
-      return SCM_BOOL_T;
+    curObj->basic_durinticks = curObj->durinticks = thedur;
+  if (curObj->type == CHORD)
+    { 
+      chord *thechord = (chord *) curObj->object;
+      
+      if (thedur >= 0)
+          {
+            thechord->baseduration *= -1;
+            if (thechord->baseduration == 0)
+              thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here
+            if (thechord->is_grace)
+              thechord->is_grace |= DURATION_SET;
+          }
+      else
+          {
+            if (thechord->is_grace)
+              thechord->is_grace &= ~DURATION_SET;
+            gint duration = thechord->baseduration;
+            if ((duration >= -7) && (duration < 0))
+              duration *= -1;
+            changedur (curObj, duration, thechord->numdots);
+          }
     }
-  return SCM_BOOL_F;
+  objnode *prev = Denemo.project->movement->currentobject->prev;
+  DenemoObject *prevObj = prev ? (DenemoObject *) prev->data : NULL;
+  gint starttick = (prevObj ? prevObj->starttickofnextnote : 0);
+  curObj->starttickofnextnote = starttick + ((thedur < 0)? curObj->durinticks:thedur);
+  return SCM_BOOL_T;
 }
 
 
@@ -7287,6 +7284,11 @@ scheme_prev_chord_in_measure (SCM optional)
   return SCM_BOOL (cursor_to_prev_chord_in_measure ());
 }
 
+SCM
+scheme_is_measure_end (void)
+{
+  return SCM_BOOL (Denemo.project->movement->currentobject? Denemo.project->movement->currentobject->next==NULL: TRUE);
+}
 
 
 

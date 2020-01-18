@@ -173,6 +173,7 @@ SCM scheme_diatonic_shift (SCM);
 SCM scheme_next_object (void);
 SCM scheme_prev_object (void);
 SCM scheme_next_object_in_measure (void);
+SCM scheme_is_measure_end (void);
 SCM scheme_prev_object_in_measure (void);
 SCM scheme_next_selected_object (SCM);
 SCM scheme_prev_selected_object (SCM);
