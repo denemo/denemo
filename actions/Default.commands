@@ -1339,7 +1339,6 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <_label>New Movement</_label>
         <_tooltip>Create a new movement, using any default template</_tooltip>
       </row>
-
       <row type="builtin">
         <action>ExportMUDELA</action>
         <menupath>/MainMenu/FileMenu/Export</menupath>
@@ -1352,7 +1351,6 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <_label>Export PDF</_label>
         <_tooltip>Export the score as a PDF document file</_tooltip>
       </row>
-
       <row type="builtin">
         <action>ExportPNG</action>
         <menupath>/MainMenu/FileMenu/Export</menupath>
@@ -8447,6 +8445,27 @@ Invoke the command again to stop.</_tooltip>
         <menupath>/MainMenu/FileMenu</menupath>
         <_label>Reload Score</_label>
         <_tooltip>Reloads the current score from last saved version on disk.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SwingStaff</action>
+        <after>MuteStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
+        <_label>Swing Staff</_label>
+        <_tooltip>Changes the playback duration of pairs of 𝅘𝅥𝅮  notes for swing or notes inegales. Does not affect typestting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>StaffSoundGraceNotes</action>
+        <after>SwingStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
+        <_label>Sound Grace Notes</_label>
+        <_tooltip>Grace notes will be played back as appogiature, stealing time from the following note. Not for Playback View which uses LilyPond's MIDI to play back.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>StaffRemoveCustomDurations</action>
+        <after>StaffSoundGraceNotes</after>
+        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
+        <_label>Remove Custom Durations (Swing/Graces)</_label>
+        <_tooltip>Removes the special durations applied by swing and sounding grace notes.</_tooltip>
       </row>
     </map>
   </merge>

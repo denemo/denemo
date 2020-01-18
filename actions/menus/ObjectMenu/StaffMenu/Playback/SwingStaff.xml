@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SwingStaff</action>
+        <after>MuteStaff</after>
+        <_label>Swing Staff</_label>
+        <_tooltip>Changes the playback duration of pairs of 𝅘𝅥𝅮  notes for swing or notes inegales. Does not affect typestting.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

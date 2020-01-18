@@ -2132,6 +2132,12 @@ actions/menus/ObjectMenu/StaffMenu/Playback/MuteStaff.scm
 actions/menus/ObjectMenu/StaffMenu/Playback/MuteStaff.xml
 actions/menus/ObjectMenu/StaffMenu/Playback/SetInitialVolumeToZero.scm
 actions/menus/ObjectMenu/StaffMenu/Playback/SetInitialVolumeToZero.xml
+actions/menus/ObjectMenu/StaffMenu/Playback/StaffRemoveCustomDurations.scm
+actions/menus/ObjectMenu/StaffMenu/Playback/StaffRemoveCustomDurations.xml
+actions/menus/ObjectMenu/StaffMenu/Playback/StaffSoundGraceNotes.scm
+actions/menus/ObjectMenu/StaffMenu/Playback/StaffSoundGraceNotes.xml
+actions/menus/ObjectMenu/StaffMenu/Playback/SwingStaff.scm
+actions/menus/ObjectMenu/StaffMenu/Playback/SwingStaff.xml
 actions/menus/ObjectMenu/StaffMenu/PrintEffects/ClearStaffProlog.scm
 actions/menus/ObjectMenu/StaffMenu/PrintEffects/ClearStaffProlog.xml
 actions/menus/ObjectMenu/StaffMenu/PrintEffects/TransposeStaffOutput.scm

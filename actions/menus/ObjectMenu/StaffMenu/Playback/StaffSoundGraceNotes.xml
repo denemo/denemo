@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>StaffSoundGraceNotes</action>
+        <after>SwingStaff</after>
+        <_label>Sound Grace Notes</_label>
+        <_tooltip>Grace notes will be played back as appogiature, stealing time from the following note. Not for Playback View which uses LilyPond's MIDI to play back.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

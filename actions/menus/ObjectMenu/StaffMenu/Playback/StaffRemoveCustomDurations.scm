@@ -1,0 +1,10 @@
+;;;StaffRemoveCustomDurations
+(let ()
+(define (remove-duration)
+    (if (and (Note?) (not (d-GetNoteDuration)))
+        (d-SetDurationInTicks #f)))
+(d-MoveToBeginning)        
+(remove-duration)
+(while (d-NextNote)
+    (remove-duration))
+    (d-SetSaved #f))
