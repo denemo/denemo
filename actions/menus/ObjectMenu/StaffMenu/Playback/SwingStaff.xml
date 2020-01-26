@@ -8,7 +8,7 @@
         <action>SwingStaff</action>
         <after>MuteStaff</after>
         <_label>Swing Staff</_label>
-        <_tooltip>Changes the playback duration of pairs of 𝅘𝅥𝅮  notes for swing or notes inegales. Does not affect typestting.</_tooltip>
+        <_tooltip>Changes the playback duration of pairs of 𝅘𝅥𝅮  notes for swing or notes inègales. Does not affect typesetting.</_tooltip>
       </row>
     </map>
   </merge>
