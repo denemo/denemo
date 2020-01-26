@@ -2119,7 +2119,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
                   if (fakechords->len)
                     g_string_append (fakechords, "\n");
 
-                  if ((curobjnode != NULL) && ((curobj == NULL) || curobj->type != LILYDIRECTIVE))      /* if it ends in a lilydirective, the user may want to choose their own barline style, let them */
+                  if ((curobjnode != NULL) && ((curobj == NULL) || curobj->type == CHORD))      /* if it doesn't end with a note or rest, the user may want to choose their own barline style, let them */
                     {
                       if (curmeasure->next)
                         g_string_append_printf (endstr, "%s", "\\AutoBarline\n");
