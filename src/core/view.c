@@ -1258,6 +1258,13 @@ static void
 pb_panic (GtkWidget * button)
 {
   playback_panic ();
+#ifndef G_OS_WIN32  //possible crash on windows?
+#ifndef _HAVE_JACK_
+   midi_stop ();
+   audio_shutdown ();
+   audio_initialize (&Denemo.prefs);
+#endif
+#endif  
   Denemo.project->movement->start_time = 0.0;
   Denemo.project->movement->end_time = -1.0;    //ie unset
   fix_start_end_ordering ();
