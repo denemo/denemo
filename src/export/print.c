@@ -31,6 +31,9 @@
 #include "export/exportlilypond.h"
 #include "core/utils.h"
 
+gint LilyPond_stderr;       //A file descriptor to pipe for LilyPond's stderr
+GError *lily_err;
+GPid previewerpid;
 
 
 #if GTK_MAJOR_VERSION==3

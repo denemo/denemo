@@ -446,7 +446,7 @@ enum
   COL_ROW,
   COL_SCHEME,
   N_COLUMNS
-} COMMAND_COLS;
+};
 
 typedef enum { TYPESET_EXCERPT, TYPESET_MOVEMENT, TYPESET_ALL_MOVEMENTS} typeset_type;
 
@@ -1266,6 +1266,7 @@ struct DenemoRoot
   gboolean *silent; /** Don't log any message */
   gboolean *verbose; /** Display every messages */
   guint pending_layout_id;//Non zero when the current layout being created will be renamed to have this id 
-}  Denemo; /**< The root object. */
+};
 
+extern struct DenemoRoot Denemo; /**< The root object. */
 #endif
