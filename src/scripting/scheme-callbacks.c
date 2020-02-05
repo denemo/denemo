@@ -3054,8 +3054,7 @@ scheme_roman_numeral (SCM number)
 SCM
 scheme_get_measure (void)
 {
-  gint num = Denemo.project->movement->currentmeasurenum;
-  return scm_from_int (num);
+  return scheme_get_measure_number ();
 }
 
 SCM
