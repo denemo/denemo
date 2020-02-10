@@ -894,7 +894,10 @@ set_basic_numticks (DenemoObject * theobj)
       // theobj->durinticks = theobj->basic_durinticks = withoutdots; this should be correct, but the display thinks the duration is wrong.
       theobj->durinticks = theobj->basic_durinticks = withoutdots; //this fails to set durinticks and sets basic_durinticks to the value with dots...
       for (i = 0; i < ((chord *) theobj->object)->numdots; addperdot /= 2, i++)
-        theobj->basic_durinticks += addperdot;//FIXME this should be theobj->durinticks += addperdot;
+          theobj->basic_durinticks += addperdot;//FIXME this should be theobj->durinticks += addperdot;
+          
+      theobj->durinticks = theobj->basic_durinticks;   
+          
       if (((chord *) theobj->object)->is_grace)
         theobj->durinticks = 0;
       break;
