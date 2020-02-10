@@ -1089,7 +1089,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Takes one bool parameter - MIDI events will be captured/not captured depending on the value passed in, returns previous value.", DENEMO_SCHEME_PREFIX "SetMidiCapture", scheme_set_midi_capture);
 
-  install_scm_function (0, "Displays a vitural MIDI keyboard. Can take an integer number of octaves to use.", DENEMO_SCHEME_PREFIX "VirtualKeyboard", scheme_virtual_keyboard);
+  install_scm_function (0, "Displays a virtual MIDI keyboard. Can take an integer number of octaves to use.", DENEMO_SCHEME_PREFIX "VirtualKeyboard", scheme_virtual_keyboard);
 
   install_scm_function (0, "Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.", DENEMO_SCHEME_PREFIX "TogglePlayAlong", scheme_toggle_playalong);
   install_scm_function (0, "Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
