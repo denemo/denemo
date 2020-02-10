@@ -1386,8 +1386,9 @@ generate_lily_for_obj (DenemoProject * gui, GtkTextIter * iter, DenemoObject * c
                       g_string_append_printf (ret, "%d", duration);
                     prevduration = duration;
                     prevnumdots = numdots;
-                    for (j = 0; j < numdots; j++)
-                      g_string_append_printf (ret, ".");
+                    if ((duration > 0) || (duration < -7)) //allow dotted breve etc
+                      for (j = 0; j < numdots; j++)
+                        g_string_append_printf (ret, ".");
                     outputret;
                   }
                 else
