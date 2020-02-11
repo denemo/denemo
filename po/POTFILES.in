@@ -1704,6 +1704,8 @@ actions/menus/ObjectMenu/NotesRests/Percussion/Ride.scm
 actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml
 actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.scm
 actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.xml
+actions/menus/ObjectMenu/NotesRests/Playback/ChangeSoundingDuration.scm
+actions/menus/ObjectMenu/NotesRests/Playback/ChangeSoundingDuration.xml
 actions/menus/ObjectMenu/NotesRests/ReplaceChord.scm
 actions/menus/ObjectMenu/NotesRests/ReplaceChord.xml
 actions/menus/ObjectMenu/NotesRests/RestEntry/ConvertToWholeMeasureRests.scm
@@ -2128,8 +2130,6 @@ actions/menus/ObjectMenu/StaffMenu/Ossia/HideOssia.scm
 actions/menus/ObjectMenu/StaffMenu/Ossia/HideOssia.xml
 actions/menus/ObjectMenu/StaffMenu/Ossia/ShowOssia.scm
 actions/menus/ObjectMenu/StaffMenu/Ossia/ShowOssia.xml
-actions/menus/ObjectMenu/StaffMenu/Playback/ChangeSoundingDuration.scm
-actions/menus/ObjectMenu/StaffMenu/Playback/ChangeSoundingDuration.xml
 actions/menus/ObjectMenu/StaffMenu/Playback/MuteStaff.scm
 actions/menus/ObjectMenu/StaffMenu/Playback/MuteStaff.xml
 actions/menus/ObjectMenu/StaffMenu/Playback/SetInitialVolumeToZero.scm

@@ -7739,6 +7739,16 @@ and others in the LilyPond documentation.</_tooltip>
         <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
       </row>
       <row type="scheme">
+        <action>ChangeSoundingDuration</action>
+        <menupath>/ObjectMenu/NotesRests/Playback</menupath>
+        <_label>Change Sounding Duration</_label>
+        <_tooltip>Changes the duration of the note a the cursor for playback purposes, typesetting unaffected.</_tooltip>
+      </row>      
+      
+      
+      
+      
+      <row type="scheme">
         <action>CenterPageNumber</action>
         <after>PrintFirstPageNumber</after>
         <menupath>/ObjectMenu/Score/Typesetter/Numbering</menupath>
@@ -8467,13 +8477,7 @@ Invoke the command again to stop.</_tooltip>
         <_label>Remove Custom Durations (Swing/Graces)</_label>
         <_tooltip>Removes the special durations applied by swing and sounding grace notes.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>ChangeSoundingDuration</action>
-        <after>StaffSoundGraceNotes</after>
-        <menupath>/ObjectMenu/StaffMenu/Playback</menupath>
-        <_label>Change Sounding Duration</_label>
-        <_tooltip>Changes the duration of the note a the cursor for playback purposes, typesetting unaffected.</_tooltip>
-      </row>
+
     </map>
   </merge>
 </Denemo>
