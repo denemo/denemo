@@ -1,22 +1,22 @@
-;;;PrintTwoReduced New version                 
+;;;;PrintTwoReduced New version                 
 (let ((id #f)(tag "Share Staff" )(stems-swapped #f)(upstart 0)(downstart 0)(up 0)(down 0)(o1 1)(o2 1) (m 1) (bar 1)(s1 1)(s2 2)) 
     
     (define (swap-stems)
-        (define (apply-directive)
+        (define (apply-directive nobeam)
             
             (d-DirectivePut-chord-prefix tag (if stems-swapped "\\voiceOne " "\\voiceTwo "))
-            (d-DirectivePut-chord-postfix tag "\\noBeam ")
+            (d-DirectivePut-chord-postfix tag nobeam)
             (d-DirectivePut-chord-display tag (_ "Share Staff"))
             (d-DirectivePut-chord-allow tag id)
             (d-DirectivePut-chord-override tag (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_AFFIX)))
         (d-GoToPosition m s1 bar o1)
-        (apply-directive)
+        (if stems-swapped
+            (apply-directive "\\noBeam ^\\markup \"1\" _\\markup \"2\"")
+            (apply-directive "\\noBeam ^\\markup \"2\" _\\markup \"1\""))
         (set! stems-swapped (not stems-swapped))
         (d-GoToPosition m s2 bar o2)
-        (apply-directive))
-        
-        
-                
+        (apply-directive "\\noBeam"))
+      
      (define (find-upper-note)
             (let loop () (disp "fu: bar:" bar " o1:" o1 " o2:" o2 " upstart:" upstart " downstart:" downstart)
                 (if (d-GoToPosition m s1 bar o1)
