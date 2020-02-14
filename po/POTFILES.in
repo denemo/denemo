@@ -2206,6 +2206,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TinyStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/TransposeStaffPrint.xml
+actions/menus/ObjectMenu/StaffMenu/UndotRests.scm
+actions/menus/ObjectMenu/StaffMenu/UndotRests.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.scm
 actions/menus/ObjectMenu/StaffMenu/Voices/AddMirrorVoice.xml
 actions/menus/ObjectMenu/StaffMenu/Voices/CreatePartsFromTop.scm

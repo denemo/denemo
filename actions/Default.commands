@@ -7743,11 +7743,7 @@ and others in the LilyPond documentation.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/Playback</menupath>
         <_label>Change Sounding Duration</_label>
         <_tooltip>Changes the duration of the note a the cursor for playback purposes, typesetting unaffected.</_tooltip>
-      </row>      
-      
-      
-      
-      
+      </row>
       <row type="scheme">
         <action>CenterPageNumber</action>
         <after>PrintFirstPageNumber</after>
@@ -8477,7 +8473,13 @@ Invoke the command again to stop.</_tooltip>
         <_label>Remove Custom Durations (Swing/Graces)</_label>
         <_tooltip>Removes the special durations applied by swing and sounding grace notes.</_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>UndotRests</action>
+        <after>SimplifyTies</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Un-dot Rests</_label>
+        <_tooltip>Changes dotted rests into the equivalent sequence of un-dotted rests in the current staff. Use e.g. in 6/8 time to replace 𝅘𝅥. with  𝄽 𝄾 </_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

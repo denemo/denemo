@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>UndotRests</action>
+        <after>SimplifyTies</after>
+        <_label>Un-dot Rests</_label>
+        <_tooltip>Changes dotted rests into the equivalent sequence of un-dotted rests in the current staff. Use e.g. in 6/8 time to replace 𝅘𝅥. with  𝄽 𝄾 </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
