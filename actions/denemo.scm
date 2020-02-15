@@ -990,7 +990,7 @@
   (let ((link (d-DirectiveGet-standalone-data "DenemoLink")))
     (if (not link)
         (begin
-            (set! link (d-DirectiveGet-standalone-postfix tag))
+            (set! link (d-DirectiveGet-standalone-postfix "DenemoLink"))
                 (if link
                     (set! link (string-trim-both link   (lambda (c)(or (eqv? c #\{) (eqv? c #\%))))))))
         (if link
