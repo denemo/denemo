@@ -3136,7 +3136,20 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
           warningdialog (_("Erroneous call"));
           goto cleanup;
         }
+    } else {//version 1
+    switch(type) {
+    case REPLACE_SCORE:
+      free_movements (gui);
+      //init_score(gui->movement, gui);
+      point_to_empty_movement (gui);
+     //gui->movement->currentstaffnum = 0;
+      ret =  parseMovement(rootElem, gui, type);
+      break;
+    default:
+      warningdialog("Erroneous call");
+      goto cleanup;
     }
+  }
 
   if (gui->movement->lyricsbox)
     gtk_widget_hide (gui->movement->lyricsbox);
