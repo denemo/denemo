@@ -1,4 +1,4 @@
-;;;;PrintTwoReduced New version                 
+;;PrintTwoReduced New version                 
 (let ((id #f)(tag "Share Staff" )(stems-swapped #f)(upstart 0)(downstart 0)(up 0)(down 0)(o1 1)(o2 1) (m 1) (bar 1)(s1 1)(s2 2)) 
     
     (define (swap-stems)
@@ -95,6 +95,8 @@
 ;;;;
 (d-CreateLayout tag)  
 (set! id (d-GetLayoutId))
+(d-DirectivePut-scoreheader-postfix tag "\ninstrumentation=\"Accompanist's Score\"\n")
+
 (d-DeleteLayout tag)
 
 (while (<= m (d-GetMovementsInScore))
@@ -109,7 +111,8 @@
     (d-SmallerStaff) ;; FIXME make conditional
     (d-DirectivePut-voice-postfix tag "\\voiceOne") 
     (d-DirectivePut-voice-allow tag id)
-    
+    (d-DirectivePut-staff-prefix tag "instrumentName = \\markup Soli")
+    (d-DirectivePut-staff-override tag  (logior DENEMO_ALT_OVERRIDE  DENEMO_OVERRIDE_AFFIX  DENEMO_OVERRIDE_GRAPHIC))
     (d-DirectivePut-standalone tag)
     (d-DirectivePut-standalone-minpixels tag 5)
     (d-DirectivePut-standalone-postfix tag "\\override Voice.Slur.stencil = ##f                   
@@ -131,14 +134,16 @@
     (set! m (1+ m)))
 (d-CreateLayout tag)  
 (d-SelectDefaultLayout)
+(d-DirectiveDelete-scoreheader tag)
 (set! m 1) 
 (while (<= m (d-GetMovementsInScore))
     (d-GoToPosition m s1 1 1)
     (d-SmallerStaff)
+    (d-DirectiveDelete-staff tag)
     (d-GoToPosition m s2 1 1) 
-    (disp "Restoring voice as staff in movement " m "\n")
+    ;(disp "Restoring voice as staff in movement " m "\n")
     (d-SetCurrentVoiceAsStaff)
-    (d-SmallerStaff)
+    (d-SmallerStaff) ;;deletes the smaller staff directive as it is fixed in the ShareStaff layout
     (set! m (1+ m)))
 (d-GoToPosition 1 1 1 1)
 (d-SelectLayoutId id)
