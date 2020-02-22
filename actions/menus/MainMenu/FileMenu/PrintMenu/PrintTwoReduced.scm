@@ -1,5 +1,5 @@
 ;;PrintTwoReduced Simpler version using partCombine                
-(let ((id #f)(tag "Share Staff" )(stems-swapped #f)(upstart 0)(downstart 0)(up 0)(down 0)(o1 1)(o2 1) (m 1) (bar 1)(s1 1)(s2 2)) 
+(let ((id #f)(tag "Part Combine" )(stems-swapped #f)(upstart 0)(downstart 0)(up 0)(down 0)(o1 1)(o2 1) (m 1) (bar 1)(s1 1)(s2 2)) 
 (set! id (d-GetIdForName tag))
 (d-DirectivePut-scoreheader-postfix tag "\ninstrumentation=\"Accompanist's Score\"\n")
 
@@ -16,12 +16,16 @@
     (d-DirectivePut-staff-prefix tag "instrumentName = \\markup Soli")
     (d-DirectivePut-staff-override tag  (logior DENEMO_ALT_OVERRIDE  DENEMO_OVERRIDE_AFFIX  DENEMO_OVERRIDE_GRAPHIC))
     (d-DirectivePut-standalone tag)
-    (d-DirectivePut-standalone-minpixels tag 5)
+    (d-DirectivePut-standalone-minpixels tag 10)
     (d-DirectivePut-standalone-postfix tag "\\omit Staff.Slur \\omit Staff.Tie ")
     (d-DirectivePut-standalone-allow tag id)
+    
     (d-GoToPosition m s2 bar o2)
     (d-SmallerStaff)
-    (d-SetCurrentStaffAsVoice)
+    (d-SetCurrentStaffAsVoice)    
+    (d-DirectivePut-standalone tag)
+    (d-DirectivePut-standalone-minpixels tag 10)
+    (d-DirectivePut-standalone-postfix tag "\\omit Staff.Slur \\omit Staff.Tie ")
     (d-PartCombine tag)
     (set! m (1+ m)))
 (d-CreateLayout tag)  
