@@ -5,7 +5,7 @@
             (begin
             (d-OpenNthTimeBar "edit")))
         (begin
-            (if (and (FullDurationMeasure?) (Appending?))
+            (if (and (FullDurationMeasure?) (Appending?)(LastMeasure?))
                   (d-AddMeasure))
             (d-Directive-standalone tag)
             (d-DirectivePut-standalone-minpixels tag 50)
