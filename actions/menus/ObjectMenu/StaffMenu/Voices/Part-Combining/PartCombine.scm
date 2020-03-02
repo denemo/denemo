@@ -1,8 +1,7 @@
-;;;PartCombine
+;;;PartCombine (no toggle when passed a parameter)
 (let ((tag "PartCombine")(name PartCombine::params))
 	(define (install-combine)
-
-		(if (d-Directive-voice? tag)
+		(if (and (d-Directive-voice? tag) (not name))
 			(begin
 				(d-DirectiveDelete-voice tag)
 				(d-MoveToVoiceDown)
@@ -37,5 +36,4 @@
 					(d-WarningDialog (_ "Can only part-combine two voices"))
 					(install-combine))
 				(d-WarningDialog (_ "Must be on a staff with two voices"))))
-    
 	(d-PopPosition))

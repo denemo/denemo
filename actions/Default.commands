@@ -167,6 +167,18 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <_tooltip>Add a verse of lyrics</_tooltip>
       </row>
       <row type="builtin">
+        <action>SetMark</action>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <_label>Set Selection Start</_label>
+        <_tooltip>Sets the start and end point of the selection to the object at the cursor.</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>SetPoint</action>
+        <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
+        <_label>Extend Selection to Cursor</_label>
+        <_tooltip>Extends and existing selection to the current cursor position  (selection start must have been set)</_tooltip>
+      </row>
+      <row type="builtin">
         <action>CursorLeft</action>
         <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
         <_label>Selection Cursor Left</_label>
@@ -1148,24 +1160,12 @@ The cursor position determines which note to add</_tooltip>
         <_label>Set Ab Minor as Initial Keysig</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
-      <row type="builtin">
-        <action>SetMark</action>
-        <menupath>/MainMenu/EditMenu/Select</menupath>
-        <_label>Set Mark</_label>
-        <_tooltip>Sets the start point for a selection,
-the end point of the selection is unaltered</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>UnsetMark</action>
         <menupath>/MainMenu/EditMenu/Select</menupath>
-        <_label>Unset Mark</_label>
+        <_label>Drop the Selection</_label>
         <_tooltip>Gets rid of the selection.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>SetPoint</action>
-        <menupath>/MainMenu/EditMenu/Select</menupath>
-        <_label>Set Point</_label>
-        <_tooltip>Extends the selection to the current cursor position</_tooltip>
       </row>
       <row type="builtin">
         <action>ToggleBeginSlur</action>
@@ -5437,7 +5437,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
         <action>SelectAll</action>
-        <after>UnsetMark</after>
+        <after>SetPoint</after>
         <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Select All Music In Movement</_label>
         <_tooltip>Creates a selection for all the music in the current movement.</_tooltip>
@@ -5477,7 +5477,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
       </row>
       <row type="scheme">
         <action>SelectStaff</action>
-        <after>UnsetMark</after>
+        <after>SelectPoint</after>
         <menupath>/MainMenu/EditMenu/Select</menupath>
         <_label>Select Staff</_label>
         <_tooltip>Selects the whole staff</_tooltip>
