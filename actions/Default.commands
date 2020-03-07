@@ -1160,7 +1160,6 @@ The cursor position determines which note to add</_tooltip>
         <_label>Set Ab Minor as Initial Keysig</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
-
       <row type="builtin">
         <action>UnsetMark</action>
         <menupath>/MainMenu/EditMenu/Select</menupath>

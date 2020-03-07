@@ -21,6 +21,7 @@
     (d-DirectivePut-standalone-postfix tag (string-append (d-GetPrevailingKeysigAsLilyPond) "\\omit Staff.Slur "))
     (d-PartCombine tag)
     (set! m (1+ m)))
+ (d-DeleteLayout tag)
 (d-CreateLayout tag)  
 (d-SelectDefaultLayout)
 (d-DirectiveDelete-scoreheader tag)
