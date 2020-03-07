@@ -81,24 +81,43 @@ AC_ARG_ENABLE(
   [
     if test "x$enableval" != "xno"; then
       useguile_2_0=yes
-      PKG_CHECK_MODULES(GUILE_2, guile-2.0 >= 2.0)
-      LIBS="$LIBS $GUILE_2_LIBS"
-      CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
+      PKG_CHECK_MODULES(GUILE_2_0, guile-2.0 >= 2.0)
+      LIBS="$LIBS $GUILE_2_0_LIBS"
+      CFLAGS="$CFLAGS $GUILE_2_0_CFLAGS"
     fi
   ], [ useguile_2_0=no ])
 
-if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"]; then
-  PKG_CHECK_MODULES([GUILE_2], [guile-2.0], useguile_2_0=yes, useguile_2_0=no)
-  LIBS="$LIBS $GUILE_2_LIBS"
-  CFLAGS="$CFLAGS $GUILE_2_CFLAGS"
-  if test "x$useguile_2_0" = "xno"; then
-    PKG_CHECK_MODULES(GUILE_1_8, guile-1.8 >= 1.8)
-    LIBS="$LIBS $GUILE_1_8_LIBS"
-    CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
-    useguile_1_8=yes
-  else
-    useguile_2_0=yes
-  fi
+AC_ARG_ENABLE(
+  guile_2_2,
+  AS_HELP_STRING([--enable-guile_2_2], [use GUILE_2_2 @<:@default=no@:>@]),
+  [
+    if test "x$enableval" != "xno"; then
+      useguile_2_2=yes
+      PKG_CHECK_MODULES(GUILE_2_2, guile-2.2 >= 2.2)
+      LIBS="$LIBS $GUILE_2_2_LIBS"
+      CFLAGS="$CFLAGS $GUILE_2_2_CFLAGS"
+    fi
+  ], [ useguile_2_2=no ])
+
+if [test "x$useguile_1_8" = "xno"] && [test "x$useguile_2_0" = "xno"] && [test "x$useguile_2_2" = "xno"]; then
+  PKG_CHECK_MODULES([GUILE_2_2], [guile-2.2],
+    [ useguile_2_2=yes
+      LIBS="$LIBS $GUILE_2_2_LIBS"
+      CFLAGS="$CFLAGS $GUILE_2_2_CFLAGS"
+    ],
+    [PKG_CHECK_MODULES([GUILE_2_0], [guile-2.0],
+      [ useguile_2_0=yes
+        LIBS="$LIBS $GUILE_2_0_LIBS"
+        CFLAGS="$CFLAGS $GUILE_2_0_CFLAGS"
+      ],
+      [PKG_CHECK_MODULES([GUILE_1_8], [guile-1.8],
+        [ useguile_1_8=yes
+          LIBS="$LIBS $GUILE_1_8_LIBS"
+          CFLAGS="$CFLAGS $GUILE_1_8_CFLAGS"
+        ]
+      )]
+    )]
+  )
 fi
 
 PKG_CHECK_MODULES(GLIB, [glib-2.0 >= 2.30])
