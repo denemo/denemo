@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>GraceAfter</action>
         <_label>Grace After</_label>
-        <_tooltip>Print the grace note(s) at the cursor attached to the previous note. Beware! You must reissue this command if you change the notes in any way, only the pitch and duration when this command was issued will be printed.</_tooltip>
+        <_tooltip>The grace note(s) following the current note will be typeset attached to the current note, rather than the note that follows them.</_tooltip>
       </row>
     </map>
   </merge>
