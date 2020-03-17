@@ -4149,7 +4149,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>GraceAfter</action>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
-        <_label>Grace After</_label>
+        <_label>Grace After (Off/On)</_label>
         <_tooltip>The grace note(s) following the current note will be typeset attached to the current note, rather than the note that follows them.</_tooltip>
       </row>
       <row type="scheme">
@@ -6152,7 +6152,7 @@ for second and subsequent systems</_tooltip>
         <after>GraceAfter</after>
         <menupath>/ObjectMenu/NotesRests/GraceNotes</menupath>
         <_label>Un-Grace After</_label>
-        <_tooltip>Make the grace note at the cursor closer to the following rather than preceding note.</_tooltip>
+        <_tooltip>Remove grace after created with Denemo versions before 2.4</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleUpPrall</action>

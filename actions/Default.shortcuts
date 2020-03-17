@@ -1039,6 +1039,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>UnGraceAfter</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ChooseSeekEditDirectives</action>
         <bind>Ctrl+e,Ctrl+e</bind>
       </row>

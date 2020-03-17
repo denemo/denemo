@@ -8,7 +8,7 @@
         <after>GraceAfter</after>
         <action>UnGraceAfter</action>
         <_label>Un-Grace After</_label>
-        <_tooltip>Make the grace note at the cursor closer to the following rather than preceding note.</_tooltip>
+        <_tooltip>Remove grace after created with Denemo versions before 2.4</_tooltip>
       </row>
     </map>
   </merge>
