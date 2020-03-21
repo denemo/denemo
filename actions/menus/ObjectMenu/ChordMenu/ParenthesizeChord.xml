@@ -6,7 +6,7 @@
     <map>
       <row type="scheme">
         <action>ParenthesizeChord</action>
-        <_label>Parenthesize Chord</_label>
+        <_label>Parenthesize Chord (Off/On)</_label>
         <_tooltip>Enclose the chord in ( ) on printing.</_tooltip>
       </row>
     </map>

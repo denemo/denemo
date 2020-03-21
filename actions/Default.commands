@@ -5048,7 +5048,7 @@ accidentals are usually printed over the note.</_tooltip>
       <row type="scheme">
         <action>ParenthesizeChord</action>
         <menupath>/ObjectMenu/ChordMenu</menupath>
-        <_label>Parenthesize Chord</_label>
+        <_label>Parenthesize Chord (Off/On)</_label>
         <_tooltip>Enclose the chord in ( ) on printing.</_tooltip>
       </row>
       <row type="scheme">
