@@ -1949,7 +1949,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
 #endif
           gtk_box_pack_start (GTK_BOX (vbox), separator, FALSE, TRUE, 0);
 
-          GtkWidget *button = gtk_button_new_with_label (_("Add/Remove attributes"));
+          GtkWidget *button = gtk_button_new_with_label (_("Add/alter object from menu"));
           g_signal_connect (button, "clicked", G_CALLBACK (general_edit_popup), EDIT_CHORD);
           gtk_box_pack_start (GTK_BOX (vbox), button, FALSE, TRUE, 0);
         }
