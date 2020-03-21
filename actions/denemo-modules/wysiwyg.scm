@@ -622,7 +622,7 @@ To do this dismiss this dialog and guess at where the red spot is on the object.
                     (d-DirectivePut-chord-postfix tag (string-append  (string-append (if (and (AtRest?) (d-GetNonprinting)) "<>" "") choice " " lilypond " ")))
                     (d-SetSaved #f)))))
     (if (and (d-Directive-chord? tag) (equal? params "edit"))
-        (case (GetEditOption)
+        (case (GetEditOption (string-append (_ "Edit Directive tagged ") tag))
             ((edit) (direction-edit))
             ((cancel) #f)
             ((advanced) (d-DirectiveTextEdit-chord tag))

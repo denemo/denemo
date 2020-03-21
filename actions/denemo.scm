@@ -1035,8 +1035,8 @@
         (if (not (zero? (logand override DENEMO_OVERRIDE_DYNAMIC)))
             (eval-string (string-append "(d-" tag " 'recalculate)"))))))
 ;;;;;;
-(define (GetEditOption)
-    (define  choice (d-GetOption  (string-append cue-Edit stop  cue-Delete stop cue-Advanced stop)))
+(define* (GetEditOption #:optional (title (_ "Select from List (or Cancel)")))
+    (define  choice (d-GetOption  (string-append cue-Edit stop  cue-Delete stop cue-Advanced stop) title))
    (cond
      ((boolean? choice)
       'cancel)
