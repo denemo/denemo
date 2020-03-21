@@ -34,7 +34,7 @@
 static gboolean text_edit_directive (DenemoDirective * directive, gchar * what);
 
 static GHashTable *action_scripts;
-
+static gboolean edit_directive (DenemoDirective * directive, gchar * what);
 
 gchar * difference_of_directive (DenemoDirective *d1, DenemoDirective *d2)
 {
@@ -1349,7 +1349,7 @@ static void action_ignore (DenemoDirective *directive, guint value) {
           for (g=directive->layouts;g;g=g->next)
             {
               //g_list_free (directive->layouts);//g_print("Removed conditions\n");
-              guint id = (guint)g->data;
+              guint id = GPOINTER_TO_INT(g->data);
               if (is_omission_criterion(id))
                 continue;
               else
@@ -1388,7 +1388,7 @@ static void action_allow (DenemoDirective *directive, guint value) {
       for (g=directive->layouts;g;g=g->next)
         {
           //g_list_free (directive->layouts);//g_print("Removed conditions\n");
-          if (is_omission_criterion((guint)g->data))
+          if (is_omission_criterion(GPOINTER_TO_INT(g->data)))
               continue;
           else
             directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(g->data));
@@ -1792,7 +1792,7 @@ editor_keypress (GtkWidget * w, GdkEventKey * event, DenemoDirective * directive
         if (directives_ptr)
           delete_directive (g_object_get_data (G_OBJECT (directive->widget), "directives-pointer"), directive->tag->str);
         else
-          warningdialog (_("Cannot delete via this mechanism, sorry"));
+          warningdialog (_("Cannot delete via this mechanism, use appropriate Object Editor"));
         return TRUE;
       }
   if (event->keyval == GDK_KEY_Return)
@@ -2334,20 +2334,22 @@ pack_buttons (GtkWidget * vbox, GList * directives, DenemoDirective ** response)
       count++;
       if (*response == NULL)
         *response = directive;
+      gchar *text = g_strdup_printf("%s (tag: %s)", directive->display?directive->display->str:"", directive->tag->str);
       if (widget == NULL)
         {
-          widget = gtk_radio_button_new_with_label (NULL, directive->tag->str); //FIXME get_label_for_tag() and get_tooltip_for_tag() here!!!
+          widget = gtk_radio_button_new_with_label (NULL, text); //FIXME get_label_for_tag() and get_tooltip_for_tag() here!!!
           g_object_set_data (G_OBJECT (widget), "choice", directive);
           g_signal_connect (G_OBJECT (widget), "toggled", G_CALLBACK (tag_choice), response);
           gtk_box_pack_start (GTK_BOX (vbox), widget, FALSE, TRUE, 0);
         }
       else
         {
-          widget2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), directive->tag->str);
+          widget2 = gtk_radio_button_new_with_label_from_widget (GTK_RADIO_BUTTON (widget), text);
           g_object_set_data (G_OBJECT (widget2), "choice", directive);
           g_signal_connect (G_OBJECT (widget2), "toggled", G_CALLBACK (tag_choice), response);
           gtk_box_pack_start (GTK_BOX (vbox), widget2, FALSE, TRUE, 0);
         }
+      g_free (text);
     }
   return count;
 }
@@ -2409,7 +2411,41 @@ select_directive (gchar * instr, GList * directives)
   return response;
 }
 
-
+/* let the user choose from the directives on chord at the cursor */
+static DenemoDirective *user_select_chord_directive (void)
+  {
+    DenemoDirective *directive = NULL;
+    gchar *instr = _("Select a directive attached to the chord\nShift-click for Advanced Edit");
+    chord *curchord = get_chord ();
+    if (curchord && curchord->directives)
+      {
+        GList *directives = curchord->directives;
+        if (g_list_length (curchord->directives) == 1)
+            directive = (DenemoDirective*)directives->data;
+        else
+            directive = select_directive (instr, directives);
+      }
+    return directive;
+  }
+  
+/* let the user choose from the directives on note at the cursor */
+static DenemoDirective *user_select_note_directive (void)
+  {
+    DenemoDirective *directive = NULL;
+    gchar *instr = _("Select a directive attached to the note\nShift-click for Advanced Edit");
+    note *curnote = get_note ();
+    if (curnote && curnote->directives)
+      {
+        GList *directives = curnote->directives;
+        if (g_list_length (curnote->directives) == 1)
+            directive = (DenemoDirective*)directives->data;
+        else
+            directive = select_directive (instr, directives);
+      }
+    return directive;
+  }  
+  
+  
 /* let the user choose from the directives at the cursor */
 static void
 user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDirective ** pdirective)
@@ -2453,7 +2489,7 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
           {
             *pdirectives = &curnote->directives;
             *what = "note";
-            gchar *instr = g_strdup_printf (_("Select a directive attached to the note \"%s\""), name);
+            gchar *instr = g_strdup_printf (_("Select a directive attached to the note \"%s\"\nShift-click for Advanced Edit"), name);
             if (g_list_length (curnote->directives) == 1)
                 *pdirective = (DenemoDirective*)(curnote->directives->data);
             else
@@ -2466,28 +2502,15 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
               }
           }
     }
-
-
-  {
-    // not exactly on a note, offer any chord directives
-    gchar *instr = _("Select a directive attached to the chord");
-    chord *curchord = get_chord ();
-    if (curchord && curchord->directives)
-      {
-        *pdirectives = &curchord->directives;
-        *what = "chord";
-        if (g_list_length (curchord->directives) == 1)
-            *pdirective = (DenemoDirective*)(curchord->directives->data);
-        else
-            *pdirective = select_directive (instr, **pdirectives);
-      }
-  }
+  *pdirective = user_select_chord_directive ();
+  if (*pdirective) *what = "chord";
+  
   if (*pdirective == NULL && curnote)   //try nearest note
     if (curnote->directives && curnote->mid_c_offset != Denemo.project->movement->cursor_y)
       {
         *pdirectives = &curnote->directives;
         *what = "note";
-        gchar *instr = g_strdup_printf (_("Select a directive attached to the note \"%s\""), name);
+        gchar *instr = g_strdup_printf (_("Select a directive attached to the note \"%s\"\nShift-click for Advanced Edit"), name);
         if (g_list_length (curnote->directives) == 1)
             *pdirective = (DenemoDirective*)(curnote->directives->data);
         else
@@ -2560,7 +2583,13 @@ unpopulate_menu (GtkWidget * menu)
   g_object_set_data (G_OBJECT (menu), "directives", NULL);
   return FALSE;
 }
-
+static void offer_edit (gchar *menuname)
+{
+  if (confirm_first_choice (_("Editing Object"), _("Run Object Editor"), _("Add/alter object from menu")))
+    edit_object ();
+  else
+    popup_menu (menuname);
+}
 // edit the object at the cursor based on its type
 void
 edit_object_type (DenemoAction * action, DenemoScriptParam * param)
@@ -2578,28 +2607,95 @@ edit_object_type (DenemoAction * action, DenemoScriptParam * param)
       return;
     case CLEF:
       {
-        popup_menu ("ClefMenu");
+        offer_edit ("ClefMenu");
       }
       return;
     case KEYSIG:
       {
-        popup_menu ("Key");
+        offer_edit ("Key");
       }
       return;
     case TIMESIG:
       {
-        popup_menu ("TimeSig");
+        offer_edit ("TimeSig");
       }
       return;
     case CHORD:
       {
-
-          popup_menu ("NotesRests");
-
-
+        note *curnote =  get_strict_note ();
+        if (curnote && curnote->directives) //one or more directives attached to note at cursor
+          {
+            gchar *tag;
+            gint val;
+            if (curnote->directives->next) // more than one
+              val = choose_tag_at_cursor (&tag);
+            else
+              {
+                val = 1;
+                tag = ((DenemoDirective *)curnote->directives->data)->tag->str;
+              }
+            if (val) // a note directive was chosen, or cancelled
+              {
+                if (tag)
+                  {
+                    DenemoDirective *directive = get_note_directive (tag);
+                    edit_directive (directive, "note");
+                  }
+                else
+                  offer_edit ("NotesRests");  
+              }
+            else if (tag) // a chord directive was chosen
+              {
+                GList *directives = ((chord *) obj->object)->directives;
+                DenemoDirective *directive = find_directive (directives, tag);
+                if (directive)
+                  edit_directive (directive, "chord");
+                 else
+                  offer_edit ("NotesRests");
+              }
+            else
+              offer_edit ("NotesRests");
+          }
+        else
+          {
+            GList *directives = ((chord *) obj->object)->directives;
+            if ( choose_option (_("Edit Chord (cursor not on a note)"), 
+              directives?_("Edit Directives attached to chord"):
+                _("Look for Directives attached to nearest note?") , _("Edit chord itself")))
+              {
+                DenemoDirective *directive = NULL;
+                if(directives) directive = user_select_chord_directive ();
+                if (directive)
+                  edit_directive (directive, "chord");
+                else
+                  {
+                    note *curnote =  get_note ();
+                    if (curnote && curnote->directives) //one or more directives attached to note nearest cursor
+                      {
+                        gchar *tag;
+                        gint val;
+                        DenemoDirective *directive = NULL;
+                        if (curnote->directives->next) // more than one
+                          directive = user_select_note_directive ();   
+                        else
+                          directive = (DenemoDirective *)curnote->directives->data;
+                        if (directive)
+                            edit_directive (directive, "note");
+                        else
+                          offer_edit ("NotesRests");   
+                     
+                      
+                          }
+                      else
+                        offer_edit ("NotesRests");
+                    }
+                
+                }
+              else
+                offer_edit ("NotesRests");
+          }
       }
-      return;
-
+      return;      
     case STEMDIRECTIVE:
       {
         GList *directives = ((stemdirective *) obj->object)->directives;
@@ -2616,7 +2712,7 @@ edit_object_type (DenemoAction * action, DenemoScriptParam * param)
       }
       return;
     case TUPOPEN:
-      popup_menu ("Tuplets");
+      offer_edit ("Tuplets");
       return;
     case TUPCLOSE:
       infodialog (_("This marks the end of a tuplet (that is triplets etc) - it should come in the same measure as the tuplet start marker."));
@@ -3075,7 +3171,7 @@ edit_directive (DenemoDirective * directive, gchar * what)
 {
   gboolean ret = TRUE;
   gchar *filename = get_editscript_filename (directive->tag->str);
-  if (filename == NULL)
+  if ((filename == NULL) || shift_held_down ())
     {
       DenemoAction *action;
       gchar *eol;
@@ -3104,7 +3200,9 @@ edit_directive (DenemoDirective * directive, gchar * what)
       else
         { if (what || shift_held_down())
             {
-                ret = (text_edit_directive (directive, what) || !confirm (_("Directive Delete"), _("Are you sure you want to delete the directive?")));
+                ret = text_edit_directive (directive, what);
+                if (!ret)
+                      warningdialog (_("Cannot delete via this mechanism, use appropriate Object Editor"));
                 score_status (Denemo.project, TRUE);
             }
         else
