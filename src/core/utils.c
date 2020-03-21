@@ -2870,6 +2870,7 @@ get_option_recursive (gchar * title, gchar * str, gint length, gboolean more)
                                                    _("_OK"), GTK_RESPONSE_ACCEPT,
                                                    _("_Cancel"), GTK_RESPONSE_REJECT,
                                                    NULL);
+  gtk_widget_set_size_request (dialog, strlen (title) * 10, -1);
   gtk_dialog_set_default_response (GTK_DIALOG (dialog), GTK_RESPONSE_ACCEPT);
   g_signal_connect_after (G_OBJECT (dialog), "realize", G_CALLBACK (dialog_realize), NULL);
   GtkWidget *vbox = gtk_vbox_new (FALSE, 1);
