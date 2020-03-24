@@ -43,6 +43,7 @@
 #include "source/proof.h"
 #include "audio/pitchentry.h"
 #include "audio/audiointerface.h"
+#include "printview/printview.h"
 
 static gint file_open (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
 static gint file_import_lilypond (DenemoProject * gui, DenemoSaveType template, ImportType type, gchar * filename);
@@ -1379,11 +1380,25 @@ lilypond_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar
       warningdialog (_("No selection text available"));
       return;
     }
+    
+  static gchar *timesig = NULL;
+  if (timesig==NULL) timesig = g_strdup ("4/4");
+  gchar *newtimesig = string_dialog_entry (Denemo.project, _("Paste LilyPond notes"), "Give time signature", timesig);
+  if (newtimesig==NULL)
+    return;
   gchar *filename = g_build_filename (get_user_data_dir (TRUE), "denemopaste.ly", NULL);
   FILE *fp = fopen (filename, "w");
   if (fp)
     {
-      fprintf (fp, "music = { %s }\n\\score {\n\\music\n\\layout {}\n}\n", text);
+     if (*newtimesig == 0)
+       fprintf (fp, "music = { %s }\n\\score {\n\\music\n\\layout {}\n}\n", text);
+     else
+        fprintf (fp, "music = { \\time %s %s }\n\\score {\n\\music\n\\layout {}\n}\n", newtimesig, text);
+      if (*newtimesig)
+        {
+          g_free (timesig);
+          timesig = newtimesig;
+        }
       fclose (fp);
       gint theclef = find_prevailing_clef (Denemo.project->movement);
       newview (NULL, NULL);
@@ -1401,6 +1416,7 @@ lilypond_selection_received (G_GNUC_UNUSED GtkClipboard * clipboard, const gchar
           return;
         }
       dnm_setinitialclef (Denemo.project->movement, (DenemoStaff *) Denemo.project->movement->currentstaff->data, theclef);
+     
       call_out_to_guile ("(while (and (None?) (d-MoveToStaffDown)) (begin (d-MoveToStaffUp)(d-DeleteStaff)))");
       if (confirm (_("Paste LilyPond Notes"), _("Paste this music into your score?")))
         {
