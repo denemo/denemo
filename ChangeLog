@@ -1,3 +1,21 @@
+2020-03-22
+
+New Features for release 2.4
+
+        Omission Criteria
+            A lightweight alternative to Score Layouts
+            A single flag turns on/off features of the score 
+        Page Turner/Annotater
+            Annotate while playing from digital score
+            Page turn digital score from pedals 
+        New from Current
+            Create a new score using the current one as template
+            Use for books of songs, sonatas etc to keep style uniform>/ul> 
+    Bug Fixes
+        Easier object edit interface
+        After Grace command now fully automatic
+        Crash on Windows during delete measure all staffs
+        Template save bugs fixed 
 2018-11-09
 New Features for release 2.3
 
