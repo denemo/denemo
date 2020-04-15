@@ -16,12 +16,12 @@
         (d-KeepAlive)
 	    (if (and (not (equal? filename source)) (eq? flag 'regular) (or (string-suffix? ".denemo" filename) (string-suffix? ".denemo.gz" filename)));;; also check for .denemo or .denemo.gz in filename
             (let ((status 0))
-                (set! status  (system* 
-                    (string-append DENEMO_BIN_DIR  "/denemo")
-                    "-n" 
-                    "-a" (string-append "(define DenemoSearchMovement " movement-number ") (define DenemoMusicSignature '(" sig "))")
-                    "-i" (string-append DENEMO_ACTIONS_DIR "checkMusicSignature.scm") 
-                    filename))
+                (set! status  (d-System 
+                    (string-append (string-append "\"" DENEMO_BIN_DIR  "/denemo" "\"")
+                    " -n " 
+                    " -a \"" (string-append "(define DenemoSearchMovement " movement-number ") (define DenemoMusicSignature '(" sig "))")
+                    "\" -i " (string-append "\"" DENEMO_ACTIONS_DIR "checkMusicSignature.scm" "\"") 
+                    " \"" filename "\""))) ;(disp "Returned " status "\n")
                 (if (zero? status)
                     (begin
                         (d-OpenNewWindow filename)
