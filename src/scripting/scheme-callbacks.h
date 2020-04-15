@@ -40,6 +40,7 @@ SCM scheme_call_callback (SCM optional, callback_function callback);
 
 void update_scheme_snippet_ids (void);
 
+SCM scheme_system (SCM);
 SCM scheme_hide_menus (SCM);
 SCM scheme_hide_buttons (SCM);
 SCM scheme_destroy_buttons (void);

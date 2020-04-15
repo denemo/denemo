@@ -57,6 +57,7 @@ create_scheme_identfiers (void)
 #include "scripting/scheme.h"
   init_denemo_notenames ();
 
+  install_scm_function (1, "Takes a command line string and calls system() on it, returning the exit code.", DENEMO_SCHEME_PREFIX "System", scheme_system);
   install_scm_function (0, "Hides all the menus", DENEMO_SCHEME_PREFIX "HideMenus", scheme_hide_menus);
   install_scm_function (0, "Hides Score buttons or shows them if passed #f", DENEMO_SCHEME_PREFIX "HideButtons", scheme_hide_buttons);
   install_scm_function (0, "Removes Score buttons", DENEMO_SCHEME_PREFIX "DestroyButtons", scheme_destroy_buttons);

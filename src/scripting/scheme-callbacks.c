@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 #include "scripting/scheme-callbacks.h"
 #include "command/commandfuncs.h"
 #include "command/grace.h"
@@ -898,8 +899,23 @@ scheme_destroy_buttons (void)
     }
   return ret;
 }
-
-
+SCM scheme_system (SCM command)
+{
+  if (scm_is_string (command))
+    {
+      gchar *cmd = scm_to_locale_string (command);
+      
+      gint val = system (cmd);
+      
+      //g_print ("Command is %s system() call returning %d\n", cmd, val);
+      if (val>256)
+        val >>=8;//some stdlib.h versions munge the return value - we exit with 8 bit values only
+      //g_print ("after conversion returning %d\n", val);
+      
+      return scm_from_int (val);
+    }
+  return SCM_BOOL_F;
+}
 /* hide all menus, leaving only the score titles, used for educational games */
 SCM
 scheme_hide_menus (SCM hide)
