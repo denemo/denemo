@@ -1,7 +1,7 @@
 ;;;CreateParts
-(let ()
+(let ((num (string->number (d-GetUserInput (_ "Create Parts") "Give number of notes in chords: " "3"))))
 
-(define (delete-lowest-notes)
+(define (delete-lowest-note)
   ;delete lowest note of each chord
   (d-MoveToBeginning)
   (let loop () 
@@ -26,39 +26,30 @@
 	      (d-MoveToBeginning)
 	      (loop  #f))))))
 
-(define (pause) (disp "Pausing..." "Press any key" " "))
 
 
 (d-MoveToBeginning)
 (d-GoToEnd)
 (d-Copy)
-(d-AddAfter)
-(d-Paste)
-(d-MoveToBeginning)
-(d-VoicePreset1)
-(d-MoveCursorLeft)
-(delete-lowest-notes);;delete part 3
-(delete-lowest-notes);;delete part 2
 
-(d-AddAfter)
-(d-Paste)
-(pause)
-(d-MoveToBeginning)
-(d-VoicePreset2)
-(d-MoveCursorLeft)
-(delete-lowest-notes);;delete part 3
-(delete-upper-notes);;delete part 1 (and anything extra)
+(let outer-loop ((voicenum num)) (disp "OUTER voicenum= " voicenum " num= " num "\n\n")
+  (d-AddAfter)
+  (d-Paste)
+  (d-MoveToBeginning)
+  (d-VoicePreset1)
+  (d-MoveCursorLeft)
+  (if (positive? (1- voicenum))
+    (let inner-loop ((n (1- voicenum)))
+      (delete-lowest-note) (disp "INNER n= " n" voicenum= " voicenum " num= " num "\n\n")
+      (if (positive? (1- n))
+	(inner-loop (1- n)))))
+  (if (not (= voicenum num))
+    (delete-upper-notes))
+  (if (positive? (1- voicenum))
+    (outer-loop (1- voicenum))))
 
-(d-AddAfter)
-(d-Paste)
-(pause)
-(d-MoveToBeginning)
-(d-VoicePreset3)
-(d-MoveCursorLeft)
-(delete-upper-notes);;delete parts 2 and 1 (and anything extra)
-(d-SimplifyTies)
-(d-MoveToStaffUp)
-(d-SimplifyTies)
-(d-MoveToStaffUp)
-(d-SimplifyTies)
+
+;(d-SimplifyTies)
+;(d-MoveToStaffUp)
+
 )
