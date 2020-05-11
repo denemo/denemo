@@ -473,7 +473,7 @@ swapmovements (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptPa
  *
  */
 gboolean
-swapstaffs (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam * param)
+swapstaffs (G_GNUC_UNUSED DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
   (void) signal_structural_change (gui);
@@ -500,10 +500,20 @@ swapstaffs (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam
             }
         }
       else
-        warningdialog (_("Use Voice to Staff command first on all the voices attached to this staff, swap them individually then use Staff to Voice to finish."));
+        {
+          if (param && param->string)
+            param->status = 1;
+          else
+            warningdialog (_("Use Voice to Staff command first on all the voices attached to this staff, swap them individually then use Staff to Voice to finish."));
+        }
     }
   else
-    warningdialog (_("There is no previous staff to swap with"));
+     {
+       if (param && param->string)
+        param->status = 1;
+      else
+        warningdialog (_("There is no previous staff to swap with"));
+      }
   return FALSE;
 }
 
