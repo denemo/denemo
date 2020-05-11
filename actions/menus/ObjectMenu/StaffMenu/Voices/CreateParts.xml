@@ -8,7 +8,7 @@
         <after>CreateIntro</after>
         <action>CreateParts</action>
         <_label>Create Parts</_label>
-        <_tooltip>Create three parts from the current staff.</_tooltip>
+        <_tooltip>Create a number of parts from the current staff which should have chords with that number of notes per chord.</_tooltip>
       </row>
     </map>
   </merge>
