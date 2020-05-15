@@ -3560,7 +3560,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <after>CreateIntro</after>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Create Parts</_label>
-        <_tooltip>Create three parts from the current staff.</_tooltip>
+        <_tooltip>Create a number of parts from the current staff which should have chords with that number of notes per chord.</_tooltip>
       </row>
       <row type="scheme">
         <action>CreatePartsFromTop</action>
