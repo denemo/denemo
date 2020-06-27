@@ -274,6 +274,12 @@ scan_syllable (gchar ** next, GString * gs)
         (*next)++;              //ignore to end of line
       return scan_syllable (next, gs);
     }
+  if (result && (*gs->str == '%'))
+    {
+      while (**next && **next != '\n')
+        (*next)++;              //ignore to end of line
+      return scan_syllable (next, gs);
+    }
   if (result && ((!strcmp (gs->str, "--") || (!strcmp (gs->str, "__")))))
     return scan_syllable (next, gs);
   return result;
