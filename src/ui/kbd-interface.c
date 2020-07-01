@@ -76,7 +76,6 @@ capture_add_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_data
   //get the shortcut
   if (isModifier (event))
     return TRUE;
-  dnm_clean_event (event);
   modifiers = dnm_sanitize_key_state (event);
   gchar *name = dnm_accelerator_name (event->keyval, event->state);
   if (!strcmp(name, "VoidSymbol"))
@@ -161,7 +160,6 @@ capture_look_binding (GtkWidget * widget, GdkEventKey * event, gpointer user_dat
   //get the shortcut
   if (isModifier (event))
     return TRUE;
-  dnm_clean_event (event);
   modifiers = dnm_sanitize_key_state (event);
 
   //look for the keybinding

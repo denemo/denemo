@@ -745,9 +745,6 @@ free_jack_ports
 <SECTION>
 <FILE>kbd-custom</FILE>
 MASK_FILTER
-dnm_sanitize_key_event
-dnm_hyper_sanitize_key_event
-dnm_meta_sanitize_key_state
 isModifier
 dnm_accelerator_parse
 dnm_accelerator_name
@@ -804,7 +801,6 @@ command_has_binding
 add_keybinding_for_name
 add_keybinding_for_command
 update_all_labels
-dnm_clean_event
 add_twokeybinding_to_idx
 command_row_init
 keymap_get_command_row

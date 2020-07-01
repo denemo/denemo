@@ -35,7 +35,6 @@ typedef struct _keyboard_dialog_data
   gint first_modifiers;
 } keyboard_dialog_data;
 
-guint dnm_sanitize_key_event (GdkEventKey * event);
 gboolean isModifier (GdkEventKey * event);
 
 //adapted from gtk because we want to allow uppercase accelerator through
@@ -151,7 +150,6 @@ gint add_keybinding_for_name (gchar * name, gchar * binding);
 gint add_keybinding_for_command (gint idx, gchar * binding);
 
 void update_all_labels (keymap * the_keymap);
-void dnm_clean_event (GdkEventKey * event);
 gint add_twokeybinding_to_idx (keymap * the_keymap, gint first_keyval, GdkModifierType first_state, gint keyval, GdkModifierType state, guint command_id, ListPosition pos);
 
 void command_row_init(command_row *command);
