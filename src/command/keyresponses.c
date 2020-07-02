@@ -178,7 +178,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
     if (state || ((event->keyval == GDK_Caps_Lock) || (event->keyval == GDK_Num_Lock)))
       set_cursor_for (state);   // MUST LOOK AHEAD to state after keypress HERE CATCH modifiers and set the cursor for them.....
   }
-  dnm_clean_event (event);
+  dnm_sanitize_key_state (event);
   static guint last_keyval;
   gboolean repeated_key =  (event->keyval==last_keyval);
   last_keyval = event->keyval;
@@ -343,7 +343,7 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
   //g_debug("State eored %x\n", (lock_mask(event->keyval)^event->state));
   if (divert_key_event && !isModifier (event) && divert_key_id == Denemo.project->id)
     {
-      dnm_clean_event (event);
+      dnm_sanitize_key_state (event);
       *divert_key_event = event;
       //g_object_ref(event); FIXME do we need to keep it around?
       gtk_main_quit ();

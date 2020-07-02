@@ -140,39 +140,13 @@ get_or_create_command(gchar* name){
   return command;
 }
 
-
-void
-dnm_clean_event (GdkEventKey * event)
-{ 
-  if (!Denemo.prefs.strictshortcuts)
-    {
-      guint ret = event->keyval;
-      if (ret >= 'A' && ret <= 'Z')
-        ret += ('a' - 'A');
-#ifdef G_OS_WIN32
-      else
-        if (event->hardware_keycode>47 && event->hardware_keycode<58)
-          {
-            ret = event->hardware_keycode;
-          }
-#else
-      else
-        if (event->hardware_keycode>9 && event->hardware_keycode<20)
-          {
-            ret = 39 + event->hardware_keycode;
-            if (ret==58)
-              ret = 48;
-          }
-#endif
-      event->keyval = ret;
-    }
-  //g_print("Hardware key %d Key val has been cleaned to %d -> %s\n", event->hardware_keycode, event->keyval, gdk_keyval_name(event->keyval));
-}
-
-
-/* Returns the state of the event after removing the modifiers consumed by the
- * system and unwanted modifiers. Use this before doing anything based on the
- * (keyval, state) pair in an event handler.
+/* If Denemo.prefs.strictshortcuts is set, returns the state of the event after
+ * removing the modifiers consumed by the system and unwanted modifiers.
+ * Otherwise, returns the group 0, level 0 value of the key according to GDK.
+ * That is, all uppercase ASCII letters modified by shift become lowercase, and
+ * all number keys stick to the first level (i.e., the number, not the symbol).
+ * Use this before doing anything based on the (keyval, state) pair in an event 
+ * handler.
  */
 guint
 dnm_sanitize_key_state (GdkEventKey * event)
@@ -180,10 +154,26 @@ dnm_sanitize_key_state (GdkEventKey * event)
   guint ret = event->state;
   if (!Denemo.prefs.strictshortcuts)
     {
-      return ret;
+	// Declare variables for GDK return
+	gint n_entries;
+	GdkKeymapKey * keys = NULL;
+	guint * keyvals = NULL;
+
+	// Pass the event's hardware_keycode into GDK and get all matching
+	// key values
+	if (gdk_keymap_get_entries_for_keycode (gdk_keymap_get_default (),
+		event->hardware_keycode, &keys, &keyvals, &n_entries))
+	{
+	    // Take the level 0 key value and store it back in the event
+	    event->keyval = keyvals[0];
+	    g_free(keys);
+	    g_free(keyvals);
+	}
+
+	// Return unmodified event->state
+        return ret;
     }
 
-#if 1
   GdkModifierType consumed;
   /* We want to ignore irrelevant modifiers like ScrollLock */
 
@@ -192,7 +182,7 @@ dnm_sanitize_key_state (GdkEventKey * event)
   ret &= ~consumed;
   /* removing other unwanted modifiers from event->state */
   ret &= (GDK_CONTROL_MASK | GDK_SHIFT_MASK | GDK_MOD1_MASK | GDK_MOD2_MASK | GDK_MOD3_MASK | GDK_MOD4_MASK | GDK_MOD5_MASK /*    these make numlock required to be off for example */ );
-#endif
+
   return ret;
 }
 
@@ -1348,7 +1338,6 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, D
   //If the KeyEvent is only a modifier, stop processing here
   if (isModifier (event))
     return TRUE;
-  dnm_clean_event (event);
   modifiers = dnm_sanitize_key_state (event);
   keyval = event->keyval;
 
