@@ -404,10 +404,9 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
       name = g_string_new (gdk_keyval_name (accelerator_key));
       //g_print ("Keyval %d gdk name %s\n", accelerator_key, name->str);
       if (name->len > 3 && (*name->str == 'K') && (*(name->str + 1) == 'P') && (*(name->str + 2) == '_'))
-#ifndef G_OS_WIN32  
         {
-           if((*(name->str + 3) >='0') && (*(name->str + 3) <='6'))
-            g_string_erase (name, 0, 3);    //force numeric keypad KP_n names to normal except for 7 8 9 which are not needed for duration entry also ignore NumLock for these
+          if((*(name->str + 3) >='0') && (*(name->str + 3) <='6'))
+            g_string_erase (name, 0, 3);    //force numeric keypad KP_n names to normal number names except for 7 8 9 which are not needed for duration entry also ignore NumLock for these
           else if(!strcmp(name->str, "KP_Insert"))
                   g_string_assign (name, "0");
           else if(!strcmp(name->str, "KP_Delete"))
@@ -424,13 +423,14 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
                   g_string_assign (name, "5");
           else if(!strcmp(name->str, "KP_Right"))
                   g_string_assign (name, "6");
+          else if(!strcmp(name->str, "KP_Home"))
+                  g_string_assign (name, "KP_7");
+          else if(!strcmp(name->str, "KP_"))
+                  g_string_assign (name, "KP_8");
+          else if(!strcmp(name->str, "KP_Page_Up"))
+                  g_string_assign (name, "KP_9");
         }
-#else
-        {
-          if((*(name->str + 3) !='7') && (*(name->str + 3) !='8') && (*(name->str + 3) !='9'))
-            g_string_erase (name, 0, 3);    //force numeric keypad KP_ names to normal except for 7 8 9 which are not needed for duration entry
-        }
-#endif
+
       //g_print("\ndnm_accelerator_name using gtk_accelerator_get label %s\n gdk_keyval_name name %s\n", gtk_accelerator_get_label(accelerator_key, 0), gdk_keyval_name(accelerator_key));
       //g_debug("mods were %x\n", accelerator_mods);
 #if 0
