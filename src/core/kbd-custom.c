@@ -425,7 +425,7 @@ dnm_accelerator_name (guint accelerator_key, GdkModifierType accelerator_mods)
                   g_string_assign (name, "6");
           else if(!strcmp(name->str, "KP_Home"))
                   g_string_assign (name, "KP_7");
-          else if(!strcmp(name->str, "KP_"))
+          else if(!strcmp(name->str, "KP_Up"))
                   g_string_assign (name, "KP_8");
           else if(!strcmp(name->str, "KP_Page_Up"))
                   g_string_assign (name, "KP_9");
