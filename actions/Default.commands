@@ -2708,8 +2708,15 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command.</_tooltip>
       </row>
       <row type="scheme">
-        <action>ChangeModwheel</action>
+        <action>ChangeTimbre</action>
         <after>ChangeVolume</after>
+        <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
+        <_label>Change Timbre (Instrument Sound)</_label>
+        <_tooltip>Changes the MIDI instrument for the following notes, optionally typesetting some text here. Use for pizz. trem. etc.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChangeModwheel</action>
+        <after>ChangeTimbre</after>
         <menupath>/ObjectMenu/Directives/Playback/MIDI</menupath>
         <_label>1 Modwheel</_label>
         <_tooltip>Change the Modwheel value of a channel/staff</_tooltip>
@@ -8479,6 +8486,7 @@ Invoke the command again to stop.</_tooltip>
         <_label>Un-dot Rests</_label>
         <_tooltip>Changes dotted rests into the equivalent sequence of un-dotted rests in the current staff. Use e.g. in 6/8 time to replace 𝅘𝅥. with  𝄽 𝄾 </_tooltip>
       </row>
+
     </map>
   </merge>
 </Denemo>

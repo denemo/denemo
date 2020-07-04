@@ -948,6 +948,8 @@ actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeSoftPedal.scm
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeSoftPedal.xml
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeSustenutoPedal.scm
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeSustenutoPedal.xml
+actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeTimbre.scm
+actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeTimbre.xml
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeVolume.scm
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChangeVolume.xml
 actions/menus/ObjectMenu/Directives/Playback/MIDI/ChannelChange.scm

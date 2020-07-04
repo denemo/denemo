@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ChangeTimbre</action>
+        <after>ChangeModwheel</after>
+        <_label>Change Timbre (Instrument Sound)</_label>
+        <_tooltip>Changes the MIDI instrument for the following notes, optionally typesetting some text here. Use for pizz. trem. etc.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
