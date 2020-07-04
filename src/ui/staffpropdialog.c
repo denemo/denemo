@@ -295,6 +295,27 @@ set_properties (struct callbackdata *cbdata)
   score_status (cbdata->gui, TRUE);
 }
 
+//Check all staffs for one with same channel but different program as the passed staff and report its number >0 if found, else 0
+static gint check_for_channel_conflicts (DenemoStaff *staffstruct)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  gint midi_channel = staffstruct->midi_channel;
+  gint midi_prognum = staffstruct->midi_prognum;
+  gint staffnum = 1;
+  GList *curstaff = si->thescore;
+    for (curstaff;curstaff;curstaff=curstaff->next, staffnum++)
+      {
+        DenemoStaff *thisstaff = (DenemoStaff *)curstaff->data;
+        if (thisstaff == staffstruct)
+          continue;
+        if (thisstaff->midi_channel == midi_channel && 
+            thisstaff->midi_prognum != midi_prognum)
+            return staffnum;
+      }
+  return 0;
+}
+
 
 /**
  * Create Dialog to allow the user to set the current staff's parameters
@@ -503,7 +524,12 @@ staff_properties_change (void)
       result = TRUE;
     }
   gtk_widget_destroy (dialog);
-
+  gint conflict_staff = check_for_channel_conflicts (staffstruct);
+  if (conflict_staff)
+    { gchar *msg = g_strdup_printf ("%s%d%s", _("Staff "), conflict_staff, _(" is using the same MIDI channel as this staff, but a different MIDI instrument - this won't work. Choose a different channel."));
+      warningdialog (msg);
+      g_free (msg);
+    }
   return result;
 }
 
