@@ -463,6 +463,7 @@ staff_properties_change (void)
   // BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);
   INTENTRY_LIMITS_1 (_("Channel:"), midi_channel, 1, 16);
   INTENTRY_LIMITS_1 (_("Program:"), midi_prognum, 1, 128);
+  gtk_widget_set_sensitive (midi_prognum, !staffstruct->midi_instrument->len); // meaningless to set prognum if instrument name is set
  // g_debug ("chan prog %d %d\n", staffstruct->midi_channel, staffstruct->midi_prognum);
 
   // FIXME
