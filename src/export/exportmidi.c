@@ -924,11 +924,27 @@ static void save_smf_to_file (smf_t *smf, gchar *thefilename)
       if (Denemo.project->movement->recorded_midi_track)
         smf_add_track (smf, Denemo.project->movement->recorded_midi_track);
       if(smf_save (smf, (const char *) thefilename))
-        g_debug("smf_save failed");
+        {
+          if (Denemo.non_interactive)
+            g_debug("smf_save failed");
+          else
+            {
+              gchar *msg = g_strdup_printf ("%s%s", _("Failed to save MIDI file: "), thefilename);
+              warningdialog (msg);
+              g_free (msg);
+            }
+        }
+       else if (!Denemo.non_interactive) 
+            {
+              gchar *msg = g_strdup_printf ("%s%s", _("Saved MIDI file: "), thefilename);
+              infodialog (msg);
+              g_free (msg);
+            } 
       if (Denemo.project->movement->recorded_midi_track)
         smf_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
     }
 }
+
 
 gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     smf_t *saved = NULL;
