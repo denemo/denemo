@@ -1,4 +1,5 @@
 
+
 (define ChordComparison::Major (cons "Major" "c e g"))
 (define ChordComparison::Minor (cons "Minor" "c ees g"))
 (define ChordComparison::Augmented (cons "Augmented" "c e gis"))
@@ -147,8 +148,8 @@
 
 ;;; Initialize Transpose routines.
 (define-once Transpose::init #f)
-(if (not Transpose::init)
-    (begin
+;;(if (not Transpose::init)
+;;    (begin
 ;;;; public variables
       (define Transpose::SetTransposeInterval 0)
       (define Transpose::TransposeNote 0)
@@ -377,7 +378,8 @@
 		  transposed_notelist
 	    ))))
 
-      (define Transpose::init #t)))
+(define Transpose::init #t)
+;))
 
 
 
