@@ -1655,21 +1655,40 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
 
   FOREACH_CHILD_ELEM (childElem, editInfoElem)
   {
-
       {
         if (ELEM_NAME_EQ (childElem, "lilyversion"))
           {
             tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-            if (tmp != NULL && strcmp (tmp, "2.8.7"))   //2.8.7 is ignored, it was the value used when version was mandated, but did not mean anything.
+            if (tmp != NULL)   //2.18.0 and earlier are assumed to typeset with 2.18.0
               {
-                //g_debug ("lilypond version %s", tmp);
-                //g_string_assign (gui->lilycontrol.lilyversion, tmp);
-                if (strcmp (tmp, INSTALLED_LILYPOND_VERSION))
-                  g_warning ("This file may contain embedded LilyPond from an earlier LilyPond version\nIf you have problems printing from it\nrefresh the directives responsible.");
-                g_free (tmp);
+				  if ( Denemo.lilypond_installed_version)
+					{
+						if (check_lily_version (tmp) == GREATER)
+							{
+								gchar *msg = g_strdup_printf ("%s%s%s%s%s", _("This score was last successfully typeset with LilyPond version "), tmp,
+										_("\nYou have your Denemo Preferences -> Externals -> lilypond set to "), Denemo.lilypond_installed_version,
+										_(" This will likely be fine, but you may need to update to using the newer version of LilyPond."));
+								g_string_assign (gui->lilycontrol.lilyversion, tmp);			
+							}
+						else if (check_lily_version (tmp) == LESSER)
+							{
+									gchar *msg = g_strdup_printf ("%s%s%s%s%s", _("This score was last successfully typeset with LilyPond version "), tmp,
+										_("\nYou have your Denemo Preferences -> Externals -> lilypond set to "), Denemo.lilypond_installed_version,
+										_(" This will likely be fine, but you may need to adjust any custom LilyPond syntax to the older version, or change your preferences to point to the newer version of LilyPond."));
+									g_string_assign (gui->lilycontrol.lilyversion, tmp);
+									if (!Denemo.non_interactive)
+										warningdialog (msg);
+									else
+										g_warning (msg);
+									g_free (msg);
+							}
+						else
+							g_string_assign (gui->lilycontrol.lilyversion, tmp);
+					}
+				else
+					g_string_assign (gui->lilycontrol.lilyversion, tmp);
+               g_free (tmp);
               }
-            else
-              g_warning ("ignoring version %s", tmp);
           }
         if (ELEM_NAME_EQ (childElem, "lilypond"))       //backward compatibility only
           {
@@ -2986,6 +3005,9 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
    */
 
   buildXMLIDToElemMap (doc);
+  //temporarily turn off autosave while creating a score to allow for dialogs if needed
+  gboolean autosave = Denemo.prefs.autosave;
+  Denemo.prefs.autosave = FALSE;
   /* Then, parse the score. */
   if (version_number >= 2)
     {
@@ -3168,6 +3190,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
         gtk_widget_show (gui->movement->lyricsbox);
     }
   score_status (gui, FALSE);
+  Denemo.prefs.autosave = autosave; //turn autosave back on if it was on when we started
 
 cleanup:
 

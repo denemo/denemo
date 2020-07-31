@@ -18,6 +18,7 @@
 #include <dirent.h>
 #include <denemo/denemo.h>
 #include "core/prefops.h"
+#include "export/print.h"
 #include "core/utils.h"
 #include "audio/playback.h"
 #include "audio/fluid.h"
@@ -222,6 +223,17 @@ set_preferences (struct callbackdata *cbdata)
     (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT(cbdata->field)));
 
   ASSIGNTEXT (lilypath)
+  
+  Denemo.lilypond_installed_version = get_lily_version_string ();
+  if ((!Denemo.non_interactive) && (Denemo.lilypond_installed_version == NULL))
+	{
+		gchar *msg = g_strdup_printf (_("The LilyPond executable program %s was not found - no typesetting will be possible"), prefs->lilypath->str);
+		warningdialog (msg);
+		g_free (msg);
+	}
+  Denemo.lilypond_include_dir = get_lilypond_include_dir (); 
+  initialize_lilypond_includes();
+  
   ASSIGNTEXT (browser)
   ASSIGNTEXT (imageviewer)
   ASSIGNTEXT (graphicseditor)

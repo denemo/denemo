@@ -15,7 +15,6 @@ void typeset_part (void);
 gboolean continuous_typesetting (void);
 void set_continuous_typesetting (gboolean setting);
 gboolean get_new_point (void);
-int check_lily_version (gchar * version);
 gboolean typeset_for_script (gchar * script);
 gboolean print_typeset_pdf (void);
 void typeset_current_layout (void);

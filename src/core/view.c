@@ -344,7 +344,7 @@ define_scheme_constants (void)
   DEF_SCHEME_STR ("DENEMO_INSTRUMENTS_DIR", instruments_dir, "Holds location of system-wide Denemo instrument templates directory");
   DEF_SCHEME_STR ("DENEMO_GLYPHS_DIR", glyphs_dir, "Holds location of system-wide Denemo glyphs directory");
   DEF_SCHEME_STR ("DENEMO_GRAPHICS_DIR", graphics_dir, "Holds location of system-wide Denemo graphics directory");
-  DEF_SCHEME_STR ("DENEMO_LILYPOND_DIR", g_build_filename (actions_dir, "lilypond", NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
+  DEF_SCHEME_STR ("DENEMO_LILYPOND_DIR", g_build_filename (actions_dir, Denemo.lilypond_include_dir, NULL), "Holds location of Denemo's system-wide  lilypond include files directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_ACTIONS_DIR", local_actions_dir, "Holds location of Denemo actions directory beneath your home directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_TEMPLATES_DIR", local_templates_dir, "Holds location of Denemo templates directory beneath your home directory");
   DEF_SCHEME_STR ("DENEMO_LOCAL_INSTRUMENTS_DIR", local_instruments_dir, "Holds location of Denemo instrument templates directory beneath your home directory");
@@ -454,12 +454,9 @@ load_scheme_init (void)
 }
 
 /* show the user's preferred view. Assumes all hidden on entry */
-void
-load_preferences (void)
+static void
+show_view_preferences (void)
 {
-  Denemo.project->mode = Denemo.prefs.mode;
-  if (Denemo.prefs.startmidiin)
-      Denemo.project->input_source = INPUTMIDI;
   set_toggle (TogglePlaybackControls_STRING, Denemo.prefs.playback_controls);
   set_toggle (ToggleMidiInControls_STRING, Denemo.prefs.midi_in_controls);
   set_toggle (QuickEdits_STRING, Denemo.prefs.quickshortcuts);
@@ -593,15 +590,14 @@ inner_main (void *files)
       }
   }
 #endif
-
-  initprefs (); 
+  initprefs (); //loads the user's prefs
   if (Denemo.old_user_data_dir != NULL) // if Denemo.old_user_data is not NULL the user has preferred to keep their old values. Copy the templates etc...
     {
         gchar *templates_dir = g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
         gchar *old_templates_dir = g_build_filename (Denemo.old_user_data_dir, "templates", NULL);
         copy_files (old_templates_dir, templates_dir);
     }
-    
+
   define_scheme_literal_variable ("DenemoUserDataDir", get_user_data_dir (TRUE), "Directory ~/.denemo-x.y.z");
   init_lilypond_buffer ();
   initialize_print_status ();
@@ -684,33 +680,35 @@ inner_main (void *files)
   //project related initializations
   if (!Denemo.non_interactive)
     {
-      populate_opened_recent_menu ();
-
-      //load_preferences ();
-
-    
-      score_status (Denemo.project, FALSE);
-      if (Denemo.scheme_commands)
-        {
-          g_debug ("(interactive) Executing '%s'", Denemo.scheme_commands);
-          call_out_to_guile (Denemo.scheme_commands);
-        }
-      else
-        autosave_recovery_check ();
-
-
-
-      if (Denemo.prefs.fontname->len && Denemo.prefs.fontsize)
-        {
-          gchar *fontspec = g_strdup_printf ("%s %d", Denemo.prefs.fontname->str, Denemo.prefs.fontsize);
-          GtkSettings *settings = gtk_settings_get_default ();
-          //gtk_settings_set_string_property (settings, "gtk-font-name", fontspec, "denemo");
-          g_object_set (G_OBJECT(settings), "gtk-font-name", fontspec, NULL);
-          g_free (fontspec);
-        }
-        finalize_menusystem();
-        load_preferences ();
-
+		populate_opened_recent_menu ();
+		score_status (Denemo.project, FALSE);
+		if (Denemo.scheme_commands)
+		{
+		  g_debug ("(interactive) Executing '%s'", Denemo.scheme_commands);
+		  call_out_to_guile (Denemo.scheme_commands);
+		}
+		else
+		autosave_recovery_check ();
+		if (Denemo.prefs.fontname->len && Denemo.prefs.fontsize)
+		{
+		  gchar *fontspec = g_strdup_printf ("%s %d", Denemo.prefs.fontname->str, Denemo.prefs.fontsize);
+		  GtkSettings *settings = gtk_settings_get_default ();
+		  //gtk_settings_set_string_property (settings, "gtk-font-name", fontspec, "denemo");
+		  g_object_set (G_OBJECT(settings), "gtk-font-name", fontspec, NULL);
+		  g_free (fontspec);
+		}
+		finalize_menusystem();
+		show_view_preferences ();
+		Denemo.project->mode = Denemo.prefs.mode;
+		if (Denemo.prefs.startmidiin)
+		Denemo.project->input_source = INPUTMIDI;
+		if (Denemo.prefs.autosave)
+		{
+		  if (Denemo.autosaveid==0)
+			{
+			  Denemo.autosaveid = g_timeout_add_seconds (Denemo.prefs.autosave_timeout, (GSourceFunc) auto_save_document_timeout, Denemo.project);
+			}
+		}
       gtk_main ();
     }
   return NULL;
@@ -4076,14 +4074,6 @@ newtab (void)
   gtk_widget_set_can_focus (Denemo.scorearea, TRUE);
   //GTK_WIDGET_SET_FLAGS(Denemo.scorearea, GTK_CAN_FOCUS);
   gtk_widget_grab_focus (GTK_WIDGET (Denemo.scorearea));
-
-  if (Denemo.prefs.autosave)
-    {
-      if (Denemo.autosaveid==0)
-        {
-          Denemo.autosaveid = g_timeout_add_seconds (Denemo.prefs.autosave_timeout, (GSourceFunc) auto_save_document_timeout, Denemo.project);
-        }
-    }
 
 
   if (Denemo.prefs.visible_directive_buttons)

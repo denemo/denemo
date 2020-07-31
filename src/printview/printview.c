@@ -568,7 +568,11 @@ set_printarea (GError ** err)
       gtk_widget_queue_draw (Denemo.printarea);
     }
   else
-    set_printarea_doc (doc);
+	{
+		if (Denemo.lilypond_installed_version)
+			g_string_assign (Denemo.project->lilycontrol.lilyversion, Denemo.lilypond_installed_version);
+		set_printarea_doc (doc);
+	}    
   static gboolean shown_once = FALSE;   //Make sure the user knows that the printarea is on screen
   if (!shown_once)
     {

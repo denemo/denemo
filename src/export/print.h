@@ -28,7 +28,7 @@
 #define  return_on_windows_if_printing
 #define  return1_on_windows_if_printing
 #endif
-
+void initialize_lilypond_includes(void);
 
 typedef struct WwRectangle
 {
@@ -121,6 +121,8 @@ void printselection_cb (DenemoAction * action, DenemoScriptParam * param);
 
 void printexcerptpreview_cb (DenemoAction * action, DenemoScriptParam * param);
 gchar *get_lily_version_string (void);
+gchar *get_lilypond_include_dir (void);
+int check_lily_version (gchar * version);
 void export_pdf (gchar * filename, DenemoProject * gui);
 void export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui);
 void printpng_finished (GPid pid, gint status, GList * filelist);

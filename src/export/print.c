@@ -64,15 +64,15 @@ get_wysiwyg_info(){
   static WysiwygInfo Ww;                   //Wysywyg information
   return &Ww;
 }
-static gchar *include = NULL;
-static gchar *local_include = NULL;
-static void initialize_lilypond_includes(void) {
-        local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
-        include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
-  }
+static gchar *include = "";
+static gchar *local_include = "";
+void initialize_lilypond_includes(void) 
+	{
+	local_include = g_strdup_printf ("-I%s", g_build_filename(get_user_data_dir(TRUE), get_local_dir (DENEMO_DIR_LILYPOND_INCLUDE), NULL));
+	include = g_strdup_printf ("-I%s", get_system_dir (DENEMO_DIR_LILYPOND_INCLUDE));
+	}
 void initialize_print_status (void)
 {
-
   Denemo.printstatus = (DenemoPrintInfo*)g_malloc0(sizeof (DenemoPrintInfo));
   Denemo.printstatus->printpid = GPID_NONE;
   Denemo.printstatus->typeset_type = TYPESET_ALL_MOVEMENTS;
@@ -141,8 +141,7 @@ check_lilypond_path (DenemoProject * gui)
 }
 */
 
-static int
-version_check (lilyversion base, lilyversion installed)
+static int version_check (lilyversion base, lilyversion installed)
 {
   if (base.major > installed.major)
     return LESSER;
@@ -159,8 +158,7 @@ version_check (lilyversion base, lilyversion installed)
   return -1;
 }
 
-static lilyversion
-string_to_lilyversion (char *string)
+static lilyversion string_to_lilyversion (char *string)
 {
   lilyversion version = { 2, 0 };
   char **token;
@@ -181,7 +179,6 @@ string_to_lilyversion (char *string)
   return version;
 }
 
-/* UNUSED
 static gchar *
 regex_parse_version_number (const gchar * str)
 {
@@ -201,26 +198,50 @@ regex_parse_version_number (const gchar * str)
   g_regex_unref (regex);
   return g_string_free (lilyversion, FALSE);
 }
-*/
 
-gchar *
-get_lily_version_string (void)
-{
-    GString *ver = Denemo.project->lilycontrol.lilyversion;
-  if (ver && (ver->len > 1))
-    return ver->str;
-  return INSTALLED_LILYPOND_VERSION;
-}
+gchar *get_lily_version_string (void)
+ {
+	gchar *arg[] = {Denemo.prefs.lilypath->str, "--version", NULL};
+	gchar *out;
+	GError *err = NULL;
+	g_print ("Running %s", arg[0]);
+	g_spawn_sync (NULL,
+					arg,
+					NULL,
+					G_SPAWN_SEARCH_PATH,
+					NULL,
+					NULL,
+					&out,
+					NULL,
+					NULL,
+					&err);
+	if (err)
+		g_warning ("Returned %s with %s", out, err?err->message:"");
+	else
+	   return regex_parse_version_number ((const gchar *)out);
+	return NULL; 
+ }
 
-int
-check_lily_version (gchar * version)
+
+gint check_lily_version (gchar * version)
 {
-  gchar *version_string = get_lily_version_string ();
+  gchar *version_string = Denemo.lilypond_installed_version;
   lilyversion installed_version = string_to_lilyversion (version_string);
   lilyversion check_version = string_to_lilyversion (version);
   return version_check (check_version, installed_version);
 }
 
+gchar *get_lilypond_include_dir (void)
+{
+	if (Denemo.lilypond_installed_version)
+	{
+	  lilyversion installed_version = string_to_lilyversion (Denemo.lilypond_installed_version);
+	  lilyversion check_version = string_to_lilyversion ("2.18.0");
+	  if (version_check (check_version, installed_version) == GREATER)
+		return LATER_VERSION_LILYPOND_INCLUDE_DIR;
+	}
+  return LILYPOND_INCLUDE_DIR;
+}
 
 /* returns the base name (/tmp/Denemo????/denemoprint usually) used as a base
    filepath for printing.
@@ -592,7 +613,7 @@ generate_lilypond (gchar * lilyfile, gboolean part_only, gboolean all_movements)
 static void
 run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 {
-  if(!include) initialize_lilypond_includes();
+ // if(!include) initialize_lilypond_includes();
   /*arguments to pass to lilypond to create a pdf for printing */
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
@@ -611,7 +632,7 @@ run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 static void
 run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
 {
-    if(!include) initialize_lilypond_includes();
+  //  if(!include) initialize_lilypond_includes();
 
   /*arguments to pass to lilypond to create a svg for printing */
   gchar *arguments[] = {
@@ -932,7 +953,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
   gchar *psfile;
   GList *filelist = NULL;
 
-  if(!include) initialize_lilypond_includes();
+ // if(!include) initialize_lilypond_includes();
   basename = get_printfile_pathbasename ();
   lilyfile = g_strconcat (basename, ".ly", NULL);
   psfile = g_strconcat (filename, ".ps", NULL);

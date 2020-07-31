@@ -167,7 +167,7 @@ extern const gchar *Fluidsynth;
 #define PIXMAPS_DIR    "pixmaps"
 #define FONTS_DIR      "fonts"
 #define LOCALE_DIR     "po"
-#define LILYPOND_INCLUDE_DIR "actions/lilypond"
+
 
 typedef enum{
   DENEMO_DIR_COMMANDS,
@@ -179,6 +179,9 @@ typedef enum{
   DENEMO_DIR_BIN,
   DENEMO_DIR_LILYPOND_INCLUDE
 } DenemoDirectory;
+
+#define LILYPOND_INCLUDE_DIR "actions/lilypond"
+#define LATER_VERSION_LILYPOND_INCLUDE_DIR "actions/lilypond/2.20"
 
 #ifdef __cplusplus
 }

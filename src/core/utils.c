@@ -3425,7 +3425,7 @@ get_project_dir (void)
   return g_strdup (g_get_home_dir ());
 }
 
-const gchar *
+gchar *
 get_local_dir (DenemoDirectory dir)
 {
   switch (dir)
@@ -3443,7 +3443,7 @@ get_local_dir (DenemoDirectory dir)
     case DENEMO_DIR_LOCALE:
       return LOCALE_DIR;
     case DENEMO_DIR_LILYPOND_INCLUDE:
-      return LILYPOND_INCLUDE_DIR;
+      return Denemo.lilypond_include_dir;
     default:
       return NULL;
     }

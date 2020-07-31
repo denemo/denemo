@@ -598,9 +598,8 @@ toggle_object_menu (DenemoAction * action, gpointer param)
   widget = denemo_menusystem_get_widget ("/ObjectMenu");
   if (!widget)
     return;                     // internal error - out of step with menu_entries...
-  if ((!action) || gtk_widget_get_visible (widget))
+  if (gtk_widget_get_visible (widget))
     {
-
       gtk_widget_hide (widget);
     }
   else

@@ -49,7 +49,7 @@ static void set_default_lilypond_path (void)
  *
  */
 void
-initprefs ()
+initprefs (void)
 {
   gchar *dotdenemo = (gchar *) get_user_data_dir (TRUE);
   gchar *localrc = dotdenemo ? g_build_filename (dotdenemo, PREFS_FILE, NULL) : NULL;
@@ -83,7 +83,6 @@ initprefs ()
   set_default_lilypond_path ();
   ret->profile = g_string_new ("Default");
   ret->denemopath = g_string_new (g_get_home_dir ());
-  ret->lilyversion = g_string_new (""); //meaning use installed LilyPond version
   ret->temperament = g_string_new ("Equal");
   ret->strictshortcuts = FALSE;
   ret->resolution = 300;
@@ -168,25 +167,25 @@ initprefs ()
   ret->quickshortcuts = TRUE;
   ret->progressbardecorations = TRUE;
 
-  /* Read values from personal preferences file */
-
-  //readpreffile (localrc, ret);
- if (!Denemo.non_interactive)  if (localrc)
+ 
+ if (!Denemo.non_interactive)
     {
-      if (g_file_test (localrc, G_FILE_TEST_EXISTS))
+	 /* Read values from personal preferences file if any*/
+      if (localrc && g_file_test (localrc, G_FILE_TEST_EXISTS))
         readxmlprefsFile (localrc);
-      else
-        writeXMLPrefs (ret);
+        
+     if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
+		set_default_lilypond_path ();  
+        
+     Denemo.lilypond_installed_version = get_lily_version_string ();
+	 Denemo.lilypond_include_dir = get_lilypond_include_dir ();
+	 initialize_lilypond_includes();   
+     
+     writeXMLPrefs (ret);
     }
   g_free (localrc);
-
-
- if (!Denemo.non_interactive)  if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
-    set_default_lilypond_path ();
     //FIXME if ret->lilypath still does not exist prepare to issue warning to user once the GUI is available.
 #undef ret
-
-
 }
 
 

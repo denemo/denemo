@@ -558,7 +558,6 @@ typedef struct DenemoPrefs
   GString *denemopath; /**< path were denemo files are saved */
   GQueue *history; /**< Queue to contain recently opened files */
 
-  GString *lilyversion; /**< Lilypoind Version */
   GString *temperament; /**< Preferred temperament for tuning to */
   gboolean strictshortcuts; /**< Classic shortcut scheme, now deprecated */
   gboolean menunavigation; /**< arrows and Escape work for menu navigation*/
@@ -1197,6 +1196,8 @@ struct DenemoRoot
   GdkPixbuf *pixbuf;/**< print preview pixbuf */
   GtkWidget *playbackview;/**< area holding svg typeset for animating playback */
   DenemoPrintInfo *printstatus;/**< Information about the currenty typesetting activity */
+  gchar *lilypond_installed_version;/**< lilypond version that will be executed to typeset the score */
+  gchar *lilypond_include_dir;/**< Directory holding lilypond include files - varies with lilypond version */
   GtkWidget *textwindow; /**< LilyPond output window */
   GtkTextView *textview; /**< LilyPond output text view */
   GtkTextBuffer *textbuffer;   /**< buffer for LilyPond text */
