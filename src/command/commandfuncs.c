@@ -3063,10 +3063,18 @@ toggle_end_diminuendo (DenemoAction* action, DenemoScriptParam * param)
  */
 gboolean
 auto_save_document_timeout (DenemoProject * dummy)
-{ 
+{
+if (!Denemo.prefs.autosave)
+	return TRUE; 
+
 DenemoProject *gui = Denemo.project;
 static DenemoProject *last = NULL;
 static gint lastsaved = 0;
+if (!gui || !gui->movements)
+	{
+		warningdialog (_("INTERNAL ERROR: trying to auto save before score initialized - please report on bug tracker!"));
+		return TRUE;
+	}
   if (!gui->notsaved)
     return TRUE; // wait until project has been modified since loading.
   if ((gui==last) && (lastsaved==gui->changecount))
