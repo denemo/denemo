@@ -1,3 +1,4 @@
+\version "2.20.0"
 %%% merge rests
 #(define (rest-score r)
    (let ((score 0)

@@ -1,4 +1,4 @@
-%\version "2.18.2"
+%\version "2.20.0"
 
 %% https://raw.githubusercontent.com/mwitmer/LyUtil/master/ly/expressive_markings/vibrato.ly
 %% Original author: Mark Witmer
@@ -328,7 +328,7 @@ a list of vertival lengths, and @var{wave-length} for the horizontal extent.
         X)))
 
 vibrato = 
-#(define-music-function (parser location amplitudes wave-length thickness) (list? number? number?) 
+#(define-music-function (amplitudes wave-length thickness) (list? number? number?) 
 "Overrides @code{TrillSpanner.after-line-breaking}, setting a new stencil,
 drawning a wavy line looking at @var{amplitudes} and @var{wave-length} with thickness @var{thickness}.
 Limitations:

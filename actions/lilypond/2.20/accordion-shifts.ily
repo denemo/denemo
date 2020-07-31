@@ -1,10 +1,11 @@
+\version "2.20.0"
 
 ;;;Accordion 16v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -97,10 +98,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion Tremolo
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -193,10 +194,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 4v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -289,10 +290,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 4v8v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -385,10 +386,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 4v8vTremolo
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -481,10 +482,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 4v8v16v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -577,10 +578,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 4v8v16vTremolo
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -673,10 +674,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 8v16vTremolo
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -769,10 +770,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 8v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -865,10 +866,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 8v16v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine
@@ -961,10 +962,10 @@ accGeige = ^\\markup {
 
 ;;;Accordion 4v16v
 (d-DirectivePut-score-prefix "Diskant und Punkt" "Diskant=\\markup {
-  \\musicglyph #\"accordion.accDiscant\"
+  \\musicglyph \"accordion.accDiscant\"
 }
 punkt = \\markup {
-  \\musicglyph #\"accordion.accDot\"
+  \\musicglyph \"accordion.accDot\"
 }
 accBasson = ^\\markup {
   \\combine

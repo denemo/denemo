@@ -1,3 +1,4 @@
+\version "2.20.0"
 #(define (denemo-bass-inversion pitch)
 (let* ((alt (ly:pitch-alteration pitch)))
   (make-sans-markup (make-scale-markup '(2.50 . 3.0) (make-line-markup

@@ -1,4 +1,4 @@
-%\version "2.19.25"
+%\version "2.20.0"
 
 #(define (override-color-for-all-grobs color)
   (lambda (context)
@@ -29,14 +29,14 @@
         (caddr origin))))))
 
 liveScoreOn = {
-  \override NoteHead.id = #note-id
-  \override Rest.id = #rest-id
+  \override NoteHead.output-attributes.id = #note-id
+  \override Rest.output-attributes.id = #rest-id
 }
 
 % This part is based on the original event-listener.ly file which is
 % part of LilyPond.
 
-%\version "2.16.0"
+%\version "2.20.0"
 
 %%%% Helper functions
 
@@ -223,8 +223,8 @@ as an engraver for convenience."
 
 
 \layout {
- \override Score.NoteHead.id = #note-id
-  \override Score.Rest.id = #rest-id
+ \override Score.NoteHead.output-attributes.id = #note-id
+  \override Score.Rest.output-attributes.id = #rest-id
   \context {
   \Voice
   \consists #(make-engraver

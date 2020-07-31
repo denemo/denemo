@@ -1,5 +1,5 @@
 
-\version "2.16.2"
+\version "2.20.0"
 
 #(set-global-staff-size 20)
 
@@ -98,7 +98,7 @@
       (loop (cdr x))))))))
 
 printRefpoint =
-#(define-music-function (parser location text? s-or-l)(boolean?
+#(define-music-function (text? s-or-l)(boolean?
 symbol-list-or-symbol?)
 "
  Will add a red dot (and an optional text) to the stencil's ref-point of the

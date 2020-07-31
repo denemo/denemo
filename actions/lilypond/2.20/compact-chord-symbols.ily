@@ -1,3 +1,4 @@
+\version "2.20.0"
 CompactChordSymbols = {
         <c f bes d'>^\markup\scale #'(0.4 . 0.6) \bold {9 \scale #'(0.8 . 1) sus} 
         <c b>^\markup \bold\scale #'(.3 . .4) \override #'(thickness . 0.5)  {\triangle ##f} 

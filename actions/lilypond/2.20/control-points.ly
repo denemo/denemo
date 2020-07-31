@@ -1,3 +1,4 @@
+\version "2.20.0"
 
 #(define (make-cross-stencil coords)
  (ly:stencil-add

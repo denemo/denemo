@@ -1,9 +1,9 @@
-\version "2.18.0"
+\version "2.20.0"
 
 
 %%%%%%%% function for offsetting control-points of a TieColumn %%%%%%%%%%%%%%%%%
 shapeTieColumn =
-#(define-music-function (parser location all-offsets) (list?)
+#(define-music-function (all-offsets) (list?)
   #{
     \once \override TieColumn #'after-line-breaking =
       #(lambda (grob)
