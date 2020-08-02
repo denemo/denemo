@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>Interval-Identification</action>
+        <_label>Interval Identification</_label>
+        <_tooltip>Identify the name of each interval sounded</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
