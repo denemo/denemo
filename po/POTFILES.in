@@ -385,6 +385,9 @@ actions/menus/MainMenu/Educational/AuralTraining/Identify-Scale-Note/F-sharp-Maj
 actions/menus/MainMenu/Educational/AuralTraining/Identify-Scale-Note/F-sharp-Pentascale.scm
 actions/menus/MainMenu/Educational/AuralTraining/Identify-Scale-Note/F-sharp-Pentascale.xml
 actions/menus/MainMenu/Educational/AuralTraining/Identify-Scale-Note/init.scm
+actions/menus/MainMenu/Educational/AuralTraining/Intervals/init.scm
+actions/menus/MainMenu/Educational/AuralTraining/Intervals/Interval-Identification.scm
+actions/menus/MainMenu/Educational/AuralTraining/Intervals/Interval-Identification.xml
 actions/menus/MainMenu/Educational/MIDI/CheckPitches.scm
 actions/menus/MainMenu/Educational/MIDI/CheckPitches.xml
 actions/menus/MainMenu/Educational/MIDI/Conductor.scm
