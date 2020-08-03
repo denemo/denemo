@@ -41,7 +41,11 @@
     (define acc2 (get-accidental note))
     (/ (- acc2 acc1) 2))
     
- 
+(define (parser-location)
+	(if (equal? (d-GetLilyVersion) "2.20")
+		""
+		"parser location"))
+		
 (if (and TransposeScorePrint::params (not (equal?  TransposeScorePrint::params "edit")))
     (set! Transpose::Interval TransposeScorePrint::params)
     (set! Transpose::Interval (d-GetLilyPondSyntaxFromUser  (_ "Set Transpose Interval") (_ "Give Interval to transpose by as two note names, 
@@ -70,7 +74,9 @@
                          (d-DirectivePut-score-prefix global-tag   (string-append 
                                 "#(define DenemoTransposeStep " (number->string (step-diff base note)) ")\n"
                                 "#(define DenemoTransposeAccidental " (number->string (acc-diff base note)) ")\n"
-                                "\nDenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose "
+                                "\nDenemoGlobalTranspose = #(define-music-function ("
+                                (parser-location) 
+                                " arg)(ly:music?) #{\\transpose "
                      Transpose::Interval "#arg #})\n"))
                             (d-DirectivePut-score-postfix tag  "\\DenemoGlobalTranspose "))
                 (else
