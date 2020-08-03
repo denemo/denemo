@@ -10,27 +10,29 @@
 
 #(define (note-id grob) 
    (let* ((origin (ly:input-file-line-char-column
-                   (ly:event-property (ly:grob-property grob 'cause) 'origin))))
-  (string-concatenate 
-    (list 
-      "Note-" 
-      (ly:format "~a-~a"
-        (cadr origin)
-        (caddr origin))))))
+                   (ly:event-property (ly:grob-property grob 'cause) 'origin)))
+           (value  (string-concatenate 
+				(list 
+				  "Note-" 
+				  (ly:format "~a-~a"
+					(cadr origin)
+					(caddr origin))))))                   
+  (cons (cons 'id  value) '())))
 
 #(define (rest-id grob) 
    (let* ((origin (ly:input-file-line-char-column
-                   (ly:event-property (ly:grob-property grob 'cause) 'origin))))
-  (string-concatenate 
-    (list 
-      "Rest-" 
-      (ly:format "~a-~a"
-        (cadr origin)
-        (caddr origin))))))
+                   (ly:event-property (ly:grob-property grob 'cause) 'origin)))
+           (value  (string-concatenate 
+				(list 
+				  "Rest-" 
+				  (ly:format "~a-~a"
+					(cadr origin)
+					(caddr origin))))))                   
+  (cons (cons 'id  value) '())))
 
 liveScoreOn = {
-  \override NoteHead.output-attributes.id = #note-id
-  \override Rest.output-attributes.id = #rest-id
+  \override NoteHead.output-attributes = #note-id
+  \override Rest.output-attributes = #rest-id
 }
 
 % This part is based on the original event-listener.ly file which is
@@ -223,8 +225,7 @@ as an engraver for convenience."
 
 
 \layout {
- \override Score.NoteHead.output-attributes.id = #note-id
-  \override Score.Rest.output-attributes.id = #rest-id
+ \liveScoreOn
   \context {
   \Voice
   \consists #(make-engraver
