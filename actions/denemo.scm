@@ -1685,7 +1685,7 @@
                     (set! comment ""))
                                 
             (if (not transpose)
-                (set! transpose "DenemoGlobalTranspose = #(define-music-function (parser location arg)(ly:music?) #{\\transpose c c#arg #}) "))
+                (set! transpose "DenemoGlobalTranspose = {} ) "))
 
             (if (not incipit)
                 (begin
