@@ -4662,11 +4662,11 @@ accidentals are usually printed over the note.</_tooltip>
         <_tooltip>Determine if the chord played is major or minor</_tooltip>
       </row>
       <row type="scheme">
-        <action>MajorMinorAugmentedOrDiminished</action>
+        <action>Interval-Identification</action>
         <after>MajorOrAugmented</after>
-        <menupath>/MainMenu/Educational/AuralTraining/Chord-Comparison</menupath>
-        <_label>MajorMinorAugmentedDiminished</_label>
-        <_tooltip>Determine if the chord sounded is Major Minor Augmented or Diminished</_tooltip>
+        <menupath>/MainMenu/Educational/AuralTraining/Intervals</menupath>
+        <_label>Interval-Identification</_label>
+        <_tooltip>Determine what interval has been sounded</_tooltip>
       </row>
       <row type="scheme">
         <action>MarcatoSelectionSwitcher</action>
@@ -8486,6 +8486,7 @@ Invoke the command again to stop.</_tooltip>
         <_label>Un-dot Rests</_label>
         <_tooltip>Changes dotted rests into the equivalent sequence of un-dotted rests in the current staff. Use e.g. in 6/8 time to replace 𝅘𝅥. with  𝄽 𝄾 </_tooltip>
       </row>
+
     </map>
   </merge>
 </Denemo>
