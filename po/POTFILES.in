@@ -533,6 +533,8 @@ actions/menus/MainMenu/InputMenu/MIDI/MidiFilterOff.scm
 actions/menus/MainMenu/InputMenu/MIDI/MidiFilterOff.xml
 actions/menus/MainMenu/InputMenu/MIDI/ToggleCheckChords.scm
 actions/menus/MainMenu/InputMenu/MIDI/ToggleCheckChords.xml
+actions/menus/MainMenu/InputMenu/MIDI/ToggleMidiThru.scm
+actions/menus/MainMenu/InputMenu/MIDI/ToggleMidiThru.xml
 actions/menus/MainMenu/InputMenu/Mouse/MouseDefault.scm
 actions/menus/MainMenu/InputMenu/Mouse/MouseDefault.xml
 actions/menus/MainMenu/InputMenu/Mouse/MouseInsertion.scm
