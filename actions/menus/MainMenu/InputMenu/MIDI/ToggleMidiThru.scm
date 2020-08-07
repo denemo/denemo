@@ -1,2 +1,0 @@
-;;;ToggleMidiThru
-(d-ToggleMidiInListening)

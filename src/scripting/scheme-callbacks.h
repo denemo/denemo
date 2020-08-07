@@ -313,7 +313,6 @@ SCM scheme_get_midi_off_time (void);
 SCM scheme_midi_in_append_edit (void);
 SCM scheme_midi_in_checking (void);
 SCM scheme_midi_in_listening (void);
-SCM scheme_toggle_midi_in_listening (void);
 SCM scheme_set_playback_interval (SCM start, SCM end);
 SCM scheme_adjust_playback_start (SCM);
 SCM scheme_adjust_playback_end (SCM);

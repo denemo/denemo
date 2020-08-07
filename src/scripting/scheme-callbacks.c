@@ -2386,15 +2386,6 @@ scheme_midi_in_listening (void)
   midi_in_adjust (GDK_SHIFT_MASK);
   return SCM_BOOL_T;
 }
-SCM
-scheme_toggle_midi_in_listening (void)
-{
-  if (Denemo.keyboard_state == GDK_SHIFT_MASK)
-	midi_in_adjust (0);
-  else
-	midi_in_adjust (GDK_SHIFT_MASK);
-  return SCM_BOOL_T;
-}
 
 SCM
 scheme_midi_in_checking (void)
