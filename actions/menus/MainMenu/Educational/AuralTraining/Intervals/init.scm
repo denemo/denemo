@@ -9,6 +9,9 @@
 (define IntervalComparison::ArpTimer 0)
 (define TransposedChordNotes '())
 (define IntervalComparison::score 0)
+(define IntervalComparison::scorepossible 0)
+
+
 
 
 
@@ -81,7 +84,7 @@
 ))
 
 (define (IntervalComparison::showscore)
- (d-DirectivePut-score-display "IntervalComparison::GameScore" (string-append "<b>Score: </b>" (number->string IntervalComparison::score))))
+ (d-DirectivePut-score-display "IntervalComparison::GameScore" (string-append "<b>Score: </b>" (number->string IntervalComparison::score) "/" (number->string IntervalComparison::scorepossible) )))
 
 (define (IntervalComparison::GetRandom)
   (set! IntervalComparison::ChordIntervalComparison::LowestNote (random IntervalComparison::HighestNote))
@@ -424,10 +427,11 @@
   (if  (string=? (IntervalComparison::GetChordQuality) chord)
     (begin
       (set! IntervalComparison::score (+ IntervalComparison::score 1))
+      (set! IntervalComparison::scorepossible (+ IntervalComparison::scorepossible 1))
       (IntervalComparison::PlaceAnswerStatus "CheckMark")
       )
     (begin
-      (set! IntervalComparison::score (- IntervalComparison::score 1))
+      (set! IntervalComparison::scorepossible (+ IntervalComparison::scorepossible 1))
       (IntervalComparison::PlaceAnswerStatus "CrossSign")
   ))
   (d-OneShotTimer (* 1000 (length TransposedChordNotes)) "(IntervalComparison::OfferChord)")
