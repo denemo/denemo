@@ -1319,13 +1319,13 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, D
   guint keyval;
   GdkModifierType modifiers;
   keymap *the_keymap = Denemo.map;
-  GtkMenu *menu = GTK_MENU (grab_widget);
+  GtkMenu *menu = GTK_MENU (grab_widget);//g_print ("Key val %x\n", event->keyval);
   if ((event->keyval == 65481) && (event->state == 0)) //Fn12 hardwired to repeat last command
     {
       warningdialog (_("Fn12 is hard-wired to repeat the last command"));
       return FALSE;
     }
-  if (Denemo.prefs.menunavigation && ((event->keyval == 0xFF1B) || (event->keyval == 0xFF51) || (event->keyval == 0xFF52) || (event->keyval == 0xFF53) || (event->keyval == 0xFF54)))
+  if (Denemo.prefs.menunavigation && ((event->keyval == 0xFF0D) || (event->keyval == 0xFF1B) || (event->keyval == 0xFF51) || (event->keyval == 0xFF52) || (event->keyval == 0xFF53) || (event->keyval == 0xFF54)))
     {
 //Esc and arrows for navigating menus
       return FALSE;

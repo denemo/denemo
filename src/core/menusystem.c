@@ -1094,6 +1094,33 @@ static gpointer get_callback (gchar *name)
 static gchar *get_label_for_name (gchar *name)
 {
     gint i;
+    if (Denemo.prefs.menunavigation)
+		{ gchar *ret = NULL;
+			ret = 
+				(!strcmp(name, "EditMenu"))?("_Edit"):
+				(!strcmp(name, "Educational"))?("Ed_ucational"):
+				(!strcmp(name, "FileMenu"))?("_File"):
+				(!strcmp(name, "HelpMenu"))?("_Help"):
+				(!strcmp(name, "InputMenu"))?("_Input"):
+				(!strcmp(name, "MoreMenu"))?("M_ore"):
+				(!strcmp(name, "NavigationMenu"))?("Navi_gation"):
+				(!strcmp(name, "PlaybackMenu"))?("_Playback"):
+				(!strcmp(name, "ViewMenu"))?("Vie_w"):
+				(!strcmp(name, "ChordMenu"))?("_Chords"):
+				(!strcmp(name, "ClefMenu"))?("C_lefs"):
+				(!strcmp(name, "Directives"))?("_Directives"):
+				(!strcmp(name, "Key"))?("_Keys"):
+				(!strcmp(name, "Lyrics"))?("_Lyrics"):
+				(!strcmp(name, "MeasureMenu"))?("Measu_res"):
+				(!strcmp(name, "MovementMenu"))?("_Movements"):
+				(!strcmp(name, "NotesRests"))?("_Notes/Rests"):
+				(!strcmp(name, "Score"))?("_Score"):
+				(!strcmp(name, "StaffMenu"))?("Staffs/_Voices"):
+				(!strcmp(name, "TimeSig"))?("_Time Signature"):
+				NULL;
+			if (ret)
+				return ret;
+		}
     for (i=0;i<G_N_ELEMENTS (menu_entries);i++)
         {
             if (!strcmp (menu_entries[i].name, name))
@@ -1102,7 +1129,6 @@ static gchar *get_label_for_name (gchar *name)
         }
    return NULL;
 }
-
 static gchar *get_palette_name_from_list (GList *g)
 {
    g = g_list_last (g);
@@ -1203,7 +1229,7 @@ void denemo_menusystem_add_menu (gchar *path, gchar *name)
         gchar *label = get_label_for_name (name);
         
         if (label==NULL) label = name;
-        item = gtk_menu_item_new_with_label (label);
+        item = Denemo.prefs.menunavigation? gtk_menu_item_new_with_mnemonic (label) : gtk_menu_item_new_with_label (label);
         gtk_widget_show (item);
         gtk_menu_shell_append (GTK_MENU_SHELL (parent), item);
         w = gtk_menu_new ();

@@ -101,6 +101,7 @@ initprefs (void)
   ret->newbie = TRUE;
   ret->persistence = TRUE;
   ret->learning = TRUE;
+  ret->menunavigation = TRUE;
   ret->immediateplayback = TRUE;
   ret->measureswitchsound = 75;
   ret->manualtypeset = FALSE;
