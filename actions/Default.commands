@@ -8486,7 +8486,12 @@ Invoke the command again to stop.</_tooltip>
         <_label>Un-dot Rests</_label>
         <_tooltip>Changes dotted rests into the equivalent sequence of un-dotted rests in the current staff. Use e.g. in 6/8 time to replace 𝅘𝅥. with  𝄽 𝄾 </_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>MarkConsecutives</action>
+        <menupath>/MainMenu/Educational/Analysis</menupath>
+        <_label>Mark Consecutive 5ths and Octaves</_label>
+        <_tooltip>Marks positions in a score where consecutive fifths or octaves occur. Expects two staffs one with up to three part harmony and the other with the bass.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

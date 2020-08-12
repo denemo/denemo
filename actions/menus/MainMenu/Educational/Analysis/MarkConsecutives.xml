@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MarkConsecutives</action>
+        <after>FiguredBassExercises</after>
+        <_label>Mark Consecutive 5ths and Octaves</_label>
+        <_tooltip>Marks positions in a score where consecutive fifths or octaves occur. Expects two staffs one with up to three part harmony and the other with the bass.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
