@@ -1316,18 +1316,23 @@ stolen_gtk_menu_stop_navigating_submenu (GtkMenu * menu)
 gint
 keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, DenemoAction *action)
 {
+  gboolean ret = TRUE;
   guint keyval;
   GdkModifierType modifiers;
   keymap *the_keymap = Denemo.map;
-  GtkMenu *menu = GTK_MENU (grab_widget);//g_print ("Key val %x\n", event->keyval);
+  GtkMenu *menu = GTK_MENU (grab_widget);
+  //g_print ("Key val %x state %x\n", event->keyval, event->state);
   if ((event->keyval == 65481) && (event->state == 0)) //Fn12 hardwired to repeat last command
     {
       warningdialog (_("Fn12 is hard-wired to repeat the last command"));
       return FALSE;
     }
-  if (Denemo.prefs.menunavigation && ((event->keyval == 0xFF0D) || (event->keyval == 0xFF1B) || (event->keyval == 0xFF51) || (event->keyval == 0xFF52) || (event->keyval == 0xFF53) || (event->keyval == 0xFF54)))
+  if (Denemo.prefs.menunavigation)
     {
-//Esc and arrows for navigating menus
+	if (event->keyval == 0xFF0D)
+		ret = FALSE; //allow setting the Return shortcut *and* execute the command
+	//Esc and arrows for navigating menus
+	if ((event->keyval == 0xFF1B) || (event->keyval == 0xFF51) || (event->keyval == 0xFF52) || (event->keyval == 0xFF53) || (event->keyval == 0xFF54))
       return FALSE;
     }
 
@@ -1356,7 +1361,7 @@ keymap_accel_quick_edit_snooper (GtkWidget * grab_widget, GdkEventKey * event, D
 //#endif
   //Add the keybinding
   add_keybinding_to_idx (the_keymap, keyval, modifiers, idx, POS_FIRST);
-  return TRUE;
+  return ret;
 }
 
 
