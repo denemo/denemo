@@ -1684,7 +1684,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
 									if (!Denemo.non_interactive)
 										warningdialog (msg);
 									else
-										g_warning (msg);
+										g_warning ("%s", msg);
 									g_free (msg);
 							}
 						else
