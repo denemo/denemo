@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>4ths-and-5ths</action>
+        <after>3rds-and-4ths</after>
+        <_label>4ths and 5ths</_label>
+        <_tooltip>Compare the interval of the P4 through P5</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
