@@ -41,7 +41,7 @@ get_script_view_text (void)
   return gtk_text_buffer_get_text (buffer, &startiter, &enditer, FALSE);
 }
 /* create a palette button for the script that is in the Scheme script window */
-void
+static void
 createButton (void)
 {
   gchar *text = Denemo.project->script;
@@ -71,12 +71,16 @@ createButton (void)
 static void
 helpCreateMenuItem (void)
 {
- infodialog (_("To create a new command in the menu system that will execute the Scheme script in the pane below follow these steps.\n\
- 1)Choose an already existing command in the menu system which you want your new command to come after.\n\
- 2)Right Click on that command and select the option to create a new menu item\n\
- 3)Give a unique name for this command (hint: prefix the command with your own initials)\n\
- 4)Give the label and then the tooltip for the command\n\
- 5)When exiting Denemo choose to save you new command(s)."));        
+  gchar *text = Denemo.project->script;
+  if(text && *text)
+		infodialog (_("To create a new command in the menu system that will execute the Scheme script in the pane below follow these steps:\n\
+ 1) Choose an already existing command in the menu system which you want your new command to come after.\n\
+ 2) Right Click on that command and select the option to create a new menu item\n\
+ 3) Give a unique name for this command (hint: prefix the command with your own initials)\n\
+ 4) Give the label and then the tooltip for the command\n\
+ 5) When exiting Denemo choose to save you new command(s)."));
+	else 
+		warningdialog (_("No script in the Scheme Window"));
 }
 /* execute the script that is in the Scheme script window */
 void
@@ -96,7 +100,7 @@ executeScript (void)
 
 
 /* execute the line of scheme script that is in the Scheme CLI */
-void
+static void
 executeCLI (GtkWidget * button, GtkEntry * entry)
 {
   gchar *display = NULL;
