@@ -68,6 +68,16 @@ createButton (void)
     else
         g_warning (_("Empty scheme script"));
 }
+static void
+helpCreateMenuItem (void)
+{
+ infodialog (_("To create a new command in the menu system that will execute the Scheme script in the pane below follow these steps.\n\
+ 1)Choose an already existing command in the menu system which you want your new command to come after.\n\
+ 2)Right Click on that command and select the option to create a new menu item\n\
+ 3)Give a unique name for this command (hint: prefix the command with your own initials)\n\
+ 4)Give the label and then the tooltip for the command\n\
+ 5)When exiting Denemo choose to save you new command(s)."));        
+}
 /* execute the script that is in the Scheme script window */
 void
 executeScript (void)
@@ -444,6 +454,10 @@ create_editor_window (void)
   g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (createButton), NULL);
   gtk_box_pack_start (GTK_BOX (inner_hbox), w, FALSE, FALSE, 0);
 
+  w = gtk_button_new_with_label (_("Create Menu Item"));
+  gtk_widget_set_tooltip_text (w, _("Steps you through creation of a Denemo command in the menu system to execute the Scheme script."));
+  g_signal_connect (G_OBJECT (w), "clicked", G_CALLBACK (helpCreateMenuItem), NULL);
+  gtk_box_pack_start (GTK_BOX (inner_hbox), w, FALSE, FALSE, 0);
   menu = gtk_menu_new ();
 
   item = gtk_menu_item_new_with_label (_("New"));
