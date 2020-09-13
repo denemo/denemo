@@ -4534,8 +4534,10 @@ scheme_get_keypress (SCM putback)
   if (scm_is_false (putback))
     {
     gint cmd = lookup_command_for_keyevent (&event);
-      ;;if (cmd != -1) 
-       return SCM_BOOL ( execute_callback_from_idx (Denemo.map, cmd));   
+      if (cmd != -1) 
+       return SCM_BOOL ( execute_callback_from_idx (Denemo.map, cmd));
+      else
+		return SCM_BOOL_F;
     }
   else {
       gboolean success = intercept_scorearea_keypress (&event);
@@ -4546,9 +4548,8 @@ scheme_get_keypress (SCM putback)
           g_free (str);
           return scm;
         }
-      else
-        return SCM_BOOL (FALSE);
     }
+  return SCM_BOOL_F;
 }
 
 /* get last keypress that successfully invoked a command */

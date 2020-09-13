@@ -917,6 +917,7 @@ gboolean activate_right_click (gint state)
             call_out_to_guile ("(d-EditSimilar 'once)");
             return TRUE;
         }
+     return FALSE;
     }
 /**
  * Mouse button press callback

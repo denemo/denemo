@@ -1546,6 +1546,7 @@ static gboolean
 printarea_leave_notify (void)
 {
   show_tooltip (NULL, NULL, NULL);
+  return FALSE;
 }
 static gboolean
 printarea_motion_notify (G_GNUC_UNUSED GtkWidget * widget, GdkEventMotion * event)
@@ -2544,7 +2545,7 @@ get_updates_button (void)
 }
 
 static void conditions_menu (void);
-static gchar *create_new_condition (void)
+static void create_new_condition (void)
 {
     gchar *name = string_dialog_entry (Denemo.project, _("New Omission Criterion"), _("Give a name for this new criterion"), _("Not transposed"));
     if (name)
