@@ -8534,6 +8534,13 @@ Invoke the command again to stop.</_tooltip>
         <_label>7ths and 8ths</_label>
         <_tooltip>Compare the intervals of a minor 7th to the perfect 8</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleMidiThru</action>
+        <after>FlattenEnharmonicSet</after>
+        <menupath>/MainMenu/InputMenu/MIDI</menupath>
+        <_label>Toggle Listening/Editing</_label>
+        <_tooltip>Switches between passing MIDI input directly to output or to Denemo. Use this instead of CapsLock to avoid altering keyboard shortcut Shift-A etc while editing and listening.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

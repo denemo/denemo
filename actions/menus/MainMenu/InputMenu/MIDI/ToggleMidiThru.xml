@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleMidiThru</action>
+        <after>FlattenEnharmonicSet</after>
+        <_label>Toggle Listening/Editing</_label>
+        <_tooltip>Switches between passing MIDI input directly to output or to Denemo. Use this instead of CapsLock to avoid altering keyboard shortcut Shift-A etc while editing and listening.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
