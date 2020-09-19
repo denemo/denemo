@@ -8539,7 +8539,7 @@ Invoke the command again to stop.</_tooltip>
         <after>FlattenEnharmonicSet</after>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <_label>Toggle Listening/Editing</_label>
-        <_tooltip>Switches between passing MIDI input directly to output or to Denemo. Use this instead of CapsLock to avoid altering keyboard shortcut Shift-A etc while editing and listening.</_tooltip>
+        <_tooltip>Switches between passing MIDI input directly to output or to Denemo. Use this instead of CapsLock to avoid altering keyboard shortcuts involving the Shift key when editing and listening.</_tooltip>
       </row>
     </map>
   </merge>
