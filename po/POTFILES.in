@@ -1190,6 +1190,8 @@ actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.scm
 actions/menus/ObjectMenu/MovementMenu/DuplicateOrMergeMovements.xml
 actions/menus/ObjectMenu/MovementMenu/EvenOutStaffLengths.scm
 actions/menus/ObjectMenu/MovementMenu/EvenOutStaffLengths.xml
+actions/menus/ObjectMenu/MovementMenu/HideMovement.scm
+actions/menus/ObjectMenu/MovementMenu/HideMovement.xml
 actions/menus/ObjectMenu/MovementMenu/InsertMovement/AddMovement.scm
 actions/menus/ObjectMenu/MovementMenu/InsertMovement/AddMovement.xml
 actions/menus/ObjectMenu/MovementMenu/MvntComment.scm
@@ -1241,8 +1243,6 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml
-actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.scm
-actions/menus/ObjectMenu/MovementMenu/Typesetter/HideMovement.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm
