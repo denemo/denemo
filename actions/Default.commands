@@ -2364,12 +2364,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>Composer</_label>
         <_tooltip>Prints a composer name for current movement.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>HideMovement</action>
-        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
-        <_label>Hide Movement as Sketch (Off/On)</_label>
-        <_tooltip>Stops the current movement from being typeset (use for fragments of music, sketches etc). At least one movement must be typeset.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>HideBarlines</action>
         <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
@@ -7438,6 +7433,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_tooltip>Splits the movement at the cursor. Place the cursor after any time signature or key signature change that applies to the split-off movement.</_tooltip>
       </row>
       <row type="scheme">
+        <action>HideMovement</action>
+        <after>SplitMovementAtCursor</after>
+        <menupath>/ObjectMenu/MovementMenu</menupath>
+        <_label>Hide Movement as Sketch (Off/On)</_label>
+        <_tooltip>Stops the current movement from being typeset (use for fragments of music, sketches etc). At least one movement must be typeset.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>ToggleNonprintingSelection</action>
         <after>SelectionToEmptyMeasure</after>
         <menupath>/MainMenu/EditMenu/Select</menupath>
@@ -7548,7 +7550,7 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>SetBeamExceptions</action>
-        <after>HideMovement</after>
+        <after>AllowBreakAtBeat</after>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Set Beaming Rules</_label>
         <_tooltip>Sets the rules to be used for beaming. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will set exceptions to the regular rule. In this case indicate the beaming desired using the manual beam commands [ and ].</_tooltip>
@@ -7801,7 +7803,6 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>TransposeMovementPrint</action>
-        <after>HideMovement</after>
         <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>Transpose on Print</_label>
         <_tooltip>The current movement will be printed transposed by the interval given.</_tooltip>
