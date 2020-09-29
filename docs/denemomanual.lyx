@@ -1463,7 +1463,10 @@ The Main Menubar
 
 \begin_layout Standard
 The Main Menubar has menus for overall control of the program.
- It contains the following submenus:
+ The menus on it can be activated from the keyboard by holding down the
+ Alt key, whereon one letter in each menu name is underlined - press that
+ letter to popup the menu, then use the arrow keys to navigate.
+ These are the menu names you see on the menubar:
 \end_layout
 
 \begin_layout Itemize
@@ -2773,8 +2776,17 @@ Object Menus
 \end_layout
 
 \begin_layout Standard
-The object menu bar gives a set of menus give ordered by the objects (notes,
- staffs, measures \SpecialChar ldots
+The most important menu bar is the Object Menubar giving access to commands
+ that operate on the current score.
+ The menus on it can be activated from the keyboard by holding down the
+ Alt key, whereon one letter in each menu name is underlined - press that
+ letter to popup the menu, then use the arrow keys to navigate.
+ 
+\end_layout
+
+\begin_layout Standard
+The Object Menubar gives a set of menus ordered by the objects (notes, staffs,
+ measures \SpecialChar ldots
 ) that they relate to.
  This division cannot be perfect – some activities could be placed in different
  menus, so you need to be prepared to search for commands using the 
@@ -11023,6 +11035,43 @@ Pending Accidental
 Chord Charts can also be created – there is a Chord Charts palette for these.
  Compact chord charts require a patch to LilyPond – enquire on the mailing
  list for this.
+\end_layout
+
+\begin_layout Subsection
+Music Sketches
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Sketches
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is useful when composing to set aside a musical passage for later use.
+ This is called a sketch in Denemo, and it is implemented as a small movement
+ that is not typeset but can be navigated to for copy and paste purposes
+ just like any other movement.
+\end_layout
+
+\begin_layout Standard
+There are two commands relevant to this: in the Selection submenu of the
+ Edit menu there is 
+\begin_inset Quotes eld
+\end_inset
+
+Cut Selection as Sketch
+\begin_inset Quotes erd
+\end_inset
+
+ which cuts the currently selected passage to a sketch movement immediately
+ following the current movement.
+ There is also a command to convert the current movement to a sketch in
+ the Movements menu.
 \end_layout
 
 \begin_layout Part
