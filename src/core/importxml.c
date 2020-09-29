@@ -2760,7 +2760,11 @@ parseScore (xmlNodePtr scoreElem, DenemoProject * gui, ImportType type)
   DenemoMovement *si = gui->movement;
   xmlNodePtr childElem, voiceElem;
 
+  childElem = getXMLChild (scoreElem, "sketch");
 
+  if (childElem != 0)
+    si->sketch = TRUE;
+    
   childElem = getXMLChild (scoreElem, "edit-info");
 
   if (childElem != 0)

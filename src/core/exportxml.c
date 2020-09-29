@@ -1236,7 +1236,10 @@ exportXML (gchar * thefilename, DenemoProject * gui)
         newXMLIntChild (parentElem, ns, (xmlChar *) "measure-width", si->measurewidth);
 
 
-
+      if (si->sketch)
+        {
+          newXMLIntChild (mvmntElem, ns, "sketch", 1);
+        }
 
       if (si->header.directives)
         {

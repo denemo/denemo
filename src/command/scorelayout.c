@@ -2154,13 +2154,14 @@ set_default_scoreblock (DenemoScoreblock ** psb, gint movement, gchar * partname
 
   GList *g;
   gint movement_num = 1;
+
   for (g = gui->movements; g; g = g->next, movement_num++)
     {
       if (movement == 0 /*all movements */  || (movement == movement_num) /*this movement */ )
         {
           DenemoMovement *si = (DenemoMovement *) g->data;
-          install_movement_widget (si, vbox, psb, partname, movement_num, !(gboolean) GPOINTER_TO_INT (g->next), TRUE);
-
+          if (!(movement==0 && si->sketch))
+			install_movement_widget (si, vbox, psb, partname, movement_num, !(gboolean) GPOINTER_TO_INT (g->next), TRUE);
         }                       //if movement is wanted
     }                           //for all movements
 

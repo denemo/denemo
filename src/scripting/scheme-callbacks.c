@@ -3014,8 +3014,12 @@ scheme_set_object_display_width (SCM value)
   return SCM_BOOL_F;
 }
 
-
-
+SCM
+scheme_toggle_sketch (void)
+{
+   Denemo.project->movement->sketch = !Denemo.project->movement->sketch;
+  return Denemo.project->movement->sketch? SCM_BOOL_T:SCM_BOOL_F;
+}
 
 SCM
 scheme_get_movement (void)

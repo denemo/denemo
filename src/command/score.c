@@ -118,7 +118,7 @@ void set_movement_selector (DenemoProject *gui)
       button = gtk_button_new_with_label("");
       if (g->data == gui->movement)
         {
-            gchar *text = g_strdup_printf("<span foreground=\"%s\"><i><b>%d</b></i></span>", movementcontrol_directive_get_tag ("HideMovement")?"red":"blue", i);
+            gchar *text = g_strdup_printf("<span foreground=\"%s\"><i><b>%d</b></i></span>", gui->movement->sketch?"red":"blue", i);
             GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
             gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
             gtk_label_set_markup (GTK_LABEL (label_widget), text);
@@ -132,8 +132,10 @@ void set_movement_selector (DenemoProject *gui)
             gchar *more = "";
             if((last<num_movements) && (i==last))
                 more = "+...";
-            gchar *text = g_strdup_printf("%d%s", i, more);
-            gtk_button_set_label (GTK_BUTTON (button), text);
+            gchar *text = g_strdup_printf("<span foreground=\"%s\"><b>%d</b></span>", ((DenemoMovement*)g->data)->sketch?"pink":"black", i);
+			GtkWidget *label_widget = gtk_bin_get_child(GTK_BIN(button));
+			gtk_label_set_use_markup (GTK_LABEL(label_widget), TRUE);
+            gtk_label_set_markup (GTK_LABEL (label_widget), text);
             g_free(text);
             text = g_strdup_printf(_("Click to switch to movement number %d"), i);
             gtk_widget_set_tooltip_text (GTK_WIDGET (button), text);

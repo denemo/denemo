@@ -674,6 +674,23 @@ drawlargetext_cr (cairo_t * cr, const char *text, double x, double y)
   drawtext_cr (cr, text, x, y, 24.0);
 }
 
+void general_draw_text (cairo_t * cr, const char *font, const char *text, double x, double y)
+{
+  PangoLayout *layout;
+  PangoFontDescription *desc;
+  /* Create a PangoLayout, set the font and text */
+  layout = pango_cairo_create_layout (cr);
+  pango_layout_set_text (layout, text, -1);
+  desc = pango_font_description_from_string (font);
+  pango_layout_set_font_description (layout, desc);
+  pango_font_description_free (desc);
+  pango_cairo_update_layout (cr, layout);
+  cairo_move_to (cr, x, y);
+  pango_cairo_show_layout (cr, layout);
+  g_object_unref (layout);
+}
+
+
 /* draw display text and or graphics for directives
  return the widest graphic width*/
 gint

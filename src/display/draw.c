@@ -1861,8 +1861,15 @@ draw_callback (cairo_t * cr)
   cairo_paint (cr);
   /* Draw the score. */
   draw_score (cr);
+  
+  if (Denemo.project->movement->sketch)
+	{
+		cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
+		general_draw_text (cr, "Times 84", _( "Sketch"), 20.0, 20.0);
+	}
   return TRUE;
 }
+
 
 void
 update_drawing_cache (void)

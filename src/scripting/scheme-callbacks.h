@@ -164,6 +164,7 @@ SCM scheme_set_prevailing_keysig (SCM);
 SCM scheme_increment_initial_keysig (SCM);
 SCM scheme_increment_keysig (SCM);
 SCM scheme_add_movement (SCM);
+SCM scheme_toggle_sketch (void);
 SCM scheme_change_chord_notes (SCM);
 SCM scheme_put_note_name (SCM);
 SCM scheme_set_accidental (SCM);

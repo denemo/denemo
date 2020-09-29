@@ -6,12 +6,12 @@
     <map>
       <cursors>
         <cursor-binding>
-          <state>102</state>
-          <cursor>146</cursor>
-        </cursor-binding>
-        <cursor-binding>
           <state>104</state>
           <cursor>116</cursor>
+        </cursor-binding>
+        <cursor-binding>
+          <state>102</state>
+          <cursor>146</cursor>
         </cursor-binding>
       </cursors>
       <row type="builtin">
@@ -2367,8 +2367,8 @@ Sets prevailing rhythm to 𝅥</_tooltip>
       <row type="scheme">
         <action>HideMovement</action>
         <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
-        <_label>(Print) Hide/Un-hide Movement</_label>
-        <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
+        <_label>Hide Movement as Sketch (Off/On)</_label>
+        <_tooltip>Stops the current movement from being typeset (use for fragments of music, sketches etc). At least one movement must be typeset.</_tooltip>
       </row>
       <row type="scheme">
         <action>HideBarlines</action>
@@ -8540,6 +8540,13 @@ Invoke the command again to stop.</_tooltip>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <_label>Toggle Listening/Editing</_label>
         <_tooltip>Switches between passing MIDI input directly to output or to Denemo. Use this instead of CapsLock to avoid altering keyboard shortcuts involving the Shift key when editing and listening.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CutSelectionAsSketch</action>
+        <after>ApplyToSelection</after>
+        <menupath>/MainMenu/EditMenu/Select</menupath>
+        <_label>Cut Selection as Sketch</_label>
+        <_tooltip>Cuts the selection and places it in a new non-printing movement (a \"sketch\") after the current movement.</_tooltip>
       </row>
     </map>
   </merge>

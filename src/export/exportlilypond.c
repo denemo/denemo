@@ -2754,6 +2754,7 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
   for (g = gui->movements, movement_count = 1; g; g = g->next, movement_count++)
     {
       DenemoMovement *si = g->data;
+      if (all_movements && si->sketch) continue; //do not typeset sketch movements 
       gint voice_count;         //which voice counting from 1st voice of 1st staff thru to last voice of last staff.
       gint staff_count;         //which staff (not counting voices)
       visible_movement = (((all_movements) || (g->data == gui->movement)) ? 1 : -1);

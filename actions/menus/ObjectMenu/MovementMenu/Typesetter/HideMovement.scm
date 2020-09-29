@@ -1,19 +1,15 @@
 ;;;HideMovement
-(let ((tag "HideMovement"))
+(let ()
 ;delete obsolete directives
 (d-DirectiveDelete-layout "HiddenMovement")
 (d-DirectiveDelete-header "HiddenMovement")
 (if HideMovement::params
-        (d-DirectiveDelete-movementcontrol tag))
-(if (d-Directive-movementcontrol? tag)
-    (begin
-        (d-DirectiveDelete-movementcontrol tag)
-        (d-InfoDialog (_ "Movement will be typeset normally")))
-    (begin
-        (d-DirectivePut-movementcontrol-prefix tag "\\void ")
-        (d-DirectivePut-movementcontrol-display tag (_ "Non-printing Movement"))
-        (if (not HideMovement::params)
-             (d-InfoDialog (_ "This movement will not be typeset. You must have at least one movement that is typeset"))))))
+        (if (not (d-ToggleSketch))
+        	(d-ToggleSketch))
+        (begin
+		(if (d-ToggleSketch)
+ 			 (d-InfoDialog (_ "This movement is a sketch - it will not be typeset with the default layout. You must have at least one movement that is typeset"))
+        		(d-InfoDialog (_ "Movement will be typeset normally")))))
 ;;; Reset the movement indicator so it shows red
 (if (= 1 (d-GetMovement))
     (begin
@@ -22,4 +18,4 @@
     (begin
         (d-PreviousMovement)
         (d-NextMovement)))
-(d-SetSaved #f)
+(d-SetSaved #f))

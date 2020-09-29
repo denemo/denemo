@@ -6,8 +6,8 @@
     <map>
       <row type="scheme">
         <action>HideMovement</action>
-        <_label>(Print) Hide/Un-hide Movement</_label>
-        <_tooltip>Stops the current movement from being typeset. At least one movement must be typeset.</_tooltip>
+        <_label>Hide Movement as Sketch (Off/On)</_label>
+        <_tooltip>Stops the current movement from being typeset (use for fragments of music, sketches etc). At least one movement must be typeset.</_tooltip>
       </row>
     </map>
   </merge>

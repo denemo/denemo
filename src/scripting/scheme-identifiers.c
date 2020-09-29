@@ -234,6 +234,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Makes the keysig sharper/flatter, affects keysig change when cursor is on one or appending after one, otherwise affects initial keysig", DENEMO_SCHEME_PREFIX "IncrementKeysig", scheme_increment_keysig);
   install_scm_function (0, "Appends a new movement without copying staff structure.", DENEMO_SCHEME_PREFIX "AddMovement", scheme_add_movement);
 
+  install_scm_function (0, "Changes the \"sketch\" status of current movement. Movements marked as sketch are not typeset by default - use them for sketches of music for inclusion in your score later. Returns #f the movement now has sketch status off.", DENEMO_SCHEME_PREFIX "ToggleSketch", scheme_toggle_sketch);
 
 
   install_scm_function (0, "Takes a string of LilyPond note names. Replaces the notes of the chord at the cursor with these notes, preserving other attributes", DENEMO_SCHEME_PREFIX "ChangeChordNotes", scheme_change_chord_notes);

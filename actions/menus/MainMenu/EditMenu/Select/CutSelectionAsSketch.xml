@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CutSelectionAsSketch</action>
+        <after>ApplyToSelection</after>
+        <_label>Cut Selection as Sketch</_label>
+        <_tooltip>Cuts the selection and places it in a new non-printing movement (a \"sketch\") after the current movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

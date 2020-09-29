@@ -99,28 +99,14 @@ static void load_markings (gchar *pdfname)
         fclose (fp);
       }
 }
-static void draw_text (cairo_t * cr, const char *font, const char *text, double x, double y)
-{
-  PangoLayout *layout;
-  PangoFontDescription *desc;
-  /* Create a PangoLayout, set the font and text */
-  layout = pango_cairo_create_layout (cr);
-  pango_layout_set_text (layout, text, -1);
-  desc = pango_font_description_from_string (font);
-  pango_layout_set_font_description (layout, desc);
-  pango_font_description_free (desc);
-  pango_cairo_update_layout (cr, layout);
-  cairo_move_to (cr, x, y);
-  pango_cairo_show_layout (cr, layout);
-  g_object_unref (layout);
-}
+
 
 static gboolean overdraw (GtkWidget* view, cairo_t * cr)
 {
    GList *g;
    static gboolean phase = FALSE;
    cairo_set_source_rgba (cr,0, 0, 0, 0.5);
-   draw_text (cr, "Sans 20", _("Right click for menu"), 10, 10);
+   general_draw_text (cr, "Sans 20", _("Right click for menu"), 10, 10);
     for (g = annotations; g; g=g->next)
       {
          Annotation *ann = (Annotation*)g->data;
@@ -133,7 +119,7 @@ static gboolean overdraw (GtkWidget* view, cairo_t * cr)
                          cairo_set_source_rgba (cr, 0.0, 0.0, 0.0, 1)):
                   cairo_set_source_rgba (cr, 0.3, 0.4, 1.0, 0.5);
 
-               draw_text (cr, ann->font, ann->annotation, x, y);
+               general_draw_text (cr, ann->font, ann->annotation, x, y);
                if (phase && (g==current_annotation))
                 {
                   cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 0.5);

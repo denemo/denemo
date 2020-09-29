@@ -313,6 +313,8 @@ actions/menus/MainMenu/EditMenu/ResumeEdit.scm
 actions/menus/MainMenu/EditMenu/ResumeEdit.xml
 actions/menus/MainMenu/EditMenu/Select/ApplyToSelection.scm
 actions/menus/MainMenu/EditMenu/Select/ApplyToSelection.xml
+actions/menus/MainMenu/EditMenu/Select/CutSelectionAsSketch.scm
+actions/menus/MainMenu/EditMenu/Select/CutSelectionAsSketch.xml
 actions/menus/MainMenu/EditMenu/Select/DeleteSelectionLeaveEmpty.scm
 actions/menus/MainMenu/EditMenu/Select/DeleteSelectionLeaveEmpty.xml
 actions/menus/MainMenu/EditMenu/Select/InsertDirectivesAroundSelection.scm

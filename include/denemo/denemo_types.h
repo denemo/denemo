@@ -929,7 +929,7 @@ typedef struct DenemoOmissionCriterion {
 typedef struct DenemoMovement
 {
   gboolean readonly; /**< Indicates if the file is readonly or not (NOT USED)*/
-
+  gboolean sketch; /** Movement is not intended for inclusion in final typeset */
   gint leftmeasurenum; /**< start at 1 */
   gint rightmeasurenum;/**< start at 1 */
   gint top_staff;
