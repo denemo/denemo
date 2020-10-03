@@ -2090,6 +2090,11 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
 static void
 typeset_control (gpointer data)
 {
+  if(Denemo.project->movement==NULL)
+		{
+			g_critical ("Unexpected attemot to create print view with no current score");
+			return;
+		}
   static gpointer last_data = NULL;
   static GString *last_script = NULL;
   gint markstaff = Denemo.project->movement->markstaffnum;
@@ -2306,11 +2311,12 @@ typeset_current_movement (void)
 {
   typeset_control (create_movement_pdf);
 }
-static gboolean
-retypeset (void)
+static gboolean retypeset (void)
 {
   static gint firstmeasure, lastmeasure, firststaff, laststaff, movementnum;
   DenemoMovement *si = Denemo.project->movement;
+  if (si==NULL)
+	return TRUE;
   if ((Denemo.printstatus->printpid == GPID_NONE) && (gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.printarea))))
     {
       if (Denemo.printstatus->typeset_type == TYPESET_ALL_MOVEMENTS)
