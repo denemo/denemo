@@ -169,19 +169,19 @@ initprefs (void)
   ret->progressbardecorations = TRUE;
 
  
- if (!Denemo.non_interactive)
-    {
-	 /* Read values from personal preferences file if any*/
-      if (localrc && g_file_test (localrc, G_FILE_TEST_EXISTS))
-        readxmlprefsFile (localrc);
-        
-     if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
-		set_default_lilypond_path ();  
-        
-     Denemo.lilypond_installed_version = get_lily_version_string ();
-	 Denemo.lilypond_include_dir = get_lilypond_include_dir ();
-	 initialize_lilypond_includes();   
-     
+
+ /* Read values from personal preferences file if any*/
+  if (localrc && g_file_test (localrc, G_FILE_TEST_EXISTS))
+	readxmlprefsFile (localrc);
+	
+  if(ret->lilypath && !g_file_test (ret->lilypath->str, G_FILE_TEST_EXISTS))
+	set_default_lilypond_path ();  
+	
+  Denemo.lilypond_installed_version = get_lily_version_string ();
+  Denemo.lilypond_include_dir = get_lilypond_include_dir ();
+  initialize_lilypond_includes();   
+  if (!Denemo.non_interactive)
+    {     
      writeXMLPrefs (ret);
     }
   g_free (localrc);
