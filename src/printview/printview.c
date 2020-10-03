@@ -392,14 +392,15 @@ overdraw_print (cairo_t * cr)
       {
         if (g_list_find (Denemo.project->standard_scoreblocks, sb) == NULL)
           {
-            cairo_set_source_rgba (cr, 0.5, 0.7, 0.25, 0.3);
-            cairo_set_font_size (cr, 20.0);
-            message_height += 30;
-            cairo_move_to (cr, 50, message_height);
-            cairo_show_text (cr, _("(Custom Score Layout)"));
-            cairo_set_font_size (cr, 18.0);
-            message_height += 20;
-            cairo_move_to (cr, 50, message_height);
+			message_height = 5;
+			cairo_set_source_rgba (cr, 0.5, 0.7, 0.25, 0.5);
+			cairo_set_font_size (cr, 20.0);
+			message_height += 30;
+			cairo_move_to (cr, 50, message_height);
+			cairo_show_text (cr, _("(Custom Score Layout)"));
+			cairo_set_font_size (cr, 18.0);
+			message_height += 20;
+			cairo_move_to (cr, 50, message_height);
             cairo_show_text (cr, _("See View->Score Layout to delete."));
           }
       }
