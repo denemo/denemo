@@ -31,8 +31,6 @@
         (let ((staff-num (d-DirectiveGet-voice-data "SubstituteMusic")))
             (if staff-num
                 (d-SubstituteMusic (string->number staff-num)))))
-
-
     (if (d-GetSaved)
            (let ()
                 (define (delete-music)
@@ -99,6 +97,8 @@
                     (refresh-mirror-staff))
                 (if (d-Directive-score? "ScoreComment")
                 	(d-ScoreComment))
+                (d-SelectFirstCustomLayout)
+                (while (d-DeleteLayout (d-GetLayoutName)))
                 (d-SetEditingTime 0)
                 (d-ClearPrintHistory)
                 (d-DecreaseGuard))
