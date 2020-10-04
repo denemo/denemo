@@ -53,7 +53,7 @@
       </row>
       <row>
         <action>AddA</action>
-        <bind>Alt+a</bind>
+        <bind>Alt+A</bind>
       </row>
       <row>
         <action>A</action>
@@ -438,7 +438,7 @@
       </row>
       <row>
         <action>AddB</action>
-        <bind>Alt+b</bind>
+        <bind>Alt+B</bind>
       </row>
       <row>
         <action>InsertC</action>
@@ -446,7 +446,7 @@
       </row>
       <row>
         <action>AddC</action>
-        <bind>Alt+c</bind>
+        <bind>Alt+C</bind>
       </row>
       <row>
         <action>InsertD</action>
@@ -454,7 +454,7 @@
       </row>
       <row>
         <action>AddD</action>
-        <bind>Alt+d</bind>
+        <bind>Alt+D</bind>
       </row>
       <row>
         <action>InsertE</action>
@@ -462,7 +462,7 @@
       </row>
       <row>
         <action>AddE</action>
-        <bind>Alt+e</bind>
+        <bind>Alt+E</bind>
       </row>
       <row>
         <action>InsertF</action>
@@ -474,7 +474,11 @@
       </row>
       <row>
         <action>AddG</action>
-        <bind>Alt+g</bind>
+        <bind>Alt+G</bind>
+      </row>
+      <row>
+        <action>AddF</action>
+        <bind>Alt+F</bind>
       </row>
       <row>
         <action>0</action>
