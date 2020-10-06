@@ -398,6 +398,7 @@ SCM scheme_get_lily_version (SCM);
 SCM scheme_check_lily_version (SCM);
 SCM scheme_input_filter_names (SCM);
 SCM scheme_write_status (SCM);
+SCM scheme_is_interactive (void);
 
 SCM scheme_object_directive_get_tag (SCM);
 SCM scheme_standalone_directive_get_tag (SCM);

@@ -2938,6 +2938,12 @@ scheme_write_status (SCM filtername)
 }
 
 SCM
+scheme_is_interactive (void)
+{
+	return SCM_BOOL (!Denemo.non_interactive);
+}
+
+SCM
 scheme_goto_position (SCM movement, SCM staff, SCM measure, SCM object)
 {
   gint movementnum, staffnum, measurenum, objectnum;

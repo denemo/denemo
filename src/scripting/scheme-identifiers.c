@@ -1303,6 +1303,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Takes a string putting it on the scheme-controlled status bar as a list of active filters", DENEMO_SCHEME_PREFIX "InputFilterNames", scheme_input_filter_names);
 
   install_scm_function (0, "Takes a string putting the scheme controlled status bar; with no argument it hides this  status bar", DENEMO_SCHEME_PREFIX "WriteStatus", scheme_write_status);
+  install_scm_function (0, "Returns #f if Denemo is being run non-interactively.", DENEMO_SCHEME_PREFIX "IsInteractive", scheme_is_interactive);
 
   install_scm_function (1, "Display a debug message", DENEMO_SCHEME_PREFIX "Debug", scheme_log_debug);
   install_scm_function (1, "Display an info message", DENEMO_SCHEME_PREFIX "Info", scheme_log_info);
