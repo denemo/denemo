@@ -39,7 +39,7 @@ insertfigure (gboolean filter, gpointer data)
   struct callbackdata *cbdata = (struct callbackdata *) data;
   DenemoProject *gui = cbdata->gui;
   DenemoMovement *si = gui->movement;
-  gchar filter_sep = filter ? '/' : '|';
+  gchar filter_sep = filter ? '1' : '|';
   gchar filter_spc = filter ? '*' : ' ';
   if (si->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)
     si->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH * 2;
@@ -80,6 +80,22 @@ insertfigure (gboolean filter, gpointer data)
             }
         }
 
+	  gchar last='\0';
+	  for (c=f->str;*c;c++)
+			{
+			  if (*c==' ')
+						continue;
+			  if (*c=='|')
+				{
+					if ((last=='\0') || (last=='|') || (*(c+1)=='\0'))
+						 {
+							 last = *c;
+							*c = ' ';//remove doubled, initial or final | characters
+							continue;
+						 }
+				}
+			 last = *c;
+			}
       if (curObj && curObj->type == CHORD)
         ((chord *) curObj->object)->is_figure = TRUE;
             if(((chord *) curObj->object)->figure)
@@ -177,7 +193,7 @@ show_figured_bass (DenemoAction * action, DenemoScriptParam * param)
 
 /**
  * Creates figured bass entry dialog
- *
+ * if action==NULL it is a call from Scheme with param->string holding "query" or "figures n..." to retrieve or set the figures
  */
 void
 figure_insert (DenemoAction * action, DenemoScriptParam * param)
