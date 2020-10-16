@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MinimumSystemsPerPage</action>
+        <after>SetPageCount</after>
+        <_label>Minimum Number of Systems Per Page</_label>
+        <_tooltip>The LilyPond typesetter will not typeset less than the given number of systems per page. Use to prevent the last page having an \"orphan\" line of music, for example.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

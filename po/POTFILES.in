@@ -2007,6 +2007,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.scm
 actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MinimumSystemsPerPage.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MinimumSystemsPerPage.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/PageBreaksBeforeMovements.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/PageBreaksBeforeMovements.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.scm
