@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>MoveStaffToTop</action>
+        <after>SwapStaffs</after>
+        <_label>Staff to Top</_label>
+        <_tooltip>Moves the current staff to become the topmost staff.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

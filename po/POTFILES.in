@@ -2149,6 +2149,10 @@ actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStructuredStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/NewStructuredStaff.xml
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/PianoStaff.scm
 actions/menus/ObjectMenu/StaffMenu/InsertStaff/PianoStaff.xml
+actions/menus/ObjectMenu/StaffMenu/MoveStaffToBottom.scm
+actions/menus/ObjectMenu/StaffMenu/MoveStaffToBottom.xml
+actions/menus/ObjectMenu/StaffMenu/MoveStaffToTop.scm
+actions/menus/ObjectMenu/StaffMenu/MoveStaffToTop.xml
 actions/menus/ObjectMenu/StaffMenu/Ossia/CreateOssiaStaff.scm
 actions/menus/ObjectMenu/StaffMenu/Ossia/CreateOssiaStaff.xml
 actions/menus/ObjectMenu/StaffMenu/Ossia/HideOssia.scm

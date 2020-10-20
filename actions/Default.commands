@@ -8555,6 +8555,20 @@ Invoke the command again to stop.</_tooltip>
         <_label>Minimum Number of Systems Per Page</_label>
         <_tooltip>The LilyPond typesetter will not typeset less than the given number of systems per page. Use to prevent the last page having an \"orphan\" line of music, for example.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MoveStaffToTop</action>
+        <after>SwapStaffs</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Staff to Top</_label>
+        <_tooltip>Moves the current staff to become the topmost staff.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MoveStaffToBottom</action>
+        <after>MoveStaffToTop</after>
+        <menupath>/ObjectMenu/StaffMenu</menupath>
+        <_label>Staff to Bottom</_label>
+        <_tooltip>Moves the current staff to become the bottom most staff.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
