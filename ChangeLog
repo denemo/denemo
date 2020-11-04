@@ -1,3 +1,14 @@
+2020-11-04
+
+New Features fr release 2.5
+    Support for Musical Sketches
+        Cut selection as sketch 
+    Support for LilyPond 2.20.0
+    Menu Navigation from Keyboard enabled
+    Comments in Lyric verses
+Bug Fixes
+    Wrong Keyboard Shortcuts on MacOS
+
 2020-03-22
 
 New Features for release 2.4
