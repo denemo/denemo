@@ -1,5 +1,4 @@
-bin_PROGRAMS = generate_source cairo_svg2path pageturner twopageturner pageswitcher annotator
-generate_source_SOURCES = generate_source.c
+bin_PROGRAMS = cairo_svg2path pageturner twopageturner pageswitcher annotator
 EXTRA_DIST = denemo_file_update
 cairo_svg2path_SOURCES = cairo_svg2path.c
 pageturner_SOURCES = pageturner.c
