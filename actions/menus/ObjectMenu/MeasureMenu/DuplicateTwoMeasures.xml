@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DuplicateTwoMeasures</action>
+        <after>AddDuplicateMeasure</after>
+        <_label>Duplicate Two Measures</_label>
+        <_tooltip>Inserts a copy of the previous and the current measure after the curreent measure.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

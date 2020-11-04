@@ -8,7 +8,7 @@
         <action>FillUpMeasure</action>
         <after>FillMeasure</after>
         <_label>Duplicate to Fill Measure</_label>
-        <_tooltip>Duplicates the notes in the current measure until the measure is full or over-full. If already full, duplicates the current measure.</_tooltip>
+        <_tooltip>Duplicates the notes in the current measure until the measure is full or over-full. If already full, duplicates the previous and current measure.</_tooltip>
       </row>
     </map>
   </merge>
