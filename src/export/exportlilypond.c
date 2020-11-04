@@ -437,7 +437,7 @@ output_figured_bass (GString * figures, chord * pchord)
  gchar * prefix = NULL;
   //First any override (e.g. to tweak position of figures)
   //This is stored in note-directives with DENEMO_ALT_OVERRIDE set.
-  // This does mean that figures on rests can only be tweaked with a postfix on the previous note.
+  // This does mean that figures on rests can only be tweaked with a chord directive prefix on the rest, which is placed in the music not in the bass figures.
   DenemoDirective *directive;
   if (pchord->notes && (note *) (pchord->notes->data) && ((note *) (pchord->notes->data))->directives && (directive = ((note *) (pchord->notes->data))->directives->data))
     {
