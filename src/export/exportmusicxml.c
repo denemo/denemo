@@ -213,10 +213,13 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 			 //output objects
 			 //parseObjects (measureElem, ns, (objnode *) ((DenemoMeasure *) curMeasure->data)->objects);
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
+			  gboolean in_tuplet = FALSE;
+			  gint actual_notes, normal_notes;
 			  for (; curObjNode != NULL; curObjNode = curObjNode->next)
 				{
 				  DenemoObject *curObj = (DenemoObject *) curObjNode->data;
-
+				  DenemoObject *nextObj=NULL;
+				  
 				  switch (curObj->type)
 					{
 						case CHORD:
@@ -249,6 +252,28 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 							  gint m = thechord->numdots;
 							  for (;m;m--)
 								xmlNewChild (noteElem, ns, (xmlChar *) "dot", NULL);
+								
+							//tuplets
+							if (in_tuplet)
+								{
+									xmlNodePtr timemodElem = xmlNewChild (noteElem, ns, (xmlChar *) "time-modification", NULL);
+									newXMLIntChild (timemodElem, ns, (xmlChar *) "normal-notes", normal_notes);
+									newXMLIntChild (timemodElem, ns, (xmlChar *) "actual-notes", actual_notes);
+								}
+
+						}
+						break;
+					case TUPOPEN:
+						{
+							in_tuplet = TRUE;
+							normal_notes = ((tupopen*)curObj->object)->numerator;
+							actual_notes = ((tupopen*)curObj->object)->denominator;
+							
+						}
+						break;
+					case TUPCLOSE:
+						{
+							in_tuplet = FALSE;
 						}
 						break;
 					default:
