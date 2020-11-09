@@ -27,6 +27,7 @@
 #include "export/print.h"
 #include "export/file.h"
 #include "export/exportmidi.h"
+#include "export/exportmusicxml.h"
 #include "ui/markup.h"
 #include "ui/keysigdialog.h"
 #include "ui/virtualkeyboard.h"

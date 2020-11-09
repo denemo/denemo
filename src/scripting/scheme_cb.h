@@ -671,6 +671,9 @@ SCM scheme_SaveParts (SCM optional) {
 SCM scheme_ExportMUDELA (SCM optional) {
   return scheme_call_callback(optional, (callback_function)export_mudela_action);
 }
+SCM scheme_ExportMusicXML (SCM optional) {
+  return scheme_call_callback(optional, (callback_function)export_musicxml_action);
+}
 SCM scheme_ExportPDF (SCM optional) {
   return scheme_call_callback(optional, (callback_function)export_pdf_action);
 }

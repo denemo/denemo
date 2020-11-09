@@ -147,6 +147,8 @@ src/export/exportlilypond.c
 src/export/exportlilypond.h
 src/export/exportmidi.c
 src/export/exportmidi.h
+src/export/exportmusicxml.c
+src/export/exportmusicxml.h
 src/export/file.c
 src/export/file.h
 src/export/guidedimportmidi.c

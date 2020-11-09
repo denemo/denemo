@@ -670,6 +670,9 @@ install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "SaveParts", scheme_SavePart
 /*ExportMUDELA export_mudela_action*/
 SCM scheme_ExportMUDELA(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportMUDELA", scheme_ExportMUDELA);
+/*ExportMusicXML export_musicXML_action*/
+SCM scheme_ExportMusicXML(SCM optional);
+install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportMusicXML", scheme_ExportMusicXML);
 /*ExportPDF export_pdf_action*/
 SCM scheme_ExportPDF(SCM optional);
 install_scm_function (0, NULL, DENEMO_SCHEME_PREFIX "ExportPDF", scheme_ExportPDF);

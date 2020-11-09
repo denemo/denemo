@@ -25,6 +25,7 @@
 #include "core/exportxml.h"
 #include "export/exportmidi.h"
 #include "core/importxml.h"
+#include "export/exportmusicxml.h"
 #include "export/importmusicxml.h"
 #include "importmidi.h"
 
@@ -619,6 +620,12 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
               gui->has_script = FALSE;
             }
         ret = exportXML (file, gui);
+        break;
+      };
+    case MUSICXML_FORMAT:
+      {
+        
+        exportmusicXML (file, gui);
         break;
       };
     case MUDELA_FORMAT:
@@ -1504,7 +1511,15 @@ export_mudela_action (DenemoAction * action, DenemoScriptParam * param)
 {
   export_interface (action, param, MUDELA_FORMAT);
 }
-
+/**
+ * Export musicxml callback prompts for filename
+ *
+ */
+void
+export_musicxml_action (DenemoAction * action, DenemoScriptParam * param)
+{
+  export_interface (action, param, MUSICXML_FORMAT);
+}
 /**
  * Export pdf callback prompts for filename
  *

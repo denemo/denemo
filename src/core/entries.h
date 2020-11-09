@@ -240,6 +240,7 @@
 {"SaveMenu", GTK_STOCK_SAVE, N_("Save"), "",N_("Menu:\nSave the score\nBesides saving for later you can save the score for use as a template for future works, or save under a new name etc\nThe score is saved to disk in XML format.")},
 {"SaveParts", GTK_STOCK_SAVE_AS, N_("Save Parts"), "",N_("Save Parts: each staff becomes a file in lilypond format"),G_CALLBACK (file_savepartswrapper)},
 {"ExportMUDELA", GTK_STOCK_SAVE_AS, N_("Export Lilypond"), "",N_("Export the score as a lilypond file"),G_CALLBACK (export_mudela_action)},
+{"ExportMusicXML", GTK_STOCK_SAVE_AS, N_("Export MusicXML"), "",N_("Export the score as a MusicXML file"),G_CALLBACK (export_musicxml_action)},
 {"ExportPDF", GTK_STOCK_SAVE_AS, N_("Export PDF"), "",N_("Export the score as a PDF document file"),G_CALLBACK (export_pdf_action)},
 {"ExportPNG", GTK_STOCK_SAVE_AS, N_("Export Score as PNG"), "",N_("Export the score as a PNG image file"),G_CALLBACK (export_png_action)},
 {"ExportMIDI", GTK_STOCK_SAVE_AS, N_("Export MIDI"), "",N_("Export the score as a MIDI file"),G_CALLBACK (export_midi_action)},

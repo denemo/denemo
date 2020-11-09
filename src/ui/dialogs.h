@@ -54,6 +54,7 @@ void header_change (DenemoAction * action, DenemoScriptParam * param);
 void score_properties_dialog (DenemoAction * action, DenemoScriptParam * param);
 
 void export_pdf_action (DenemoAction * action, DenemoScriptParam * param);
+void export_musicxml_action (DenemoAction * action, DenemoScriptParam * param);
 
 const gchar *get_clef_name (guint type);
 
