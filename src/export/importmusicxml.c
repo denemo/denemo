@@ -555,7 +555,7 @@ parse_notations (GString * notations, xmlNodePtr rootElem)
 
         if (type && (!strcmp (type, "start")))
           g_string_append (notations, "(d-ToggleBeginSlur)");
-        if (type && (!strcmp (type, "end")))
+        if (type && (!strcmp (type, "stop")))
           {
 			  g_string_append (notations, "(d-ToggleEndSlur)");
 			  g_print ("notations %s\n", notations->str);
