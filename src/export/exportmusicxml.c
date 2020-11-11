@@ -183,7 +183,8 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
         {
 		  xmlNodePtr partElem;
           curStaffStruct = (DenemoStaff *) curStaff->data;
-		  
+		  gboolean tuplet_start = FALSE, in_tuplet = FALSE;
+		  gboolean in_tie = FALSE;		  
 
 //output the i'th staff
 	      partElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part", NULL);
@@ -222,7 +223,7 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 			 //output objects
 			 //parseObjects (measureElem, ns, (objnode *) ((DenemoMeasure *) curMeasure->data)->objects);
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
-			  gboolean tuplet_start = FALSE, in_tuplet = FALSE;
+
 			  gint actual_notes, normal_notes;
 			  gint num_beams=0;
 			  for (; curObjNode != NULL; curObjNode = curObjNode->next)
@@ -269,7 +270,20 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 								  gint m = thechord->numdots;
 								  for (;m;m--)
 									xmlNewChild (noteElem, ns, (xmlChar *) "dot", NULL);
-									
+								//ties <tie type="start"/><tie type="stop"/>
+								if (in_tie)
+									{
+										xmlNodePtr tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);
+										xmlSetProp (tieElem, (xmlChar *) "type", "stop");
+										in_tie = FALSE;
+									}
+								if (thechord->is_tied)
+										{
+											in_tie =TRUE;
+											xmlNodePtr tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);
+											xmlSetProp (tieElem, (xmlChar *) "type", "start");
+										}
+
 								//tuplets
 								if (in_tuplet)
 									{
