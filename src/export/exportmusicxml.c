@@ -126,8 +126,12 @@ static void get_clef_sign (clefs theclef, gchar **sign, gint *line)
 		return;
 	}
 }
-
-/**
+static gint beams(gint duration)
+	{
+		if (duration<3)
+			return 0;
+		return (duration-2);
+	}
 
 /**
  * Export the given score as a MusicXML file thefilname
@@ -143,7 +147,7 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
   xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
   xmlNodePtr measuresElem, measureElem;
 
-  xmlNodePtr curElem, parentElem;
+  xmlNodePtr curElem;
   xmlNsPtr ns;
   staffnode *curStaff;
   DenemoStaff *curStaffStruct;
@@ -163,12 +167,17 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
   xmlSetDocCompressMode (doc, Denemo.prefs.compression);
   g_print ("Document compression mode set to %d, (read back as %d)\n", Denemo.prefs.compression, xmlGetDocCompressMode (doc));
   doc->xmlRootNode = scoreElem = xmlNewDocNode (doc, NULL, (xmlChar *) "score-partwise", NULL);
-  ns = xmlNewNs (doc->xmlRootNode, (xmlChar *) DENEMO_XML_NAMESPACE, NULL);//FIXME - can we put NULL here???
+  ns = NULL;// xmlNewNs (doc->xmlRootNode, (xmlChar *) DENEMO_XML_NAMESPACE, NULL);//FIXME - can we put NULL here???
   //xmlSetProp (scoreElem, (xmlChar *) "version", (xmlChar *) version_string);
 DenemoMovement *si = gui->movement; // FIXME loop for movements
-  parentElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part-list", NULL);
+  xmlNodePtr partListElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part-list", NULL);
 		// give part ids and attributes for the staffs the ids as perhaps an arrav part_id[]
-		
+		//   <score-part id="P1">
+	xmlNodePtr scorePartElem = xmlNewChild (partListElem, ns, (xmlChar *) "score-part", NULL);	
+	xmlSetProp (scorePartElem, (xmlChar *) "id", "P1");//FIXME and the other staffs...   
+	xmlNewChild (scorePartElem, ns, (xmlChar *) "part-name", "Voice");	   
+		   
+		   
  		
   for (i=0, curStaff = si->thescore; curStaff != NULL; i++, curStaff = curStaff->next)
         {
@@ -178,7 +187,7 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 
 //output the i'th staff
 	      partElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part", NULL);
-	      xmlSetProp (parentElem, (xmlChar *) "id", (xmlChar *) g_strdup_printf ("%d", i));
+	      xmlSetProp (partElem, (xmlChar *) "id", (xmlChar *) g_strdup_printf ("P%d", i+1));
 //output measures
 
           for (j=0, curMeasure = curStaffStruct->themeasures; curMeasure != NULL; j++, curMeasure = curMeasure->next)
@@ -186,7 +195,7 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 				
               DenemoMeasure *themeasure = (DenemoMeasure *) curMeasure->data;
               measureElem = xmlNewChild (partElem, ns, (xmlChar *) "measure", NULL);
-			  xmlSetProp (measureElem, (xmlChar *) "number", (xmlChar *) g_strdup_printf ("%d", j));
+			  xmlSetProp (measureElem, (xmlChar *) "number", (xmlChar *) g_strdup_printf ("%d", j+1));
 //output initial clef, time key in first measure
 
 			 if (j==0)
@@ -195,30 +204,31 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 				xmlNodePtr attrElem;
 				attrElem = xmlNewChild (measureElem, ns, (xmlChar *) "attributes", NULL);
 				
+				//xmlNewChild (attrElem, ns, (xmlChar *) "divisions", "48");	
+				newXMLIntChild (attrElem, ns, (xmlChar *) "divisions", 384);//PPQN remarkably this is not a system-wide define
+			  	keyElem = xmlNewChild (attrElem, ns, (xmlChar *) "key", NULL);
+				timeElem = xmlNewChild (attrElem, ns, (xmlChar *) "time", NULL);
 				clefElem =  xmlNewChild (attrElem, ns, (xmlChar *) "clef", NULL);
 				gchar *sign;
 				gint line;
+				newXMLIntChild (keyElem, ns, (xmlChar *) "fifths", curStaffStruct->keysig.number);
+				xmlNewTextChild (keyElem, ns, (xmlChar *) "mode", (xmlChar *) (curStaffStruct->keysig.isminor?"minor":"major"));
+				newXMLIntChild (timeElem, ns, (xmlChar *) "beats", curStaffStruct->timesig.time1);
+				newXMLIntChild (timeElem, ns, (xmlChar *) "beat-type", curStaffStruct->timesig.time2);
 				get_clef_sign (curStaffStruct->clef.type, &sign, &line);
 				xmlNewTextChild (clefElem, ns, (xmlChar *) "sign", (xmlChar *) sign);
 				newXMLIntChild (clefElem, ns, (xmlChar *) "line", line);
-			  
-				timeElem = xmlNewChild (attrElem, ns, (xmlChar *) "time", NULL);
-				newXMLIntChild (timeElem, ns, (xmlChar *) "beats", curStaffStruct->timesig.time1);
-				newXMLIntChild (timeElem, ns, (xmlChar *) "beat-type", curStaffStruct->timesig.time2);
-				
-				keyElem = xmlNewChild (attrElem, ns, (xmlChar *) "key", NULL);
-				newXMLIntChild (keyElem, ns, (xmlChar *) "fifths", curStaffStruct->keysig.number);
-				xmlNewTextChild (keyElem, ns, (xmlChar *) "mode", (xmlChar *) (curStaffStruct->keysig.isminor?"Minor":"Major"));
 				}
 			 //output objects
 			 //parseObjects (measureElem, ns, (objnode *) ((DenemoMeasure *) curMeasure->data)->objects);
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
-			  gboolean in_tuplet = FALSE;
+			  gboolean tuplet_start = FALSE, in_tuplet = FALSE;
 			  gint actual_notes, normal_notes;
+			  gint num_beams=0;
 			  for (; curObjNode != NULL; curObjNode = curObjNode->next)
 				{
 				  DenemoObject *curObj = (DenemoObject *) curObjNode->data;
-				  DenemoObject *nextObj=NULL;
+				  DenemoObject *nextObj = (curObjNode->next?curObjNode->next->data:NULL);
 				  
 				  switch (curObj->type)
 					{
@@ -226,6 +236,7 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 						  {
 							  xmlNodePtr pitchElem;
 							  xmlNodePtr noteElem;
+							  xmlNodePtr notationsElem = NULL;
 							  chord *thechord = (chord*)curObj->object;
 							  noteElem = xmlNewChild (measureElem, ns, (xmlChar *) "note", NULL);
 
@@ -233,19 +244,16 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 								{
 								  pitchElem = xmlNewChild (noteElem, ns, (xmlChar *) "pitch", NULL);
 								  note* curnote = (note*)(((chord*)thechord)->notes->data);
-								  gchar *val = g_strdup_printf("%c", mid_c_offsettoname (curnote->mid_c_offset));
+								  gchar *val = g_strdup_printf("%c", 'A'-'a'+mid_c_offsettoname (curnote->mid_c_offset));
 								  xmlNewTextChild (pitchElem, ns, (xmlChar *) "step", (xmlChar *) val); //the note-name from curnote
 								  g_free(val);
-								  newXMLIntChild (pitchElem, ns, (xmlChar *) "octave", 3+mid_c_offsettooctave (curnote->mid_c_offset)); //the octave from curnote
 								  newXMLIntChild (pitchElem, ns, (xmlChar *) "alter", curnote->enshift);
-								  
-								  
-								  
+								  newXMLIntChild (pitchElem, ns, (xmlChar *) "octave", 3+mid_c_offsettooctave (curnote->mid_c_offset)); //the octave from curnote
 							  } else
 							  {
 								xmlNewChild (noteElem, ns, (xmlChar *) "rest", NULL); 
 							  }
-							  newXMLIntChild (noteElem, ns,  (xmlChar *) "duration", 1);//1 is duration a sounding duration quarter note
+							  newXMLIntChild (noteElem, ns,  (xmlChar *) "duration", curObj->durinticks);//1 is duration a sounding duration quarter note
 							  gchar *durationType;
 							  determineDuration ((thechord)->baseduration, &durationType);
 							  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);
@@ -257,15 +265,106 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 							if (in_tuplet)
 								{
 									xmlNodePtr timemodElem = xmlNewChild (noteElem, ns, (xmlChar *) "time-modification", NULL);
-									newXMLIntChild (timemodElem, ns, (xmlChar *) "normal-notes", normal_notes);
 									newXMLIntChild (timemodElem, ns, (xmlChar *) "actual-notes", actual_notes);
-								}
+									newXMLIntChild (timemodElem, ns, (xmlChar *) "normal-notes", normal_notes);
+
+									if (tuplet_start)
+										{
+											tuplet_start = FALSE;
+											if (notationsElem == NULL)
+												notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+											xmlNodePtr tupletElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tuplet", NULL);
+											xmlSetProp  (tupletElem, (xmlChar *) "type",  (xmlChar *) "start");
+											xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
+										}
+									if (nextObj && nextObj->type==TUPCLOSE)//look ahead to see if there is a tuplet end coming up
+										{
+											if (notationsElem == NULL)
+												notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+											xmlNodePtr tupletElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tuplet", NULL);
+											xmlSetProp (tupletElem, (xmlChar *) "type",  (xmlChar *) "stop");
+											xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
+										}
+								}								
+								
+
+								
+								
+								//beams
+								if (curObj->isstart_beamgroup)
+									{
+										gint i;
+										num_beams = beams(thechord->baseduration);
+
+										for (i=0;i<num_beams;i++)
+											{
+												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "begin");
+												gchar *val = g_strdup_printf("%d", i+1);
+												xmlSetProp (beamElem, (xmlChar *) "number", val);
+												g_free(val);//<beam number="i+1">begin</beam>
+											}
+									}
+								else
+									{
+									if (curObj->isend_beamgroup)
+										{
+											for (;num_beams>0; num_beams--)
+												{
+												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
+												gchar *val = g_strdup_printf("%d", num_beams+1);
+												xmlSetProp (beamElem, (xmlChar *) "number", val);
+												g_free(val);//<beam number="num_beams">end</beam>
+												}
+										}
+									else
+										{
+											for (;num_beams>beams(thechord->baseduration); num_beams--)
+												{
+												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
+												gchar *val = g_strdup_printf("%d", num_beams);
+												xmlSetProp (beamElem, (xmlChar *) "number", val);
+												g_free(val);//<beam number="num_beams">end</beam>
+												}
+											int i;
+											for (i=num_beams;i>0;i--)
+												{
+												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "continue");
+												gchar *val = g_strdup_printf("%d", num_beams);
+												xmlSetProp (beamElem, (xmlChar *) "number", val);
+												g_free(val);//<beam number="num_beams">continue</beam>
+												}
+										}
+									}
+								
+					
+								//slurs
+								
+        
+                                if (thechord->slur_begin_p)
+									{
+										if (notationsElem == NULL)
+										   notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+										xmlNodePtr slurElem = xmlNewChild (notationsElem, ns, (xmlChar *) "slur", NULL);
+										xmlSetProp (slurElem, (xmlChar *) "number", "1");
+										xmlSetProp (slurElem, (xmlChar *) "type", "start");
+									}
+                               if (thechord->slur_end_p)
+									{
+										if (notationsElem == NULL)
+										   notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+										xmlNodePtr slurElem = xmlNewChild (notationsElem, ns, (xmlChar *) "slur", NULL);
+										xmlSetProp (slurElem, (xmlChar *) "number", "1");
+										xmlSetProp (slurElem, (xmlChar *) "type", "end");
+									}							
+          		   
+        
+
 
 						}
 						break;
 					case TUPOPEN:
 						{
-							in_tuplet = TRUE;
+							tuplet_start = in_tuplet = TRUE;
 							normal_notes = ((tupopen*)curObj->object)->numerator;
 							actual_notes = ((tupopen*)curObj->object)->denominator;
 							
@@ -273,6 +372,7 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 						break;
 					case TUPCLOSE:
 						{
+							
 							in_tuplet = FALSE;
 						}
 						break;
