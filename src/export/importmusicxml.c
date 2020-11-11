@@ -544,6 +544,7 @@ parse_notations (GString * notations, xmlNodePtr rootElem)
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
+	  //FIXME pickup "tuplet" type start and stop here.
     if (ELEM_NAME_EQ (childElem, "articulations"))
       {
         parse_articulations (notations, childElem);
@@ -554,8 +555,12 @@ parse_notations (GString * notations, xmlNodePtr rootElem)
 
         if (type && (!strcmp (type, "start")))
           g_string_append (notations, "(d-ToggleBeginSlur)");
-        if (type && (!strcmp (type, "stop")))
-          g_string_append (notations, "(d-ToggleEndSlur)");
+        if (type && (!strcmp (type, "end")))
+          {
+			  g_string_append (notations, "(d-ToggleEndSlur)");
+			  g_print ("notations %s\n", notations->str);
+			 }
+         g_print ("slur type %s compare as %d\n", type, (!strcmp (type, "end")));
       }
 
     if (ELEM_NAME_EQ (childElem, "fermata"))
