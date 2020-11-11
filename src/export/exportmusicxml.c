@@ -238,128 +238,144 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 							  xmlNodePtr noteElem;
 							  xmlNodePtr notationsElem = NULL;
 							  chord *thechord = (chord*)curObj->object;
-							  noteElem = xmlNewChild (measureElem, ns, (xmlChar *) "note", NULL);
-
-							  if (thechord->notes)
+							  
+							  //the lowest note is plain, the rest in the chord have a xmlNewChild (noteElem, ns, (xmlChar *) "chord", NULL);
+							  //element and no bream tuplet slur 
+							  
+							  GList *g;
+							  for (g=thechord->notes;;g=g->next)
 								{
-								  pitchElem = xmlNewChild (noteElem, ns, (xmlChar *) "pitch", NULL);
-								  note* curnote = (note*)(((chord*)thechord)->notes->data);
-								  gchar *val = g_strdup_printf("%c", 'A'-'a'+mid_c_offsettoname (curnote->mid_c_offset));
-								  xmlNewTextChild (pitchElem, ns, (xmlChar *) "step", (xmlChar *) val); //the note-name from curnote
-								  g_free(val);
-								  newXMLIntChild (pitchElem, ns, (xmlChar *) "alter", curnote->enshift);
-								  newXMLIntChild (pitchElem, ns, (xmlChar *) "octave", 3+mid_c_offsettooctave (curnote->mid_c_offset)); //the octave from curnote
-							  } else
-							  {
-								xmlNewChild (noteElem, ns, (xmlChar *) "rest", NULL); 
-							  }
-							  newXMLIntChild (noteElem, ns,  (xmlChar *) "duration", curObj->durinticks);//1 is duration a sounding duration quarter note
-							  gchar *durationType;
-							  determineDuration ((thechord)->baseduration, &durationType);
-							  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);
-							  gint m = thechord->numdots;
-							  for (;m;m--)
-								xmlNewChild (noteElem, ns, (xmlChar *) "dot", NULL);
-								
-							//tuplets
-							if (in_tuplet)
-								{
-									xmlNodePtr timemodElem = xmlNewChild (noteElem, ns, (xmlChar *) "time-modification", NULL);
-									newXMLIntChild (timemodElem, ns, (xmlChar *) "actual-notes", actual_notes);
-									newXMLIntChild (timemodElem, ns, (xmlChar *) "normal-notes", normal_notes);
-
-									if (tuplet_start)
-										{
-											tuplet_start = FALSE;
-											if (notationsElem == NULL)
-												notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
-											xmlNodePtr tupletElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tuplet", NULL);
-											xmlSetProp  (tupletElem, (xmlChar *) "type",  (xmlChar *) "start");
-											xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
-										}
-									if (nextObj && nextObj->type==TUPCLOSE)//look ahead to see if there is a tuplet end coming up
-										{
-											if (notationsElem == NULL)
-												notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
-											xmlNodePtr tupletElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tuplet", NULL);
-											xmlSetProp (tupletElem, (xmlChar *) "type",  (xmlChar *) "stop");
-											xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
-										}
-								}								
-								
-
-								
-								
-								//beams
-								if (curObj->isstart_beamgroup)
+							  
+								  noteElem = xmlNewChild (measureElem, ns, (xmlChar *) "note", NULL);
+								  if (g)
 									{
-										gint i;
-										num_beams = beams(thechord->baseduration);
+									  if (g!=thechord->notes)
+										xmlNewChild (noteElem, ns, (xmlChar *) "chord", NULL);
+									  pitchElem = xmlNewChild (noteElem, ns, (xmlChar *) "pitch", NULL);
+									  note* curnote = (note*)(g->data);
+									  gchar *val = g_strdup_printf("%c", 'A'-'a'+mid_c_offsettoname (curnote->mid_c_offset));
+									  xmlNewTextChild (pitchElem, ns, (xmlChar *) "step", (xmlChar *) val); //the note-name from curnote
+									  g_free(val);
+									  newXMLIntChild (pitchElem, ns, (xmlChar *) "alter", curnote->enshift);
+									  newXMLIntChild (pitchElem, ns, (xmlChar *) "octave", 3+mid_c_offsettooctave (curnote->mid_c_offset)); //the octave from curnote
+								  } else
+								  {
+									xmlNewChild (noteElem, ns, (xmlChar *) "rest", NULL); 
+								  }
+								  newXMLIntChild (noteElem, ns,  (xmlChar *) "duration", curObj->durinticks);//1 is duration a sounding duration quarter note
+								  gchar *durationType;
+								  determineDuration ((thechord)->baseduration, &durationType);
+								  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);
+								  gint m = thechord->numdots;
+								  for (;m;m--)
+									xmlNewChild (noteElem, ns, (xmlChar *) "dot", NULL);
+									
+								//tuplets
+								if (in_tuplet)
+									{
+										xmlNodePtr timemodElem = xmlNewChild (noteElem, ns, (xmlChar *) "time-modification", NULL);
+										newXMLIntChild (timemodElem, ns, (xmlChar *) "actual-notes", actual_notes);
+										newXMLIntChild (timemodElem, ns, (xmlChar *) "normal-notes", normal_notes);
 
-										for (i=0;i<num_beams;i++)
+										if (tuplet_start)
 											{
-												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "begin");
-												gchar *val = g_strdup_printf("%d", i+1);
-												xmlSetProp (beamElem, (xmlChar *) "number", val);
-												g_free(val);//<beam number="i+1">begin</beam>
+												tuplet_start = FALSE;
+												if (notationsElem == NULL)
+													notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+												xmlNodePtr tupletElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tuplet", NULL);
+												xmlSetProp  (tupletElem, (xmlChar *) "type",  (xmlChar *) "start");
+												xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
 											}
-									}
-								else
-									{
-									if (curObj->isend_beamgroup)
+										if (nextObj && nextObj->type==TUPCLOSE)//look ahead to see if there is a tuplet end coming up
+											{
+												if (notationsElem == NULL)
+													notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+												xmlNodePtr tupletElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tuplet", NULL);
+												xmlSetProp (tupletElem, (xmlChar *) "type",  (xmlChar *) "stop");
+												xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
+											}
+									}								
+									
+
+									if ((g != NULL) && (g == thechord->notes)) // not for rests or subsequent notes in the chord
 										{
-											for (;num_beams>0; num_beams--)
+											
+											//beams
+											if (curObj->isstart_beamgroup)
 												{
-												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
-												gchar *val = g_strdup_printf("%d", num_beams+1);
-												xmlSetProp (beamElem, (xmlChar *) "number", val);
-												g_free(val);//<beam number="num_beams">end</beam>
+													gint i;
+													num_beams = beams(thechord->baseduration);
+
+													for (i=0;i<num_beams;i++)
+														{
+															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "begin");
+															gchar *val = g_strdup_printf("%d", i+1);
+															xmlSetProp (beamElem, (xmlChar *) "number", val);
+															g_free(val);//<beam number="i+1">begin</beam>
+														}
 												}
-										}
-									else
-										{
-											for (;num_beams>beams(thechord->baseduration); num_beams--)
+											else
 												{
-												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
-												gchar *val = g_strdup_printf("%d", num_beams);
-												xmlSetProp (beamElem, (xmlChar *) "number", val);
-												g_free(val);//<beam number="num_beams">end</beam>
+												if (curObj->isend_beamgroup)
+													{
+														for (;num_beams>0; num_beams--)
+															{
+															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
+															gchar *val = g_strdup_printf("%d", num_beams+1);
+															xmlSetProp (beamElem, (xmlChar *) "number", val);
+															g_free(val);//<beam number="num_beams">end</beam>
+															}
+													}
+												else
+													{
+														for (;num_beams>beams(thechord->baseduration); num_beams--)
+															{
+															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
+															gchar *val = g_strdup_printf("%d", num_beams);
+															xmlSetProp (beamElem, (xmlChar *) "number", val);
+															g_free(val);//<beam number="num_beams">end</beam>
+															}
+														int i;
+														for (i=num_beams;i>0;i--)
+															{
+															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "continue");
+															gchar *val = g_strdup_printf("%d", num_beams);
+															xmlSetProp (beamElem, (xmlChar *) "number", val);
+															g_free(val);//<beam number="num_beams">continue</beam>
+															}
+													}
 												}
-											int i;
-											for (i=num_beams;i>0;i--)
-												{
-												xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "continue");
-												gchar *val = g_strdup_printf("%d", num_beams);
-												xmlSetProp (beamElem, (xmlChar *) "number", val);
-												g_free(val);//<beam number="num_beams">continue</beam>
-												}
-										}
-									}
+											
+											
 								
+											//slurs
+											
 					
-								//slurs
-								
+											if (thechord->slur_begin_p)
+												{
+													if (notationsElem == NULL)
+													   notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+													xmlNodePtr slurElem = xmlNewChild (notationsElem, ns, (xmlChar *) "slur", NULL);
+													xmlSetProp (slurElem, (xmlChar *) "number", "1");
+													xmlSetProp (slurElem, (xmlChar *) "type", "start");
+												}
+										   if (thechord->slur_end_p)
+												{
+													if (notationsElem == NULL)
+													   notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
+													xmlNodePtr slurElem = xmlNewChild (notationsElem, ns, (xmlChar *) "slur", NULL);
+													xmlSetProp (slurElem, (xmlChar *) "number", "1");
+													xmlSetProp (slurElem, (xmlChar *) "type", "stop");
+												}
+											
+									     } //not for rests nor for chord notes above the lowest note						
+			  // ties chords		   
         
-                                if (thechord->slur_begin_p)
-									{
-										if (notationsElem == NULL)
-										   notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
-										xmlNodePtr slurElem = xmlNewChild (notationsElem, ns, (xmlChar *) "slur", NULL);
-										xmlSetProp (slurElem, (xmlChar *) "number", "1");
-										xmlSetProp (slurElem, (xmlChar *) "type", "start");
-									}
-                               if (thechord->slur_end_p)
-									{
-										if (notationsElem == NULL)
-										   notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);
-										xmlNodePtr slurElem = xmlNewChild (notationsElem, ns, (xmlChar *) "slur", NULL);
-										xmlSetProp (slurElem, (xmlChar *) "number", "1");
-										xmlSetProp (slurElem, (xmlChar *) "type", "end");
-									}							
-          		   
-        
-
-
+							if (g == NULL) // a rest
+								break;
+							if (g->next == NULL)
+								break;
+							}//for all notes in the chord
 						}
 						break;
 					case TUPOPEN:
