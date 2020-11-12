@@ -165,19 +165,24 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 
   doc = xmlNewDoc ((xmlChar *) "1.0");
   xmlSetDocCompressMode (doc, Denemo.prefs.compression);
-  g_print ("Document compression mode set to %d, (read back as %d)\n", Denemo.prefs.compression, xmlGetDocCompressMode (doc));
   doc->xmlRootNode = scoreElem = xmlNewDocNode (doc, NULL, (xmlChar *) "score-partwise", NULL);
-  ns = NULL;// xmlNewNs (doc->xmlRootNode, (xmlChar *) DENEMO_XML_NAMESPACE, NULL);//FIXME - can we put NULL here???
-  //xmlSetProp (scoreElem, (xmlChar *) "version", (xmlChar *) version_string);
-DenemoMovement *si = gui->movement; // FIXME loop for movements
+  ns = NULL;
+ 
+  //xmlNodePtr identificationElem = xmlNewChild (scoreElem, ns, (xmlChar *) "identification", NULL);
+  //xmlNewChild (identificationElem, ns, (xmlChar *) "Creator", title-of-piece) and setProp type=composer	
+
+  DenemoMovement *si = gui->movement; // FIXME loop for movements
   xmlNodePtr partListElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part-list", NULL);
-		// give part ids and attributes for the staffs the ids as perhaps an arrav part_id[]
+		// give part ids and attributes for the staffs the ids
 		//   <score-part id="P1">
-	xmlNodePtr scorePartElem = xmlNewChild (partListElem, ns, (xmlChar *) "score-part", NULL);	
-	xmlSetProp (scorePartElem, (xmlChar *) "id", "P1");//FIXME and the other staffs...   
-	xmlNewChild (scorePartElem, ns, (xmlChar *) "part-name", "Voice");	   
-		   
-		   
+  for (i=0, curStaff = si->thescore; curStaff != NULL; i++, curStaff = curStaff->next)
+        {
+			xmlNodePtr scorePartElem = xmlNewChild (partListElem, ns, (xmlChar *) "score-part", NULL);
+			gchar *val = g_strdup_printf ("P%d", i+1);
+			xmlSetProp (scorePartElem, (xmlChar *) "id", val);
+			g_free (val); 
+			xmlNewChild (scorePartElem, ns, (xmlChar *) "part-name", "Voice");	   //FIXME use Denemo part name... do instrument name as well?	   
+		  }
  		
   for (i=0, curStaff = si->thescore; curStaff != NULL; i++, curStaff = curStaff->next)
         {
@@ -193,7 +198,6 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 
           for (j=0, curMeasure = curStaffStruct->themeasures; curMeasure != NULL; j++, curMeasure = curMeasure->next)
             {
-				
               DenemoMeasure *themeasure = (DenemoMeasure *) curMeasure->data;
               measureElem = xmlNewChild (partElem, ns, (xmlChar *) "measure", NULL);
 			  xmlSetProp (measureElem, (xmlChar *) "number", (xmlChar *) g_strdup_printf ("%d", j+1));
@@ -221,9 +225,7 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 				newXMLIntChild (clefElem, ns, (xmlChar *) "line", line);
 				}
 			 //output objects
-			 //parseObjects (measureElem, ns, (objnode *) ((DenemoMeasure *) curMeasure->data)->objects);
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
-
 			  gint actual_notes, normal_notes;
 			  gint num_beams=0;
 			  for (; curObjNode != NULL; curObjNode = curObjNode->next)
@@ -264,12 +266,16 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 									xmlNewChild (noteElem, ns, (xmlChar *) "rest", NULL); 
 								  }
 								  newXMLIntChild (noteElem, ns,  (xmlChar *) "duration", curObj->durinticks);//1 is duration a sounding duration quarter note
-								  gchar *durationType;
-								  determineDuration ((thechord)->baseduration, &durationType);
-								  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);
+								  
 								  gint m = thechord->numdots;
 								  for (;m;m--)
 									xmlNewChild (noteElem, ns, (xmlChar *) "dot", NULL);
+								if (thechord->is_grace)
+									{
+									xmlNodePtr graceElem = xmlNewChild (noteElem, ns, (xmlChar *) "grace", NULL);
+									if (thechord->is_grace & ACCIACCATURA)
+										xmlSetProp (graceElem, (xmlChar *) "slash", "yes");
+									}
 								//ties <tie type="start"/><tie type="stop"/>
 								if (in_tie)
 									{
@@ -283,6 +289,13 @@ DenemoMovement *si = gui->movement; // FIXME loop for movements
 											xmlNodePtr tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);
 											xmlSetProp (tieElem, (xmlChar *) "type", "start");
 										}
+										
+										
+								gchar *durationType;
+								  determineDuration ((thechord)->baseduration, &durationType);
+								  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);		
+										
+										
 
 								//tuplets
 								if (in_tuplet)
