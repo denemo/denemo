@@ -237,11 +237,15 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
 			  gint actual_notes, normal_notes;
 			  gint num_beams=0;
+			  
+			  gchar *pending_dynamic = NULL;
 			  for (; curObjNode != NULL; curObjNode = curObjNode->next)
 				{
 				  DenemoObject *curObj = (DenemoObject *) curObjNode->data;
 				  DenemoObject *nextObj = (curObjNode->next?curObjNode->next->data:NULL);
-				  
+				  xmlNodePtr directionElem = NULL;
+				  xmlNodePtr directionTypeElem = NULL;
+
 				  switch (curObj->type)
 					{
 						case CHORD:
@@ -249,9 +253,17 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 							  xmlNodePtr pitchElem;
 							  xmlNodePtr noteElem;
 							  xmlNodePtr notationsElem = NULL;
-							  xmlNodePtr directionElem = NULL;
-							  xmlNodePtr directionTypeElem = NULL;
 							  chord *thechord = (chord*)curObj->object;
+							  if (pending_dynamic)
+									{
+									if (directionElem==NULL) {
+											directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+											directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+										}
+									xmlNodePtr dynamicsElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "dynamics", NULL);
+									xmlNewChild (dynamicsElem, ns, (xmlChar *) pending_dynamic, NULL);
+									pending_dynamic=NULL;	
+									}
 							  
 							  if (thechord->crescendo_begin_p)
 								{
@@ -460,7 +472,7 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 									xmlSetProp (wedgeElem, (xmlChar *) "type", (xmlChar *) "stop");
 								}								
 									   	
-							
+
 							
 						}
 						break;
@@ -480,6 +492,26 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 						break;
 					case LILYDIRECTIVE:
 						//do dynamics etc,,,
+						{
+						xmlNodePtr directionElem = NULL;
+						xmlNodePtr directionTypeElem = NULL;
+						DenemoDirective *dir = (DenemoDirective*)curObj->object;
+						if (!strcmp (dir->tag->str, "TextAnnotation"))
+							{
+									if (directionElem==NULL) {
+										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+									}
+									xmlNewChild (directionTypeElem, ns, (xmlChar *) "words", NULL);
+									break;
+								}
+						if (!strcmp (dir->tag->str, "DynamicText"))
+							{
+									//look at dir->display and extract the dynamic e.g. pp
+									pending_dynamic = (dir->postfix&&(dir->postfix->len>1))?dir->postfix->str+2:NULL;//pickup dynamic from Lily syntax e.g. /pp
+									break;
+							}
+						}
 						break;
 					default:
 						break;

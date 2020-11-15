@@ -903,22 +903,7 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
         gchar *type = xmlGetProp (childElem, (xmlChar *) "type");
         gchar *spread = xmlGetProp (childElem, (xmlChar *) "spread");
         if (type)
-#if 0
-          {
-            if (!strcmp (type, "crescendo"))
-              g_string_append (awaiting_note, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartCrescendo)(GoToMeasureEnd)");
-            if (!strcmp (type, "diminuendo"))
-              g_string_append (awaiting_note, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartDiminuendo)(GoToMeasureEnd)");
 
-            if (!strcmp (type, "stop"))
-              {
-                if (!spread)
-                  g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleEndDiminuendo)(GoToMeasureEnd)");
-                else
-                  g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleEndCrescendo)(GoToMeasureEnd)");
-              }
-          }
-#else
          {
             if (!strcmp (type, "crescendo"))
               g_string_append (awaiting_note, "(ToggleStartCrescendo)");
@@ -932,14 +917,7 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
                 else
                   g_string_append (script, "(ToggleEndCrescendo)");
               }
-          }
-#endif          
-          
-          
-          
-          
-          
-          
+          }         
       }
      if (ELEM_NAME_EQ (childElem, "words"))
       {
@@ -991,12 +969,11 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
    */
     if (ELEM_NAME_EQ (childElem, "dynamics"))
       {
-       // if(pending==NULL)
-       //     pending = "";
-       // pending = g_strdup_printf ("%s(d-DynamicText \"%s\")(GoToMeasureEnd)", pending, childElem->xmlChildrenNode->name);
-
-       g_string_append_printf (script, "(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", childElem->xmlChildrenNode->name);
-
+        if(pending==NULL)
+            pending = "";
+        if (childElem->xmlChildrenNode)
+			pending = g_strdup_printf ("%s(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", pending, childElem->xmlChildrenNode->name);
+      // g_string_append_printf (script, "(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", childElem->xmlChildrenNode->name);
       }
   }
   return pending;
