@@ -25,7 +25,8 @@
 gint InitialVoiceNum = 0;
 
 GString *Warnings;
-
+GString *awaiting_note;//anything that has to wait for a note to be added
+gboolean pending_tuplet_end = FALSE;//to catch tuplets that end and re-start with the same value
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
@@ -328,7 +329,8 @@ static gchar *
 add_note (gint octave, gchar * step, gint alter)
 {                               // d-InsertNoteInChord lily (d-ShiftCursor is relative (d-MoveTo ????
   const gchar *octavation = octave_string (octave);
-  gchar *text = g_strdup_printf ("(d-InsertNoteInChord \"%c%s%s\")", g_ascii_tolower (*step), alteration (alter), octavation);
+  gchar *text = g_strdup_printf ("(InsertNoteInChord \"%c%s%s\")", g_ascii_tolower (*step), alteration (alter), octavation);
+
   GString *ret = g_string_new (text);
   g_free (text);
   return g_string_free (ret, FALSE);
@@ -532,19 +534,28 @@ parse_articulations (GString * notations, xmlNodePtr rootElem)
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "staccato"))
-      g_string_append (notations, "(d-ToggleStaccato)");
+      g_string_append (notations, "(ToggleStaccato)");
     if (ELEM_NAME_EQ (childElem, "staccatissimo"))
-      g_string_append (notations, "(d-ToggleStaccatissimo)");
+      g_string_append (notations, "(ToggleStaccatissimo)");
   }
 }
 
 static void
-parse_notations (GString * notations, xmlNodePtr rootElem)
+parse_notations (GString * notations, xmlNodePtr rootElem, gint normal_notes, gint actual_notes)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
-	  //FIXME pickup "tuplet" type start and stop here.
+    if (ELEM_NAME_EQ (childElem, "tuplet"))
+      {
+        gchar *type = xmlGetProp (childElem, (xmlChar *) "type");
+        if (type && (!strcmp (type, "stop")))
+			  g_string_append_printf (notations, "\n;Restart tuplet because pending tupend \n(ReStartTuplet \"%d/%d \")\n", normal_notes, actual_notes);
+			  //pending_tuplet_end = TRUE;
+        if (type && (!strcmp (type, "start")))
+			  pending_tuplet_end = FALSE;
+  
+      }	
     if (ELEM_NAME_EQ (childElem, "articulations"))
       {
         parse_articulations (notations, childElem);
@@ -554,10 +565,10 @@ parse_notations (GString * notations, xmlNodePtr rootElem)
         gchar *type = xmlGetProp (childElem, (xmlChar *) "type");
 
         if (type && (!strcmp (type, "start")))
-          g_string_append (notations, "(d-ToggleBeginSlur)");
+          g_string_append (notations, "(ToggleBeginSlur)");
         if (type && (!strcmp (type, "stop")))
           {
-			  g_string_append (notations, "(d-ToggleEndSlur)");
+			  g_string_append (notations, "(ToggleEndSlur)");
 			  g_print ("notations %s\n", notations->str);
 			 }
          g_print ("slur type %s compare as %d\n", type, (!strcmp (type, "end")));
@@ -565,7 +576,7 @@ parse_notations (GString * notations, xmlNodePtr rootElem)
 
     if (ELEM_NAME_EQ (childElem, "fermata"))
       {
-        g_string_append (notations, "(d-ToggleFermata)");
+        g_string_append (notations, "(ToggleFermata)");
       }
     //  I think we need functions to apply that aren't toggles.
 //note tuplets will be ignored, we will depend on the timing changes (as at present), since tuplet start/end is a separate object which once inserted prevents us seeing the note/chord
@@ -593,6 +604,12 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   gint initial_normal_notes = *normal_notes;
   gboolean timing_set = FALSE;  //for case where one voice ends during a tuplet and the next one starts during a tuplet
   GString *text = g_string_new ("");
+  
+  //if (pending_tuplet_end)
+		//{
+			//g_string_append_printf (awaiting_note, "\n;Restart tuplet because pending tupend \n(ReStartTuplet \"%d/%d \")\n", *normal_notes, *actual_notes);
+			//pending_tuplet_end = FALSE;
+		//}
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "pitch"))
@@ -616,6 +633,8 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
       {
         is_grace = TRUE;
       }
+      
+  
     if (ELEM_NAME_EQ (childElem, "rest"))
       {
         is_rest = TRUE;
@@ -654,7 +673,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
 */
     if (ELEM_NAME_EQ (childElem, "notations"))
       {
-        parse_notations (notations, childElem);
+        parse_notations (notations, childElem, *normal_notes, *actual_notes);
       }
 
     if (ELEM_NAME_EQ (childElem, "time-modification"))
@@ -740,7 +759,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   if (((*current_voice != voicenum) && !(((initial_actual_notes) == 1) && (initial_normal_notes == 1))))
     {                           /* an unterminated tuplet in the last voice *///g_assert(*current_voice>0);
       g_string_append (scripts[*current_voice], "\n;Voice terminated during a tuplet\n(d-EndTuplet)");
-
+pending_tuplet_end = FALSE;
       initial_actual_notes = 1;
       initial_normal_notes = 1;
     }
@@ -749,21 +768,26 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
     {
       gchar *str;
       if ((initial_actual_notes) == 1 && (initial_normal_notes == 1))
-        str = g_strdup_printf ("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
-      //str = g_strdup_printf("\n;not end tuplet and entered with normal timings %d  \n(d-StartTuplet \"%d/%d\")", in_chord, *normal_notes, *actual_notes);
+        //str = g_strdup_printf ("(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
+        str = g_strdup_printf("\n;not end tuplet? %d and entered with normal timings in_chord %d  \n(d-StartTuplet \"%d/%d\")", pending_tuplet_end, in_chord, *normal_notes, *actual_notes);
       else
         {
         if (*normal_notes==1 && *actual_notes==1)
-            str = g_strdup_printf ("\n;Leaving tuplet timing\n(d-EndTuplet)");
+            //str = g_strdup_printf ("\n;Leaving tuplet timing\n(d-EndTuplet)");
+            str = g_strdup_printf ("\n;Leaving tuplet timing with pending end %d\n(d-EndTuplet)", pending_tuplet_end);
         else
-            str = g_strdup_printf ("\n;Changed timings\n(d-EndTuplet)(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
+            //str = g_strdup_printf ("\n;Changed tuplet timings\n(d-EndTuplet)(d-StartTuplet \"%d/%d\")", *normal_notes, *actual_notes);
+            str = g_strdup_printf ("\n;Changed tuplet timings at pending end %d\n(d-EndTuplet)(d-StartTuplet \"%d/%d\")", pending_tuplet_end, *normal_notes, *actual_notes);
         }
       g_string_append (scripts[voicenum], str);
       g_free (str);
     }
 
 
-
+  
+  g_string_append (text, awaiting_note->str);//is this neccesarily on the right voice???
+  g_string_assign (awaiting_note, "");
+  
   g_string_append (scripts[voicenum], text->str);
   g_string_append (scripts[voicenum], notations->str);
   g_string_free (notations, TRUE);
@@ -878,21 +902,44 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
       {
         gchar *type = xmlGetProp (childElem, (xmlChar *) "type");
         gchar *spread = xmlGetProp (childElem, (xmlChar *) "spread");
-        if (type && spread)
+        if (type)
+#if 0
           {
             if (!strcmp (type, "crescendo"))
-              g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartCrescendo)(GoToMeasureEnd)");
+              g_string_append (awaiting_note, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartCrescendo)(GoToMeasureEnd)");
             if (!strcmp (type, "diminuendo"))
-              g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartDiminuendo)(GoToMeasureEnd)");
+              g_string_append (awaiting_note, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleStartDiminuendo)(GoToMeasureEnd)");
 
             if (!strcmp (type, "stop"))
               {
-                if (!strcmp (spread, "0"))
+                if (!spread)
                   g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleEndDiminuendo)(GoToMeasureEnd)");
                 else
                   g_string_append (script, "(if (Appending?)(d-MoveCursorLeft))(d-ToggleEndCrescendo)(GoToMeasureEnd)");
               }
           }
+#else
+         {
+            if (!strcmp (type, "crescendo"))
+              g_string_append (awaiting_note, "(ToggleStartCrescendo)");
+            if (!strcmp (type, "diminuendo"))
+              g_string_append (awaiting_note, "(ToggleStartDiminuendo)");
+
+            if (!strcmp (type, "stop"))
+              {
+                if (!spread)
+                  g_string_append (script, "(ToggleEndDiminuendo)");
+                else
+                  g_string_append (script, "(ToggleEndCrescendo)");
+              }
+          }
+#endif          
+          
+          
+          
+          
+          
+          
       }
      if (ELEM_NAME_EQ (childElem, "words"))
       {
@@ -1018,6 +1065,7 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
           is_nonprinting = TRUE;
 
         gchar *warning = parse_note (childElem, scripts, staff_for_voice, &division, *divisions, voice_timings, &current_voice, &actual_notes, &normal_notes, is_nonprinting);
+			
         if(pendings->len)
             {
                 g_string_prepend (pendings, "(d-MoveCursorLeft)");
@@ -1045,7 +1093,8 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
   }
   //g_assert(last_voice_with_notes>0);
   if ((actual_notes != 1) || (normal_notes != 1))
-    g_string_append_printf (scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(d-EndTuplet)", current_voice);
+    g_string_append_printf (scripts[last_voice_with_notes], "\n;measure end with tuplet still active in voice %d\n(IfNeededEndTuplet)", current_voice);//FIXME fires off on last tuplet end
+  pending_tuplet_end = FALSE;  
   g_string_free(pendings, TRUE);
   return g_string_free (ret, FALSE);
 }
@@ -1199,6 +1248,8 @@ mxmlinput (gchar * filename)
 
   /* ignore blanks between nodes that appear as "text" */
   xmlKeepBlanksDefault (0);
+  
+  awaiting_note = g_string_new ("");
   /* Try to parse the file. */
 
   doc = xmlParseFile (filename);
@@ -1211,7 +1262,85 @@ mxmlinput (gchar * filename)
 
   rootElem = xmlDocGetRootElement (doc);
   xmlNodePtr childElem;
-  GString *script = g_string_new (";Score\n\n(d-MasterVolume 0) (d-IncreaseGuard) (d-StaffProperties \"denemo_name=voice 1\")");
+  //to avoid ReStartTuplet spilling into the next bar a rehearsal mark is inserted and then removed after the tupend/start are inserted FIXME
+  GString *script = g_string_new (";Score\n(define (IfNeededEndTuplet)\n(d-MoveCursorLeft)(if (TupletOpen?) (d-DeleteObject) (d-MoveCursorRight)))\n\
+    (define (ReStartTuplet tuptype)\n\
+  (d-RehearsalMark)(d-MoveCursorLeft)(d-EndTuplet)(d-StartTuplet tuptype)(GoToMeasureEnd)(d-MoveCursorLeft)(d-DeleteObject))\
+\n(d-MasterVolume 0) (d-IncreaseGuard) (d-StaffProperties \"denemo_name=voice 1\")\
+  (define (InsertNoteInChord n)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-InsertNoteInChord n)\
+	(GoToMeasureEnd))\
+  (define (ToggleBeginSlur)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleBeginSlur)\
+	(GoToMeasureEnd))\
+  (define (ToggleEndSlur)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleEndSlur)\
+	(GoToMeasureEnd))\
+  (define (ToggleStaccato)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleStaccato)\
+	(GoToMeasureEnd))\
+ (define (ToggleStaccatissimo)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleStaccatissimo)\
+	(GoToMeasureEnd))\
+ (define (ToggleFermata)\
+	(d-MoveCursorLeft)(if (not (Music?))\
+		(d-PrevNote))\
+	(d-ToggleFermata)\
+	(GoToMeasureEnd))\
+ (define (ToggleTrill)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleTrill)\
+	(GoToMeasureEnd))\
+ (define (ToggleTurn)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleTurn)\
+	(GoToMeasureEnd))\
+ (define (ToggleTie)\
+	(d-MoveCursorLeft)(if (not (Note?))\
+		(d-PrevNote))\
+	(d-ToggleTie)\
+	(GoToMeasureEnd))\
+ (define (ToggleStartCrescendo)\
+	(d-MoveCursorLeft)(if (not (Music?))\
+		(d-PrevNote))\
+	(d-ToggleStartCrescendo)\
+	(GoToMeasureEnd))\
+ (define (ToggleStartDiminuendo)\
+	(d-MoveCursorLeft)(if (not (Music?))\
+		(d-PrevNote))\
+	(d-ToggleStartDiminuendo)\
+	(GoToMeasureEnd))\
+ (define (ToggleEndCrescendo)\
+	(d-MoveCursorLeft)(if (not (Music?))\
+		(d-PrevNote))\
+	(d-ToggleEndCrescendo)\
+	(GoToMeasureEnd))\
+ (define (ToggleEndDiminuendo)\
+	(d-MoveCursorLeft)(if (not (Music?))\
+		(d-PrevNote))\
+	(d-ToggleEndDiminuendo)\
+	(GoToMeasureEnd))\
+ (define (ToggleGrace)\
+	(d-MoveCursorLeft)(if (not (Music?))\
+		(d-PrevNote))\
+	(d-ToggleGrace)\
+	(GoToMeasureEnd))");
+
+
+
+
   gint part_count = 1;
   InitialVoiceNum = 0;
   if (Warnings == NULL)
