@@ -249,8 +249,31 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 							  xmlNodePtr pitchElem;
 							  xmlNodePtr noteElem;
 							  xmlNodePtr notationsElem = NULL;
+							  xmlNodePtr directionElem = NULL;
+							  xmlNodePtr directionTypeElem = NULL;
 							  chord *thechord = (chord*)curObj->object;
 							  
+							  if (thechord->crescendo_begin_p)
+								{
+									if (directionElem==NULL) {
+										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+									}
+									xmlNodePtr wedgeElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "wedge", NULL);
+									xmlSetProp (wedgeElem, (xmlChar *) "type", (xmlChar *) "crescendo");
+								}      
+        
+							  if (thechord->diminuendo_begin_p)
+								{
+									if (directionElem==NULL) {
+										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+									}
+									xmlNodePtr wedgeElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "wedge", NULL);
+									xmlSetProp (wedgeElem, (xmlChar *) "type", (xmlChar *) "diminuendo");
+									xmlSetProp (wedgeElem, (xmlChar *) "spread", (xmlChar *) "11");
+								}
+															  
 							  //the lowest note is plain, the rest in the chord have a xmlNewChild (noteElem, ns, (xmlChar *) "chord", NULL);
 							  //element and no bream tuplet slur 
 							  
@@ -405,13 +428,40 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 												}
 											
 									     } //not for rests nor for chord notes above the lowest note						
-			  // ties chords		   
+			  
+			  
+
         
 							if (g == NULL) // a rest
 								break;
 							if (g->next == NULL)
 								break;
 							}//for all notes in the chord
+							
+									  				
+							  if (thechord->crescendo_end_p)
+								{
+									if (directionElem==NULL) {
+										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+									}
+									xmlNodePtr wedgeElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "wedge", NULL);
+									xmlSetProp (wedgeElem, (xmlChar *) "type", (xmlChar *) "stop");
+									xmlSetProp (wedgeElem, (xmlChar *) "spread", (xmlChar *) "11");
+								}
+
+							  if (thechord->diminuendo_end_p)
+								{
+									if (directionElem==NULL) {
+										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+									}
+									xmlNodePtr wedgeElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "wedge", NULL);
+									xmlSetProp (wedgeElem, (xmlChar *) "type", (xmlChar *) "stop");
+								}								
+									   	
+							
+							
 						}
 						break;
 					case TUPOPEN:
@@ -427,6 +477,9 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 							
 							in_tuplet = FALSE;
 						}
+						break;
+					case LILYDIRECTIVE:
+						//do dynamics etc,,,
 						break;
 					default:
 						break;
