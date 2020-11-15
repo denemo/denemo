@@ -163,13 +163,22 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 
   /* Create the XML document and output the root element. */
 
-  doc = xmlNewDoc ((xmlChar *) "1.0");
-  xmlSetDocCompressMode (doc, Denemo.prefs.compression);
-  doc->xmlRootNode = scoreElem = xmlNewDocNode (doc, NULL, (xmlChar *) "score-partwise", NULL);
-  ns = NULL;
- 
-  //xmlNodePtr identificationElem = xmlNewChild (scoreElem, ns, (xmlChar *) "identification", NULL);
-  //xmlNewChild (identificationElem, ns, (xmlChar *) "Creator", title-of-piece) and setProp type=composer	
+	doc = xmlNewDoc ((xmlChar *) "1.0");
+	xmlSetDocCompressMode (doc, Denemo.prefs.compression);
+	doc->xmlRootNode = scoreElem = xmlNewDocNode (doc, NULL, (xmlChar *) "score-partwise", NULL);
+	ns = NULL;
+
+	xmlNodePtr identificationElem = xmlNewChild (scoreElem, ns, (xmlChar *) "identification", NULL);
+	//xmlNewChild (identificationElem, ns, (xmlChar *) "Creator", title-of-piece) and setProp type=composer	
+
+	xmlNodePtr encodingElem = xmlNewChild (identificationElem, ns, (xmlChar *) "encoding", NULL);
+	xmlNodePtr suppElem = xmlNewChild (encodingElem, ns, (xmlChar *) "supports", NULL);
+	xmlSetProp (suppElem, (xmlChar *) "element", (xmlChar *) "beam");
+	xmlSetProp (suppElem, (xmlChar *) "type", (xmlChar *) "yes");
+	suppElem = xmlNewChild (encodingElem, ns, (xmlChar *) "supports", NULL);
+	xmlSetProp (suppElem, (xmlChar *) "element", (xmlChar *) "accidental");
+	xmlSetProp (suppElem, (xmlChar *) "type", (xmlChar *) "yes");
+
 
   DenemoMovement *si = gui->movement; // FIXME loop for movements
   xmlNodePtr partListElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part-list", NULL);
