@@ -496,13 +496,17 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 						xmlNodePtr directionElem = NULL;
 						xmlNodePtr directionTypeElem = NULL;
 						DenemoDirective *dir = (DenemoDirective*)curObj->object;
-						if (!strcmp (dir->tag->str, "TextAnnotation"))
+						if ((!strcmp (dir->tag->str, "TextAnnotation")) || (!strcmp (dir->tag->str, "MultiLineTextAnnotation"))) 
 							{
 									if (directionElem==NULL) {
 										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										if (dir->postfix && (*dir->postfix->str='^'))
+											xmlSetProp (directionElem, (xmlChar *) "placement", (xmlChar *) "above");
+										
 										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
 									}
-									xmlNewChild (directionTypeElem, ns, (xmlChar *) "words", NULL);
+									if (dir->display)
+										xmlNewChild (directionTypeElem, ns, (xmlChar *) "words", (xmlChar *)dir->display->str);
 									break;
 								}
 						if (!strcmp (dir->tag->str, "DynamicText"))
