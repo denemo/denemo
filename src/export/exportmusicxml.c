@@ -195,6 +195,7 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
  		
   for (i=0, curStaff = si->thescore; curStaff != NULL; i++, curStaff = curStaff->next)
         {
+		  gint nthTime = 1;//which nth time repeat bar been started. Used by EndVolta which does not carry the information
 		  xmlNodePtr partElem;
           curStaffStruct = (DenemoStaff *) curStaff->data;
 		  gboolean tuplet_start = FALSE, in_tuplet = FALSE;
@@ -498,24 +499,113 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 						DenemoDirective *dir = (DenemoDirective*)curObj->object;
 						if ((!strcmp (dir->tag->str, "TextAnnotation")) || (!strcmp (dir->tag->str, "MultiLineTextAnnotation"))) 
 							{
-									if (directionElem==NULL) {
-										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
-										if (dir->postfix && (*dir->postfix->str='^'))
-											xmlSetProp (directionElem, (xmlChar *) "placement", (xmlChar *) "above");
-										
-										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
-									}
-									if (dir->display)
-										xmlNewChild (directionTypeElem, ns, (xmlChar *) "words", (xmlChar *)dir->display->str);
-									break;
+									
+							directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+							if (dir->postfix && (*dir->postfix->str='^'))
+								xmlSetProp (directionElem, (xmlChar *) "placement", (xmlChar *) "above");
+							
+							directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+							
+							if (dir->display)
+								xmlNewChild (directionTypeElem, ns, (xmlChar *) "words", (xmlChar *)dir->display->str);
+							break;
 								}
 						if (!strcmp (dir->tag->str, "DynamicText"))
 							{
-									//look at dir->display and extract the dynamic e.g. pp
-									pending_dynamic = (dir->postfix&&(dir->postfix->len>1))?dir->postfix->str+2:NULL;//pickup dynamic from Lily syntax e.g. /pp
-									break;
+							pending_dynamic = (dir->postfix&&(dir->postfix->len>1))?dir->postfix->str+2:NULL;//pickup dynamic from Lily syntax e.g. /pp
+							break;
 							}
+						if (!strcmp (dir->tag->str, "RepeatEndStart"))
+							{
+								
+								      //<barline location="left">
+        //<bar-style>heavy-light</bar-style>
+        //<repeat direction="forward" winged="none"/>
+      //</barline>
+							//xmlNodePtr  barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							//xmlSetProp (barlineElem, (xmlChar *) "location", (xmlChar *) "left");
+							//xmlNewChild (barlineElem, ns, (xmlChar *) "bar-style", (xmlChar *) "light-heavy");
+							//xmlNodePtr repeatElem = xmlNewChild (barlineElem, ns, (xmlChar *) "repeat", NULL);
+							//xmlSetProp (repeatElem, (xmlChar *) (xmlChar *) "direction", (xmlChar *) "forward");
+							
+							//barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							//xmlSetProp (barlineElem, (xmlChar *) "location", (xmlChar *) "left");
+							//xmlNewChild (barlineElem, ns, (xmlChar *) "bar-style", (xmlChar *) "heavy-light");
+							//repeatElem = xmlNewChild (barlineElem, ns, (xmlChar *) "repeat", NULL);
+							//xmlSetProp (repeatElem, (xmlChar *) (xmlChar *) "direction", (xmlChar *) "forward");
+							
+							
+							xmlNodePtr barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							xmlNodePtr repeatElem = xmlNewChild (barlineElem, ns, (xmlChar *) "repeat", NULL);
+							xmlSetProp (repeatElem, (xmlChar *) "direction", (xmlChar *) "backward");
+							barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							repeatElem	= xmlNewChild (barlineElem, ns, (xmlChar *) "repeat", NULL);
+							xmlSetProp (repeatElem, (xmlChar *) "direction", (xmlChar *) "forward");
+							
+							break;
+							}
+							
+						if (!strcmp (dir->tag->str, "RepeatEnd"))
+							{
+							xmlNodePtr barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							xmlNodePtr repeatElem = xmlNewChild (barlineElem, ns, (xmlChar *) "repeat", NULL);
+							xmlSetProp (repeatElem, (xmlChar *) "direction", (xmlChar *) "backward");
+							break;
+							}							
+					   if (!strcmp (dir->tag->str, "RepeatStart"))
+							{
+							xmlNodePtr barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							xmlNodePtr repeatElem = xmlNewChild (barlineElem, ns, (xmlChar *) "repeat", NULL);
+							xmlSetProp (repeatElem, (xmlChar *) "direction", (xmlChar *) "forward");
+							break;
+							}							
+								
+							
+							
+						//first time bar      <barline location="left">
+        //<ending default-y="40" end-length="20" number="1" type="start"/>
+      //</barline>	
+      //dir->data volta 1 otherwise (text . "3 and 4") etc
+							
+					   if (!strcmp (dir->tag->str, "OpenNthTimeBar"))
+							{
+							xmlNodePtr barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							xmlNodePtr endingElem = xmlNewChild (barlineElem, ns, (xmlChar *) "ending", NULL);
+							xmlSetProp (barlineElem, (xmlChar *) "location", (xmlChar *) "left");
+							nthTime=1;
+							if (dir->data)
+							  (sscanf (dir->data->str, "'((volta . %d))", &nthTime));
+							gchar *str = g_strdup_printf ("%d", nthTime);		
+							xmlSetProp (endingElem, (xmlChar *) "number", (xmlChar *) str);
+							xmlSetProp (endingElem, (xmlChar *) "type", (xmlChar *) "start");
+							g_free (str);
+							break;
+							}
+							
+							
+							      //<barline location="right">
+        //<bar-style>light-heavy</bar-style>
+        //<ending number="1" type="stop"/>
+        //<repeat direction="backward" winged="none"/>
+      //</barline>
+      
+      									
+					   if (!strcmp (dir->tag->str, "EndVolta"))
+							{
+							xmlNodePtr barlineElem = xmlNewChild (measureElem, ns, (xmlChar *) "barline", NULL);
+							xmlSetProp (barlineElem, (xmlChar *) "location", (xmlChar *) "right");
+							xmlNodePtr endingElem = xmlNewChild (barlineElem, ns, (xmlChar *) "ending", NULL);
+							
+							
+							gchar *str = g_strdup_printf ("%d", nthTime);		
+							xmlSetProp (endingElem, (xmlChar *) "number", (xmlChar *) str);
+							xmlSetProp (endingElem, (xmlChar *) "type", (xmlChar *) "stop");
+							g_free (str);
+							break;
+							}				
+							
 						}
+						
 						break;
 					default:
 						break;
