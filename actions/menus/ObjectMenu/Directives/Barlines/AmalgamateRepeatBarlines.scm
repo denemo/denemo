@@ -1,4 +1,4 @@
-;;;AmalgamateRepeatBarlines
+;;AmalgamateRepeatBarlines
 (d-PushPosition)
 (let ()
   (define (do-staff)
@@ -11,7 +11,9 @@
        					(begin
        						(d-SetSaved #f)
        						(d-DeleteObject)
-       						(d-PrevObject)
+       						(if (Appending?)
+       							(d-MoveCursorLeft)
+       							(d-PrevObject))
        						(d-DeleteObject)
        						(d-RepeatEndStart)))))))    
   (define (do-movement)
