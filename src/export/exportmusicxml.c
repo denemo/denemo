@@ -126,8 +126,11 @@ static void get_clef_sign (clefs theclef, gchar **sign, gint *line)
 		return;
 	}
 }
-static gint beams(gint duration)
+
+//number of beams thechord requires, 0 if it is a rest
+static gint beams(chord* thechord)
 	{
+		int duration = thechord->notes?thechord->baseduration:0;
 		if (duration<3)
 			return 0;
 		return (duration-2);
@@ -237,13 +240,14 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 			 //output objects
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
 			  gint actual_notes, normal_notes;
-			  gint num_beams=0;
+			  gint num_beams=0, next_beams=0, incoming_beams=0;
 			  
 			  gchar *pending_dynamic = NULL;
 			  for (; curObjNode != NULL; curObjNode = curObjNode->next)
 				{
 				  DenemoObject *curObj = (DenemoObject *) curObjNode->data;
 				  DenemoObject *nextObj = (curObjNode->next?curObjNode->next->data:NULL);
+				  DenemoObject *prevObj = (curObjNode->prev?curObjNode->prev->data:NULL);
 				  xmlNodePtr directionElem = NULL;
 				  xmlNodePtr directionTypeElem = NULL;
 
@@ -321,27 +325,33 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 									if (thechord->is_grace & ACCIACCATURA)
 										xmlSetProp (graceElem, (xmlChar *) "slash", "yes");
 									}
+								gchar *durationType;
+								  determineDuration ((thechord)->baseduration, &durationType);
+								  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);		
+																	
+									
 								//ties <tie type="start"/><tie type="stop"/>
 								if (in_tie)
 									{
-										xmlNodePtr tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);
+										if (notationsElem == NULL)
+											notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);		
+										xmlNodePtr tieElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tied", NULL);
 										xmlSetProp (tieElem, (xmlChar *) "type", "stop");
+										tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);//for the sound
+       									xmlSetProp (tieElem, (xmlChar *) "type", "stop");
 										in_tie = FALSE;
 									}
 								if (thechord->is_tied)
 										{
-											in_tie =TRUE;
-											xmlNodePtr tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);
+											if (notationsElem == NULL)
+												notationsElem = xmlNewChild (noteElem, ns, (xmlChar *) "notations", NULL);		
+											xmlNodePtr tieElem = xmlNewChild (notationsElem, ns, (xmlChar *) "tied", NULL);
 											xmlSetProp (tieElem, (xmlChar *) "type", "start");
+											tieElem = xmlNewChild (noteElem, ns, (xmlChar *) "tie", NULL);//for the sound
+       										xmlSetProp (tieElem, (xmlChar *) "type", "start");
+											in_tie = TRUE;
 										}
 										
-										
-								gchar *durationType;
-								  determineDuration ((thechord)->baseduration, &durationType);
-								  xmlNewTextChild (noteElem, ns,  (xmlChar *) "type",  (xmlChar *) durationType);		
-										
-										
-
 								//tuplets
 								if (in_tuplet)
 									{
@@ -366,58 +376,113 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 												xmlSetProp (tupletElem, (xmlChar *) "type",  (xmlChar *) "stop");
 												xmlSetProp (tupletElem, (xmlChar *) "number",  (xmlChar *) "1");
 											}
-									}								
+									}		
 									
-
+									
+									
+									
 									if ((g != NULL) && (g == thechord->notes)) // not for rests or subsequent notes in the chord
 										{
 											
-											//beams
-											if (curObj->isstart_beamgroup)
-												{
-													gint i;
-													num_beams = beams(thechord->baseduration);
-
-													for (i=0;i<num_beams;i++)
-														{
-															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "begin");
-															gchar *val = g_strdup_printf("%d", i+1);
-															xmlSetProp (beamElem, (xmlChar *) "number", val);
-															g_free(val);//<beam number="i+1">begin</beam>
-														}
-												}
-											else
-												{
-												if (curObj->isend_beamgroup)
-													{
-														for (;num_beams>0; num_beams--)
-															{
-															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
-															gchar *val = g_strdup_printf("%d", num_beams+1);
-															xmlSetProp (beamElem, (xmlChar *) "number", val);
-															g_free(val);//<beam number="num_beams">end</beam>
-															}
-													}
-												else
-													{
-														for (;num_beams>beams(thechord->baseduration); num_beams--)
-															{
-															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
-															gchar *val = g_strdup_printf("%d", num_beams);
-															xmlSetProp (beamElem, (xmlChar *) "number", val);
-															g_free(val);//<beam number="num_beams">end</beam>
-															}
-														int i;
-														for (i=num_beams;i>0;i--)
-															{
-															xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "continue");
-															gchar *val = g_strdup_printf("%d", num_beams);
-															xmlSetProp (beamElem, (xmlChar *) "number", val);
-															g_free(val);//<beam number="num_beams">continue</beam>
-															}
-													}
-												}
 											
+										        //<beam number="1">begin</beam>
+												//<beam number="2">begin</beam>					
+												//<beam number="1">end</beam>
+												//<beam number="2">end</beam> in <note>....
+											num_beams = beams(thechord);
+											next_beams = (nextObj && (nextObj->type==CHORD))?beams ((chord*)nextObj->object):0;
+											gint outgoing_beams=0;
+
+											if (!((incoming_beams==0) && (next_beams==0)))
+												{
+
+												if (curObj->isstart_beamgroup)
+													{
+														gint i;//g_assert (incoming_beams == 0);
+														for (i=0; (i<num_beams) && (i<next_beams);i++)
+															{
+																xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "begin");
+																gchar *val = g_strdup_printf("%d", i+1);
+																xmlSetProp (beamElem, (xmlChar *) "number", val);
+																g_free(val);//<beam number="i+1">begin</beam>
+																outgoing_beams++;
+															}
+														
+														for (;i<num_beams;i++)
+															
+															{
+																xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "forward hook");
+																gchar *val = g_strdup_printf("%d", i+1);
+																xmlSetProp (beamElem, (xmlChar *) "number", val);
+																g_free(val);//<beam number="i+1">begin</beam>
+															}
+														
+													}
+												else //not start of beam group
+													{
+														if (curObj->isend_beamgroup)
+															{
+																
+																for (;num_beams>incoming_beams; num_beams--)
+																	{
+																	xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "backward hook");
+																	gchar *val = g_strdup_printf("%d", num_beams);
+																	xmlSetProp (beamElem, (xmlChar *) "number", val);
+																	g_free(val);
+																	}
+																for(;num_beams>0; num_beams--)
+																	{
+																	xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
+																	gchar *val = g_strdup_printf("%d", num_beams);
+																	xmlSetProp (beamElem, (xmlChar *) "number", val);
+																	g_free(val);//<beam number="num_beams">end</beam>
+																	}
+																outgoing_beams = 0;
+															}
+														else //not start nor end of beam group
+															{
+																if (incoming_beams)
+																	{
+																		
+																		outgoing_beams = incoming_beams;													
+																		for (;num_beams>next_beams; num_beams--)
+																			{
+																			xmlNodePtr beamElem;
+																			if (num_beams>incoming_beams)
+																				beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "forward hook");
+																			else
+																				{
+																					beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "end");
+																					outgoing_beams--;
+																				}
+																			gchar *val = g_strdup_printf("%d", num_beams);
+																			xmlSetProp (beamElem, (xmlChar *) "number", val);
+																			g_free(val);//<beam number="num_beams">end</beam>
+																			}
+																		
+																		for (;num_beams>incoming_beams;num_beams--)
+																			{
+																			xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "begin");
+																			gchar *val = g_strdup_printf("%d", num_beams);
+																			xmlSetProp (beamElem, (xmlChar *) "number", val);
+																			g_free(val);
+																			outgoing_beams++;
+																			}			
+																			
+																			
+																		for (;num_beams>0; num_beams--)
+																			{
+																			xmlNodePtr beamElem = xmlNewTextChild (noteElem, ns,  (xmlChar *) "beam",  (xmlChar *) "continue");
+																			gchar *val = g_strdup_printf("%d", num_beams);
+																			xmlSetProp (beamElem, (xmlChar *) "number", val);
+																			g_free(val);//<beam number="num_beams">end</beam>
+																																				
+																			}
+																	}
+															}
+													}
+											incoming_beams = outgoing_beams;		
+											}
 											
 								
 											//slurs
