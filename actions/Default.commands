@@ -8576,6 +8576,13 @@ Invoke the command again to stop.</_tooltip>
         <_label>Duplicate Two Measures</_label>
         <_tooltip>Inserts a copy of the previous and the current measure after the curreent measure.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ExportAsMusicXML</action>
+        <after>ExportMUDELA</after>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Export as MusicXML</_label>
+        <_tooltip>Exports the Denemo file in the MusicXML format. The export is limited to things Denemo knows about the score - it does not know a lot about how LilyPond will typeset the score. The parts are exported on separate staffs.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

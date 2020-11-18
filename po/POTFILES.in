@@ -439,6 +439,8 @@ actions/menus/MainMenu/Educational/Note-Reading/UpDownOrSame.scm
 actions/menus/MainMenu/Educational/Note-Reading/UpDownOrSame.xml
 actions/menus/MainMenu/FileMenu/CompareScores.scm
 actions/menus/MainMenu/FileMenu/CompareScores.xml
+actions/menus/MainMenu/FileMenu/Export/ExportAsMusicXML.scm
+actions/menus/MainMenu/FileMenu/Export/ExportAsMusicXML.xml
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.scm
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.xml
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondExport.scm

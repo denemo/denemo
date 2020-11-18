@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ExportAsMusicXML</action>
+        <after>ExportMUDELA</after>
+        <_label>Export as MusicXML</_label>
+        <_tooltip>Exports the Denemo file in the MusicXML format. The export is limited to things Denemo knows about the score - it does not know a lot about how LilyPond will typeset the score. The parts are exported on separate staffs.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

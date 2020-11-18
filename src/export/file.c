@@ -84,7 +84,7 @@ static struct FileFormatData supported_file_formats[] = {
   {"*.abc",    N_("ABC (*.abc)"),                   ".abc", 0},
   {"*.mid",    N_("Midi (*.mid, *.midi)"),          ".mid", 0},
   {"*.sco",    N_("CSound Score File (*.sco)"),     ".sco", 0},
-  {"*.mxml",   N_("MusicXML file (*.mxml, *.xml)"), ".mxml", 0}
+  {"*.musicxml",   N_("MusicXML file (*.musicxml, *.mxml, *.xml)"), ".musicxml", 0}
 };
 
 static GList*
@@ -110,6 +110,7 @@ supported_file_extensions(gchar* format){
   }
 
   if(g_strcmp0 ("musicxml", format) == 0){
+    exts = g_list_append(exts, "*.musicxml");
     exts = g_list_append(exts, "*.mxml");
     exts = g_list_append(exts, "*.MXML");
     exts = g_list_append(exts, "*.xml");
@@ -432,7 +433,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
         }
       else if (has_extension (filename, ".ly"))
         result = lyinput (filename);
-      else if (has_extension (filename, ".mxml") || has_extension (filename, ".xml"))
+      else if (has_extension (filename, ".mxml") || has_extension (filename, ".xml") || has_extension (filename, ".musicxml"))
         result = mxmlinput (filename);
       else if (has_extension (filename, ".mid") || has_extension (filename, ".midi"))
         result = (type==GUIDED_IMPORT)?guidedImportMidi (filename):importMidi (filename);
@@ -624,7 +625,6 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
       };
     case MUSICXML_FORMAT:
       {
-        
         exportmusicXML (file, gui);
         break;
       };
