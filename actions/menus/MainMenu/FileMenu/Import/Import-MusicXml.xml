@@ -8,7 +8,7 @@
         <after>Import-Lilypond</after>
         <action>Import-MusicXml</action>
         <_label>Import MusicXml</_label>
-        <_tooltip>Try to Import a MusicXml file</_tooltip>
+        <_tooltip>Imports a MusicXml file as a new movement. Not all features are supported.</_tooltip>
       </row>
     </map>
   </merge>

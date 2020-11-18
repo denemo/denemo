@@ -1378,7 +1378,7 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <action>ImportMusicXml</action>
         <menupath>/MainMenu/FileMenu/Import</menupath>
         <_label>Import MusicXml</_label>
-        <_tooltip>Import a MusicXml file</_tooltip>
+        <_tooltip>Imports a MusicXml file as a new movement. Not all features are supported.</_tooltip>
       </row>
       <row type="builtin">
         <action>PrintView</action>
@@ -8581,7 +8581,7 @@ Invoke the command again to stop.</_tooltip>
         <after>ExportMUDELA</after>
         <menupath>/MainMenu/FileMenu/Export</menupath>
         <_label>Export as MusicXML</_label>
-        <_tooltip>Exports the Denemo file in the MusicXML format. The export is limited to things Denemo knows about the score - it does not know a lot about how LilyPond will typeset the score. The parts are exported on separate staffs.</_tooltip>
+        <_tooltip>Exports the currrent movement as a file in the MusicXML format. The export is limited to things Denemo knows about the score - it does not know a lot about how LilyPond will typeset the score. The parts are exported on separate staffs.</_tooltip>
       </row>
     </map>
   </merge>
