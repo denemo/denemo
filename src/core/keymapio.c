@@ -65,23 +65,23 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
   if(type && 0 == xmlStrcmp (type, COMMAND_TYPE_SCHEME))
     {
     gchar* name=NULL, *menupath=NULL;
-    for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
+    for (cur = cur->children; cur; cur = cur->next)
         {
         if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
             {
-              if (cur->xmlChildrenNode == NULL)
+              if (cur->children == NULL)
                 {
                   g_warning ("Empty action node found in keymap file");
                   return;
                 }
               else
                 {
-                  name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);   
+                  name = (gchar*) xmlNodeListGetString (doc, cur->children, 1);   
                  }
             }          
         else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
             {
-                menupath = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+                menupath = xmlNodeListGetString (doc, cur->children, 1);
             }
         if (name && menupath)
                 {
@@ -99,11 +99,11 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
   
    cur = head;
   //this second pass finds the <action> of this <row> and does get_or_create_command() on it, then for scheme ones it runs get_command()
-    for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
+    for (cur = cur->children; cur; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_ACTION))
         {
-          if (cur->xmlChildrenNode == NULL)
+          if (cur->children == NULL)
             {
               g_warning ("Empty action node found in keymap file");
             }
@@ -111,7 +111,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
             {
               // We allow multiple locations for a given action, all are added to the gtk_ui when this command is processed after the tooltip node.
               // This is very bad xml, as the action should have all the others as children, and not depend on the order.FIXME
-              gchar* name = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+              gchar* name = (gchar*) xmlNodeListGetString (doc, cur->children, 1);
               command = get_or_create_command(name); //g_print ("in parseScripts called get_or_create_command row with action name %s\n", command->name);
               command->fallback = fallback;
               command->locations = NULL;
@@ -124,7 +124,7 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
     }
 //third pass gets the other fields in this <row> and fills in command with them
   cur = head;
-  for (cur = cur->xmlChildrenNode; cur; cur = cur->next)
+  for (cur = cur->children; cur; cur = cur->next)
     {
     if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_HIDDEN))
         {
@@ -132,19 +132,19 @@ parseScripts (xmlDocPtr doc, xmlNodePtr cur, gchar * fallback)
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MENUPATH))
         {
-          command->locations = g_list_append (command->locations, xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command->locations = g_list_append (command->locations, xmlNodeListGetString (doc, cur->children, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_LABEL))
         {
-          command->label = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command->label = _((gchar*) xmlNodeListGetString (doc, cur->children, 1));
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_AFTER))
         {
-          command->after = (gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          command->after = (gchar*) xmlNodeListGetString (doc, cur->children, 1);
         }
       else if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_TOOLTIP))
         {
-          command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1));
+          command->tooltip = _((gchar*) xmlNodeListGetString (doc, cur->children, 1));
         }
     }
   create_command(command);//g_print ("calling create_command for %s path %s\n", command->name, command->menupath);
@@ -160,17 +160,17 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
   guint keyval = 0;
   GdkModifierType state = 0;
   name = 0;                     //defend against corrupt files.
-  for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
+  for (cur = cur->children; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, BINDINGXML_TAG_ACTION))
         {
-          if (cur->xmlChildrenNode == NULL)
+          if (cur->children == NULL)
             {
               g_warning ("Empty children node found in keymap file");
             }
           else
             {
-              name = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+              name = xmlNodeListGetString (doc, cur->children, 1);
               if (name)
                 show_action_of_name ((gchar*) name);
             }
@@ -186,13 +186,13 @@ parseBindings (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap)
           if (name)
             command_number = lookup_command_from_name (the_keymap, (gchar *) name);
           //g_print("Found bind node for action %s %d\n", name, command_number);
-          if (cur->xmlChildrenNode == NULL)
+          if (cur->children == NULL)
             {
               g_warning ("Empty <bind><\\bind> found in commandset file");
             }
           else
             {
-              xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+              xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);
               if (name && tmp)
                 {
                   gchar *gtk_binding = translate_binding_dnm_to_gtk ((gchar *) tmp);
@@ -238,11 +238,11 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
 {
   gint state, cursor_num;
   xmlChar *tmp;
-  for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
+  for (cur = cur->children; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, BINDINGXML_TAG_STATE))
         {
-          tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          tmp = xmlNodeListGetString (doc, cur->children, 1);
           if (tmp)
             {
               sscanf ((char*) tmp, "%x", &state);       // = atoi(tmp);
@@ -252,7 +252,7 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
         }
       else if (0 == xmlStrcmp (cur->name, BINDINGXML_TAG_CURSOR))
         {
-          tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          tmp = xmlNodeListGetString (doc, cur->children, 1);
           if (tmp)
             {
               cursor_num = atoi ((char*) tmp);
@@ -268,7 +268,7 @@ parseCursorBinding (xmlDocPtr doc, xmlNodePtr cur)
 static void
 parseCursors (xmlDocPtr doc, xmlNodePtr cur)
 {
-  for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
+  for (cur = cur->children; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, BINDINGXML_TAG_CURSORBINDING))
         {
@@ -290,20 +290,20 @@ static int compare_nodes (xmlNodePtr *a, xmlNodePtr *b)
      
     if (!type2) return 1;
     
-    for (ptr1 = (*a)->xmlChildrenNode;ptr1;ptr1 = ptr1->next)
+    for (ptr1 = (*a)->children;ptr1;ptr1 = ptr1->next)
         {
         if (0 == xmlStrcmp (ptr1->name, COMMANDXML_TAG_MENUPATH))
-            menupath1 =  xmlNodeListGetString (docx, ptr1->xmlChildrenNode, 1);
+            menupath1 =  xmlNodeListGetString (docx, ptr1->children, 1);
           else if (0 == xmlStrcmp (ptr1->name, COMMANDXML_TAG_LABEL))
-             label1 =  xmlNodeListGetString (docx, ptr1->xmlChildrenNode, 1);
+             label1 =  xmlNodeListGetString (docx, ptr1->children, 1);
          }
     type2 = xmlGetProp((*b), COMMANDXML_TAG_TYPE);
-    for (ptr2 = (*b)->xmlChildrenNode;ptr2;ptr2 = ptr2->next)
+    for (ptr2 = (*b)->children;ptr2;ptr2 = ptr2->next)
         {
           if (0 == xmlStrcmp (ptr2->name, COMMANDXML_TAG_MENUPATH))
-            menupath2 =  xmlNodeListGetString (docx, ptr2->xmlChildrenNode, 1);
+            menupath2 =  xmlNodeListGetString (docx, ptr2->children, 1);
           else if (0 == xmlStrcmp (ptr2->name, COMMANDXML_TAG_LABEL))
-             label2 =  xmlNodeListGetString (docx, ptr2->xmlChildrenNode, 1);
+             label2 =  xmlNodeListGetString (docx, ptr2->children, 1);
          }    
     //g_print (" |%s| |%s| |%s| vs |%s| |%s| |%s|\n", type1, menupath1, label1, type2, menupath2, label2);
   //  if (!strcmp (type1, type2))
@@ -333,20 +333,20 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 //HERE WE CAN qsort the ncur->children by the menupath tag they hold  
   // make an array of them first.
    gint i=0, num_nodes;
-   xmlNodePtr ptr=cur->xmlChildrenNode;
+   xmlNodePtr ptr=cur->children;
    while (ptr = ptr->next) i++;
    //g_print ("Number of <key> entries %d\n", i);
    num_nodes = i;
    xmlNodePtr *array = g_malloc (sizeof (xmlNodePtr) * num_nodes);
-   //g_print ("first %s %s\n", cur->xmlChildrenNode->name, xmlGetProp( (cur->xmlChildrenNode), COMMANDXML_TAG_TYPE)); 
-   for (i=0, ptr=cur->xmlChildrenNode;i<num_nodes;i++, ptr = ptr->next)
+   //g_print ("first %s %s\n", cur->children->name, xmlGetProp( (cur->children), COMMANDXML_TAG_TYPE)); 
+   for (i=0, ptr=cur->children;i<num_nodes;i++, ptr = ptr->next)
     array[i] = ptr; 
     //g_print ("last written index %d\n", i-1);
    qsort (array, num_nodes, sizeof (xmlNodePtr), (__compar_fn_t)compare_nodes);
    
    //this won't work - you have to take each xmlNodePtr from the array and set its next field to the next.
    
-   for (i=0,  cur->xmlChildrenNode = array[0];i<num_nodes-1;i++)
+   for (i=0,  cur->children = array[0];i<num_nodes-1;i++)
     array[i]->next = array[i+1];
     array[num_nodes-1]->next = NULL;
    //g_print ("last read index %d\n", i-1);
@@ -355,7 +355,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 
    
   //Parse commands first
-  for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
+  for (ncur = cur->children; ncur; ncur = ncur->next)
     {
       if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
         {
@@ -365,7 +365,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 
   //Then parse bindings
   if(!Denemo.non_interactive){
-    for (ncur = cur->xmlChildrenNode; ncur; ncur = ncur->next)
+    for (ncur = cur->children; ncur; ncur = ncur->next)
       {
         if ((0 == xmlStrcmp (ncur->name, COMMANDXML_TAG_ROW)))
           {
@@ -382,7 +382,7 @@ parseCommands (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menup
 static void
 parseKeymap (xmlDocPtr doc, xmlNodePtr cur, keymap * the_keymap, gchar * menupath)
 {
-  for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
+  for (cur = cur->children; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MAP))
         {
@@ -442,7 +442,7 @@ load_xml_keymap (gchar * filename)
       xmlFreeDoc (doc);
       return ret;
     }
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
 
 
   while (rootElem != NULL)
@@ -510,19 +510,19 @@ load_xml_keybindings (gchar * filename)
       xmlFreeDoc (doc);
       return ret;
     }
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
 
   while (rootElem != NULL)
     {
       if ((0 == xmlStrcmp (rootElem->name, COMMANDXML_TAG_MERGE)))
         {
           xmlNodePtr cur;
-          for (cur = rootElem->xmlChildrenNode; cur != NULL; cur = cur->next)
+          for (cur = rootElem->children; cur != NULL; cur = cur->next)
             {
               if (0 == xmlStrcmp (cur->name, COMMANDXML_TAG_MAP))
                 {
                   xmlNodePtr ncur;
-                  for (ncur = cur->xmlChildrenNode; ncur != NULL; ncur = ncur->next)
+                  for (ncur = cur->children; ncur != NULL; ncur = ncur->next)
                     {
                       parseBindings (doc, ncur, Denemo.map);
                     }
@@ -827,7 +827,7 @@ static void insert_path (gchar *name, gchar *path)
 static void
 parseMenuItems (xmlDocPtr doc, xmlNodePtr cur, gchar *folder)
 {
-  for (cur = cur->xmlChildrenNode; cur != NULL; cur = cur->next)
+  for (cur = cur->children; cur != NULL; cur = cur->next)
     {
       if (0 == xmlStrcmp (cur->name, "menuitem"))
         {
@@ -877,7 +877,7 @@ attach_menupaths (void)
     }
 
   xmlNodePtr cur;
- for (cur = rootElem->xmlChildrenNode; cur != NULL; cur = cur->next)
+ for (cur = rootElem->children; cur != NULL; cur = cur->next)
     {
       if ((0 == xmlStrcmp (cur->name, "menubar")))
         {

@@ -118,7 +118,7 @@ static gint getXMLIntProp (xmlNodePtr child, gchar *name)
 
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
-for ((childElem) = (parentElem)->xmlChildrenNode; \
+for ((childElem) = (parentElem)->children; \
      (childElem) != NULL; \
      (childElem) = (childElem)->next)
 
@@ -217,7 +217,7 @@ gint installPalettesFile (gchar *filename, gboolean hide)
       return -1;
     }
 
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
   while (rootElem != NULL)
     {
      //g_debug ("RootElem %s\n", rootElem->name);
@@ -302,7 +302,7 @@ mergePalette (const gchar *name)
       return -1;
     }
 
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
   while (rootElem != NULL)
         {
       if (0 == xmlStrcmp (rootElem->name, (const xmlChar *) "palette"))

@@ -477,8 +477,7 @@ get_lily_directive (gchar ** directive, gchar ** display, gboolean * locked)
 
 /* return the directive whose tag is prefixed with tag if present at cursor postion
  if tag is NULL, return any directive at current position*/
-static DenemoDirective *
-get_standalone_directive (gchar * tag)
+static DenemoDirective *get_standalone_directive (gchar * tag)
 {
   DenemoObject *curObj = (DenemoObject *) Denemo.project->movement->currentobject ? (DenemoObject *) Denemo.project->movement->currentobject->data : NULL;
   if (curObj && curObj->type == LILYDIRECTIVE)
@@ -575,8 +574,7 @@ get_clef (void)
   return ret;
 }
 
-static DenemoDirective *
-get_clef_directive (gchar * tag)
+DenemoDirective *get_clef_directive (gchar * tag)
 {
   clef *curclef = get_clef ();
   if (curclef == NULL || (curclef->directives == NULL))
@@ -618,8 +616,7 @@ get_keysig (void)
   return ret;
 }
 
-static DenemoDirective *
-get_keysig_directive (gchar * tag)
+DenemoDirective *get_keysig_directive (gchar * tag)
 {
   keysig *curkeysig = get_keysig ();
   if (curkeysig == NULL || (curkeysig->directives == NULL))
@@ -658,8 +655,7 @@ get_timesig (void)
   return ret;
 }
 
-static DenemoDirective *
-get_timesig_directive (gchar * tag)
+DenemoDirective *get_timesig_directive (gchar * tag)
 {
   timesig *curtimesig = get_timesig ();
   if (curtimesig == NULL || (curtimesig->directives == NULL))
@@ -692,8 +688,7 @@ get_tuplet (void)
   return ret;
 }
 
-static DenemoDirective *
-get_tuplet_directive (gchar * tag)
+DenemoDirective *get_tuplet_directive (gchar * tag)
 {
   tuplet *curtuplet = get_tuplet ();
   if (curtuplet == NULL || (curtuplet->directives == NULL))
@@ -725,8 +720,7 @@ get_stemdirective (void)
   return ret;
 }
 
-static DenemoDirective *
-get_stemdirective_directive (gchar * tag)
+DenemoDirective *get_stemdirective_directive (gchar * tag)
 {
   stemdirective *curstemdirective = get_stemdirective ();
   if (curstemdirective == NULL || (curstemdirective->directives == NULL))
@@ -752,8 +746,7 @@ get_scoreheader (void)
   return &Denemo.project->scoreheader;
 }
 
-static DenemoDirective *
-get_scoreheader_directive (gchar * tag)
+DenemoDirective *get_scoreheader_directive (gchar * tag)
 {
   scoreheader *curscoreheader = get_scoreheader ();
   if (curscoreheader == NULL || (curscoreheader->directives == NULL))
@@ -781,8 +774,7 @@ get_paper (void)
   return &Denemo.project->paper;
 }
 
-static DenemoDirective *
-get_paper_directive (gchar * tag)
+DenemoDirective *get_paper_directive (gchar * tag)
 {
   paper *curpaper = get_paper ();
   if (curpaper == NULL || (curpaper->directives == NULL))
@@ -809,8 +801,7 @@ get_layout (void)
   return &Denemo.project->movement->layout;
 }
 
-static DenemoDirective *
-get_layout_directive (gchar * tag)
+DenemoDirective *get_layout_directive (gchar * tag)
 {
   layout *curlayout = get_layout ();
   if (curlayout == NULL || (curlayout->directives == NULL))
@@ -838,8 +829,7 @@ get_movementcontrol (void)
   return &Denemo.project->movement->movementcontrol;
 }
 
-DenemoDirective *
-get_movementcontrol_directive (gchar * tag)
+DenemoDirective *get_movementcontrol_directive (gchar * tag)
 {
   movementcontrol *curmovementcontrol = get_movementcontrol ();
   if (curmovementcontrol == NULL || (curmovementcontrol->directives == NULL))
@@ -867,8 +857,7 @@ get_header (void)
   return &Denemo.project->movement->header;
 }
 
-static DenemoDirective *
-get_header_directive (gchar * tag)
+DenemoDirective *get_header_directive (gchar * tag)
 {
   header *curheader = get_header ();
   if (curheader == NULL || (curheader->directives == NULL))
@@ -890,8 +879,7 @@ delete_header_directive (gchar * tag)
 }
 
 
-DenemoDirective *
-get_note_directive (gchar * tag)
+DenemoDirective *get_note_directive (gchar * tag)
 {
   note *curnote = get_note ();
   if (curnote == NULL || (curnote->directives == NULL))
@@ -900,8 +888,7 @@ get_note_directive (gchar * tag)
 }
 
 
-DenemoDirective *
-get_note_directive_number (gint num)
+DenemoDirective *get_note_directive_number (gint num)
 {
   note *curnote = get_note ();
   if (curnote == NULL || (curnote->directives == NULL))
@@ -909,8 +896,7 @@ get_note_directive_number (gint num)
   return find_directive_number (curnote->directives, num);
 }
 
-static DenemoDirective *
-get_chord_directive (gchar * tag)
+DenemoDirective *get_chord_directive (gchar * tag)
 {
   DenemoObject *curObj = get_chordobject ();
   if (curObj == NULL)
@@ -921,8 +907,7 @@ get_chord_directive (gchar * tag)
   return find_directive (thechord->directives, tag);
 }
 
-static DenemoDirective *
-get_object_directive (gchar * tag)
+DenemoDirective *get_object_directive (gchar * tag)
 {
   DenemoObject *curObj = get_object ();
   if (curObj == NULL)
@@ -943,15 +928,13 @@ delete_object_directive (gchar * tag)
   return delete_directive (&curObj->directives, tag);
 }
 
-DenemoDirective *
-get_score_directive (gchar * tag)
+DenemoDirective *get_score_directive (gchar * tag)
 {
 
   return find_directive (Denemo.project->lilycontrol.directives, tag);
 }
 
-static DenemoDirective *
-get_staff_directive (gchar * tag)
+static DenemoDirective *get_staff_directive (gchar * tag)
 {
   if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
@@ -962,8 +945,7 @@ get_staff_directive (gchar * tag)
   return find_directive (curstaff->staff_directives, tag);
 }
 
-static DenemoDirective *
-get_voice_directive (gchar * tag)
+static DenemoDirective *get_voice_directive (gchar * tag)
 {
   if (Denemo.project->movement->currentstaff == NULL)
     return NULL;

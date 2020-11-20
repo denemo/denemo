@@ -71,7 +71,7 @@ static gint Locationx = -1, Locationy;
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
-for ((childElem) = (parentElem)->xmlChildrenNode; \
+for ((childElem) = (parentElem)->children; \
      (childElem) != NULL; \
      (childElem) = (childElem)->next)
 
@@ -103,7 +103,7 @@ do \
 static gint
 getXMLIntChild (xmlNodePtr elem)
 {
-  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->xmlChildrenNode, 1);
+  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->children, 1);
   gint num = G_MAXINT;
   if (text == NULL)
     {

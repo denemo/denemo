@@ -73,7 +73,7 @@ lookupnumstaffs (gchar * string)
 GList *
 ParseInstruments (xmlDocPtr doc, xmlNodePtr cur, GList * list)
 {
-  cur = cur->xmlChildrenNode;
+  cur = cur->children;
   while (cur != NULL)
     {
 
@@ -167,7 +167,7 @@ parseInstruments (GList * instruments)
       return instruments;
     }
 
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
   while (rootElem != NULL)
     {
       g_debug ("RootElem %s\n", rootElem->name);

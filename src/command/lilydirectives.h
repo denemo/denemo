@@ -63,7 +63,25 @@ void delete_chord_or_note_directive (DenemoAction * action, DenemoScriptParam * 
 gchar *get_editscript_filename (gchar * tag);
 
 DenemoDirective *get_movementcontrol_directive (gchar * tag);
+DenemoDirective *get_scoreheader_directive (gchar * tag);
+DenemoDirective *get_paper_directive (gchar * tag);
+DenemoDirective *get_layout_directive (gchar * tag);
+DenemoDirective *get_header_directive (gchar * tag);
 DenemoDirective *get_score_directive (gchar * tag);
+
+
+DenemoDirective *get_score_directive (gchar * tag);
+
+DenemoDirective *get_clef_directive (gchar * tag);
+DenemoDirective *get_keysig_directive (gchar * tag);
+DenemoDirective *get_timesig_directive (gchar * tag);
+DenemoDirective *get_tuplet_directive (gchar * tag);
+DenemoDirective *get_stemdirective_directive (gchar * tag);
+DenemoDirective *get_note_directive (gchar * tag);
+DenemoDirective *get_chord_directive (gchar * tag);
+DenemoDirective *get_object_directive (gchar * tag);
+
+
 DenemoDirective *find_directive (GList * directives, gchar * tag);
 
 gchar *get_nth_strict_note_tag (gint index);

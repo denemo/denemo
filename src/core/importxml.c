@@ -39,7 +39,7 @@ static gint current_movement = 0, current_staff = 0, current_measure = 0, curren
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
-for ((childElem) = (parentElem)->xmlChildrenNode; \
+for ((childElem) = (parentElem)->children; \
      (childElem) != NULL; \
      (childElem) = (childElem)->next)
 
@@ -151,7 +151,7 @@ lookupXMLID (gchar * id)
 static gint
 getXMLIntChild (xmlNodePtr elem)
 {
-  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->xmlChildrenNode, 1);
+  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->children, 1);
   gint num = G_MAXINT;
   if (text == NULL)
     {
@@ -175,7 +175,7 @@ getXMLIntChild (xmlNodePtr elem)
 static guint
 getXMLUIntChild (xmlNodePtr elem)
 {
-  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->xmlChildrenNode, 1);
+  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->children, 1);
   guint num = G_MAXUINT;
   if (text == NULL)
     {
@@ -275,7 +275,7 @@ addContext (gchar * string)
 
 #define DO_DIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = g_string_new((gchar *)xmlNodeListGetString (childElem->doc,\
-                          childElem->xmlChildrenNode, 1));
+                          childElem->children, 1));
 #define DO_INTDIREC(field) if (ELEM_NAME_EQ (childElem, #field))\
          directive->field = getXMLIntChild(childElem);
 
@@ -325,7 +325,7 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
 
     if (ELEM_NAME_EQ (childElem, "graphic_name"))
       {
-        directive->graphic_name = g_string_new ((gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1));
+        directive->graphic_name = g_string_new ((gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1));
         loadGraphicItem (directive->graphic_name->str, (DenemoGraphic **) & directive->graphic);
         /* FIXME,handle not loaded */
       }
@@ -409,7 +409,7 @@ parseWidgetDirective (xmlNodePtr parentElem, gpointer fn, DenemoDirective * dire
 static void
 parseVerse (xmlNodePtr parentElem, guint verse)
 {
-  gchar *text = (gchar *) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  gchar *text = (gchar *) xmlNodeListGetString (parentElem->doc, parentElem->children, 1);
   DenemoStaff* staff = (DenemoStaff*) Denemo.project->movement->currentstaff->data;
 
   if(!Denemo.non_interactive){
@@ -800,7 +800,7 @@ static void
 parseLyric (xmlNodePtr lyricElem)
 {
   gchar *lyric = (gchar *) xmlNodeListGetString (lyricElem->doc,
-                                                 lyricElem->xmlChildrenNode,
+                                                 lyricElem->children,
                                                  1);
   if (lyric)
     Lyric = g_string_append (Lyric, lyric);
@@ -819,7 +819,7 @@ static void
 parseFigure (xmlNodePtr figureElem, DenemoObject * curobj)
 {
   gchar *figure = (gchar *) xmlNodeListGetString (figureElem->doc,
-                                                  figureElem->xmlChildrenNode,
+                                                  figureElem->children,
                                                   1);
   ((chord *) curobj->object)->is_figure = TRUE;
   //chord *ch = curobj->object;
@@ -837,7 +837,7 @@ static void
 parseFakechord (xmlNodePtr fakechordElem, DenemoObject * curobj)
 {
   gchar *fakechord = (gchar *) xmlNodeListGetString (fakechordElem->doc,
-                                                     fakechordElem->xmlChildrenNode,
+                                                     fakechordElem->children,
                                                      1);
   if (fakechord)
     {
@@ -1161,7 +1161,7 @@ static GdkPixbuf *
 parseSource (xmlNodePtr parentElem)
 {
   GError *error = NULL;
-  gchar *cdata = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  gchar *cdata = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->children, 1);
   gsize len;
   guchar *buf = g_base64_decode (cdata, &len);
 // xml free(cdata);
@@ -1196,7 +1196,7 @@ static void
 parseOmissionCriterion (xmlNodePtr parentElem, DenemoProject *gui)
 {
 
-  gchar *name = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->xmlChildrenNode, 1);
+  gchar *name = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->children, 1);
   guint id = get_layout_id_for_name (name);
   DenemoOmissionCriterion *condition = g_malloc (sizeof (DenemoOmissionCriterion));
   condition->name = name;
@@ -1247,7 +1247,7 @@ parseAudio (xmlNodePtr parentElem, DenemoMovement * si)
   FOREACH_CHILD_ELEM (childElem, parentElem)
   {
     if (ELEM_NAME_EQ (childElem, "filename"))
-      si->recording->filename = g_strdup ((gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1));
+      si->recording->filename = g_strdup ((gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1));
     if (ELEM_NAME_EQ (childElem, "lead-in"))
       si->recording->leadin = getXMLIntChild (childElem);
   }
@@ -1390,7 +1390,7 @@ static DenemoObject *
 parseLilyDir (xmlNodePtr LilyDirectiveElem)
 {
   gchar *directive = (gchar *) xmlNodeListGetString (LilyDirectiveElem->doc,
-                                                     LilyDirectiveElem->xmlChildrenNode,
+                                                     LilyDirectiveElem->children,
                                                      1);
   DenemoObject *curobj = lily_directive_new (directive ? directive : " ");
   DenemoDirective *thedirective = (lilydirective *) curobj->object;
@@ -1658,7 +1658,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
       {
         if (ELEM_NAME_EQ (childElem, "lilyversion"))
           {
-            tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (tmp != NULL)   //2.18.0 and earlier are assumed to typeset with 2.18.0
               {
 				  if ( Denemo.lilypond_installed_version)
@@ -1697,7 +1697,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
           }
         if (ELEM_NAME_EQ (childElem, "lilypond"))       //backward compatibility only
           {
-            tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (tmp != NULL)
               {
                 DenemoDirective *directive = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
@@ -1716,7 +1716,7 @@ parseSetupInfo (xmlNodePtr editInfoElem, DenemoProject * gui)
         else if (ELEM_NAME_EQ (childElem, "papersize"))
           {
 
-            tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            tmp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (tmp != NULL)
               {
                 //g_debug ("Paper size %s\n", tmp);
@@ -1893,7 +1893,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "title"))
           {
-            title = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            title = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (title != NULL)
               {
                 //g_string_assign (si->headerinfo.title, title);
@@ -1911,7 +1911,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
       {\
         gchar *field = (gchar *) xmlNodeListGetString (childElem->doc,\
                                childElem->\
-                               xmlChildrenNode, 1);\
+                               children, 1);\
         if (field != NULL)\
           {\
         gchar *val = g_strdup_printf(subtitle" = \"%s\"\n", field);\
@@ -1929,7 +1929,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
 //drop support for this legacy setting of the tagline field
           else if (ELEM_NAME_EQ (childElem, "tagline"))
           {
-            tagline = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            tagline = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (tagline != NULL)
               {
                 gchar *val = g_strdup_printf ("tagline = \"%s\"\n", tagline);
@@ -1941,7 +1941,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
 #endif
         else if (ELEM_NAME_EQ (childElem, "extra"))
           {
-            mvmnt_header = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            mvmnt_header = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (mvmnt_header != NULL)
               {
                 //g_string_assign (si->headerinfo.extra, mvmnt_header);
@@ -1950,7 +1950,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "markup_before"))
           {
-            markup_before = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            markup_before = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (markup_before != NULL)
               {
                 //g_string_assign (si->headerinfo.lilypond_before, markup_before);
@@ -1959,7 +1959,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "markup_after"))
           {
-            markup_after = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            markup_after = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (markup_after != NULL)
               {
                 //g_string_assign (si->headerinfo.lilypond_after, markup_after);
@@ -1968,7 +1968,7 @@ parseScoreInfo (xmlNodePtr scoreInfoElem, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "layout_markup"))
           {
-            layout_markup = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            layout_markup = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (layout_markup != NULL)
               {
                 //g_string_assign (si->headerinfo.layout, layout_markup);
@@ -2072,7 +2072,7 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "instrument"))
           {
-            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (temp)
               g_string_assign (curStaff->midi_instrument, temp);
             else
@@ -2082,7 +2082,7 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
 
         else if (ELEM_NAME_EQ (childElem, "device-port"))
           {
-            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (temp)
               g_string_assign (curStaff->device_port, temp);
             else
@@ -2095,7 +2095,7 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
         else if (ELEM_NAME_EQ (childElem, "context"))
           {
             gchar *temp = NULL;
-            temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             addContext (temp);
             g_free (temp);
           }
@@ -2103,7 +2103,7 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
 
         else if (ELEM_NAME_EQ (childElem, "lilybefore"))
           {
-            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (temp)
               g_warning ("Ignoring the old-style string %s\nAdd this in LilyPond window if required", temp);
             g_free (temp);
@@ -2111,13 +2111,13 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
 /*  else if (ELEM_NAME_EQ (childElem, "staff-prolog")) */
 /*    { */
 /*      gchar *temp =  */
-/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1); */
 /*      curStaff->staff_prolog = (temp?g_string_new(temp):NULL); */
 /*      g_free (temp); */
 /*    } */
         else if (ELEM_NAME_EQ (childElem, "staff-prolog-insert"))       //backward compatibility only
           {
-            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (temp)
               {
                 DenemoDirective *directive = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
@@ -2128,7 +2128,7 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
           }
         else if (ELEM_NAME_EQ (childElem, "voice-prolog-insert"))       //backward compatibility only
           {
-            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (temp)
               {
                 DenemoDirective *directive = (DenemoDirective *) g_malloc0 (sizeof (DenemoDirective));
@@ -2154,21 +2154,21 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
 /*  else if (ELEM_NAME_EQ (childElem, "lyrics-prolog")) */
 /*    { */
 /*      gchar *temp =  */
-/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1); */
 /*      curStaff->lyrics_prolog = (temp?g_string_new(temp):NULL); */
 /*      g_free (temp); */
 /*    } */
 /*  else if (ELEM_NAME_EQ (childElem, "figures-prolog")) */
 /*    { */
 /*      gchar *temp =  */
-/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1); */
 /*      curStaff->figures_prolog = (temp?g_string_new(temp):NULL); */
 /*      g_free (temp); */
 /*    } */
 /*  else if (ELEM_NAME_EQ (childElem, "fakechords-prolog")) */
 /*    { */
 /*      gchar *temp =  */
-/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1); */
+/*        (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1); */
 /*      curStaff->fakechords_prolog = (temp?g_string_new(temp):NULL); */
 /*      g_free (temp); */
 /*    } */
@@ -2233,7 +2233,7 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
       }
     else if (ELEM_NAME_EQ (childElem, "instrument"))
       {
-        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
         if (temp)
           g_string_assign (curStaff->midi_instrument, temp);
         else
@@ -2282,7 +2282,7 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
       }
     else if (ELEM_NAME_EQ (childElem, "instrument"))
       {
-        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
         if (temp)
           g_string_assign (curStaff->midi_instrument, temp);
         else
@@ -2291,7 +2291,7 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
       }
     else if (ELEM_NAME_EQ (childElem, "device-port"))
       {
-        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
         if (temp)
           g_string_assign (curStaff->device_port, temp);
         else
@@ -2339,7 +2339,7 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, DenemoMovement * si)
       {
         if (ELEM_NAME_EQ (childElem, "voice-name"))
           {
-            voiceName = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            voiceName = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             DenemoStaff *thestaffstruct = (DenemoStaff *) si->currentstaff->data;
             g_string_assign (thestaffstruct->denemo_name, voiceName?voiceName:"");
             g_free (voiceName);
@@ -2348,7 +2348,7 @@ parseVoiceInfo (xmlNodePtr voiceInfoElem, DenemoMovement * si)
 
         else if (ELEM_NAME_EQ (childElem, "subpart"))
           {
-            subpart = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            subpart = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if (subpart != NULL)
               {
                 DenemoStaff *thestaffstruct = (DenemoStaff *) si->currentstaff->data;
@@ -2525,7 +2525,7 @@ static GList *parseMeasure (xmlNodePtr measureElem, clef **pcurrentClef, gboolea
             {
               /*gchar *text = (gchar *)xmlNodeListGetString
                  (objElem->doc,
-                 objElem->xmlChildrenNode,
+                 objElem->children,
                  1); */
               /*curObj = lyric_new(text,0,); */
 
@@ -3068,7 +3068,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
             if (ELEM_NAME_EQ (childElem, "scheme"))
               {
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-                                                             childElem->xmlChildrenNode, 1);
+                                                             childElem->children, 1);
                 if (tmp != NULL)
                   {
                     appendSchemeText (tmp);
@@ -3081,7 +3081,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
             else if (ELEM_NAME_EQ (childElem, "custom_prolog"))
               {
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-                                                             childElem->xmlChildrenNode, 1);
+                                                             childElem->children, 1);
                 //gui->custom_prolog = g_string_new(tmp);
                 g_info ("The custom prolog \n\"%s\"\n is being ignored\n", tmp);
                 warningdialog (_("Custom prolog is no longer supported. Use score directive prefix instead"));
@@ -3118,7 +3118,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
             else if (ELEM_NAME_EQ (childElem, "custom_scoreblock"))
               {
                 gchar *tmp = (gchar *) xmlNodeListGetString (childElem->doc,
-                                                             childElem->xmlChildrenNode, 1);
+                                                             childElem->children, 1);
                 gchar *uri = (gchar *) xmlGetProp (childElem, (xmlChar *) "scoreblock_uri");
                 if (tmp != NULL)
                   {
@@ -3151,7 +3151,7 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               }
             else if (ELEM_NAME_EQ (childElem, "printhistory"))
               {
-                gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+                gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
                 g_string_assign (gui->printhistory, temp);
                 g_free (temp);
               }

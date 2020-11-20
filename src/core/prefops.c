@@ -201,13 +201,13 @@ initprefs (void)
 static void
 parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 {
-  cur = cur->xmlChildrenNode;
+  cur = cur->children;
   while (cur != NULL)
     {
 #define READXMLENTRY(field)  \
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) #field))\
     {\
-      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);\
       if(tmp)\
         {\
               define_scheme_variable("DenemoPref_" #field, (gchar*) tmp, NULL);\
@@ -221,7 +221,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       else if (0 ==\
            xmlStrcmp (cur->name, (const xmlChar *) #field))\
     {\
-      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);\
       if(tmp)\
         {\
               define_scheme_int_variable("DenemoPref_" #field, atoi((gchar *) tmp), NULL); \
@@ -234,7 +234,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       else if (0 ==\
            xmlStrcmp (cur->name, (const xmlChar *) #field))\
     {\
-      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);\
       if(tmp)\
         {\
               define_scheme_int_variable("DenemoPref_" #field, atof((gchar *) tmp), NULL); \
@@ -248,7 +248,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       else if (0 ==\
            xmlStrcmp (cur->name, (const xmlChar *) #field))\
     {\
-      xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);\
+      xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);\
       if(tmp)\
         {\
               define_scheme_bool_variable("DenemoPref_" #field, atoi((gchar *) tmp), NULL); \
@@ -262,7 +262,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 
       if (0 == xmlStrcmp (cur->name, (const xmlChar *) "lilypath"))
         {
-          xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);
           if (tmp)
             {
               gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
@@ -280,7 +280,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
       READXMLENTRY (browser)
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "autosavetimeout"))
         {
-          xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);
           if (tmp)
             {
               gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
@@ -295,7 +295,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         }
       else if (0 == xmlStrcmp (cur->name, (const xmlChar *) "maxhistory"))
         {
-          xmlChar *tmp = xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          xmlChar *tmp = xmlNodeListGetString (doc, cur->children, 1);
           if (tmp)
             {
               gchar *curname = g_strdup_printf ("DenemoPref_%s", cur->name);
@@ -543,7 +543,7 @@ writeHistoryEntry (gpointer data, gpointer user_data)
 static void
 parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
 {
-  cur = cur->xmlChildrenNode;
+  cur = cur->children;
   while (cur != NULL)
     {
       if (xmlStrcmp (cur->name, (const xmlChar *) "file") == 0)
@@ -551,7 +551,7 @@ parseHistory (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
           gsize read = 0, written = 0;
           GError *err = NULL;
           gchar *tmp = NULL;
-          tmp = (gchar *) xmlNodeListGetString (doc, cur->xmlChildrenNode, 1);
+          tmp = (gchar *) xmlNodeListGetString (doc, cur->children, 1);
           if (tmp)
             {
               gchar *file = g_filename_to_utf8 (tmp, -1, &read, &written, &err);
@@ -640,7 +640,7 @@ readxmlprefs (gchar * xmlsource, gboolean from_file)
       xmlFreeDoc (doc);
       return ret;
     }
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
   while (rootElem != NULL)
     {
       g_debug ("RootElem 2 %s\n", rootElem->name);
@@ -906,7 +906,7 @@ readHistory ()
       xmlFreeDoc (doc);
       return ret;
     }
-  rootElem = rootElem->xmlChildrenNode;
+  rootElem = rootElem->children;
   //g_message("Reading history file %s", history);
   while (rootElem != NULL)
     {
