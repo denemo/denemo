@@ -319,12 +319,13 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
               DenemoMeasure *themeasure = (DenemoMeasure *) curMeasure->data;
               measureElem = xmlNewChild (partElem, ns, (xmlChar *) "measure", NULL);
 			  xmlSetProp (measureElem, (xmlChar *) "number", (xmlChar *) g_strdup_printf ("%d", j+1));
+
 //output initial clef, time key in first measure
 
 			 if (j==0)
 				{
+			  	xmlNodePtr attrElem = NULL;
 				xmlNodePtr keyElem, clefElem, timeElem;
-				xmlNodePtr attrElem;
 				attrElem = xmlNewChild (measureElem, ns, (xmlChar *) "attributes", NULL);
 				
 				//xmlNewChild (attrElem, ns, (xmlChar *) "divisions", "48");	
@@ -661,6 +662,40 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 							in_tuplet = FALSE;
 						}
 						break;
+						
+ 					case CLEF:
+						{
+						xmlNodePtr attrElem = xmlNewChild (measureElem, ns, (xmlChar *) "attributes", NULL);
+						xmlNodePtr clefElem =  xmlNewChild (attrElem, ns, (xmlChar *) "clef", NULL);
+						gchar *sign;
+						gint line;
+						clef *theclef = (clef*)curObj->object;
+						get_clef_sign (theclef->type, &sign, &line);
+						xmlNewTextChild (clefElem, ns, (xmlChar *) "sign", (xmlChar *) sign);
+						newXMLIntChild (clefElem, ns, (xmlChar *) "line", line);
+						}
+						break; 
+ 					case TIMESIG:
+						{
+							
+						xmlNodePtr attrElem = xmlNewChild (measureElem, ns, (xmlChar *) "attributes", NULL);
+						xmlNodePtr timeElem =  xmlNewChild (attrElem, ns, (xmlChar *) "time", NULL);
+						timesig *thetimesig = (timesig*)curObj->object;
+						newXMLIntChild (timeElem, ns, (xmlChar *) "beats", thetimesig->time1);
+						newXMLIntChild (timeElem, ns, (xmlChar *) "beat-type", thetimesig->time2);
+						}
+						break;  
+						
+					case KEYSIG:
+						{
+							xmlNodePtr attrElem = xmlNewChild (measureElem, ns, (xmlChar *) "attributes", NULL);	
+							xmlNodePtr keyElem = xmlNewChild (attrElem, ns, (xmlChar *) "key", NULL);	
+							keysig *thekeysig = (keysig*)curObj->object;	
+							newXMLIntChild (keyElem, ns, (xmlChar *) "fifths", thekeysig->number);
+							xmlNewTextChild (keyElem, ns, (xmlChar *) "mode", (xmlChar *) (thekeysig->isminor?"minor":"major"));				
+						}
+						break;  
+
 					case LILYDIRECTIVE:
 						//do dynamics etc,,,
 						{
