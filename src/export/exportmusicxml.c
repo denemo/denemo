@@ -135,6 +135,19 @@ static gint beams(chord* thechord)
 			return 0;
 		return (duration-2);
 	}
+	
+static gchar *extract_field (gchar *str, gchar *signature)
+	{
+	gchar *title = g_strrstr (str, signature);
+	if (title)
+		{
+			title = g_strdup (title + strlen(signature));
+			gchar *c = title;
+			while (*c++!='\"');
+			*--c=0;
+		}
+	return title;
+	}
 
 /**
  * Export the given score as a MusicXML file thefilname
@@ -143,26 +156,27 @@ static gint beams(chord* thechord)
 gint
 exportmusicXML (gchar * thefilename, DenemoProject * gui)
 {
-  gint ret = 0;
-  gint i, j, k;
-  GString *filename = g_string_new (thefilename);
-  xmlDocPtr doc;
-  xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
-  xmlNodePtr measuresElem, measureElem;
+	gint ret = 0;
+	gint i, j, k;
+	GString *filename = g_string_new (thefilename);
+	xmlDocPtr doc;
+	xmlNodePtr scoreElem, mvmntElem, stavesElem, voicesElem, voiceElem;
+	xmlNodePtr measuresElem, measureElem;
 
-  xmlNodePtr curElem;
-  xmlNsPtr ns;
-  staffnode *curStaff;
-  DenemoStaff *curStaffStruct;
-  gchar *staffXMLID = 0, *voiceXMLID;
+	xmlNodePtr curElem;
+	xmlNsPtr ns;
+	staffnode *curStaff;
+	DenemoStaff *curStaffStruct;
+	gchar *staffXMLID = 0, *voiceXMLID;
+	
+	measurenode *curMeasure;
 
-  measurenode *curMeasure;
+	static gchar *version_string;
+	if (version_string == NULL)
+	version_string = g_strdup_printf ("%d", CURRENT_XML_VERSION);
 
-  static gchar *version_string;
-  if (version_string == NULL)
-    version_string = g_strdup_printf ("%d", CURRENT_XML_VERSION);
-
-  /* Initialize score-wide variables. */
+	gboolean single_movement = (1 == g_list_length (gui->movements));
+	/* Initialize score-wide variables. */
 
   /* Create the XML document and output the root element. */
 
@@ -171,9 +185,100 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 	doc->xmlRootNode = scoreElem = xmlNewDocNode (doc, NULL, (xmlChar *) "score-partwise", NULL);
 	ns = NULL;
 
-	xmlNodePtr identificationElem = xmlNewChild (scoreElem, ns, (xmlChar *) "identification", NULL);
-	//xmlNewChild (identificationElem, ns, (xmlChar *) "Creator", title-of-piece) and setProp type=composer	
+  //<work>
+    //<work-number>D. 839</work-number>
+    //<work-title>Ave Maria (Ellen's Gesang III) - Page 1</work-title>
+  //</work>
 
+//<identification>
+    //<creator type="composer">Franz Schubert</creator>
+    
+    xmlNodePtr workElem = xmlNewChild (scoreElem, ns, (xmlChar *) "work", NULL);
+    
+	xmlNodePtr identificationElem = xmlNewChild (scoreElem, ns, (xmlChar *) "identification", NULL);
+	
+
+
+	DenemoDirective *dir = get_header_directive ("MovementTitles");
+	if (dir)
+		{
+			GString *data = (GString*)(dir->data);
+			if (data)
+				{
+					gchar *field = extract_field (data->str, "(cons 'title \""); 
+					if (field)
+						{
+							xmlNewChild (scoreElem, ns, (xmlChar *) "movement-title", field);
+							g_free (field);
+						}
+					field = extract_field (data->str, "(cons 'composer \"");
+					if (field)
+						{
+							xmlNodePtr creatorElem = xmlNewChild (identificationElem, ns, (xmlChar *) "creator", (xmlChar *) field);
+							xmlSetProp (creatorElem, (xmlChar *) "type",(xmlChar *)"composer");
+							g_free (field);
+						}	
+				}	
+		}
+		
+    dir = get_scoreheader_directive ("ScoreTitles");
+	if (dir)
+		{
+			GString *data = (GString*)(dir->data);
+			if (data)
+				{
+					gchar *field = extract_field (data->str, "(cons 'title \""); 
+					if (field)
+						{
+							if (single_movement)
+								xmlNewChild (scoreElem, ns, (xmlChar *) "movement-title", field);
+							else
+								xmlNewChild (workElem, ns, (xmlChar *) "work-title", field);
+							g_free (field);
+						}
+					field = extract_field (data->str, "(cons 'composer \"");
+					if (field)
+						{
+							xmlNodePtr creatorElem = xmlNewChild (identificationElem, ns, (xmlChar *) "creator", (xmlChar *) field);
+							xmlSetProp (creatorElem, (xmlChar *) "type",(xmlChar *)"composer");
+							g_free (field);
+						}	
+
+				}	
+		}		
+    dir = get_scoreheader_directive ("BookTitle");
+	if (dir)
+		{
+			GString *data = (GString*)(dir->display);
+			if (data && data->len)
+				{
+		
+					if (single_movement)
+						xmlNewChild (scoreElem, ns, (xmlChar *) "movement-title", data->str);
+					else
+						xmlNewChild (workElem, ns, (xmlChar *) "work-title", data->str);
+				}	
+		}
+    dir = get_scoreheader_directive ("BookComposer");
+	if (dir)
+		{
+			GString *data = (GString*)(dir->display);
+			if (data && data->len)
+				{
+				xmlNodePtr creatorElem = xmlNewChild (identificationElem, ns, (xmlChar *) "creator", (xmlChar *) data->str);
+				xmlSetProp (creatorElem, (xmlChar *) "type",(xmlChar *)"composer");
+				}	
+		}		
+    dir = get_movementcontrol_directive ("TitledPiece");
+	if (dir)
+		{
+			GString *data = (GString*)(dir->data);
+			if (data && data->len)
+				{
+						xmlNewChild (scoreElem, ns, (xmlChar *) "movement-title", data->str);
+				}	
+		}		
+					
 	xmlNodePtr encodingElem = xmlNewChild (identificationElem, ns, (xmlChar *) "encoding", NULL);
 	xmlNodePtr suppElem = xmlNewChild (encodingElem, ns, (xmlChar *) "supports", NULL);
 	xmlSetProp (suppElem, (xmlChar *) "element", (xmlChar *) "beam");

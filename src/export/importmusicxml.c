@@ -14,6 +14,7 @@
 #include "export/file.h"
 #include "core/utils.h"
 #include "core/view.h"
+#include "command/lilydirectives.h"
 
 /* libxml includes: for libxml2 this should be <libxml.h> */
 #include <libxml/parser.h>
@@ -30,7 +31,7 @@ gboolean pending_tuplet_end = FALSE;//to catch tuplets that end and re-start wit
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
-for ((childElem) = (parentElem)->xmlChildrenNode; \
+for ((childElem) = (parentElem)->children; \
      (childElem) != NULL; \
      (childElem) = (childElem)->next)
 
@@ -62,7 +63,7 @@ do \
 static gint
 getXMLIntChild (xmlNodePtr elem)
 {
-  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->xmlChildrenNode, 1);
+  gchar *text = (gchar *) xmlNodeListGetString (elem->doc, elem->children, 1);
   gint num = G_MAXINT;
   if (text == NULL)
     {
@@ -166,7 +167,7 @@ parse_key (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootE
     if (ELEM_NAME_EQ (childElem, "fifths"))
       fifths = getXMLIntChild (childElem);
     if (ELEM_NAME_EQ (childElem, "mode"))
-      mode = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+      mode = xmlNodeListGetString (childElem->doc, childElem->children, 1);
   }
   if (mode)
     for (i = 0; i < numvoices; i++)
@@ -194,7 +195,7 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
     if (ELEM_NAME_EQ (childElem, "line"))
       line = getXMLIntChild (childElem);
     if (ELEM_NAME_EQ (childElem, "sign"))
-      sign = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+      sign = xmlNodeListGetString (childElem->doc, childElem->children, 1);
   }                             //g_assert(voicenum>0);
   if (division > voice_timings[voicenum - 1])
     {
@@ -618,7 +619,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
         FOREACH_CHILD_ELEM (grandchildElem, childElem)
         {
           if (ELEM_NAME_EQ (grandchildElem, "step"))
-            step = xmlNodeListGetString (grandchildElem->doc, grandchildElem->xmlChildrenNode, 1);
+            step = xmlNodeListGetString (grandchildElem->doc, grandchildElem->children, 1);
           if (ELEM_NAME_EQ (grandchildElem, "octave"))
             octave = getXMLIntChild (grandchildElem);
           if (ELEM_NAME_EQ (grandchildElem, "alter"))
@@ -656,7 +657,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
       }
 
     if (ELEM_NAME_EQ (childElem, "type"))
-      type = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+      type = xmlNodeListGetString (childElem->doc, childElem->children, 1);
     if (ELEM_NAME_EQ (childElem, "duration"))
       {
         duration = getXMLIntChild (childElem);
@@ -857,7 +858,7 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {                             //g_debug("attribute %s at division %d\n", childElem->name, division);
     if (ELEM_NAME_EQ (childElem, "bar-style"))
-      style = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+      style = xmlNodeListGetString (childElem->doc, childElem->children, 1);
     if (ELEM_NAME_EQ (childElem, "repeat"))
       repeat = xmlGetProp (childElem, "direction");
   }
@@ -922,7 +923,7 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
      if (ELEM_NAME_EQ (childElem, "words"))
       {
           //FIXME get italic etc here xmlGetProp
-          gchar *words = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+          gchar *words = xmlNodeListGetString (childElem->doc, childElem->children, 1);
           //pending = g_strdup_printf ("(d-TextAnnotation \"%s\")(GoToMeasureEnd)", g_strescape(words, NULL));
           gchar *font_style = xmlGetProp (childElem, "font-style");
           if(font_style)
@@ -971,9 +972,9 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
       {
         if(pending==NULL)
             pending = "";
-        if (childElem->xmlChildrenNode)
-			pending = g_strdup_printf ("%s(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", pending, childElem->xmlChildrenNode->name);
-      // g_string_append_printf (script, "(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", childElem->xmlChildrenNode->name);
+        if (childElem->children)
+			pending = g_strdup_printf ("%s(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", pending, childElem->children->name);
+      // g_string_append_printf (script, "(if (Appending?)(d-MoveCursorLeft))(d-DynamicText \"%s\")(GoToMeasureEnd)", childElem->children->name);
       }
   }
   return pending;
@@ -1192,7 +1193,7 @@ parse_part (xmlNodePtr rootElem)
 }
 
 static void
-parse_identification (xmlNodePtr rootElem, GString *script)
+parse_identification (xmlNodePtr rootElem, GString *script, gboolean use_book_titles)
 {
   gchar *title = NULL;
   xmlNodePtr childElem;
@@ -1200,16 +1201,41 @@ parse_identification (xmlNodePtr rootElem, GString *script)
   {
     if (ELEM_NAME_EQ (childElem, "creator"))
         {
-            title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
-            g_string_append_printf (script, "(d-BookComposer \"%s\")", title);
+			gchar *type = (gchar *) xmlGetProp (childElem, (xmlChar *) "type");
+			if (!strcmp (type, "composer"))
+                {
+					title = xmlNodeListGetString (childElem->doc, childElem->children, 1);
+					if (use_book_titles)
+						g_string_append_printf (script, "(d-BookComposer \"%s\")", title);
+					else
+						g_string_append_printf (script, "(SetField \"composer\" \"%s\")", title);
+				}
         }
     if (ELEM_NAME_EQ (childElem, "rights"))
         {
-            title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            title = xmlNodeListGetString (childElem->doc, childElem->children, 1);
+           if (use_book_titles)
             g_string_append_printf (script, "(d-BookCopyright \"%s\")", title);
+           else 
+			g_string_append_printf (script, "(SetField \"copyright\" \"%s\")", title);
         }
   }
   g_free (title);
+}
+/**
+ * Try to find the element with the given name and namespace as an immediate
+ * child of the given parent element.  If found, return the child element; if
+ * not, return NULL.
+ */
+static xmlNodePtr
+getXMLChild (xmlNodePtr parentElem, gchar * childElemName)
+{
+  xmlNodePtr childElem;
+
+  FOREACH_CHILD_ELEM (childElem, parentElem) if (ELEM_NAME_EQ (childElem, childElemName))
+    return childElem;
+
+  return NULL;
 }
 
 gint
@@ -1220,6 +1246,8 @@ mxmlinput (gchar * filename)
   xmlDocPtr doc = NULL;
   xmlNsPtr ns;
   xmlNodePtr rootElem;
+  gboolean title_set = FALSE;
+  gboolean use_book_titles = (get_scoreheader_directive ("BookTitle") != NULL);//if the score being imported into has book titles use those otherwise simple titles
   gboolean spillover = Denemo.prefs.spillover;
   Denemo.prefs.spillover = FALSE;
 
@@ -1308,12 +1336,28 @@ mxmlinput (gchar * filename)
 	(d-MoveCursorLeft)(if (not (Music?))\
 		(d-PrevNote))\
 	(d-ToggleEndDiminuendo)\
-	(GoToMeasureEnd))\
+	(GoToMeasureEnd))\n\
  (define (ToggleGrace)\
 	(d-MoveCursorLeft)(if (not (Music?))\
 		(d-PrevNote))\
 	(d-ToggleGrace)\
-	(GoToMeasureEnd))");
+	(GoToMeasureEnd))\n\
+ (define (SetTitledPiece title)\n\
+	(d-DirectivePut-movementcontrol-override \"TitledPiece\"  (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))\n\
+	(d-DirectivePut-movementcontrol-prefix  \"TitledPiece\" (string-append \"TitledPiece\" \"\\\\titledPiece \\\\markup {\" title \"}\")))\n\
+ (define (SetField field title)\n\
+		(define tag \"ScoreTitles\")\n\
+		(define postfix (d-DirectiveGet-scoreheader-postfix tag))\n\
+		(define data (d-DirectiveGet-scoreheader-data tag))\n\
+		(if data\n\
+			(set! data (eval-string data))\n\
+			(set! data '()))\n\
+		(if (not postfix)\n\
+			(set! postfix \"\"))\n\
+		(set! data (assq-set! data (string->symbol field) title))\n\
+		(d-DirectivePut-scoreheader-postfix tag (string-append postfix \"\\n \"field\" = \\\\markup  { \" title \"}\\n\"))\n\
+		(d-DirectivePut-scoreheader-data tag (format #f \"'~s\" data)))\n");
+
 
 
 
@@ -1326,15 +1370,35 @@ mxmlinput (gchar * filename)
     g_string_assign (Warnings, "");
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
+	    if (ELEM_NAME_EQ (childElem, "work"))
+        {
+			xmlNodePtr wtElem = getXMLChild (childElem, "work-title");
+			if (wtElem)
+				{
+					gchar *title = xmlNodeListGetString (wtElem->doc, wtElem->children, 1);
+					if (use_book_titles)
+						g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
+					else
+						g_string_append_printf (script, "(SetField \"title\" \"%s\")", escape_scheme(title));
+					title_set = TRUE;
+
+				}
+		}
+	  
        if (ELEM_NAME_EQ (childElem, "movement-title"))
         {
-            gchar *title = xmlNodeListGetString (childElem->doc, childElem->xmlChildrenNode, 1);
+            gchar *title = xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if(title)
-                g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
+				{
+					if (use_book_titles)
+						g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
+					else
+						g_string_append_printf (script, "(SetField \"title\" \"%s\")", escape_scheme(title));
+				}
             g_free (title);
         }
      if (ELEM_NAME_EQ (childElem, "identification"))   {
-            parse_identification (childElem, script);
+            parse_identification (childElem, script, use_book_titles);
     }
     if (ELEM_NAME_EQ (childElem, "part"))
       {

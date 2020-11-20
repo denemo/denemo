@@ -84,7 +84,7 @@ static struct FileFormatData supported_file_formats[] = {
   {"*.abc",    N_("ABC (*.abc)"),                   ".abc", 0},
   {"*.mid",    N_("Midi (*.mid, *.midi)"),          ".mid", 0},
   {"*.sco",    N_("CSound Score File (*.sco)"),     ".sco", 0},
-  {"*.musicxml",   N_("MusicXML file (*.musicxml, *.mxml, *.xml)"), ".musicxml", 0}
+  {"*.xml",   N_("MusicXML file (*.musicxml, *.mxml, *.xml)"), ".xml", 0}
 };
 
 static GList*
@@ -110,10 +110,10 @@ supported_file_extensions(gchar* format){
   }
 
   if(g_strcmp0 ("musicxml", format) == 0){
+    exts = g_list_append(exts, "*.xml");	  
     exts = g_list_append(exts, "*.musicxml");
     exts = g_list_append(exts, "*.mxml");
     exts = g_list_append(exts, "*.MXML");
-    exts = g_list_append(exts, "*.xml");
   }
 
   if(g_strcmp0 ("pdf", format) == 0){
