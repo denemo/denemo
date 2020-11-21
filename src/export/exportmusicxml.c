@@ -151,7 +151,7 @@ static gchar *extract_field (gchar *str, gchar *signature)
 
 /**
  * Export the given score as a MusicXML file thefilname
-
+ returns 0 on success
  */
 gint
 exportmusicXML (gchar * thefilename, DenemoProject * gui)
