@@ -899,6 +899,10 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
   gchar *pending = NULL;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
+	if (ELEM_NAME_EQ (childElem, "rehearsal"))
+      g_string_append (script, "(d-RehearsalMark)");
+	  
+	  
     if (ELEM_NAME_EQ (childElem, "wedge"))
       {
         gchar *type = xmlGetProp (childElem, (xmlChar *) "type");

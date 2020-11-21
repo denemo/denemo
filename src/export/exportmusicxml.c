@@ -807,7 +807,16 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 							xmlSetProp (endingElem, (xmlChar *) "type", (xmlChar *) "stop");
 							g_free (str);
 							break;
-							}				
+							}		
+							
+							
+							
+						 if (!strcmp (dir->tag->str, "RehearsalMark"))	
+								if (directionElem==NULL) {
+										directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+									}
+									xmlNodePtr wedgeElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "rehearsal", "A");		
 							
 						}
 						
