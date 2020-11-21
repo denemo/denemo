@@ -1344,7 +1344,7 @@ mxmlinput (gchar * filename)
 	(GoToMeasureEnd))\n\
  (define (SetTitledPiece title)\n\
 	(d-DirectivePut-movementcontrol-override \"TitledPiece\"  (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))\n\
-	(d-DirectivePut-movementcontrol-prefix  \"TitledPiece\" (string-append \"TitledPiece\" \"\\\\titledPiece \\\\markup {\" title \"}\")))\n\
+	(d-DirectivePut-movementcontrol-prefix  \"TitledPiece\" (string-append \"\\\\titledPiece \\\\markup {\" title \"}\")))\n\
  (define (SetField field title)\n\
 		(define tag \"ScoreTitles\")\n\
 		(define postfix (d-DirectiveGet-scoreheader-postfix tag))\n\
@@ -1390,8 +1390,8 @@ mxmlinput (gchar * filename)
             gchar *title = xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if(title)
 				{
-					if (use_book_titles)
-						g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
+					if (use_book_titles) 
+						g_string_append_printf (script, "(SetTitledPiece \"%s\")", escape_scheme(title));
 					else
 						g_string_append_printf (script, "(SetField \"title\" \"%s\")", escape_scheme(title));
 				}

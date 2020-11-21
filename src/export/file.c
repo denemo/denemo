@@ -596,6 +596,7 @@ strip_filename_ext (const gchar * file_name, gint format_id)
 /* Save gui in the file in format format_id to the file filename (or gui->filename
    if filename is NULL)
    If there is a scheme script, offers to save that with the file.
+   * for denemo and musicXML returns 0 on success FIXME others should report too?
  */
 static gint
 save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
@@ -620,12 +621,12 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
               deleteSchemeText ();
               gui->has_script = FALSE;
             }
-        ret = exportXML (file, gui);
+        ret = exportXML (file, gui);// returns 0 on success
         break;
       };
     case MUSICXML_FORMAT:
       {
-        exportmusicXML (file, gui);
+        ret = exportmusicXML (file, gui);// returns 0 on success
         break;
       };
     case MUDELA_FORMAT:
@@ -665,6 +666,7 @@ save_in_format (gint format_id, DenemoProject * gui, gchar * filename)
 /**
  * File save called by fileselsave callback
  * param file_name is full path to file possibly with extension
+ *  returns 0 on success (some formats always return 0)
  */
 static gint
 filesel_save (DenemoProject * gui, const gchar * file_name, gint format_id, DenemoSaveType template)
@@ -1105,7 +1107,7 @@ file_saveaswrapper (DenemoAction * action, DenemoScriptParam * param)
     }
   else
     {
-      gint status = filesel_save (gui, filename, DENEMO_FORMAT, FALSE);
+      gint status = filesel_save (gui, filename, DENEMO_FORMAT, FALSE);// returns 0 on success !not all formats
 
       if(!Denemo.non_interactive){
         if (status == 0)
