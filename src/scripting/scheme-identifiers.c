@@ -1239,8 +1239,8 @@ create_scheme_identfiers (void)
   install_scm_function (1, "Returns the directory component of the passed filename.", DENEMO_SCHEME_PREFIX "PathFromFilename", scheme_path_from_filename);
   install_scm_function (1, "Returns the #t if file passed in exists.", DENEMO_SCHEME_PREFIX "FileExists", scheme_file_exists);
   install_scm_function (1, "Returns the filename component of the passed path.", DENEMO_SCHEME_PREFIX "FilenameFromPath", scheme_filename_from_path);
-  install_scm_function (3, "Gives dialog to choose a file. Takes a title, start directory and list of extensions. Returns a string or #f if user cancesl", DENEMO_SCHEME_PREFIX "ChooseFile", scheme_choose_file);
-  install_scm_function (3, "Gives dialog to choose a directory. Takes a title, start directory and list of extensions. Returns a string or #f if user cancesl", DENEMO_SCHEME_PREFIX "ChooseDirectory", scheme_choose_directory);
+  install_scm_function (3, "Gives dialog to choose a file. Takes a title, start directory and list of extensions. Returns a string or #f if user cancels", DENEMO_SCHEME_PREFIX "ChooseFile", scheme_choose_file);
+  install_scm_function (3, "Gives dialog to choose a directory. Takes a title, start directory and list of extensions. Returns a string or #f if user cancels", DENEMO_SCHEME_PREFIX "ChooseDirectory", scheme_choose_directory);
 
   install_scm_function (0, "Follows a link to a source file of form string \"filename:x:y:page\". It opens the file and places a marker there. ", DENEMO_SCHEME_PREFIX "OpenSource", scheme_open_source);
   install_scm_function (3, "Takes an optional filename and optional new name. Opens an encapsulated postscript file for editing. Returns the filename (without extension) if successful.\nStarts the graphics editor on the passed in filename or one from a dialog.\nThe returned .eps file may not exist when this procedure returns, an editor is open on it. With no filename parameter allows the user to choose,\ncopying to the project directory or the users graphics templates (if a new name is given)", DENEMO_SCHEME_PREFIX "EditGraphics", scheme_edit_graphics);
