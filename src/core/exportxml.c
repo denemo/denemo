@@ -1102,6 +1102,7 @@ newScrollPointsElem (xmlNodePtr curElem, xmlNsPtr ns, GList * scroll_points)
 /**
  * Export the given score (from measure start to measure end) as a "native"
  * Denemo XML file to the given file.
+ * returns 0 on success
  */
 gint
 exportXML (gchar * thefilename, DenemoProject * gui)
