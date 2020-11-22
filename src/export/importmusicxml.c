@@ -1349,6 +1349,24 @@ mxmlinput (gchar * filename)
  (define (SetTitledPiece title)\n\
 	(d-DirectivePut-movementcontrol-override \"TitledPiece\"  (logior DENEMO_OVERRIDE_TAGEDIT DENEMO_OVERRIDE_GRAPHIC))\n\
 	(d-DirectivePut-movementcontrol-prefix  \"TitledPiece\" (string-append \"\\\\titledPiece \\\\markup {\" title \"}\")))\n\
+(define (RemoveEmptyTuplets)\n\
+  (define (do-staff)\n\
+      (d-MoveToBeginning)\n\
+       (while (d-NextObject)\n\
+       		(if (TupletOpen?)\n\
+       			(begin\n\
+       				(d-NextObject)\n\
+       				(if (TupletClose?)\n\
+       					(begin\n\
+       						(d-DeleteObject)\n\
+       						(if (Appending?)\n\
+       							(d-MoveCursorLeft)\n\
+       							(d-PrevObject))\n\
+       						(d-DeleteObject)))))))\n\
+    (while (d-StaffUp))\n\
+    (do-staff)\n\
+    (while (d-StaffDown)\n\
+        (do-staff)))\n\
  (define (SetField field title)\n\
 		(define tag \"ScoreTitles\")\n\
 		(define postfix (d-DirectiveGet-scoreheader-postfix tag))\n\
@@ -1410,7 +1428,7 @@ mxmlinput (gchar * filename)
         g_string_append (script, parse_part (childElem));
       }
   }
-  g_string_append (script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat)) (d-AmalgamateRepeatBarlines) (d-ConvertToWholeMeasureRests) (d-DecreaseGuard)  ");
+  g_string_append (script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines) (d-ConvertToWholeMeasureRests) (d-DecreaseGuard)  ");
 #ifdef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
