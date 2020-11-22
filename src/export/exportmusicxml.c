@@ -420,6 +420,9 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 								  {
 									xmlNewChild (noteElem, ns, (xmlChar *) "rest", NULL); 
 								  }
+								  
+								  if (curObj->isinvisible)
+									xmlSetProp (noteElem, "print-object", "no");
 								  newXMLIntChild (noteElem, ns,  (xmlChar *) "duration", curObj->durinticks);//1 is duration a sounding duration quarter note
 								  
 								  gint m = thechord->numdots;
