@@ -142,8 +142,8 @@ insert_timesig (DenemoMovement * si, DenemoStaff * curstaffstruct, gint time1, g
           else
             si->currentobject = g_list_nth ((objnode *) ((DenemoMeasure *)curmeasure->data)->objects, si->cursor_x);
         }
+	  update_timesig_cache (curmeasure);
       staff_beams_and_stems_dirs ((DenemoStaff *) curstaff->data);
-      update_timesig_cache (curmeasure);
     }
 
 }
