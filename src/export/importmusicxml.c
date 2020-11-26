@@ -1260,6 +1260,12 @@ getXMLChild (xmlNodePtr parentElem, gchar * childElemName)
   return NULL;
 }
 
+static void replace_quotes (gchar *str)
+{
+	for (;*str;str++)
+		if (*str == '\"')
+			*str = '\'';
+}
 gint
 mxmlinput (gchar * filename)
 {
@@ -1454,6 +1460,7 @@ mxmlinput (gchar * filename)
 			if (wtElem)
 				{
 					gchar *title = xmlNodeListGetString (wtElem->doc, wtElem->children, 1);
+					replace_quotes (title);
 					if (use_book_titles)
 						g_string_append_printf (script, "(d-BookTitle \"%s\")", escape_scheme(title));
 					else
@@ -1468,6 +1475,7 @@ mxmlinput (gchar * filename)
             gchar *title = xmlNodeListGetString (childElem->doc, childElem->children, 1);
             if(title)
 				{
+					replace_quotes (title);
 					if (use_book_titles) 
 						g_string_append_printf (script, "(SetTitledPiece \"%s\")", escape_scheme(title));
 					else
