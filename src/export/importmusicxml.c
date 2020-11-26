@@ -81,32 +81,6 @@ getXMLIntChild (xmlNodePtr elem)
   return num;
 }
 
-
-
-
-
-#define INSERT_REST(num, den, rest) \
-if(duration >= (num*divisions)/den)\
-  {\
-    g_string_append (script, "(d-InsertRest" rest ")(d-SetNonprinting)");\
-    return insert_invisible_rest (script, duration - (num*divisions)/den, divisions);\
-  } else
-
-static gint
-insert_invisible_rest (GString * script, gint duration, gint divisions)
-{
-  //g_assert (divisions);
-  if (duration == 0)
-    return TRUE;
-  //g_debug("invis rest  %d, %d\n",  duration, divisions);
-  INSERT_REST (4, 1, "0") INSERT_REST (2, 1, "1") INSERT_REST (1, 1, "2") INSERT_REST (1, 2, "3") INSERT_REST (1, 4, "4") INSERT_REST (1, 8, "5") INSERT_REST (1, 16, "6") INSERT_REST (1, 32, "7") INSERT_REST (1, 64, "8") g_warning ("Cannot cope with rest of %d/%d quarter notes", duration, divisions);
-  return FALSE;
-}
-
-#undef INSERT_REST
-
-
-
 static void
 parse_time (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootElem)
 {
@@ -131,7 +105,7 @@ parse_time (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr root
 
 const gchar *
 get_clef (gint line, gchar * sign)
-{
+{g_print ("Clef %s\n", sign);
   switch (line)
     {
     case 1:
@@ -199,7 +173,8 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
   }                             //g_assert(voicenum>0);
   if (division > voice_timings[voicenum - 1])
     {
-      insert_invisible_rest (scripts[voicenum], division - voice_timings[voicenum - 1], divisions);
+		g_print ("Clef called for invisible rests - ignored");
+      //insert_invisible_rest (scripts[voicenum], division - voice_timings[voicenum - 1], divisions);
       voice_timings[voicenum - 1] = division;
     }
   if (sign)
@@ -570,9 +545,9 @@ parse_notations (GString * notations, xmlNodePtr rootElem, gint normal_notes, gi
         if (type && (!strcmp (type, "stop")))
           {
 			  g_string_append (notations, "(ToggleEndSlur)");
-			  g_print ("notations %s\n", notations->str);
+			  //g_print ("notations %s\n", notations->str);
 			 }
-         g_print ("slur type %s compare as %d\n", type, (!strcmp (type, "end")));
+         //g_print ("slur type %s compare as %d\n", type, (!strcmp (type, "end")));
       }
 
     if (ELEM_NAME_EQ (childElem, "fermata"))
@@ -586,6 +561,25 @@ parse_notations (GString * notations, xmlNodePtr rootElem, gint normal_notes, gi
       parse_ornaments (notations, childElem);
   }
 }
+#define INSERT_REST(num, den, rest) \
+if(duration >= (num*divisions)/den)\
+  {\
+    g_string_append (script, "(d-InsertRest" rest ")(d-SetNonprinting)");\
+    return insert_invisible_rest (script, duration - (num*divisions)/den, divisions);\
+  } else
+
+static gint
+insert_invisible_rest (GString * script, gint duration, gint divisions)
+{
+  //g_assert (divisions);
+  if (duration == 0)
+    return TRUE;
+  //g_debug("invis rest  %d, %d\n",  duration, divisions);
+  INSERT_REST (4, 1, "0") INSERT_REST (2, 1, "1") INSERT_REST (1, 1, "2") INSERT_REST (1, 2, "3") INSERT_REST (1, 4, "4") INSERT_REST (1, 8, "5") INSERT_REST (1, 16, "6") INSERT_REST (1, 32, "7") INSERT_REST (1, 64, "8") g_warning ("Cannot cope with rest of %d/%d quarter notes", duration, divisions);
+  return FALSE;
+}
+
+#undef INSERT_REST
 
 
 // *division is the current position of the tick counter from the start of the measure
@@ -596,7 +590,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
   xmlNodePtr childElem;
   gint octave, alter = 0;
   gchar *step = NULL;
-  gchar *type = NULL;
+  gchar *type = NULL;//duration type e.g. quarter, half etc
   gboolean in_chord = FALSE, is_dotted = FALSE, is_double_dotted = FALSE, is_rest = FALSE, is_whole_measure_rest = FALSE, is_grace = FALSE, is_tied = FALSE;
   GString *notations = g_string_new ("");
   gint voicenum = 1, staffnum = 1;
@@ -656,7 +650,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
           is_tied = TRUE;
       }
 
-    if (ELEM_NAME_EQ (childElem, "type"))
+    if (ELEM_NAME_EQ (childElem, "type")) //duration type e.g. quarter, half etc
       type = xmlNodeListGetString (childElem->doc, childElem->children, 1);
     if (ELEM_NAME_EQ (childElem, "duration"))
       {
@@ -682,7 +676,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
         timing_set = TRUE;
         modify_time (childElem, actual_notes, normal_notes);
       }
-  }
+  } // end of for each child of the <note> element we are parsing
   if (voicenum < 1)
     {
       g_warning ("Bad MusicXML file voice 0 encountered");
@@ -714,15 +708,16 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
 
 
   if (*division > voice_timings[voicenum - 1])
-    {
-      insert_invisible_rest (scripts[voicenum], *division - voice_timings[voicenum - 1], divisions);
+    {g_print ("Discrepancy at %d %d\n", *division, voice_timings[voicenum - 1]);
+     //this happens when you get a <backup> followed by a note in a different voice.
+     insert_invisible_rest (scripts[voicenum], *division - voice_timings[voicenum - 1], divisions);
       voice_timings[voicenum - 1] = *division;
     }
 
   if (type)
     {
 
-            g_string_append (text, in_chord ? add_note (octave, step, alter) : (is_rest ? add_rest (type, duration, divisions) : insert_note (type, octave, step, alter)));
+      g_string_append (text, in_chord ? add_note (octave, step, alter) : ((is_rest ||!step)? add_rest (type, duration, divisions) : insert_note (type, octave, step, alter)));
 
       if (is_nonprinting)
         g_string_append (text, "(d-SetNonprinting)");
@@ -1033,11 +1028,30 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
 
     if (ELEM_NAME_EQ (childElem, "backup"))
       {
-        division -= parseDuration (&current_voice, childElem);  //g_debug("backward arrives at %d\n", division);
+        division -= parseDuration (&current_voice, childElem);  g_print("backward arrives at %d\n", division);
+       // sets current_voice to the voice mentioned in the "backup" element???? are there any examples of this???? it would seem not.
+       //if backup mentioned the voice we could set voice_timings[] for the backup, else what happens???
       }
+    gint voicenum = current_voice;
     if (ELEM_NAME_EQ (childElem, "forward"))
       {
-        division += parseDuration (&current_voice, childElem);  //g_debug("forward arrives at %d\n", division);
+		  xmlNodePtr gchildElem;
+		  
+		  gint oldvoice = current_voice;
+		  FOREACH_CHILD_ELEM (gchildElem, childElem)
+			{
+		     if (ELEM_NAME_EQ (gchildElem, "voice"))
+				voicenum = getXMLIntChild (gchildElem);
+			}
+			if( voicenum != current_voice)
+				g_warning ("Forward for voice that is not current");
+			current_voice = voicenum;
+			gint duration = parseDuration (&current_voice, childElem);
+			get_rest_for_duration (scripts[voicenum], duration, *divisions);
+			g_string_append (scripts[voicenum], "(d-MoveCursorLeft)(d-SetNonprinting)(d-MoveCursorRight)");
+			voice_timings[voicenum -1] += duration;
+			//current_voice = oldvoice;g_warning ("Reverted to voice %d from the forward one %d\n", current_voice, voicenum);
+			division += duration;  g_print("forward arrives at %d\n", division);
       }
     if (ELEM_NAME_EQ (childElem, "note"))
       {
@@ -1115,7 +1129,7 @@ parse_part (xmlNodePtr rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "measure"))
       {
-        get_staff_for_voice_measure (childElem, staff_for_voice);
+        get_staff_for_voice_measure (childElem, staff_for_voice);//fills in values for  staff_for_voice[], telling which voice goes on which staff
       }
   }
   for (i = 0; i < numvoices; i++)
@@ -1156,6 +1170,9 @@ parse_part (xmlNodePtr rootElem)
       {
         gint maxduration = 0;
         memset (voice_timings, 0, numvoices * sizeof (gint));
+        
+       // HERE we could get property "number" if 0 it is a pickup measure, but instead we just detect unfilled first measure
+        
         gchar *warning = parse_measure (childElem, scripts, staff_for_voice, &divisions, voice_timings, numvoices, measure_count);
         if (*warning)
           g_string_append_printf (warnings, "%s in bar %d.\n", warning, measure_count);
@@ -1166,7 +1183,8 @@ parse_part (xmlNodePtr rootElem)
           {
             if (voice_timings[i] < maxduration)
               {
-                insert_invisible_rest (scripts[i + 1], maxduration - voice_timings[i], divisions);
+				  g_print ("measure elem calls for invisible rests - ignored\n");
+                //insert_invisible_rest (scripts[i + 1], maxduration - voice_timings[i], divisions);
               }
             g_string_append (scripts[0], scripts[i + 1]->str);
             g_string_assign (scripts[i + 1], "");
@@ -1378,11 +1396,49 @@ mxmlinput (gchar * filename)
 			(set! postfix \"\"))\n\
 		(set! data (assq-set! data (string->symbol field) title))\n\
 		(d-DirectivePut-scoreheader-postfix tag (string-append postfix \"\\n \"field\" = \\\\markup  { \" title \"}\\n\"))\n\
-		(d-DirectivePut-scoreheader-data tag (format #f \"'~s\" data)))\n");
-
-
-
-
+		(d-DirectivePut-scoreheader-data tag (format #f \"'~s\" data)))\n\
+		(define (RemoveEmptyStaffs)\n\
+			(define (do-staff)\n\
+			   (d-MoveToBeginning)\n\
+			   (let loop ()\n\
+					(if (not (and (Music?) (not (Rest?))))\n\
+						(if (d-NextObject)\n\
+							(loop))))\n\
+						(if (not (d-NextObject))\n\
+						(begin\n\
+							(d-DeleteStaff)\n\
+							(d-StaffUp))))\n\
+			(while (d-StaffUp))\n\
+			(do-staff)\n\
+			(while (d-StaffDown)\n\
+				(do-staff)))\n\
+(define (PadMeasures)\n\
+	(define (fill-measure)\n\
+		(while (and (not (EmptyMeasure?)) (not (Appending?))) (d-MoveCursorRight))\n\
+		(let loop ()\n\
+			(if (UnderfullMeasure?)\n\
+				(let ((shortfall (duration::shortfall)))\n\
+					(if shortfall\n\
+						(let ((dot (equal? (string-ref shortfall (1- (string-length shortfall))) #\\.)))\n\
+							(if dot\n\
+								(set! shortfall (substring shortfall 0 (1- (string-length shortfall)))))\n\
+							(eval-string (string-append \"(d-Insert\" shortfall \")\"))\n\
+							(if dot (d-AddDot))\n\
+							(if (not (d-GetNonprinting))\n\
+								(d-StagedDelete))\n\
+							(d-StagedDelete)\n\
+							(d-MoveCursorRight)\n\
+							(loop)))))))\n\
+	(define (do-staff)\n\
+      (d-MoveToBeginning)\n\
+      (fill-measure)\n\
+       (while (d-MeasureRight)\n\
+       	(fill-measure)))\n\
+    (d-GoToPosition #f 1 1 1 )\n\
+    (do-staff)\n\
+    (while (d-StaffDown)\n\
+        (do-staff)))\n\
+				");
 
   gint part_count = 1;
   InitialVoiceNum = 0;
@@ -1428,13 +1484,20 @@ mxmlinput (gchar * filename)
         g_string_append (script, parse_part (childElem));
       }
   }
-  g_string_append (script, "(d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)(d-MoveToBeginning)(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines) (d-ConvertToWholeMeasureRests) (d-DecreaseGuard)  ");
+  g_string_append (script, "(let ((spillover (d-GetBooleanPref \"spillover\"))(rhythm-entry (d-GetBooleanPref \"startmidin\")))\n\
+  (d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)\n\
+  (d-SetPrefs \"<spillover>0</spillover>\")    \n\
+  (d-SetPrefs \"<startmidiin>0</startmidiin>\")    \n\
+(d-MoveToBeginning)(RemoveEmptyStaffs)(d-GoToPosition #f 1 1 1 )\n\
+(if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))\n\
+(PadMeasures)(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines)\n\
+(d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(d-DecreaseGuard))");
 #ifdef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
     if (fp)
       {
-        fprintf (fp, ";Parser not yet finished upbeat bug present:\n %s", script->str);
+        fprintf (fp, ";Script to create imported musicxml score\n %s", script->str);
         fclose (fp);
       }
   }
