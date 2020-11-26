@@ -213,16 +213,17 @@
 
 ;;returns a string for the shortfall in the current measure. has problems with exact/inexact stuff...
 (define (duration::shortfall)
-    (define guess (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks))))
+	(define ticks  (if (GetMeasureTicks) (GetMeasureTicks) 0))
+    (define guess (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t)) ticks)))
     (if guess
     (duration::ticks->denemo 
-        (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks)) guess)
+        (-  (* 1536 (GetPrevailingTimeSig #t)) ticks) guess)
     #f))
 ;;;this simple version works for say a crotchet upbeat...
-(define (duration::shortfall)
-  (duration::ticks->denemo 
-   (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks))
-   (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks)))))
+;(define (duration::shortfall)
+;   (duration::ticks->denemo 
+;   (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks))
+;   (duration::GuessBaseNoteInTicks  (-  (* 1536 (GetPrevailingTimeSig #t))   (GetMeasureTicks)))))
 
 
 
