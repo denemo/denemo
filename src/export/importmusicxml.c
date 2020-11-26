@@ -1444,6 +1444,27 @@ mxmlinput (gchar * filename)
     (do-staff)\n\
     (while (d-StaffDown)\n\
         (do-staff)))\n\
+(define (assign-voices)\n\
+	(d-MergeRests)\n\
+	 (d-GoToPosition #f 1 1 1 )\n\
+	 (let outer-loop ()\n\
+		 (if (d-StaffDown)\n\
+			 (let loop ()\n\
+				(if (d-IsVoice)\n\
+					(begin\n\
+						(d-StaffUp)\n\
+						(d-InitialVoiceOne)\n\
+						(d-StaffDown)\n\
+						(d-InitialVoiceFour)\n\
+						(if (and (d-StaffDown)(d-IsVoice))\n\
+							(begin\n\
+								(d-InitialVoiceThree)\n\
+								(if (and (d-StaffDown)(d-IsVoice))\n\
+									(begin\n\
+										(d-InitialVoiceFour)\n\
+										(while (and (d-StaffDown) (d-IsVoice)))\n\
+										(loop)))))))\n\
+					(outer-loop)))))\n\
 				");
 
   gint part_count = 1;
@@ -1499,7 +1520,7 @@ mxmlinput (gchar * filename)
 (d-MoveToBeginning)(RemoveEmptyStaffs)(d-GoToPosition #f 1 1 1 )\n\
 (if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))\n\
 (PadMeasures)(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines)\n\
-(d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(d-DecreaseGuard))");
+(d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard))");
 #ifdef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
