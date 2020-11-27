@@ -1393,8 +1393,10 @@ mxmlinput (gchar * filename)
         (do-staff)))\n\
  (define (SetField field title)\n\
 		(define tag \"ScoreTitles\")\n\
-		(define postfix (d-DirectiveGet-scoreheader-postfix tag))\n\
-		(define data (d-DirectiveGet-scoreheader-data tag))\n\
+		(define postfix #f)\n\
+		(define data #f)\n\
+		(set! postfix (d-DirectiveGet-scoreheader-postfix tag))\n\
+		(set! data (d-DirectiveGet-scoreheader-data tag))\n\
 		(if data\n\
 			(set! data (eval-string data))\n\
 			(set! data '()))\n\
@@ -1521,7 +1523,7 @@ mxmlinput (gchar * filename)
 (if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))\n\
 (PadMeasures)(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines)\n\
 (d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard))");
-#ifdef DEVELOPER
+#ifndef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
     if (fp)
