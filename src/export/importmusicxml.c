@@ -23,11 +23,12 @@
 //A bad array access accessing before the array start is causing a crash sporadically (perhaps a bad xml file?) this pads the memory allocated as work-around
 //#define g_malloc0(a) (g_malloc0(2*(a)) + (a))
 
-gint InitialVoiceNum = 0;
+static gint InitialVoiceNum = 0;
+static gint OttavaVal = 0;
 
-GString *Warnings;
-GString *awaiting_note;//anything that has to wait for a note to be added
-gboolean pending_tuplet_end = FALSE;//to catch tuplets that end and re-start with the same value
+static GString *Warnings;
+static GString *awaiting_note;//anything that has to wait for a note to be added
+static gboolean pending_tuplet_end = FALSE;//to catch tuplets that end and re-start with the same value
 /* Defines for making traversing XML trees easier */
 
 #define FOREACH_CHILD_ELEM(childElem, parentElem) \
@@ -629,7 +630,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
           if (ELEM_NAME_EQ (grandchildElem, "step"))
             step = xmlNodeListGetString (grandchildElem->doc, grandchildElem->children, 1);
           if (ELEM_NAME_EQ (grandchildElem, "octave"))
-            octave = getXMLIntChild (grandchildElem);
+            octave = getXMLIntChild (grandchildElem) + OttavaVal;
           if (ELEM_NAME_EQ (grandchildElem, "alter"))
             alter = getXMLIntChild (grandchildElem);
         }
@@ -901,6 +902,7 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
     </direction-type>
     </direction>
   */
+
 static gchar *
 parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
 {
@@ -912,16 +914,16 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
       g_string_append (script, "(d-RehearsalMark)");
 	if (ELEM_NAME_EQ (childElem, "octave-shift"))
 		{
-			gint val = 8;
+			OttavaVal = 1;
 			gchar *v = xmlGetProp (childElem, (xmlChar *) "size");
-			if (v && !strcmp (v, "15")) val = 2;
+			if (v && !strcmp (v, "15")) OttavaVal = 2;
 			v = xmlGetProp (childElem, (xmlChar *) "type");
 			if (v && !strcmp (v, "stop"))
-				val = 0;
+				OttavaVal = 0;
 			else
 		       if (v && !strcmp (v, "down"))
-				val *= -1;
-			g_string_append_printf (script, "(d-Ottava %d)", val);
+				OttavaVal *= -1;
+			g_string_append_printf (script, "(d-Ottava %d)", OttavaVal);
 		}
 	  
 	  
@@ -1130,7 +1132,7 @@ parse_part (xmlNodePtr rootElem)
   xmlNodePtr childElem;
   gint numstaffs = 1, numvoices = 1;
   gint divisions = 384;         //will be overriden anyway.
-
+  OttavaVal = 0;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     gint maxstaffs = 1, maxvoices = 1;

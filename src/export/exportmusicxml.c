@@ -24,7 +24,7 @@
 /* libxml includes: for libxml2 this should be <libxml/tree.h> */
 #include <libxml/tree.h>
 
-
+static gint OttavaVal = 0;
 #define XML_COMPRESSION_RATIO 3
 /**
  * return a child node of parent, holding the passed name and integer.
@@ -318,7 +318,7 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
           curStaffStruct = (DenemoStaff *) curStaff->data;
 		  gboolean tuplet_start = FALSE, in_tuplet = FALSE;
 		  gboolean in_tie = FALSE;		  
-
+		  OttavaVal = 0;
 //output the i'th staff
 	      partElem = xmlNewChild (scoreElem, ns, (xmlChar *) "part", NULL);
 	      xmlSetProp (partElem, (xmlChar *) "id", (xmlChar *) g_strdup_printf ("P%d", i+1));
@@ -428,7 +428,7 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 									  xmlNewTextChild (pitchElem, ns, (xmlChar *) "step", (xmlChar *) val); //the note-name from curnote
 									  g_free(val);
 									  newXMLIntChild (pitchElem, ns, (xmlChar *) "alter", curnote->enshift);
-									  newXMLIntChild (pitchElem, ns, (xmlChar *) "octave", 3+mid_c_offsettooctave (curnote->mid_c_offset)); //the octave from curnote
+									  newXMLIntChild (pitchElem, ns, (xmlChar *) "octave", -OttavaVal + 3+mid_c_offsettooctave (curnote->mid_c_offset)); //the octave from curnote
 								  } else
 								  {
 									xmlNewChild (noteElem, ns, (xmlChar *) "rest", NULL); 
@@ -846,6 +846,7 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 									xmlNodePtr octElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "octave-shift", NULL);
 									gint amount;
 									get_ottava(dir, &amount);
+									OttavaVal = amount;
 									if (amount)
 										xmlSetProp (octElem, (xmlChar *) "type", amount>0?(xmlChar *) "up":(xmlChar *) "down");
 									else
