@@ -151,6 +151,14 @@ static gchar *extract_field (gchar *str, gchar *signature)
 	return title;
 	}
 
+static void get_ottava (DenemoDirective *dir, gint *amount)
+{
+	*amount = 0;
+	if (dir->postfix)
+			sscanf (dir->postfix->str, "\\ottava #%d", amount);
+}
+
+
 /**
  * Export the given score as a MusicXML file thefilname
  returns 0 on success
@@ -828,8 +836,29 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 										directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
 									}
 									xmlNodePtr wedgeElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "rehearsal", "A");		
+						
+						 if (!strcmp (dir->tag->str, "Ottava"))
+								{
+									if (directionElem==NULL) {
+											directionElem = xmlNewChild (measureElem, ns, (xmlChar *) "direction", NULL);
+											directionTypeElem = xmlNewChild (directionElem, ns, (xmlChar *) "direction-type", NULL);
+										}
+									xmlNodePtr octElem = xmlNewChild (directionTypeElem, ns, (xmlChar *) "octave-shift", NULL);
+									gint amount;
+									get_ottava(dir, &amount);
+									if (amount)
+										xmlSetProp (octElem, (xmlChar *) "type", amount>0?(xmlChar *) "up":(xmlChar *) "down");
+									else
+										xmlSetProp (octElem, (xmlChar *) "type", (xmlChar *) "stop");
+									amount = ABS (amount);	
+									if (amount)
+										xmlSetProp (octElem, (xmlChar *) "size", amount==1?(xmlChar *) "8":(xmlChar *) "15");	
 							
-						}
+								}
+								
+								
+						} //end of case LILYDIRECTIVE
+												
 						
 						break;
 					default:

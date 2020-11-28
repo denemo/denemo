@@ -910,6 +910,19 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
   {
 	if (ELEM_NAME_EQ (childElem, "rehearsal"))
       g_string_append (script, "(d-RehearsalMark)");
+	if (ELEM_NAME_EQ (childElem, "octave-shift"))
+		{
+			gint val = 8;
+			gchar *v = xmlGetProp (childElem, (xmlChar *) "size");
+			if (v && !strcmp (v, "15")) val = 2;
+			v = xmlGetProp (childElem, (xmlChar *) "type");
+			if (v && !strcmp (v, "stop"))
+				val = 0;
+			else
+		       if (v && !strcmp (v, "down"))
+				val *= -1;
+			g_string_append_printf (script, "(d-Ottava %d)", val);
+		}
 	  
 	  
     if (ELEM_NAME_EQ (childElem, "wedge"))
