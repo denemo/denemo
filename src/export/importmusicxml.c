@@ -103,25 +103,36 @@ parse_time (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr root
         g_string_append_printf (scripts[i + 1], "(d-InsertTimeSig \"%d/%d\")(if (not (Appending?))(d-MoveCursorRight))", numerator, denominator);
 }
 
-const gchar *
-get_clef (gint line, gchar * sign)
-{g_print ("Clef %s\n", sign);
+static const gchar *
+get_clef (gint line, gchar * sign, gint octave)
+{
   switch (line)
     {
     case 1:
       if (*sign == 'G')
         return "French";
+      if (*sign == 'C')
+        return "Soprano";
     case 2:
       if (*sign == 'G')
+      if (octave==-1)
+		return "Treble Octava bassa";
+	  else
         return "Treble";
     case 3:
       if (*sign == 'C')
         return "Alto";
     case 4:
       if (*sign == 'F')
+      if (octave==-1)
+		return "Bass Octava bassa";
+	  else
         return "Bass";
       if (*sign == 'C')
         return "Tenor";
+    case 5:
+      if (*sign == 'C')
+		return "Baritone";	
     default:
       return "Treble";
     }
@@ -158,6 +169,7 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
   xmlNodePtr childElem;
   gint line = 0;
   gchar *sign = NULL;
+  gint octave = 0;
   gchar *number = xmlGetProp (rootElem, (xmlChar *) "number");
   gint staffnum = 0;
   if (number)
@@ -170,7 +182,9 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
       line = getXMLIntChild (childElem);
     if (ELEM_NAME_EQ (childElem, "sign"))
       sign = xmlNodeListGetString (childElem->doc, childElem->children, 1);
-  }                             //g_assert(voicenum>0);
+    if (ELEM_NAME_EQ (childElem, "clef-octave-change"))
+      octave = getXMLIntChild (childElem);      
+  }                            
   if (division > voice_timings[voicenum - 1])
     {
 		g_print ("Clef called for invisible rests - ignored");
@@ -180,7 +194,7 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
   if (sign)
     {
       gint i;
-      const gchar *clef = get_clef (line, sign);
+      const gchar *clef = get_clef (line, sign, octave);
       for (i = 0; i < numvoices; i++)
         {
           if (staff_for_voice[i] == staffnum)

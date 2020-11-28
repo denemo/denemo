@@ -78,7 +78,7 @@ determineDuration (gint duration, gchar ** durationName)
     }
 }
 
-static void get_clef_sign (clefs theclef, gchar **sign, gint *line)
+static void get_clef_sign (clefs theclef, gchar **sign, gint *line, gint *octave)
 {
   switch (theclef)
 	{
@@ -98,6 +98,7 @@ static void get_clef_sign (clefs theclef, gchar **sign, gint *line)
 		case DENEMO_G_8_CLEF:
 		*sign = "G";
 		*line = 2;
+		*octave = -1;
 		return;
 		
 		case DENEMO_TENOR_CLEF:
@@ -113,6 +114,7 @@ static void get_clef_sign (clefs theclef, gchar **sign, gint *line)
 		case DENEMO_F_8_CLEF:
 		*sign = "F";
 		*line = 2;
+		*octave = -1;
 		return;
 		
 		case DENEMO_FRENCH_CLEF:
@@ -335,13 +337,16 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 				clefElem =  xmlNewChild (attrElem, ns, (xmlChar *) "clef", NULL);
 				gchar *sign;
 				gint line;
+				gint octave = 0;
 				newXMLIntChild (keyElem, ns, (xmlChar *) "fifths", curStaffStruct->keysig.number);
 				xmlNewTextChild (keyElem, ns, (xmlChar *) "mode", (xmlChar *) (curStaffStruct->keysig.isminor?"minor":"major"));
 				newXMLIntChild (timeElem, ns, (xmlChar *) "beats", curStaffStruct->timesig.time1);
 				newXMLIntChild (timeElem, ns, (xmlChar *) "beat-type", curStaffStruct->timesig.time2);
-				get_clef_sign (curStaffStruct->clef.type, &sign, &line);
+				get_clef_sign (curStaffStruct->clef.type, &sign, &line, &octave);
 				xmlNewTextChild (clefElem, ns, (xmlChar *) "sign", (xmlChar *) sign);
 				newXMLIntChild (clefElem, ns, (xmlChar *) "line", line);
+				if (octave)
+					newXMLIntChild (clefElem, ns, (xmlChar *) "clef-octave-change", octave);
 				}
 			 //output objects
 			  objnode *curObjNode = (objnode *) ((DenemoMeasure *) curMeasure->data)->objects;
@@ -672,10 +677,13 @@ exportmusicXML (gchar * thefilename, DenemoProject * gui)
 						xmlNodePtr clefElem =  xmlNewChild (attrElem, ns, (xmlChar *) "clef", NULL);
 						gchar *sign;
 						gint line;
+						gint octave = 0;
 						clef *theclef = (clef*)curObj->object;
-						get_clef_sign (theclef->type, &sign, &line);
+						get_clef_sign (theclef->type, &sign, &line, &octave);
 						xmlNewTextChild (clefElem, ns, (xmlChar *) "sign", (xmlChar *) sign);
 						newXMLIntChild (clefElem, ns, (xmlChar *) "line", line);
+						if (octave)
+							newXMLIntChild (clefElem, ns, (xmlChar *) "clef-octave-change", octave);
 						}
 						break; 
  					case TIMESIG:
