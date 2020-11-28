@@ -6,6 +6,7 @@
                           (cons (_ "Treble Octava Bassa") "Treble Octava bassa")
                           (cons (_ "Bass Octava Bassa") "Bass Octava bassa")
                           (cons (_ "Soprano") "Soprano")
+                          (cons (_ "Baritone") "Baritone")                     
                           (cons (_ "French") "French")
                           (cons (_ "Drum") 'drum)
                           (cons (_ "LilyPond") 'lilypond))))
