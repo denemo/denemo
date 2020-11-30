@@ -24,7 +24,7 @@
 //#define g_malloc0(a) (g_malloc0(2*(a)) + (a))
 
 static gint InitialVoiceNum = 0;
-static gint OttavaVal = 0;
+static gint *OttavaVals;
 
 static GString *Warnings;
 static GString *awaiting_note;//anything that has to wait for a note to be added
@@ -199,10 +199,10 @@ parse_clef (GString ** scripts, gint division, gint * voice_timings, gint voicen
       for (i = 0; i < numvoices; i++)
         {
           if (staff_for_voice[i] == staffnum)
-            if (measurenum == 1)
-              g_string_append_printf (scripts[i + 1], "(d-InitialClef \"%s\")", clef);
-            else
-              g_string_append_printf (scripts[i + 1], "(d-InsertClef \"%s\")", clef);
+            {  g_string_append_printf (scripts[i + 1], "(d-InsertClef \"%s\")", clef);
+             //g_print ("clef inserted staff %d voice %d\n", staffnum, i+1);
+             break;//secondary voices on that staff don't need a clef
+			}
         }
     }
     g_free (sign);
@@ -630,7 +630,7 @@ parse_note (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, gin
           if (ELEM_NAME_EQ (grandchildElem, "step"))
             step = xmlNodeListGetString (grandchildElem->doc, grandchildElem->children, 1);
           if (ELEM_NAME_EQ (grandchildElem, "octave"))
-            octave = getXMLIntChild (grandchildElem) + OttavaVal;
+            octave = getXMLIntChild (grandchildElem) + OttavaVals[*current_voice];//g_print ("Ottava Vals %d", OttavaVals[*current_voice]);
           if (ELEM_NAME_EQ (grandchildElem, "alter"))
             alter = getXMLIntChild (grandchildElem);
         }
@@ -863,15 +863,42 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
 {
   xmlNodePtr childElem;
   gchar *text = NULL;
+  gchar *location;
   gchar *style = NULL, *repeat = NULL;
   gint i;
+  gboolean left = TRUE;
+  gchar *alt_type = NULL;//start or stop for 1st & 2nd time bars
+  gchar *alt_num = NULL;//1 or 2 (or text???)
+ 
+ // location = xmlGetProp (rootElem, "location");
+//  if (location) g_string_append_printf (scripts[1], "(d-DirectivePut-standalone-data \"MusicXMLmove\" \"%s\")", location);
+  
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {                             //g_debug("attribute %s at division %d\n", childElem->name, division);
     if (ELEM_NAME_EQ (childElem, "bar-style"))
       style = xmlNodeListGetString (childElem->doc, childElem->children, 1);
     if (ELEM_NAME_EQ (childElem, "repeat"))
       repeat = xmlGetProp (childElem, "direction");
+     if (ELEM_NAME_EQ (childElem, "ending"))
+		{
+		alt_type = xmlGetProp (childElem, "type");
+		alt_num = xmlGetProp (childElem, "number");
+		}
   }
+  
+  if (alt_type)
+	{
+		if (!strcmp (alt_type, "start"))
+			{
+				if (!alt_num)
+					alt_num = "1";
+				g_string_append_printf (scripts[1], "(d-OpenNthTimeBar \"%s\")", alt_num);
+			}			
+		else	
+			g_string_append (scripts[1], "(d-EndVolta)");
+	} 
+	
+	
   if (repeat)
     {
       if ((!strcmp (repeat, "backward")))
@@ -888,9 +915,9 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
       else if ((!strcmp (style, "light-heavy")))
         text = "(d-ClosingBarline)";
     }
-  if (text)
-    for (i = 0; i < numvoices; i++)
-      g_string_append (scripts[i + 1], text);
+  if (text)g_string_append (scripts[1], text);
+    //for (i = 0; i < numvoices; i++)
+      //g_string_append (scripts[i + 1], text);
  g_free (style);
 }
 
@@ -904,7 +931,7 @@ parse_barline (xmlNodePtr rootElem, GString ** scripts, gint numvoices)
   */
 
 static gchar *
-parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
+parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement, gint current_voice)
 {
   xmlNodePtr childElem;
   gchar *pending = NULL;
@@ -914,16 +941,16 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
       g_string_append (script, "(d-RehearsalMark)");
 	if (ELEM_NAME_EQ (childElem, "octave-shift"))
 		{
-			OttavaVal = 1;
+			OttavaVals [current_voice] = 1;
 			gchar *v = xmlGetProp (childElem, (xmlChar *) "size");
-			if (v && !strcmp (v, "15")) OttavaVal = 2;
+			if (v && !strcmp (v, "15")) OttavaVals [current_voice] = 2;
 			v = xmlGetProp (childElem, (xmlChar *) "type");
 			if (v && !strcmp (v, "stop"))
-				OttavaVal = 0;
+				OttavaVals [current_voice] = 0;
 			else
 		       if (v && !strcmp (v, "down"))
-				OttavaVal *= -1;
-			g_string_append_printf (script, "(d-Ottava %d)", OttavaVal);
+				OttavaVals [current_voice] *= -1;
+			g_string_append_printf (script, "(d-Ottava %d)", OttavaVals [current_voice]);
 		}
 	  
 	  
@@ -1009,13 +1036,13 @@ parse_direction_type (xmlNodePtr rootElem, GString * script, gchar *placement)
 }
 
 static gchar *
-parse_direction (xmlNodePtr rootElem, GString * script, gchar *placement)
+parse_direction (xmlNodePtr rootElem, GString * script, gchar *placement, gint current_voice)
 {
   xmlNodePtr childElem;
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     if (ELEM_NAME_EQ (childElem, "direction-type"))
-      return parse_direction_type (childElem, script, placement);
+      return parse_direction_type (childElem, script, placement, current_voice);
 
 
 
@@ -1057,7 +1084,7 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
 
     if (ELEM_NAME_EQ (childElem, "backup"))
       {
-        division -= parseDuration (&current_voice, childElem);  g_print("backward arrives at %d\n", division);
+        division -= parseDuration (&current_voice, childElem); // g_print("backward arrives at %d\n", division);
        // sets current_voice to the voice mentioned in the "backup" element???? are there any examples of this???? it would seem not.
        //if backup mentioned the voice we could set voice_timings[] for the backup, else what happens???
       }
@@ -1107,7 +1134,7 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
     if (ELEM_NAME_EQ (childElem, "direction"))
       {                         //g_assert(current_voice>0);
         gchar *placement = xmlGetProp (childElem, "placement");
-        gchar *text = parse_direction (childElem, scripts[current_voice], placement);
+        gchar *text = parse_direction (childElem, scripts[current_voice], placement, current_voice);
         if(text)
             g_string_append(pendings, text);
       }
@@ -1132,7 +1159,7 @@ parse_part (xmlNodePtr rootElem)
   xmlNodePtr childElem;
   gint numstaffs = 1, numvoices = 1;
   gint divisions = 384;         //will be overriden anyway.
-  OttavaVal = 0;
+  
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
     gint maxstaffs = 1, maxvoices = 1;
@@ -1147,12 +1174,12 @@ parse_part (xmlNodePtr rootElem)
   }
   g_info ("Number of staffs %d, voices %d\n", numstaffs, numvoices);
   gint *staff_for_voice = (gint *) g_malloc0 (numvoices * sizeof (gint));
-
+  
   GString **scripts = (GString **) g_malloc0 ((1 + numvoices) * sizeof (GString *));
   for (i = 0; i <= numvoices; i++)
     scripts[i] = g_string_new ("\n");
   gint *voice_timings = (gint *) g_malloc0 (numvoices * sizeof (gint));
-
+  OttavaVals = (gint *) g_malloc0 (numvoices * sizeof (gint));//when inside an ottava we must shift the octave value of each pitch in this voice
 
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {
@@ -1201,6 +1228,12 @@ parse_part (xmlNodePtr rootElem)
         memset (voice_timings, 0, numvoices * sizeof (gint));
         
        // HERE we could get property "number" if 0 it is a pickup measure, but instead we just detect unfilled first measure
+       
+       // <measure implicit="yes" means it's not really a new bar, delete it if the bars are being created, or move back to the end of the previous bar to continue that one
+       
+        gchar *implicit = xmlGetProp (childElem, (xmlChar *) "implicit");
+        if ((measure_count>1) && implicit && (!strcmp (implicit, "yes")))
+			g_string_append (scripts [0], "(if (LastMeasure?)\n(begin (d-PopPosition)(d-DeleteMeasure)(d-GoToEnd)(d-PushPosition))\n(d-MoveCursorLeft))\n");
         
         gchar *warning = parse_measure (childElem, scripts, staff_for_voice, &divisions, voice_timings, numvoices, measure_count);
         if (*warning)
@@ -1544,15 +1577,18 @@ mxmlinput (gchar * filename)
         g_string_append (script, parse_part (childElem));
       }
   }
-  g_string_append (script, "(let ((spillover (d-GetBooleanPref \"spillover\"))(rhythm-entry (d-GetBooleanPref \"startmidin\")))\n\
+  g_string_append (script, "(let ((spillover (d-GetBooleanPref \"spillover\"))(startmidiin (d-GetBooleanPref \"startmidin\")))\n\
   (d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)\n\
   (d-SetPrefs \"<spillover>0</spillover>\")    \n\
   (d-SetPrefs \"<startmidiin>0</startmidiin>\")    \n\
 (d-MoveToBeginning)(RemoveEmptyStaffs)(d-GoToPosition #f 1 1 1 )\n\
 (if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))\n\
 (PadMeasures)(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines)\n\
-(d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard))");
-#ifndef DEVELOPER
+(d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard)\n\
+  (d-SetPrefs (string-append \"<spillover>\" (if spillover \"1\" \"0\") \"</spillover>\"))    \n\
+  (d-SetPrefs (string-append \"<startmidiin>\"(if startmidiin \"1\" \"0\") \"</startmidiin>\"))\n\
+  )");
+#ifdef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
     if (fp)
