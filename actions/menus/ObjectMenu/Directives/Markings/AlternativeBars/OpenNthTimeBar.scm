@@ -1,7 +1,7 @@
 ;;;OpenNthTimeBar
-(let ((tag "OpenNthTimeBar") 
+(let* ((tag "OpenNthTimeBar") 
         (params OpenNthTimeBar::params)
-        (text "1, 2.")
+        (text (if params params "1, 2."))
         (data #f)
         (choice #f)
         (size "1")
@@ -137,3 +137,6 @@
                     (d-MoveCursorRight)
                     (d-RefreshDisplay)
                     (d-SetSaved #f))))))
+					
+			
+
