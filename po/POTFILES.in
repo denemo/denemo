@@ -624,6 +624,8 @@ actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffDownAppending.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffDownAppending.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffUpAppending.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/MoveToStaffUpAppending.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/ToNextNote.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/ToNextNote.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffDown.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/VisibleStaffUp.scm

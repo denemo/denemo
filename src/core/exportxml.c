@@ -1138,7 +1138,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   //xmlSetDocCompressMode (doc, XML_COMPRESSION_RATIO);
   //xmlSetCompressMode (Denemo.prefs.compression);
   xmlSetDocCompressMode (doc, Denemo.prefs.compression);
-  g_print ("Document compression mode set to %d, (read back as %d)\n", Denemo.prefs.compression, xmlGetDocCompressMode (doc));
+  //g_print ("Document compression mode set to %d, (read back as %d)\n", Denemo.prefs.compression, xmlGetDocCompressMode (doc));
   doc->xmlRootNode = scoreElem = xmlNewDocNode (doc, NULL, (xmlChar *) "score", NULL);
   ns = xmlNewNs (doc->xmlRootNode, (xmlChar *) DENEMO_XML_NAMESPACE, NULL);
   xmlSetProp (scoreElem, (xmlChar *) "version", (xmlChar *) version_string);

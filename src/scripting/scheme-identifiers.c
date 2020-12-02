@@ -251,6 +251,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Moves the note at the cursor by the number of diatonic steps passed in", DENEMO_SCHEME_PREFIX "DiatonicShift", scheme_diatonic_shift);
   install_scm_function (0, "Moves the cursor to the object to the right returning #t if this was possible", DENEMO_SCHEME_PREFIX "NextObject", scheme_next_object);
   install_scm_function (0, "Moves the cursor to object to the left returning #t if the cursor moved", DENEMO_SCHEME_PREFIX "PrevObject", scheme_prev_object);
+  install_scm_function (0, "Moves the cursor to the next note,  stopping at empty measures. The cursor is left after last note if no more notes", DENEMO_SCHEME_PREFIX "NextEditableNote", scheme_next_editable_note);
   install_scm_function (0, "Moves the cursor to the next object in the current measure, returning #f if there were no more objects to the left in the current measure", DENEMO_SCHEME_PREFIX "NextObjectInMeasure", scheme_next_object_in_measure);
   install_scm_function (0, "Moves the cursor to the previous object in the current measure, returning #f if the cursor was on the first object", DENEMO_SCHEME_PREFIX "PrevObjectInMeasure", scheme_prev_object_in_measure);
   install_scm_function (0, "Returns #f if there are objects in the measure after the cursor", DENEMO_SCHEME_PREFIX "IsMeasureEnd", scheme_is_measure_end);

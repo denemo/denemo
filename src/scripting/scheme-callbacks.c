@@ -7158,7 +7158,14 @@ scheme_prev_object (void)
   return SCM_BOOL (cursor_to_prev_object (FALSE, FALSE));
 }
 
-
+/* advances the cursor to the next note,  stopping
+ at empty measures. The cursor is left after last note if no more notes 
+ * returns SCM_BOOL_T if cursor moves*/
+SCM
+scheme_next_editable_note (void)
+{
+  return SCM_BOOL (next_editable_note ());
+}
 /* moves currentobject to next object in measure, if any
    returns TRUE if currentobject is different after than before doing the call
 */

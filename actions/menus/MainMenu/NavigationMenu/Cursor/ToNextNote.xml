@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToNextNote</action>
+        <after>MoveCursorRight</after>
+        <_label>Cursor To Next Note</_label>
+        <_tooltip>Moves to the next note, topping at blank measures. Sounds a warning if no more notes.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

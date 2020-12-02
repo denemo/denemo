@@ -174,6 +174,7 @@ SCM scheme_insert_note_in_chord (SCM);
 SCM scheme_diatonic_shift (SCM);
 SCM scheme_next_object (void);
 SCM scheme_prev_object (void);
+SCM scheme_next_editable_note (void);
 SCM scheme_next_object_in_measure (void);
 SCM scheme_is_measure_end (void);
 SCM scheme_prev_object_in_measure (void);
