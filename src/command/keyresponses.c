@@ -131,7 +131,7 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
               if ((event->keyval == GDK_Alt_L) || (event->keyval == GDK_Alt_R))
                 {
                   if ((Denemo.keyboard_state & CHORD_MASK)) //At least one note has been entered in a chord
-                    next_insert_or_editable_note ();
+                    next_editable_note ();
                   Denemo.keyboard_state &= ~CHORD_MASK;
                 }
               set_midi_in_status ();
