@@ -8590,6 +8590,13 @@ Invoke the command again to stop.</_tooltip>
         <_label>Cursor To Next Note</_label>
         <_tooltip>Moves to the next note, topping at blank measures. Sounds a warning if no more notes.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ShiftDot</action>
+        <after>DotDoubleDotNoDot</after>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>(Print) Move Dot</_label>
+        <_tooltip>Adjust the position of the dot on the current note by the amounts given (in units of staff line spaces).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ShiftDot</action>
+        <after>DotDoubleDotNoDot</after>
+        <_label>(Print) Move Dot</_label>
+        <_tooltip>Adjust the position of the dot on the current note by the amounts given (in units of staff line spaces).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
