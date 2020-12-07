@@ -1358,6 +1358,8 @@ actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ShiftDot.scm
+actions/menus/ObjectMenu/NotesRests/ChangeDuration/ShiftDot.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/split.scm
