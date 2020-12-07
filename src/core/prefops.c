@@ -129,7 +129,7 @@ initprefs (void)
   ret->portaudio_period_size = 256;
 
   ret->portmidi_input_device = g_string_new ("default");
-  ret->portmidi_output_device = g_string_new ("default");
+  ret->portmidi_output_device = g_string_new ("none");//Denemo has no code to output MIDI in real time, this turns off the setting up of the channel
 
   gchar *soundfontpath = find_denemo_file(DENEMO_DIR_SOUNDFONTS, "A320U.sf2");
 
