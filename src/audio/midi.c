@@ -623,7 +623,7 @@ midiaction (gint notenum)
                       if ((!curObj->isinvisible) && (thenote->mid_c_offset == (enote.mid_c_offset + 7 * (enote.octave))) && (thenote->enshift == enote.enshift))
                         {
                           gint midi = dia_to_midinote (thenote->mid_c_offset) + thenote->enshift;
-                          play_note (DEFAULT_BACKEND, 0 /*port */ , curstaffstruct->midi_channel, midi, 300 /*duration */ , 0);
+                          play_note (DEFAULT_BACKEND, 0 /*port */ , curstaffstruct->midi_channel, midi + curstaffstruct->transposition, 300 /*duration */ , 0);
                         }
                       else
                         {
@@ -906,17 +906,19 @@ advance_until_time (gchar * buf)
 }
 
 static void
-adjust_midi_channel (gchar * buf)
+adjust_to_staff (gchar * buf)
 {
   DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
   gint channel = curstaffstruct->midi_channel;
   if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_ON)
     {
       buf[0] = MIDI_NOTE_ON | channel;
+      buf[1] += curstaffstruct->transposition;
     }
   else if ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_OFF)
     {
       buf[0] = MIDI_NOTE_OFF | channel;
+      buf[1] += curstaffstruct->transposition;
     }
 }
 
@@ -927,7 +929,7 @@ play_adjusted_midi_event (gchar * buf)
 {
   adjust_midi_velocity (buf, 100 - Denemo.prefs.dynamic_compression);
   add_after_touch (buf);
-  adjust_midi_channel (buf);
+  adjust_to_staff (buf);
   //g_print ("play adj midibytes 0x%hhX 0x%hhX 0x%hhX\n", *(buf+0), *(buf+1), *(buf+2));
   play_midi_event (DEFAULT_BACKEND, 0, (guchar*) buf);
 }
