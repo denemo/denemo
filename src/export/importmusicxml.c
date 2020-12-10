@@ -1358,10 +1358,12 @@ mxmlinput (gchar * filename)
   rootElem = xmlDocGetRootElement (doc);
   xmlNodePtr childElem;
   //to avoid ReStartTuplet spilling into the next bar a rehearsal mark is inserted and then removed after the tupend/start are inserted FIXME
-  GString *script = g_string_new (";Score\n(define (IfNeededEndTuplet)\n(d-MoveCursorLeft)(if (TupletOpen?) (d-DeleteObject) (d-MoveCursorRight)))\n\
+  GString *script = g_string_new (";Score\n\
+  (define spillover (d-GetBooleanPref \"spillover\"))\n\
+  (define startmidiin (d-GetBooleanPref \"startmidiin\"))\n\
+    (define (IfNeededEndTuplet)\n(d-MoveCursorLeft)(if (TupletOpen?) (d-DeleteObject) (d-MoveCursorRight)))\n\
     (define (ReStartTuplet tuptype)\n\
   (d-RehearsalMark)(d-MoveCursorLeft)(d-EndTuplet)(d-StartTuplet tuptype)(GoToMeasureEnd)(d-MoveCursorLeft)(d-DeleteObject))\
-\n(d-MasterVolume 0) (d-IncreaseGuard) (d-StaffProperties \"denemo_name=voice 1\")\
   (define (InsertNoteInChord n)\
 	(d-MoveCursorLeft)(if (not (Note?))\
 		(d-PrevNote))\
@@ -1467,14 +1469,14 @@ mxmlinput (gchar * filename)
 		(set! data (assq-set! data (string->symbol field) title))\n\
 		(d-DirectivePut-scoreheader-postfix tag (string-append postfix \"\\n \"field\" = \\\\markup  { \" title \"}\\n\"))\n\
 		(d-DirectivePut-scoreheader-data tag (format #f \"'~s\" data)))\n\
-		(define (RemoveEmptyStaffs)\n\
+ (define (RemoveEmptyStaffs)\n\
 			(define (do-staff)\n\
 			   (d-MoveToBeginning)\n\
 			   (let loop ()\n\
 					(if (not (and (Music?) (not (Rest?))))\n\
 						(if (d-NextObject)\n\
 							(loop))))\n\
-						(if (not (d-NextObject))\n\
+						(if (and (not (Music?)) (not (Rest?)) (not (d-NextObject)))\n\
 						(begin\n\
 							(d-DeleteStaff)\n\
 							(d-StaffUp))))\n\
@@ -1529,7 +1531,7 @@ mxmlinput (gchar * filename)
 										(while (and (d-StaffDown) (d-IsVoice)))\n\
 										(loop)))))))\n\
 					(outer-loop)))))\n\
-				");
+(d-MasterVolume 0) (d-IncreaseGuard) (d-StaffProperties \"denemo_name=voice 1\")\n");
 
   gint part_count = 1;
   InitialVoiceNum = 0;
@@ -1577,8 +1579,8 @@ mxmlinput (gchar * filename)
         g_string_append (script, parse_part (childElem));
       }
   }
-  g_string_append (script, "(let ((spillover (d-GetBooleanPref \"spillover\"))(startmidiin (d-GetBooleanPref \"startmidin\")))\n\
-  (d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))(d-MasterVolume 1)\n\
+  g_string_append (script, 
+  "  (d-DeleteStaff)(d-MoveToEnd)(if (None?) (d-DeleteMeasureAllStaffs))\n\
   (d-SetPrefs \"<spillover>0</spillover>\")    \n\
   (d-SetPrefs \"<startmidiin>0</startmidiin>\")    \n\
 (d-MoveToBeginning)(RemoveEmptyStaffs)(d-GoToPosition #f 1 1 1 )\n\
@@ -1587,7 +1589,8 @@ mxmlinput (gchar * filename)
 (d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard)\n\
   (d-SetPrefs (string-append \"<spillover>\" (if spillover \"1\" \"0\") \"</spillover>\"))    \n\
   (d-SetPrefs (string-append \"<startmidiin>\"(if startmidiin \"1\" \"0\") \"</startmidiin>\"))\n\
-  )");
+  (d-MasterVolume 1)\n\
+  ");
 #ifdef DEVELOPER
   {
     FILE *fp = fopen ("/home/rshann/junk.scm", "w");
