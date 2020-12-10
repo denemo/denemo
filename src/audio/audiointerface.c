@@ -755,14 +755,14 @@ rhythm_feedback (backend_type_t backend, gint duration, gboolean rest, gboolean 
 {
   int key;
   if (dot)
-    play_note (backend, 0, 9, 67, 100, 60 * Denemo.project->movement->master_volume);
+    play_note (backend, 0, 9, 67, 100, 60);
   else
-    play_note (backend, 0, 9, rhythm_sounds[duration], rest ? 100 : 200, 127 * Denemo.project->movement->master_volume);
+    play_note (backend, 0, 9, rhythm_sounds[duration], rest ? 100 : 200, 127);
   //add extra sound effect for rests
   if (rest)
     play_note (backend, 0, 9, 46, 300, 127 * Denemo.project->movement->master_volume);
   while ((key = GPOINTER_TO_INT( g_queue_pop_head (Denemo.project->pending_midi)) ))
-    play_note (backend, 0, 9, key, 300, 127 * Denemo.project->movement->master_volume);
+    play_note (backend, 0, 9, key, 300, 127);
   //g_debug("playing %d %d\n", rhythm_sounds[duration], (60/(4*Denemo.project->movement->tempo*(1<<duration)))*1000);
 
   return 0;
