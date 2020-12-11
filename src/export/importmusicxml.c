@@ -1107,7 +1107,7 @@ parse_measure (xmlNodePtr rootElem, GString ** scripts, gint * staff_for_voice, 
 			g_string_append (scripts[voicenum], "(d-MoveCursorLeft)(d-SetNonprinting)(d-MoveCursorRight)");
 			voice_timings[voicenum -1] += duration;
 			//current_voice = oldvoice;g_warning ("Reverted to voice %d from the forward one %d\n", current_voice, voicenum);
-			division += duration;  g_print("forward arrives at %d\n", division);
+			division += duration;  //g_print("forward arrives at %d\n", division);
       }
     if (ELEM_NAME_EQ (childElem, "note"))
       {
@@ -1245,7 +1245,7 @@ parse_part (xmlNodePtr rootElem)
           {
             if (voice_timings[i] < maxduration)
               {
-				  g_print ("measure elem calls for invisible rests - ignored\n");
+				  //g_print ("measure elem calls for invisible rests - ignored\n");
                 //insert_invisible_rest (scripts[i + 1], maxduration - voice_timings[i], divisions);
               }
             g_string_append (scripts[0], scripts[i + 1]->str);
@@ -1584,6 +1584,19 @@ mxmlinput (gchar * filename)
   (d-SetPrefs \"<spillover>0</spillover>\")    \n\
   (d-SetPrefs \"<startmidiin>0</startmidiin>\")    \n\
 (d-MoveToBeginning)(RemoveEmptyStaffs)(d-GoToPosition #f 1 1 1 )\n\
+(let ()\n\
+	(define (do-staff)\n\
+		(let loop ()\n\
+			(if (Clef?)\n\
+				(begin\n\
+					(d-InitialClef (d-GetPrevailingClef))\n\
+					(d-DeleteObject))\n\
+				(if (d-NextObjectInMeasure)\n\
+					(loop)))))\n\
+	(while (d-StaffUp))\n\
+	(do-staff)\n\
+	(while (d-StaffDown)\n\
+		(do-staff)))\n\
 (if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))\n\
 (PadMeasures)(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines)\n\
 (d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard)\n\
