@@ -1,5 +1,5 @@
 ;;;OpenSecondTimeBar
-(let ((tag "OpenNthTimeBar"))
+(let ((tag "OpenNthTimeBar")(params OpenSecondTimeBar::params))
     (if (d-Directive-standalone? tag)
         (begin
             (begin
@@ -18,7 +18,7 @@
             (d-DirectivePut-standalone-graphic tag "SecondTimeBar")
             (d-DirectivePut-standalone-data tag (format #f "'~s" (list (cons 'volta 2))))
             (d-MoveCursorRight)
-            (if (Confirm (_ "Start Second Time Bar") (_ "Adjust the typeset bar number to ignore second time bar(s)"))
+            (if (and (not (eq? params 'noninteractive)) (Confirm (_ "Start Second Time Bar") (_ "Adjust the typeset bar number to ignore second time bar(s)")))
            	 (d-SetBarNumber))
             (d-MoveCursorRight)
             (d-RefreshDisplay)
