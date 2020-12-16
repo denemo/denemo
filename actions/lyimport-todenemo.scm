@@ -206,15 +206,15 @@
   (string-append "(if lyimport::nonotes (d-RepeatStart))\n" (string-join (map loop-through (list-ref theobject 3)))   (do-alternative (car (list-tail theobject 4)))))
 
 (define (do-alternative theobject)
-(format #t "alternative ~a\n\n"  (length theobject) )
+;(format #t "alternative ~a\n\n"  (length theobject) )
 ;;; Note treatment of alternative with just one is here by repeating the music - this could fail in relative, it should issue a 1-2 time bar
 (cond
       ((= (length theobject) 0)
     "(d-RepeatEnd)\n")
       ((= (length theobject) 1) 
-       (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"  (string-join (map loop-through (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)"  ))
+       (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar 'noninteractive)"  (string-join (map loop-through (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)"  ))
       ((= (length theobject) 2)
-       (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar)"    (string-join (map loop-through (list-tail (list-ref theobject 1) 1))) "(d-EndVolta)"  ))
+       (string-append "(d-OpenFirstTimeBar)" (string-join (map loop-through  (list-tail (list-ref theobject 0) 1))) "(d-EndVolta)(d-RepeatEnd)(d-OpenSecondTimeBar 'noninteractive)"    (string-join (map loop-through (list-tail (list-ref theobject 1) 1))) "(d-EndVolta)"  ))
       (else ";Repeats over two not handled\n")))
 
 
@@ -274,7 +274,7 @@
       (cond
       ((eqv? (car current_object) 'x_APPLY_CONTEXT) "")
       ((eqv? (car current_object) 'x_OVERRIDE) "")
-       ((eqv? (car current_object) 'x_SET) "")
+       ((eqv? (car current_object) 'x_SET) (disp "X SET not actioned:\n" (list-tail current_object 1) "\n") "")
        ((eqv? (car current_object) 'x_TEMPO) "")
        
        ((eqv? (car current_object) 'x_MOVEMENT)   (let ((temp #f))
@@ -339,42 +339,31 @@
                             (cond
                               ((string-contains (cdr (cdr current_object)) "fermata")
                                 (set! postfix (string-append postfix "(d-ToggleFermata) ")))
-                           
-                           
-                            
-
-                             
-                            
-                             ((equal? (cdr (cdr current_object)) "(" ;;dummy ) to get the matching-paren to work
+                              ((equal? (cdr (cdr current_object)) "(" ;;dummy ) to get the matching-paren to work
                                                                       )
-                            (set! postfix (string-append postfix "(d-ToggleBeginSlur) ")))
-                             ((equal? (cdr (cdr current_object))   ;; dummy ( to get the matching-paren to work
+                                    (set! postfix (string-append postfix "(d-ToggleBeginSlur) ")))
+                              ((equal? (cdr (cdr current_object))   ;; dummy ( to get the matching-paren to work
                                                                   ")")
-                            (set! postfix (string-append postfix "(d-ToggleEndSlur) ")))
-
-
-
-
-
-                            ((string? (cdr (cdr current_object)))
-                            (set! postfix (string-append postfix "(d-DirectivePut-standalone-postfix \"" (scheme-escape (cdr (cdr current_object))) "\" \"" (scheme-escape (cdr (cdr current_object))) "\")")))))
+                                    (set! postfix (string-append postfix "(d-ToggleEndSlur) ")))
+							  ((and (string? (cdr (cdr current_object))) (not (string-null? (cdr (cdr current_object)))))
+                                 (set! postfix (string-append postfix "(d-DirectivePut-standalone-postfix \"" (scheme-escape (cdr (cdr current_object))) "\" \"" (scheme-escape (cdr (cdr current_object))) "\")")))))
 
                             ;;now action x_REST or x_NOTE
                            (if (eqv? (caadr current_object) 'x_REST) 
                                (let ((thedur (cadr current_object)))
-                            (disp "x_REST thedur initially " thedur "which is a list " (list? thedur) "\n")
+                            ;(disp "x_REST thedur initially " thedur "which is a list " (list? thedur) "\n")
                              
                       
                              
                              (if (and (> (length thedur) 1) (pair? (list-ref thedur 2)))                                
                               (begin
                                   (set! thedur  (list-ref thedur 2))                              
-                                  (disp "Then set to " thedur "\n\n")(format #t "x_REST with dur is ~a~%"  thedur)
+                                  ;(disp "Then set to " thedur "\n\n")(format #t "x_REST with dur is ~a~%"  thedur)
                                   (if (and (not lyimport::PrevailingDuration) (not (list? thedur)))
                                             (set! lyimport::PrevailingDuration (list 4 0)))
                                         (if (list? thedur)
                                             (set! lyimport::PrevailingDuration thedur))
-                                  (disp "For rest Prevailing duration " lyimport::PrevailingDuration "\n")
+                                  ;(disp "For rest Prevailing duration " lyimport::PrevailingDuration "\n")
                               
                                   (if (number? (car thedur))
                                        (string-append "(set! lyimport::nonotes #f)" (do-duration-rest thedur) (do-dots thedur))
@@ -418,20 +407,26 @@
        
        
        ((eqv? (car current_object) 'x_REALCHORD) (let () 
-;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
-   ;postfix section
+	;postfix section
       (define postfix " ") ; build a chain of postfixes
-      ;(define thenote (cadr (caaadr current_object)))
+      (define thenote (cadr (caaadr current_object)))
+      ;(format #t "hoping to process the chord for ~a~%" (caadr current_object))
       ;(format #t "we have    note ~a that is      ~a\n\n" thenote (notename thenote))
+      ;(format #t "we have  string ~a \n\n" (cdr (cdr current_object)))
+      
       (if (string-contains (cdr (cdr current_object)) "fermata")
-        (set! postfix (string-append postfix "(d-ToggleFermata) ")))
-      (string-append (do-duration (cdadr current_object))
+        (set! postfix (string-append postfix "(d-ToggleFermata) "))
+        (begin
+			;(format #t "Putting stringstring ~a \n\n" (cdr (cdr current_object)))
+			(if (not (string-null?  (cdr (cdr current_object))))
+				(set! postfix (string-append postfix "(d-DirectivePut-standalone-postfix \"Unknown\" \"" (scheme-escape (cdr (cdr current_object))) "\")")))))
+	  (string-append (do-duration (cdadr current_object))
               " "
               (start-chord (caaadr current_object))
               "(let ((temp (d-GetCursorNoteWithOctave)))"
               (string-join (map add-notes-to-chord (list-tail   (caadr current_object) 1)))
               (string-append "(d-CursorToNote  temp ))")
-              (do-dots   (cdadr current_object))
+              (do-dots   (cdadr current_object)) postfix
               )))
 
 
