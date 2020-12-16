@@ -1,3 +1,5 @@
 (if (d-GetSaved)
-	(d-ImportLilypond)
+	(begin
+		(d-New)
+		(d-ImportLilypond))
 	(d-WarningDialog (_ "You have unsaved work.")))

@@ -1085,6 +1085,10 @@
         <action>IgnoreOff</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>ImportLilypond</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
