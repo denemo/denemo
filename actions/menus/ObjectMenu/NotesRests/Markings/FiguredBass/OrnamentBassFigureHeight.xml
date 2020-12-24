@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>OrnamentBassFigureHeight</action>
+        <after>AdjustFiguredBassHeights</after>
+        <_label>Fix Bass Figure/Marking Clashes.</_label>
+        <_tooltip>Shifts bass figures up to avoid clashes with markings on the bass note.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
