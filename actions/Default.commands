@@ -8597,6 +8597,13 @@ Invoke the command again to stop.</_tooltip>
         <_label>(Print) Move Dot</_label>
         <_tooltip>Adjust the position of the dot on the current note by the amounts given (in units of staff line spaces).</_tooltip>
       </row>
+      <row type="scheme">
+        <action>OrnamentBassFigureHeight</action>
+        <after>AdjustFiguredBassHeights</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
+        <_label>Fix Bass Figure/Marking Clashes.</_label>
+        <_tooltip>Shifts bass figures up to avoid clashes with markings on the bass note.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
