@@ -67,7 +67,7 @@
 				   
 						(if (and fig height (positive? ornament-height) (> height 1))
 								(d-AdjustBassFigureHeight (cons "FBHeight1" 
-									(number->string (if (< height 4) 5.25
+									(number->string (if (< height 4) (+ ornament-height 5.75)
 																	(+ ornament-height 4.75 (* (- height 4) 0.5))))))))))
 ;actual procedure:											    
 (if  (d-Directive-score? "TransposeOnPrint")
