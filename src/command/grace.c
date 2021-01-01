@@ -31,6 +31,7 @@ toggle_grace (DenemoAction * action, DenemoScriptParam * param)
           store_for_undo_change (si, curmudelaobj);
           ((chord *) curmudelaobj->object)->is_grace ^= GRACED_NOTE;
           displayhelper (Denemo.project);
+          score_status (Denemo.project, TRUE);
         }
       //g_debug("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
     }
@@ -52,6 +53,7 @@ toggle_acciaccatura (DenemoAction * action, DenemoScriptParam * param)
           store_for_undo_change (si, curmudelaobj);
           ((chord *) curmudelaobj->object)->is_grace ^= ACCIACCATURA;
           displayhelper (Denemo.project);
+          score_status (Denemo.project, TRUE);
         }
       //g_debug("now %x\n",  ((chord *)curmudelaobj->object)->is_grace);
     }
