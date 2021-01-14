@@ -8604,6 +8604,16 @@ Invoke the command again to stop.</_tooltip>
         <_label>Fix Bass Figure/Marking Clashes.</_label>
         <_tooltip>Shifts bass figures up to avoid clashes with markings on the bass note.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ReplicateManualBeams</action>
+        <after>DeleteBeamingDirective</after>
+        <menupath>/ObjectMenu/NotesRests/Beaming</menupath>
+        <_label>Replicate Beams from Selection</_label>
+        <_tooltip>Copies the manual beams set in the current selection to occurrences of the same rhythmic pattern at the same beat
+(in the same time signature) in the rest of the staff.
+Include rests if they are part of the pattern.
+</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

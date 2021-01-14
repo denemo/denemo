@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ReplicateManualBeams</action>
+        <after>DeleteBeamingDirective</after>
+        <_label>Replicate Beams from Selection</_label>
+        <_tooltip>Copies the manual beams set in the current selection to occurrences of the same rhythmic pattern at the same beat
+(in the same time signature) in the rest of the staff.
+Include rests if they are part of the pattern.
+</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

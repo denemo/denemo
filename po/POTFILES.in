@@ -1317,6 +1317,8 @@ actions/menus/ObjectMenu/NotesRests/Beaming/EndBeam.scm
 actions/menus/ObjectMenu/NotesRests/Beaming/EndBeam.xml
 actions/menus/ObjectMenu/NotesRests/Beaming/NoBeam.scm
 actions/menus/ObjectMenu/NotesRests/Beaming/NoBeam.xml
+actions/menus/ObjectMenu/NotesRests/Beaming/ReplicateManualBeams.scm
+actions/menus/ObjectMenu/NotesRests/Beaming/ReplicateManualBeams.xml
 actions/menus/ObjectMenu/NotesRests/Beaming/StartBeam.scm
 actions/menus/ObjectMenu/NotesRests/Beaming/StartBeam.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/Augment.scm

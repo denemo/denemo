@@ -1089,6 +1089,14 @@
         <action>ImportLilypond</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>SetBeamExceptions</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementBeamingRules</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
