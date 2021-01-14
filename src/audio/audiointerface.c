@@ -724,6 +724,7 @@ play_notes (backend_type_t backend, int port, int channel, chord * chord_to_play
 {
   if (chord_to_play->notes)
     {
+	  DenemoStaff *curstaff = Denemo.project->movement->currentstaff->data;
       GList *g;
       for (g = chord_to_play->notes; g; g = g->next)
         {
@@ -738,7 +739,7 @@ play_notes (backend_type_t backend, int port, int channel, chord * chord_to_play
           /* 60 is middle-C in MIDI keys */
           gchar key = 60 + 12 * (offset / 7) + key_offset[offset % 7 + 6];
           key += n->enshift;
-
+		  key += curstaff->transposition;
           // FIXME
           play_note (backend, port, channel, key, 200, 127);
         }
