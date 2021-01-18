@@ -547,8 +547,6 @@ actions/menus/MainMenu/InputMenu/MIDI/FiguredBassFilterOn.scm
 actions/menus/MainMenu/InputMenu/MIDI/FiguredBassFilterOn.xml
 actions/menus/MainMenu/InputMenu/MIDI/FootPedalConductor.scm
 actions/menus/MainMenu/InputMenu/MIDI/FootPedalConductor.xml
-actions/menus/MainMenu/InputMenu/MIDI/MidiAdvanceOnEdit.scm
-actions/menus/MainMenu/InputMenu/MIDI/MidiAdvanceOnEdit.xml
 actions/menus/MainMenu/InputMenu/MIDI/MidiFilterOff.scm
 actions/menus/MainMenu/InputMenu/MIDI/MidiFilterOff.xml
 actions/menus/MainMenu/InputMenu/MIDI/ToggleCheckChords.scm

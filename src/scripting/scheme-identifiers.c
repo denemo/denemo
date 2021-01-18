@@ -43,13 +43,6 @@ install_scm_function (gint nbargs, gchar* tooltip, gchar * name, gpointer callba
 void
 create_scheme_identfiers (void)
 {
-
-  /* test with
-     (d-EditMode)
-     (d-2)
-     (d-PutNoteName "cis''")
-   */
-
   /* create scheme functions d-<name> for all the menuitem callbacks of <name> that are not check/radio items
      The scheme functions are defined to take one optional parameter which by denemo convention will be a String type,
      not necessarily null terminated, which is then passed as a GString * to the callback routines (with the first parameter, the DenemoAction*, passed as NULL.

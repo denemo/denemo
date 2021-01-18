@@ -4618,12 +4618,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_tooltip>Insert a rest with longa duration</_tooltip>
       </row>
       <row type="scheme">
-        <action>MidiAdvanceOnEdit</action>
-        <menupath>/MainMenu/InputMenu/MIDI</menupath>
-        <_label>MIDI Advance on Edit</_label>
-        <_tooltip>Advances the cursor on MIDI note entry. Use in Edit mode.</_tooltip>
-      </row>
-      <row type="scheme">
         <action>MidiFilterOff</action>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
         <_label>MIDI Filter Off</_label>
