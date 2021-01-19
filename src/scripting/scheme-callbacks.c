@@ -2313,7 +2313,8 @@ scheme_rewind_midi (SCM start)
   return scm;
 }
 
-
+//gets a list of midi-key numbers for note-on events whose time is within interval of the first note-on event after the current si->smf position
+//leaves the si->smf position on that note-on event.
 SCM
 scheme_next_midi_notes (SCM interval)
 {
