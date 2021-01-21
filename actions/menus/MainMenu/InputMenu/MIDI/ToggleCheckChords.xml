@@ -8,7 +8,7 @@
         <after>AngryDelete</after>
         <action>ToggleCheckChords</action>
         <_label>Check Chords (On/Off)</_label>
-        <_tooltip>Advances through the current movement as you play the notes, stopping for wrong or missing notes in MIDI in.</_tooltip>
+        <_tooltip>Advances through the current movement as you play the notes from all staffs that sound together, with the cursor moving on in the current staff. Playing a wrong note stops the cursor and the chord/notes have to be re-played correctly. If the current staff has a rest the cursor stops on the note before until you have played to the moment when it re-joins. You can reposition the cursor or edit the music (via the PC keyboard) while continuing with this mode - the checking resumes when you play the next note(s) in. You can arpeggiate the notes as convenient, no particular order is required as long as all the notes that start at the same moment are played before moving on.</_tooltip>
       </row>
     </map>
   </merge>
