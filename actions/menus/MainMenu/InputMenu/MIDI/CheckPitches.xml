@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>CheckPitches</action>
         <_label>Check Note Pitches</_label>
-        <_tooltip>Compares note from MIDI with current note, if equal in pitch, advances to next note, else beeps. Note: holding down the shift key on the pc keyboard while playing notes on the MIDI in achieves the same effect instantly, so this filter is largely obsolete.</_tooltip>
+        <_tooltip>Compares notes/chords played from MIDI with current note/chord, if equal in pitch, advances to next note/chord, else beeps. To stop the checking issue this command a second time. When you reach the last note it finishes and reverts to Appending/Editing notes from MIDI in.</_tooltip>
       </row>
     </map>
   </merge>
