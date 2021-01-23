@@ -629,7 +629,7 @@ typedef struct DenemoDirective
 #define DENEMO_OVERRIDE_ABOVE DENEMO_OVERRIDE_MARKUP //For chord directives, makes the graphic display above rather than below the chord
 
 
-  guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overriden by this directive and values to use when overriding MIDI */
+  guint32 override; /**< specifies what if anything of the built-in behaviour of the object the directive is attached to is to be overridden by this directive and values to use when overriding MIDI */
   GString *midibytes;/**< values to be used for MIDI generation; the meaning depends fields in override */
   gboolean locked;/**< If true the directive cannot be deleted easily */
   GString *data;/**< data used by scripts that manipulate the directive, typically scheme data */

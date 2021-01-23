@@ -265,7 +265,7 @@ draw_chord (cairo_t * cr, objnode * curobj, gint xx, gint y, gint mwidth, gint *
   gint prevbaseduration, nextbaseduration;
   GList *curnode;
   gint is_grace = (thechord.notes ? thechord.is_grace : 0);
-  DenemoGraphic *override_notehead = NULL;      //overriding notehead to be used for all notes of chord unless built-in or overriden
+  DenemoGraphic *override_notehead = NULL;      //overriding notehead to be used for all notes of chord unless built-in or overridden
   gint gx = 0, gy = 0;          //positioning for overriding notehead
   if (cr)
     {

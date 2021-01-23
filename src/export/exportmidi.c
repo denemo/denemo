@@ -1458,7 +1458,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                               DenemoDirective *directive = g->data;
                               gint midi_override = directive_get_midi_override (directive);
                               if (midi_override)
-                                skip_midi = TRUE;       //TODO if it *is* overriden take action e.g. increase volume etc. For now we just drop it
+                                skip_midi = TRUE;       //TODO if it *is* overridden take action e.g. increase volume etc. For now we just drop it
                             }
 #endif
                           if (!skip_midi)

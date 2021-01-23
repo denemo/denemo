@@ -1158,7 +1158,7 @@ parse_part (xmlNodePtr rootElem)
   gint i, j;
   xmlNodePtr childElem;
   gint numstaffs = 1, numvoices = 1;
-  gint divisions = 384;         //will be overriden anyway.
+  gint divisions = 384;         //will be overridden anyway.
   
   FOREACH_CHILD_ELEM (childElem, rootElem)
   {

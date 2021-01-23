@@ -38,7 +38,7 @@ find_measure_context (measurenode * curmeasure, DenemoObjType thetype)
       while (!curobj)
         {                       /* Cycle back to preceding measure */
           if (!curmeasure->prev)
-            return NULL;        /* That is, we've fallen off the beginnig */
+            return NULL;        /* That is, we've fallen off the beginning */
           curmeasure = curmeasure->prev;
           curobj = measure_last_obj_node (curmeasure);
         }

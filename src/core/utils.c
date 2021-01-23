@@ -435,7 +435,7 @@ infodialog (gchar * msg)
   return dialog;
 }
 
-/* data stucture to contain Progressbar
+/* data structure to contain Progressbar
  * data
  */
 typedef struct _ProgressData

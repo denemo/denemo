@@ -560,7 +560,7 @@ update_playback_time (backend_timebase_prio_t prio, double new_time)
   if (new_time != playback_time)
     {
       playback_time = new_time;
-      // midi_play tries to set playback_time, which then gets overriden by the call in the portaudio callback.
+      // midi_play tries to set playback_time, which then gets overridden by the call in the portaudio callback.
       // if the lock fails, the playback time update will be delayed until the
       // queue thread wakes up on its own
       if (!try_signal_queue ())

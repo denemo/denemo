@@ -510,7 +510,7 @@ staff_beams_and_stems_dirs (DenemoStaff * thestaff)
 
 /**
  * Sets which accidentals to show across a staff on a key sig change
- * @param thestaff a staff stucture
+ * @param thestaff a staff structure
  * @return none
  */
 void

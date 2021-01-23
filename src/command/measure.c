@@ -1,7 +1,7 @@
 /* measure.cpp
  * functions dealing with measures
  *
- * for Denemo, a gtk+ frontent to GNU Lilypond
+ * for Denemo, a gtk+ frontend to GNU Lilypond
  * (c) 2000-2005 Matthew Hiller, Adam Tee
  */
 
