@@ -1,5 +1,4 @@
 ;CheckPitches
-(d-MidiInListening)
-(d-ToggleCheckChords)
-(d-WarningDialog (_ "Finished"))
-(d-MidiInAppendEdit)
+		(d-MidiInListening)
+		(d-ToggleCheckChords)
+		(d-MidiInAppendEdit)
