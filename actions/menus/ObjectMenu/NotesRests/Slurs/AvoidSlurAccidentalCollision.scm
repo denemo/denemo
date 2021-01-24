@@ -10,7 +10,7 @@
                 (let ((value (d-GetUserInput "Collision Avoidance" "Give edge attraction factor for slur" "0.5")))
                     (if (and value (string->number value))
                         (begin
-                            (d-DirectivePut-chord-prefix tag (string-append "\\once \\override Slur #'details #'edge-attraction-factor = #" value " "))
+                            (d-DirectivePut-chord-prefix tag (string-append "\\once \\override Slur.details #'edge-attraction-factor = #" value " "))
                             (d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
                             (d-DirectivePut-chord-display tag "(X"))   ; here  ) to match the string paren open
                          (d-InfoDialog (_ "Cancelled"))))   
