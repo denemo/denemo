@@ -327,14 +327,14 @@ chapter =
   (add-toc-item (*parser*) 'tocChapterMarkup title)
   (add-even-page-header-text (*parser*) (string-upper-case (*book-title*)) #f)
   (add-odd-page-header-text (*parser*) (string-upper-case title) #f)
-  (add-toplevel-markup (*parser*) (markup #:chapter-title (string-upper-case title)))
+  (add-toplevel-markup (*parser*) (make-chapter-title-markup (string-upper-case title)))
   (add-no-page-break (*parser*))
   (make-music 'Music 'void #t))
 
 section =
 #(define-music-function (title) (markup?)
   (add-toc-item (*parser*) 'tocSectionMarkup title)
-  (add-toplevel-markup (*parser*) (markup #:section-title (string-upper-case title)))
+  (add-toplevel-markup (*parser*) (make-section-title-markup (string-upper-case title)))
   (add-no-page-break (*parser*))
   (make-music 'Music 'void #t))
                         
@@ -342,7 +342,7 @@ piece =
 #(define-music-function (title) (markup?)
   (add-toc-item (*parser*) 'tocPieceMarkup title)
   (add-no-page-break (*parser*))
-  (add-toplevel-markup (*parser*) (markup #:piece-title (string-upper-case title)))
+  (add-toplevel-markup (*parser*) (make-piece-title-markup (string-upper-case title)))
   (add-no-page-break (*parser*))
   (make-music 'Music 'void #t))
                         
@@ -351,8 +351,8 @@ titledPiece =
   (add-toc-item (*parser*) 'tocPieceMarkup title)
   (if (*use-rehearsal-numbers*)
       (add-toplevel-markup (*parser*)
-        (markup #:piece-title-with-number (rehearsal-number) (string-upper-case title)))
-      (add-toplevel-markup (*parser*) (markup #:piece-title (string-upper-case title))))
+        (make-piece-title-with-number-markup (rehearsal-number) (string-upper-case title)))
+      (add-toplevel-markup (*parser*) (make-piece-title-markup (string-upper-case title))))
   (add-no-page-break (*parser*))
   (make-music 'Music 'void #t))
 
