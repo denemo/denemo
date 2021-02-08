@@ -1,9 +1,9 @@
 ;;;AssignInstrument
-(let ((num-staffs (d-GetStaffsInMovement)) (staff (d-GetStaff)))
+(let ((num-staffs (d-GetStaffsInMovement))(has-lyrics (d-GetVerse)) (staff (d-GetStaff)))
 	(SelectStaff)
 	(d-Copy)
 	(d-AddInstrumentStaff)
-	(if (> (d-GetStaffsInMovement) (1+ num-staffs))
+	(if (or has-lyrics (> (d-GetStaffsInMovement) (1+ num-staffs)))
 		(d-WarningDialog (_ "Copy and Paste the music from the old staffs to the new, and then delete the old staffs"))
 		(if (>= (d-GetStaff) (1+ staff))
 			(begin
