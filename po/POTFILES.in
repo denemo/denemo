@@ -1285,6 +1285,8 @@ actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml
+actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.scm
+actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm
 actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml
 actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.scm
@@ -2057,6 +2059,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarku
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm
@@ -2223,6 +2227,8 @@ actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/NonPrintingStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/PianoStaffName.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/PianoStaffName.xml
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/RhythmicStaff.scm
+actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/RhythmicStaff.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.scm
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffLines.xml
 actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/SetStaffRangeFromChord.scm

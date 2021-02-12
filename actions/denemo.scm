@@ -1442,7 +1442,40 @@
                 (d-SetSaved #f)
                 (d-DirectivePut-paper-data tag data)
                 (d-DirectivePut-paper-postfix tag (string-append type ".basic-distance =  " data "\n"))))))
-                
+;;;;;;;;;;;
+;example: (begin (DenemoSpacingParams  "MarkupSystemSpacing" "markup-system-spacing" 'stretchability 1) (DenemoSpacingParams "SystemSystemSpacing"  "system-system-spacing" 'stretchability 1))                
+(define* (DenemoSpacingParams tag elements type #:optional (value #f))
+    (let* ((data #f)(title #f)(prompt #f)
+			(basic-distance 12)
+			(minimum-distance 8)
+			(padding 1)
+			(stretchability 60))
+		(set! tag (string-append tag "-" (symbol->string type)))
+		(set! data (d-DirectiveGet-paper-data tag))
+		(case type
+			((basic-distance)
+				(set! prompt (_ "Give distance"))
+				(set! title (_ (string-append tag " Basic Distance"))))
+			((minimum-distance)
+				(set! prompt (_ "Give distance"))
+				(set! title (_ "System to System Minimum Distance")))
+			((padding)
+				(set! prompt (_ "Give padding"))
+				(set! title (_ "System to System Padding")))
+			((stretchability)
+				(set! prompt (_ "Give stretchability"))
+				(set! title (_ "System to System Stretchability"))))		
+		
+        (if value
+			(set! value (number->string value))
+			(set! value (d-GetUserInput title prompt data)))
+        (if (and value (string->number value))
+            (begin
+                (d-SetSaved #f)
+                (d-DirectivePut-paper-data tag value)
+                (d-DirectivePut-paper-postfix tag (string-append elements "." (symbol->string type) " = " value "\n"))))))                
+ 
+                                
 ;;;;edit staff, called from tools icon at start of staff
 (define (EditStaff)
         (let* ((num (number->string (d-GetStaff)))(choice (RadioBoxMenu 

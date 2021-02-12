@@ -737,6 +737,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>LimitInterSystemSpace</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ToggleMarcato</action>
         <hidden>true</hidden>
       </row>
@@ -1095,6 +1099,38 @@
       </row>
       <row>
         <action>MovementBeamingRules</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MarkupSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreMarkupSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SystemSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MarkupMarkupSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TopSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>LastBottomSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TopMarkupSpacingDist</action>
         <hidden>true</hidden>
       </row>
     </map>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SpacingParameters</action>
+        <after>MarkupSystemSpacingDist</after>
+        <_label>Choose Titles and Systems Spacing</_label>
+        <_tooltip>Lets you choose parameters to control the vertical spacing between titles, systems and margins.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

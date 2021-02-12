@@ -8608,6 +8608,27 @@ Invoke the command again to stop.</_tooltip>
 Include rests if they are part of the pattern.
 </_tooltip>
       </row>
+      <row type="scheme">
+        <action>SeparateMovement</action>
+        <after>RaggedRight</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/PrintLayout</menupath>
+        <_label>Separated Movement (On/Off)</_label>
+        <_tooltip>Prints this movement on its own page(s). Not for use with Book Titles.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>RhythmicStaff</action>
+        <after>ChordChartStaff</after>
+        <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu</menupath>
+        <_label>Rhythmic Staff</_label>
+        <_tooltip>The staff will display as rhythm only, with pitches being ignored.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SpacingParameters</action>
+        <after>MarkupSystemSpacingDist</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing</menupath>
+        <_label>Choose Titles and Systems Spacing</_label>
+        <_tooltip>Lets you choose parameters to control the vertical spacing between titles, systems and margins.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

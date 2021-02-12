@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SeparateMovement</action>
+        <after>RaggedRight</after>
+        <_label>Separated Movement (On/Off)</_label>
+        <_tooltip>Prints this movement on its own page(s). Not for use with Book Titles.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
