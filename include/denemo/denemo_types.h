@@ -288,6 +288,7 @@ typedef GList measurenode;
  */
 typedef struct
 {
+  gchar *type; /**< type of staff, e.g. TabStaff or RhythmicStaff. Null for normal staffs */
   GtkMenu *staffmenu; /**< a menu to popup up with the staff directives attached */
   GtkMenu *voicemenu; /**< a menu to popup up with the voice directives attached */
   GList *sources;/**< List of source pixbufs, one for each measure staff-view */

@@ -6961,6 +6961,29 @@ scheme_set_lines_in_staff (SCM lines)
 }
 
 SCM
+scheme_staff_type (SCM type)
+{
+  gchar *value = "Staff";
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (thestaff->type)
+	value = thestaff->type;
+  if (scm_is_string (type))
+    {
+      value = scm_to_locale_string (type);
+      if (!g_strcmp0 (value, "Staff"))
+		thestaff->type = NULL;
+	  else
+		thestaff->type = value;
+	  signal_structural_change (Denemo.project);
+      score_status (Denemo.project, FALSE);
+    }
+  else
+	if (type != SCM_UNDEFINED)
+		return SCM_BOOL_F;
+  return scm_from_locale_string (value);
+}
+
+SCM
 scheme_inherit_staff_properties (void)
 {
   DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;

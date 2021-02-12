@@ -2215,6 +2215,12 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
       {
         curStaff->color = getXMLIntChild (childElem);
       }
+    else if (ELEM_NAME_EQ (childElem, "staff-type"))
+      {
+        gchar *temp = (gchar *) xmlNodeListGetString (childElem->doc, childElem->children, 1);
+		if (temp)
+			curStaff->type = temp;
+      }
     else if (ELEM_NAME_EQ (childElem, "staff-range"))
       {
         curStaff->range = getXMLIntChild (childElem);
@@ -3219,4 +3225,3 @@ cleanup:
 
   return ret;
 }
-

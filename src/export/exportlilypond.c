@@ -2516,7 +2516,8 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
             g_string_append_printf (str, "%s %s%s", alt_override, staff_prolog_insert, staff_epilog_insert);
             }
         else
-            g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new Staff = \"%s\" << %s\n", alt_override, denemo_name, staff_epilog_insert); 
+			g_string_append_printf (str, "\n%%Start of Staff\n %s  \\new %s = \"%s\" << %s\n", 
+				 alt_override, curstaffstruct->type?curstaffstruct->type:"Staff", denemo_name, staff_epilog_insert);
          
       } else 
       {
@@ -2529,7 +2530,7 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
                 g_string_append_printf (str, "%s %s%s", alt_override, staff_prolog_insert, staff_epilog_insert);
                 }
             else
-               g_string_append_printf (str, "\n%%Start of Staff\n  \\new Staff = \"%s\" \\with { %s }<< %s\n", denemo_name, alt_override, staff_epilog_insert); 
+               g_string_append_printf (str, "\n%%Start of Staff\n  \\new %s = \"%s\" \\with { %s }<< %s\n", curstaffstruct->type?curstaffstruct->type:"Staff", denemo_name, alt_override, staff_epilog_insert); 
            }
           else
             {
@@ -2538,7 +2539,7 @@ set_staff_definition (GString * str, DenemoStaff * curstaffstruct)
                     g_string_append_printf (str, "%s %s%s", alt_override, staff_prolog_insert, staff_epilog_insert);
                     } 
                 else
-                    g_string_append_printf (str, "\n%%Start of Staff\n\\new Staff = \"%s\" %s << %s\n", denemo_name, staff_prolog_insert, staff_epilog_insert);
+                    g_string_append_printf (str, "\n%%Start of Staff\n\\new %s = \"%s\" %s << %s\n", curstaffstruct->type?curstaffstruct->type:"Staff", denemo_name, staff_prolog_insert, staff_epilog_insert);
             
         }
       }

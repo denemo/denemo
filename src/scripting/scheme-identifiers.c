@@ -96,6 +96,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Lessens the display height for the current staff", DENEMO_SCHEME_PREFIX "ShortenStaffHeight", scheme_shorten_staff_height);
   install_scm_function (0, "Copies the staff properties from the staff above to the current staff", DENEMO_SCHEME_PREFIX "InheritStaffProperties", scheme_inherit_staff_properties);
   install_scm_function (0, "Sets the number of lines for the current staff", DENEMO_SCHEME_PREFIX "SetLinesInStaff", scheme_set_lines_in_staff);
+  install_scm_function (0, "Sets the current staff type, with no argument returns the staff type", DENEMO_SCHEME_PREFIX "StaffType", scheme_staff_type);
   install_scm_function (0, "Sets the highest note playable for the current staff", DENEMO_SCHEME_PREFIX "SetStaffRangeHi", scheme_set_staff_range_hi);
   install_scm_function (0, "Sets the lowest note playable for the current staff", DENEMO_SCHEME_PREFIX "SetStaffRangeLo", scheme_set_staff_range_lo);
   install_scm_function (0, "Sets the range of notes playable for the current staff from the chord at the cursor.", DENEMO_SCHEME_PREFIX "SetStaffRange", scheme_set_staff_range);
