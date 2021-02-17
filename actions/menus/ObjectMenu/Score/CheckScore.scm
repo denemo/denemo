@@ -9,6 +9,26 @@
         (set! CheckScore::ignore CheckScore::params))    
     (if (d-Directive-score? "CriticalCommentsAmended")
         (d-CriticalCommentary))
+        
+(if (not CheckScore::params);; interactive
+	;;;Check Parts are same in each movement.
+	(let ((parts #f))
+		(define (collect-parts)
+			(define parts (list (d-StaffProperties "query=denemo_name")))
+			(while (d-MoveToStaffDown)
+				(set! parts (cons (d-StaffProperties "query=denemo_name") parts)))
+			parts)
+		(define (differ list1 list2)
+				(member #f (map equal? list1 list2)))
+		(d-PushPosition)
+		(d-GoToPosition 1 1 1 1)
+		(set! parts (collect-parts))
+		(while (d-NextMovement)
+			(if (differ parts (collect-parts))
+				(d-WarningDialog (string-append (_ "Parts in movement ")
+					(number->string (d-GetMovement)) (_ " differ from those in opening movement.\nWhile this is not an error, be aware that trying to print a part that does not appear in each movement will result in empty movements.")))))
+		(d-PopPosition)))        
+        
 
     (while (d-PreviousMovement))
     (d-InfoDialog "Checking Score - Please wait\nThe display will be strange while checking is done!")
