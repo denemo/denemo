@@ -1455,6 +1455,27 @@ mxmlinput (gchar * filename)
     (do-staff)\n\
     (while (d-StaffDown)\n\
         (do-staff)))\n\
+(define (CatchUnterminatedTuplets)\n\
+  (define (do-staff)\n\
+       (d-MoveToBeginning)\n\
+	   (let do-measure ((count 0))\n\
+		(let loop ()\n\
+       		(if (TupletOpen?)\n\
+       			(set! count (1+ count))\n\
+       			(if (TupletClose?)\n\
+					(set! count (1- count))))\n\
+			(if (d-NextObjectInMeasure)\n\
+				(loop)))\n\
+		(d-MoveCursorRight)\n\
+		(while (positive? count)\n\
+				(d-EndTuplet)\n\
+				(set! count (1- count)))\n\
+		(if (d-MoveToMeasureRight)\n\
+			(do-measure 0))))\n\
+    (while (d-StaffUp))\n\
+    (do-staff)\n\
+    (while (d-StaffDown)\n\
+        (do-staff)))\n\
  (define (SetField field title)\n\
 		(define tag \"ScoreTitles\")\n\
 		(define postfix #f)\n\
@@ -1598,7 +1619,7 @@ mxmlinput (gchar * filename)
 	(while (d-StaffDown)\n\
 		(do-staff)))\n\
 (if (and (not (None?))(UnderfullMeasure?))(d-Upbeat))\n\
-(PadMeasures)(RemoveEmptyTuplets)(d-AmalgamateRepeatBarlines)\n\
+(PadMeasures)(RemoveEmptyTuplets)(CatchUnterminatedTuplets)(d-AmalgamateRepeatBarlines)\n\
 (d-ConvertToWholeMeasureRests)(d-InstallGraceNoteHints)(assign-voices)(d-DecreaseGuard)\n\
   (d-SetPrefs (string-append \"<spillover>\" (if spillover \"1\" \"0\") \"</spillover>\"))    \n\
   (d-SetPrefs (string-append \"<startmidiin>\"(if startmidiin \"1\" \"0\") \"</startmidiin>\"))\n\
