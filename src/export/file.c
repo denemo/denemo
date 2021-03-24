@@ -377,6 +377,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
   gint result;
   gchar *zipfile = NULL;
   gboolean xml = FALSE;
+  gboolean musicxml = FALSE;
   result = 1;                   //FAILURE
 
   if (type == REPLACE_SCORE)
@@ -434,7 +435,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
       else if (has_extension (filename, ".ly"))
         result = lyinput (filename);
       else if (has_extension (filename, ".mxml") || has_extension (filename, ".xml") || has_extension (filename, ".musicxml"))
-        result = mxmlinput (filename);
+        musicxml = TRUE, result = mxmlinput (filename);
       else if (has_extension (filename, ".mid") || has_extension (filename, ".midi"))
         result = (type==GUIDED_IMPORT)?guidedImportMidi (filename):importMidi (filename);
       else if (has_extension (filename, ".pdf") || has_extension (filename, ".PDF"))
@@ -467,7 +468,8 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
               else
                 {
                   gchar *sname = strip_path_and_extension (filename);
-                  set_gui_tabname (gui, sname);
+                  if (!musicxml)
+					set_gui_tabname (gui, sname);
                   g_free (sname);
                 }
             }
