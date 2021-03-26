@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <lilyversion>2.20</lilyversion>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>145</total-edit-time>
+    <score-directives>
+      <directive>
+        <tag>ScoreIndent</tag>
+        <prefix>\layout {indent = 21.6}
+</prefix>
+        <display>indent=21.6</display>
+        <data>21.6</data>
+        <override>4</override>
+      </directive>
+      <directive>
+        <tag>ScoreIndent
+Score</tag>
+        <prefix>\layout {indent = 25}
+</prefix>
+        <display>indent=25</display>
+        <data>25</data>
+        <allow>
+          <layout>4082636885</layout>
+        </allow>
+      </directive>
+    </score-directives>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>3</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>62</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <score-info>
+      <tempo>
+        <duration>
+          <numerator>1</numerator>
+          <denominator>4</denominator>
+        </duration>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+      <staff id="id1"></staff>
+      <staff id="id2"></staff>
+      <staff id="id3"></staff>
+    </staves>
+    <voices>
+      <voice id="id4">
+        <voice-info>
+          <voice-name>Soprano</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName
+Score</tag>
+              <postfix>\set Staff.instrumentName = "Soprano &amp; Alto"</postfix>
+              <display>Soprano &amp; Alto</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Sop, Alt"</postfix>
+              <display>Sop, Alt</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ContextChoirStaff</tag>
+              <prefix> \new ChoirStaff &lt;&lt;
+</prefix>
+              <display>ContextChoirStaff</display>
+              <override>20</override>
+            </directive>
+            <directive>
+              <tag>InstrumentName</tag>
+              <prefix>instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                            (if choice (choice)))    " "Soprano &amp; Alto" }</prefix>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 1 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                            (if choice (choice)))    " "Soprano" }</postfix>
+              <display>Soprano &amp; Alto</display>
+              <override>22</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceOne </postfix>
+              <graphic_name>
+v1
+Serif
+24
+1
+1</graphic_name>
+              <minpixels>30</minpixels>
+              <tx>-30</tx>
+              <ty>60</ty>
+              <allow>
+                <layout>4082636885</layout>
+                <layout>2045988384</layout>
+              </allow>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id5">
+        <voice-info>
+          <voice-name>Alto</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>3</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>1</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 2 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                            (if choice (choice)))    " "Alto" }</postfix>
+              <display>Alto</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceTwo </postfix>
+              <graphic_name>
+v2
+Serif
+24
+1
+1</graphic_name>
+              <minpixels>30</minpixels>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id6">
+        <voice-info>
+          <voice-name>Tenor</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="bass"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>2</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <prefix>instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 3 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                            (if choice (choice)))    " "Tenor &amp; Bass" }</prefix>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 3 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                            (if choice (choice)))    " "Tenor" }</postfix>
+              <display>Tenor &amp; Bass</display>
+              <override>22</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Ten, Bs"</postfix>
+              <display>Ten, Bs</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceThree </postfix>
+              <graphic_name>
+v3
+Serif
+24
+1
+1</graphic_name>
+              <minpixels>30</minpixels>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id7">
+        <voice-info>
+          <voice-name>Bass</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id1"></staff-ref>
+          <clef name="bass"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>3</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>3</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>ContextChoirStaff</tag>
+              <postfix> &gt;&gt;
+</postfix>
+              <display>ContextChoirStaff</display>
+              <override>20</override>
+            </directive>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = \markup {  \with-url #'"scheme:(d-GoToPosition 1 4 1 1)(let ((choice (d-PopupMenu (list (cons (_ \"Change Name\") d-InstrumentName)   (cons (_ \"Change Indent\") d-ScoreIndent)))))
+                            (if choice (choice)))    " "Bass" }</postfix>
+              <display>Bass</display>
+              <override>4</override>
+            </directive>
+          </staff-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>VoiceSetting</tag>
+              <postfix>\voiceFour </postfix>
+              <graphic_name>
+v4
+Serif
+24
+1
+1</graphic_name>
+              <minpixels>30</minpixels>
+              <tx>-30</tx>
+              <ty>60</ty>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id8">
+        <voice-info>
+          <voice-name>Score</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id2"></staff-ref>
+          <clef name="treble">
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <graphic_name>
+S
+Denemo
+48</graphic_name>
+                <gy>36</gy>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-color>-266330112</staff-color>
+          <staff-hidden>1</staff-hidden>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>4</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Soprano &amp; Alto"</postfix>
+              <display>Soprano &amp; Alto</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Sop, Alt"</postfix>
+              <display>Sop, Alt</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ContextChoirStaff</tag>
+              <prefix> \new ChoirStaff &lt;&lt;
+</prefix>
+              <display>ContextChoirStaff</display>
+              <override>20</override>
+            </directive>
+            <directive>
+              <tag>NonPrintingStaff</tag>
+              <prefix> \void </prefix>
+              <display>Hidden Staff</display>
+              <override>6</override>
+              <ignore>
+                <layout>4082636885</layout>
+              </ignore>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <prefix>{ \clef treble    \time 4/4    \key c \major  \MvmntIVoiceI } \void </prefix>
+              <display>Soprano on Staff 1</display>
+              <override>6</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <graphic_name>
+S
+Denemo
+48</graphic_name>
+              <gy>36</gy>
+              <override>5</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>SubstituteMusic</tag>
+              <postfix> </postfix>
+              <display>Right click to update clef/time/key</display>
+              <graphic_name>
+Music here is mirrored from Soprano on Staff 1
+Denemo
+20</graphic_name>
+              <minpixels>50</minpixels>
+              <override>268435456</override>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id9">
+        <voice-info>
+          <voice-name>Score</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id2"></staff-ref>
+          <clef name="treble">
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <graphic_name>
+S
+Denemo
+48</graphic_name>
+                <gy>36</gy>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-color>-266330112</staff-color>
+          <staff-hidden>1</staff-hidden>
+          <voice-control>3</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>4</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>NonPrintingStaff</tag>
+              <prefix> \void </prefix>
+              <display>Hidden Staff</display>
+              <override>6</override>
+              <ignore>
+                <layout>4082636885</layout>
+              </ignore>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <prefix>{ \clef treble    \time 4/4    \key c \major  \MvmntIVoiceII } \void </prefix>
+              <display>Alto on Staff 2</display>
+              <override>6</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <graphic_name>
+S
+Denemo
+48</graphic_name>
+              <gy>36</gy>
+              <override>5</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>SubstituteMusic</tag>
+              <postfix> </postfix>
+              <display>Right click to update clef/time/key</display>
+              <graphic_name>
+Music here is mirrored from Alto on Staff 2
+Denemo
+20</graphic_name>
+              <minpixels>50</minpixels>
+              <override>268435456</override>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id10">
+        <voice-info>
+          <voice-name>Score</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id3"></staff-ref>
+          <clef name="bass">
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <graphic_name>
+S
+Denemo
+48</graphic_name>
+                <gy>36</gy>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-color>-266330112</staff-color>
+          <staff-hidden>1</staff-hidden>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>4</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>InstrumentName</tag>
+              <postfix>\set Staff.instrumentName = "Tenor &amp; Bass"</postfix>
+              <display>Tenor &amp; Bass</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>ShortInstrumentName</tag>
+              <postfix>\set Staff.shortInstrumentName = "Ten, Bs"</postfix>
+              <display>Ten, Bs</display>
+              <override>4</override>
+            </directive>
+            <directive>
+              <tag>NonPrintingStaff</tag>
+              <prefix> \void </prefix>
+              <display>Hidden Staff</display>
+              <override>6</override>
+              <ignore>
+                <layout>4082636885</layout>
+              </ignore>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <prefix>{ \clef bass    \time 4/4    \key c \major  \MvmntIVoiceIII } \void </prefix>
+              <display>Tenor on Staff 3</display>
+              <override>6</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <graphic_name>
+S
+Denemo
+48</graphic_name>
+              <gy>36</gy>
+              <override>5</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>SubstituteMusic</tag>
+              <postfix> </postfix>
+              <display>Right click to update clef/time/key</display>
+              <graphic_name>
+Music here is mirrored from Tenor on Staff 3
+Denemo
+20</graphic_name>
+              <minpixels>50</minpixels>
+              <override>268435456</override>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+      <voice id="id11">
+        <voice-info>
+          <voice-name>Score</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id3"></staff-ref>
+          <clef name="bass">
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <graphic_name>
+S
+Denemo
+48</graphic_name>
+                <gy>36</gy>
+                <override>5</override>
+              </directive>
+            </directives>
+          </clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+            <directives>
+              <directive>
+                <tag>SubstituteMusic</tag>
+                <override>5</override>
+              </directive>
+            </directives>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <staff-color>-266330112</staff-color>
+          <staff-hidden>1</staff-hidden>
+          <voice-control>3</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>4</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+          <staff-directives>
+            <directive>
+              <tag>ContextChoirStaff</tag>
+              <postfix> &gt;&gt;
+</postfix>
+              <display>ContextChoirStaff</display>
+              <override>20</override>
+            </directive>
+            <directive>
+              <tag>NonPrintingStaff</tag>
+              <prefix> \void </prefix>
+              <display>Hidden Staff</display>
+              <override>6</override>
+              <ignore>
+                <layout>4082636885</layout>
+              </ignore>
+            </directive>
+          </staff-directives>
+          <voice-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <prefix>{ \clef bass    \time 4/4    \key c \major  \MvmntIVoiceIV } \void </prefix>
+              <display>Bass on Staff 4</display>
+              <override>6</override>
+            </directive>
+          </voice-directives>
+          <clef-directives>
+            <directive>
+              <tag>SubstituteMusic</tag>
+              <graphic_name>
+S
+Denemo
+48</graphic_name>
+              <gy>36</gy>
+              <override>5</override>
+            </directive>
+          </clef-directives>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>SubstituteMusic</tag>
+              <postfix> </postfix>
+              <display>Right click to update clef/time/key</display>
+              <graphic_name>
+Music here is mirrored from Bass on Staff 4
+Denemo
+20</graphic_name>
+              <minpixels>50</minpixels>
+              <override>268435456</override>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
