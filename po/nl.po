@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.5-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2021-02-01 14:03+0000\n"
-"PO-Revision-Date: 2021-02-19 21:02+0100\n"
+"PO-Revision-Date: 2021-03-12 23:26+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -22,7 +22,7 @@ msgstr ""
 #. GtkFileFilter *filter;
 #: ../src/audio/fluid.c:211
 msgid "Choose SoundFont File"
-msgstr "Geluidslettertypebestand selecteren"
+msgstr "SoundFontbestand kiezen"
 
 #. GTK_WINDOW(gtk_text_view_get_window(GTK_TEXT_VIEW(Denemo.script_view), GTK_TEXT_WINDOW_WIDGET))
 #: ../src/audio/fluid.c:211 ../src/audio/playback.c:123
@@ -55,7 +55,7 @@ msgstr "Instellen welke muzikale stemming (temperatuur) voor de weergave gebruik
 
 #: ../src/audio/pitchentry.c:1523
 msgid "Overlay Pitches"
-msgstr "Overlaptoonhoogtes"
+msgstr "Toonhoogtes overlappen"
 
 #: ../src/audio/pitchentry.c:1533 ../src/core/entries.h:347
 msgid "Clear Overlay"
@@ -2503,11 +2503,11 @@ msgid ""
 "Includes main title, composer, date, instrumentation, tagline"
 msgstr ""
 "Titels, opmaakinstellingen, voorkeuren, enz. voor de globale partituur.\n"
-"Bevat hoofdtitel, componist, datum, instrumentatie, motto"
+"Bevat hoofdtitel, componist, datum, instrumentatie, slagzin"
 
 #: ../src/command/scorelayout.c:1831
 msgid "Default tagline"
-msgstr "Standaardmotto"
+msgstr "Standaardslagzin"
 
 #: ../src/command/scorelayout.c:1857
 msgid "Score Directives"
@@ -4162,7 +4162,7 @@ msgid ""
 "There are playback controls (See View->Playback Controls) which make it easy to set and re-set these and also to loop-play, choose the temperament to play in etc. Or use items in this menu to play the whole piece from the cursor to the end."
 msgstr ""
 "Muziek afspelen. Muziek wordt afgespeeld tussen het afspeelbeginpunt (groene balk) en het afspeeleindpunt (rode balk).\n"
-"Er zijn afspeelknoppen (zie Weergave->Afspeelknoppen) die het gemakkelijk maken om deze (opnieuw) in te stellen en ook om in een lus af te spelen, de temperatuur te kiezen waarin gespeeld moet worden, enz. Of gebruik items uit dit menu om het hele stuk vanaf de cursor tot het einde af te spelen."
+"Er zijn afspeelknoppen (zie Weergave->Afspeelknoppen) die het gemakkelijk maken om deze (opnieuw) in te stellen en ook om in een lus af te spelen, de temperatuur (muzikale stemming) te kiezen waarin gespeeld moet worden, enz. Of gebruik items uit dit menu om het hele stuk vanaf de cursor tot het einde af te spelen."
 
 #: ../src/core/entries.h:218
 msgid "Empty Score"
@@ -6091,7 +6091,7 @@ msgstr ""
 
 #: ../src/core/entries.h:416
 msgid "Inserting Barlines"
-msgstr "Maatstrepen invoeren"
+msgstr "Maatstrepen invoegen"
 
 #: ../src/core/entries.h:416
 msgid ""
@@ -6471,7 +6471,7 @@ msgid ""
 "You have your Denemo Preferences -> Externals -> lilypond set to "
 msgstr ""
 "\n"
-"U heeft uw Denemo Voorkeuren -> Externen -> lilypond ingesteld op "
+"U heeft uw Denemo Voorkeuren -> Extern -> lilypond ingesteld op "
 
 #: ../src/core/importxml.c:1670
 msgid " This will likely be fine, but you may need to update to using the newer version of LilyPond."
@@ -6820,7 +6820,7 @@ msgstr "Ritmes zullen ingevoerd worden als (bruine) noten zonder toonhoogte"
 
 #: ../src/core/menusystem.c:127
 msgid "No MIDI in device was found on startup- re-start Denemo with the device plugged in, select the device in the MIDI tab of the preferences dialog and re-start Denemo again."
-msgstr "Er werd geen MIDI-invoerapparaat gevonden bij het opstarten - start Denemo opnieuw op met het apparaat aangesloten, selecteer het apparaat in het MIDI-tabblad van het voorkeurenvenster en start Denemo opnieuw op."
+msgstr "Er werd geen MIDI-ingangapparaat gevonden bij het opstarten - start Denemo opnieuw op met het apparaat aangesloten, selecteer het apparaat in het MIDI-tabblad van het voorkeurenvenster en start Denemo opnieuw op."
 
 #: ../src/core/menusystem.c:207
 msgid "Save Script"
@@ -6970,11 +6970,11 @@ msgstr "Afspeelknoppen weergeven/verbergen"
 
 #: ../src/core/menusystem.c:728 ../src/core/view.c:3547
 msgid "Midi In Control"
-msgstr "Midi-invoercontrole"
+msgstr "Midi-ingangcontrole"
 
 #: ../src/core/menusystem.c:728
 msgid "Show/hide Midi Input controls"
-msgstr "Midi-invoerregelaars weergeven/verbergen"
+msgstr "Midi-ingangregelaars weergeven/verbergen"
 
 #: ../src/core/menusystem.c:732
 msgid "Titles, Buttons etc"
@@ -7031,7 +7031,7 @@ msgstr ""
 
 #: ../src/core/menusystem.c:760
 msgid "Midi Input"
-msgstr "Midi-invoer"
+msgstr "Midi-ingang"
 
 #: ../src/core/menusystem.c:760
 msgid ""
@@ -7039,7 +7039,7 @@ msgid ""
 "Use View → MIDI In Control to control what the input does.\n"
 msgstr ""
 "Invoer vanuit een MIDI-bron. Stel eerst de bron in met Bewerken → Wijzigen  Voorkeuren → Audio/Midi\n"
-"Gebruik Weergave → Midi-invoercontrole om te controleren wat de invoer doet.\n"
+"Gebruik Weergave → Midi-ingangcontrole om te controleren wat de invoer doet.\n"
 
 #: ../src/core/menusystem.c:762
 msgid "Audio Input"
@@ -7788,7 +7788,7 @@ msgstr ""
 "Met de pijlen aan weerszijden van de AFSPELEN- en de STOP-knop verplaatst u de markeringen voor het beginpunt en het eindpunt van het afspelen\n"
 "Met Lus wordt in een lus afgespeeld - u kunt bewerken terwijl afgespeeld wordt.\n"
 "U kunt de uitvoer ook opnemen en opslaan als .ogg- of .wav-bestand.\n"
-"De muzikale stemming welke wordt gebruikt voor het afspelen kan hier worden ingesteld."
+"De temperatuur (muzikale stemming) welke wordt gebruikt voor het afspelen kan hier worden ingesteld."
 
 #. Tempo
 #: ../src/core/view.c:3442
@@ -7862,7 +7862,7 @@ msgstr "De audio-uitvoer vertragen met behoud van de toonhoogte"
 
 #: ../src/core/view.c:3568
 msgid "This tells you what will happen to a MIDI in event from your controller. Click here or use the Control Shift or ALT keys, or caps lock to affect what will happen. Moving the cursor into the display will revert to editing notes."
-msgstr "Dit vertelt u wat er zal gebeuren met een MIDI-invoergebeurtenis van uw bedieningspaneel. Klik hier of gebruik de Ctrl- Shift- of ALT-toets of caps lock om te bepalen wat er gebeurt. Door de cursor te verplaatsen naar de weergave keert u terug naar het bewerken van noten."
+msgstr "Dit vertelt u wat er zal gebeuren met een MIDI-inganggebeurtenis van uw bedieningspaneel. Klik hier of gebruik de Ctrl- Shift- of ALT-toets of caps lock om te bepalen wat er gebeurt. Door de cursor te verplaatsen naar de weergave keert u terug naar het bewerken van noten."
 
 #: ../src/core/view.c:3573
 msgid ""
@@ -7889,7 +7889,7 @@ msgid ""
 "It can be deleted with the Delete button or converted to notation with the Convert button.\n"
 "A MIDI recording is not saved with the Denemo score."
 msgstr ""
-"Begint met spelen en neemt tegelijkertijd op van de MIDI-invoer.\n"
+"Begint met spelen en neemt tegelijkertijd op van de MIDI-ingang.\n"
 "Zodra een opname is gemaakt, wordt deze afgespeeld met de partituur wanneer u op Afspelen drukt.\n"
 "De opname kan worden verwijderd met de knop Verwijderen of geconverteerd naar notatie met de knop Omzetten.\n"
 "Een MIDI-opname wordt niet opgeslagen met de Denemo-partituur."
@@ -7909,7 +7909,7 @@ msgid ""
 msgstr ""
 "Bedieningselementen voor het beheer van de invoer van een MIDI-bedieningspaneel (b.v. toetsenbord) die op de computer is aangesloten.\n"
 "Mogelijk moet u eerst uw MIDI-apparaat selecteren met behulp van Hoofdmenu → Bewerken → Voorkeuren wijzigen → MIDI\n"
-"en dan zoeken naar MIDI-invoerapparaten (zet eerst uw apparaat aan).\n"
+"en dan zoeken naar MIDI-ingangapparaten (zet eerst uw apparaat aan).\n"
 "Wanneer u een MIDI-bedieningspaneel heeft wordt een toonduur ingevoegd zonder enige toonhoogte (ze verschijnen in het bruin)\n"
 " door te spelen op het bedieningspaneel zet u een toonhoogte op de toonduur.\n"
 "De Shift- en Control- en ALT-toetsen kunnen ook worden gebruikt om te luisteren zonder noten in te voeren,\n"
@@ -7947,7 +7947,7 @@ msgstr ""
 "De beschrijving van het object bij de Denemo-cursor\n"
 "Positie en status (toevoegen of invoegen) van de cursor.\n"
 "Als de afspeelknoppen zichtbaar zijn, wordt de timing van het object bij de cursor weergegeven.\n"
-"Als de MIDI-invoerbedieningselementen zichtbaar zijn wordt het huidig enharmonisch bereik weergegeven.\n"
+"Als de MIDI-ingangbedieningselementen zichtbaar zijn wordt het huidig enharmonisch bereik weergegeven.\n"
 "Wanneer de eerste toets van een sneltoets met twee toetsen wordt ingedrukt, worden hier de mogelijke vervolgtoetsen weergegeven."
 
 #: ../src/core/view.c:3720
@@ -8298,7 +8298,7 @@ msgid ""
 "Could not execute lilypond - check Edit->preferences → externals → lilypond setting\n"
 "and lilypond installation"
 msgstr ""
-"Kon lilypond niet uitvoeren - controleer Bewerken->voorkeuren → externen → lilypon-instelling\n"
+"Kon lilypond niet uitvoeren - controleer Bewerken->voorkeuren → extern → lilypon-instelling\n"
 "en de installatie van lilypond"
 
 #: ../src/export/print.c:535
@@ -9043,7 +9043,7 @@ msgstr "Audio is geen stereo - verwacht slechte dingen!"
 
 #: ../src/source/sourceaudio.c:186
 msgid "Audio does not have 44100 sample rate: this could be bad"
-msgstr "Audio heeft geen samplefrequentie van 44100: dit kan slecht zijn"
+msgstr "Audio heeft geen bemonsteringsfrequentie van 44100: dit kan slecht zijn"
 
 #: ../src/source/sourceaudio.c:338
 msgid "Open Audio Source File"
@@ -9051,7 +9051,7 @@ msgstr "Audiobronbestand openen"
 
 #: ../src/source/sourceaudio.c:356
 msgid "Could not load the audio file. Note only stereo with sample rate 44100 are supported at present. Use Audacity or similar to convert."
-msgstr "Kan het audiobestand niet laden. Merk op dat momenteel alleen stereo met samplefrequentie 44100 wordt ondersteund. Gebruik Audacity of iets dergelijks om te converteren. "
+msgstr "Kan het audiobestand niet laden. Merk op dat momenteel alleen stereo met bemonsteringsfrequentie 44100 wordt ondersteund. Gebruik Audacity of iets dergelijks om te converteren. "
 
 #: ../src/source/source.c:217
 msgid ""
@@ -9998,7 +9998,8 @@ msgstr ""
 "Hiermee kunnen objecten in het weergavevenster worden versleept.\n"
 "Allerlei richtlijnen zoals staccatopunten, ornamenten, herhalingstekens, enz., kunnen worden versleept als de weergave te onoverzichtelijk is.\n"
 "De typografie van de partituur wordt niet beïnvloed.\n"
-"Klik op een nootkop om dingen die aan de nootkop gekoppeld zijn te verslepen, of weg van de nootkoppen voor dingen die aan het hele akkoord gekoppeld zijn."
+"Klik op een nootkop om dingen die aan de nootkop gekoppeld zijn te verslepen,\n"
+"of weg van de nootkoppen voor dingen die aan het hele akkoord gekoppeld zijn."
 
 #: ../src/ui/mousing.c:1291
 msgid ""
@@ -10010,11 +10011,11 @@ msgstr ""
 "Control-Shift-Slepen wordt gebruikt om de Denemo-weergave op te ruimen. Handig als Denemo met uw invoermuziek onoverzichtelijk is geworden.\n"
 "Als u meerdere dingen aan één object hebt gekoppeld, kunt u ze beurtelings verplaatsen door ze achtereenvolgens te verslepen.\n"
 "Noten, legatobogen en overbindingen zijn vast, maar de meeste andere dingen kunnen worden verplaatst om de invoermuziek helder te maken. Heeft geen invloed op de typografie van de partituur!\n"
-"NB! Als u iets naar een kant van een noot hebt gesleept, moet u control-shift-klikken op de noot zelf om het terug te slepen - het is waar de cursor staat dat telt."
+"NB! Als u iets naar één kant van een noot hebt gesleept, moet u control-shift-klikken op de noot zelf om het terug te slepen - het is waar de cursor staat dat telt."
 
 #: ../src/ui/mousing.c:1340
 msgid "Dragged line separator."
-msgstr "Versleept lijnscheidingsteken."
+msgstr "Verschoven regelscheidingsteken."
 
 #: ../src/ui/mousing.c:1340
 msgid "This allows the display to show more music, split into lines. The typeset score is not affected."
@@ -10022,746 +10023,750 @@ msgstr "Hierdoor kan de weergave meer muziek tonen, opgesplitst in regels. De ty
 
 #: ../src/ui/mousing.c:1373
 msgid "Ctrl + Mouse Wheel Up"
-msgstr ""
+msgstr "Ctrl + muiswiel omhoog"
 
 #: ../src/ui/mousing.c:1382
 msgid "Shift + Mouse Wheel Up"
-msgstr ""
+msgstr "Shift + muiswiel omhoog"
 
 #: ../src/ui/mousing.c:1391
 msgid "Unshifted + Mouse Wheel Up"
-msgstr ""
+msgstr "Shift loslaten + muiswiel omhoog"
 
 #: ../src/ui/mousing.c:1409
 msgid "Ctrl + Mouse Wheel Down"
-msgstr ""
+msgstr "Ctrl + muiswiel omlaag"
 
 #: ../src/ui/mousing.c:1421
 msgid "Shift + Mouse Wheel Down"
-msgstr ""
+msgstr "Shift + muiswiel omlaag"
 
 #: ../src/ui/mousing.c:1429
 msgid "Unshifted + Mouse Wheel Down"
-msgstr ""
+msgstr "Shift loslaten + muiswiel omlaag"
 
 #: ../src/ui/mwidthdialog.c:61
 msgid "Set minimum measure width"
-msgstr ""
+msgstr "Minimale maatbreedte instellen"
 
 #: ../src/ui/mwidthdialog.c:68
 msgid "Enter width (in pixels) of measures:"
-msgstr ""
+msgstr "Voer de breedte (in pixels) van maten in:"
 
 #: ../src/ui/palettes.c:61 ../src/ui/palettes.c:205
 msgid "Destroy All Palettes"
-msgstr ""
+msgstr "Alle paletten verwijderen"
 
 #: ../src/ui/palettes.c:61
 msgid "Get rid of all palettes permanently?"
-msgstr ""
+msgstr "Alle paletten definitief verwijderen?"
 
 #: ../src/ui/palettes.c:146
 msgid "Give Limit"
-msgstr ""
+msgstr "Limiet opgeven"
 
 #: ../src/ui/palettes.c:158
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/Void.scm:5
 #: ../actions/menus/ObjectMenu/StaffMenu/Ossia/HideOssia.scm:8
 msgid "Hide"
-msgstr ""
+msgstr "Verbergen"
 
 #: ../src/ui/palettes.c:163
 msgid "Make Horizontal"
-msgstr ""
+msgstr "Horizontaal maken"
 
 #: ../src/ui/palettes.c:164
 msgid "Arrange the buttons extending horizontally"
-msgstr ""
+msgstr "De knoppen horizontaal uitlopend schikken"
 
 #: ../src/ui/palettes.c:174
 msgid "Make Vertical"
-msgstr ""
+msgstr "Verticaal maken"
 
 #: ../src/ui/palettes.c:175
 msgid "Arrange the buttons extending vertically"
-msgstr ""
+msgstr "De knoppen verticaal uitschuifbaar schikken"
 
 #: ../src/ui/palettes.c:181
 msgid "Vertical Limit"
-msgstr ""
+msgstr "Verticale limiet"
 
 #: ../src/ui/palettes.c:181
 msgid "Horizontal Limit"
-msgstr ""
+msgstr "Horizontale limiet"
 
 #: ../src/ui/palettes.c:182
 msgid "Set maximum extent vertically"
-msgstr ""
+msgstr "Maximale verticale omvang instellen"
 
 #: ../src/ui/palettes.c:182
 msgid "Set maximum extent horizontally"
-msgstr ""
+msgstr "Maximale horizontale omvang instellen"
 
 #: ../src/ui/palettes.c:187
 msgid "Undock"
-msgstr ""
+msgstr "Losmaken"
 
 #: ../src/ui/palettes.c:187
 msgid "Dock"
-msgstr ""
+msgstr "Vastzetten"
 
 #: ../src/ui/palettes.c:188
 msgid "Dock this palette in the main display"
-msgstr ""
+msgstr "Dit palet in het hoofdvenster vastzetten"
 
 #: ../src/ui/palettes.c:188
 msgid "Undock this palette from the main display"
-msgstr ""
+msgstr "Dit palet van het hoofdvenster loskoppelen"
 
 #: ../src/ui/palettes.c:193
 msgid "Hide All Docked"
-msgstr ""
+msgstr "Alle vastgezette verbergen"
 
 #: ../src/ui/palettes.c:194
 msgid "Hide all the docked palettes"
-msgstr ""
+msgstr "Al de vastgezette paletten verbergen"
 
 #: ../src/ui/palettes.c:199
 msgid "Hide All Palettes"
-msgstr ""
+msgstr "Alle paletten verbergen"
 
 #: ../src/ui/palettes.c:200
 msgid "Hide all the palettes"
-msgstr ""
+msgstr "Al de paletten verbergen"
 
 #: ../src/ui/palettes.c:206
 msgid "Destroy all the palettes - this will save time at startup, and shorten the palette menu."
-msgstr ""
+msgstr "Alle paletten verwijderen - dit bespaart tijd bij het opstarten en maakt het paletmenu kleiner."
 
 #: ../src/ui/palettes.c:221
 #, c-format
 msgid "Overwrite script for button \"%s\"?"
-msgstr ""
+msgstr "Script voor knop \"%s\" overschrijven?"
 
 #: ../src/ui/palettes.c:222
 msgid "Re-write Script"
-msgstr ""
+msgstr "Script herschrijven"
 
 #: ../src/ui/palettes.c:271
 msgid "Write Label"
-msgstr ""
+msgstr "Label schrijven"
 
 #: ../src/ui/palettes.c:271
 msgid "Write a label for this button"
-msgstr ""
+msgstr "Een label voor deze knop schrijven"
 
 #: ../src/ui/palettes.c:292
 msgid "Write Tooltip"
-msgstr ""
+msgstr "Knopinfo schrijven"
 
 #: ../src/ui/palettes.c:292
 msgid "Write a tooltip for this button"
-msgstr ""
+msgstr "Een knopinfo schrijven voor deze knop"
 
 #: ../src/ui/palettes.c:337
 msgid "Duplicate Button"
-msgstr ""
+msgstr "Knop dupliceren"
 
 #: ../src/ui/palettes.c:346
 msgid "Show the help for this button"
-msgstr ""
+msgstr "De hulp bij deze knop tonen"
 
 #: ../src/ui/palettes.c:350
 msgid "Edit Label"
-msgstr ""
+msgstr "Label bewerken"
 
 #: ../src/ui/palettes.c:351
 msgid "Edit the label of this button"
-msgstr ""
+msgstr "Het label van deze knop bewerken"
 
 #: ../src/ui/palettes.c:355
 msgid "Edit Tooltip"
-msgstr ""
+msgstr "Knopinfo bewerken"
 
 #: ../src/ui/palettes.c:356
 msgid "Edit the tooltip of this button"
-msgstr ""
+msgstr "De knopinfo bij deze knop bewerken"
 
 #: ../src/ui/palettes.c:362
 msgid "Copy to another Palette"
-msgstr ""
+msgstr "Naar een ander palet kopiëren"
 
 #: ../src/ui/palettes.c:363
 msgid "Copy this button to another palette"
-msgstr ""
+msgstr "Deze knop naar een ander palet kopiëren"
 
 #: ../src/ui/palettes.c:367
 msgid "Duplicate this button"
-msgstr ""
+msgstr "Deze knop dupliceren"
 
 #: ../src/ui/palettes.c:368
 msgid "Create a new button with the same effect"
-msgstr ""
+msgstr "Een nieuwe knop maken met hetzelfde effect"
 
 #: ../src/ui/palettes.c:372
 msgid "Remove from Palette"
-msgstr ""
+msgstr "Van palet verwijderen"
 
 #: ../src/ui/palettes.c:373
 msgid "Remove this button from this palette"
-msgstr ""
+msgstr "Deze knop van dit palet verwijderen"
 
 #: ../src/ui/palettes.c:378
 msgid "Appends the script that this button executes to the Scheme window"
-msgstr ""
+msgstr "Voegt het script dat met deze knop uitgevoerd wordt, toe aan het Scheme-venster"
 
 #: ../src/ui/palettes.c:383
 msgid "Uses the script in the Scheme Window as the one that this button executes when clicked, overwriting its old script"
-msgstr ""
+msgstr "Gebruikt het script in het Scheme-venster als het script dat met deze knop uitgevoerd wordt wanneer erop geklikt wordt, waarbij zijn oude script overschreven wordt"
 
 #: ../src/ui/palettes.c:388
 msgid "Move to Start"
-msgstr ""
+msgstr "Naar het begin verplaatsen"
 
 #: ../src/ui/palettes.c:389
 msgid "Moves this button to the start of the palette"
-msgstr ""
+msgstr "Verplaatst deze knop naar het begin van het palet"
 
 #: ../src/ui/palettes.c:393
 msgid "Move to End"
-msgstr ""
+msgstr "Naar het einde verplaatsen"
 
 #: ../src/ui/palettes.c:394
 msgid "Moves this button to the end of the palette"
-msgstr ""
+msgstr "Verplaatst deze knop naar het einde van het palet"
 
 #: ../src/ui/palettes.c:398
 msgid "Edit this Palette"
-msgstr ""
+msgstr "Dit palet bewerken"
 
 #: ../src/ui/palettes.c:399
 msgid "Edits the palette containing this button"
-msgstr ""
+msgstr "Bewerkt het palet dat deze knop bevat"
 
 #: ../src/ui/palettes.c:459
 msgid "Palette Button Activated"
-msgstr ""
+msgstr "Paletknop geactiveerd"
 
 #: ../src/ui/palettes.c:598
 msgid "Palette Name"
-msgstr ""
+msgstr "Paletnaam"
 
 #: ../src/ui/palettes.c:598
 msgid "Give name for Palette: "
-msgstr ""
+msgstr "Geef een naam voor het palet: "
 
 #: ../src/ui/palettes.c:598
 msgid "MyPalette"
-msgstr ""
+msgstr "MijnPalet"
 
 #: ../src/ui/palettes.c:618
 msgid "Create Custom Palette"
-msgstr ""
+msgstr "Aangepast palet maken"
 
 #: ../src/ui/palettes.c:642
 msgid "Palettes from Menus"
-msgstr ""
+msgstr "Paletten uit menu's"
 
 #: ../src/ui/playbackprops.c:57
 msgid "Playback properties"
-msgstr ""
+msgstr "Afspeeleigenschappen"
 
 #: ../src/ui/prefdialog.c:229
 #, c-format
 msgid "The LilyPond executable program %s was not found - no typesetting will be possible"
-msgstr ""
+msgstr "Het LilyPond uitvoerbare programma %s werd niet gevonden - geen typografie mogelijk"
 
 #: ../src/ui/prefdialog.c:459
 msgid "Preferences - Denemo"
-msgstr ""
+msgstr "Voorkeuren - Denemo"
 
 #: ../src/ui/prefdialog.c:465
 msgid "<span foreground=\"red\"weight=\"bold\">A few options may require re-start of Denemo!</span>"
-msgstr ""
+msgstr "<span foreground=\"red\"weight=\"bold\">Voor een paar opties kan het nodig zijn om Denemo opnieuw op te starten!</span>"
 
 #: ../src/ui/prefdialog.c:579
 msgid "Highlight the cursor"
-msgstr ""
+msgstr "De cursor markeren"
 
 #: ../src/ui/prefdialog.c:581
 msgid "Display general toolbar"
-msgstr ""
+msgstr "Algemene werkbalk weergeven"
 
 #: ../src/ui/prefdialog.c:583
 msgid "Display Controls for Incoming MIDI signals"
-msgstr ""
+msgstr "Bedieningselementen voor inkomende MIDI-signalen weergeven"
 
 #: ../src/ui/prefdialog.c:584
 msgid "Display Controls for Playback"
-msgstr ""
+msgstr "Bedieningselementen voor afspelen weergeven"
 
 #: ../src/ui/prefdialog.c:586
 msgid "Display console pane"
-msgstr ""
+msgstr "Consolevenster weergeven"
 
 #. BOOLEANENTRY (_("Display lyrics pane"), lyrics_pane);
 #: ../src/ui/prefdialog.c:588
 msgid "Display titles, controls etc"
-msgstr ""
+msgstr "Titels, bedieningselementen, enz. weergeven"
 
 #: ../src/ui/prefdialog.c:590
 msgid "Display Music Snippets"
-msgstr ""
+msgstr "Muziekfragmenten weergeven"
 
 #: ../src/ui/prefdialog.c:591
 msgid "Display menu of objects toolbar"
-msgstr ""
+msgstr "Menu van objectenwerkbalk weergeven"
 
 #: ../src/ui/prefdialog.c:593
 #, no-c-format
 msgid "% Zoom"
-msgstr ""
+msgstr "% zoomen"
 
 #: ../src/ui/prefdialog.c:595
 #, no-c-format
 msgid "% of display height per system"
-msgstr ""
+msgstr "% van de schermhoogte per systeem"
 
 #.
 #. * Preferences to do with commands
 #.
 #: ../src/ui/prefdialog.c:601
 msgid "Command Behavior"
-msgstr ""
+msgstr "Commandogedrag"
 
 #: ../src/ui/prefdialog.c:602
 msgid "Profile"
-msgstr ""
+msgstr "Profiel"
 
 #. TEXTENTRY(_("Strict"), strictshortcuts)
 #: ../src/ui/prefdialog.c:604
 msgid "Apply commands to selection if present"
-msgstr ""
+msgstr "Commando's toepassen op selectie, indien aanwezig"
 
 #: ../src/ui/prefdialog.c:605
 msgid "Spill notes over into next measure"
-msgstr ""
+msgstr "Noten laten overlopen in de volgende maat"
 
 #: ../src/ui/prefdialog.c:606
 msgid "(Chord Entry) Do not fill in tied note pitches"
-msgstr ""
+msgstr "(Akkoordinvoer) Geen overbonden toonhoogtes invullen"
 
 #: ../src/ui/prefdialog.c:607
 msgid "Allow Quick Setting of Shortcuts"
-msgstr ""
+msgstr "Snelle instelling van sneltoetsen toestaan"
 
 #: ../src/ui/prefdialog.c:610
 msgid "Strict Shortcuts"
-msgstr ""
+msgstr "Strikte sneltoetsen"
 
 #: ../src/ui/prefdialog.c:611
 msgid "Menu Navigation by Keypress"
-msgstr ""
+msgstr "Menunavigatie met toetsaanslagen"
 
 #: ../src/ui/prefdialog.c:612
 msgid "Treat Return key as Movable Shortcut"
-msgstr ""
+msgstr "De Return-toets als een instelbare sneltoets behandelen"
 
 #: ../src/ui/prefdialog.c:613
 msgid "Turn on all Tooltips"
-msgstr ""
+msgstr "Alle knopinfo activeren"
 
 #: ../src/ui/prefdialog.c:614
 msgid "Show Shortcuts Used"
-msgstr ""
+msgstr "Gebruikte sneltoetsen tonen"
 
 #: ../src/ui/prefdialog.c:615
 msgid "Tooltip timeout in ms. (0 for default, -1 to use GTK tooltips - restart needed)"
-msgstr ""
+msgstr "Knopinfo-wachttijd in ms. (0 voor standaard, -1 om GTK-knopinfo te gebruiken - herstarten nodig)"
 
 #: ../src/ui/prefdialog.c:617
 msgid "Tooltip browse timeout in ms"
-msgstr ""
+msgstr "Knopinfo-bladerwachttijd in ms"
 
 #: ../src/ui/prefdialog.c:618
 msgid "Tooltip browse mode timeout in ms"
-msgstr ""
+msgstr "Knopinfo-bladermodus-verlooptijd in ms"
 
 #.
 #. * External (Helper) Programs
 #.
 #: ../src/ui/prefdialog.c:623
 msgid "Externals"
-msgstr ""
+msgstr "Extern"
 
 #: ../src/ui/prefdialog.c:625
 msgid "Path to Lilypond"
-msgstr ""
+msgstr "Pad naar Lilypond"
 
 #: ../src/ui/prefdialog.c:626
 msgid "File/Internet Browser"
-msgstr ""
+msgstr "Bestands-/Internetbrowser"
 
 #: ../src/ui/prefdialog.c:627
 msgid "Image Viewer"
-msgstr ""
+msgstr "Afbeeldingsweergaveprogramma"
 
 #: ../src/ui/prefdialog.c:628
 msgid "Graphics Editor"
-msgstr ""
+msgstr "Afbeeldingsbewerkingsprogramma"
 
 #: ../src/ui/prefdialog.c:629
 msgid "Default Save Path"
-msgstr ""
+msgstr "Standaard opslagpad"
 
 #: ../src/ui/prefdialog.c:630
 msgid "Update the command set on startup"
-msgstr ""
+msgstr "Commandopakket bijwerken bij het opstarten"
 
 #.
 #. * Misc Menu
 #.
 #: ../src/ui/prefdialog.c:634
 msgid "Auto-Typeset"
-msgstr ""
+msgstr "Automatische typografie"
 
 #: ../src/ui/prefdialog.c:638
 msgid "Manually update the typeset score"
-msgstr ""
+msgstr "Handmatig bijwerken van de typografie van de partituur"
 
 #: ../src/ui/prefdialog.c:639
 msgid "Rate of re-typeset in ms"
-msgstr ""
+msgstr "Tempo waarin het typografisch zetten opnieuw gebeurt in ms"
 
 #: ../src/ui/prefdialog.c:640
 msgid "Type: (0=Range, 1=Movement, 2=Whole Score)"
-msgstr ""
+msgstr "Soort: (0=Bereik, 1=Beweging, 2=Hele partituur)"
 
 #: ../src/ui/prefdialog.c:641
 msgid "Measures before cursor"
-msgstr ""
+msgstr "Maten vóór de cursor"
 
 #: ../src/ui/prefdialog.c:642
 msgid "Measures after cursor"
-msgstr ""
+msgstr "Maten na de cursor"
 
 #: ../src/ui/prefdialog.c:643
 msgid "Staffs before cursor"
-msgstr ""
+msgstr "Notenbalken vóór de cursor"
 
 #: ../src/ui/prefdialog.c:644
 msgid "Staffs after cursor"
-msgstr ""
+msgstr "Notenbalken na de cursor"
 
 #.
 #. * Misc Menu
 #.
 #: ../src/ui/prefdialog.c:648
 msgid "Miscellaneous"
-msgstr ""
+msgstr "Diverse"
 
 #: ../src/ui/prefdialog.c:649
 msgid "Re-use last settings on startup"
-msgstr ""
+msgstr "Laatste instellingen opnieuw gebruiken bij het opstarten"
 
 #: ../src/ui/prefdialog.c:650
 msgid "Default Font Name (Denemo)"
-msgstr ""
+msgstr "Standaard lettertypenaam (Denemo)"
 
 #: ../src/ui/prefdialog.c:651
 msgid "Default Font Size"
-msgstr ""
+msgstr "Standaard lettertypegrootte"
 
 #: ../src/ui/prefdialog.c:652
 msgid "Maximum Menu Size"
-msgstr ""
+msgstr "Maximale menugrootte"
 
 #: ../src/ui/prefdialog.c:654
 msgid "Playback Display Refresh"
-msgstr ""
+msgstr "Afspeelweergave vernieuwen"
 
 #: ../src/ui/prefdialog.c:655
 msgid "Page Turn Steps"
-msgstr ""
+msgstr "Stappen voor het omslaan van pagina's"
 
 #: ../src/ui/prefdialog.c:659
 msgid "Excerpt Resolution"
-msgstr ""
+msgstr "Uittrekselresolutie"
 
 #: ../src/ui/prefdialog.c:660
 msgid "Enable Thumbnails"
-msgstr ""
+msgstr "Miniatuurvoorbeelden inschakelen"
 
 #: ../src/ui/prefdialog.c:661
 msgid "Auto Open Sources on File Load"
-msgstr ""
+msgstr "Bronnen automatisch openen bij het laden van bestanden"
 
 #: ../src/ui/prefdialog.c:662
 msgid "Ignore Scheme Scripts on File Load"
-msgstr ""
+msgstr "Scheme-scripts negeren bij het laden van bestanden"
 
 #: ../src/ui/prefdialog.c:663
 msgid "Max recent files"
-msgstr ""
+msgstr "Max. recente bestanden"
 
 #: ../src/ui/prefdialog.c:664
 msgid "User Name"
-msgstr ""
+msgstr "Gebruikersnaam"
 
 #. PASSWORDENTRY (_("Password for Denemo.org"), password)
 #: ../src/ui/prefdialog.c:666
 msgid "Create Parts Layouts"
-msgstr ""
+msgstr "Partituuropmaken creëren"
 
 #: ../src/ui/prefdialog.c:670
 msgid "Autosave every"
-msgstr ""
+msgstr "Automatisch opslaan elke"
 
 #: ../src/ui/prefdialog.c:679
 msgid "second(s)"
-msgstr ""
+msgstr "second(en)"
 
 #: ../src/ui/prefdialog.c:683
 msgid "Compression"
-msgstr ""
+msgstr "Compressie"
 
 #: ../src/ui/prefdialog.c:690
 msgid "Audio"
-msgstr ""
+msgstr "Audio"
 
 #: ../src/ui/prefdialog.c:693
 msgid "Play back entered notes immediately"
-msgstr ""
+msgstr "Ingevoerde noten onmiddellijk afspelen"
 
 #: ../src/ui/prefdialog.c:694
 msgid ""
 "MIDI key sound on measure end\n"
 "  (0 = Off)"
 msgstr ""
+"MIDI-toetsgeluid aan het einde van de maat\n"
+"  (0 = Uit)"
 
 #: ../src/ui/prefdialog.c:695
 msgid "Pitch Spelling Channel"
-msgstr ""
+msgstr "Kanaal voor toonhoogtespelling"
 
 #: ../src/ui/prefdialog.c:696
 msgid "Pitch Spelling Program"
-msgstr ""
+msgstr "Programma voor toonhoogtespelling"
 
 #: ../src/ui/prefdialog.c:699
 msgid "% MIDI-in Dynamic Compression"
-msgstr ""
+msgstr "% MIDI-in dynamische compressie"
 
 #: ../src/ui/prefdialog.c:700
 msgid "Avoid abrupt damping"
-msgstr ""
+msgstr "Abrupte demping vermijden"
 
 #: ../src/ui/prefdialog.c:726
 msgid "Connect to port (left)"
-msgstr ""
+msgstr "Verbinden met poort (links)"
 
 #: ../src/ui/prefdialog.c:727
 msgid "Connect to port (right)"
-msgstr ""
+msgstr "Verbinden met poort (rechts)"
 
 #: ../src/ui/prefdialog.c:745
 msgid "Output device - Advanced Users Only!!"
-msgstr ""
+msgstr "Uitvoerapparaat - Alleen voor gevorderden!!"
 
 #: ../src/ui/prefdialog.c:748
 msgid "Sample rate"
-msgstr ""
+msgstr "Bemonsteringsfrequentie"
 
 #: ../src/ui/prefdialog.c:749
 msgid "Period size"
-msgstr ""
+msgstr "Periodegrootte"
 
 #: ../src/ui/prefdialog.c:750
 msgid "Maximum Recording Time (Secs)"
-msgstr ""
+msgstr "Maximale opnametijd (seconden)"
 
 #: ../src/ui/prefdialog.c:766
 msgid "Rhythm Entry for MIDI in"
-msgstr ""
+msgstr "Ritme-invoer voor MIDI-ingang"
 
 #: ../src/ui/prefdialog.c:767
 msgid "Ignore MIDI in except for Note On/Off messages"
-msgstr ""
+msgstr "MIDI-ingang negeren behalve voor Noot Aan/Uit-berichten"
 
 #: ../src/ui/prefdialog.c:768
 msgid "MIDI backend"
-msgstr ""
+msgstr "MIDI-backend"
 
 #: ../src/ui/prefdialog.c:782
 msgid "Connect input to port"
-msgstr ""
+msgstr "Invoer verbinden met poort"
 
 #: ../src/ui/prefdialog.c:783
 msgid "Connect output to port"
-msgstr ""
+msgstr "Uitvoer verbinden met poort"
 
 #: ../src/ui/prefdialog.c:804
 msgid "Input device"
-msgstr ""
+msgstr "Invoerapparaat"
 
 #.
 #. * FluidSynth settings
 #.
 #: ../src/ui/prefdialog.c:820
 msgid "Soundfont"
-msgstr "Geluidslettertype"
+msgstr "Soundfont"
 
 #: ../src/ui/prefdialog.c:822
 msgid "Choose Soundfont"
-msgstr ""
+msgstr "Soundfont kiezen"
 
 #: ../src/ui/prefdialog.c:829
 msgid "Enable Reverb on soundfont"
-msgstr ""
+msgstr "Nagalm inschakelen op soundfont"
 
 #: ../src/ui/prefdialog.c:829
 msgid "Enable Chorus on soundfont"
-msgstr ""
+msgstr "Chorus inschakelen op soundfont"
 
 #.
 #. * Pitch Entry Parameters
 #.
 #: ../src/ui/prefdialog.c:835
 msgid "Pitch Entry"
-msgstr ""
+msgstr "Toonhoogte-invoer"
 
 #: ../src/ui/prefdialog.c:837
 msgid "Temperament"
-msgstr ""
+msgstr "Temperatuur (muzikale stemming)"
 
 #: ../src/ui/prefdialog.c:837
 msgid "Use Overlays"
-msgstr ""
+msgstr "Overlappingen gebruiken"
 
 #: ../src/ui/prefdialog.c:838
 msgid "Continuous Entry"
-msgstr ""
+msgstr "Doorlopende invoer"
 
 #: ../src/ui/prefdialog.c:881
 msgid "Any changes to MIDI or AUDIO will not be effected until re-starting Denemo"
-msgstr ""
+msgstr "Wijzigingen aan MIDI of AUDIO worden pas doorgevoerd als Denemo opnieuw wordt gestart"
 
 #: ../src/ui/prefdialog.c:882
 msgid "Audio/MIDI Subsystem"
-msgstr ""
+msgstr "Audio/MIDI Subsysteem"
 
 #: ../src/ui/prefdialog.c:882
 msgid "Attempt to re-start the audio subsystem now?"
-msgstr ""
+msgstr "Het audiosubsysteem nu opnieuw proberen op te starten?"
 
 #: ../src/ui/scoreprops.c:60
 msgid "Custom LilyPond Score Block"
-msgstr ""
+msgstr "Aangepast LilyPond partituurblok"
 
 #: ../src/ui/scoreprops.c:60
 msgid ""
 "You will need to edit the LilyPond text to copy these edits from the standard scoreblock.\n"
 "It might be easier to edit your custom scoreblock directly. Abandon?"
 msgstr ""
+"U zult de LilyPond-tekst moeten bewerken om deze bewerkingen uit het standaard partituurblok te kopiëren.\n"
+"Het is misschien gemakkelijker om uw aangepast partituurblok rechtstreeks te bewerken. Afbreken?"
 
 #. g_assert (si != NULL);
 #: ../src/ui/scoreprops.c:133
 msgid "Score properties"
-msgstr ""
+msgstr "Partituureigenschappen"
 
 #: ../src/ui/scoreprops.c:145
 msgid "Display Layout"
-msgstr ""
+msgstr "Weergave-indeling"
 
 #: ../src/ui/scoreprops.c:150
 msgid "Measure width (pixels):"
-msgstr ""
+msgstr "Maatbreedte (pixels): "
 
 #: ../src/ui/scoreprops.c:158
 msgid "Staff spacing (pixels):"
-msgstr ""
+msgstr "Afstand tussen notenbalken (pixels): "
 
 #: ../src/ui/scoreprops.c:186
 msgid "Paper Size"
-msgstr ""
+msgstr "Papiergrootte"
 
 #: ../src/ui/scoreprops.c:206 ../actions/denemo-modules/wysiwyg.scm:477
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFontSize.scm:3
 msgid "Font Size"
-msgstr ""
+msgstr "Lettertypegrootte"
 
 #: ../src/ui/scoreprops.c:212
 msgid "Lilypond Version"
-msgstr ""
+msgstr "Lilypond-versie"
 
 #: ../src/ui/scoreprops.c:218
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm:5
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm:6
 msgid "Portrait"
-msgstr ""
+msgstr "Staand"
 
 #: ../src/ui/scoreprops.c:221
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm:5
 msgid "Landscape"
-msgstr ""
+msgstr "Liggend"
 
 #: ../src/ui/staffpropdialog.c:226
 msgid "Only alphanumeric characters are allowed - part name unchanged"
-msgstr ""
+msgstr "Alleen alfanumerieke tekens zijn toegestaan - de naam van de partij blijft ongewijzigd"
 
 #. Print appearance tab
 #: ../src/ui/staffpropdialog.c:464
 msgid "Typeset Appearance"
-msgstr ""
+msgstr "Typografie-uiterlijk"
 
 #: ../src/ui/staffpropdialog.c:465
 msgid "Part name (a-z,0-9):"
-msgstr ""
+msgstr "Partijnaam (a-z,0-9): "
 
 #: ../src/ui/staffpropdialog.c:466
 msgid "All staffs with the same part name will be typeset with the Print Part command. Use a blank part name for staffs that should be printed with every part. Only alphabetic characters, space and numerals are allowed"
-msgstr ""
+msgstr "Alle notenbalken met dezelfde partijnaam zullen met het commando Partij Afdrukken typografisch worden gezet. Gebruik een lege partijnaam voor notenbalken die bij elke partij moeten worden afgedrukt. Alleen tekens uit het alfabet, spaties en cijfers zijn toegestaan "
 
 #: ../src/ui/staffpropdialog.c:467
 msgid "Sub Part name:"
-msgstr ""
+msgstr "Naam sub-partij: "
 
 #: ../src/ui/staffpropdialog.c:468
 msgid "If a single part (e.g. piano) has more than one staff they should be named here."
-msgstr ""
+msgstr "Als één enkele partij (bijv. piano) meer dan één notenbalk heeft, zouden deze hier een naam moeten krijgen."
 
 #. gtk_widget_grab_focus (entrywidget);
 #: ../src/ui/staffpropdialog.c:473
 msgid "Space above:"
-msgstr ""
+msgstr "Ruimte boven: "
 
 #: ../src/ui/staffpropdialog.c:474
 msgid "Space below:"
-msgstr ""
+msgstr "Ruimte onder: "
 
 #: ../src/ui/staffpropdialog.c:475
 msgid "Number of Display Staff Lines:"
-msgstr ""
+msgstr "Aantal notenbalkregels op het scherm: "
 
 #: ../src/ui/staffpropdialog.c:480
 msgid "MIDI Instrument:"
-msgstr ""
+msgstr "MIDI-instrument: "
 
 #: ../src/ui/staffpropdialog.c:481
 msgid "Transposition:"
-msgstr ""
+msgstr "Transpositie: "
 
 #: ../src/ui/staffpropdialog.c:483
 msgid "Master Volume:"
-msgstr ""
+msgstr "Hoofdvolume: "
 
 #. BOOLEANENTRY("Override MIDI Channel/Program", midi_prognum_override);
 #: ../src/ui/staffpropdialog.c:485
 msgid "Channel:"
-msgstr ""
+msgstr "Kanaal: "
 
 #: ../src/ui/staffpropdialog.c:486
 msgid "Program:"
-msgstr ""
+msgstr "Programma: "
 
 #: ../src/ui/staffpropdialog.c:529
 msgid "Staff "
@@ -10769,19 +10774,19 @@ msgstr "Notenbalk"
 
 #: ../src/ui/staffpropdialog.c:529
 msgid " is using the same MIDI channel as this staff, but a different MIDI instrument - this won't work. Choose a different channel."
-msgstr ""
+msgstr " gebruikt hetzelfde MIDI-kanaal als deze notenbalk, maar een ander MIDI-instrument - dit zal niet werken. Kies een ander kanaal."
 
 #: ../src/ui/texteditors.c:55
 msgid "My Script"
-msgstr ""
+msgstr "Mijn script"
 
 #: ../src/ui/texteditors.c:59
 msgid "Creates a button for the script"
-msgstr ""
+msgstr "Maakt een knop voor het script"
 
 #: ../src/ui/texteditors.c:69
 msgid "Empty scheme script"
-msgstr ""
+msgstr "Leeg scheme-script"
 
 #: ../src/ui/texteditors.c:76
 msgid ""
@@ -10792,6 +10797,12 @@ msgid ""
 " 4) Give the label and then the tooltip for the command\n"
 " 5) When exiting Denemo choose to save you new command(s)."
 msgstr ""
+"Volg deze stappen om een nieuw commando in het menusysteem te maken dat het Scheme-script in het onderstaande deelvenster zal uitvoeren:\n"
+" 1) Kies een reeds bestaand commando in het menusysteem waarachter uw nieuwe commando moet komen.\n"
+" 2) Klik met de rechtermuisknop op dat commando en selecteer de optie om een nieuw menu-item te maken\n"
+" 3) Geef een unieke naam aan dit commando (hint: voeg vooraan uw eigen initialen toe aan de commandonaam)\n"
+" 4) Geef het label en vervolgens de knopinfo op voor het commando\n"
+" 5) Kies bij het verlaten van Denemo om uw nieuwe commando('s) op te slaan."
 
 #: ../src/ui/texteditors.c:83
 msgid "No script in the Scheme Window"
@@ -10799,15 +10810,15 @@ msgstr "Geen script in het Scheme-venster"
 
 #: ../src/ui/texteditors.c:176
 msgid "Turning off Recording scheme"
-msgstr ""
+msgstr "Scheme-opname uitschakelen"
 
 #: ../src/ui/texteditors.c:190
 msgid "Save Scheme Text as..."
-msgstr ""
+msgstr "Scheme-tekst opslaan als..."
 
 #: ../src/ui/texteditors.c:204
 msgid "File already exists"
-msgstr ""
+msgstr "Bestand bestaat reeds"
 
 #: ../src/ui/texteditors.c:207
 #, c-format
@@ -10815,16 +10826,20 @@ msgid ""
 "The file %s already exists.\n"
 "Do you want to overwrite it?"
 msgstr ""
+"Het bestand %s bestaat reeds.\n"
+"Wilt u het overschrijven?"
 
 #: ../src/ui/texteditors.c:236
 msgid ""
 "If you have loaded this script from a menu item or palette button then you must save it using a right click on that same menu item or palette button (and choosing \"Save Script from Scheme Window\").\n"
 "Otherwise use \"Save As\" from this menu."
 msgstr ""
+"Als u dit script vanuit een menu-item of paletknop hebt geladen, moet u het opslaan door met de rechtermuisknop op datzelfde menu-item of diezelfde paletknop te klikken (en te kiezen voor \"Script uit scheme-venster opslaan\").\n"
+"Anders moet u \"Opslaan als\" uit dit menu kiezen."
 
 #: ../src/ui/texteditors.c:259
 msgid "Scheme text changed"
-msgstr ""
+msgstr "Scheme-tekst is gewijzigd"
 
 #: ../src/ui/texteditors.c:264
 msgid ""
@@ -10832,6 +10847,9 @@ msgid ""
 "Do you want to save the changes in a new file?\n"
 "\n"
 msgstr ""
+"\n"
+"Wilt u de wijzigingen in een nieuw bestand opslaan?\n"
+"\n"
 
 #: ../src/ui/texteditors.c:267
 #, c-format
@@ -10840,157 +10858,162 @@ msgid ""
 "Do you want to save the changes in %s ?\n"
 "\n"
 msgstr ""
+"\n"
+"Wilt u de wijzigingen opslaan in %s ?\n"
+"\n"
 
 #: ../src/ui/texteditors.c:301 ../src/ui/texteditors.c:360
 #: ../src/ui/texteditors.c:426
 msgid "Denemo Scheme Script"
-msgstr ""
+msgstr "Denemo Scheme-script"
 
 #: ../src/ui/texteditors.c:318
 msgid "Open File"
-msgstr ""
+msgstr "Bestand openen"
 
 #: ../src/ui/texteditors.c:434
 msgid "A Scheme command line interface. Type an expression here and press Enter to evaluate and display the result in the terminal. (On windows, use denemo-console.exe to get a terminal)"
-msgstr ""
+msgstr "Een commandoregelinterface voor scheme. Typ hier een expressie en druk op Enter om het resultaat uit te werken en weer te geven in de terminal. (Gebruik in Windows denemo-console.exe om een terminal te krijgen)"
 
 #: ../src/ui/texteditors.c:451
 msgid "Execute Script"
-msgstr ""
+msgstr "Script uitvoeren"
 
 #: ../src/ui/texteditors.c:452
 msgid "Executes the Scheme in the script window below. If an error is thrown this will give a message in the terminal."
-msgstr ""
+msgstr "Voert het Scheme uit in het onderstaande scriptvenster. Als er een fout wordt gegenereerd, geeft dit een bericht in de terminal."
 
 #: ../src/ui/texteditors.c:456
 msgid "Create Button"
-msgstr ""
+msgstr "Knop aanmaken"
 
 #: ../src/ui/texteditors.c:457
 msgid "Create a palette button for the Scheme in the script window below."
-msgstr ""
+msgstr "Een paletknop voor het Scheme maken in het onderstaande scriptvenster."
 
 #: ../src/ui/texteditors.c:461
 msgid "Create Menu Item"
-msgstr "Een menu-item creëren"
+msgstr "Een menu-item aanmaken"
 
 #: ../src/ui/texteditors.c:462
 msgid "Steps you through creation of a Denemo command in the menu system to execute the Scheme script."
-msgstr ""
+msgstr "Begeleidt u doorheen het aanmaken van een Denemo-commando in het menusysteem om het Scheme-script uit te voeren."
 
 #: ../src/ui/texteditors.c:469
 msgid "Erase the current script"
-msgstr ""
+msgstr "Het huidige script wissen"
 
 #: ../src/ui/texteditors.c:475
 msgid "Load a script file"
-msgstr ""
+msgstr "Een scriptbestand laden"
 
 #: ../src/ui/texteditors.c:479
 msgid "Open Initialization Script"
-msgstr ""
+msgstr "Initialisatiescript openen"
 
 #: ../src/ui/texteditors.c:481
 msgid "Load the script file which will be executed on each newly opened score"
-msgstr ""
+msgstr "Het scriptbestand laden dat op elke nieuw geopende partituur zal worden uitgevoerd"
 
 #: ../src/ui/texteditors.c:487
 msgid "Save this script to the file it was loaded from"
-msgstr ""
+msgstr "Dit script opslaan in het bestand van waaruit het werd geladen"
 
 #: ../src/ui/texteditors.c:491
 msgid "Save as…"
-msgstr ""
+msgstr "Opslaan als..."
 
 #: ../src/ui/texteditors.c:493
 msgid "Save this as a new file"
-msgstr ""
+msgstr "Dit als een nieuw bestand opslaan"
 
 #: ../src/ui/texteditors.c:497 ../src/ui/texteditors.c:575
 msgid "Find"
-msgstr ""
+msgstr "Zoeken"
 
 #: ../src/ui/texteditors.c:500 ../src/ui/texteditors.c:575
 msgid "Replace"
-msgstr ""
+msgstr "Vervangen"
 
 #: ../src/ui/texteditors.c:520
 msgid "Record Scheme Script"
-msgstr ""
+msgstr "Scheme-script opnemen"
 
 #: ../src/ui/texteditors.c:521
 msgid "Start recording commands into the Scheme script text window"
-msgstr ""
+msgstr "Beginnen met het opnemen van commando's in het Scheme-script tekstvenster"
 
 #: ../src/ui/timedialog.c:235
 msgid "Change initial time signature"
-msgstr ""
+msgstr "De initiële maatsoort veranderen"
 
 #: ../src/ui/timedialog.c:235
 msgid "Insert time signature change"
-msgstr ""
+msgstr "Maatsoortverandering invoegen"
 
 #: ../src/ui/timedialog.c:243
 msgid "Enter desired time signature:"
-msgstr ""
+msgstr "Gewenste maatsoort invoeren: "
 
 #: ../src/ui/timedialog.c:261
 msgid "Current Staff Only"
-msgstr ""
+msgstr "Enkel huidige notenbalk"
 
 #: ../src/ui/tomeasuredialog.c:48
 msgid "Go to measure"
-msgstr ""
+msgstr "Naar maat gaan"
 
 #: ../src/ui/tomeasuredialog.c:53
 msgid "Go to measure:"
-msgstr ""
+msgstr "Ga naar maat: "
 
 #: ../src/ui/tupletdialog.c:16
 msgid "Customize tuplet multiplier"
-msgstr ""
+msgstr "Multiplicator van antimetrische figuur aanpassen"
 
 #: ../src/ui/tupletdialog.c:21
 msgid "Numerator"
-msgstr ""
+msgstr "Teller"
 
 #: ../src/ui/tupletdialog.c:30
 msgid "Denominator"
-msgstr ""
+msgstr "Noemer"
 
 #: ../src/ui/virtualkeyboard.c:29
 msgid "Virtual Keyboard requires Denemo to be built with GTK3 or higher"
-msgstr ""
+msgstr "Virtueel toetsenbord vereist dat Denemo is gebouwd met GTK3 of hoger"
 
 #: ../src/ui/virtualkeyboard.c:159
 msgid "Virtual MIDI keyboard"
-msgstr ""
+msgstr "Virtueel MIDI-toetsenbord"
 
 #: ../actions/denemo-modules/directives.scm:26
 msgid "Modifying the LilyPond Text"
-msgstr ""
+msgstr "De LilyPond-tekst wijzigen"
 
 #: ../actions/denemo-modules/directives.scm:26
 msgid "Give LilyPond syntax to be emitted by this Denemo Directive"
-msgstr ""
+msgstr "LilyPond-syntaxis opgeven die door deze Denemo-richtlijn moet worden geproduceerd"
 
 #: ../actions/denemo-modules/directives.scm:31
 msgid "This directive currently creates no LilyPond via its postfix field, use the Advanced Edit instead"
-msgstr ""
+msgstr "Deze richtlijn creëert momenteel geen LilyPond via zijn achtervoegselveld, gebruik Geavanceerd Bewerken in de plaats"
 
 #: ../actions/denemo-modules/directives.scm:33
 msgid "Help "
-msgstr ""
+msgstr "Hulp"
 
 #: ../actions/denemo-modules/directives.scm:39
 msgid ""
 "This is a Directive object.\n"
 "Double click on it to get information about it."
 msgstr ""
+"Dit is een Richtlijnobject.\n"
+"Dubbelklik erop om er informatie over te krijgen."
 
 #: ../actions/denemo-modules/directives.scm:107
 msgid "Edit Similar"
-msgstr ""
+msgstr "Soortgelijke bewerken"
 
 #: ../actions/denemo-modules/directives.scm:108
 #: ../actions/denemo-modules/wysiwyg.scm:506
@@ -11005,47 +11028,47 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:8
 msgid "Object Inspector"
-msgstr ""
+msgstr "Objectcontroleur"
 
 #: ../actions/denemo-modules/directives.scm:115
 #: ../actions/denemo-modules/directives.scm:162
 msgid "No help!"
-msgstr ""
+msgstr "Geen hulp!"
 
 #: ../actions/denemo-modules/directives.scm:340
 msgid "Conditional on Layout"
-msgstr ""
+msgstr "Voorwaardelijk op de opmaak"
 
 #: ../actions/denemo-modules/directives.scm:341
 msgid "Omit for an Omission Criterion"
-msgstr ""
+msgstr "Weglating voor een weglatingscriterium"
 
 #: ../actions/denemo-modules/directives.scm:342
 msgid "Allow when Omission Criterion set"
-msgstr ""
+msgstr "Toestaan wanneer weglatingcriterium is ingesteld"
 
 #: ../actions/denemo-modules/directives.scm:350
 #: ../actions/denemo-modules/directives.scm:356
 msgid "Allow for Layout \""
-msgstr ""
+msgstr "Toestaan voor opmaak \""
 
 #: ../actions/denemo-modules/directives.scm:351
 #: ../actions/denemo-modules/directives.scm:357
 msgid "Ignore for Layout \""
-msgstr ""
+msgstr "Negeren voor opmaak \""
 
 #: ../actions/denemo-modules/directives.scm:352
 #: ../actions/denemo-modules/directives.scm:358
 msgid "For all Layouts"
-msgstr ""
+msgstr "Voor alle opmaken"
 
 #: ../actions/denemo-modules/directives.scm:354
 msgid "Allow for the Layout for Part \""
-msgstr ""
+msgstr "Toestaan voor de opmaak voor partij \""
 
 #: ../actions/denemo-modules/directives.scm:355
 msgid "Ignore for the Layout for Part \""
-msgstr ""
+msgstr "Negeren voor de opmaak voor partij \""
 
 #: ../actions/denemo-modules/scheme.scm:338
 #: ../actions/denemo-modules/scheme.scm:339
@@ -11071,28 +11094,28 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:44
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/InstrumentName.scm:45
 msgid "y"
-msgstr ""
+msgstr "j"
 
 #: ../actions/denemo-modules/selection.scm:76
 msgid "Cursor is not inside selection"
-msgstr ""
+msgstr "Cursor is niet binnen selectie"
 
 #: ../actions/denemo-modules/selection.scm:415
 msgid "Object of type "
-msgstr ""
+msgstr "Object van het type"
 
 #: ../actions/denemo-modules/selection.scm:420
 msgid "Copied "
-msgstr ""
+msgstr "Gekopieerd"
 
 #: ../actions/denemo-modules/wysiwyg.scm:306
 #: ../actions/denemo-modules/wysiwyg.scm:349
 msgid "Now drag the control points to make the shape desired - when finished click away from a control point"
-msgstr ""
+msgstr "Versleep nu de bedieningspunten om de gewenste vorm te maken - als u klaar bent, klikt u weg van een bedieningspunt"
 
 #: ../actions/denemo-modules/wysiwyg.scm:310
 msgid "Slur Re-shaped"
-msgstr ""
+msgstr "Opnieuw vormgegeven legatoboog"
 
 #: ../actions/denemo-modules/wysiwyg.scm:315
 msgid ""
@@ -11102,87 +11125,96 @@ msgid ""
 "dismiss this dialog and\n"
 "simply click on four points: the start of the curve, two points outside along its length and the end point."
 msgstr ""
+"Om bogen opnieuw vorm te geven is het beter dat de bedieningspunten gemarkeerd zijn.\n"
+"Gebruik het menu van de rechtermuisknop om deze te activeren voordat u dit commando oproept.\n"
+"Omdat dit echter niet goed werkt voor meerdere notenbalken, kunt u ook zonder -\n"
+"sluit dit dialoogvenster en\n"
+"klik eenvoudig op vier punten: het begin van de boog, twee punten erbuiten langsheen zijn lengte en het eindpunt."
 
 #: ../actions/denemo-modules/wysiwyg.scm:326
 msgid ""
 "Now click on the control point at the left end of the slur\n"
 "Control points are marked by red crosses"
 msgstr ""
+"Klik nu op het bedieningspunt aan het linker uiteinde van de legatoboog\n"
+"De bedieningspunten zijn aangegeven met rode kruisjes"
 
 #: ../actions/denemo-modules/wysiwyg.scm:327
 msgid "Now click second control point of the slur, the next red cross to the right"
-msgstr ""
+msgstr "Klik nu op het tweede bedieningspunt van de legatoboog, het volgende rode kruis rechts"
 
 #: ../actions/denemo-modules/wysiwyg.scm:328
 msgid "Now click third control point of the slur, the next red cross to the right"
-msgstr ""
+msgstr "Klik nu op het derde bedieningspunt van de legatoboog, het volgende rode kruis rechts"
 
 #: ../actions/denemo-modules/wysiwyg.scm:329
 msgid "Now click last control point at the end of the slur, the last red cross to the right"
-msgstr ""
+msgstr "Klik nu op het laatste bedieningspunt aan het einde van de legatoboog, het laatste rode kruis rechts"
 
 #: ../actions/denemo-modules/wysiwyg.scm:337
 #: ../actions/denemo-modules/wysiwyg.scm:372
 msgid "First click on the center line of the staff aligning with notehead/rest (Positioning will be done with respect to this height)"
-msgstr ""
+msgstr "Klik eerst op de middellijn van de notenbalk in overeenstemming met nootkop/rust (Positionering zal gebeuren ten opzichte van deze hoogte)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:353
 msgid "Tie Re-shaped"
-msgstr ""
+msgstr "Opnieuw vormgegeven overbinding"
 
 #: ../actions/denemo-modules/wysiwyg.scm:362
 msgid ""
 "Now click on the control point at the left end of the tie\n"
 "Control points are marked by red crosses"
 msgstr ""
+"Klik nu op het bedieningspunt aan het linker uiteinde van de overbinding\n"
+"De bedieningspunten zijn aangegeven met rode kruisjes"
 
 #: ../actions/denemo-modules/wysiwyg.scm:363
 msgid "Now click second control point of the tie, the next red cross to the right"
-msgstr ""
+msgstr "Klik nu op het tweede bedieningspunt van de overbinding, het volgende rode kruis rechts"
 
 #: ../actions/denemo-modules/wysiwyg.scm:364
 msgid "Now click third control point of the tie, the next red cross to the right"
-msgstr ""
+msgstr "Klik nu op het derde bedieningspunt van de overbinding, het volgende rode kruis rechts"
 
 #: ../actions/denemo-modules/wysiwyg.scm:365
 msgid "Now click last control point at the end of the tie, the last red cross to the right"
-msgstr ""
+msgstr "Klik nu op het laatste bedieningspunt aan het einde van de overbinding, het laatste rode kruis rechts"
 
 #: ../actions/denemo-modules/wysiwyg.scm:382
 msgid "Restore Default Slur Shape/Position"
-msgstr ""
+msgstr "Standaard legatoboog-vorm/positie herstellen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:382
 msgid "Removes your customization of this slur"
-msgstr ""
+msgstr "Verwijdert uw aanpassingen aan deze legatoboog"
 
 #: ../actions/denemo-modules/wysiwyg.scm:383
 msgid "Restore Default Tie Shape/Position"
-msgstr ""
+msgstr "Standaard overbindings-vorm/positie herstellen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:383
 msgid "Removes your customization of this tie"
-msgstr ""
+msgstr "Verwijdert uw aanpassingen aan deze overbinding"
 
 #: ../actions/denemo-modules/wysiwyg.scm:388
 msgid "Hint Slur Position"
-msgstr ""
+msgstr "Legatoboogpositie suggereren"
 
 #: ../actions/denemo-modules/wysiwyg.scm:388
 msgid "Edit Slur Shape"
-msgstr ""
+msgstr "Legatoboogvorm bewerken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:396
 msgid "First click on the notehead of the note where the slur starts"
-msgstr ""
+msgstr "Klik eerst op de nootkop van de noot waar de legatoboog begint"
 
 #: ../actions/denemo-modules/wysiwyg.scm:402
 msgid "Not a slur start - cancelled"
-msgstr ""
+msgstr "Geen legatoboogbegin - geannuleerd"
 
 #: ../actions/denemo-modules/wysiwyg.scm:409
 msgid "Edit Tie Shape"
-msgstr ""
+msgstr "Overbindingsvorm bewerken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:437
 msgid ""
@@ -11190,20 +11222,25 @@ msgid ""
 "You can use the right click menu to turn these on before invoking this command. However, since this marking code is only working well for single staffs, you can go ahead without.\n"
 "To do this dismiss this dialog and guess at where the red spot is on the object."
 msgstr ""
+"Om zaken die aan noten gekoppeld zijn, nauwkeurig te verplaatsen, moeten de locaties van de objecten met rode stippen gemarkeerd zijn.\n"
+"U kunt het menu van de rechtermuisknop gebruiken om deze in te schakelen voordat u dit commando uitvoert. Aangezien deze markeringscode echter alleen goed werkt voor enkele notenbalken, kunt u ook zonder.\n"
+"Om dit te doen moet u dit dialoogvenster sluiten en raden waar de rode stip zich op het object bevindt."
 
 #: ../actions/denemo-modules/wysiwyg.scm:441
 msgid ""
 "First click on the center line of the staff aligning with notehead/rest\n"
 "(Positioning will be done with respect to this height)"
 msgstr ""
+"Klik eerst op de middellijn van de notenbalk in overeenstemming met nootkop/rust\n"
+"(Positionering zal gebeuren ten opzichte van deze hoogte)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:443
 msgid "Now click on the position desired for the object"
-msgstr ""
+msgstr "Klik nu op de gewenste positie voor het object"
 
 #: ../actions/denemo-modules/wysiwyg.scm:447
 msgid "Re-positioned"
-msgstr ""
+msgstr "Opnieuw gepositioneerd"
 
 #. TupletPosition
 #: ../actions/denemo-modules/wysiwyg.scm:453
@@ -11214,7 +11251,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 msgid "Up"
-msgstr ""
+msgstr "Omhoog"
 
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:616
@@ -11224,7 +11261,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 msgid "Down"
-msgstr ""
+msgstr "Omlaag"
 
 #: ../actions/denemo-modules/wysiwyg.scm:453
 #: ../actions/denemo-modules/wysiwyg.scm:616
@@ -11234,7 +11271,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.scm:2
 msgid "Auto"
-msgstr ""
+msgstr "Automatisch"
 
 #: ../actions/denemo-modules/wysiwyg.scm:464
 #: ../actions/denemo-modules/wysiwyg.scm:515
@@ -11242,35 +11279,35 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:30
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:12
 msgid "Padding"
-msgstr ""
+msgstr "Vulling"
 
 #: ../actions/denemo-modules/wysiwyg.scm:464
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:18
 msgid "Give amount of padding required around this item (in staff spaces)"
-msgstr ""
+msgstr "Geef de hoeveelheid vulling die nodig is rond dit item (in notenbalkruimtes)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:477
 msgid "Give relative font size: "
-msgstr ""
+msgstr "Geef relatieve lettergrootte: "
 
 #: ../actions/denemo-modules/wysiwyg.scm:505
 #: ../actions/denemo-modules/wysiwyg.scm:526
 #: ../actions/denemo-modules/wysiwyg.scm:596
 msgid "Object Editor"
-msgstr ""
+msgstr "Objectbewerker"
 
 #: ../actions/denemo-modules/wysiwyg.scm:507
 #: ../actions/denemo-modules/wysiwyg.scm:528
 #: ../actions/denemo-modules/wysiwyg.scm:598
 msgid "Play From Here"
-msgstr ""
+msgstr "Vanaf hier afspelen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:515
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MultiLineTextAnnotation.scm:71
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:30
 msgid "Up/Down"
-msgstr ""
+msgstr "Omhoog/Omlaag"
 
 #. FIXME the value is relative to the centre line of the staff, this gets relative to the tr sign.
 #. need to use d-GetNewTarget to find the notehead position, then use its mid_c_offset to get the centre line value
@@ -11280,209 +11317,209 @@ msgstr ""
 #: ../actions/denemo-modules/wysiwyg.scm:522 ../actions/denemo.scm:173
 #: ../actions/denemo.scm:176
 msgid "Offset Position"
-msgstr ""
+msgstr "Positieverschuiving"
 
 #: ../actions/denemo-modules/wysiwyg.scm:556
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/PrintLayout/LineBreak.xml.h:1
 msgid "Line Break"
-msgstr ""
+msgstr "Regeleinde"
 
 #: ../actions/denemo-modules/wysiwyg.scm:556
 msgid "Start a new line here"
-msgstr ""
+msgstr "Hier een nieuwe regel beginnen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:557
 msgid "Start a new page here"
-msgstr ""
+msgstr "Hier een nieuwe pagina beginnen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:560
 msgid "Three Beams Right (Off/On)"
-msgstr ""
+msgstr "Drie waardestrepen rechts (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:560
 msgid "Put just three beams to the right or undo a previous invocation of this command"
-msgstr ""
+msgstr "Gewoon drie waardestrepen aan de rechterkant plaatsen of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:561
 msgid "Three Beams Left (Off/On)"
-msgstr ""
+msgstr "Drie waardestrepen links (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:561
 msgid "Put just three beams to the left or undo a previous invocation of this command"
-msgstr ""
+msgstr "Gewoon drie waardestrepen aan de linkerkant plaatsen of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:564
 msgid "Two Beams Right (Off/On)"
-msgstr ""
+msgstr "Twee waardestrepen rechts (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:564
 msgid "Put just two beams to the right or undo a previous invocation of this command"
-msgstr ""
+msgstr "Gewoon twee waardestrepen aan de rechterkant plaatsen of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:565
 msgid "Two Beams Left (Off/On)"
-msgstr ""
+msgstr "Twee waardestrepen links (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:565
 msgid "Put just two beams to the left or undo a previous invocation of this command"
-msgstr ""
+msgstr "Gewoon twee waardestrepen aan de linkerkant plaatsen of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:570
 msgid "One Beam Right (Off/On)"
-msgstr ""
+msgstr "Een waardestreep rechts (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:570
 msgid "Put just one beam to the right or undo a previous invocation of this command"
-msgstr ""
+msgstr "Gewoon één waardestreep aan de rechterkant plaatsen of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:571
 msgid "One Beam Left (Off/On)"
-msgstr ""
+msgstr "Een waardestreep links (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:571
 msgid "Put just one beam to the left or undo a previous invocation of this command"
-msgstr ""
+msgstr "Gewoon één waardestreep aan de linkerkant plaatsen of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:572
 msgid "Chop to One Beam"
-msgstr ""
+msgstr "Verminderen tot één waardestreep"
 
 #: ../actions/denemo-modules/wysiwyg.scm:572
 msgid "Reduce the beaming between this and the next note to just one beam"
-msgstr ""
+msgstr "Het aantal waardestrepen tussen deze en de volgende noot verminderen tot slechts één waardestreep"
 
 #: ../actions/denemo-modules/wysiwyg.scm:577
 msgid "Chop Gap in Beam"
-msgstr ""
+msgstr "Waardestreep onderbreken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:577
 msgid "Remove the beaming between this and the next note"
-msgstr ""
+msgstr "De waardestrepen tussen deze en de volgende noot verwijderen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:578
 msgid "No Beam (Off/On)"
-msgstr ""
+msgstr "Geen waardestreep (Aan/Uit)"
 
 #: ../actions/denemo-modules/wysiwyg.scm:578
 msgid "Leave note/chord un-beamed or undo a previous invocation of this command"
-msgstr ""
+msgstr "Deze noot/dit akkoord zonder waardestreep laten of een eerdere aanroep van dit commando ongedaan maken"
 
 #: ../actions/denemo-modules/wysiwyg.scm:579
 msgid "Change beam angle/position"
-msgstr ""
+msgstr "Waardestreep-hoek/positie wijzigen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:579
 msgid "Allows you to drag the ends of the beam"
-msgstr ""
+msgstr "Hiermee kunt u de uiteinden van de waardestreep verslepen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:583
 msgid "Hint Slur Angle/Position"
-msgstr ""
+msgstr "Legatoboog-hoek/positie suggereren"
 
 #: ../actions/denemo-modules/wysiwyg.scm:583
 msgid "Allows you to drag the ends of the slur"
-msgstr ""
+msgstr "Hiermee kunt u de uiteinden van de legatoboog verslepen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:584
 msgid "Change Slur Shape"
-msgstr ""
+msgstr "Legatoboogvorm wijzigen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:584
 msgid "Allows you to drag the control points of the slur"
-msgstr ""
+msgstr "Hiermee kunt u de bedieningspunten van de legatoboog verslepen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:591
 msgid "Change Tie Shape"
-msgstr ""
+msgstr "Overbindingsvorm wijzigen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:591
 msgid "Allows you to drag the control points of the tie"
-msgstr ""
+msgstr "Hiermee kunt u de bedieningspunten van de overbinding verslepen"
 
 #: ../actions/denemo-modules/wysiwyg.scm:625
 msgid "Edit Directive tagged "
-msgstr ""
+msgstr "Richtlijn met tag bewerken"
 
 #: ../actions/denemo.scm:157
 msgid "Place above staff"
-msgstr ""
+msgstr "Boven notenbalk plaatsen"
 
 #: ../actions/denemo.scm:158
 msgid "Place below staff"
-msgstr ""
+msgstr "Onder notenbalk plaatsen"
 
 #: ../actions/denemo.scm:159
 msgid "Set Relative Font Size"
-msgstr ""
+msgstr "Relatieve lettergrootte instellen"
 
 #: ../actions/denemo.scm:160
 msgid "Offset Position (All)"
-msgstr ""
+msgstr "Positieverschuiving (alle)"
 
 #: ../actions/denemo.scm:161
 msgid "Offset Position (One)"
-msgstr ""
+msgstr "Positieverschuiving (één)"
 
 #: ../actions/denemo.scm:162
 #: ../actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/OpenNthTimeBar.scm:89
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MultiLineTextAnnotation.scm:68
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:17
 msgid "Edit Text"
-msgstr ""
+msgstr "Tekst bewerken"
 
 #: ../actions/denemo.scm:163
 msgid "Set Padding"
-msgstr ""
+msgstr "Vulling instellen"
 
 #: ../actions/denemo.scm:166
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:7
 msgid "Restore Position"
-msgstr ""
+msgstr "Positie herstellen"
 
 #: ../actions/denemo.scm:167
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:6
 msgid "Nudge Position"
-msgstr ""
+msgstr "Positieverschuiving"
 
 #: ../actions/denemo.scm:173
 msgid "Amount (+/-) to nudge in horizontal direction"
-msgstr ""
+msgstr "In horizontale richting te verschuiven aantal (+/-)"
 
 #: ../actions/denemo.scm:176
 msgid "Amount (+/-) to nudge in vertical direction"
-msgstr ""
+msgstr "In verticale richting te verschuiven aantal (+/-)"
 
 #: ../actions/denemo.scm:284 ../actions/denemo.scm:345
 msgid "Extra space above (0):"
-msgstr ""
+msgstr "Extra ruimte erboven (0):"
 
 #: ../actions/denemo.scm:287 ../actions/denemo.scm:347
 msgid "Give font magnification required (+/-) 0 "
-msgstr ""
+msgstr "Vereiste lettertypevergroting opgeven (+/-) 0 "
 
 #: ../actions/denemo.scm:335
 msgid "Give a name applying to the whole score"
-msgstr ""
+msgstr "Een naam opgeven die van toepassing is op de hele partituur"
 
 #: ../actions/denemo.scm:500
 msgid "End the selection at a note"
-msgstr ""
+msgstr "De selectie beëindigen op een noot"
 
 #: ../actions/denemo.scm:505
 msgid "Start the selection at a note"
-msgstr ""
+msgstr "De selectie beginnen op een noot"
 
 #: ../actions/denemo.scm:551
 msgid "Click Track"
-msgstr ""
+msgstr "Klikspoor"
 
 #: ../actions/denemo.scm:661
 msgid "You had book titles for this score. These are being dropped. To re-instate them, re-set the title as a book title."
-msgstr ""
+msgstr "U had boektitels voor deze partituur. Deze worden verwijderd. Om deze opnieuw in te stellen, moet u de titel opnieuw instellen als een boektitel."
 
 #: ../actions/denemo.scm:945
 msgid "Please enter a transpose interval"
-msgstr ""
+msgstr "Voer een transpositie-interval in"
 
 #: ../actions/denemo.scm:945
 msgid ""
@@ -11491,77 +11528,81 @@ msgid ""
 "Example: m2 minor second, M2 major second, p5 fifth, T tritone.\n"
 "Or:  c' e' for a major third."
 msgstr ""
+"Voer een transpositie-interval in of twee noten in Lilypond-syntaxis.\n"
+"\n"
+"Voorbeeld: m2 kleine secunde, M2 grote secunde, p5 kwint, T tritonus.\n"
+"Of:  c' e' voor een grote terts."
 
 #: ../actions/denemo.scm:1075
 msgid "This definition is not loaded ... trying to load"
-msgstr ""
+msgstr "Deze definitie is niet geladen ... laden wordt geprobeerd"
 
 #: ../actions/denemo.scm:1197 ../actions/denemo.scm:1201
 #: ../actions/denemo.scm:1263
 msgid "Movement Titles"
-msgstr ""
+msgstr "Bewegingstitels"
 
 #: ../actions/denemo.scm:1197 ../actions/denemo.scm:1201
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/init.scm:23
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:18
 msgid "Give "
-msgstr ""
+msgstr "Opgeven"
 
 #: ../actions/denemo.scm:1295 ../actions/denemo.scm:1362
 msgid "dedication"
-msgstr ""
+msgstr "opdracht"
 
 #: ../actions/denemo.scm:1296 ../actions/denemo.scm:1366
 msgid "title"
-msgstr ""
+msgstr "titel"
 
 #: ../actions/denemo.scm:1297 ../actions/denemo.scm:1370
 msgid "subtitle"
-msgstr ""
+msgstr "ondertitel"
 
 #: ../actions/denemo.scm:1298 ../actions/denemo.scm:1374
 msgid "subsubtitle"
-msgstr ""
+msgstr "onder-ondertitel"
 
 #: ../actions/denemo.scm:1299 ../actions/denemo.scm:1378
 msgid "instrument"
-msgstr ""
+msgstr "instrument"
 
 #: ../actions/denemo.scm:1300 ../actions/denemo.scm:1382
 msgid "poet"
-msgstr ""
+msgstr "tekstdichter"
 
 #: ../actions/denemo.scm:1301 ../actions/denemo.scm:1386
 msgid "composer"
-msgstr ""
+msgstr "componist"
 
 #: ../actions/denemo.scm:1302 ../actions/denemo.scm:1390
 msgid "meter"
-msgstr ""
+msgstr "maat"
 
 #: ../actions/denemo.scm:1303 ../actions/denemo.scm:1394
 msgid "arranger"
-msgstr ""
+msgstr "arrangeur"
 
 #: ../actions/denemo.scm:1308 ../actions/denemo.scm:1398
 msgid "tagline"
-msgstr ""
+msgstr "slagzin"
 
 #: ../actions/denemo.scm:1308 ../actions/denemo.scm:1402
 msgid "copyright"
-msgstr ""
+msgstr "copyright"
 
 #: ../actions/denemo.scm:1309 ../actions/denemo.scm:1406
 msgid "piece"
-msgstr ""
+msgstr "stuk"
 
 #: ../actions/denemo.scm:1309 ../actions/denemo.scm:1410
 msgid "opus"
-msgstr ""
+msgstr "opus"
 
 #: ../actions/denemo.scm:1312
 msgid "Switch to Simple Titles"
-msgstr ""
+msgstr "Naar eenvoudige titels overschakelen"
 
 #: ../actions/denemo.scm:1356
 msgid ""
@@ -11569,99 +11610,102 @@ msgid ""
 "You can only edit these with 1.2.4 or earlier versions.\n"
 "You can delete them in the score and movement editor and then re-instate them."
 msgstr ""
+"U hebt eenvoudige titels gemaakt met een eerdere versie van Denemo.\n"
+"U kunt deze alleen bewerken met versie 1.2.4 of eerdere versies.\n"
+"U kunt ze verwijderen in de partituur- en bewegingseditor en ze dan opnieuw invoegen."
 
 #: ../actions/denemo.scm:1439
 msgid "Give Spacing:"
-msgstr ""
+msgstr "Afstand opgeven: "
 
 #: ../actions/denemo.scm:1450
 msgid "Mute Staff"
-msgstr ""
+msgstr "Notenbalk dempen"
 
 #: ../actions/denemo.scm:1451
 msgid "Unmute Staff"
-msgstr ""
+msgstr "Dempen van de notenbalk opheffen"
 
 #: ../actions/denemo.scm:1453
 msgid "(Print) Show Staff"
-msgstr ""
+msgstr "(Afdrukken) Notenbalk tonen"
 
 #: ../actions/denemo.scm:1454
 msgid "(Print) Hide Staff"
-msgstr ""
+msgstr "(Afdrukken) Notenbalk verbergen"
 
 #: ../actions/denemo.scm:1457
 msgid "(Display) Show Staff"
-msgstr ""
+msgstr "(Weergave) Notenbalk tonen"
 
 #: ../actions/denemo.scm:1458
 msgid "(Display) Hide Staff"
-msgstr ""
+msgstr "(Weergave) Notenbalk verbergen"
 
 #: ../actions/denemo.scm:1471
 msgid "(Display) Show All Staffs"
-msgstr ""
+msgstr "(Weergave) Alle notenbalken tonen"
 
 #: ../actions/denemo.scm:1472
 msgid "(Display) Hide All Other Staffs"
-msgstr ""
+msgstr "(Weergave) Alle andere notenbalken verbergen"
 
 #: ../actions/denemo.scm:1473
 msgid "Movement Editor"
-msgstr ""
+msgstr "Bewegingseditor"
 
 #: ../actions/denemo.scm:1475
 msgid "This sets the visibility/mute and other properties for the whole movement"
-msgstr ""
+msgstr "Dit stelt de zichtbaarheid/demping en andere eigenschappen in voor de hele beweging"
 
 #: ../actions/denemo.scm:1547
 msgid "Staff number "
-msgstr ""
+msgstr "Notenbalknummer"
 
 #: ../actions/denemo.scm:1547
 msgid "Staffs have different properties: "
-msgstr ""
+msgstr "Notenbalken hebben verschillende eigenschappen: "
 
 #: ../actions/denemo.scm:1566
 msgid "Different number of measures in staff "
-msgstr ""
+msgstr "Verschillend aantal maten in notenbalk"
 
 #: ../actions/denemo.scm:1573
 msgid "Comparing Music"
-msgstr ""
+msgstr "Muziek vergelijken"
 
 #: ../actions/denemo.scm:1573
 msgid "Continue Searching?"
-msgstr ""
+msgstr "Doorgaan met zoeken?"
 
 #: ../actions/denemo.scm:1588
 msgid "Extra staff(s) in one score."
-msgstr ""
+msgstr "Extra notenbalk(en) in één partituur."
 
 #: ../actions/denemo.scm:1705
 msgid "No Title"
-msgstr ""
+msgstr "Geen titel"
 
 #: ../actions/denemo.scm:1707
 msgid "No Composer"
-msgstr ""
+msgstr "Geen componist"
 
 #: ../actions/editscripts/Beam.scm:6
 msgid "Customized Beaming Command - use Advanced Edit"
-msgstr ""
+msgstr "Aangepast commando voor het plaatsen van waardestrepen - gebruik Geavanceerd Bewerken"
 
 #: ../actions/editscripts/Slur.scm:1
 msgid "This Directive modifies the slur shape - you can further edit the slur shape in the Print View window, or delete this directive to return to the default shape"
-msgstr ""
+msgstr "Deze richtlijn wijzigt de vorm van de legatoboog - u kunt de vorm van de legatoboog verder bewerken in het venster Afdrukweergave, of deze richtlijn verwijderen om terug te keren naar de standaardvorm"
 
 #. ActivateObjectAtCursor
 #: ../actions/menus/MainMenu/EditMenu/ActivateObjectAtCursor.xml.h:1
 msgid "Activate Object"
-msgstr ""
+msgstr "Object activeren"
 
 #: ../actions/menus/MainMenu/EditMenu/ActivateObjectAtCursor.xml.h:2
 msgid "Activates the object at the Denemo cursor, equivalent to right-clicking on it. Control and Shift keys will affect the response if used in the key shortcut for this command."
-msgstr ""
+msgstr "Activeert het object bij de Denemo-cursor, wat overeenkomt met erop klikken met de rechtermuisknop. De Control- en Shift-toetsen hebben invloed op de reactie als ze worden gebruikt in de sneltoetscombinatie voor dit commando."
 
 #: ../actions/menus/MainMenu/EditMenu/ActivatePaletteButtonByLabel.scm:2
 msgid ""
@@ -11670,160 +11714,164 @@ msgid ""
 "and then type any label from the palette followed by <Return>\n"
 "You can cut the label short (it clicks the first button that matches)."
 msgstr ""
+"Selecteer een palet door op een van zijn knoppen te klikken.\n"
+"Gebruik daarna een sneltoets om dit commando op te roepen\n"
+"en typ vervolgens een label uit het palet, gevolgd door <Return>\n"
+"U kunt het label verkorten (het klikt op de eerste knop die overeenkomt)."
 
 #: ../actions/menus/MainMenu/EditMenu/ActivatePaletteButtonByLabel.xml.h:1
 msgid "Activate Palette Button"
-msgstr ""
+msgstr "Paletknop activeren"
 
 #: ../actions/menus/MainMenu/EditMenu/ActivatePaletteButtonByLabel.xml.h:2
 msgid "Allows you \"click\" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help."
-msgstr ""
+msgstr "Hiermee kunt u op een paletknop \"klikken\" door het label te typen. Gebruik een sneltoets om dit commando te starten en typ vervolgens het label gevolgd door Return. Het laatst gebruikte palet is het actieve. Klik op het menu-item voor dit commando voor meer hulp."
 
 #: ../actions/menus/MainMenu/EditMenu/AdvancedEdit.scm:5
 msgid ""
 "To edit a directive attached to the object at the cursor\n"
 "right click and choose Run Object Editor"
-msgstr ""
+msgstr "Om een richtlijn te bewerken die gekoppeld is aan het object bij de cursor, klikt u met de rechter muisknop en kiest u Objecteditor uitvoeren"
 
 #: ../actions/menus/MainMenu/EditMenu/AdvancedEdit.xml.h:1
 msgid "Advanced Edit"
-msgstr ""
+msgstr "Geavanceerd Bewerken"
 
 #: ../actions/menus/MainMenu/EditMenu/AdvancedEdit.xml.h:2
 msgid "Edits a Denemo Directive at the lowest level. Advanced users only!"
-msgstr ""
+msgstr "Bewerkt een Denemo-richtlijn op het laagste niveau. Alleen voor gevorderde gebruikers! "
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:55
 msgid "Non Printing"
-msgstr ""
+msgstr "Niet afdrukken"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:57
 msgid "Slur Start"
-msgstr ""
+msgstr "Begin van legatoboog"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:59
 msgid "Slur End"
-msgstr ""
+msgstr "Einde van legatoboog"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:61
 msgid "Tied Note"
-msgstr ""
+msgstr "Overbonden noot"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:63
 msgid "Tuplet Start"
-msgstr ""
+msgstr "Begin antimetrische figuur"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:65
 msgid "Tuplet End"
-msgstr ""
+msgstr "Einde antimetrische figuur"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:67
 msgid "Key Change"
-msgstr ""
+msgstr "Wijziging voortekening"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:71
 msgid "Stems Direction"
-msgstr ""
+msgstr "Nootstokrichting"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm:91
 msgid "Nothing in this movement can be searched for (no ties, slurs, time signature changes, tuplets, directives etc)."
-msgstr ""
+msgstr "Niets in deze beweging kan worden opgezocht (geen overbindingen, legatobogen, maatsoortwijzigingen, antimetrische figuren, richtlijnen, enz.)."
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.xml.h:1
 msgid "Choose, Seek &amp; Edit"
-msgstr ""
+msgstr "Kiezen, zoeken &amp; bewerken"
 
 #: ../actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.xml.h:2
 msgid "Creates a menu of all the types of objects that can be searched for in this movement. Selecting one moves the cursor to the next object of that type which can then be edited, or further searches made."
-msgstr ""
+msgstr "Creëert een menu met alle soorten objecten waarnaar in deze beweging kan worden gezocht. Als u er een selecteert, gaat de cursor naar het volgende object van dat type, dat vervolgens kan worden bewerkt, of er kan verder worden gezocht."
 
 #: ../actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.xml.h:1
 msgid "Convert GM-Drum to User-Drum"
-msgstr ""
+msgstr "GM-Drum omzetten naar Gebruikers-Drum"
 
 #: ../actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.xml.h:2
 msgid "Converts between the midi-drum notation and a user-drum notation. The user can set his/her drummap in a template in ~/.denemo/templates or choose any other copy he made of the template file to have drummaps for different drummers available."
-msgstr ""
+msgstr "Converteert tussen de midi-drumnotatie en een gebruikersdrumnotatie. De gebruiker kan zijn/haar drumschema instellen in een sjabloon in ~/.denemo/templates of een andere kopie kiezen die hij/zij van het sjabloonbestand heeft gemaakt om drumschema's voor verschillende drummers beschikbaar te hebben. "
 
 #. DeleteMidiRecording
 #: ../actions/menus/MainMenu/EditMenu/Delete/DeleteRecordedMidi.xml.h:1
 msgid "Delete Imported/Recorded Midi"
-msgstr ""
+msgstr "Geïmporteerde/opgenomen Midi verwijderen"
 
 #: ../actions/menus/MainMenu/EditMenu/Delete/DeleteRecordedMidi.xml.h:2
 #: ../actions/palettes.xml.h:177
 msgid "Deletes the MIDI that has been imported or recorded via MIDI in."
-msgstr ""
+msgstr "Verwijdert de MIDI die is geïmporteerd of opgenomen via de MIDI-ingang."
 
 #: ../actions/menus/MainMenu/EditMenu/Delete/IntelligentDelete.xml.h:1
 msgid "Delete Selection/Object/Empty Measure"
-msgstr ""
+msgstr "Selectie/Object/Lege maat verwijderen"
 
 #: ../actions/menus/MainMenu/EditMenu/Delete/IntelligentDelete.xml.h:2
 msgid "Deletes a single object at the cursor, an empty measure or the complete selection."
-msgstr ""
+msgstr "Wist één enkel object bij de cursor, een lege maat of de volledige selectie."
 
 #. RemoveCustomizedButtons
 #: ../actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.xml.h:1
 msgid "Destroy Button Customization"
-msgstr ""
+msgstr "Knopaanpassingen wissen"
 
 #: ../actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.xml.h:2
 msgid "Removes the file that creates customized buttons on the title bar (and any other scheme you have added to the startup script)."
-msgstr ""
+msgstr "Verwijdert het bestand dat aangepaste knoppen op de titelbalk maakt (en elk ander scheme dat u aan het opstartscript hebt toegevoegd)."
 
 #: ../actions/menus/MainMenu/EditMenu/Delete/StagedDelete.xml.h:1
 msgid "Delete in Stages"
-msgstr ""
+msgstr "Stap voor stap verwijderen"
 
 #: ../actions/menus/MainMenu/EditMenu/Delete/StagedDelete.xml.h:2
 msgid "Deletes the object at/before the cursor. For Notes/Chords/Rests it deletes stage by stage. First it removes notes until just a non-printing rest remains, then deletes that."
-msgstr ""
+msgstr "Verwijdert het object op/voor de cursor. Voor noten/akkoorden/rusten wordt stap voor stap verwijderd. Eerst worden noten verwijderd totdat er alleen een niet-afdrukbare rust overblijft, en vervolgens wordt die verwijderd."
 
 #: ../actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.scm:6
 msgid "Set Denemo Duration"
-msgstr ""
+msgstr "Denemo-duur instellen"
 
 #: ../actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.scm:6
 msgid "Give duration desired in ticks (PPQN) "
-msgstr ""
+msgstr "De gewenste duur opgeven in tikken (PPQN)"
 
 #: ../actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.xml.h:1
 msgid "(Display) Set Object Duration"
-msgstr ""
+msgstr "(Weergave) Objectduur instellen"
 
 #: ../actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.xml.h:2
 msgid "Sets the duration of the object at the cursor for display purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting."
-msgstr ""
+msgstr "Stelt de duur van het object bij de cursor in voor weergavedoeleinden. Waarde is pulsen per kwartnoot - d.w.z. MIDI-tikken. Geen effect op typografie."
 
 #: ../actions/menus/MainMenu/EditMenu/EditAll.scm:7
 msgid "Delete All "
-msgstr ""
+msgstr "Alles verwijderen"
 
 #: ../actions/menus/MainMenu/EditMenu/EditAll.scm:8
 msgid "Execute Scheme on all "
-msgstr ""
+msgstr "Scheme uitvoeren op alles"
 
 #: ../actions/menus/MainMenu/EditMenu/EditAll.scm:11
 msgid "You must choose a type of object to edit first"
-msgstr ""
+msgstr "U moet eerst een type object kiezen om te bewerken"
 
 #: ../actions/menus/MainMenu/EditMenu/EditAll.xml.h:1
 msgid "Edit All of Type"
-msgstr ""
+msgstr "Alles bewerken van het type"
 
 #: ../actions/menus/MainMenu/EditMenu/EditAll.xml.h:2
 msgid "Resumes the last Seeking/Editing/Deleting operation. All objects of the type last searched for will be sought again, from the cursor onwards."
-msgstr ""
+msgstr "Hervat de laatste zoek-/bewerkings-/verwijderingsoperatie. Alle objecten van het type waarnaar laatst gezocht werd, zullen opnieuw opgezocht worden, te beginnen vanaf de cursor."
 
 #. EditScoreAndMovementDirectives
 #: ../actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.xml.h:1
 msgid "Edit Score/Movement Directives"
-msgstr ""
+msgstr "Partituur-/bewegingsrichtlijnen bewerken"
 
 #: ../actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.xml.h:2
 msgid "Collects together all the Score Directives and the Movement Directives for the current movement and allows advanced (low-level) edit of any of them. This is a convenience command if you do not know the directive you are looking for."
-msgstr ""
+msgstr "Verzamelt alle Partituur- en Bewegingsrichtlijnen voor de huidige beweging en maakt geavanceerde bewerking (op basisniveau) van elk van hen mogelijk. Dit is een handig commando als u niet weet naar welke richtlijn u op zoek bent."
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:37
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:61
@@ -11834,15 +11882,15 @@ msgstr ""
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:340
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:364
 msgid "Continue Seeking "
-msgstr ""
+msgstr "Doorgaan met zoeken "
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:37
 msgid " Directives"
-msgstr ""
+msgstr " Richtlijnen"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:61
 msgid " on Noteheads"
-msgstr ""
+msgstr " voor Nootkoppen"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:63
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:88
@@ -11851,38 +11899,38 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.scm:7
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.scm:12
 msgid "Edit "
-msgstr ""
+msgstr "Bewerken"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:63
 msgid " on Notehead"
-msgstr ""
+msgstr " voor Nootkop"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:86
 msgid " on Chords/Notes/Rests"
-msgstr ""
+msgstr " voor Akkoorden/Noten/Rusten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:88
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:93
 msgid " Directive"
-msgstr ""
+msgstr " Richtlijn"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:88
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:93
 msgid " on this Chord/Note/Rest"
-msgstr ""
+msgstr " voor dit/deze Akkoord/Noot/Rust"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:111
 msgid " Objects"
-msgstr ""
+msgstr " Objecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:112
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:116
 msgid "Change to Printing"
-msgstr ""
+msgstr "Overschakelen naar afdrukken"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:128
 msgid "Continue seeking slur start positions"
-msgstr ""
+msgstr "Doorgaan met zoeken naar legatoboogbeginposities"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:129
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:133
@@ -11890,323 +11938,327 @@ msgstr ""
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:151
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.xml.h:1
 msgid "Delete Slur"
-msgstr ""
+msgstr "Legatoboog verwijderen"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:146
 msgid "Continue seeking slur end positions"
-msgstr ""
+msgstr "Doorgaan met zoeken naar legatoboogeindposities"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:165
 msgid "Continue seeking tied notes"
-msgstr ""
+msgstr "Doorgaan met zoeken naar overbonden noten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:166
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:170
 msgid "Delete Tie"
-msgstr ""
+msgstr "Overbinding verwijderen"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:183
 msgid "Continue seeking tuplet start objects"
-msgstr ""
+msgstr "Doorgaan met zoeken naar begin-antimetrische-figuur-objecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:198
 msgid "Continue seeking tuplet end objects"
-msgstr ""
+msgstr "Doorgaan met zoeken naar einde-antimetrische-figuur-objecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:213
 msgid "Continue seeking time signature change objects"
-msgstr ""
+msgstr "Doorgaan met zoeken naar maatsoortveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:233
 msgid "Continue seeking clef change objects"
-msgstr ""
+msgstr "Doorgaan met zoeken naar sleutelveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:251
 msgid "Continue seeking key signature change objects"
-msgstr ""
+msgstr "Doorgaan met zoeken naar voortekeningveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:272
 msgid "Continue seeking stem direction change objects"
-msgstr ""
+msgstr "Doorgaan met zoeken naar nootstokrichtingveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:290
 msgid " on Time Signature Change Objects"
-msgstr ""
+msgstr " voor maatsoortveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:316
 msgid " on Clef Change Objects"
-msgstr ""
+msgstr " voor sleutelveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:340
 msgid " on Key Change Objects"
-msgstr ""
+msgstr " voor voortekeningveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:364
 msgid " on Voice Change objects"
-msgstr ""
+msgstr " voor stemveranderingsobjecten"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:397
 msgid "Must choose type of object to be edited/deleted"
-msgstr ""
+msgstr "U moet het type object kiezen dat moet worden bewerkt/verwijderd"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:409
 msgid ""
 "Cannot resume - no previous search.\n"
 "Offering a menu of all possible searches instead."
 msgstr ""
+"Kan niet hervatten - geen eerdere zoekopdracht.\n"
+"In plaats daarvan wordt een menu geboden van alle mogelijke zoekopdrachten."
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:643
 msgid ""
 "Attributes and Directives attached to noteheads, chords (including notes and rests) and standalone objects are supported - position the cursor on a notehead for directives on that notehead or off the noteheads for directives on a chord/note/rest, or on any other sort of object in the music. \n"
 "Alternatively, use \"Choose, Seek and Edit\" command to select from a list of types of directives in the movement to seek for."
 msgstr ""
+"Attributen en richtlijnen die gekoppeld zijn aan nootkoppen, akkoorden (inclusief noten en rusten) en zelfstandige objecten worden ondersteund - plaats de cursor op een nootkop voor richtlijnen voor die nootkop of naast de nootkoppen voor richtlijnen voor een akkoord/noot/rust of voor elk andere soort object in de muziek. \n"
+"U kunt ook de opdracht \"Kiezen, zoeken en bewerken\" gebruiken om een keuze te maken uit een lijst met soorten richtlijnen in de beweging waarnaar moet worden gezocht."
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:653
 msgid "Wrap to first movement"
-msgstr ""
+msgstr "Doorlopen naar de eerste beweging"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:654
 msgid "Wrap to next movement"
-msgstr ""
+msgstr "Doorlopen naar de volgende beweging"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:655
 msgid "Wrap to beginning"
-msgstr ""
+msgstr "Doorlopen naar het begin"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.scm:673
 #: ../actions/menus/MainMenu/InputMenu/MIDI/ToggleCheckChords.scm:110
 msgid "Finished"
-msgstr ""
+msgstr "Afgewerkt"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.xml.h:1
 msgid "Edit Here (and ...)"
-msgstr ""
+msgstr "Hier bewerken (en ...)"
 
 #: ../actions/menus/MainMenu/EditMenu/EditSimilar.xml.h:2
 msgid "Seek and edit Denemo Directives starting with the one at the cursor and optionally similar ones following. Position the cursor on a particular notehead to edit directives attached to individual noteheads (such as fingering), otherwise you will edit directives attached at the chord level (such as beaming)."
-msgstr ""
+msgstr "Denemo-richtlijnen zoeken en bewerken, te beginnen met die bij de cursor en eventueel daaropvolgende gelijkaardige richtlijnen. Plaats de cursor op een bepaalde nootkop om richtlijnen te bewerken die aan individuele nootkoppen zijn gekoppeld (zoals vingerzetting), anders bewerkt u richtlijnen die gekoppeld zijn aan het akkoordniveau (zoals waardestrepen plaatsen). "
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.scm:3
 msgid "Type Snippet Number 1,2..."
-msgstr ""
+msgstr "Typ fragmentnummer 1,2 ..."
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.scm:9
 msgid "To use this function correctly you need to give the number of the snippet to be inserted"
-msgstr ""
+msgstr "Om deze functie correct te gebruiken, moet u het nummer van het in te voegen fragment opgeven"
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.xml.h:1
 msgid "Insert Nth Snippet"
-msgstr ""
+msgstr "N-de fragment invoegen"
 
 #: ../actions/menus/MainMenu/EditMenu/InsertNthSnippet.xml.h:2
 msgid "Pastes the Nth snippet into the score at the cursor position. Follow with the number 1,2,... of the snippet to be inserted"
-msgstr ""
+msgstr "Plakt het N-de fragment in de partituur op de cursorpositie. Voeg het nummer 1,2, ... van het in te voegen fragment toe"
 
 #: ../actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.xml.h:1
 msgid "Start Emacs 2-key Shortcut"
-msgstr ""
+msgstr "Een Emacs-sneltoets van twee toetsen starten"
 
 #: ../actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.xml.h:2
 msgid "Initiates a 2-key sequence, emacs style."
-msgstr ""
+msgstr "Initieert een sequentie van 2 toetsen, volgens de emacs-stijl."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsBinaryRhythm.xml.h:1
 msgid "Insert Reversed String as Binary Rhythm"
-msgstr ""
+msgstr "Een omgekeerde tekenreeks invoegen als binair ritme"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsBinaryRhythm.xml.h:2
 msgid "Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting."
-msgstr ""
+msgstr "Een tekenreeks opgeven om een ritme te genereren uit zijn ascii-tekens in binaire codering. De tekenreeks wordt omgekeerd voordat deze wordt geconverteerd."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsReversedBinaryRhythm.xml.h:1
 msgid "Insert Reversed String as Reversed Binary Rhythm"
-msgstr ""
+msgstr "Een omgekeerde tekenreeks invoegen als omgekeerd binair ritme"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsReversedBinaryRhythm.xml.h:2
 msgid "Give a string to generate a rhythm out of its ascii chars in binary encoding. The string gets reversed before converting. The rhythm for each letter gets reversed before inserting."
-msgstr ""
+msgstr "Een tekenreeks opgeven om een ritme te genereren uit zijn ascii-tekens in binaire codering. De tekenreeks wordt omgekeerd voordat deze wordt geconverteerd. Het ritme voor elke letter wordt omgekeerd voordat deze wordt ingevoegd."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertStringAsBinaryRhythm.xml.h:1
 msgid "Insert String as Binary Rhythm"
-msgstr ""
+msgstr "Een tekenreeks invoegen als binair ritme"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertStringAsBinaryRhythm.xml.h:2
 msgid "Give a string to generate a rhythm out of its ascii chars in binary encoding"
-msgstr ""
+msgstr "Een tekenreeks opgeven om een ritme te genereren uit zijn ascii-tekens in binaire codering"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertStringAsReversedBinaryRhythm.xml.h:1
 msgid "Insert String as Reversed Binary Rhythm"
-msgstr ""
+msgstr "Een tekenreeks invoegen als omgekeerd binair ritme"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertStringAsReversedBinaryRhythm.xml.h:2
 msgid "Give a string to generate a rhythm out of its ascii chars in binary encoding. The rhythm for each letter gets reversed before inserting."
-msgstr ""
+msgstr "Een tekenreeks opgeven om een ritme te genereren uit zijn ascii-tekens in binaire codering. Het ritme voor elke letter wordt omgekeerd voordat deze wordt ingevoegd."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-InsertPoolShuffled.xml.h:1
 msgid "Insert Shuffled Pool"
-msgstr ""
+msgstr "Een dooreengeschudde pool invoegen"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-InsertPoolShuffled.xml.h:2
 msgid "Inserts all notes, shuffled, from a user-specified pool of notes in Lilypond syntax"
-msgstr ""
+msgstr "Voegt alle noten in willekeurige volgorde in vanuit een door de gebruiker gespecificeerde pool van noten in de Lilypond-syntaxis"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-MirrorSelectedObjects.xml.h:1
 msgid "Mirror Selected Objects (Axis=Cursor)"
-msgstr ""
+msgstr "Geselecteerde objecten spiegelen (as = cursor)"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-MirrorSelectedObjects.xml.h:2
 msgid "Mirror the selected notes. Axis is the cursor position."
-msgstr ""
+msgstr "De geselecteerde noten spiegelen. De cursorpositie vormt de as."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-ReverseSelectedObjects.xml.h:1
 msgid "Reverse Selected Objects"
-msgstr ""
+msgstr "Geselecteerde objecten ongedaan maken"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-ReverseSelectedObjects.xml.h:2
 msgid "Revert selected objects"
-msgstr ""
+msgstr "Geselecteerde objecten terugzetten"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-ShuffleSelectedObjects.xml.h:1
 msgid "Shuffle Selected Objects"
-msgstr ""
+msgstr "Geselecteerde objecten dooreenschudden"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-ShuffleSelectedObjects.xml.h:2
 msgid "Shuffle the selected objects"
-msgstr ""
+msgstr "De geselecteerde objecten dooreenschudden"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-SortSelectionAscending.xml.h:1
 msgid "Sort Selection (Ascending)"
-msgstr ""
+msgstr "Selectie sorteren (oplopend)"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-SortSelectionAscending.xml.h:2
 msgid "Sort all notes in the selection, ascending order."
-msgstr ""
+msgstr "Alle noten in de selectie in oplopende volgorde sorteren."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-SortSelectionDescending.xml.h:1
 msgid "Sort Selection (Descending)"
-msgstr ""
+msgstr "Selectie sorteren (aflopend)"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-SortSelectionDescending.xml.h:2
 msgid "Sort all notes in the selection, descending order."
-msgstr ""
+msgstr "Alle noten in de selectie in aflopende volgorde sorteren."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-TwelveToneRow.xml.h:1
 msgid "Twelve Tone Row"
-msgstr ""
+msgstr "Reeks van twaalf tonen"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/NotationMagick-TwelveToneRow.xml.h:2
 msgid "Generates twelve notes of the prevailing duration, each is unique so the whole chromatic range gets inserted in a random manner."
-msgstr ""
+msgstr "Genereert twaalf noten met de heersende duur, waarbij elke noot uniek is, zodat het hele chromatische bereik op een willekeurige manier wordt ingevoegd."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-InsertNoteFromPool.xml.h:1
 msgid "Note from Pool"
-msgstr ""
+msgstr "Noot uit de pool"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-InsertNoteFromPool.xml.h:2
 msgid "Inserts one note from a user-specified pool of notes in Lilypond syntax"
-msgstr ""
+msgstr "Voegt één noot in uit een door de gebruiker gespecificeerde pool van noten in de Lilypond-syntaxis"
 
 #. Part of NotationMagick
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-RandomWithinClefRangeChromatic.xml.h:1
 msgid "Chromatic within Clef Range"
-msgstr ""
+msgstr "Chromatisch binnen sleutelbereik"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-RandomWithinClefRangeChromatic.xml.h:2
 msgid "Insert a random note within clef range. Full chromatic spectrum."
-msgstr ""
+msgstr "Een willekeurige noot invoegen binnen het bereik van de sleutel. Volledig chromatisch spectrum."
 
 #. Part of NotationMagick
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-RandomWithinClefRangeDiatonic.xml.h:1
 msgid "asd"
-msgstr ""
+msgstr "wdn"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SingleRandomNote/NotationMagick-RandomWithinClefRangeDiatonic.xml.h:2
 msgid "Insert a random note within clef range, only diatonic notes according to current keysignature."
-msgstr ""
+msgstr "Een willekeurige noot invoegen binnen het bereik van de sleutel, alleen diatonische noten volgens de huidige voortekening."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:18
 msgid "Swapped"
-msgstr ""
+msgstr "Omgewisseld"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:47
 msgid "Badly placed Passage marker. Mark passages only in the upper staff."
-msgstr ""
+msgstr "Slecht geplaatste passagemarkering. Markeer passages alleen in de bovenste notenbalk."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:64
 msgid "Unable to find corresponding passage end."
-msgstr ""
+msgstr "Kan het overeenkomstige einde van de passage niet vinden."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:68
 msgid "Unable to find corresponding passage start."
-msgstr ""
+msgstr "Kan het overeenkomstige begin van de passage niet vinden."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:72
 msgid "No staff below to swap passages with."
-msgstr ""
+msgstr "Geen notenbalk hieronder om passages mee te wisselen."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:75
 msgid "Start Passage with no End Passage."
-msgstr ""
+msgstr "Begin van een passage zonder einde van de passage."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.scm:95
 msgid "Use Undo(s) to restore any cut music."
-msgstr ""
+msgstr "Gebruik Ongedaan maken om geknipte muziek te herstellen."
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.xml.h:1
 msgid "Swap Passages"
-msgstr ""
+msgstr "Passages verwisselen"
 
 #: ../actions/menus/MainMenu/EditMenu/NotationMagick/SwapPassages.xml.h:2
 msgid "Passages of music in the current staff that have been marked using the Mark Passages command will be swapped with the corresponding music from the staff below."
-msgstr ""
+msgstr "Muziekpassages in de huidige notenbalk die zijn gemarkeerd met het commando Passages markeren, worden verwisseld met de overeenkomstige muziek uit de notenbalk eronder."
 
 #: ../actions/menus/MainMenu/EditMenu/PasteFromAbove.xml.h:1
 msgid "Paste From Staff Above"
-msgstr ""
+msgstr "Plakken vanuit bovenstaande notenbalk"
 
 #: ../actions/menus/MainMenu/EditMenu/PasteFromAbove.xml.h:2
 msgid "Copies any non-musical objects for the current musical moment from the staff above and pastes them into this staff after the cursor."
-msgstr ""
+msgstr "Kopieert alle niet-muzikale objecten uit het huidige muzikale moment uit de bovenstaande notenbalk en plakt ze in deze notenbalk na de cursor."
 
 #. Goes to the beginning of the selection afterwards
 #: ../actions/menus/MainMenu/EditMenu/PasteReplaceSelection.xml.h:1
 msgid "Paste and Replace Selection"
-msgstr ""
+msgstr "Plakken en selectie vervangen"
 
 #: ../actions/menus/MainMenu/EditMenu/PasteReplaceSelection.xml.h:2
 msgid "Paste the clipboard. Replace any selected objects. This paste-version also creates new barlines instead of strictly using the copied ones."
-msgstr ""
+msgstr "Vanuit het klembord plakken. Alle geselecteerde objecten vervangen. Deze versie van plakken creëert ook nieuwe maatstrepen in plaats van strikt de gekopieerde maatstrepen te gebruiken. "
 
 #: ../actions/menus/MainMenu/EditMenu/ReloadDrumHash.xml.h:1
 msgid "Reload the \"Drum GM to User\" Map"
-msgstr ""
+msgstr "Het schema \"GM-drum naar Gebruikers-drum\" opnieuw laden"
 
 #: ../actions/menus/MainMenu/EditMenu/ReloadDrumHash.xml.h:2
 msgid "Reloads the drum map which is needed for DrumGm2User"
-msgstr ""
+msgstr "Herlaadt het drumschema dat nodig is voor DrumGm2User"
 
 #. ResumeEdit
 #: ../actions/menus/MainMenu/EditMenu/ResumeEdit.xml.h:1
 msgid "Resume Seek/Edit"
-msgstr ""
+msgstr "Zoeken/Bewerken hervatten"
 
 #: ../actions/menus/MainMenu/EditMenu/ResumeEdit.xml.h:2
 msgid "Resumes seeking and optionally editing the last sought type of object."
-msgstr ""
+msgstr "Hervat het zoeken en eventueel bewerken van het laatst gezochte objecttype."
 
 #: ../actions/menus/MainMenu/EditMenu/Select/ApplyToSelection.xml.h:1
 msgid "Apply Shortcut to Objects in Selection"
-msgstr ""
+msgstr "Sneltoets toepassen op objecten in selectie"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/ApplyToSelection.xml.h:2
 msgid "Followed by a keyboard shortcut: applies the shortcut with the cursor successively on each object in the selection."
-msgstr ""
+msgstr "Gevolgd door een sneltoets: past de sneltoets toe met de cursor achtereenvolgens op elk object in de selectie."
 
 #: ../actions/menus/MainMenu/EditMenu/Select/CutSelectionAsSketch.scm:32
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:56
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.scm:50
 msgid "Cursor not in selection"
-msgstr ""
+msgstr "Cursor niet binnen selectie"
 
 #: ../actions/menus/MainMenu/EditMenu/Select/CutSelectionAsSketch.xml.h:1
 msgid "Cut Selection as Sketch"
@@ -14878,7 +14930,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:16
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:18
 msgid "Chord Symbol Offset"
-msgstr ""
+msgstr "Verschuiving akkoordsymbool"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.scm:16
 #: ../actions/menus/ObjectMenu/Directives/Markings/FretDiagram.scm:65
@@ -14894,7 +14946,7 @@ msgstr ""
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.xml.h:1
 msgid "Offset Chord Name"
-msgstr ""
+msgstr "Verschuiving Akkoordnaam"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChordNameOffset.xml.h:2
 #: ../actions/palettes.xml.h:208
