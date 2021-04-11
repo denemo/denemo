@@ -7288,8 +7288,28 @@ scheme_prev_selected_object (SCM optional)
   return SCM_BOOL (cursor_to_prev_selected_object ());
 }
 
-
-
+/* return staff that starts selection or #f if none */
+SCM
+scheme_selection_start_staff (SCM optional)
+{
+	gint first = Denemo.project->movement->selection.firststaffmarked;
+	gint last = Denemo.project->movement->selection.laststaffmarked;
+	if (first)
+		return scm_from_int (first);
+	else
+		return SCM_BOOL_F;
+}
+/* return staff that ends selection or #f if none */
+SCM
+scheme_selection_end_staff (SCM optional)
+{
+	gint first = Denemo.project->movement->selection.firststaffmarked;
+	gint last = Denemo.project->movement->selection.laststaffmarked;//only valid if first is not 0
+	if (first)
+		return scm_from_int (last);
+	else
+		return SCM_BOOL_F;
+}
 
 SCM
 scheme_next_standalone_directive (SCM optional)

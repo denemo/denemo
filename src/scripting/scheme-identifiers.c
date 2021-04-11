@@ -1134,6 +1134,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Gets the saved status of the current musical score", DENEMO_SCHEME_PREFIX "GetSaved", scheme_get_saved);
   install_scm_function (0, "Sets/Gets the changecount of the current musical score", DENEMO_SCHEME_PREFIX "Changecount", scheme_changecount);
   install_scm_function (0, "Returns #f if mark is not set", DENEMO_SCHEME_PREFIX "MarkStatus", scheme_mark_status);
+  install_scm_function (0, "Returns staff number (from 1) of first staff in selection of #f if no selection", DENEMO_SCHEME_PREFIX "SelectionStartStaff", scheme_selection_start_staff);
+  install_scm_function (0, "Returns staff number (from 1) of last staff in selection of #f if no selection", DENEMO_SCHEME_PREFIX "SelectionEndStaff", scheme_selection_end_staff);
   install_scm_function (0, "Takes a command name and returns the tooltip or #f if none", DENEMO_SCHEME_PREFIX "GetHelp", scheme_get_help);
   install_scm_function (1, "Creates an email with the passed message to send to ask for help or report problems using Denemo", DENEMO_SCHEME_PREFIX "EmailHelp", scheme_email_help);
 
