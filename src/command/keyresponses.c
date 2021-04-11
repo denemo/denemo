@@ -125,6 +125,7 @@ llock_mask (gint keyval)
 gint
 scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 {
+	//g_print ("Scorearea key release event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
      if(!Denemo.keyboard_state_locked)
           {
               Denemo.keyboard_state ^= (0xf & klock_mask (event->keyval));
@@ -136,7 +137,21 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
                 }
               set_midi_in_status ();
         }
-  //g_print("release %x state %x\n", Denemo.keyboard_state, event->state);
+     else
+		{
+			if ((Denemo.keyboard_state == 0) && ((event->keyval == GDK_Shift_L) || (event->keyval == GDK_Shift_R)))
+					{
+						Denemo.keyboard_state = 1;
+						set_midi_in_status ();
+					}
+			else
+				if ((Denemo.keyboard_state == 0) && ((event->keyval == GDK_Control_L) || (event->keyval == GDK_Control_R)))
+						{
+							Denemo.keyboard_state = 4;
+							set_midi_in_status ();
+						}
+		}
+  //g_print("release Denemo keyboard state %x keyboard+state_locked %x from event state %x\n", Denemo.keyboard_state, Denemo.keyboard_state_locked, event->state);
   // set_cursor_for(keyrelease_modify(event->state), event->keyval);
   gint state;
   if ((event->keyval == GDK_Caps_Lock) || (event->keyval == GDK_Num_Lock))
@@ -332,12 +347,31 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 
       if(!Denemo.keyboard_state_locked)
           {
+			  //g_print ("keyboard state not locked was %x\t", Denemo.keyboard_state);
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
               Denemo.keyboard_state ^= llock_mask (event->keyval);
-              // if((event->keyval==GDK_Alt_L)||(event->keyval==GDK_Alt_R))
-              //  Denemo.keyboard_state |= CHORD_MASK;
+              g_print ("...becomes %x\t", Denemo.keyboard_state);
               set_midi_in_status ();
+              g_print ("...leaving %x, locked is now %x\n", Denemo.keyboard_state, Denemo.keyboard_state_locked);
+
           }
+       else
+		{
+			//g_print ("keyboard state is locked, state is %x\n", Denemo.keyboard_state);
+			//g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
+			if ((Denemo.keyboard_state == 1) && ((event->keyval == GDK_Shift_L) || (event->keyval == GDK_Shift_R)))
+				{
+					Denemo.keyboard_state = 0;
+					set_midi_in_status ();
+				}
+			 else
+				if ((Denemo.keyboard_state == 4) && ((event->keyval == GDK_Control_L) || (event->keyval == GDK_Control_R)))
+						{
+							Denemo.keyboard_state = 0;
+							set_midi_in_status ();
+						}
+
+		}
   //g_print("press Denemo %x state %x klock %x\n", Denemo.keyboard_state, event->state, klock_mask(event->keyval));
 
   //g_debug("State eored %x\n", (lock_mask(event->keyval)^event->state));

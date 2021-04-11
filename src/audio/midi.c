@@ -971,7 +971,12 @@ handle_midi_event (gchar * buf)
     }
   else
     {
-      if ((Denemo.keyboard_state == (GDK_SHIFT_MASK | GDK_LOCK_MASK)) || Denemo.keyboard_state == (GDK_CONTROL_MASK) || Denemo.keyboard_state == (ADDING_MASK) || Denemo.keyboard_state == ((ADDING_MASK) | (CHORD_MASK)) || Denemo.keyboard_state == (GDK_CONTROL_MASK | GDK_LOCK_MASK) || (Denemo.keyboard_state == 0))
+      if ((Denemo.keyboard_state == (GDK_SHIFT_MASK | GDK_LOCK_MASK)) ||
+           Denemo.keyboard_state == (GDK_CONTROL_MASK) ||
+           Denemo.keyboard_state == (ADDING_MASK) ||
+           Denemo.keyboard_state == ((ADDING_MASK) | (CHORD_MASK)) ||
+           Denemo.keyboard_state == (GDK_CONTROL_MASK | GDK_LOCK_MASK) ||
+           Denemo.keyboard_state == 0)
         process_midi_event (buf);
       else if (Denemo.keyboard_state == (GDK_SHIFT_MASK) || Denemo.keyboard_state == (GDK_LOCK_MASK))
         {
