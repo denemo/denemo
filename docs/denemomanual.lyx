@@ -8629,7 +8629,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8637,7 +8636,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
@@ -9437,6 +9435,24 @@ Typing at the keyboard can be very fast, if you forget which keypress you
 \begin_layout Standard
 For entering a lot of already written-out music, playing the music in via
  a MIDI keyboard or microphone can offer the fastest and most musical method.
+\end_layout
+
+\begin_layout Standard
+For composing one method is to set the MIDI-in control panel button to 
+\begin_inset Quotes eld
+\end_inset
+
+Listening to Pitches
+\begin_inset Quotes erd
+\end_inset
+
+ for trying out the melodic line you are tinkering with, and then pressing
+ the Shift key to actually enter the pitches, releasing after so that further
+ playing will be listening-only.
+ This is good also for transcribing by ear from a audio track - you can
+ listen to a phrase, reproduce it on your keyboard, enter the rhythms from
+ the numeric keypad and then pessing Shift enter the pitches from the MIDI
+ keyboard.
 \end_layout
 
 \begin_layout Standard
