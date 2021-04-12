@@ -1442,6 +1442,11 @@ pb_audiorecord (GtkWidget * button)
     }
 }
 
+void toggle_recording_audio (void)
+{
+	pb_audiorecord (NULL);
+}
+
 static void
 pb_exportaudio (GtkWidget * button)
 {

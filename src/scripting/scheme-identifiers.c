@@ -1249,6 +1249,7 @@ create_scheme_identfiers (void)
 #ifdef DISABLE_AUBIO
 #else
   install_scm_function (0, "Converts the recorded audio to user chosen audio file.", DENEMO_SCHEME_PREFIX "ExportRecordedAudio", scheme_export_recorded_audio);
+  install_scm_function (0, "Starts/Stops recording audio", DENEMO_SCHEME_PREFIX "ToggleRecordingAudio", scheme_toggle_recording_audio);
   install_scm_function (0, "Opens a source audio file for transcribing from. Returns the number of seconds of audio successfully opened or #f if failed. ", DENEMO_SCHEME_PREFIX "OpenSourceAudioFile", scheme_open_source_audio_file);
   install_scm_function (0, "Closes a source audio attached to the current movement.", DENEMO_SCHEME_PREFIX "CloseSourceAudio", scheme_close_source_audio);
   install_scm_function (0, "Plays audio allowing timings to be entered via keypresses if passed #t as parameter. ", DENEMO_SCHEME_PREFIX "StartAudioPlay", scheme_start_audio_play);

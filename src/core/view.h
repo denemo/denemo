@@ -63,7 +63,7 @@ void highlight_duration (DenemoProject * gui, gint dur);
 void highlight_rest (DenemoProject * gui, gint dur);
 
 void highlight_audio_record ();
-
+void toggle_recording_audio (void);
 gboolean loadGraphicItem (gchar * name, DenemoGraphic ** pgraphic);
 
 

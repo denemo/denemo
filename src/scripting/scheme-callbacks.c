@@ -1955,6 +1955,18 @@ scheme_export_recorded_audio (void)
 }
 
 SCM
+scheme_toggle_recording_audio (void)
+{
+
+  toggle_recording_audio ();
+  return SCM_BOOL( Denemo.project->audio_recording);
+
+}
+
+
+
+
+SCM
 scheme_open_source_audio_file (SCM optional)
 {
   if (open_source_audio_file () && Denemo.project->movement->recording && Denemo.project->movement->recording->samplerate)
