@@ -1794,3 +1794,13 @@
                                   "\"\"Filename: " short-file "\"}\n"
                         "\\noPageBreak\\markup {\\column {\\draw-hline}}"))
             "\\markup { BLANK ENTRY }"))
+            
+;;moves to next movement skipping sketches, stops at last movement if it is a sketch            
+(define (NextNonSketchMovement)
+	(if (d-NextMovement)
+		(begin
+			(d-ToggleSketch)
+			(if (d-ToggleSketch)
+				(NextNonSketchMovement)
+				#t))
+		#f))
