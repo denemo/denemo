@@ -7,7 +7,7 @@
       <row type="scheme">
         <after>ExportMIDI</after>
         <action>ExportAudio</action>
-        <_label>Export Audio</_label>
+        <_label>Export Currrent Audio Recording</_label>
         <_tooltip>Exports recorded audio output.</_tooltip>
       </row>
     </map>
