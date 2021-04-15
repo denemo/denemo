@@ -1967,12 +1967,20 @@ scheme_toggle_recording_audio (void)
 
 
 SCM
-scheme_open_source_audio_file (SCM optional)
+scheme_open_source_audio_file (SCM name)
 {
-  if (open_source_audio_file () && Denemo.project->movement->recording && Denemo.project->movement->recording->samplerate)
-    {
-      return scm_from_double (Denemo.project->movement->recording->nframes / (double) Denemo.project->movement->recording->samplerate);
-    }
+	gchar *filename = NULL;
+  if (scm_is_string (name))
+	{
+		filename = scm_to_locale_string (name);
+	}
+	
+	if ((filename?open_source_audio (filename):open_source_audio_file ()) && Denemo.project->movement->recording && Denemo.project->movement->recording->samplerate)
+		{
+		  if (Denemo.project->movement->currentobject)
+			set_lead_in (-((DenemoObject*)Denemo.project->movement->currentobject->data)->earliest_time);
+		  return scm_from_double (Denemo.project->movement->recording->nframes / (double) Denemo.project->movement->recording->samplerate);
+		}
   return SCM_BOOL_F;
 }
 
