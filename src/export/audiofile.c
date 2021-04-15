@@ -61,12 +61,23 @@ export_recorded_audio ()
                     {
                       out.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
                     }
-                  out.channels = 1;
+                  out.channels = 2;
                   out.samplerate = 44100;
                   gpointer outsnd = sf_open (outfile, SFM_WRITE, &out);
                   if (outsnd)
                     {
-                      sf_write_float (outsnd, data, length/sizeof(float));
+					  gsize i;
+					  gboolean silence = TRUE;
+					  for (i=0;i<length/sizeof(float);i++)
+						{
+							float out[2];
+							out[0] = out [1] = *(data+i);
+							if (silence && (*out < 0.000001))
+								continue;
+							else
+								silence = FALSE;
+							sf_writef_float (outsnd, out, 1);
+						}
                       g_free(data);
                       sf_close (outsnd);
                       return TRUE;
