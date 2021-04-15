@@ -7,7 +7,7 @@
             (set! denominator (string->number (cadr (string-split  timesig #\/))))
            (d-MasterVolume 0) 
             (d-CursorToNote "c'")
-            (d-NonPrintingStaff)
+            (d-NonPrintingStaff 'set)
             (d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))            
             (let loop ((count numerator))
                 (if (> count 0)
@@ -31,5 +31,6 @@
                         
             (d-SetPlaybackInterval 0.0 seconds)
                         
-            (d-NewStaffAfter))))
+            (d-NewStructuredStaff))))
 (d-RecreateTimebase)
+
