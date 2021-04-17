@@ -172,25 +172,29 @@ open_source_audio (gchar * filename)
           temp->samplerate = sfinfo.samplerate;
           temp->channels = sfinfo.channels;
           temp->nframes = (int) sf_seek (temp->sndfile, -1, SEEK_END);
-          g_info ("sndfile: %s sample rate is %d channels %d containing %d \n", sf_strerror (temp->sndfile), sfinfo.samplerate, sfinfo.channels, temp->nframes);
+          g_print ("sndfile: %s sample rate is %d channels %d containing %d \n", sf_strerror (temp->sndfile), sfinfo.samplerate, sfinfo.channels, temp->nframes);
 
-
-          temp->volume = 1.0;
-          g_mutex_lock (&smfmutex);
-          Denemo.project->movement->recording = temp;
-          g_mutex_unlock (&smfmutex);
-          update_leadin_widget (-1.0);
-          if (sfinfo.channels != 2)
-            warningdialog (_("Audio is not stereo - expect bad things!"));
-          if (sfinfo.samplerate != 44100)
-            warningdialog (_("Audio does not have 44100 sample rate: this could be bad"));
-          //FIXME here generate a click track if the score is empty
-          if (Denemo.project->movement->smfsync != Denemo.project->movement->changecount)
-            {
-              exportmidi (NULL, Denemo.project->movement);  //generate a timebase
-            }
-          generate_note_onsets ();
-          draw_score_area();
+		  if (temp->nframes>0)
+				{
+				
+			  temp->volume = 1.0;
+			  g_mutex_lock (&smfmutex);
+			  Denemo.project->movement->recording = temp;
+			  g_mutex_unlock (&smfmutex);
+			  update_leadin_widget (-1.0);
+			  if (sfinfo.channels != 2)
+				warningdialog (_("Audio is not stereo - expect bad things!"));
+			  if (sfinfo.samplerate != 44100)
+				warningdialog (_("Audio does not have 44100 sample rate: this could be bad"));
+			  //FIXME here generate a click track if the score is empty
+			  if (Denemo.project->movement->smfsync != Denemo.project->movement->changecount)
+				{
+				  exportmidi (NULL, Denemo.project->movement);  //generate a timebase
+				}
+			  
+			  generate_note_onsets ();
+			  draw_score_area();
+			}
         }
     }
   Denemo.project->movement->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
