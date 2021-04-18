@@ -1947,10 +1947,14 @@ scheme_open_proofread_file (SCM optional)
 #ifdef DISABLE_AUBIO
 #else
 SCM
-scheme_export_recorded_audio (void)
+scheme_export_recorded_audio (SCM name)
 {
-
-  return SCM_BOOL (export_recorded_audio ());
+  gchar *filename = NULL;
+  if (scm_is_string (name))
+	{
+		filename = scm_to_locale_string (name);
+	}	
+  return SCM_BOOL (export_recorded_audio (filename));
 
 }
 
@@ -1959,6 +1963,13 @@ scheme_toggle_recording_audio (void)
 {
 
   toggle_recording_audio ();
+  return SCM_BOOL( Denemo.project->audio_recording);
+
+}
+
+SCM
+scheme_recording_audio (void)
+{
   return SCM_BOOL( Denemo.project->audio_recording);
 
 }
