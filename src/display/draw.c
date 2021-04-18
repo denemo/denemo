@@ -492,7 +492,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     si->marked_onset_position = 0; //g_debug("Found selected onset\n\n");
                     }
 
-                //if(g==itp->onset) g_debug("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
+                //if (g==itp->onset) g_print ("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
 
 
                 g = g->next;
@@ -1339,7 +1339,7 @@ draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_
 }
 
 void
-draw_score_area(){
+draw_score_area (void) {
   if(!Denemo.non_interactive)
     gtk_widget_queue_draw (Denemo.scorearea);
 }
@@ -1862,11 +1862,18 @@ draw_callback (cairo_t * cr)
   /* Draw the score. */
   draw_score (cr);
   
-  if (Denemo.project->movement->sketch)
+
+  if (Denemo.project->audio_recording)
 	{
 		cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
-		general_draw_text (cr, "Times 84", _( "Sketch"), 20.0, 20.0);
+		general_draw_text (cr, "Times 84", _( "Recording"), 20.0, 20.0);
 	}
+	else if (Denemo.project->movement->sketch)
+		{
+			cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
+			general_draw_text (cr, "Times 84", _( "Sketch"), 20.0, 20.0);
+		}
+	
   return TRUE;
 }
 
