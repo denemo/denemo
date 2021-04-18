@@ -41,7 +41,7 @@
 #include <gdk/gdkkeysyms-compat.h>      //FIXME Look for something more gtk3 like
 #endif
 
-static gint leadin = 0;         //number of frames of silence before playing audio
+static gint remaining_leadin = 0;         //number of frames of silence before playing audio
 static gboolean playing = FALSE;
 
 
@@ -101,28 +101,17 @@ generate_note_onsets (void)
           if(onset->data[0] != 0) {
               DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
               note->timing = aubio_onset_get_last(o);/* aubio_onset_get_delay_s(o) for seconds */
-            audio->notes = g_list_append (audio->notes, note);
+            audio->notes = g_list_append (audio->notes, note); g_print ("Onset found timing %d\n", (gint)note->timing);
           }
           pos = -1;             /* so it will be zero next j loop */
         }                       /* end of if pos==overlap_size-1 */
       pos++;
     }
-
+if (audio->notes==NULL) g_warning ("No onsets found\n");
   del_aubio_onset (o);
   del_fvec (ibuf);
   del_fvec (onset);
   aubio_cleanup ();
-
-
-
-
-
-
-
-
-
-
-
   progressbar_stop ();
   normal_cursor (Denemo.notebook);
 }
@@ -132,10 +121,10 @@ get_audio_sample (float *sample)
   if (!playing)
     return FALSE;
   gboolean ret = FALSE;
-  if (leadin)
+  if (remaining_leadin)
     {
       *sample = *(sample + 1) = 0.0;
-      leadin--;
+      remaining_leadin--;
       ret = TRUE;
     }
   else
@@ -172,29 +161,30 @@ open_source_audio (gchar * filename)
           temp->samplerate = sfinfo.samplerate;
           temp->channels = sfinfo.channels;
           temp->nframes = (int) sf_seek (temp->sndfile, -1, SEEK_END);
+          temp->leadin = 0;/*  */
           g_print ("sndfile: %s sample rate is %d channels %d containing %d \n", sf_strerror (temp->sndfile), sfinfo.samplerate, sfinfo.channels, temp->nframes);
 
 		  if (temp->nframes>0)
 				{
 				
-			  temp->volume = 1.0;
-			  g_mutex_lock (&smfmutex);
-			  Denemo.project->movement->recording = temp;
-			  g_mutex_unlock (&smfmutex);
-			  update_leadin_widget (-1.0);
-			  if (sfinfo.channels != 2)
-				warningdialog (_("Audio is not stereo - expect bad things!"));
-			  if (sfinfo.samplerate != 44100)
-				warningdialog (_("Audio does not have 44100 sample rate: this could be bad"));
-			  //FIXME here generate a click track if the score is empty
-			  if (Denemo.project->movement->smfsync != Denemo.project->movement->changecount)
-				{
-				  exportmidi (NULL, Denemo.project->movement);  //generate a timebase
+				  temp->volume = 1.0;
+				  g_mutex_lock (&smfmutex);
+				  Denemo.project->movement->recording = temp;
+				  g_mutex_unlock (&smfmutex);
+				  update_leadin_widget (0.0);
+				  if (sfinfo.channels != 2)
+					warningdialog (_("Audio is not stereo - expect bad things!"));
+				  if (sfinfo.samplerate != 44100)
+					warningdialog (_("Audio does not have 44100 sample rate: this could be bad"));
+				  //FIXME here generate a click track if the score is empty
+				  if (Denemo.project->movement->smfsync != Denemo.project->movement->changecount)
+					{
+					  exportmidi (NULL, Denemo.project->movement);  //generate a timebase
+					}
+				  
+				  generate_note_onsets ();
+				  draw_score_area();
 				}
-			  
-			  generate_note_onsets ();
-			  draw_score_area();
-			}
         }
     }
   Denemo.project->movement->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
@@ -225,10 +215,11 @@ rewind_audio (void)
           }
           if (Denemo.project->movement->recording->samplerate)
             {
-              Denemo.project->movement->recording->leadin = leadin;
+              Denemo.project->movement->recording->leadin = leadin;//this is tautological FIXME
               update_leadin_widget (((double) leadin) / Denemo.project->movement->recording->samplerate);
             }
         }
+        
       gdouble start = get_start_time ();
       if (start < 0.0)
         start = 0.0;
@@ -236,12 +227,19 @@ rewind_audio (void)
       startframe += Denemo.project->movement->recording->leadin;
       if (startframe < 0)
         {
-          leadin = -startframe;
+          remaining_leadin = -startframe;//we will need to issue this many frames of silence before the audio
           startframe = 0;
         }
       else
-        leadin = 0;
-      sf_seek (Denemo.project->movement->recording->sndfile, startframe, SEEK_SET);
+        remaining_leadin = 0;//we will sf_seek to startframe and start the audio straight away from there     
+        
+      gint numframes = sf_seek (Denemo.project->movement->recording->sndfile, startframe, SEEK_SET);
+		if (numframes==-1)
+			{
+				g_warning ("Error seeking to %d, will play all.\n", startframe);
+				sf_seek (Denemo.project->movement->recording->sndfile, 0, SEEK_SET);
+				return;
+			}
     }
   else
     gtk_widget_hide (Denemo.audio_vol_control);
