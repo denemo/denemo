@@ -24,5 +24,5 @@
 const gchar *
 recorded_audio_filename(void);
 gboolean
-export_recorded_audio (void);
+export_recorded_audio (const gchar *name);
 #endif

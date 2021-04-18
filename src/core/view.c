@@ -491,7 +491,7 @@ show_view_preferences (void)
   if (Denemo.prefs.cursor_highlight)
     {
       Denemo.prefs.cursor_highlight = FALSE;
-      scheme_highlight_cursor (SCM_BOOL_T);
+      scheme_highlight_cursor (SCM_BOOL_T);//turns the pref back on and starts a timer to keep the Denemo cursor flashing
     }
 }
 
@@ -1452,7 +1452,7 @@ pb_exportaudio (GtkWidget * button)
 {
   if (!Denemo.project->audio_recording)
     Denemo.project->audio_recording = FALSE;
-  export_recorded_audio ();
+  export_recorded_audio (NULL);
 }
 
 void

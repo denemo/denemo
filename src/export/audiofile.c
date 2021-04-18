@@ -19,6 +19,7 @@
 
 
 #include <stdio.h>
+#include <math.h>
 #include <sndfile.h>
 #include <fcntl.h>
 #include <string.h>
@@ -37,7 +38,7 @@ recorded_audio_filename (void)
 }
 
 gboolean
-export_recorded_audio ()
+export_recorded_audio (const gchar *outname)
 {
   const gchar *filename = recorded_audio_filename ();
   SF_INFO out;
@@ -45,9 +46,13 @@ export_recorded_audio ()
     {
       gsize length;
       float *data;
-      if (g_file_get_contents (filename, (gchar **)&data, &length, NULL))
+      if (g_file_get_contents (filename, (gchar **)&data, &length, NULL) && (length>0))
         {
-          gchar *outfile = file_dialog ("Give output audio file name, with .ogg or .wav extension", FALSE, Denemo.prefs.denemopath->str);
+		  gchar *outfile;
+          if (outfile==NULL)
+			outfile = file_dialog ("Give output audio file name, with .ogg or .wav extension", FALSE, Denemo.prefs.denemopath->str);
+		  else
+			outfile = g_strdup (outname);
           if (outfile)
             {
               gint len = strlen (outfile);
@@ -72,7 +77,7 @@ export_recorded_audio ()
 						{
 							float out[2];
 							out[0] = out [1] = *(data+i);
-							if (silence && (*out < 0.000001))
+							if (silence && (fabs(*out) < 0.00000001))
 								continue;
 							else
 								silence = FALSE;
@@ -89,7 +94,6 @@ export_recorded_audio ()
                   g_free (outfile);
                 }
             }
-
         }
         else
         {
@@ -101,3 +105,4 @@ export_recorded_audio ()
     }
   return FALSE;
 }
+
