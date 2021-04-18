@@ -1,5 +1,5 @@
 ;;;CreateClickStaffForMidi
-(let ()
+(let ((params CreateClickStaffForMidi::params))
  (define (writeBar numerator denominator)
     (let loop ((count numerator))
       (if (positive? count)
@@ -49,7 +49,7 @@
         (begin
             (d-MasterVolume 0)
             (d-AddInitial)
-            (d-NonPrintingStaff)
+            (d-NonPrintingStaff 'set)
             (d-CursorToNote "c'")
             (d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
             (let loop ((count 0))
@@ -75,14 +75,15 @@
         (let ((number "16") (timesig (d-InitialTimeSig "query=timesigname")))
             (define numerator (car (string-split   timesig #\/)))
             (define denominator (cadr (string-split  timesig #\/)))
-
-            (set! number (d-GetUserInput (_ "Click Track Creation") (_ "Give number of measures required: ") number))
+			(if params 
+				(set! number (if (string? params) params (number->string params)))
+				(set! number (d-GetUserInput (_ "Click Track Creation") (_ "Give number of measures required: ") number)))
             (if (and number (string->number number))
                 (begin
                     (d-MasterVolume 0)
                     (d-AddInitial)
                     (d-CursorToNote "c'")
-                    (d-NonPrintingStaff)
+                    (d-NonPrintingStaff 'set)
                     (d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
                     (writeBars (string->number number) (string->number numerator)(string->number denominator))
                     (d-MuteStaff "unmute"))
