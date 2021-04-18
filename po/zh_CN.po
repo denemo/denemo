@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.5-rc1\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2021-02-01 14:03+0000\n"
-"PO-Revision-Date: 2021-04-11 14:17+0800\n"
+"PO-Revision-Date: 2021-04-18 18:17+0800\n"
 "Last-Translator: Tianze Wang <zwpwjwtz@126.com>\n"
 "Language-Team: Chinese (simplified) <i18n-zh@googlegroups.com>\n"
 "Language: zh_CN\n"
@@ -19057,7 +19057,7 @@ msgstr "换气"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.scm:16
 msgid "Custos"
-msgstr ""
+msgstr "换行"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.scm:17
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.scm:3
@@ -20837,11 +20837,11 @@ msgstr "在当前乐章前面插入一个空白页（以及可选文本）。"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml.h:1
 msgid "Custos (On/Off)"
-msgstr "保管人（开启/关闭）"
+msgstr "换行标记（开启/关闭）"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml.h:2
 msgid "Prints a custos at the end of each line for the current movement. Repeat command to turn custos off."
-msgstr "在当前乐章的每行末尾显示保管人。再次执行此命令可以关闭此功能。"
+msgstr "在当前乐章的每行末尾显示换行标记。再次执行此命令可以关闭此功能。"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.scm:7
 msgid "Hide Barlines"
