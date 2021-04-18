@@ -62,6 +62,12 @@
         <_label>Shift Accidentals Sharpwise</_label>
         <_tooltip>Shifts the set of accidentals one step sharper</_tooltip>
       </row>
+      <row type="scheme">
+        <action>RecordAndAttach</action>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Record (Start/Stop) and Attach at Cursor</_label>
+        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording and attach the resultant audio to a click track created at the top of the staffs. The recording will play along with your notated music.</_tooltip>
+      </row>
       <row type="builtin">
         <action>Play</action>
         <menupath>/MainMenu/PlaybackMenu</menupath>
@@ -3449,7 +3455,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
       <row type="scheme">
         <action>CloseSourceAudioFile</action>
         <after>SynchronizeAudio</after>
-        <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
         <_label>Close Source Audio File</_label>
         <_tooltip>Drops the audio track attached to the current movement.</_tooltip>
       </row>
@@ -5857,7 +5863,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>SynchronizeAudio</action>
         <after>PlayAndRecordMidiIn</after>
-        <menupath>/MainMenu/PlaybackMenu/Audio</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
         <_label>Synchronize Audio</_label>
         <_tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</_tooltip>
       </row>
@@ -8636,6 +8642,7 @@ Include rests if they are part of the pattern.
         <_label>Export Score as Audio</_label>
         <_tooltip>Plays a performance of the whole score, including repeats, then offers to save the recording as Audio.</_tooltip>
       </row>
+
     </map>
   </merge>
 </Denemo>
