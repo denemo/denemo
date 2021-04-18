@@ -101,7 +101,7 @@ generate_note_onsets (void)
           if(onset->data[0] != 0) {
               DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
               note->timing = aubio_onset_get_last(o);/* aubio_onset_get_delay_s(o) for seconds */
-            audio->notes = g_list_append (audio->notes, note); g_print ("Onset found timing %d\n", (gint)note->timing);
+            audio->notes = g_list_append (audio->notes, note);// g_print ("Onset found timing %d\n", (gint)note->timing);
           }
           pos = -1;             /* so it will be zero next j loop */
         }                       /* end of if pos==overlap_size-1 */
