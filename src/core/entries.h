@@ -214,7 +214,7 @@
 {"InputMenu", NULL, N_("Input"), "",N_("Menu:\nChoose whether to get input audio (e.g. microphone) or MIDI controller (e.g. MIDI keyboard)\nor just from the pc keyboard.")},
 {"SharpenEnharmonicSet", NULL, N_("Shift Accidentals Sharpwise"), "",N_("Shifts the set of accidentals one step sharper"),G_CALLBACK (set_sharper)},
 {"FlattenEnharmonicSet", NULL, N_("Shift Accidentals Flatwise"), "",N_("Shifts the set of accidentals one step flatter"),G_CALLBACK (set_flatter)},
-{"PlaybackMenu", NULL, N_("Playback"), "",N_("Music playback. Music is played between the playback start (green bar) and playback end (red bar).\nThere are playback controls (See View->Playback Controls) which make it easy to set and re-set these and also to loop-play, choose the temperament to play in etc. Or use items in this menu to play the whole piece from the cursor to the end.")},
+{"PlaybackMenu", NULL, N_("Playback/Record"), "",N_("Music playback and recording. Music is played between the playback start (green bar) and playback end (red bar).\nThere are playback controls (See View->Playback Controls) which make it easy to set and re-set these and also to loop-play, choose the temperament to play in etc. Or use items in this menu to play the whole piece from the cursor to the end.")},
 {"New", GTK_STOCK_NEW, N_("Empty Score"), "",N_("Start a new musical score"),G_CALLBACK (file_newwrapper)},
 {"NewScore", GTK_STOCK_NEW, N_("New"), "",N_("Start a new musical score for a named instrument/voice."),G_CALLBACK (new_score_cb)},
 {"OpenMenu", GTK_STOCK_OPEN, N_("Open"), "",N_("Menu:\nOpen a previously edited score, or a source file for transcription")},
