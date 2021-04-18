@@ -672,12 +672,6 @@ actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.scm
 actions/menus/MainMenu/NavigationMenu/Seek/SearchPattern.xml
 actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.scm
 actions/menus/MainMenu/NavigationMenu/Seek/SeekLocations.xml
-actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.scm
-actions/menus/MainMenu/PlaybackMenu/Audio/AudioPlay.xml
-actions/menus/MainMenu/PlaybackMenu/Audio/CloseSourceAudioFile.scm
-actions/menus/MainMenu/PlaybackMenu/Audio/CloseSourceAudioFile.xml
-actions/menus/MainMenu/PlaybackMenu/Audio/SynchronizeAudio.scm
-actions/menus/MainMenu/PlaybackMenu/Audio/SynchronizeAudio.xml
 actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.scm
 actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.xml
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.scm
@@ -698,6 +692,14 @@ actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml
 actions/menus/MainMenu/PlaybackMenu/PlaybackView.scm
 actions/menus/MainMenu/PlaybackMenu/PlaybackView.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/AudioPlay.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/AudioPlay.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/CloseSourceAudioFile.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/CloseSourceAudioFile.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/RecordAndAttach.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/RecordAndAttach.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/SynchronizeAudio.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/SynchronizeAudio.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.scm
