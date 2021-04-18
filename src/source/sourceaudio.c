@@ -231,15 +231,8 @@ rewind_audio (void)
           startframe = 0;
         }
       else
-        remaining_leadin = 0;//we will sf_seek to startframe and start the audio straight away from there     
-        
-      gint numframes = sf_seek (Denemo.project->movement->recording->sndfile, startframe, SEEK_SET);
-		if (numframes==-1)
-			{
-				g_warning ("Error seeking to %d, will play all.\n", startframe);
-				sf_seek (Denemo.project->movement->recording->sndfile, 0, SEEK_SET);
-				return;
-			}
+        remaining_leadin = 0;//we will sf_seek to start the audio straight away from there     
+		sf_seek (Denemo.project->movement->recording->sndfile, 0, SEEK_SET);
     }
   else
     gtk_widget_hide (Denemo.audio_vol_control);
