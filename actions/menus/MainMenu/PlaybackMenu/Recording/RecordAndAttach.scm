@@ -22,7 +22,7 @@
 				(d-2))
 			(d-OpenSourceAudioFile filename)
 			(apply d-GoToPosition RecordAndAttach::position)
-			(d-SetPlaybackInterval (d-GetMidiOnTime) -1)
+			;(d-SetPlaybackInterval (d-GetMidiOnTime) -1)
 			(if RecordAndAttach::explain
 				(begin
 					(set! RecordAndAttach::explain #f)
