@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>SynchronizeAudio</after>
         <action>CloseSourceAudioFile</action>
-        <_label>Close Source Audio File</_label>
-        <_tooltip>Drops the audio track attached to the current movement.</_tooltip>
+        <_label>Detach Audio Recording</_label>
+        <_tooltip>Drops the audio attached to the current movement.</_tooltip>
       </row>
     </map>
   </merge>

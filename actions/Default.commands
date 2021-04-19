@@ -3456,8 +3456,8 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <action>CloseSourceAudioFile</action>
         <after>SynchronizeAudio</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
-        <_label>Close Source Audio File</_label>
-        <_tooltip>Drops the audio track attached to the current movement.</_tooltip>
+        <_label>Detach Audio Recording</_label>
+        <_tooltip>Drops the audio attached to the current movement.</_tooltip>
       </row>
       <row type="scheme">
         <action>CloseRepeat</action>
@@ -8642,7 +8642,20 @@ Include rests if they are part of the pattern.
         <_label>Export Score as Audio</_label>
         <_tooltip>Plays a performance of the whole score, including repeats, then offers to save the recording as Audio.</_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>ToggleAudioRecord</action>
+        <after>RecordAndAttach</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Record (Start/Stop)</_label>
+        <_tooltip>Starts/Stops recording the audio output from Denemo.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SaveRecording</action>
+        <after>ToggleRecordingAudio</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Save Recording</_label>
+        <_tooltip>Saves the recorded autio to disk.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -698,8 +698,12 @@ actions/menus/MainMenu/PlaybackMenu/Recording/CloseSourceAudioFile.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/CloseSourceAudioFile.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordAndAttach.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordAndAttach.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/SaveRecording.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/SaveRecording.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/SynchronizeAudio.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/SynchronizeAudio.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/ToggleAudioRecord.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/ToggleAudioRecord.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.scm
