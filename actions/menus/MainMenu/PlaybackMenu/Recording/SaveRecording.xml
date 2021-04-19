@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SaveRecording</action>
+        <after>ToggleRecordingAudio</after>
+        <_label>Save Recording</_label>
+        <_tooltip>Saves the recorded autio to disk.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
