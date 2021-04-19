@@ -49,7 +49,7 @@ export_recorded_audio (const gchar *outname)
       if (g_file_get_contents (filename, (gchar **)&data, &length, NULL) && (length>0))
         {
 		  gchar *outfile;
-          if (outfile==NULL)
+          if (outname==NULL)
 			outfile = file_dialog ("Give output audio file name, with .ogg or .wav extension", FALSE, Denemo.prefs.denemopath->str);
 		  else
 			outfile = g_strdup (outname);
