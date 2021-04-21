@@ -1,6 +1,7 @@
 ;RecordAndAttach - Record (Start/Stop) and Attach at Cursor
 (define-once RecordAndAttach::position '(1 1 1 1))
 (define-once RecordAndAttach::explain #t)
+(define-once RecordAndAttach::deleteClickTrack #f)
 (let ((filename (string-append DENEMO_LOCAL_ACTIONS_DIR "audio-recording.wav")))
 	(d-ToggleRecordingAudio)
 	(if (d-RecordingAudio)
@@ -21,14 +22,21 @@
 			(if (EmptyMeasure?)
 				(d-2))
 			(d-OpenSourceAudioFile filename)
-			(apply d-GoToPosition RecordAndAttach::position)
-			;(d-SetPlaybackInterval (d-GetMidiOnTime) -1)
+			
 			(if RecordAndAttach::explain
-				(begin
+				(let ((confirm #f))
 					(set! RecordAndAttach::explain #f)
+					(set! confirm (d-GetUserInput (_ "Record and Attach") (_ "Drop the click track?") "y"))
+					(if (and confirm (equal? confirm (_ "y")))
+						(set! RecordAndAttach::deleteClickTrack #t))
 					(d-InfoDialog (_ "Now the music is attached to the score starting at the cursor position.
 The timing of the notes is shown at the top of the score.
 You can drag the timing of start of the music by left-clicking above the blue line.
 You can insert the rhythm in your staff and check by invoking Play.
-When that's correct, press the Shift key to switch to Inserting/Appending Pitches and play in the music again.")))))))
+When that's correct, press the Shift key to switch to Inserting/Appending Pitches and play in the music again."))))
+			(if RecordAndAttach::deleteClickTrack
+				(begin
+					(d-GoToPosition #f 1 1 1)
+					(d-DeleteStaff)))
+			(apply d-GoToPosition RecordAndAttach::position))))
  
