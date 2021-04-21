@@ -61,7 +61,7 @@ static GtkWidget *convertbutton;
 static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *audio_vol_adj;
-static GtkAdjustment *master_tempo_adj;
+static GtkSpinButton *master_tempo_adj;
 #ifdef _HAVE_RUBBERBAND_
 static GtkAdjustment *speed_adj;
 #endif
@@ -1158,10 +1158,10 @@ pb_loop (GtkWidget * button)
 }
 
 static void
-pb_tempo (GtkAdjustment * adjustment)
+pb_tempo (GtkSpinButton * spin)
 {
   gdouble tempo;
-  gdouble bpm = gtk_adjustment_get_value (adjustment);
+  gdouble bpm = gtk_spin_button_get_value (spin);
   tempo = (Denemo.project->movement->tempo > 0) ? bpm / Denemo.project->movement->tempo : 1.0;
   scm_c_define ("DenemoTempo::Value", scm_from_double (tempo));
   call_out_to_guile ("(DenemoTempo)");
@@ -1177,9 +1177,9 @@ pb_mute_staffs ()
 void
 update_tempo_widget (gdouble value)
 {
-  gdouble bpm = gtk_adjustment_get_value (master_tempo_adj);    //g_debug("bpm %f and correction %f\n", bpm, value);
+  gdouble bpm = gtk_spin_button_get_value (master_tempo_adj);    //g_debug("bpm %f and correction %f\n", bpm, value);
   bpm += value;
-  gtk_adjustment_set_value (master_tempo_adj, bpm);
+  gtk_spin_button_set_value (master_tempo_adj, bpm);
   //gtk_adjustment_changed (master_tempo_adj);
   Denemo.project->movement->smfsync = G_MAXINT;
 }
@@ -3233,7 +3233,7 @@ set_master_tempo (DenemoMovement * si, gdouble tempo)
   Denemo.project->movement->start_time *= si->master_tempo;
   if (master_tempo_adj)
     {
-      gtk_adjustment_set_value (master_tempo_adj, tempo * si->tempo);
+      gtk_spin_button_set_value (master_tempo_adj, tempo * si->tempo);
       //gtk_adjustment_changed (master_tempo_adj);
     }
 }
@@ -3443,20 +3443,15 @@ create_window (void)
       GtkWidget *hbox;
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
-      // Tempo
+      
+      
       label = gtk_label_new (_("Tempo:"));
       gtk_widget_set_tooltip_text (label, _("Set the (initial) tempo of the movement"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-      master_tempo_adj = (GtkAdjustment *) gtk_adjustment_new (120.0, 0.0, 600.0, 1.0, 1.0, 0.0);
-      GtkWidget *hscale = gtk_hscale_new (GTK_ADJUSTMENT (master_tempo_adj));
-      gtk_scale_set_digits (GTK_SCALE (hscale), 0);
-      //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
-      gtk_widget_set_can_focus (hscale, FALSE);
-
+      master_tempo_adj = (GtkSpinButton *) gtk_spin_button_new_with_range (10, 400, 1);
       g_signal_connect (G_OBJECT (master_tempo_adj), "value_changed", G_CALLBACK (pb_tempo), NULL);
-      gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
-
+      gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (master_tempo_adj), FALSE, TRUE, 0);
       create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
 
       // Volume
@@ -3469,7 +3464,7 @@ create_window (void)
 
       master_vol_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
 
-      hscale = gtk_hscale_new (GTK_ADJUSTMENT (master_vol_adj));
+      GtkWidget *hscale = gtk_hscale_new (GTK_ADJUSTMENT (master_vol_adj));
       gtk_scale_set_digits (GTK_SCALE (hscale), 2);
       gtk_widget_set_can_focus (hscale, FALSE);
       //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
@@ -3512,13 +3507,13 @@ create_window (void)
       //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
       g_signal_connect (G_OBJECT (audio_vol_adj), "value_changed", G_CALLBACK (audio_volume_boost), NULL);
       gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
-      label = gtk_label_new (_("Audio Lead In "));
-      gtk_widget_set_can_focus (label, FALSE);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-      leadin = (GtkSpinButton *) gtk_spin_button_new_with_range (-2.0, 2.0, 0.01);
-      gtk_widget_set_tooltip_text (GTK_WIDGET (label), _("Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\nThis is useful when the audio track does not begin on a barline."));
-      g_signal_connect (G_OBJECT (leadin), "value_changed", G_CALLBACK (leadin_changed), NULL);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET (leadin), FALSE, TRUE, 0);
+      //label = gtk_label_new (_("Audio Lead In "));
+      //gtk_widget_set_can_focus (label, FALSE);
+      //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
+      //leadin = (GtkSpinButton *) gtk_spin_button_new_with_range (-2.0, 2.0, 0.01);
+      //gtk_widget_set_tooltip_text (GTK_WIDGET (label), _("Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\nThis is useful when the audio track does not begin on a barline."));
+      //g_signal_connect (G_OBJECT (leadin), "value_changed", G_CALLBACK (leadin_changed), NULL);
+      //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET (leadin), FALSE, TRUE, 0);
       //label = gtk_label_new (_(" secs."));
       //gtk_widget_set_can_focus (label, FALSE);
       //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
