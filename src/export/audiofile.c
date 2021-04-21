@@ -77,7 +77,7 @@ export_recorded_audio (const gchar *outname)
 						{
 							float out[2];
 							out[0] = out [1] = *(data+i);
-							if (silence && (fabs(*out) < 0.00000001))
+							if (silence && (fabs(*out) < 0.0001))
 								continue;
 							else
 								silence = FALSE;
