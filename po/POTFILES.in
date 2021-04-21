@@ -345,6 +345,8 @@ actions/menus/MainMenu/EditMenu/ShowLastChange.scm
 actions/menus/MainMenu/EditMenu/ShowLastChange.xml
 actions/menus/MainMenu/EditMenu/Void.scm
 actions/menus/MainMenu/EditMenu/Void.xml
+actions/menus/MainMenu/Educational/Analysis/MarkConsecutivesAcrossStaffs.scm
+actions/menus/MainMenu/Educational/Analysis/MarkConsecutivesAcrossStaffs.xml
 actions/menus/MainMenu/Educational/Analysis/MarkConsecutives.scm
 actions/menus/MainMenu/Educational/Analysis/MarkConsecutives.xml
 actions/menus/MainMenu/Educational/AuralTraining/Chord-Comparison/DiminishedOrAugmented.scm

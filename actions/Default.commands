@@ -8656,6 +8656,13 @@ Include rests if they are part of the pattern.
         <_label>Save Recording</_label>
         <_tooltip>Saves the recorded autio to disk.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MarkConsecutivesAcrossStaffs</action>
+        <after>MarkConsecutives</after>
+        <menupath>/MainMenu/Educational/Analysis</menupath>
+        <_label>Mark Consecutives Across Staffs</_label>
+        <_tooltip>Expects one voice per staff - marks consecutive octaves and fifths. Save score first.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
