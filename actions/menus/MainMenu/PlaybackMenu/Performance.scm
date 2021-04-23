@@ -12,15 +12,18 @@
 			
 (let ((params Performance::params))
 	(d-CreateTimebase)
-	(d-MoveToBeginning)	  	
+	(d-MoveToBeginning)
+	(while (and (not (Music?)) (d-NextObject))) 	
 	(if (d-AudioIsPlaying)
 		(begin
 			(d-Stop)
 			(d-OneShotTimer 10 "(d-Stop)")
 			(d-OneShotTimer 15 "(d-Stop)")
 			(d-OneShotTimer 20 "(d-Stop)"))
-		(let ((beginning (GetPosition))(position #f)(s1 #f)(e1 #f)(s2 #f)(e2 #f)(fine #f)(segno #f)(segno-position #f)(timing 0.0)(first-time #f))
-		  (set! s1 (cons 0.0 beginning))
+		(let ((beginning (GetPosition))
+			 (start-time (d-GetMidiOnTime))
+			 (position #f)(s1 #f)(e1 #f)(s2 #f)(e2 #f)(fine #f)(segno #f)(segno-position #f)(timing (d-GetMidiOffTime))(first-time #f))
+		  (set! s1 (cons start-time  beginning))
 		  (while (d-NextObject)
 			(if (and (d-GetMidiOffTime) (>  (d-GetMidiOffTime)  0))
 			  (set! timing (d-GetMidiOffTime)))
@@ -38,7 +41,7 @@
 					(begin
 					  ;(disp "DC al fine performing " s1 " to " timing "first")
 					  (set! Performance::timings (cons (cons s1 timing) Performance::timings))
-					  (set! s1 (cons 0.0 beginning))   
+					  (set! s1 (cons start-time beginning))   
 					  (set! e1 timing)
 					  (if fine
 						(set! e1 fine)
@@ -46,7 +49,7 @@
 				   (if (d-Directive-chord? "DalSegno")
 					(begin
 					  (set! Performance::timings (cons (cons s1 timing) Performance::timings))
-					  (set! s1 (cons 0.0 beginning)) ;; in case no segno found
+					  (set! s1 (cons start-time beginning)) ;; in case no segno found
 					  (if segno
 						(set! s1 (cons segno segno-position))
 						(d-InfoDialog (_ "Dal Segno with no Segno - assuming Da Capo")))
@@ -86,7 +89,7 @@
 				(set! e2 timing)
 				;(disp "Midi 2 repeat to " e2 " ok")
 				(if (not s2)
-				  (set! s2 (cons 0.0 beginning)))
+				  (set! s2 (cons start-time beginning)))
 				  )
 			)
 		  )
