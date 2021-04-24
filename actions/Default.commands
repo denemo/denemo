@@ -5024,7 +5024,7 @@ accidentals are usually printed over the note.</_tooltip>
         <after>OpenSourceDialog</after>
         <menupath>/MainMenu/FileMenu/OpenMenu</menupath>
         <_label>Open Source Audio</_label>
-        <_tooltip>Opens an audio file which will be mixed with the current movement.</_tooltip>
+        <_tooltip>Opens an audio file which will be played along with the notated music. The music is attached starting at the start time of the note at cursor. It is displayed above the top staff, provided there is notated music to provide timings to attach to. In an empty score a click track is created to attach the audio to.</_tooltip>
       </row>
       <row type="scheme">
         <action>OpenSourceDialog</action>

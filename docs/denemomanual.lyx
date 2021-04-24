@@ -123,7 +123,7 @@ Copyright © 2009 - 2019 Denemo Project
 
 \begin_layout Standard
 \align center
-Updates for version 2.4
+Updates for version 2.6
 \end_layout
 
 \begin_layout Standard
@@ -2220,7 +2220,8 @@ Input
  menu to select external sources (Audio from the Mic input or MIDI) for
  inputting notes to Denemo.
  To use these you should review the settings in Edit->Change Preferences
- MIDI and audio tabs first – change the setting for the backend from 
+ MIDI and audio tabs first – you may need to change the setting for the
+ backend from 
 \begin_inset Quotes eld
 \end_inset
 
@@ -2229,6 +2230,16 @@ default
 \end_inset
 
  to the specific controller you have.
+ Note that on some systems changing to a specific audio output will mean
+ that Denemo hogs that output - generally you should choose 
+\begin_inset Quotes eld
+\end_inset
+
+default
+\begin_inset Quotes erd
+\end_inset
+
+ and use your operating system controls to determine what the default is.
 \end_layout
 
 \begin_layout Standard
@@ -2257,13 +2268,13 @@ More
 \end_layout
 
 \begin_layout Subsubsection
-Playback
+Playback/Record
 \end_layout
 
 \begin_layout Standard
 Use the 
 \series bold
-Playback
+Playback/Record
 \series default
  menu to listen to the current movement.
  Denemo lets you hear your score, using an internal synthesizer.
@@ -2300,6 +2311,11 @@ reference "subsec:Playback-Controls"
 
  and they are set for you by the Play from Cursor to End, Play Music at
  Cursor, Performance and other commands in this menu.
+\end_layout
+
+\begin_layout Standard
+The Recording submenu allows you to record what is being played back and
+ either save it to disk or attach it at the timing of the note at the cursor.
 \end_layout
 
 \begin_layout Subsubsection
@@ -2742,8 +2758,12 @@ Appending/Editing
 \series default
 ] button: This shows how MIDI in will be treated.
  Press Control/Shift/Alt keys to modify or click and select Listening to
- input MIDI, Checking notes in the score against input MIDI or Appending/Editing
- at the cursor.
+ listen directly to the MIDI keyboard, Checking notes played on the MIDI
+ keyboard against notes in the score or Appending/Editing to alter the score.
+ This last mode edits at the first rhythm-only (yellow) note before the
+ cursor or at the cursor position if no rhythm-only notes have been entered.
+ If you select Listening via this button then pressing Shift will temporarily
+ switch you into Appending/Editing mode.
 \end_layout
 
 \begin_layout Standard
@@ -2769,6 +2789,8 @@ record
  If you press start playback again (without record) the MIDI recording will
  be played back with the score, once you are happy with it then it can be
  converted to notation or if, you want to try again, deleted.
+ See also the Playback/Record->Recording menu for more commands to record
+ Denemo's audio output.
 \end_layout
 
 \begin_layout Subsection
@@ -3183,6 +3205,18 @@ Dynamics
 g.
  organ) with the ranges of acceptable notes for the instrument set on the
  staff(s).
+ In the MIDI sub-sub-menu are commands to add a click track
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Click Track
+\end_layout
+
+\end_inset
+
+ (a staff which does not typeset but contains clicks on each beat which
+ are played with the score) and to add staffs for imported MIDI tracks.
 \end_layout
 
 \begin_layout Standard
@@ -8629,6 +8663,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8636,6 +8671,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
@@ -10570,6 +10606,97 @@ Double click on a template name from the list of templates.
 
 \begin_layout Enumerate
 Adjust the clef, key and time signatures as needed.
+\end_layout
+
+\begin_layout Section
+Composing Music
+\end_layout
+
+\begin_layout Subsection
+Overview
+\end_layout
+
+\begin_layout Standard
+Many composers still compose their music on paper.
+ Only when finished do they enter the music into Denemo.
+ However, there are features in Denemo to help those who would like to compose
+ at a keyboard.
+ Generally, you will find it preferable to set the MIDI
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Midi-In-Controls"
+
+\end_inset
+
+ input mode to 
+\begin_inset Quotes eld
+\end_inset
+
+Listening
+\begin_inset Quotes erd
+\end_inset
+
+ when composing - pressing the shift key and playing will switch to actually
+ entering notes.
+ This avoids the danger of writing over the already composed music when
+ playing on the MIDI keyboard.
+\end_layout
+
+\begin_layout Subsection
+Creating Sketches.
+\end_layout
+
+\begin_layout Standard
+Denemo has a command to cut the selection as a 
+\begin_inset Quotes eld
+\end_inset
+
+sketch
+\begin_inset Quotes erd
+\end_inset
+
+.
+ What happens is that the selected music is saved to a special sort of movement,
+ called a sketch.
+ Sketch movements are not typeset nor played when playing the whole score
+ and are clearly watermarked 
+\begin_inset Quotes eld
+\end_inset
+
+Sketch
+\begin_inset Quotes erd
+\end_inset
+
+ in the Display.
+ This means you can put aside one version of a passage, try out a new one,
+ scrub that and return to the sketch to copy and paste the passage back
+ into your score.
+\end_layout
+
+\begin_layout Subsection
+Melody Fragments
+\end_layout
+
+\begin_layout Standard
+If you are creating music at the MIDI keyboard and have found a fragment
+ that you would like to notate, Denemo allows you to invoke a command in
+ the Playback->Recording menu to record your playing and attach it to the
+ score as an audio recording.
+ The audio recording is displayed above the top staff (the command will
+ also create a click track
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Click Track
+\end_layout
+
+\end_inset
+
+ if you wish) starting at the timing of the note at the cursor.
+ When you play the score this audio is played allowing you to notate the
+ rhythm to match it and enter the notes without risking you forgetting the
+ phrase that you had recorded.
 \end_layout
 
 \begin_layout Section
@@ -13951,6 +14078,16 @@ A MIDI file can be loaded into Denemo in order to convert it to music notation.
 
 \begin_layout Itemize
 (d-CreateClickStaffForMidi)
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Click Track
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsection

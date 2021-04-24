@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-04-11"/>
+<meta name="create-date" content="2021-04-24"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -36,7 +36,7 @@ Copyright © 2009 - 2019 Denemo Project
 </div>
 <div class="Indented">
 <div class="center">
-Updates for version 2.4
+Updates for version 2.6
 </div>
 
 </div>
@@ -201,7 +201,7 @@ Table of Contents
 <a class="Link" href="#toc-Subsubsection-3.2.6">Subsubsection 3.2.6: More</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-3.2.7">Subsubsection 3.2.7: Playback</a>
+<a class="Link" href="#toc-Subsubsection-3.2.7">Subsubsection 3.2.7: Playback/Record</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection-3.2.8">Subsubsection 3.2.8: Educational</a>
@@ -621,43 +621,57 @@ Table of Contents
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Section-27">Section 27: More Features</a>
+<a class="Link" href="#toc-Section-27">Section 27: Composing Music</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.1">Subsection 27.1: Transposition</a>
+<a class="Link" href="#toc-Subsection-27.1">Subsection 27.1: Overview</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-27.2">Subsection 27.2: Creating Sketches.</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsection-27.3">Subsection 27.3: Melody Fragments</a>
+</div>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Section-28">Section 28: More Features</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-27.1.1">Subsubsection 27.1.1: Physical Transposition</a>
+<a class="Link" href="#toc-Subsection-28.1">Subsection 28.1: Transposition</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-28.1.1">Subsubsection 28.1.1: Physical Transposition</a>
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.2">Subsection 27.2: Search and Replace</a>
+<a class="Link" href="#toc-Subsection-28.2">Subsection 28.2: Search and Replace</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.3">Subsection 27.3: Rapidly Marking Passages</a>
+<a class="Link" href="#toc-Subsection-28.3">Subsection 28.3: Rapidly Marking Passages</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.4">Subsection 27.4: Piano Staffs, Orchestral Scores etc</a>
+<a class="Link" href="#toc-Subsection-28.4">Subsection 28.4: Piano Staffs, Orchestral Scores etc</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.5">Subsection 27.5: Single Staff Polyphony</a>
+<a class="Link" href="#toc-Subsection-28.5">Subsection 28.5: Single Staff Polyphony</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.6">Subsection 27.6: Entering Figured Bass</a>
+<a class="Link" href="#toc-Subsection-28.6">Subsection 28.6: Entering Figured Bass</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.7">Subsection 27.7: Fret Diagrams</a>
+<a class="Link" href="#toc-Subsection-28.7">Subsection 28.7: Fret Diagrams</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.8">Subsection 27.8: Tablature</a>
+<a class="Link" href="#toc-Subsection-28.8">Subsection 28.8: Tablature</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.9">Subsection 27.9: Entering Chord Symbols</a>
+<a class="Link" href="#toc-Subsection-28.9">Subsection 28.9: Entering Chord Symbols</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-27.10">Subsection 27.10: Music Sketches</a>
+<a class="Link" href="#toc-Subsection-28.10">Subsection 28.10: Music Sketches</a>
 </div>
 </div>
 </div>
@@ -666,82 +680,82 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Section-28">Section 28: Customizing Denemo</a>
+<a class="Link" href="#toc-Section-29">Section 29: Customizing Denemo</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-28.1">Subsection 28.1: Adding and Editing Key/Mouse Shortcuts</a>
+<a class="Link" href="#toc-Subsection-29.1">Subsection 29.1: Adding and Editing Key/Mouse Shortcuts</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-28.2">Subsection 28.2: More Commands</a>
+<a class="Link" href="#toc-Subsection-29.2">Subsection 29.2: More Commands</a>
 </div>
 <div class="tocindent">
 <div class="toc">
 <a class="Link" href="#toc-Subsubsection--42">Subsubsection: Adding More Features </a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-28.2.1">Subsubsection 28.2.1: Recording a Denemo Macro </a>
+<a class="Link" href="#toc-Subsubsection-29.2.1">Subsubsection 29.2.1: Recording a Denemo Macro </a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-28.2.2">Subsubsection 28.2.2: Editing a LilyPond Tweak</a>
+<a class="Link" href="#toc-Subsubsection-29.2.2">Subsubsection 29.2.2: Editing a LilyPond Tweak</a>
 </div>
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Section-29">Section 29: Writing Scheme Scripts </a>
+<a class="Link" href="#toc-Section-30">Section 30: Writing Scheme Scripts </a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.1">Subsection 29.1: Commands Getting User Input</a>
+<a class="Link" href="#toc-Subsection-30.1">Subsection 30.1: Commands Getting User Input</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.2">Subsection 29.2: Commands Getting Information about Object at Cursor</a>
+<a class="Link" href="#toc-Subsection-30.2">Subsection 30.2: Commands Getting Information about Object at Cursor</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.3">Subsection 29.3: Predicates</a>
+<a class="Link" href="#toc-Subsection-30.3">Subsection 30.3: Predicates</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.4">Subsection 29.4: Iterators</a>
+<a class="Link" href="#toc-Subsection-30.4">Subsection 30.4: Iterators</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.5">Subsection 29.5: Directives</a>
+<a class="Link" href="#toc-Subsection-30.5">Subsection 30.5: Directives</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.6">Subsection 29.6: Message Bar</a>
+<a class="Link" href="#toc-Subsection-30.6">Subsection 30.6: Message Bar</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.7">Subsection 29.7: Move and Search</a>
+<a class="Link" href="#toc-Subsection-30.7">Subsection 30.7: Move and Search</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.8">Subsection 29.8: More \SpecialChar ldots</a>
+<a class="Link" href="#toc-Subsection-30.8">Subsection 30.8: More \SpecialChar ldots</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.9">Subsection 29.9: Commands for MIDI Import</a>
+<a class="Link" href="#toc-Subsection-30.9">Subsection 30.9: Commands for MIDI Import</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.10">Subsection 29.10: \SpecialChar ldots and More</a>
+<a class="Link" href="#toc-Subsection-30.10">Subsection 30.10: \SpecialChar ldots and More</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.11">Subsection 29.11: Midi Filters</a>
+<a class="Link" href="#toc-Subsection-30.11">Subsection 30.11: Midi Filters</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.12">Subsection 29.12: LilyPond Editing</a>
+<a class="Link" href="#toc-Subsection-30.12">Subsection 30.12: LilyPond Editing</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-29.12.1">Subsubsection 29.12.1: Using the LilyPond Window</a>
+<a class="Link" href="#toc-Subsubsection-30.12.1">Subsubsection 30.12.1: Using the LilyPond Window</a>
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.13">Subsection 29.13: Musical Scores that Do Things!</a>
+<a class="Link" href="#toc-Subsection-30.13">Subsection 30.13: Musical Scores that Do Things!</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-29.13.1">Subsubsection 29.13.1: What Happens at Startup</a>
+<a class="Link" href="#toc-Subsubsection-30.13.1">Subsubsection 30.13.1: What Happens at Startup</a>
 </div>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsection-29.14">Subsection 29.14: Starting Denemo – Command Line Options</a>
+<a class="Link" href="#toc-Subsection-30.14">Subsection 30.14: Starting Denemo – Command Line Options</a>
 </div>
 </div>
 </div>
@@ -750,24 +764,24 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Section-30">Section 30: Denemo Objects</a>
+<a class="Link" href="#toc-Section-31">Section 31: Denemo Objects</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Section-31">Section 31: Denemo Directives</a>
-</div>
-<div class="tocindent">
-<div class="toc">
-<a class="Link" href="#toc-Subsection-31.1">Subsection 31.1: The Directive Fields</a>
-</div>
-<div class="toc">
-<a class="Link" href="#toc-Subsection-31.2">Subsection 31.2: Directive Edit Scripts</a>
+<a class="Link" href="#toc-Section-32">Section 32: Denemo Directives</a>
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-31.2.1">Subsubsection 31.2.1: Initialization Scripts</a>
+<a class="Link" href="#toc-Subsection-32.1">Subsection 32.1: The Directive Fields</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-31.2.2">Subsubsection 31.2.2: Edit Scripts</a>
+<a class="Link" href="#toc-Subsection-32.2">Subsection 32.2: Directive Edit Scripts</a>
+</div>
+<div class="tocindent">
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-32.2.1">Subsubsection 32.2.1: Initialization Scripts</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-32.2.2">Subsubsection 32.2.2: Edit Scripts</a>
 </div>
 </div>
 </div>
@@ -1342,7 +1356,7 @@ Opens the Object Inspector<a class="Reference" href="#sec:The-Object-Inspector">
 <a class="toc" name="toc-Subsubsection-3.2.5">3.2.5</a> Input
 </h3>
 <div class="Unindented">
-Use the <b>Input</b> menu to select external sources (Audio from the Mic input or MIDI) for inputting notes to Denemo. To use these you should review the settings in Edit-&gt;Change Preferences MIDI and audio tabs first – change the setting for the backend from &ldquo;default&rdquo; to the specific controller you have.
+Use the <b>Input</b> menu to select external sources (Audio from the Mic input or MIDI) for inputting notes to Denemo. To use these you should review the settings in Edit-&gt;Change Preferences MIDI and audio tabs first – you may need to change the setting for the backend from &ldquo;default&rdquo; to the specific controller you have. Note that on some systems changing to a specific audio output will mean that Denemo hogs that output - generally you should choose &ldquo;default&rdquo; and use your operating system controls to determine what the default is.
 </div>
 <div class="Indented">
 Here too there are commands to change the way the inputs (keyboard, mouse and MIDI) behave.
@@ -1354,13 +1368,16 @@ Here too there are commands to change the way the inputs (keyboard, mouse and MI
 Use the <b>More</b> menu add commands to Denemo. Extra commands are available (those which not everyone will want) via this menu. More Commands gives commands shipped with Denemo, while My Commands gives ones that you have created locally. Note that the extra commands can also be loaded at the menu where you are looking for them (you right-click on a menu item, and if there are more commands for that menu the More Commands for this Menu item will show), 
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-3.2.7">3.2.7</a> Playback
+<a class="toc" name="toc-Subsubsection-3.2.7">3.2.7</a> Playback/Record
 </h3>
 <div class="Unindented">
-Use the <b>Playback</b> menu to listen to the current movement. Denemo lets you hear your score, using an internal synthesizer. There are commands to play through the all the notes or to observe repeats or to play just the chord or notes at the cursor and to play at a shifted pitch. The default playback is quick and simple rendering of the music – good for checking pitch and rhythm. For more sophisticated playback open the Playback View<a class="Reference" href="#sec:The-Playback-View">9↓</a> where the playback happens on a fully typeset score.
+Use the <b>Playback/Record</b> menu to listen to the current movement. Denemo lets you hear your score, using an internal synthesizer. There are commands to play through the all the notes or to observe repeats or to play just the chord or notes at the cursor and to play at a shifted pitch. The default playback is quick and simple rendering of the music – good for checking pitch and rhythm. For more sophisticated playback open the Playback View<a class="Reference" href="#sec:The-Playback-View">9↓</a> where the playback happens on a fully typeset score.
 </div>
 <div class="Indented">
 Playback uses a pair of marks to decide where to start and stop playing. These appear in the display as vertical green and red lines down through the notes concerned <i>when the playback control panel is visible</i>. These markers can be moved about by the arrow buttons on either side of the play button in the Playback Controls <a class="Reference" href="#subsec:Playback-Controls">3.4↓</a> and they are set for you by the Play from Cursor to End, Play Music at Cursor, Performance and other commands in this menu.
+</div>
+<div class="Indented">
+The Recording submenu allows you to record what is being played back and either save it to disk or attach it at the timing of the note at the cursor.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.2.8">3.2.8</a> Educational<a class="IndexReference" name="entry-Educational-0" href="#index-Educational">↓</a>
@@ -1503,13 +1520,13 @@ The Enharmonic Selection control lets you determine what accidental will be used
 As you enter music if you enter an augmented or dimished interval a different instrument is used for the playback which helps you avoid pitch-spelling errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program <a class="Reference" href="#subsec:The-Audio-Tab">16.6↓</a> to turn this off/change instrument).
 </div>
 <div class="Indented">
-[<b>Appending/Editing</b>] button: This shows how MIDI in will be treated. Press Control/Shift/Alt keys to modify or click and select Listening to input MIDI, Checking notes in the score against input MIDI or Appending/Editing at the cursor.
+[<b>Appending/Editing</b>] button: This shows how MIDI in will be treated. Press Control/Shift/Alt keys to modify or click and select Listening to listen directly to the MIDI keyboard, Checking notes played on the MIDI keyboard against notes in the score or Appending/Editing to alter the score. This last mode edits at the first rhythm-only (yellow) note before the cursor or at the cursor position if no rhythm-only notes have been entered. If you select Listening via this button then pressing Shift will temporarily switch you into Appending/Editing mode.
 </div>
 <div class="Indented">
 [<b>Switch to Play Along Playback</b>] button: When you press Play with this option set, the music will not advance past the cursor until you play the note. (Mute the current staff to prevent double sounding of notes)
 </div>
 <div class="Indented">
-The [<b>record</b>] button allows you to record from your MIDI keyboard while the score is playing back. (Press MIDI record button then start playback). Once the playback is stopped anything you have played on the MIDI keyboard has been recorded and two buttons Convert and Delete will appear. If you press start playback again (without record) the MIDI recording will be played back with the score, once you are happy with it then it can be converted to notation or if, you want to try again, deleted.
+The [<b>record</b>] button allows you to record from your MIDI keyboard while the score is playing back. (Press MIDI record button then start playback). Once the playback is stopped anything you have played on the MIDI keyboard has been recorded and two buttons Convert and Delete will appear. If you press start playback again (without record) the MIDI recording will be played back with the score, once you are happy with it then it can be converted to notation or if, you want to try again, deleted. See also the Playback/Record-&gt;Recording menu for more commands to record Denemo’s audio output.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.6">3.6</a> Object Menus
@@ -1596,7 +1613,7 @@ For historical reasons, some properties such as part-name are &ldquo;built-in&rd
 <a class="toc" name="toc-Subsubsection--30"></a>The Add Staff Submenu
 </h3>
 <div class="Unindented">
-This allows adding staffs to the current movement. Piano staffs can be added as well as specialized sorts of staff for dynamics<a class="IndexReference" name="entry-Dynamics-1" href="#index-Dynamics">↓</a>, marks (so that they appear once for all layouts), and coulés (diagonal lines positioned between thirds in some music). The Add Structured Staff command duplicates the current staff with regard to measures and time signature changes, ready for the insertion of music. Add Staff for Instrument allows you to add the staff(s) needed for various instruments (e. g. organ) with the ranges of acceptable notes for the instrument set on the staff(s).
+This allows adding staffs to the current movement. Piano staffs can be added as well as specialized sorts of staff for dynamics<a class="IndexReference" name="entry-Dynamics-1" href="#index-Dynamics">↓</a>, marks (so that they appear once for all layouts), and coulés (diagonal lines positioned between thirds in some music). The Add Structured Staff command duplicates the current staff with regard to measures and time signature changes, ready for the insertion of music. Add Staff for Instrument allows you to add the staff(s) needed for various instruments (e. g. organ) with the ranges of acceptable notes for the instrument set on the staff(s). In the MIDI sub-sub-menu are commands to add a click track<a class="IndexReference" name="entry-Click-Track-0" href="#index-Click-Track">↓</a> (a staff which does not typeset but contains clicks on each beat which are played with the score) and to add staffs for imported MIDI tracks.
 </div>
 <div class="Indented">
 Staffs with &ldquo;mirrored&rdquo; music can also be added. In this case the staff does not have music of its own, instead the music mirrors that in another staff. By setting the part-name<a class="IndexReference" name="entry-Part-Name-0" href="#index-Part-Name">↓</a> on such a staff a greater variety of parts can be printed from one score without needing to create a custom layout<a class="IndexReference" name="entry-Score-Layout-0" href="#index-Score-Layout">↓</a> for them. For example, two flute parts can be printed separately and as a combined (&ldquo;divisi&rdquo;) part, using the same music. Any marks etc that need to be handled differently can be made conditional<a class="IndexReference" name="entry-Conditional-Directive-0" href="#index-Conditional-Directive">↓</a> on the part name.
@@ -1620,7 +1637,7 @@ In this menu you can mute the staff, apply custom durations to notes and arrange
 <a class="toc" name="toc-Subsubsection--32"></a>The Display<a class="IndexReference" name="entry-Denemo-Display-4" href="#index-Denemo-Display">↓</a> Effects Submenu
 </h3>
 <div class="Unindented">
-Here you can choose to hide staffs from the display so that you can see distantly placed staffs side by side (e. g. in large orchestral scores). The location of such &ldquo;hidden&rdquo; staffs<a class="IndexReference" name="entry-Hidden-Staffs-0" href="#index-Hidden-Staffs">↓</a> is indicated by a colored line between the staffs above and below. The staffs remain hidden until you move the cursor on to them. If you are using this and navigating with the keyboard you may want to reset the key shortcuts for staff navigation commands to use variants that skip over the hidden staffs. Some staffs (e.g Click Track<a class="IndexReference" name="entry-Click-Track-0" href="#index-Click-Track">↓</a> are hidden by default as you do not normally edit them.
+Here you can choose to hide staffs from the display so that you can see distantly placed staffs side by side (e. g. in large orchestral scores). The location of such &ldquo;hidden&rdquo; staffs<a class="IndexReference" name="entry-Hidden-Staffs-0" href="#index-Hidden-Staffs">↓</a> is indicated by a colored line between the staffs above and below. The staffs remain hidden until you move the cursor on to them. If you are using this and navigating with the keyboard you may want to reset the key shortcuts for staff navigation commands to use variants that skip over the hidden staffs. Some staffs (e.g Click Track<a class="IndexReference" name="entry-Click-Track-1" href="#index-Click-Track">↓</a> are hidden by default as you do not normally edit them.
 </div>
 <div class="Indented">
 You can also give more/less room in the display to the staffs via this menu.
@@ -1737,7 +1754,7 @@ All objects, including Denemo Directives can be inspected and edited via the Obj
 One general feature is the Conditional Directives<a class="IndexReference" name="entry-Conditional-Directive-1" href="#index-Conditional-Directive">↓</a> which can be used to restrict a directive to a particular type of score layout<a class="IndexReference" name="entry-Score-Layout-1" href="#index-Score-Layout">↓</a> (e. g. only to be used when printing a part, or a full score). This can be used, for example, to prevent a cue being printed on the full score (as it is only relevant when printing the part).
 </div>
 <div class="Indented">
-Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Denemo-Directives">31↓</a>.
+Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Denemo-Directives">32↓</a>.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.11">3.6.11</a> Lyrics Menu<a class="IndexReference" name="entry-Lyrics-0" href="#index-Lyrics">↓</a> 
@@ -3214,7 +3231,7 @@ In the File menu there is a sub-menu Indexing that allows you to create an index
 With the Create Index command you choose the starting directory for the scores you want to index and Denemo then scans all the scores below that creating a new score that typesets as an index to your scores. For each score the composer, title, instrumentation and the music for the incipit of the piece is typeset, together with the Score Comment if there is one. This index can be further refined by the Sort and Filter commands in the same menu. 
 </div>
 <div class="Indented">
-You can create your own selection of scores indexed using the Filter by Scheme Condition<a class="Reference" href="#sec:Writing-Scheme-Scripts">29↓</a>. For this you write a valid Scheme expression that is true for the files you want. You write this Scheme expression in the Scheme Script window (show this via the View menu). The expression can involve the symbols called composer, title, comment, filename and instruments. These are all strings except for &ldquo;instruments&rdquo; which is a list of strings [for example the Scheme condition (= 2 (length instruments)) will select all scores that have two staffs]. This filtering of an already created index is very quick as the files do not have to be found again, however the selection is limited to just those properties of the score.
+You can create your own selection of scores indexed using the Filter by Scheme Condition<a class="Reference" href="#sec:Writing-Scheme-Scripts">30↓</a>. For this you write a valid Scheme expression that is true for the files you want. You write this Scheme expression in the Scheme Script window (show this via the View menu). The expression can involve the symbols called composer, title, comment, filename and instruments. These are all strings except for &ldquo;instruments&rdquo; which is a list of strings [for example the Scheme condition (= 2 (length instruments)) will select all scores that have two staffs]. This filtering of an already created index is very quick as the files do not have to be found again, however the selection is limited to just those properties of the score.
 </div>
 <div class="Indented">
 With Create Conditional Index you can create more complex conditions to determine which scores should be included in the index, and in addition you can create a comment for the index entry based on the score’s content. A convenience function DenemoIndexCommentDisplay is provided to set the comment you wish to include in the index entry for a given score. Here is an example which computes the durations of all the movements in the score and prints that as the comment:
@@ -3278,7 +3295,7 @@ Use shortcut keys to add staves and set attributes.
 Use Menus.
 </li>
 <li>
-Create an init.denemo score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <a class="Reference" href="#subsec:Musical-Scores-that-Do-Things">29.13 on page 1↓</a> for details on what actions you can have Denemo perform before you start.
+Create an init.denemo score with everything you want to start up with, and any actions you want to be taken before you begin. This will be opened when you first start Denemo (that is once per Denemo session). See <a class="Reference" href="#subsec:Musical-Scores-that-Do-Things">30.13 on page 1↓</a> for details on what actions you can have Denemo perform before you start.
 </li>
 
 </ul>
@@ -3301,13 +3318,34 @@ Adjust the clef, key and time signatures as needed.
 
 </ol>
 <h1 class="Section">
-<a class="toc" name="toc-Section-27">27</a> More Features
+<a class="toc" name="toc-Section-27">27</a> Composing Music
 </h1>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.1">27.1</a> Transposition<a class="IndexReference" name="entry-Transposition-0" href="#index-Transposition">↓</a>
+<a class="toc" name="toc-Subsection-27.1">27.1</a> Overview
 </h2>
 <div class="Unindented">
-Denemo has much better transposition facilities than the common music notation programs such as Sibelius, Finale and Musescore. If you have used those programs you are probably thinking &ldquo;I need to transpose this music&rdquo;, meaning you are going to change all the notes and chords you have entered along with the key signatures. You <b>can </b>do this in Denemo (see Physical Transposition<a class="Reference" href="#subsec:Physical-Transposition">27.1.1↓</a>) but usually it is far better just to say that you want score to be typeset in the new key. This takes care of everything in one go – even footnotes that refer to the pitches of notes in the music will transpose (unless you have entered them as fixed values). And your input music stays looking just as you entered it – essential if you have to look back and compare with a source for instance.
+Many composers still compose their music on paper. Only when finished do they enter the music into Denemo. However, there are features in Denemo to help those who would like to compose at a keyboard. Generally, you will find it preferable to set the MIDI<a class="Reference" href="#subsec:Midi-In-Controls">3.5↑</a> input mode to &ldquo;Listening&rdquo; when composing - pressing the shift key and playing will switch to actually entering notes. This avoids the danger of writing over the already composed music when playing on the MIDI keyboard.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-27.2">27.2</a> Creating Sketches.
+</h2>
+<div class="Unindented">
+Denemo has a command to cut the selection as a &ldquo;sketch&rdquo;. What happens is that the selected music is saved to a special sort of movement, called a sketch. Sketch movements are not typeset nor played when playing the whole score and are clearly watermarked &ldquo;Sketch&rdquo; in the Display. This means you can put aside one version of a passage, try out a new one, scrub that and return to the sketch to copy and paste the passage back into your score.
+</div>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-27.3">27.3</a> Melody Fragments
+</h2>
+<div class="Unindented">
+If you are creating music at the MIDI keyboard and have found a fragment that you would like to notate, Denemo allows you to invoke a command in the Playback-&gt;Recording menu to record your playing and attach it to the score as an audio recording. The audio recording is displayed above the top staff (the command will also create a click track<a class="IndexReference" name="entry-Click-Track-2" href="#index-Click-Track">↓</a> if you wish) starting at the timing of the note at the cursor. When you play the score this audio is played allowing you to notate the rhythm to match it and enter the notes without risking you forgetting the phrase that you had recorded.
+</div>
+<h1 class="Section">
+<a class="toc" name="toc-Section-28">28</a> More Features
+</h1>
+<h2 class="Subsection">
+<a class="toc" name="toc-Subsection-28.1">28.1</a> Transposition<a class="IndexReference" name="entry-Transposition-0" href="#index-Transposition">↓</a>
+</h2>
+<div class="Unindented">
+Denemo has much better transposition facilities than the common music notation programs such as Sibelius, Finale and Musescore. If you have used those programs you are probably thinking &ldquo;I need to transpose this music&rdquo;, meaning you are going to change all the notes and chords you have entered along with the key signatures. You <b>can </b>do this in Denemo (see Physical Transposition<a class="Reference" href="#subsec:Physical-Transposition">28.1.1↓</a>) but usually it is far better just to say that you want score to be typeset in the new key. This takes care of everything in one go – even footnotes that refer to the pitches of notes in the music will transpose (unless you have entered them as fixed values). And your input music stays looking just as you entered it – essential if you have to look back and compare with a source for instance.
 </div>
 <div class="Indented">
 The commands to transpose a score are in the Score-&gt;Typesetter menu. &ldquo;Transpose on Print&rdquo; is a graphical user interface – you get presented with a new tab containing two notes – clicking the Transpose button will transpose so that the first pitch will be typeset as the second one. The initial values a C and E♭ (up a minor third) so by typing G this would become up a fifth. The first note could be changed as well, if you know that D should become F♯, for example, then you can make those the two notes.
@@ -3316,37 +3354,37 @@ The commands to transpose a score are in the Score-&gt;Typesetter menu. &ldquo;T
 The other command is quicker but more technical – (Print) Transposed lets you type in the names of the two notes. The technical bit is how you specify sharp and flat and which octave. To specify sharp the note is followed by &ldquo;is&rdquo;, for flat &ldquo;es&rdquo; (these are actually the Dutch names!). Octaves are indicated by ’ for up and , for down, so for example c c,, would mean transpose two octaves down.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-27.1.1">27.1.1</a> Physical Transposition<a class="Label" name="subsec:Physical-Transposition"> </a>
+<a class="toc" name="toc-Subsubsection-28.1.1">28.1.1</a> Physical Transposition<a class="Label" name="subsec:Physical-Transposition"> </a>
 </h3>
 <div class="Unindented">
 In the case where you have changed your mind and want the actual notes you have entered to be altered the commands to do this are in the Notes/Rests-&gt;Transpose menu. The most general of the commands are Arbitrary Transpose Down and Arbitrary Transpose Up. These allow you to describe the interval you want to transpose the music by e. g. m7 for a minor seventh, d5 for diminished 5th. Alternatively you can use two pitches to describe the interval as in the previous section. Note that these commands work on the note/chord at the cursor or the selection; any key signatures will need changing separately if needed.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.2">27.2</a> Search and &ldquo;Replace&rdquo;<a class="IndexReference" name="entry-Seek-1" href="#index-Seek">↓</a>
+<a class="toc" name="toc-Subsection-28.2">28.2</a> Search and &ldquo;Replace&rdquo;<a class="IndexReference" name="entry-Seek-1" href="#index-Seek">↓</a>
 </h2>
 <div class="Unindented">
 There are two categories of search available in Denemo. The first is in Navigation-&gt;Seek menu and the other is in the Edit menu.
 </div>
 <div class="Indented">
-In Navigation-&gt;Seek is the command to find a selected rhythmic pattern (Ctrl-f, Ctrl-f) – that is to find a sequence of notes with the same rhythms as those of the selection. Once found the pattern can be edited, either manually or by executing a series of steps recorded in the Scheme window (see section <a class="Reference" href="#subsec:Recording-a-Denemo">28.2.1↓</a>). There is also a command to find to find a sequence of selected notes. In both these cases the search can be resumed by executing the command with no selection.
+In Navigation-&gt;Seek is the command to find a selected rhythmic pattern (Ctrl-f, Ctrl-f) – that is to find a sequence of notes with the same rhythms as those of the selection. Once found the pattern can be edited, either manually or by executing a series of steps recorded in the Scheme window (see section <a class="Reference" href="#subsec:Recording-a-Denemo">29.2.1↓</a>). There is also a command to find to find a sequence of selected notes. In both these cases the search can be resumed by executing the command with no selection.
 </div>
 <div class="Indented">
 The second sort of search is in the Edit menu (and also available from the Object Editor). Ctrl-e,e starts a search for objects of the type that the cursor is on, while Ctrl-e, Ctrl-e offers all the types of object in the movement and allows you to select which to search for. Ctrl-e,r resumes the search. When found the object can be manually edited, deleted or modified using recorded commands as described above. The search order is column-wise, that is everything at the same musical moment is searched and then the next musical moment is searched from the top staff downwards. When the end of movement is reached you can wrap to the start of the movement or move to the next movement or wrap round to the first movement.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.3">27.3</a> Rapidly Marking Passages
+<a class="toc" name="toc-Subsection-28.3">28.3</a> Rapidly Marking Passages
 </h2>
 <div class="Unindented">
 Frequently passages in a score need marking in some way - they need to be played up an octave, or they have a continuous trill sign above them etc. This is called Spanning<a class="IndexReference" name="entry-Spanning-2" href="#index-Spanning">↓</a> and the indicators for where the passage starts or ends is frequently marked by a pair of Denemo Directives or other pair of objects. Examples are in the Directives-&gt;Markings-&gt;Spanning menu. Other examples are tuplets<a class="IndexReference" name="entry-Tuplets-2" href="#index-Tuplets">↓</a>, and passages in a different clef. Where a lot of passages need to be marked like this there is command in the Edit-&gt;Select menu which allows you to select passages to be spanned by a particular pair of objects at a single key press. This command is labelled &ldquo;Span Selection with Pair of Objects&rdquo; and it works by copying the pair to be inserted around selected passages onto the clipboard when the command is first invoked and then subsequent invocations place the spanning objects before/after the passage you have selected. In this way you can work your way through a score selecting passages to be altered and applying the alteration at the touch of a key.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.4">27.4</a> Piano Staffs, Orchestral Scores etc
+<a class="toc" name="toc-Subsection-28.4">28.4</a> Piano Staffs, Orchestral Scores etc
 </h2>
 <div class="Unindented">
 A piano staff can be added using the Staff-&gt;Add Staff menu (or by adding the Piano instrument from the Staff-&gt;Add Staff-&gt;Add Staff for Instrument command). In addition, piano staffs, and staff groups such as choir staff can be created using the Staff Groupings menu under the staff menu. You can set a piano staff within a staff group by setting successively the StartPiano and StartGroup contexts on a single staff, or more generally setting StartPiano, EndPiano on adjacent staffs within a staff group.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.5">27.5</a> Single Staff Polyphony<a class="IndexReference" name="entry-Polyphony-1" href="#index-Polyphony">↓</a>
+<a class="toc" name="toc-Subsection-28.5">28.5</a> Single Staff Polyphony<a class="IndexReference" name="entry-Polyphony-1" href="#index-Polyphony">↓</a>
 </h2>
 <div class="Unindented">
 Use the Staffs/Voice<a class="IndexReference" name="entry-Voice-9" href="#index-Voice">↓</a>s-&gt;Voices menu for placing more than one voice on a staff. You can set the initial voice number from this menu (voices 1 and 3 are stem up with slurs and ties etc adjusting to suit, voices 2 and 4 are stem down). Directives can be placed in the music to change voice, see Directives-&gt;Typesetter-&gt;Voices menu.
@@ -3355,7 +3393,7 @@ Use the Staffs/Voice<a class="IndexReference" name="entry-Voice-9" href="#index-
 You will also need spacer rests for voices that are silent, and commands to displace rests vertically and horizontally (see Notes/Rests-&gt;Rest Insertion menu), and commands from the Voices menu under the Staffs/Voices and Directives-&gt;Typesetter menus.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.6">27.6</a> Entering Figured Bass<a class="IndexReference" name="entry-Figured-Bass-1" href="#index-Figured-Bass">↓</a>
+<a class="toc" name="toc-Subsection-28.6">28.6</a> Entering Figured Bass<a class="IndexReference" name="entry-Figured-Bass-1" href="#index-Figured-Bass">↓</a>
 </h2>
 <div class="Unindented">
 To enter figures choose Notes/Rests-&gt;Markings-&gt;Figured Bass. There are some shortcuts that enable all the work to be done with the numeric keypad. A brief summary is given by right clicking the option. The conventions are described in the LilyPond docs.
@@ -3364,13 +3402,13 @@ To enter figures choose Notes/Rests-&gt;Markings-&gt;Figured Bass. There are som
 There is also a MIDI filter for entering figured bass in the Input-&gt;MIDI menu. With this you play the bass note at the cursor and then the notes that the figures are indicating; on releasing the bass note the figures are entered for that bass note. The footpedal allows a sequence of figures to be entered on one note and also to enter extenders.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.7">27.7</a> Fret Diagrams<a class="IndexReference" name="entry-Fret-Diagrams-1" href="#index-Fret-Diagrams">↓</a>
+<a class="toc" name="toc-Subsection-28.7">28.7</a> Fret Diagrams<a class="IndexReference" name="entry-Fret-Diagrams-1" href="#index-Fret-Diagrams">↓</a>
 </h2>
 <div class="Unindented">
 Fret Diagrams can be placed on the score using the command Fret Diagram in the ObjectMenu-&gt;Directives-&gt;Markings menu In addition by assigning a Denemo staff to display as fret diagrams, chords can be entered in standard notation which will then be dislayed as fret diagrams. See ObjectMenu-&gt;StaffMenu-&gt;StaffPropertiesMenu-&gt;FretDiagrams for this.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.8">27.8</a> Tablature<a class="IndexReference" name="entry-Tablature-0" href="#index-Tablature">↓</a>
+<a class="toc" name="toc-Subsection-28.8">28.8</a> Tablature<a class="IndexReference" name="entry-Tablature-0" href="#index-Tablature">↓</a>
 </h2>
 <div class="Unindented">
 Music can be displayed in tablature – the default is for standard guitar tuning but others can be set. The menus to explore are:
@@ -3385,7 +3423,7 @@ ObjectMenu-&gt;Directives-&gt;Typesetter-&gt;Tablature
 It is possible to display the same music as both notation and tablature, and example of how to do this will be found under File-&gt;Open-&gt;Open Example.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.9">27.9</a> Entering Chord Symbols<a class="IndexReference" name="entry-Chord-Symbols-4" href="#index-Chord-Symbols">↓</a>
+<a class="toc" name="toc-Subsection-28.9">28.9</a> Entering Chord Symbols<a class="IndexReference" name="entry-Chord-Symbols-4" href="#index-Chord-Symbols">↓</a>
 </h2>
 <div class="Unindented">
 There are two quite different ways to enter chord symbols (also known as Chord Names<a class="IndexReference" name="entry-Chord-Names--seeChord-Symbols-0" href="#index-Chord-Names--seeChord-Symbols">↓</a>, Fake Chords). If the chord changes do not happen mid-way through notes then you can use Notes/Rests-&gt;Markings-&gt;Chord Symbols to attach chord symbols to the notes themselves. A brief summary is given by right clicking the option. The conventions are described in the LilyPond documentation.
@@ -3400,7 +3438,7 @@ A palette is available<a class="Reference" href="#subsec:Insert-Chords">4.5↑</
 Chord Charts can also be created – there is a Chord Charts palette for these. Compact chord charts require a patch to LilyPond – enquire on the mailing list for this.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-27.10">27.10</a> Music Sketches<a class="IndexReference" name="entry-Sketches-0" href="#index-Sketches">↓</a>
+<a class="toc" name="toc-Subsection-28.10">28.10</a> Music Sketches<a class="IndexReference" name="entry-Sketches-0" href="#index-Sketches">↓</a>
 </h2>
 <div class="Unindented">
 It is useful when composing to set aside a musical passage for later use. This is called a sketch in Denemo, and it is implemented as a small movement that is not typeset but can be navigated to for copy and paste purposes just like any other movement.
@@ -3412,10 +3450,10 @@ There are two commands relevant to this: in the Selection submenu of the Edit me
 <a class="toc" name="toc-Part-III">Part III.</a> Advanced Topics
 </h1>
 <h1 class="Section">
-<a class="toc" name="toc-Section-28">28</a> Customizing Denemo
+<a class="toc" name="toc-Section-29">29</a> Customizing Denemo
 </h1>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-28.1">28.1</a> Adding and Editing Key/Mouse Shortcuts
+<a class="toc" name="toc-Subsection-29.1">29.1</a> Adding and Editing Key/Mouse Shortcuts
 </h2>
 <div class="Unindented">
 Denemo allows you to choose which keys activate which commands (shortcuts). It also allows you to choose Mouse press/release gestures (in combination with keys such as <tt>Shift</tt>, <tt>NumLock</tt>, <tt>CapsLock</tt> etc).
@@ -3436,7 +3474,7 @@ Mouse Shortcuts are tricky to set – you are able to control what happens on mo
 
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-28.2">28.2</a> More Commands
+<a class="toc" name="toc-Subsection-29.2">29.2</a> More Commands
 </h2>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--42"></a>Adding More Features 
@@ -3451,7 +3489,7 @@ It is possible to add more commands to the set that Denemo ships with. Some of t
 It can be slow to choose dynamics (<tt>Ctrl-D</tt>) because the list is quite long to move down (or move to the mouse). You can define a list of the dynamics you actually want to be readily available as for example: (define DenemoDynamicList ’(("f" "127" "Forte") ("p" "127" "Piano"))) This makes forte available just by pressing Return and piano available by pressing down arrow Return. (The others via More of course). If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then it will be defined when you start Denemo.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-28.2.1">28.2.1</a> Recording a Denemo Macro<a class="Label" name="subsec:Recording-a-Denemo"> </a> 
+<a class="toc" name="toc-Subsubsection-29.2.1">29.2.1</a> Recording a Denemo Macro<a class="Label" name="subsec:Recording-a-Denemo"> </a> 
 </h3>
 <div class="Unindented">
 You can record a frequently used sequence of actions into the Scheme window. These can be used in search and replace operations or they can be installed as a command in the menu system and given a keyboard shortcut or placed in a palette. 
@@ -3475,7 +3513,7 @@ Turn off the Record before starting the search and replace, otherwise the search
 
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-28.2.2">28.2.2</a> Editing a LilyPond<a class="IndexReference" name="entry-LilyPond-4" href="#index-LilyPond">↓</a> Tweak
+<a class="toc" name="toc-Subsubsection-29.2.2">29.2.2</a> Editing a LilyPond<a class="IndexReference" name="entry-LilyPond-4" href="#index-LilyPond">↓</a> Tweak
 </h3>
 <div class="Unindented">
 There is another way of adding your own favorite LilyPond tweaks, which is by modifying a tweak that has already been done. This can be done by using the text-edit dialog on an existing Denemo Directive (usually found under the Advanced button provided in the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>). Here you can see the actual LilyPond text that will be inserted, and there is a button to create a script to generate whatever you choose to enter. You can also enter the name of graphic images (.png files) that are to be used to represent your item in the display, and say where it should be positioned.
@@ -3484,7 +3522,7 @@ There is another way of adding your own favorite LilyPond tweaks, which is by mo
 Once you have created the script, it can be saved in the menu system by right clicking on an item in the menu where you want to place the command, and choosing "Save Script as New Menu Item" as above. An alternative to creating a command in the menu system is to create a palette button (see the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>).
 </div>
 <h1 class="Section">
-<a class="toc" name="toc-Section-29">29</a> <a class="Label" name="sec:Writing-Scheme-Scripts"> </a>Writing Scheme<a class="IndexReference" name="entry-Scheme-1" href="#index-Scheme">↓</a> Scripts 
+<a class="toc" name="toc-Section-30">30</a> <a class="Label" name="sec:Writing-Scheme-Scripts"> </a>Writing Scheme<a class="IndexReference" name="entry-Scheme-1" href="#index-Scheme">↓</a> Scripts 
 </h1>
 <div class="Unindented">
 <img class="embedded" src="images/SchemeWindow.png" alt="figure images/SchemeWindow.png" style="max-width: 464px; max-height: 376px;"/>
@@ -3539,7 +3577,7 @@ which is inserting the LilyPond directive "\mark \default" which inserts the def
 More ambitious programmers will need to know all the commands available. Besides the complete Denemo command set (the list is given in the Command Center window) there are the following additional Scheme procedures defined (see the files actions/denemo.scm and actions/denemo-modules/*.scm for more). A brief summary of any Scheme procedure can be obtained by typing its name into the Scheme Window in the command line interface (CLI) and pressing Enter. The help text attached to built-in commands is available in a Scheme variable constructed by prefixing the command name with &ldquo;Help-&rdquo;, however there are older, hardwired commands for which this doesn’t work at present.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.1">29.1</a> Commands Getting User Input
+<a class="toc" name="toc-Subsection-30.1">30.1</a> Commands Getting User Input
 </h2>
 <div class="Unindented">
 All these commands are invoked from scheme as (d-Command args\SpecialChar ldots)
@@ -3569,7 +3607,7 @@ GetUserInput takes three arguments (title, prompt, suggested value) and returns 
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.2">29.2</a> Commands Getting Information about Object at Cursor
+<a class="toc" name="toc-Subsection-30.2">30.2</a> Commands Getting Information about Object at Cursor
 </h2>
 <div class="Unindented">
 All these commands are invoked from scheme as (d-<span class="versalitas">Command</span>)
@@ -3590,7 +3628,7 @@ GetNotes returns a scheme string, the notes of a chord separated by spaces (in L
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.3">29.3</a> Predicates
+<a class="toc" name="toc-Subsection-30.3">30.3</a> Predicates
 </h2>
 <div class="Unindented">
 Testing what is true at the cursor position
@@ -3671,7 +3709,7 @@ MeasureComplete?
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.4">29.4</a> Iterators
+<a class="toc" name="toc-Subsection-30.4">30.4</a> Iterators
 </h2>
 <div class="Unindented">
 The parameters are either a string (script) which will be evaluated after moving the cursor to step of the iteration or a scheme procedure (a thunk).
@@ -3701,7 +3739,7 @@ The parameters are either a string (script) which will be evaluated after moving
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.5">29.5</a> Directives
+<a class="toc" name="toc-Subsection-30.5">30.5</a> Directives
 </h2>
 <ul>
 <li>
@@ -3797,7 +3835,7 @@ The parameters are either a string (script) which will be evaluated after moving
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.6">29.6</a> Message Bar
+<a class="toc" name="toc-Subsection-30.6">30.6</a> Message Bar
 </h2>
 <div class="Unindented">
 These commands put a message on the status bar to the right hand side. They are defined in actions/denemo-modules/helpsystem.scm. Help messages are pushed paired with a symbol (e. g. (cons (’mytag &ldquo;mymessage&rdquo;))) and can simply be Popped or removed using the tag.
@@ -3821,7 +3859,7 @@ These commands put a message on the status bar to the right hand side. They are 
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.7">29.7</a> Move and Search
+<a class="toc" name="toc-Subsection-30.7">30.7</a> Move and Search
 </h2>
 <ul>
 <li>
@@ -3890,7 +3928,7 @@ GetPosition ;use result with (apply d-GoToPosition position)) to go to the posit
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.8">29.8</a> More \SpecialChar ldots
+<a class="toc" name="toc-Subsection-30.8">30.8</a> More \SpecialChar ldots
 </h2>
 <div class="Unindented">
 This is a fairly comprehensive listing of Scheme commands that are built-in but not including those in the menus. Call these via (d-<i>&lt;command&gt;</i> <b><i>params</i></b> \SpecialChar ldots), e. g. (d-GetNote 2) gets the second note from the bottom in a chord.
@@ -4790,7 +4828,7 @@ Error. Display an error message and abort
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.9">29.9</a> Commands for MIDI Import
+<a class="toc" name="toc-Subsection-30.9">30.9</a> Commands for MIDI Import
 </h2>
 <div class="Unindented">
 A MIDI file can be loaded into Denemo in order to convert it to music notation. This is not generally possible (because of the nature of the information stored in the MIDI format), but it is worth trying sometimes. 
@@ -4806,12 +4844,12 @@ A MIDI file can be loaded into Denemo in order to convert it to music notation. 
 (d-GetImportedMidiTrack n) gets the n’th MIDI track loads a MIDI track chosen by the user, using the Clef, Time signature and key signature of the current staff. The track is represented by \SpecialChar ldots the C routine compute_midi_note_durations() is called
 </li>
 <li>
-(d-CreateClickStaffForMidi)
+(d-CreateClickStaffForMidi)<a class="IndexReference" name="entry-Click-Track-3" href="#index-Click-Track">↓</a>
 </li>
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.10">29.10</a> \SpecialChar ldots and More
+<a class="toc" name="toc-Subsection-30.10">30.10</a> \SpecialChar ldots and More
 </h2>
 <div class="Unindented">
 This is a hand-made list most of which already appear in the comprehensive list above, but with hand-written comments.
@@ -4934,13 +4972,13 @@ MeasureFillStatus
 
 </ul>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.11">29.11</a> Midi Filters
+<a class="toc" name="toc-Subsection-30.11">30.11</a> Midi Filters
 </h2>
 <div class="Unindented">
 The MIDI filters are scheme scripts, so they can be tailored to do whatever you wish. One example is a filter that enables you to enter Figured Bass figures by playing the notes corresponding to the figures while holding down the bass note. Another is the "AngryDelete" filter. With this filter on notes are entered normally with the cursor advancing automatically, but if you make a mistake and press the wrong note just hit the next one much louder and it will make the correction for you! MIDI filters are found under Input -&gt; MIDI.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.12">29.12</a> LilyPond Editing
+<a class="toc" name="toc-Subsection-30.12">30.12</a> LilyPond Editing
 </h2>
 <div class="Paragraph">
 <a class="toc" name="toc-Paragraph-2"></a>Introduction
@@ -4952,7 +4990,7 @@ From version 0.7.8 we have the ability to edit the LilyPond output within Denemo
 These can be used without knowing the LilyPond language (provided a suitable template or example file exists). Alternatively, with a general idea of how a LilyPond file works tweaks from the LilyPond documentation can be inserted into the LilyPond output and stored with the Denemo, leaving open the possibility of further editing of the notes within Denemo without the need to re-apply tweaks or keep separate LilyPond files.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-29.12.1">29.12.1</a> Using the LilyPond Window
+<a class="toc" name="toc-Subsubsection-30.12.1">30.12.1</a> Using the LilyPond Window
 </h3>
 <div class="Unindented">
 Under the View menu is a Show LilyPond item which pops up a window with the LilyPond output in it. The text is interspersed with buttons which enable you to hide or show the various sections or to create custom versions. The text in bold can be altered and the alterations are kept in the Denemo file.
@@ -5012,7 +5050,7 @@ Clicking (as opposed to using the arrow keys) in the LilyPond text does not move
 
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.13">29.13</a> <a class="Label" name="subsec:Musical-Scores-that-Do-Things"> </a>Musical Scores that Do Things!
+<a class="toc" name="toc-Subsection-30.13">30.13</a> <a class="Label" name="subsec:Musical-Scores-that-Do-Things"> </a>Musical Scores that Do Things!
 </h2>
 <div class="Unindented">
 By saving a Denemo score with a script defined (in the script window) you can create music lessons, automatic midi player \SpecialChar ldots the possibilities are endless. When you open such a score, the script is run – it can take user input and manipulate the score, or do other actions as your fancy takes you.
@@ -5021,7 +5059,7 @@ By saving a Denemo score with a script defined (in the script window) you can cr
 There is a special score init.denemo that is run on startup. By editing this you can startup with whatever template and whatever actions you wish to be performed. If you set it to do something that quits Denemo, you may need to delete the file before using Denemo normally again. Your local init.denemo is stored in the directory .denemo/actions in your home directory.To create it put the script you want in the script window and use SaveAs selecting ~/.denemo/actions/init.denemo as your file to save to.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-29.13.1">29.13.1</a> What Happens at Startup
+<a class="toc" name="toc-Subsubsection-30.13.1">30.13.1</a> What Happens at Startup
 </h3>
 <div class="Unindented">
 On starting the scheme script ~/.denemo-(version number)/actions/denemo.scm is executed (where ~ means your home directory and version number is 1.1.2 or later).
@@ -5033,7 +5071,7 @@ A denemo file called init.denemo is/was loaded, but this is deprecated.
 In addition, on startup a set of keyboard and mouse shortcuts, and a selection of optional menu items are loaded. Other sets are available via the Edit-&gt;Customize Commands \SpecialChar ldots-&gt;Manage Command Set dialog.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-29.14">29.14</a> Starting Denemo – Command Line Options
+<a class="toc" name="toc-Subsection-30.14">30.14</a> Starting Denemo – Command Line Options
 </h2>
 <div class="Unindented">
 Denemo –help shows the options at startup. You can open a specific score, execute a scheme script (from a file or on the command line) and more.
@@ -5042,13 +5080,13 @@ Denemo –help shows the options at startup. You can open a specific score, exec
 <a class="toc" name="toc-Part-IV">Part IV.</a> Technical Reference – Denemo Directives
 </h1>
 <h1 class="Section">
-<a class="toc" name="toc-Section-30">30</a> <a class="Label" name="sec:Denemo-Objects"> </a>Denemo Objects
+<a class="toc" name="toc-Section-31">31</a> <a class="Label" name="sec:Denemo-Objects"> </a>Denemo Objects
 </h1>
 <div class="Unindented">
 Denemo Objects are all the things that are placed in the measures of the staffs in the Denemo Display. These are Chords, Notes (single note chords), Rests, Clef Changes, Key Changes, Time Signature Changes, Voice Changes (stemming control), Tuplet Starts, Tuplet Ends and Denemo Directives. The Denemo cursor can be stepped through every Denemo Object in the bar and by double clicking the object can be inspected and edited in detail.
 </div>
 <h1 class="Section">
-<a class="toc" name="toc-Section-31">31</a> <a class="Label" name="sec:Denemo-Directives"> </a>Denemo Directives
+<a class="toc" name="toc-Section-32">32</a> <a class="Label" name="sec:Denemo-Directives"> </a>Denemo Directives
 </h1>
 <div class="Unindented">
 Denemo Directives give attributes to objects that are not built-in but can be changed by the user.
@@ -5138,7 +5176,7 @@ d-DirectiveGetForTag-<i>type</i> returns the tag for the directive at the cursor
 d-DirectiveGetNthTag-chord <i>index </i>Gets the index’th tag of <i>type</i> at the cursor, index starts at 0.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-31.1">31.1</a> The Directive Fields
+<a class="toc" name="toc-Subsection-32.1">32.1</a> The Directive Fields
 </h2>
 <div class="Unindented">
 The fields of the Denemo Directive can control the Denemo Display and the LilyPond output.
@@ -5249,7 +5287,7 @@ markup<br/>bold<br/>italicp̈iùmossö")(d − RefreshDisplay)
 In this example the directive is a standalone directive. MIDI commands are being extended to apply to chords and notes. Implementation of the commands for Voices, Movements, Score etc are not yet done.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-31.2">31.2</a> Directive Edit Scripts
+<a class="toc" name="toc-Subsection-32.2">32.2</a> Directive Edit Scripts
 </h2>
 <div class="Paragraph">
 <a class="toc" name="toc-Paragraph-4"></a>Introduction
@@ -5306,13 +5344,13 @@ For example,
 gives low-level access to the directive setting the print all headers command in the paper block of the LilyPond output.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-31.2.1">31.2.1</a> Initialization Scripts
+<a class="toc" name="toc-Subsubsection-32.2.1">32.2.1</a> Initialization Scripts
 </h3>
 <div class="Unindented">
 Each menu can have an initialization script, which can contain procedures that would be too time consuming to define every time they are needed. These scripts are guaranteed to be run before any menu item is activated within the menu. They can be read/written using the right click menu on any scripted menu item.
 </div>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-31.2.2">31.2.2</a> Edit Scripts
+<a class="toc" name="toc-Subsubsection-32.2.2">32.2.2</a> Edit Scripts
 </h3>
 <div class="Unindented">
 Each directive has a tag field, so that it can be recognized by the scripts that manipulate it. In particular for each tag there can be an edit script, for editing a directive of that tag. 
@@ -5550,7 +5588,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 <a class="printindex" name="index-Clef"></a>Clef: <a class="IndexArrow" href="#entry-Clef-0">↑</a>, <a class="IndexArrow" href="#entry-Clef-1">↑</a>, <a class="IndexArrow" href="#entry-Clef-2">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Click-Track"></a>Click Track: <a class="IndexArrow" href="#entry-Click-Track-0">↑</a>
+<a class="printindex" name="index-Click-Track"></a>Click Track: <a class="IndexArrow" href="#entry-Click-Track-0">↑</a>, <a class="IndexArrow" href="#entry-Click-Track-1">↑</a>, <a class="IndexArrow" href="#entry-Click-Track-2">↑</a>, <a class="IndexArrow" href="#entry-Click-Track-3">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Command-Center"></a>Command Center: <a class="IndexArrow" href="#entry-Command-Center-0">↑</a>
@@ -5843,7 +5881,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-04-11T17:03:37.254202</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-04-24T17:16:25.006557</span>
 </div>
 </div>
 </body>
