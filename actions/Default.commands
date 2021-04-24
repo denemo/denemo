@@ -66,7 +66,7 @@
         <action>RecordAndAttach</action>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
         <_label>Record (Start/Stop) and Attach at Cursor</_label>
-        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording and attach the resultant audio to a click track created at the top of the staffs. The recording will play along with your notated music.</_tooltip>
+        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording - the audio is attached to an (optional) click track created at the top of the staffs. The recording will play along with your notated music - ensure you have enough filled measures after the cursor to attach the audio to otherwise it won't play.</_tooltip>
       </row>
       <row type="builtin">
         <action>Play</action>
@@ -3456,8 +3456,8 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <action>CloseSourceAudioFile</action>
         <after>SynchronizeAudio</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
-        <_label>Detach Audio Recording</_label>
-        <_tooltip>Drops the audio attached to the current movement.</_tooltip>
+        <_label>Delete Audio Recording</_label>
+        <_tooltip>Deletes the current audio recording.</_tooltip>
       </row>
       <row type="scheme">
         <action>CloseRepeat</action>

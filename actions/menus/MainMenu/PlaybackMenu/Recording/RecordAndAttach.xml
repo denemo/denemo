@@ -8,7 +8,7 @@
         <action>RecordAndAttach</action>
         <after>CloseSourceAudioFile</after>
         <_label>Record (Start/Stop) and Attach at Cursor</_label>
-        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording and attach the resultant audio to a click track created at the top of the staffs. The recording will play along with your notated music.</_tooltip>
+        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording - the audio is attached to an (optional) click track created at the top of the staffs. The recording will play along with your notated music - ensure you have enough filled measures after the cursor to attach the audio to otherwise it won't play.</_tooltip>
       </row>
     </map>
   </merge>
