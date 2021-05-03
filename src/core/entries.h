@@ -300,7 +300,7 @@
 {"InsertStem", NULL, N_("Auto Stemming"), "",N_("Inserts a stem neutral object. After this automatic stem directions are active. You can click on this tag and use Sharpen/StemUp etc commands to change stem direction"),G_CALLBACK (stem_directive_insert)},
 {"AddVerse", NULL, N_("Add Lyric Verse"), "",N_("Add a verse of lyrics"),G_CALLBACK (add_verse)},
 {"DeleteVerse", NULL, N_("Delete Verse"), "",N_("Deletes current verse of lyrics from current voice"),G_CALLBACK (delete_verse)},
-{"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), "",N_("Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation"),G_CALLBACK (figure_insert)},
+{"EditFiguredBass", NULL, N_("Insert/Edit Figured Bass"), "",N_("Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. Directly insert the LilyPond syntax for the current note by enclosing it with $ signs. See Lilypond docs for other notation"),G_CALLBACK (figure_insert)},
 {"DeleteFiguredBass", NULL, N_("Delete Figures"), "",N_("Delete the figured bass on the current staff"),G_CALLBACK (delete_figured_bass)},
 {"DeleteChordSymbols", NULL, N_("Delete Chord Symbols"), "",N_("Delete the chord symbols on the current staff"),G_CALLBACK (delete_fakechords)},
 {"HideFiguredBass", NULL, N_("Hide Figures (Print)"), "",N_("Hide the figured bass on the current staff on printing"),G_CALLBACK (hide_figured_bass)},

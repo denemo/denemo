@@ -1652,7 +1652,7 @@ these may need re-making.</_tooltip>
         <action>EditFiguredBass</action>
         <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
         <_label>Insert/Edit Figured Bass</_label>
-        <_tooltip>Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. See Lilypond docs for other notation</_tooltip>
+        <_tooltip>Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. Directly insert the LilyPond syntax for the current note by enclosing it with $ signs. See Lilypond docs for other notation</_tooltip>
       </row>
       <row type="builtin">
         <action>DeleteFiguredBass</action>
