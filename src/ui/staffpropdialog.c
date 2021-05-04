@@ -530,6 +530,8 @@ staff_properties_change (void)
       warningdialog (msg);
       g_free (msg);
     }
+   if (Denemo.prefs.dynamic_compression)
+	 warningdialog (_("The setting for the loudness of this staff will ignored (or at least modified) by the setting of the dynamic compression preference you have.\nSee Preferences Dialog, Audio Tab or Playback Controls \"Always Full Volume\" checkbox."));
   return result;
 }
 

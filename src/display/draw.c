@@ -1868,6 +1868,14 @@ draw_callback (cairo_t * cr)
 		cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
 		general_draw_text (cr, "Times 84", _( "Recording"), 20.0, 20.0);
 	}
+  else if (Denemo.project->movement->playingnow)
+		{
+			cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
+			if (Denemo.prefs.dynamic_compression==100)
+				general_draw_text (cr, "Times 84", _( "Playing Ignoring Dynamics"), 20.0, 20.0);
+			else
+				general_draw_text (cr, "Times 84", _( "Playing"), 20.0, 20.0);
+		}
 	else if (Denemo.project->movement->sketch)
 		{
 			cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
