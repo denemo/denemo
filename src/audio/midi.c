@@ -728,7 +728,7 @@ adjust_midi_velocity (gchar * buf, gint percent)
 
 void add_after_touch (gchar * buf)
 {
-   if (Denemo.prefs.damping)
+   if (Denemo.prefs.damping && (((DenemoStaff *) Denemo.project->movement->currentstaff->data)->override_volume || (Denemo.prefs.dynamic_compression == 100)))
     {
       static gdouble times[0x7F]; //takes no account of channel, really only good for one channel.
       //HACK IN kill pitch bend and "modulation" wheel here
@@ -927,9 +927,12 @@ adjust_to_staff (gchar * buf)
 void
 play_adjusted_midi_event (gchar * buf)
 {
+  gboolean was_note_on = ((buf[0] & SYS_EXCLUSIVE_MESSAGE1) == MIDI_NOTE_ON);
   adjust_midi_velocity (buf, 100 - Denemo.prefs.dynamic_compression);
   add_after_touch (buf);
   adjust_to_staff (buf);
+  if (was_note_on && ((DenemoStaff *) Denemo.project->movement->currentstaff->data)->override_volume)
+		buf[2]=127;
   //g_print ("play adj midibytes 0x%hhX 0x%hhX 0x%hhX\n", *(buf+0), *(buf+1), *(buf+2));
   play_midi_event (DEFAULT_BACKEND, 0, (guchar*) buf);
 }
