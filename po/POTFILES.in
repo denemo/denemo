@@ -1588,6 +1588,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/OrnamentBassFigureHeigh
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/OrnamentBassFigureHeight.xml
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.scm
 actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml
+actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/SingleExtender.scm
+actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/SingleExtender.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.scm

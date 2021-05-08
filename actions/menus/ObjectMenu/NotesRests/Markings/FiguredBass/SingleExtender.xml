@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SingleExtender</action>
+        <after>EditFiguredBass</after>
+        <_label>Single Extender</_label>
+        <_tooltip>Create a single extender for the group of figures on the previous note. Append |0 to the group and use 0 for the extender to leave a little space between the group and the start of the extender.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
