@@ -5,10 +5,13 @@
     (let ((Figures 0)  (PedalDown #f) (Notes '()))
        (define (InsertDummyFigureIfNeeded)
             (if (d-PrevNote)
-                (let ((fig (d-EditFiguredBass "query")))
-                    (if (not fig)
-                         (d-EditFiguredBass "figures=0")
-                         (d-NextNote)))))
+                (let ((fig (d-EditFiguredBass "query"))) (disp "fig is " fig "\n\n")
+                    (if fig 
+                    	(if (not (equal? fig "~"))
+				(d-EditFiguredBass (string-append "figures=" fig "|0"))
+				(d-NextNote))
+                       (d-EditFiguredBass "figures=0"))
+                        )))
        (define (AddFigure note bassnote)
                  (let ((fig (d-BassFigure bassnote note)))
                   (if (car fig);extreme interval - warn
