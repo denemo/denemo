@@ -423,10 +423,11 @@ output_figured_bass_prefix (GString * figures, DenemoDirective * directive)
 /**
  * add figures to *pfigures for *pchord
  */
+static gboolean fb_continuation = FALSE;
 static void
 output_figured_bass (GString * figures, chord * pchord)
 {
-  static gboolean continuation = FALSE;
+
   static GString *last_figure;  // for continuations
   gint duration = internaltomuduration (pchord->baseduration);
   gint numdots = pchord->numdots;
@@ -492,10 +493,10 @@ output_figured_bass (GString * figures, chord * pchord)
 
   if (*figstr == '~')
     {
-      if (!continuation)
+      if (!fb_continuation)
         {
           figures = g_string_append (figures, "\\bassFigureExtendersOn ");
-          continuation = TRUE;
+          fb_continuation = TRUE;
         }
       if (last_figure->len)
         {
@@ -505,8 +506,8 @@ output_figured_bass (GString * figures, chord * pchord)
     }
   else
     {
-      if (continuation)
-        figures = g_string_append (figures, "\\bassFigureExtendersOff <");
+      if (fb_continuation)
+         figures = g_string_append (figures, "\\bassFigureExtendersOff <");
       else
         figures = g_string_append (figures, "<");
     }
@@ -530,8 +531,8 @@ output_figured_bass (GString * figures, chord * pchord)
     case 1:
       if (*figstr != '~')
         {
-          if (continuation)
-            continuation = FALSE;
+          if (fb_continuation)
+            fb_continuation = FALSE;
           figures = g_string_append (figures, figstr);
           g_string_assign (last_figure, figstr);
         }
@@ -544,6 +545,8 @@ output_figured_bass (GString * figures, chord * pchord)
     case 2:
       {
         gint first_duration, second_duration;
+        g_string_assign (last_figure, "0");
+        
         if (numdots)
           {                     /* divide unequally */
             first_duration = duration;
@@ -580,6 +583,7 @@ output_figured_bass (GString * figures, chord * pchord)
     case 3:
       {
         gint first_duration, second_duration, third_duration;
+        g_string_assign (last_figure, "0");
         if (numdots == 1)
           {                     /* divide equally */
 
@@ -632,6 +636,7 @@ output_figured_bass (GString * figures, chord * pchord)
     case 4:
       {
         gint first_duration, second_duration, third_duration, fourth_duration;
+        g_string_assign (last_figure, "0");
         if (numdots == 1)
           {                     /* divide unequally */
 
@@ -2167,7 +2172,7 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
             break;              //we want to go through once for empty measures
         }                       /* For each object in the measure */
     }                           /* for each measure */
-
+  fb_continuation = FALSE;
 
   for (; open_braces > 0; open_braces--)
     {
