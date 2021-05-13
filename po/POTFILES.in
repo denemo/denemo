@@ -609,6 +609,8 @@ actions/menus/MainMenu/NavigationMenu/Cursor/CursorToHighestNote.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/CursorToHighestNote.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/CursorToLowestNote.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/CursorToLowestNote.xml
+actions/menus/MainMenu/NavigationMenu/Cursor/GoToTypesetMeasureNumber.scm
+actions/menus/MainMenu/NavigationMenu/Cursor/GoToTypesetMeasureNumber.xml
 actions/menus/MainMenu/NavigationMenu/Cursor/init.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/JumpDownOctave.scm
 actions/menus/MainMenu/NavigationMenu/Cursor/JumpDownOctave.xml

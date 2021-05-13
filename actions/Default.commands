@@ -8670,6 +8670,13 @@ Include rests if they are part of the pattern.
         <_label>Single Extender</_label>
         <_tooltip>Create a single extender for the group of figures on the previous note. Append |0 to the group and use 0 for the extender to leave a little space between the group and the start of the extender.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>GoToTypesetMeasureNumber</action>
+        <after>GoToMeasure</after>
+        <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
+        <_label>Go To Typeset Measure Number</_label>
+        <_tooltip>Goes to the measure number given taking into account any measure offset (normally this will be set to be the measure number as typeset).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
