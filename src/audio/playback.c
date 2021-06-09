@@ -34,6 +34,7 @@
 #endif
 #include <errno.h>
 
+//incorporates the master_tempo into the movement tempo, re-setting the master_tempo factor to unity; adjusts the start and end times to suit the new tempo
 void
 set_tempo (void)
 {
