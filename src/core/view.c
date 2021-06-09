@@ -1158,16 +1158,21 @@ pb_loop (GtkWidget * button)
 }
 
 static void
-pb_tempo (GtkSpinButton * spin)
+pb_tempo (GtkEditable *editable)
 {
-  gdouble tempo;
-  gdouble bpm = gtk_spin_button_get_value (spin);
-  tempo = (Denemo.project->movement->tempo > 0) ? bpm / Denemo.project->movement->tempo : 1.0;
-  scm_c_define ("DenemoTempo::Value", scm_from_double (tempo));
-  call_out_to_guile ("(DenemoTempo)");
-  Denemo.project->movement->smfsync = G_MAXINT;
+ gchar * text = gtk_editable_get_chars (editable, 0, -1);
+ gdouble tempo;
+ gdouble bpm = atof (text);
+ //g_print ("text is %s, bpm = %f\n", text, bpm);
+ if (bpm > 10 && bpm < 1000)
+	{
+	  tempo = (Denemo.project->movement->tempo > 0) ? bpm / Denemo.project->movement->tempo : 1.0;
+	  scm_c_define ("DenemoTempo::Value", scm_from_double (tempo));
+	  call_out_to_guile ("(DenemoTempo)");//this sets Denemo.project->movement->master_tempo to the value tempo, a factor that will be used to re-define the movement tempo before playing.
+	  Denemo.project->movement->smfsync = G_MAXINT;
+	}
+ g_free (text);
 }
-
 static void
 pb_mute_staffs ()
 {
@@ -3449,8 +3454,9 @@ create_window (void)
       gtk_widget_set_tooltip_text (label, _("Set the (initial) tempo of the movement"));
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-      master_tempo_adj = (GtkSpinButton *) gtk_spin_button_new_with_range (10, 400, 1);
-      g_signal_connect (G_OBJECT (master_tempo_adj), "value_changed", G_CALLBACK (pb_tempo), NULL);
+      master_tempo_adj = (GtkSpinButton *) gtk_spin_button_new_with_range (10, 1000, 1);
+      g_signal_connect (G_OBJECT (master_tempo_adj), "changed", G_CALLBACK (pb_tempo), NULL);
+      
       gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (master_tempo_adj), FALSE, TRUE, 0);
       create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
 
