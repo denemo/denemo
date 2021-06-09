@@ -3152,6 +3152,7 @@ static gboolean
 edit_directive (DenemoDirective * directive, gchar * what)
 {
   gboolean ret = TRUE;
+  if (directive->tag == NULL) directive->tag = g_string_new ("Unknown");
   gchar *filename = get_editscript_filename (directive->tag->str);
   if ((filename == NULL) || shift_held_down ())
     {
