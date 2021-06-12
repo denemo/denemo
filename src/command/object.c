@@ -1064,10 +1064,12 @@ create_duplicate_directive (GtkWidget * button, gchar * what)
         {
           DenemoDirective *newdirective = clone_directive (directive);
           newdirective->tag = g_string_new (g_strdup_printf ("%s\n%s", directive->tag->str, tag_suffix));
-          *directives = g_list_append (*directives, newdirective);
+          
+          gint position = g_list_index (*directives, directive);
+          *directives = g_list_insert (*directives, newdirective, position + 1);
           newdirective->override &= ~DENEMO_OVERRIDE_GRAPHIC;
 
-          gchar *info = g_strdup_printf ("%s", _("The duplicate directive will appear at the end of the directives, so it will override the original. Use the Conditional button to choose which directive is active for an omission criterion or for specific layouts."));
+          gchar *info = g_strdup_printf ("%s", _("The duplicate directive will appear after the directive cloned, so it will override the original. Use the Conditional button to choose which directive is active for an omission criterion or for specific layouts."));
           warningdialog (info);
           g_free (info);
           gtk_widget_destroy (gtk_widget_get_toplevel (button));
