@@ -7,6 +7,8 @@
 
 #include "core/utils.h"              /* Includes gtk.h */
 #include <denemo/denemo.h>
+#include "command/lilydirectives.h"
+#include "command/scorelayout.h"
 
 #define NUMCLEFTYPES DENEMO_INVALID_CLEF
 #define TREBLE_TOPOFFSET 30
@@ -31,8 +33,17 @@ draw_clef (cairo_t * cr, gint xx, gint y, clef * clef)
   };
   static gunichar clef_char[NUMCLEFTYPES] = { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5, 0xc7, 0xc9, 0xc5
   };
-
   gint override = 0;
+
+  if (!(DENEMO_OVERRIDE_GRAPHIC & override))
+    {
+      drawfetachar_cr (cr, clef_char[type], xx, y + clefoffsets[type]);
+      if (type == DENEMO_G_8_CLEF)
+        drawnormaltext_cr (cr, "8", xx + 8, y + 65);
+      if (type == DENEMO_F_8_CLEF)
+        drawnormaltext_cr (cr, "8", xx + 8, y + 55);
+    }
+    
   if (clef->directives)
     {
       gint count = 0;
@@ -40,7 +51,12 @@ draw_clef (cairo_t * cr, gint xx, gint y, clef * clef)
       for (; g; g = g->next, count++)
         {
           DenemoDirective *directive = g->data;
+		  guint layout = selected_layout_id ();
+		  gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5 : 0.0;
+		  gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
           override = override | directive->override;
+          directive->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 1.0);
+
           if (directive->display)
             {
               drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + count * 10);
@@ -55,13 +71,6 @@ draw_clef (cairo_t * cr, gint xx, gint y, clef * clef)
 #endif
             }
         }
-    }
-  if (!(DENEMO_OVERRIDE_GRAPHIC & override))
-    {
-      drawfetachar_cr (cr, clef_char[type], xx, y + clefoffsets[type]);
-      if (type == DENEMO_G_8_CLEF)
-        drawnormaltext_cr (cr, "8", xx + 8, y + 65);
-      if (type == DENEMO_F_8_CLEF)
-        drawnormaltext_cr (cr, "8", xx + 8, y + 55);
-    }
+    }    
+    
 }
