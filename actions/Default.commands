@@ -8677,6 +8677,13 @@ Include rests if they are part of the pattern.
         <_label>Go To Typeset Measure Number</_label>
         <_tooltip>Goes to the measure number given taking into account any measure offset (normally this will be set to be the measure number as typeset).</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ConditionalClefChange</action>
+        <after>ClefChooser</after>
+        <menupath>/ObjectMenu/ClefMenu</menupath>
+        <_label>Conditional Clef Change</_label>
+        <_tooltip>Creates clef change at the cursor will *not* affect the typeset score if the specified condition is met.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

@@ -839,6 +839,8 @@ actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.scm
 actions/menus/ObjectMenu/ChordMenu/UseAddPrefix.xml
 actions/menus/ObjectMenu/ClefMenu/ClefChooser.scm
 actions/menus/ObjectMenu/ClefMenu/ClefChooser.xml
+actions/menus/ObjectMenu/ClefMenu/ConditionalClefChange.scm
+actions/menus/ObjectMenu/ClefMenu/ConditionalClefChange.xml
 actions/menus/ObjectMenu/ClefMenu/HideClef.scm
 actions/menus/ObjectMenu/ClefMenu/HideClef.xml
 actions/menus/ObjectMenu/ClefMenu/SetDisplayClef.scm

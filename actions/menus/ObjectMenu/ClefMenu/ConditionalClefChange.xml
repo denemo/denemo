@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ConditionalClefChange</action>
+        <after>ClefChooser</after>
+        <_label>Conditional Clef Change</_label>
+        <_tooltip>Creates clef change at the cursor will *not* affect the typeset score if the specified condition is met.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
