@@ -34,7 +34,15 @@ draw_clef (cairo_t * cr, gint xx, gint y, clef * clef)
   static gunichar clef_char[NUMCLEFTYPES] = { 0xc9, 0xc7, 0xc5, 0xc9, 0xc5, 0xc5, 0xc7, 0xc9, 0xc5
   };
   gint override = 0;
-
+  if (clef->directives)
+    {
+      GList *g = clef->directives;
+      for (; g; g = g->next)
+        {
+          DenemoDirective *directive = g->data;
+          override = override | directive->override;
+		}
+	}
   if (!(DENEMO_OVERRIDE_GRAPHIC & override))
     {
       drawfetachar_cr (cr, clef_char[type], xx, y + clefoffsets[type]);
