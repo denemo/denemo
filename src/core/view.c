@@ -1379,7 +1379,7 @@ show_midi_record_control (void)
 }
 
 gboolean
-pb_record (gchar * callback)
+pb_record (GtkWidget *button, gchar * callback)
 {
   if (is_playing ())
     {

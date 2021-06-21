@@ -125,7 +125,7 @@ GtkWidget *get_record_button ();
 void destroy_local_scheme_init (void);
 void delete_recording (void);
 void pb_playalong (GtkWidget * button);
-gboolean pb_record (gchar * callback);
+gboolean pb_record (GtkWidget *button, gchar * callback);
 void pb_conduct (GtkWidget * button);
 void install_button_for_pattern (RhythmPattern * r, gchar * thelabel);
 gboolean append_rhythm (RhythmPattern * r, gpointer fn);

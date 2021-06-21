@@ -6302,11 +6302,11 @@ scheme_midi_record (SCM script)
   if (scm_is_string (script))
     {
       gchar *text = scm_to_locale_string (script);
-      pb_record (text);
+      pb_record (NULL, text);
       free (text);
     }
   else
-    pb_record (NULL);
+    pb_record (NULL, NULL);
   return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
 
