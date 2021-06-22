@@ -94,14 +94,35 @@ update_position (smf_event_t * event)
 
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)
-{
-    track->smf = NULL;
-    smf_add_track (smf, track);
+{//g_print ("Adding the recorded track\n");	
+	int i;
+	smf_event_t *event;
+	smf_track_t *newtrack = smf_track_new();
+    smf_add_track(smf, newtrack);
+    // could add a leadin event to track here from gui->movement->recording->leadin to delay start and use delta_time_pulses in the loop below.
+	for  (i=1; (event = smf_track_get_event_by_number(track, i));i++)
+		{
+			smf_event_t *newevent;
+			char *buf;
+			int pulses = event->time_pulses;
+			//g_print ("event %d pulses %d\n", i, event->time_pulses);
+			buf = malloc (event->midi_buffer_length);
+			memcpy (buf, event->midi_buffer, event->midi_buffer_length);
+			newevent = smf_event_new_from_pointer (buf, event->midi_buffer_length);
+			smf_track_add_event_pulses (newtrack, newevent, pulses);
+		}
+	for  (i=1; (event = smf_track_get_event_by_number(track, i));i++)
+		{
+			if (event->midi_buffer)
+				free (event->midi_buffer);
+		}
+	free (track);
+	Denemo.project->movement->recorded_midi_track = newtrack;		
 }
 
 static void
 safely_track_remove_from_smf (smf_track_t * track)
-{
+{//g_print ("Removing the recorded track\n");
   if (track->smf != NULL && (track->track_number>=1))
     smf_track_remove_from_smf (track);
   track->smf = NULL;
