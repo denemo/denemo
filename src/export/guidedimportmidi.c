@@ -135,7 +135,7 @@ cmd_load (gchar * file_name)
 #define BUFFER_SIZE 1024
 
 static void
-decode_metadata (const smf_event_t * event)
+decode_metadata (const smf_event_t * event, gint number)
 {
   switch (event->midi_buffer[1])
     {
@@ -155,10 +155,10 @@ decode_metadata (const smf_event_t * event)
 
 
 /**
- * Process note off command
+ * Process note off command, at present we have no need to store note off events...
  */
 static void
-donoteoff (const smf_event_t * event)
+donoteoff (const smf_event_t * event, gint number, gint track)
 {
 
 }
@@ -167,19 +167,20 @@ donoteoff (const smf_event_t * event)
  * Process note on command
  */
 static void
-donoteon (smf_event_t * event)
+donoteon (smf_event_t * event, gint number, gint track)
 {
     DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
     note->timing = event->time_seconds * Denemo.project->movement->recording->samplerate;
     notenum2enharmonic (noteon_key(event), &(note->mid_c_offset), &(note->enshift), &(note->octave));
-    note->event = (struct smf_event_t *)event;
+    note->event_number = number;
+    note->track_number = track;
     Denemo.project->movement->recording->notes = g_list_append (Denemo.project->movement->recording->notes, note);
 }
 
 
 
 static void
-decode_midi_event (smf_event_t * event)
+decode_midi_event (smf_event_t * event, gint number, gint track)
 {
   gint channel;
   gchar note[5];
@@ -191,14 +192,14 @@ decode_midi_event (smf_event_t * event)
     {
     case NOTE_OFF:
 
-      donoteoff (event);
+      donoteoff (event, number, track);
       break;
 
     case NOTE_ON:
       if (event->midi_buffer[2])
-        donoteon (event);
+        donoteon (event, number, track);
       else
-        donoteoff (event);
+        donoteoff (event, number, track);
       break;
 
     default:
@@ -209,24 +210,25 @@ decode_midi_event (smf_event_t * event)
 
 
 static void
-event_for_staff (smf_event_t * event)
+event_for_staff (smf_event_t * event, gint number, gint track)
 {
   if (smf_event_is_metadata (event))
-    decode_metadata (event);
+    decode_metadata (event, number);
   else
-    decode_midi_event (event);
+    decode_midi_event (event, number, track);
 
 }
 
 static gint
 create_staff (gint track)
 {
+	gint number = 1;
   smf_event_t *event;
   smf_track_t *selected_track;
   smf_rewind (smf);
   selected_track = smf_get_track_by_number (smf, track);
   while ((event = smf_track_get_next_event (selected_track)) && event)
-    event_for_staff (event);
+    event_for_staff (event, number++, track);
   return 1;
 }
 
@@ -314,8 +316,13 @@ gboolean compute_midi_note_durations (void)
         for(g = recording->notes;g;g=g->next)
         {
             DenemoRecordedNote *note = g->data;
-            smf_event_t *event = note->event;
-            if( event && (0 == smf_seek_to_event (smf, event)))
+            int event_number = note->event_number;
+            int track_number = note->track_number;
+            smf_event_t *event = smf_track_get_event_by_number(smf_get_track_by_number(smf, track_number), event_number);
+            
+            //smf is a static in this file ugh.
+            
+            if(event && (0 == smf_seek_to_event (smf, event)))
                 {
                     smf_event_t *next;
                     while ((next = smf_get_next_event (smf)))

@@ -595,25 +595,27 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     {
         if(gui->movement->recording->type == DENEMO_RECORDING_MIDI)
         {
-            #if 0
-            //This is moving only the NoteOn, so it could be moved later than the note off, and indeed later than a later note in the stream
-            //- quite a bit more work needed to drag MIDI to correct the timing.
-            smf_event_t *midievent;
-            GList *marked_onset = gui->movement->marked_onset;
-            if(marked_onset)
-                {
-                midievent = ((DenemoRecordedNote *)marked_onset->data)->event;
-                gint shift =  2500*(event->x_root - last_event_x)/gui->movement->zoom;
-                g_debug (" %f (%f %f)",shift/(double)gui->movement->recording->samplerate,
-                    midievent->time_seconds,
-                    ((DenemoRecordedNote *)marked_onset->data)->timing/(double)gui->movement->recording->samplerate) ;
+//FIXME repeated code:
+		  struct placement_info pi;
+		  pi.the_staff = NULL;
+		  if (event->y < 0)
+			get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+		  else
+			get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+		  if (pi.the_staff == NULL)
+			return TRUE;            //could not place the cursor
+		  if (pi.the_measure != NULL)
+			{                       /*don't place cursor in a place that is not there */
+			  change_staff (gui->movement, pi.staff_number, pi.the_staff);
+			  gui->movement->currentmeasurenum = pi.measure_number;
+			  gui->movement->currentmeasure = pi.the_measure;
+			  gui->movement->currentobject = pi.the_obj;
+			  gui->movement->cursor_x = pi.cursor_x;
+			  gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) ((DenemoMeasure*)gui->movement->currentmeasure->data)->objects)));
 
-                ((DenemoRecordedNote *)marked_onset->data)->timing += shift;
-
-                midievent->time_seconds += shift/(double)gui->movement->recording->samplerate;
-                }
-            #endif
-            g_warning("No drag for MIDI yet");
+			  set_cursor_y_from_click (gui, event->y);
+			 }
+            //g_warning("Dragging for MIDI ... release on note");
             return TRUE;
         }
 
@@ -964,8 +966,11 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                             MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
           MouseGesture);
 
-                    }
-                    gtk_widget_queue_draw(Denemo.scorearea);
+                    } else
+                    if (Denemo.prefs.learning)
+                            MouseGestureShow(_("Double Click Note Onset"), _("This marks the current note onset, synchronizing it to the cursor position if the cursor is on a note."),
+          MouseGesture);
+                    gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position
                     return TRUE;
                 } else
                 {
@@ -1331,6 +1336,15 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(gui->movement->recording && (dragging_tempo || dragging_audio))
     {
             dragging_tempo = dragging_audio = FALSE;
+            if (gui->movement->recording && gui->movement->recording->type == DENEMO_RECORDING_MIDI)
+				{
+					g_print ("synchronize to 0x%x\n", gui->movement->currentobject);
+					synchronize_recording ();
+					return TRUE;
+					
+					
+				}
+			else
             gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_LEFT_PTR);       //FIXME? does this take time/hog memory
             return TRUE;
     }

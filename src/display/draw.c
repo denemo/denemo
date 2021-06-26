@@ -353,7 +353,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
              GList *g = itp->recordednote;
              gint current = mudelaitem->earliest_time*si->recording->samplerate;
              gint next =  mudelaitem->latest_time*si->recording->samplerate;
-             gint leadin =  si->recording->leadin;
+             gint leadin =  (si->recording->type == DENEMO_RECORDING_MIDI)? 0 : si->recording->leadin;
              gint notewidth = 0;
              objnode *curobjnext = curobj->next;
              if(curobjnext){

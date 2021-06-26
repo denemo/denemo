@@ -1381,11 +1381,14 @@ show_midi_record_control (void)
 gboolean
 pb_record (GtkWidget *button, gchar * callback)
 {
-  if (is_playing ())
+
+  if ((Denemo.project->midi_destination & MIDIRECORD))
     {
-      warningdialog (_("Stop playing first"));
-      return FALSE;
+      Denemo.project->midi_destination ^= MIDIRECORD;
+      g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) show_midi_record_control, NULL, NULL);
+      return TRUE;
     }
+    
   if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_AUDIO))
     {
       warningdialog (_("Cannot mix audio and MIDI recordings"));
@@ -1398,36 +1401,21 @@ pb_record (GtkWidget *button, gchar * callback)
       return FALSE;
     }
 
-  if (Denemo.project->movement->recorded_midi_track && !confirm (_("MIDI Recording"), _("Delete last recording?")))
+  if (Denemo.project->movement->recording && !confirm (_("MIDI Recording"), _("Delete last recording?")))
     {
       return FALSE;
     }
 
-  delete_imported_midi ();
-  call_out_to_guile ("(DenemoSetPlaybackStart)");
-
-
+ // delete_imported_midi ();
 
   new_midi_recording ();
-
-
-
+ 
+  
   Denemo.project->midi_destination |= MIDIRECORD;
-  track_delete (Denemo.project->movement->recorded_midi_track);
-  Denemo.project->movement->recorded_midi_track = smf_track_new ();
+
   gtk_widget_hide (deletebutton);
   gtk_widget_hide (convertbutton);
-
   set_midi_in_status ();
-  gchar *script = callback ? g_strdup_printf ("(d-Play \"%s\")", callback) : g_strdup ("(d-Play)");
-  call_out_to_guile (script);
-  g_free (script);
-  {                             //this note off event prevents the first MIDI note from sounding a few seconds into the recording
-    //why such a spurious note is heard is unknown, it does not get put into the event queues (immediate or standard)
-    gchar buf[] = { 0x80, 0x0, 0x0 };
-    handle_midi_event (buf);
-
-  }
   return TRUE;
 }
 

@@ -18,4 +18,5 @@ void free_midi_data (DenemoMovement * si);
 
 int dia_to_midinote (int offs);
 
+void synchronize_recording (void);
 #endif

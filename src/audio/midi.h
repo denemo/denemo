@@ -71,4 +71,5 @@ gboolean set_midi_capture (gboolean set);
 void process_midi_event (gchar * buf);
 
 void new_midi_recording (void);
+gdouble get_time_at_cursor (void);
 #endif // MIDI_H

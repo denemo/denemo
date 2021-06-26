@@ -869,7 +869,9 @@ typedef struct DenemoRecordedNote {
   gint octave;
   gint duration;/**< guessed baseduration, 0 if not known */
   gint dots; /**<guessed number of dots */
-  gpointer event;/**< midi event giving rise to the note */
+  gint midi_note;
+  gint event_number;/**< number of midi event giving rise to the note */
+  gint track_number;/**< track holding the event midi event giving rise to the note */
 } DenemoRecordedNote;
 
 typedef struct DenemoRecording {
@@ -877,7 +879,8 @@ typedef struct DenemoRecording {
   gchar *filename; /**< audio file. Could be extended to take MIDI file too */
   gint samplerate; /**< frames per second */
   gint channels; /**< audio only */
-  gint leadin;/**< number of frames to skip at start, silence to be emitted before play if negative */
+  gint leadin;/**< AUDIO: number of frames to skip at start, silence to be emitted before play if negative */
+  gdouble offset;/**<MIDI: time in seconds by which the MIDI track has been offset */
   gdouble volume;
   gint nframes;/**< number of frames in the audio */
   GList *notes;  /**< data is DenemoRecordedNote* */
@@ -948,7 +951,9 @@ typedef struct DenemoMovement
   DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */
   gdouble playhead; /**< MIDI time in seconds of playhead, ie point when last MIDI event was processed for output */
   gdouble start_player;/**< system time when MIDI player started */
-  gpointer recorded_midi_track;//will be a GList * eventually for now an smf_track_t
+  gpointer recorded_midi_track;//an smf_track_t recorded
+  gpointer loaded_midi_track;//a (part of) the recorded_midi_track synchronized to the score
+  
   gdouble master_volume;/**< the volume (velocity) used is this times the nominal vol */
   gdouble master_tempo;/**< the tempo used is this times the nominal tempo */
   gdouble tempo_change_time;/**< system time from which the master_tempo is to be used */

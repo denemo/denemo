@@ -968,6 +968,65 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
     return 0.0;
 }
 
+
+ 
+  
+  
+static void	generate_midi_from_recorded_notes (smf_t *smf)
+{
+	smf_track_t* track = smf_track_new ();
+	smf_add_track (smf, track);
+	GList *g;
+	for (g=Denemo.project->movement->recording->notes; g; g=g->next)
+		{
+			DenemoRecordedNote *note = g->data;
+			gchar *data = g_malloc0 (3);
+			data[0] = 0x9f;
+			data[1] = note->midi_note;
+			data[2] = 127; g_print ("Adding ON at %f seconds\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+			smf_event_t* event = smf_event_new_from_pointer (data, 3);
+			smf_track_add_event_seconds (track, event, note->timing/(double)Denemo.project->movement->recording->samplerate);
+			data = g_malloc0 (3);
+			data[0] = 0x8f;
+			data[1] = note->midi_note;
+			data[2] = 0;
+			event = smf_event_new_from_pointer (data, 3);
+			gdouble off_time = 0.3 + note->timing/(double)Denemo.project->movement->recording->samplerate;
+			if (g->next)
+				{
+					DenemoRecordedNote *nextnote = g->next->data;
+					off_time = nextnote->timing/(double)Denemo.project->movement->recording->samplerate;
+				}
+			smf_track_add_event_seconds (track, event, off_time);
+			g_print ("Added note off at %f seconds\n", off_time);
+		}
+}
+
+void synchronize_recording (void)
+{
+	Denemo.project->movement->smfsync = G_MAXINT;
+	generate_midi ();
+	gdouble newoffset = get_time_at_cursor ();
+	
+	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes)
+		{
+			GList *g = Denemo.project->movement->recording->notes;
+			gdouble offset = ((DenemoRecordedNote *)g->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+			if (Denemo.project->movement->marked_onset)
+				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+			g_print ("current offset %f new time of start %f\n", offset, newoffset);
+			for (;g;g=g->next)
+				{
+					DenemoRecordedNote *note = g->data;
+					g_print ("before %f\t", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					note->timing += (newoffset - offset)*Denemo.project->movement->recording->samplerate;
+					g_print ("after %d\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+				}
+			Denemo.project->movement->recording->offset = newoffset;
+		}
+	Denemo.project->movement->smfsync = G_MAXINT;
+	generate_midi ();		
+}
 /*
  * the main midi output system (somewhat large)
  */
@@ -1074,11 +1133,12 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
   /* just curious */
   time (&starttime);
-
+ 
   smf_t *smf = smf_new ();
   if(smf_set_ppqn (smf, MIDI_RESOLUTION))
     g_debug("smf_set_ppqn failed");
-
+  if (Denemo.project->movement->recording)
+	generate_midi_from_recorded_notes (smf); 
 /*
  * end of headers and meta events, now for some real actions
  */
@@ -1105,6 +1165,9 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                     global_transposition = directive->minpixels;
                 }
             }
+            
+ 
+		
   //for (curstaff = si->thescore; curstaff; curstaff = curstaff->next)
   while (curstaff)
     {
@@ -1832,6 +1895,12 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
       else
         break;
     }
+    
+    
+  
+  
+   
+
 #if 0
 {
   smf_event_t *event;
