@@ -1072,7 +1072,7 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
             if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
             { cairo_save (cr);
               cairo_set_source_rgba (cr, 0.1, 0.6, 0.1, 0.5);
-              if(thestaff->hidden)  drawnormaltext_cr (cr, _("Hidden when not the current staff."), gui->leftmargin +55, y - staffname_offset - 5 + 2 * STAFF_HEIGHT);
+              if(thestaff->hidden)  drawnormaltext_cr (cr, _("Hidden when not the current staff. See Staff->Display Effects to un-hide."), gui->leftmargin +55, y - staffname_offset + 15 + 2 * STAFF_HEIGHT);
               cairo_restore(cr);
             }
         }
