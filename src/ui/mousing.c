@@ -403,6 +403,7 @@ static gboolean selecting = FALSE;
 static gboolean dragging_separator = FALSE;
 static gboolean dragging_audio = FALSE;
 static gboolean dragging_tempo = FALSE;
+static gboolean motion_started = FALSE;//once dragging_xxx is true and a motion_notify has come in this becomes true. Becomes false when dragging_xxx becomes true
 
 static gboolean
 change_staff (DenemoMovement * si, gint num, GList * staff)
@@ -530,7 +531,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   //if (selecting && lh_down && !Denemo.project->movement->markstaffnum)
   // selecting = lh_down = 0; 
   // it should never happen, so we don't need to guard against it.
-  
+  if (dragging_audio || dragging_tempo) motion_started = TRUE;
   gint allocated_height = get_widget_height (Denemo.scorearea);
   gint line_height = allocated_height * gui->movement->system_height;
   if(dragging_outside)
@@ -976,6 +977,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                 {
                     gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), left?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
                     left? (dragging_audio = TRUE) : (dragging_tempo = TRUE);
+                    motion_started = FALSE;
                      if (Denemo.prefs.learning)
                      left? MouseGestureShow(_("Left Drag Note Onset"), _("This moves the audio to synchronize the start with the score.\nYou can use the Leadin button for this too."),
           MouseGesture) :
@@ -1333,12 +1335,13 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
       gui->movement->markstaffnum = 0;
     }
   gboolean left = (event->button != 3);
-  if(gui->movement->recording && (dragging_tempo || dragging_audio))
+  if(gui->movement->recording && (dragging_tempo || dragging_audio) && motion_started)
     {
+		g_print ("synchronize to 0x%x because dragging %d or %d\n", gui->movement->currentobject, dragging_audio, dragging_tempo);
             dragging_tempo = dragging_audio = FALSE;
             if (gui->movement->recording && gui->movement->recording->type == DENEMO_RECORDING_MIDI)
 				{
-					g_print ("synchronize to 0x%x\n", gui->movement->currentobject);
+					
 					synchronize_recording ();
 					return TRUE;
 					
