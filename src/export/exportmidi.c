@@ -980,25 +980,28 @@ static void	generate_midi_from_recorded_notes (smf_t *smf)
 	for (g=Denemo.project->movement->recording->notes; g; g=g->next)
 		{
 			DenemoRecordedNote *note = g->data;
-			gchar *data = g_malloc0 (3);
-			data[0] = 0x9f;
-			data[1] = note->midi_note;
-			data[2] = 127; g_print ("Adding ON at %f seconds\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
-			smf_event_t* event = smf_event_new_from_pointer (data, 3);
-			smf_track_add_event_seconds (track, event, note->timing/(double)Denemo.project->movement->recording->samplerate);
-			data = g_malloc0 (3);
-			data[0] = 0x8f;
-			data[1] = note->midi_note;
-			data[2] = 0;
-			event = smf_event_new_from_pointer (data, 3);
-			gdouble off_time = 0.3 + note->timing/(double)Denemo.project->movement->recording->samplerate;
-			if (g->next)
+			if (note->timing>=0)
 				{
-					DenemoRecordedNote *nextnote = g->next->data;
-					off_time = nextnote->timing/(double)Denemo.project->movement->recording->samplerate;
-				}
-			smf_track_add_event_seconds (track, event, off_time);
-			g_print ("Added note off at %f seconds\n", off_time);
+					gchar *data = g_malloc0 (3);
+					data[0] = 0x9f;
+					data[1] = note->midi_note;
+					data[2] = 127; g_print ("Adding ON at %f seconds\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					smf_event_t* event = smf_event_new_from_pointer (data, 3);
+					smf_track_add_event_seconds (track, event, note->timing/(double)Denemo.project->movement->recording->samplerate);
+					data = g_malloc0 (3);
+					data[0] = 0x8f;
+					data[1] = note->midi_note;
+					data[2] = 0;
+					event = smf_event_new_from_pointer (data, 3);
+					gdouble off_time = 0.3 + note->timing/(double)Denemo.project->movement->recording->samplerate;
+					if (g->next)
+						{
+							DenemoRecordedNote *nextnote = g->next->data;
+							off_time = nextnote->timing/(double)Denemo.project->movement->recording->samplerate;
+						}
+					smf_track_add_event_seconds (track, event, off_time);
+					g_print ("Added note off at %f seconds\n", off_time);
+			}
 		}
 }
 
@@ -1018,9 +1021,9 @@ void synchronize_recording (void)
 			for (;g;g=g->next)
 				{
 					DenemoRecordedNote *note = g->data;
-					g_print ("before %f\t", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					//g_print ("before %f\t", note->timing/(double)Denemo.project->movement->recording->samplerate);
 					note->timing += (newoffset - offset)*Denemo.project->movement->recording->samplerate;
-					g_print ("after %d\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					//g_print ("after %d\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
 				}
 			Denemo.project->movement->recording->offset = newoffset;
 		}
