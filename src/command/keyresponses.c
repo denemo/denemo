@@ -350,9 +350,9 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 			  //g_print ("keyboard state not locked was %x\t", Denemo.keyboard_state);
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
               Denemo.keyboard_state ^= llock_mask (event->keyval);
-              g_print ("...becomes %x\t", Denemo.keyboard_state);
+              //g_print ("...becomes %x\t", Denemo.keyboard_state);
               set_midi_in_status ();
-              g_print ("...leaving %x, locked is now %x\n", Denemo.keyboard_state, Denemo.keyboard_state_locked);
+              //g_print ("...leaving %x, locked is now %x\n", Denemo.keyboard_state, Denemo.keyboard_state_locked);
 
           }
        else
