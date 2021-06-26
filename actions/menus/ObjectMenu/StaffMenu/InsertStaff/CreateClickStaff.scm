@@ -68,7 +68,7 @@
                     (d-StaffProperties "midi_channel=9")
                     (d-DirectivePut-clef-graphic "DrumClef" "DrumClef")
                     (d-DirectivePut-clef-override "DrumClef" DENEMO_OVERRIDE_GRAPHIC)
-                    (d-NonPrintingStaff)
+                    (d-NonPrintingStaff 'set)
                     (d-MuteStaff "unmute")
                     (d-StaffProperties (string-append "denemo_name=" DenemoClickTrack))
                     (if (d-Directive-standalone? "Upbeat")
