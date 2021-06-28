@@ -365,6 +365,8 @@ typedef struct DenemoMeasure {
     stemdirective *stemdir;
     gint measure_number; //measure number to display
     gint measure_numbering_offset;//measures from this one on should display numbers offset by this value from actual measure count.
+    gdouble earliest_time;//start time of measure, set by exportmidi if measure is empty
+    //gdouble latest_time;//end time of measure, set by exportmidi
 }  DenemoMeasure;
 
 /* The ->data part of each staffnode points to a staff structure */
@@ -1230,6 +1232,7 @@ struct DenemoRoot
   GdkCursor *GDK_LEFT_PTR;
   GdkCursor *GDK_SB_V_DOUBLE_ARROW;
   GdkCursor *GDK_SB_H_DOUBLE_ARROW;
+  GdkCursor *GDK_BLANK_CURSOR;
   GdkCursor *GDK_X_CURSOR;
   GdkCursor *GDK_TARGET;
   
