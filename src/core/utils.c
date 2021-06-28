@@ -3343,6 +3343,7 @@ void init_gdk_cursors (void) {
     Denemo.GDK_SB_V_DOUBLE_ARROW = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_SB_V_DOUBLE_ARROW);
     Denemo.GDK_SB_H_DOUBLE_ARROW = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_SB_H_DOUBLE_ARROW);
     Denemo.GDK_X_CURSOR = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_X_CURSOR);
+    Denemo.GDK_BLANK_CURSOR = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_BLANK_CURSOR);
     Denemo.GDK_TARGET = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_TARGET);
 }
 /**
