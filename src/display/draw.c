@@ -488,9 +488,17 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                     }
                 if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20)
                     {
-                    si->marked_onset = g;
-                    si->marked_onset_position = 0; //g_debug("Found selected onset\n\n");
-                    }
+						if ( si->marked_onset == g)
+							{
+								si->marked_onset = NULL; //toggle off
+							}
+						else
+							{
+							si->marked_onset = g;
+							 //g_debug("Found selected onset\n\n");
+							}
+						si->marked_onset_position = 0;
+					}
 
                 //if (g==itp->onset) g_print ("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);
 

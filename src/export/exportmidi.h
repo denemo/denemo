@@ -7,7 +7,7 @@
 #ifndef EXPORTMIDI_H
 #define EXPORTMIDI_H
 #include <gtk/gtk.h>
-
+#include "smf.h"
 gdouble exportmidi (gchar * filename, DenemoMovement * si);
 
 gdouble load_lilypond_midi (gchar * outfile, gboolean keep);
@@ -19,4 +19,8 @@ void free_midi_data (DenemoMovement * si);
 int dia_to_midinote (int offs);
 
 void synchronize_recording (void);
+void scale_recording (gdouble scale);
+
+void	generate_midi_from_recorded_notes (smf_t *smf);
+
 #endif

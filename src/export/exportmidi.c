@@ -972,24 +972,39 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
  
   
   
-static void	generate_midi_from_recorded_notes (smf_t *smf)
+void	generate_midi_from_recorded_notes (smf_t *smf)
 {
-	smf_track_t* track = smf_track_new ();
-	smf_add_track (smf, track);
+	smf_track_t* track;
+	if (track = smf_get_track_by_number (smf, 1))
+		{
+			smf_event_t *event;
+			gint i;
+			for (i=1;(event = smf_track_get_event_by_number (track, i)); i++)
+				{
+					smf_event_remove_from_track (event);
+					smf_event_delete (event);
+				}
+		} 
+	else
+		{
+			track = smf_track_new ();
+			smf_add_track (smf, track);
+		}
 	GList *g;
 	for (g=Denemo.project->movement->recording->notes; g; g=g->next)
 		{
 			DenemoRecordedNote *note = g->data;
 			if (note->timing>=0)
 				{
+					gint channel = ((DenemoStaff*)Denemo.project->movement->currentstaff->data)->midi_channel;
 					gchar *data = g_malloc0 (3);
-					data[0] = 0x9f;
+					data[0] = 0x90 | ((DenemoStaff*)Denemo.project->movement->currentstaff->data)->midi_channel;
 					data[1] = note->midi_note;
-					data[2] = 127; g_print ("Adding ON at %f seconds\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					data[2] = 127; //g_print ("Adding ON at %f seconds\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
 					smf_event_t* event = smf_event_new_from_pointer (data, 3);
 					smf_track_add_event_seconds (track, event, note->timing/(double)Denemo.project->movement->recording->samplerate);
 					data = g_malloc0 (3);
-					data[0] = 0x8f;
+					data[0] = 0x80 | channel;
 					data[1] = note->midi_note;
 					data[2] = 0;
 					event = smf_event_new_from_pointer (data, 3);
@@ -1000,7 +1015,7 @@ static void	generate_midi_from_recorded_notes (smf_t *smf)
 							off_time = nextnote->timing/(double)Denemo.project->movement->recording->samplerate;
 						}
 					smf_track_add_event_seconds (track, event, off_time);
-					g_print ("Added note off at %f seconds\n", off_time);
+					//g_print ("Added note off at %f seconds\n", off_time);
 			}
 		}
 }
@@ -1030,6 +1045,28 @@ void synchronize_recording (void)
 	Denemo.project->movement->smfsync = G_MAXINT;
 	generate_midi ();		
 }
+
+void scale_recording (gdouble scale)// keeps Denemo.project->movement->marked_onset->timing constant while scaling values before and after
+	{
+	double rate = (double)Denemo.project->movement->recording->samplerate;
+	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes)
+		{
+			GList *g = Denemo.project->movement->recording->notes;
+			gdouble fixed = rate * ((DenemoRecordedNote *)g->data)->timing;
+			if (Denemo.project->movement->marked_onset)
+				fixed = rate * ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing;
+			for (;g;g=g->next)
+						{
+							DenemoRecordedNote *note = g->data;
+							g_print ("value %d becomes\t", note->timing);
+							note->timing = (fixed + (rate * note->timing - fixed)*scale)/rate;
+							g_print ("value%d\n", note->timing);
+							
+						}					
+			}
+		}
+
+
 /*
  * the main midi output system (somewhat large)
  */
@@ -1207,7 +1244,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
       prognum = curstaffstruct->midi_prognum;
 
       /* set selected midi program */
-      g_message ("Using channel %d prognum %d", midi_channel, prognum);
+      //g_message ("Using channel %d prognum %d", midi_channel, prognum);
       event = midi_change_event (MIDI_PROG_CHANGE, midi_channel, prognum);
       smf_track_add_event_delta_pulses (track, event, 0);
 
@@ -1324,7 +1361,9 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
           measure_is_empty = TRUE;
           measure_has_odd_tuplet = 0;
           ticks_at_bar = ticks_read;
-
+		
+		  ((DenemoMeasure*)curmeasure->data)->earliest_time = ticks_read * 60.0 / (cur_tempo * MIDI_RESOLUTION);
+		  
           /* iterate over objects in measure */
           for (curobjnode = (objnode *) ((DenemoMeasure*)curmeasure->data)->objects; curobjnode; curobjnode = curobjnode->next)
             {
@@ -1846,12 +1885,16 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
                 }
 
               //g_debug("Object type  0x%x Starts at %f Finishes %f\n",curobj->type, curobj->earliest_time, curobj->latest_time);
-            }                   // end of objects
-
+            } // end of objects in measure
+		
+	 // ((DenemoMeasure*)curmeasure->data)->latest_time = ticks_read * 60.0 / (cur_tempo * MIDI_RESOLUTION);
+	  
+    //  ((DenemoMeasure*)curmeasure->data)->earliest_time =
+    //       curmeasure->prev? ((DenemoMeasure*)curmeasure->prev->data)->latest_time : 0.0;
+//g_print ("staff %d measure earliest %f latest %f\n", tracknumber, ((DenemoMeasure*)curmeasure->data)->earliest_time, ((DenemoMeasure*)curmeasure->data)->latest_time);
       /*******************
        * Do some checking
        *******************/
-
 
           measurewidth = bars2ticks (1, timesigupper, timesiglower);
 
@@ -1881,7 +1924,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
       /*************************
        * Done with this measure
        *************************/
-
+		
 
         }                       /* Done with this staff */
 

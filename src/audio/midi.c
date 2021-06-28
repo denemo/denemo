@@ -94,7 +94,7 @@ update_position (smf_event_t * event)
 
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)
-{g_print ("Adding the recorded track\n");	
+{g_print ("Adding the recorded track - ignored\n");	 return;
 	int i;
 	gdouble offset = 0.0;//a new time in seconds to offset the recorded notes by
 	gdouble current_offset = 0;//Denemo.project->movement->recording->offset;
@@ -150,7 +150,7 @@ g_print ("offset %f seconds\n", current_offset);
 
 static void
 safely_track_remove_from_smf (smf_track_t * track)
-{g_print ("Removing the loaded %x recorded %x track\n", Denemo.project->movement->loaded_midi_track, Denemo.project->movement->recorded_midi_track);
+{g_print ("Removing the loaded %x recorded %x track Ignored\n", Denemo.project->movement->loaded_midi_track, Denemo.project->movement->recorded_midi_track);return;
 	if (Denemo.project->movement->loaded_midi_track)
 		smf_track_remove_from_smf (Denemo.project->movement->loaded_midi_track);
 	else
@@ -175,8 +175,7 @@ safely_track_remove_from_smf (smf_track_t * track)
 }
 
 static GString *callback_script = NULL;
-void
-start_playing (gchar * callback)
+void start_playing (gchar * callback)
 {
   smf_t *smf = Denemo.project->movement->smf;
   if (callback && *callback)
@@ -198,8 +197,7 @@ start_playing (gchar * callback)
   last_draw_time = -1.0;//needed to trigger drawing first note
 }
 
-static gboolean
-stop_play_callback (gchar * thescript)
+static gboolean stop_play_callback (gchar * thescript)
 {
   call_out_to_guile (thescript);
   g_free (thescript);
@@ -211,8 +209,7 @@ static gboolean do_set_playbutton (gboolean paused)
     set_playbutton (paused);
     return FALSE;
 }
-static gboolean
-update_playbutton_callback (gboolean paused)
+static gboolean update_playbutton_callback (gboolean paused)
 {
 
   g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, GINT_TO_POINTER(paused));
@@ -220,8 +217,7 @@ update_playbutton_callback (gboolean paused)
   return FALSE;
 }
 
-static void
-finish_recording (void)
+static void finish_recording (void)
 {
   if ((Denemo.project->midi_destination & MIDIRECORD))
     {
@@ -371,7 +367,9 @@ generate_midi (void)
     {
       exportmidi (NULL, Denemo.project->movement);
     }
-
+  else
+   if (Denemo.project->movement->recording)
+	   generate_midi_from_recorded_notes (Denemo.project->movement->smf);
   if (Denemo.project->movement->smf == NULL)
     {
       g_critical ("Loading SMF failed.");
@@ -524,14 +522,17 @@ static gdouble get_recording_start_time (void)
 gdouble get_time_at_cursor (void)
 {
 	GList *curobj = Denemo.project->movement->currentobject;
+	gdouble time = 0.0;
 	DenemoObject *obj;
 	if (curobj)
 		{
-			obj = Denemo.project->movement->currentobject->data; g_print ("time at obj %f\n", obj->earliest_time);
-			return obj->earliest_time;
+			obj = Denemo.project->movement->currentobject->data; 
+			time = obj->earliest_time;
 		}
-	g_warning ("Not on an object, returning 0.0. Instead determine the time of the measure");
-	return 0.0;
+	else
+		time = ((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->earliest_time;
+	g_print ("time at cursor %f\n", time);
+	return time;
 }
 	
 //Add the passed midi to a recording in Denemo.project->movement
