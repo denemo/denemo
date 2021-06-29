@@ -53,6 +53,7 @@ void update_start_time (double adjust);
 void initialize_until_time (void);
 smf_event_t *get_smf_event (double until_time);
 
+void play_recorded_midi (void);
 
 void handle_midi_event (gchar * buf);
 

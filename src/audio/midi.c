@@ -92,6 +92,31 @@ update_position (smf_event_t * event)
     }
 }
 
+static gboolean play_recorded_notes (GList *notenode)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (!si->recording)
+		return FALSE;//no more
+	if (notenode==NULL)
+		return FALSE;
+	DenemoRecordedNote *note = (DenemoRecordedNote *)notenode->data;
+	DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
+	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+	gdouble duration = nextnote? ((nextnote->timing - note->timing)/(double)si->recording->samplerate) : 0.2;
+	play_note (DEFAULT_BACKEND, 0, curstaffstruct->midi_channel, note->midi_note, (guint)(1000 * duration), 127);
+	g_print ("duration to play was %.2f seconds", duration);
+	if (notenode->next)
+		g_timeout_add ((guint)(1000 * duration), (GSourceFunc)play_recorded_notes, (gpointer)notenode->next);
+	return FALSE;
+}
+
+void play_recorded_midi (void)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (si->recording)
+		play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
+}
+
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)
 {g_print ("Adding the recorded track - ignored\n");	 return;

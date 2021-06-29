@@ -1000,6 +1000,11 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 							g_warning ("Stop playing first");
 							return TRUE;
 						}
+					 if ((!left) && (gui->movement->recording->type == DENEMO_RECORDING_MIDI))
+						{
+							play_recorded_midi ();
+							return TRUE;
+						}
                     //gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), left?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
                     left? (dragging_recording_sync = TRUE) : (dragging_tempo = TRUE);
                     motion_started = FALSE;
@@ -1007,11 +1012,12 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 					//	g_print ("Stopping any playback"), stop_playing ();
 					//else
 					//	start_playing ("(disp \"Finished playback of recording\")");
-                   
+                    if (!left)
+						play_recorded_midi ();
                     if (Denemo.prefs.learning) 
                      left? 	MouseGestureShow(_("Left on Note Onset"), _("preparing to drag..."),
 											MouseGesture) :
-							MouseGestureShow(_("Right Drag Note Onset"), _("This changes the tempo of the score.\nUse this to synchronize the beat after setting the start"),
+							MouseGestureShow(_("Start Playing Recording"), _("This starts playing the recorded MIDI notes from the marked onset"),
 											MouseGesture);
 					
                     gtk_widget_queue_draw(Denemo.scorearea);
