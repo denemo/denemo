@@ -1012,8 +1012,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 					//	g_print ("Stopping any playback"), stop_playing ();
 					//else
 					//	start_playing ("(disp \"Finished playback of recording\")");
-                    if (!left)
-						play_recorded_midi ();
+                    //if (!left)
+					//	play_recorded_midi ();
                     if (Denemo.prefs.learning) 
                      left? 	MouseGestureShow(_("Left on Note Onset"), _("preparing to drag..."),
 											MouseGesture) :

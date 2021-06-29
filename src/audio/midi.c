@@ -91,7 +91,7 @@ update_position (smf_event_t * event)
         }
     }
 }
-
+static gboolean playing_recorded_midi = FALSE;
 static gboolean play_recorded_notes (GList *notenode)
 {
 	DenemoMovement *si = Denemo.project->movement;
@@ -99,21 +99,32 @@ static gboolean play_recorded_notes (GList *notenode)
 		return FALSE;//no more
 	if (notenode==NULL)
 		return FALSE;
+	if (!playing_recorded_midi)
+		return FALSE;
 	DenemoRecordedNote *note = (DenemoRecordedNote *)notenode->data;
 	DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 	gdouble duration = nextnote? ((nextnote->timing - note->timing)/(double)si->recording->samplerate) : 0.2;
+	if (duration < 0.05) duration = 0.05;//chords will be chopped off except for last note without a little duration
 	play_note (DEFAULT_BACKEND, 0, curstaffstruct->midi_channel, note->midi_note, (guint)(1000 * duration), 127);
 	if (notenode->next)
 		g_timeout_add ((guint)(1000 * duration), (GSourceFunc)play_recorded_notes, (gpointer)notenode->next);
+	else
+		playing_recorded_midi = FALSE;
 	return FALSE;
 }
 
 void play_recorded_midi (void)
 {
 	DenemoMovement *si = Denemo.project->movement;
-	if (si->recording)
-		play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
+	if (playing_recorded_midi)
+		playing_recorded_midi = FALSE;
+	else
+		{
+		playing_recorded_midi = TRUE;
+		if (si->recording)
+			play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
+		}
 }
 
 static void
@@ -512,8 +523,11 @@ typedef struct enharmonic
 gint recording_time;
 void new_midi_recording (void) {
   DenemoRecording *recording;
+
+			
   if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
     {
+
 		//FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
 		recording = Denemo.project->movement->recording;
 		g_mutex_lock (&smfmutex);
@@ -531,6 +545,7 @@ void new_midi_recording (void) {
   recording->samplerate = 44100;
   recording_time = -1;//unset
   recording->offset = 0;
+  Denemo.project->midi_recording = TRUE;
   Denemo.project->movement->recording = recording;
 
 }
@@ -564,7 +579,7 @@ static void record_midi (gchar * buf)
 {
 	static gdouble current_time;
 	DenemoMovement *si = Denemo.project->movement;
-	if(Denemo.project->movement->recording && (buf[0]&0xF0)==MIDI_NOTEON)
+	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (buf[0]&0xF0)==MIDI_NOTEON)
 			{
 				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
 				if (recording_time == -1)
