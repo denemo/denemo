@@ -104,7 +104,6 @@ static gboolean play_recorded_notes (GList *notenode)
 	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
 	gdouble duration = nextnote? ((nextnote->timing - note->timing)/(double)si->recording->samplerate) : 0.2;
 	play_note (DEFAULT_BACKEND, 0, curstaffstruct->midi_channel, note->midi_note, (guint)(1000 * duration), 127);
-	g_print ("duration to play was %.2f seconds", duration);
 	if (notenode->next)
 		g_timeout_add ((guint)(1000 * duration), (GSourceFunc)play_recorded_notes, (gpointer)notenode->next);
 	return FALSE;
@@ -556,7 +555,7 @@ gdouble get_time_at_cursor (void)
 		}
 	else
 		time = ((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->earliest_time;
-	g_print ("time at cursor %f\n", time);
+	//g_print ("time at cursor %f\n", time);
 	return time;
 }
 	
@@ -567,7 +566,7 @@ static void record_midi (gchar * buf)
 	DenemoMovement *si = Denemo.project->movement;
 	if(Denemo.project->movement->recording && (buf[0]&0xF0)==MIDI_NOTEON)
 			{
-				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote)); g_print ("Recording a %x event\n", buf[0]);
+				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
 				if (recording_time == -1)
 					{
 						gdouble start = get_recording_start_time ();
