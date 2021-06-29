@@ -1871,12 +1871,11 @@ draw_callback (cairo_t * cr)
   draw_score (cr);
   
 
-  if (Denemo.project->audio_recording)
+  if (Denemo.project->audio_recording || Denemo.project->midi_recording)
 	{
 		cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
 		general_draw_text (cr, "Times 84", _( "Recording"), 20.0, 20.0);
-	}
-  else if (Denemo.project->movement->playingnow)
+	} else if (Denemo.project->movement->playingnow)
 		{
 			cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
 			if (Denemo.prefs.dynamic_compression==100)
