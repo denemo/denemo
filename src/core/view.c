@@ -52,6 +52,7 @@ static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
 static GtkWidget *midihelpbutton;
 static GtkWidget *audiorecordbutton;
+static GtkWidget *midirecordbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
 static GtkWidget *midiconductbutton;
@@ -1381,7 +1382,11 @@ show_midi_record_control (void)
 gboolean
 pb_record (GtkWidget *button, gchar * callback)
 {
-
+  if (Denemo.project->midi_recording)
+	{
+		Denemo.project->midi_recording = FALSE;
+		
+	}
   if ((Denemo.project->midi_destination & MIDIRECORD))
     {
       Denemo.project->midi_destination ^= MIDIRECORD;
@@ -1454,6 +1459,20 @@ highlight_audio_record (void)
   static gboolean on;
   on = !on;
   gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ?
+  
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
+#else       
+   "media-record"  :  "media-playback-stop"
+#endif
+   , GTK_ICON_SIZE_BUTTON));
+}
+void
+highlight_midi_record (void)
+{
+  static gboolean on;
+  on = !on;
+  gtk_button_set_image (GTK_BUTTON (midirecordbutton), gtk_image_new_from_icon_name (on ?
   
 #if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
         GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP

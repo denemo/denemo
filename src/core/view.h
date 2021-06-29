@@ -62,7 +62,8 @@ void unhighlight_rhythm (RhythmPattern * r);
 void highlight_duration (DenemoProject * gui, gint dur);
 void highlight_rest (DenemoProject * gui, gint dur);
 
-void highlight_audio_record ();
+void highlight_audio_record (void);
+void highlight_midi_record (void);
 void toggle_recording_audio (void);
 gboolean loadGraphicItem (gchar * name, DenemoGraphic ** pgraphic);
 

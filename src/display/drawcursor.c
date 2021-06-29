@@ -99,6 +99,8 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
           }
         if(Denemo.project->audio_recording)
             highlight_audio_record();
+       if(Denemo.project->midi_recording)
+            highlight_midi_record();
       }
   }
   cairo_restore (cr);
