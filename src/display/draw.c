@@ -479,7 +479,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                         draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);
                         cairo_restore (cr);
                     }
-
+				glyph = "o";
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
                 if(g==si->marked_onset)
