@@ -27,6 +27,7 @@
 #include <string.h>
 #include <assert.h>
 
+
 #define SHAVING (0.01)          //seconds to shave off a note start time to ensure stopping before noteon is sent, and starting with noteon first note may depend of speed of machine??? FIXME
 
 
@@ -92,6 +93,15 @@ update_position (smf_event_t * event)
     }
 }
 static gboolean playing_recorded_midi = FALSE;
+static gboolean play_buffer (gchar *buffer)
+{
+	if (playing_recorded_midi)
+		{
+			DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+			play_midi_event (DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
+		}
+return FALSE;
+}
 static gboolean play_recorded_notes (GList *notenode)
 {
 	DenemoMovement *si = Denemo.project->movement;
@@ -102,15 +112,19 @@ static gboolean play_recorded_notes (GList *notenode)
 	if (!playing_recorded_midi)
 		return FALSE;
 	DenemoRecordedNote *note = (DenemoRecordedNote *)notenode->data;
-	DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
-	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-	gdouble duration = nextnote? ((nextnote->timing - note->timing)/(double)si->recording->samplerate) : 0.2;
-	if (duration < 0.05) duration = 0.05;//chords will be chopped off except for last note without a little duration
-	play_note (DEFAULT_BACKEND, 0, curstaffstruct->midi_channel, note->midi_note, (guint)(1000 * duration), 127);
-	if (notenode->next)
-		g_timeout_add ((guint)(1000 * duration), (GSourceFunc)play_recorded_notes, (gpointer)notenode->next);
-	else
-		playing_recorded_midi = FALSE;
+	gdouble rate = si->recording->samplerate;
+	gdouble start = note->timing/rate;
+	while (notenode)
+		{
+			note = (DenemoRecordedNote *)notenode->data;
+			DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
+			DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+			gchar *buffer = note->midi_event;
+			buffer[0] = (buffer[0]&0xF0) | curstaffstruct->midi_channel;
+			g_timeout_add ((note->timing/rate - start)* 1000, (GSourceFunc)play_buffer, buffer);
+			//g_print ("schedule %x note %d at %.2f\n", (char)buffer[0], buffer[1], note->timing/rate - start);
+			notenode = notenode->next;
+		}
 	return FALSE;
 }
 
@@ -549,7 +563,7 @@ void new_midi_recording (void) {
   Denemo.project->movement->recording = recording;
 
 }
-#define MIDI_NOTEON     0x90
+
 static gdouble get_recording_start_time (void)
 	{
 		DenemoMovement *si = Denemo.project->movement;
@@ -579,9 +593,11 @@ static void record_midi (gchar * buf)
 {
 	static gdouble current_time;
 	DenemoMovement *si = Denemo.project->movement;
-	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (buf[0]&0xF0)==MIDI_NOTEON)
+	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (((buf[0]&0xF0)==MIDI_NOTE_ON) || (buf[0]&0xF0)==MIDI_NOTE_OFF))
 			{
 				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
+				note->midi_event = g_malloc0(3);
+				memcpy (note->midi_event, buf, 3);
 				if (recording_time == -1)
 					{
 						gdouble start = get_recording_start_time ();
@@ -592,9 +608,8 @@ static void record_midi (gchar * buf)
 				recording_time = (get_time () - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
-				note->midi_note = buf[1];
 				Denemo.project->movement->recording->notes = g_list_append (si->recording->notes, note);
-			}     
+			}
 }
 
 static void

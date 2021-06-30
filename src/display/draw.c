@@ -381,10 +381,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
 
 
-            cairo_set_source_rgba (cr, 0.3, 0.3, 0.3, 0.5);
+            cairo_set_source_rgba (cr, 0.1, 0.1, 0.1, 0.9);
 
              while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
                 {
+					if ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_OFF)==MIDI_NOTE_OFF)
+						continue;
                     if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
                         cairo_save (cr);
                         cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
@@ -396,108 +398,102 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
             while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next))
                 {
                 DenemoRecordedNote *midinote = (DenemoRecordedNote*)(g->data);
-                gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
-                gint pos;
-                gchar *glyph;
-                glyph = NULL;
-                pos = notewidth * fraction;
-                pos +=  mudelaitem->x;
+				gdouble fraction = (((gint)(midinote->timing) - leadin) - current) / (double)(next-current);
+				gint pos;
+				gchar *glyph = NULL;
+				pos = notewidth * fraction;
+				pos +=  mudelaitem->x;
+				if ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON)
+					{
+					if(g==si->marked_onset)
+						{
+							cairo_save (cr);//restore is at line 482
+							cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
+						} else
+					if (si->playingnow)
+						{
+						(itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
+							cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
+							cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
+						}
+					//if MIDI RECORDING draw the pitch as a headless diamond note.
+					if(si->recording->type==DENEMO_RECORDING_MIDI)
+						{
 
-                if(g==si->marked_onset)
-                {
-                    cairo_save (cr);
-                    cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
-                } else
-                if (si->playingnow)
-                    {
-                    (itp->currentframe < ((gint)(midinote->timing) - leadin)) ?
-                        cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
-                        cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
-                    }
+							DenemoObject *midiobj = (DenemoObject*)(MidiDrawObject->data);
+							DenemoMeasure *curmeasure = si->currentmeasure->data;
+							midiobj->clef = curmeasure->clef;
+							midiobj->keysig = curmeasure->keysig;
+							midiobj->stemdir = curmeasure->stemdir;/// FIXME is there anything else
 
+							removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do
+							addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
+							chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
+							note *thenote = ((note*)(thechord->notes->data));
+							thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
+							if(midinote->enshift)
+								thenote->showaccidental = TRUE;
+							thenote->position_of_accidental = 8;
+							//thechord->baseduration = midinote->duration;
+							//thechord->numdots = midinote->dots;
+							//set_basic_numticks (MidiDrawObject->data);
+							switch (midinote->duration) {
+								case 0:
+									glyph = midinote->dots?"𝅝•":"𝅝";
+									break;
+								case 1:
+									glyph = midinote->dots?"𝅗𝅥•":"𝅗𝅥";
+									break;
+								case 2:
+									glyph = midinote->dots?"𝅘𝅥•":"𝅘𝅥";
+									break;
+								case 3:
+									glyph = midinote->dots?"𝅘𝅥𝅮•":"𝅘𝅥𝅮";
+									break;
+								case 4:
+									glyph = midinote->dots?"𝅘𝅥𝅯•":"𝅘𝅥𝅯";
+									break;
+								case 5:
+									glyph = midinote->dots?"•𝅘𝅥𝅰":"𝅘𝅥𝅰";
+									break;
+								case 6:
+									glyph = midinote->dots?"•𝅘𝅥𝅱":"𝅘𝅥𝅱";
+									break;
+								case 7:
+									glyph = NULL;//we do not have a glyph for this yet
+									break;
+							}
 
-                //if MIDI RECORDING draw the pitch as a headless diamond note.
-                if(si->recording->type==DENEMO_RECORDING_MIDI)
-                    {
-
-                        DenemoObject *midiobj = (DenemoObject*)(MidiDrawObject->data);
-                        DenemoMeasure *curmeasure = si->currentmeasure->data;
-                        midiobj->clef = curmeasure->clef;
-                        midiobj->keysig = curmeasure->keysig;
-                        midiobj->stemdir = curmeasure->stemdir;/// FIXME is there anything else
-
-                        removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do
-                        addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
-                        chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
-                        note *thenote = ((note*)(thechord->notes->data));
-                        thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
-                        if(midinote->enshift)
-                            thenote->showaccidental = TRUE;
-                        thenote->position_of_accidental = 8;
-                        //thechord->baseduration = midinote->duration;
-                        //thechord->numdots = midinote->dots;
-                        //set_basic_numticks (MidiDrawObject->data);
-                        switch (midinote->duration) {
-                            case 0:
-                                glyph = midinote->dots?"𝅝•":"𝅝";
-                                break;
-                            case 1:
-                                glyph = midinote->dots?"𝅗𝅥•":"𝅗𝅥";
-                                break;
-                            case 2:
-                                glyph = midinote->dots?"𝅘𝅥•":"𝅘𝅥";
-                                break;
-                            case 3:
-                                glyph = midinote->dots?"𝅘𝅥𝅮•":"𝅘𝅥𝅮";
-                                break;
-                            case 4:
-                                glyph = midinote->dots?"𝅘𝅥𝅯•":"𝅘𝅥𝅯";
-                                break;
-                            case 5:
-                                glyph = midinote->dots?"•𝅘𝅥𝅰":"𝅘𝅥𝅰";
-                                break;
-                            case 6:
-                                glyph = midinote->dots?"•𝅘𝅥𝅱":"𝅘𝅥𝅱";
-                                break;
-                            case 7:
-                                glyph = NULL;//we do not have a glyph for this yet
-                                break;
-
-
-
-                        }
-
-                        if (g==si->marked_onset)
-                        {
-                            //midinote->measurenum = itp->measurenum;
-                            //midinote->objnum = itp->objnum;
-                        }
-
-                        cairo_save (cr);
-                        (g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
-                            cairo_set_source_rgba (cr, 0, 0, 0, 1);
-                        draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);
-                        cairo_restore (cr);
-                    }
-				glyph = "o";
+							cairo_save (cr);
+							(g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
+								cairo_set_source_rgba (cr, 0, 0, 0, 1);
+							draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);
+							cairo_restore (cr);
+						}
+					}
+				glyph = ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON) ?
+					"o" : "¬";
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
-                if(g==si->marked_onset)
-                    {//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
-                        cairo_restore (cr);
-                    }
-                if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20)
-                    {
-						if ( si->marked_onset == g)
-							{
-								si->marked_onset = NULL; //toggle off
+				if ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON)
+					{
+						if(g==si->marked_onset)
+							{//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
+								cairo_restore (cr);
 							}
-						else
+						if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20)
 							{
-							si->marked_onset = g;
-							 //g_debug("Found selected onset\n\n");
+								if ( si->marked_onset == g)
+									{
+										si->marked_onset = NULL; //toggle off
+									}
+								else
+									{
+									si->marked_onset = g;
+									 //g_debug("Found selected onset\n\n");
+									}
+								si->marked_onset_position = 0;
 							}
-						si->marked_onset_position = 0;
 					}
 
                 //if (g==itp->onset) g_print ("First onset at %d %d %d %d\n", pos, x, si->marked_onset_position, notewidth);

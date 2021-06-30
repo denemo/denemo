@@ -996,26 +996,8 @@ void	generate_midi_from_recorded_notes (smf_t *smf)
 			DenemoRecordedNote *note = g->data;
 			if (note->timing>=0)
 				{
-					gint channel = ((DenemoStaff*)Denemo.project->movement->currentstaff->data)->midi_channel;
-					gchar *data = g_malloc0 (3);
-					data[0] = 0x90 | ((DenemoStaff*)Denemo.project->movement->currentstaff->data)->midi_channel;
-					data[1] = note->midi_note;
-					data[2] = 127; //g_print ("Adding ON at %f seconds\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
-					smf_event_t* event = smf_event_new_from_pointer (data, 3);
+					smf_event_t* event = smf_event_new_from_pointer (note->midi_event, 3);
 					smf_track_add_event_seconds (track, event, note->timing/(double)Denemo.project->movement->recording->samplerate);
-					data = g_malloc0 (3);
-					data[0] = 0x80 | channel;
-					data[1] = note->midi_note;
-					data[2] = 0;
-					event = smf_event_new_from_pointer (data, 3);
-					gdouble off_time = 0.3 + note->timing/(double)Denemo.project->movement->recording->samplerate;
-					if (g->next)
-						{
-							DenemoRecordedNote *nextnote = g->next->data;
-							off_time = nextnote->timing/(double)Denemo.project->movement->recording->samplerate;
-						}
-					smf_track_add_event_seconds (track, event, off_time);
-					//g_print ("Added note off at %f seconds\n", off_time);
 			}
 		}
 }

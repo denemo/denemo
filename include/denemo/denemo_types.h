@@ -865,15 +865,15 @@ typedef enum DenemoRecordingType {
 
 typedef struct DenemoRecordedNote {
   gint timing;/**< time in frames, (divide by samplerate to get to seconds) */
-  gboolean noteoff;
+  //gboolean noteoff;
   gint mid_c_offset;
   gint enshift;
   gint octave;
   gint duration;/**< guessed baseduration, 0 if not known */
   gint dots; /**<guessed number of dots */
-  gint midi_note;
-  gint event_number;/**< number of midi event giving rise to the note */
-  gint track_number;/**< track holding the event midi event giving rise to the note */
+  gchar *midi_event;/* three byte midi message 0x90 or 0x80, midi_note*/
+  gint event_number;/**< GUIDED MIDI IMPORT ONLY number of midi event giving rise to the note */
+  gint track_number;/**< GUIDED MIDI IMPORT ONLY  track holding the event midi event giving rise to the note */
 } DenemoRecordedNote;
 
 typedef struct DenemoRecording {

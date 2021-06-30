@@ -1369,12 +1369,51 @@ pb_playalong (GtkWidget * button)
     gtk_button_set_label (GTK_BUTTON (button), _("Switch to Play Along Playback"));
   set_midi_in_status ();
 }
+void highlight_audio_record (void)
+{
+  static gboolean on;
+  on = !on;
+  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ?
+  
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
+#else       
+   "media-record"  :  "media-playback-stop"
+#endif
+   , GTK_ICON_SIZE_BUTTON));
+}
+
+static void cancel_midi_record (void)
+{
+ gtk_button_set_image (GTK_BUTTON (midirecordbutton), gtk_image_new_from_icon_name (
+  
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_RECORD
+#else       
+   "media-record" 
+#endif
+   , GTK_ICON_SIZE_BUTTON));
+}
+void highlight_midi_record (void)
+{
+  static gboolean on;
+  on = !on;
+  gtk_button_set_image (GTK_BUTTON (midirecordbutton), gtk_image_new_from_icon_name (on ?
+  
+#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
+        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
+#else       
+   "media-record"  :  "media-playback-stop"
+#endif
+   , GTK_ICON_SIZE_BUTTON));
+}
 
 gboolean
 show_midi_record_control (void)
 {
   gtk_widget_show (deletebutton);
-  gtk_widget_show (convertbutton);
+  cancel_midi_record ();//turn button back to a record button - FIXME breaks the highlight_midi_record toggle, but this is operated by drawing in draw.c ugh!
+  //gtk_widget_show (convertbutton);
   set_midi_in_status ();
   return FALSE;                 // stop timer callback
 }
@@ -1453,35 +1492,12 @@ pb_exportaudio (GtkWidget * button)
   export_recorded_audio (NULL);
 }
 
-void
-highlight_audio_record (void)
-{
-  static gboolean on;
-  on = !on;
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ?
-  
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
-#else       
-   "media-record"  :  "media-playback-stop"
-#endif
-   , GTK_ICON_SIZE_BUTTON));
-}
-void
-highlight_midi_record (void)
-{
-  static gboolean on;
-  on = !on;
-  gtk_button_set_image (GTK_BUTTON (midirecordbutton), gtk_image_new_from_icon_name (on ?
-  
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
-#else       
-   "media-record"  :  "media-playback-stop"
-#endif
-   , GTK_ICON_SIZE_BUTTON));
-}
 
+static void free_one_recorded_note (DenemoRecordedNote *n)
+	{
+		g_free (n->midi_event);
+		g_free (n);
+	}
 void
 delete_recording (void)
 {
@@ -1495,7 +1511,7 @@ delete_recording (void)
       if (temp->sndfile)
         sf_close (temp->sndfile);
       g_free (temp->filename);
-      g_list_free_full (temp->notes, g_free);
+      g_list_free_full (temp->notes, (GDestroyNotify)free_one_recorded_note);
       g_free (temp);
       Denemo.project->movement->recording = NULL;
       Denemo.project->movement->marked_onset = NULL;
