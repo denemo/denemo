@@ -1829,7 +1829,11 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
         {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
             addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
-            si->marked_onset = si->marked_onset->next;
+            do {
+					si->marked_onset = si->marked_onset->next;
+					if (si->marked_onset)
+						midinote = (DenemoRecordedNote*)si->marked_onset->data;
+				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);		
         } else
         addtone (mudela_obj_new, si->cursor_y, get_cursoracc ()); //mudela_obj_new->keysig->accs[si->staffletter_y]);
 
@@ -2004,7 +2008,11 @@ notechange (DenemoMovement * si, gboolean remove)
             {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
             ret = (gboolean) (intptr_t) addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
-            si->marked_onset = si->marked_onset->next;
+             do {
+					si->marked_onset = si->marked_onset->next;
+					if (si->marked_onset)
+						midinote = (DenemoRecordedNote*)si->marked_onset->data;
+				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);
             }
         else
             ret = (gboolean) (intptr_t) addtone (curmudelaobj, si->cursor_y /* mid_c_offset */ ,

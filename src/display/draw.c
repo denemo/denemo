@@ -383,7 +383,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
             cairo_set_source_rgba (cr, 0.1, 0.1, 0.1, 0.9);
 
-             while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current))
+             for ( ;g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current); g=g->next)
                 {
 					if ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_OFF)==MIDI_NOTE_OFF)
 						continue;
@@ -393,7 +393,6 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                         draw_note_onset (cr, x - 10, NULL, FALSE);
                         cairo_restore (cr);
                     }
-                    g=g->next;
                 }
             while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next))
                 {
