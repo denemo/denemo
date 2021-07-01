@@ -9,6 +9,14 @@ page-limit-inter-system-space-factor = 1.2</postfix>
       <data>1.2</data>
     </directive>
   </paper-directives>
+  <thumbnail>
+    <first-staff>1</first-staff>
+    <last-staff>3</last-staff>
+    <first-measure>1</first-measure>
+    <last-measure>3</last-measure>
+    <first-obj>0</first-obj>
+    <last-obj>2147483647</last-obj>
+  </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
     <fontsize>18</fontsize>
@@ -29,10 +37,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     </edit-info>
     <score-info>
       <tempo>
-        <duration>
-          <numerator>1</numerator>
-          <denominator>4</denominator>
-        </duration>
         <bpm>120</bpm>
       </tempo>
     </score-info>

@@ -111,10 +111,6 @@ transposedCueDuringWithClef  =
     </header-directives>
     <score-info>
       <tempo>
-        <duration>
-          <numerator>1</numerator>
-          <denominator>4</denominator>
-        </duration>
         <bpm>120</bpm>
       </tempo>
     </score-info>

@@ -81,10 +81,6 @@ page-limit-inter-system-space-factor = 1.2</postfix>
     </header-directives>
     <score-info>
       <tempo>
-        <duration>
-          <numerator>1</numerator>
-          <denominator>4</denominator>
-        </duration>
         <bpm>120</bpm>
       </tempo>
     </score-info>
