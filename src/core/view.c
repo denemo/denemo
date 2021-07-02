@@ -1424,7 +1424,6 @@ pb_record (GtkWidget *button, gchar * callback)
   if (Denemo.project->midi_recording)
 	{
 		Denemo.project->midi_recording = FALSE;
-		
 	}
   if ((Denemo.project->midi_destination & MIDIRECORD))
     {
@@ -1444,17 +1443,15 @@ pb_record (GtkWidget *button, gchar * callback)
       warningdialog (_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
       return FALSE;
     }
-
-  if (Denemo.project->movement->recording && !confirm (_("MIDI Recording"), _("Delete last recording?")))
+  if (Denemo.project->movement->recording && !confirm (_("MIDI Recording"), _("Resume recording?")))
     {
       return FALSE;
     }
 
- // delete_imported_midi ();
-
-  new_midi_recording ();
- 
-  
+  if (!Denemo.project->movement->recording)
+		new_midi_recording ();
+ else
+		resume_midi_recording ();
   Denemo.project->midi_destination |= MIDIRECORD;
 
   gtk_widget_hide (deletebutton);
@@ -1518,8 +1515,47 @@ delete_recording (void)
     }
 }
 
-static void
-pb_midi_delete (GtkWidget * button)
+void delete_last_recorded_note (void)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	GList *g = g_list_last (si->recording->notes);
+	DenemoRecordedNote *note = g->data;
+	if ((note->midi_event[0]&0xF0)==MIDI_NOTE_ON)
+		{
+			si->recording->notes = g_list_remove_link (si->recording->notes, g);
+			free_one_recorded_note (note);
+			g_free (g);	
+		} else
+		{
+			gint midi = note->midi_event[1];
+			GList* h = g->prev;
+			si->recording->notes = g_list_remove_link (si->recording->notes, g);
+			free_one_recorded_note (note);
+			g_list_free (g);
+	
+			for (g=h; g ;g = g->prev)
+				{
+					DenemoRecordedNote *note = g->data;
+					gint next = note->midi_event[1];
+					if (midi == next)//the noteon for the deleted note
+						{
+							si->recording->notes = g_list_remove_link (si->recording->notes, g);
+							free_one_recorded_note (note);
+							g_list_free (g);	
+							break;
+						}
+				}
+		}
+	if (si->recording->notes == NULL)
+		{
+			Denemo.project->movement->marked_onset = NULL;
+			g_free (si->recording);
+			si->recording = NULL;
+		}
+	else
+		Denemo.project->movement->marked_onset = si->recording->notes;
+}   
+void pb_midi_delete (void)
 {
   DenemoRecording *recording = Denemo.project->movement->recording;
   if (recording)
@@ -1535,7 +1571,7 @@ pb_midi_delete (GtkWidget * button)
       delete_recording ();
     }
   gtk_widget_hide (convertbutton);
-  gtk_widget_hide (button);
+  gtk_widget_hide (deletebutton);
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 

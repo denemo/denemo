@@ -656,9 +656,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 		{
 			gdouble change = (event->x_root - last_event_x)/gui->movement->zoom;
 			if (change>0)
-				scale_recording (1.01);
+				scale_recording (1.005);
 			else
-				scale_recording (0.99);		
+				scale_recording (0.995);		
 			return TRUE;
 			
 		}
@@ -944,6 +944,64 @@ gboolean activate_right_click (gint state)
         }
      return FALSE;
     }
+    
+static void midi_recording_help (void)
+{
+	
+}  
+static void mark_recorded_note (gint position)
+{
+	Denemo.project->movement->marked_onset_position = position;
+    gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position during re-draw
+}   
+  
+    
+static void popup_recording_menu (gint position)
+{
+	//Delete marked recorded note
+	//Delete recording
+	//(otherwise append recording, make sure not playing
+	//Chord Recognition interval (number of ms to count as chord not note)
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *item = gtk_menu_item_new_with_label (_("Help"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_recording_help), NULL);
+  
+  if (Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD))
+	{
+		item = gtk_menu_item_new_with_label (_("Stop/Pause Recording Notes"));
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (pb_record), NULL);	
+	}
+	
+  item = gtk_menu_item_new_with_label (_("Resume Recording Notes"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (resume_midi_recording), NULL);
+  
+  item = gtk_menu_item_new_with_label (_("Mark this Recorded Note"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (mark_recorded_note), GINT_TO_POINTER (position));
+
+  item = gtk_menu_item_new_with_label (_("Sync Marked Recorded Note to Denemo Cursor Note"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (synchronize_recording), NULL);
+
+  if (!(Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD)))
+	{
+	  item = gtk_menu_item_new_with_label (_("Delete Last Recorded Note"));
+	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_last_recorded_note), NULL);
+	}
+  item = gtk_menu_item_new_with_label (_("Delete MIDI Recording"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (pb_midi_delete), NULL);
+    
+  
+  
+  gtk_widget_show_all (menu);
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+	
+} 
 /**
  * Mouse button press callback
  *
@@ -974,7 +1032,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       }
   dragging_separator = FALSE;
 
-  if(gui->movement->recording)
+  if(gui->movement->recording && gui->movement->recording->type==DENEMO_RECORDING_AUDIO)
     {
      //g_debug("audio %f %f\n", event->x, event->y);
       if(event->y < 20*gui->movement->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
@@ -1025,6 +1083,29 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                 }
         }
     }
+   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < 20*gui->movement->zoom))
+	{
+		if (left)
+			{
+				(dragging_tempo = TRUE);
+                    motion_started = FALSE;
+				
+				
+				play_recorded_midi ();//toggles
+				if (Denemo.prefs.learning) 
+                     MouseGestureShow(_("Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
+											MouseGesture);
+				return TRUE;
+			}
+		else
+			{
+				if (Denemo.prefs.learning) 
+                     MouseGestureShow(_("Right click on MIDI Recording Track"), _("Menu of options for MIDI recorded track."),
+											MouseGesture);
+				popup_recording_menu((gint)event->x/gui->movement->zoom);
+				return TRUE;
+			}
+	}
 
 
   //g_debug("before %f %f\n", event->x, event->y);

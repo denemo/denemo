@@ -563,6 +563,14 @@ void new_midi_recording (void) {
   Denemo.project->movement->recording = recording;
 
 }
+void resume_midi_recording (void) {
+	DenemoMovement *si = Denemo.project->movement;
+	si->smfsync = G_MAXINT;
+	recording_time = -1;
+    Denemo.project->midi_recording = TRUE;
+    Denemo.project->midi_destination |= MIDIRECORD;
+	g_print ("resuming\n");
+}
 
 static gdouble get_recording_start_time (void)
 	{
@@ -593,6 +601,7 @@ static void record_midi (gchar * buf)
 {
 	static gdouble current_time;
 	DenemoMovement *si = Denemo.project->movement;
+	gboolean initial = FALSE;
 	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (((buf[0]&0xF0)==MIDI_NOTE_ON) || (buf[0]&0xF0)==MIDI_NOTE_OFF))
 			{
 				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
@@ -600,15 +609,26 @@ static void record_midi (gchar * buf)
 				memcpy (note->midi_event, buf, 3);
 				if (recording_time == -1)
 					{
-						gdouble start = get_recording_start_time ();
-						si->recording->offset = start;
+						gdouble start;
+						if (si->recording->notes) //resume
+							{
+							 start = ((DenemoRecordedNote*)g_list_last (si->recording->notes)->data)->timing/(double)si->recording->samplerate;//should be the last noteoff time
+							 //g_print ("resuming at %f seconds\n", start);
+							}
+						else {
+								initial = TRUE;
+								start = get_recording_start_time ();
+								si->recording->offset = start;
+							 }
 						current_time = get_time () - start;
 						si->smfsync = G_MAXINT;
+						si->marked_onset = g_list_last (Denemo.project->movement->recording->notes);
 					}
 				recording_time = (get_time () - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
-				Denemo.project->movement->recording->notes = g_list_append (si->recording->notes, note);
+				si->recording->notes = g_list_append (si->recording->notes, note);
+				if (initial) si->marked_onset = si->recording->notes;
 			}
 }
 
@@ -1244,3 +1264,4 @@ noteon_key (smf_event_t * event)
     return event->midi_buffer[1];
   return 0;
 }
+

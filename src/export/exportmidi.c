@@ -1014,13 +1014,13 @@ void synchronize_recording (void)
 			gdouble offset = ((DenemoRecordedNote *)g->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 			if (Denemo.project->movement->marked_onset)
 				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
-			//g_print ("current offset %f new time of start %f\n", offset, newoffset);
+			g_print ("current offset %f new time of start %f\n", offset, newoffset);
 			for (;g;g=g->next)
 				{
 					DenemoRecordedNote *note = g->data;
 					//g_print ("before %f\t", note->timing/(double)Denemo.project->movement->recording->samplerate);
 					note->timing += (newoffset - offset)*Denemo.project->movement->recording->samplerate;
-					//g_print ("after %d\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					//g_print ("after %f\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
 				}
 			Denemo.project->movement->recording->offset = newoffset;
 		}
@@ -1040,9 +1040,9 @@ void scale_recording (gdouble scale)// keeps Denemo.project->movement->marked_on
 			for (;g;g=g->next)
 						{
 							DenemoRecordedNote *note = g->data;
-							g_print ("value %d becomes\t", note->timing);
+							//g_print ("value %d becomes\t", note->timing);
 							note->timing = (fixed + (rate * note->timing - fixed)*scale)/rate;
-							g_print ("value%d\n", note->timing);
+							//g_print ("value%d\n", note->timing);
 							
 						}					
 			}
