@@ -3564,8 +3564,7 @@ escape_scheme (gchar * input)
   return g_string_free (out, FALSE);
 }
 
-gboolean
-shift_held_down (void)
+gboolean modifier_held_down (gint modifier)
 {
   GdkModifierType mask;
   GdkWindow *win = gtk_widget_get_window (Denemo.window);
@@ -3580,8 +3579,19 @@ shift_held_down (void)
 #endif
 
 #endif
-  return (mask & GDK_SHIFT_MASK);
+  return (mask & modifier);
 }
+
+gboolean shift_held_down (void)
+{
+  return modifier_held_down (GDK_SHIFT_MASK);
+}
+
+gboolean control_held_down (void)
+{
+  return modifier_held_down (GDK_CONTROL_MASK);
+}
+
 
 
 #if GTK_MAJOR_VERSION == 2
