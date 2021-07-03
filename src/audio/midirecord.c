@@ -278,10 +278,22 @@ void popup_recording_menu (gint position)
   gtk_widget_show_all (menu);
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
 	
-} 
+}
+
+static gboolean start_recorded_midi_play (void)
+{
+	play_recorded_midi ();
+	return FALSE;	
+}
 void play_recorded_midi (void)
 {
 	DenemoMovement *si = Denemo.project->movement;
+	if (si->marked_onset_position)
+		{
+		gtk_widget_queue_draw (Denemo.scorearea);
+		g_timeout_add (100, (GSourceFunc) start_recorded_midi_play, NULL);
+		return;
+		}
 	if (playing_recorded_midi)
 		playing_recorded_midi = FALSE;
 	else

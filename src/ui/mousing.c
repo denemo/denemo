@@ -1039,6 +1039,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 					} else
 				if (shift_held_down ())
 					{
+						gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
 						play_recorded_midi ();//toggles
 						if (Denemo.prefs.learning) 
 							 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
