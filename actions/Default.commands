@@ -64,7 +64,7 @@
       </row>
       <row type="scheme">
         <action>RecordAndAttach</action>
-        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
         <_label>Record (Start/Stop) and Attach at Cursor</_label>
         <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording - the audio is attached to an (optional) click track created at the top of the staffs. The recording will play along with your notated music - ensure you have enough filled measures after the cursor to attach the audio to otherwise it won't play.</_tooltip>
       </row>
@@ -3455,7 +3455,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
       <row type="scheme">
         <action>CloseSourceAudioFile</action>
         <after>SynchronizeAudio</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
         <_label>Delete Audio Recording</_label>
         <_tooltip>Deletes the current audio recording.</_tooltip>
       </row>
@@ -5863,7 +5863,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>SynchronizeAudio</action>
         <after>PlayAndRecordMidiIn</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
         <_label>Synchronize Audio</_label>
         <_tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</_tooltip>
       </row>
@@ -8645,14 +8645,14 @@ Include rests if they are part of the pattern.
       <row type="scheme">
         <action>ToggleAudioRecord</action>
         <after>RecordAndAttach</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
         <_label>Record (Start/Stop)</_label>
         <_tooltip>Starts/Stops recording the audio output from Denemo.</_tooltip>
       </row>
       <row type="scheme">
         <action>SaveRecording</action>
         <after>ToggleRecordingAudio</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
         <_label>Save Recording</_label>
         <_tooltip>Saves the recorded autio to disk.</_tooltip>
       </row>
