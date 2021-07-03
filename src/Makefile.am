@@ -8,6 +8,8 @@ denemo_SOURCES = \
   audio/instrumentname.h \
   audio/midi.c \
   audio/midi.h \
+  audio/midirecord.c \
+  audio/midirecord.h \
   audio/parseinstruments.c \
   audio/parseinstruments.h \
   audio/pitchentry.c \

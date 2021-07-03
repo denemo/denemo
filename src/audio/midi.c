@@ -613,7 +613,7 @@ static void record_midi (gchar * buf)
 						if (si->recording->notes) //resume
 							{
 							 start = ((DenemoRecordedNote*)g_list_last (si->recording->notes)->data)->timing/(double)si->recording->samplerate;//should be the last noteoff time
-							 //g_print ("resuming at %f seconds\n", start);
+							 g_print ("resuming at %f seconds\n", start);
 							}
 						else {
 								initial = TRUE;
@@ -626,6 +626,7 @@ static void record_midi (gchar * buf)
 					}
 				recording_time = (get_time () - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
+				g_print ("Storing NOTE%s at %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate);
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
 				si->recording->notes = g_list_append (si->recording->notes, note);
 				if (initial) si->marked_onset = si->recording->notes;
