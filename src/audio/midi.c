@@ -13,6 +13,7 @@
 
 #include <denemo/denemo.h>
 #include "audio/midi.h"
+#include "audio/midirecord.h"
 #include "audio/audiointerface.h"
 #include "smf.h"
 #include "export/exportmidi.h"
@@ -534,52 +535,7 @@ typedef struct enharmonic
   gint octave;
 } enharmonic;
 
-gint recording_time;
-void new_midi_recording (void) {
-  DenemoRecording *recording;
 
-			
-  if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
-    {
-
-		//FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-		recording = Denemo.project->movement->recording;
-		g_mutex_lock (&smfmutex);
-		Denemo.project->movement->recording = NULL;
-		g_mutex_unlock (&smfmutex);
-		g_free (recording->filename);
-		g_free (recording);
-		g_list_free_full (recording->notes, g_free);
-		Denemo.project->movement->smfsync = G_MAXINT;
-		exportmidi (NULL, Denemo.project->movement);
-     }
-  recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
-  Denemo.project->movement->marked_onset = NULL;
-  recording->type = DENEMO_RECORDING_MIDI;
-  recording->samplerate = 44100;
-  recording_time = -1;//unset
-  recording->offset = 0;
-  Denemo.project->midi_recording = TRUE;
-  Denemo.project->movement->recording = recording;
-
-}
-void resume_midi_recording (void) {
-	DenemoMovement *si = Denemo.project->movement;
-	si->smfsync = G_MAXINT;
-	recording_time = -1;
-    Denemo.project->midi_recording = TRUE;
-    Denemo.project->midi_destination |= MIDIRECORD;
-	g_print ("resuming\n");
-}
-
-static gdouble get_recording_start_time (void)
-	{
-		DenemoMovement *si = Denemo.project->movement;
-		if (si->smfsync != si->changecount)
-			exportmidi (NULL, si);
-		return get_time_at_cursor ();
-	}
-	
 gdouble get_time_at_cursor (void)
 {
 	GList *curobj = Denemo.project->movement->currentobject;
@@ -595,43 +551,8 @@ gdouble get_time_at_cursor (void)
 	//g_print ("time at cursor %f\n", time);
 	return time;
 }
-	
-//Add the passed midi to a recording in Denemo.project->movement
-static void record_midi (gchar * buf)
-{
-	static gdouble current_time;
-	DenemoMovement *si = Denemo.project->movement;
-	gboolean initial = FALSE;
-	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (((buf[0]&0xF0)==MIDI_NOTE_ON) || (buf[0]&0xF0)==MIDI_NOTE_OFF))
-			{
-				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
-				note->midi_event = g_malloc0(3);
-				memcpy (note->midi_event, buf, 3);
-				if (recording_time == -1)
-					{
-						gdouble start;
-						if (si->recording->notes) //resume
-							{
-							 start = ((DenemoRecordedNote*)g_list_last (si->recording->notes)->data)->timing/(double)si->recording->samplerate;//should be the last noteoff time
-							 g_print ("resuming at %f seconds\n", start);
-							}
-						else {
-								initial = TRUE;
-								start = get_recording_start_time ();
-								si->recording->offset = start;
-							 }
-						current_time = get_time () - start;
-						si->smfsync = G_MAXINT;
-						si->marked_onset = g_list_last (Denemo.project->movement->recording->notes);
-					}
-				recording_time = (get_time () - current_time) * si->recording->samplerate;
-				note->timing = recording_time;
-				g_print ("Storing NOTE%s at %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate);
-				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
-				si->recording->notes = g_list_append (si->recording->notes, note);
-				if (initial) si->marked_onset = si->recording->notes;
-			}
-}
+
+
 
 static void
 do_one_note (gint mid_c_offset, gint enshift, gint notenum)

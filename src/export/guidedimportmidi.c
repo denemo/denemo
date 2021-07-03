@@ -26,6 +26,7 @@
 #include "command/processstaffname.h"
 #include "export/exportmidi.h"
 #include "audio/pitchentry.h"
+#include "audio/midirecord.h"
 
 
 static smf_t *smf = NULL;
@@ -498,4 +499,3 @@ gboolean midi_is_from_file (void)
 {
     return smf_from_file;
 }
-

@@ -32,6 +32,7 @@
 #include "core/keyboard.h"
 #include "export/exportmidi.h"
 #include "audio/midi.h"
+#include "audio/midirecord.h"
 #include "source/source.h"
 #include "command/commandfuncs.h"
 #include "display/calculatepositions.h"
@@ -1490,96 +1491,9 @@ pb_exportaudio (GtkWidget * button)
 }
 
 
-static void free_one_recorded_note (DenemoRecordedNote *n)
-	{
-		g_free (n->midi_event);
-		g_free (n);
-	}
-void
-delete_recording (void)
-{
-  //FIXME a better name for the mutex which originally was just for midi data, but will work for audio data too.
-  if (Denemo.project->movement && Denemo.project->movement->recording)
-    {
-      DenemoRecording *temp = Denemo.project->movement->recording;
-      g_mutex_lock (&smfmutex);
-      Denemo.project->movement->recording = NULL;
-      g_mutex_unlock (&smfmutex);
-      if (temp->sndfile)
-        sf_close (temp->sndfile);
-      g_free (temp->filename);
-      g_list_free_full (temp->notes, (GDestroyNotify)free_one_recorded_note);
-      g_free (temp);
-      Denemo.project->movement->recording = NULL;
-      Denemo.project->movement->marked_onset = NULL;
-    }
-}
 
-void delete_last_recorded_note (void)
-{
-	DenemoMovement *si = Denemo.project->movement;
-	GList *g = g_list_last (si->recording->notes);
-	DenemoRecordedNote *note = g->data;
-	gint start_of_deleted_note;
 
-	gboolean was_recording = Denemo.project->midi_recording;
-	Denemo.project->midi_recording = FALSE;
-    Denemo.project->midi_destination ^= MIDIRECORD;//turn off recording
-      
-	if ((note->midi_event[0]&0xF0)==MIDI_NOTE_ON)
-		{
-			start_of_deleted_note = note->timing;
-			si->recording->notes = g_list_remove_link (si->recording->notes, g);
-			free_one_recorded_note (note);
-			g_free (g);	
-		} else
-		{
-			gint midi = note->midi_event[1];
-			GList* h = g->prev;
-			si->recording->notes = g_list_remove_link (si->recording->notes, g);
-			free_one_recorded_note (note);
-			g_list_free (g);
-	
-			for (g=h; g ;g = g->prev)
-				{
-					DenemoRecordedNote *note = g->data;
-					gint next = note->midi_event[1];
-					if (g==h) 
-						start_of_deleted_note = note->timing;
-					if (midi == next)//the noteon for the deleted note
-						{
-							si->recording->notes = g_list_remove_link (si->recording->notes, g);
-							free_one_recorded_note (note);
-							g_list_free (g);	
-							break;
-						}
-				}
-		}
-	if (si->recording->notes == NULL)
-		{
-			si->marked_onset = NULL;
-			g_free (si->recording);
-			si->recording = NULL;
-		}
-	else
-		{
-			Denemo.project->movement->marked_onset = g_list_last (si->recording->notes);
-			//this is the NOTEOFF event
-			gint end_of_recording = ((DenemoRecordedNote*)si->marked_onset->data)->timing;
-			gdouble gap = (start_of_deleted_note - end_of_recording)/(double)si->recording->samplerate;
-			g_print ("Gap between last notes was %f\n", gap);
-			if (gap > 0.4)
-				gap = 0.2;
-				g_print ("Note off was at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
-			((DenemoRecordedNote*)si->marked_onset->data)->timing += (gint)(gap*si->recording->samplerate);
-			g_print ("Note off now at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
 
-			Denemo.project->movement->marked_onset = Denemo.project->movement->marked_onset->prev;//move to the NOTEON
-		}
-	if (was_recording)
-		resume_midi_recording ();
-	
-}   
 void pb_midi_delete (void)
 {
   DenemoRecording *recording = Denemo.project->movement->recording;

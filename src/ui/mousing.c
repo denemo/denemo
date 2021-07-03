@@ -20,7 +20,9 @@
 #include "display/draw.h"
 #include "core/view.h"
 #include "audio/audiointerface.h"
+#include "audio/midirecord.h"
 #include "export/exportmidi.h"
+
 
 
 static gboolean lh_down;
