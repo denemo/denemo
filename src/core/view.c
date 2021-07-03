@@ -1490,10 +1490,6 @@ pb_exportaudio (GtkWidget * button)
   export_recorded_audio (NULL);
 }
 
-
-
-
-
 void pb_midi_delete (void)
 {
   DenemoRecording *recording = Denemo.project->movement->recording;

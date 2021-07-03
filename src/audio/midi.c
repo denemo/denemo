@@ -93,54 +93,9 @@ update_position (smf_event_t * event)
         }
     }
 }
-static gboolean playing_recorded_midi = FALSE;
-static gboolean play_buffer (gchar *buffer)
-{
-	if (playing_recorded_midi)
-		{
-			DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
-			play_midi_event (DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
-		}
-return FALSE;
-}
-static gboolean play_recorded_notes (GList *notenode)
-{
-	DenemoMovement *si = Denemo.project->movement;
-	if (!si->recording)
-		return FALSE;//no more
-	if (notenode==NULL)
-		return FALSE;
-	if (!playing_recorded_midi)
-		return FALSE;
-	DenemoRecordedNote *note = (DenemoRecordedNote *)notenode->data;
-	gdouble rate = si->recording->samplerate;
-	gdouble start = note->timing/rate;
-	while (notenode)
-		{
-			note = (DenemoRecordedNote *)notenode->data;
-			DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
-			DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-			gchar *buffer = note->midi_event;
-			buffer[0] = (buffer[0]&0xF0) | curstaffstruct->midi_channel;
-			g_timeout_add ((note->timing/rate - start)* 1000, (GSourceFunc)play_buffer, buffer);
-			//g_print ("schedule %x note %d at %.2f\n", (char)buffer[0], buffer[1], note->timing/rate - start);
-			notenode = notenode->next;
-		}
-	return FALSE;
-}
 
-void play_recorded_midi (void)
-{
-	DenemoMovement *si = Denemo.project->movement;
-	if (playing_recorded_midi)
-		playing_recorded_midi = FALSE;
-	else
-		{
-		playing_recorded_midi = TRUE;
-		if (si->recording)
-			play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
-		}
-}
+
+
 
 static void
 safely_add_track (smf_t * smf, smf_track_t * track)

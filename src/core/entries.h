@@ -409,6 +409,7 @@
 {"Beaming", NULL, N_("Beaming"), "",N_("Menu:\nBeaming - controlling which notes are beamed together")},
 {"Conditional Directives", NULL, N_("Conditional Directives"), "",N_("Menu:\nFor making directives apply only to one score layout or be omitted from one score layout")},
 {"MIDI", NULL, N_("MIDI"), "",N_("Menu:\nFor issuing MIDI instructions during playback at the time indicated by the current cursor position.")},
+{"Audio", NULL, N_("Audio"), "",N_("Menu:\nFor commands related to audio as opposed to MIDI.")},
 {"Keyboard", NULL, N_("PC Keyboard"), "",N_("Menu:\nChoose between different ways of entering notes from the computer keyboard.")},
 {"Mouse", NULL, N_("Mouse"), "",N_("Menu:\nChoose between different ways of using the mouse.")},
 {"PrintTranspositions", NULL, N_("Print Transposed"), "",N_("Menu:\nTransposing the score when typesetting.")},

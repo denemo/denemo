@@ -11,12 +11,15 @@
 
 #include <denemo/denemo.h>
 #include "audio/midirecord.h"
+#include "audio/pitchentry.h"
+#include "audio/audiointerface.h"
 #include "core/view.h"
 #include "core/utils.h"
 #include <sndfile.h>
+#include "export/exportmidi.h"
 
 
-
+static gboolean playing_recorded_midi = FALSE;
 static gint recording_time;
 
 static void free_one_recorded_note (DenemoRecordedNote *n)
@@ -120,12 +123,12 @@ void delete_last_recorded_note (void)
 			//this is the NOTEOFF event
 			gint end_of_recording = ((DenemoRecordedNote*)si->marked_onset->data)->timing;
 			gdouble gap = (start_of_deleted_note - end_of_recording)/(double)si->recording->samplerate;
-			g_print ("Gap between last notes was %f\n", gap);
+			//g_print ("Gap between last notes was %f\n", gap);
 			if (gap > 0.4)
 				gap = 0.2;
-				g_print ("Note off was at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
+				//g_print ("Note off was at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
 			((DenemoRecordedNote*)si->marked_onset->data)->timing += (gint)(gap*si->recording->samplerate);
-			g_print ("Note off now at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
+			//g_print ("Note off now at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
 
 			Denemo.project->movement->marked_onset = Denemo.project->movement->marked_onset->prev;//move to the NOTEON
 		}
@@ -164,7 +167,7 @@ void record_midi (gchar * buf)
 					}
 				recording_time = (get_time () - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
-				g_print ("Storing NOTE%s at %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate);
+				//g_print ("Storing NOTE%s at %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate);
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
 				si->recording->notes = g_list_append (si->recording->notes, note);
 				if (initial) si->marked_onset = si->recording->notes;
@@ -178,3 +181,113 @@ gdouble get_recording_start_time (void)
 			exportmidi (NULL, si);
 		return get_time_at_cursor ();
 	}	
+	
+static gboolean play_buffer (gchar *buffer)
+{
+	if (playing_recorded_midi)
+		{
+			DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+			play_midi_event (DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
+		}
+return FALSE;
+}
+static void end_play (void)
+{
+	playing_recorded_midi = FALSE;// so if someone tries to toggle back on after it has finished playing it will re-start
+}
+static gboolean play_recorded_notes (GList *notenode)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (!si->recording)
+		return FALSE;//no more
+	if (notenode==NULL)
+		return FALSE;
+	if (!playing_recorded_midi)
+		return FALSE;
+	DenemoRecordedNote *note = (DenemoRecordedNote *)notenode->data;
+	gdouble rate = si->recording->samplerate;
+	gdouble start = note->timing/rate;
+	gint last_off;
+	while (notenode)
+		{
+			note = (DenemoRecordedNote *)notenode->data;
+			DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
+			DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+			gchar *buffer = note->midi_event;
+			buffer[0] = (buffer[0]&0xF0) | curstaffstruct->midi_channel;
+			buffer[2] = 127;//Full volume
+			last_off = (note->timing/rate - start)* 1000;
+			g_timeout_add (last_off, (GSourceFunc)play_buffer, buffer);
+			//g_print ("schedule %x note %d at %.2f\n", (char)buffer[0], buffer[1], note->timing/rate - start);
+			notenode = notenode->next;
+		}
+	g_timeout_add (last_off, (GSourceFunc)end_play, NULL);	
+	return FALSE;
+}
+
+static void midi_recording_help (void)
+{
+	
+}  
+static void mark_recorded_note (gint position)
+{
+	Denemo.project->movement->marked_onset_position = position;
+    gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position during re-draw
+}   
+  
+    
+void popup_recording_menu (gint position)
+{
+	//Chord Recognition interval (number of ms to count as chord not note)
+  GtkWidget *menu = gtk_menu_new ();
+  GtkWidget *item = gtk_menu_item_new_with_label (_("Help"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_recording_help), NULL);
+  
+  if (Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD))
+	{
+		item = gtk_menu_item_new_with_label (_("Stop/Pause Recording Notes"));
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (pb_record), NULL);	
+	}
+	
+  item = gtk_menu_item_new_with_label (_("Resume Recording Notes"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (resume_midi_recording), NULL);
+  
+  item = gtk_menu_item_new_with_label (_("Mark this Recorded Note"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (mark_recorded_note), GINT_TO_POINTER (position));
+
+  item = gtk_menu_item_new_with_label (_("Sync Marked Recorded Note to Denemo Cursor Note"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (synchronize_recording), NULL);
+
+  //if (!(Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD)))
+	{
+	  item = gtk_menu_item_new_with_label (_("Delete Last Recorded Note"));
+	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_last_recorded_note), NULL);
+	}
+  item = gtk_menu_item_new_with_label (_("Delete MIDI Recording"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (pb_midi_delete), NULL);
+    
+  
+  
+  gtk_widget_show_all (menu);
+  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
+	
+} 
+void play_recorded_midi (void)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (playing_recorded_midi)
+		playing_recorded_midi = FALSE;
+	else
+		{
+		playing_recorded_midi = TRUE;
+		if (si->recording)
+			play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
+		}
+}
