@@ -19,6 +19,8 @@ src/audio/jackutil.c
 src/audio/jackutil.h
 src/audio/midi.c
 src/audio/midi.h
+src/audio/midirecord.c
+src/audio/midirecord.h
 src/audio/parseinstruments.c
 src/audio/parseinstruments.h
 src/audio/pitchentry.c
