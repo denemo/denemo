@@ -23,7 +23,7 @@
 #include "audio/midirecord.h"
 #include "export/exportmidi.h"
 
-
+#define HeightOfRecordingTrack (35)
 
 static gboolean lh_down;
 static gdouble last_event_x;
@@ -981,7 +981,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   if(gui->movement->recording && gui->movement->recording->type==DENEMO_RECORDING_AUDIO)
     {
      //g_debug("audio %f %f\n", event->x, event->y);
-      if(event->y < 20*gui->movement->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
+      if(event->y < HeightOfRecordingTrack*gui->movement->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
         {
             if (event->type==GDK_2BUTTON_PRESS)
                 {
@@ -1025,7 +1025,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                 }
         }
     }
-   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < 20*gui->movement->zoom))
+   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
 	{
 		if (left)
 			{
@@ -1034,7 +1034,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 						(dragging_tempo = TRUE);
 						motion_started = FALSE;
 						if (Denemo.prefs.learning) 
-							 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Start draggin to change tempo of MIDI recorded track."),
+							 MouseGestureShow(_("Control Left click on MIDI Recording Track"), _("Start dragging to change tempo of MIDI recorded track."),
 													MouseGesture);
 					} else
 				if (shift_held_down ())
@@ -1047,6 +1047,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 					} else
 					{
 						gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+						pause_recording_midi ();
 						if (Denemo.prefs.learning)
                             MouseGestureShow(_("Left Click Recorded MIDI Note"), _("This marks the current recorded MIDI note."),
           MouseGesture);
@@ -1439,6 +1440,10 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
       return TRUE;
     }
 
+	if(gui->movement->recording && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
+	{
+		return TRUE;
+	}
   //g_signal_handlers_block_by_func(Denemo.scorearea, G_CALLBACK (scorearea_motion_notify), gui);
   if (left)
     lh_down = FALSE;
