@@ -415,7 +415,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 							cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.8):
 							cairo_set_source_rgba (cr, 0.8, 0.2, 0.0, 0.8);
 						}
-					//if MIDI RECORDING draw the pitch as a headless diamond note.
+					//if MIDI RECORDING draw the pitch as a headless note.
 					if(si->recording->type==DENEMO_RECORDING_MIDI)
 						{
 
@@ -427,9 +427,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
 							removetone ((DenemoObject*)(MidiDrawObject->data), 0);//there is only one note in the chord so any mid_c_offset will do
 							addtone (MidiDrawObject->data,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
+							
+							//how to get rid of the stem???
+							
+							
+							
 							chord *thechord = ((DenemoObject*)(MidiDrawObject->data))->object;
 							note *thenote = ((note*)(thechord->notes->data));
-							thenote->noteheadtype = DENEMO_DIAMOND_NOTEHEAD;
+							thenote->noteheadtype = DENEMO_BLACK_NOTEHEAD;
 							if(midinote->enshift)
 								thenote->showaccidental = TRUE;
 							thenote->position_of_accidental = 8;
@@ -471,7 +476,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 						}
 					}
 				glyph = ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON) ?
-					"o" : "¬";
+					NULL : "¬";
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
 				if ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON)
@@ -1869,8 +1874,9 @@ draw_callback (cairo_t * cr)
   if (Denemo.project->audio_recording || Denemo.project->midi_recording)
 	{
 		cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
-		general_draw_text (cr, "Times 84", _( "Recording"), 20.0, 20.0);
-	} else if (Denemo.project->movement->playingnow)
+		general_draw_text (cr, "Times 24", _( "Recording"), 110.0, -14.0);
+	}
+ if (Denemo.project->movement->playingnow)
 		{
 			cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
 			if (Denemo.prefs.dynamic_compression==100)
