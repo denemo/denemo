@@ -47,9 +47,11 @@ void delete_recording (void)
 }
 
 void new_midi_recording (void) {
+  DenemoMovement *si = Denemo.project->movement;
   DenemoRecording *recording;
 
-			
+  DenemoStaff* topstaff = (DenemoStaff*) si->thescore->data;
+  topstaff->space_above = MAX (topstaff->space_above, 50);//leave room for MIDI track above
   if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
 		delete_recording ();
   recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
@@ -73,6 +75,7 @@ void resume_midi_recording (void) {
 
 void delete_last_recorded_note (void)
 {
+	pause_recording_midi ();
 	DenemoMovement *si = Denemo.project->movement;
 	GList *g = g_list_last (si->recording->notes);
 	DenemoRecordedNote *note = g->data;
@@ -148,13 +151,16 @@ void record_midi (gchar * buf)
 				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
 				note->midi_event = g_malloc0(3);
 				memcpy (note->midi_event, buf, 3);
+				
+				//FIXME check on time of last recorded note - if it is too much do recording_time = -1 to force resume.
+				
 				if (recording_time == -1)
 					{
 						gdouble start;
 						if (si->recording->notes) //resume
 							{
 							 start = ((DenemoRecordedNote*)g_list_last (si->recording->notes)->data)->timing/(double)si->recording->samplerate;//should be the last noteoff time
-							 g_print ("resuming at %f seconds\n", start);
+							 //g_print ("resuming at %f seconds\n", start);
 							}
 						else {
 								initial = TRUE;
@@ -198,6 +204,7 @@ static void end_play (void)
 static gboolean play_recorded_notes (GList *notenode)
 {
 	DenemoMovement *si = Denemo.project->movement;
+	pause_recording_midi ();
 	if (!si->recording)
 		return FALSE;//no more
 	if (notenode==NULL)
@@ -231,6 +238,7 @@ static void midi_recording_help (void)
 }  
 static void mark_recorded_note (gint position)
 {
+	pause_recording_midi ();
 	Denemo.project->movement->marked_onset_position = position;
     gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position during re-draw
 }   
@@ -238,6 +246,7 @@ static void mark_recorded_note (gint position)
     
 void popup_recording_menu (gint position)
 {
+	pause_recording_midi ();
 	//Chord Recognition interval (number of ms to count as chord not note)
   GtkWidget *menu = gtk_menu_new ();
   GtkWidget *item = gtk_menu_item_new_with_label (_("Help"));
@@ -287,6 +296,7 @@ static gboolean start_recorded_midi_play (void)
 }
 void play_recorded_midi (void)
 {
+	pause_recording_midi ();
 	DenemoMovement *si = Denemo.project->movement;
 	if (si->marked_onset_position)
 		{
@@ -303,3 +313,8 @@ void play_recorded_midi (void)
 			play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
 		}
 }
+void pause_recording_midi (void)
+{
+	recording_time = -1;	
+}
+

@@ -13,4 +13,5 @@ void delete_recording (void);
 gdouble get_recording_start_time (void);
 void popup_recording_menu (gint position);
 void play_recorded_midi (void);
+void pause_recording_midi (void);
 #endif //MIDIRECORD_H
