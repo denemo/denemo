@@ -1091,7 +1091,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Switches to playalong playback. When playing or recording playback will not advance beyond the cursor position unless then mouse is moved or the next note is played in via MIDI in.", DENEMO_SCHEME_PREFIX "TogglePlayAlong", scheme_toggle_playalong);
   install_scm_function (0, "Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
 
-  install_scm_function (1, "Starts playback and synchronously records from MIDI in. any script passed in is run at the end of the recording. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
+  install_scm_function (0, "Starts playback and synchronously records from MIDI in. any script passed in is run at the end of the recording. The recording will play back with future play until deleted. The recording is not saved with the score - convert to notation first,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
   install_scm_function (0, "returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
   install_scm_function (0, "Computes durationss for recorded/imported MIDI notes based on tempo and timing of note off from previous note off or start.", DENEMO_SCHEME_PREFIX "ComputeMidiNoteDurations", scheme_compute_midi_note_durations);
 

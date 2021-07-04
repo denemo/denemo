@@ -21,6 +21,7 @@
 #include "command/lilydirectives.h"
 #include "audio/playback.h"
 #include "audio/audiointerface.h"
+#include "audio/midirecord.h"
 
 #include "export/audiofile.h"
 #include "export/guidedimportmidi.h"
@@ -6297,16 +6298,7 @@ scheme_toggle_conduct (void)
 SCM
 scheme_midi_record (SCM script)
 {
-  if (is_playing ())
-    return SCM_BOOL_F;
-  if (scm_is_string (script))
-    {
-      gchar *text = scm_to_locale_string (script);
-      pb_record (NULL, text);
-      free (text);
-    }
-  else
-    pb_record (NULL, NULL);
+  start_midi_record ();
   return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
 
@@ -6349,6 +6341,7 @@ scheme_get_marked_midi_note_seconds (void)
   return scm;
 }
 
+
 SCM
 scheme_advance_marked_midi (SCM advance)
 {
@@ -6357,36 +6350,22 @@ scheme_advance_marked_midi (SCM advance)
   DenemoMovement *si = gui->movement;
   if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
     {
-      if (SCM_UNBNDP (advance))
-        {
-          if (si->marked_onset)
-            si->marked_onset = si->marked_onset->next;
-        }
-      else if (scm_is_integer (advance))
-        {
-          gint i = scm_to_int (advance);
-          if (i > 0)
-            {
-              while (i-- && si->marked_onset)
-                si->marked_onset = si->marked_onset->next;
-            }
-          else if (i < 0)
-            {
-              while (i++ && si->marked_onset)
-                si->marked_onset = si->marked_onset->prev;
-            }
-          else
-            si->marked_onset = si->recording->notes;
-
-        }
-      else if (scm_is_false (advance))
+	  gint i;
+	  if (scm_is_false (advance))
         {
           si->marked_onset = NULL;
           return SCM_BOOL_T;
         }
+      if (SCM_UNBNDP (advance))
+        i = 1;
+      if (scm_is_integer (advance))
+          {
+			i = scm_to_int (advance);
+			advance_marked_midi (i);
+		  }
       if (si->marked_onset)
         scm = SCM_BOOL_T;
-    }
+	}
 
   return scm;
 }

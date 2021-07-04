@@ -57,9 +57,7 @@ static GtkWidget *midirecordbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
 static GtkWidget *midiconductbutton;
-static GtkWidget *deletebutton;
 static GtkWidget *exportbutton;
-static GtkWidget *convertbutton;
 static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *audio_vol_adj;
@@ -1412,54 +1410,13 @@ void highlight_midi_record (void)
 gboolean
 show_midi_record_control (void)
 {
-  gtk_widget_show (deletebutton);
   cancel_midi_record ();//turn button back to a record button - FIXME breaks the highlight_midi_record toggle, but this is operated by drawing in draw.c ugh!
   //gtk_widget_show (convertbutton);
   set_midi_in_status ();
   return FALSE;                 // stop timer callback
 }
 
-gboolean
-pb_record (GtkWidget *button, gchar * callback)
-{
-  if (Denemo.project->midi_recording)
-	{
-		Denemo.project->midi_recording = FALSE;
-	}
-  if ((Denemo.project->midi_destination & MIDIRECORD))
-    {
-      Denemo.project->midi_destination ^= MIDIRECORD;
-      g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) show_midi_record_control, NULL, NULL);
-      return TRUE;
-    }
-    
-  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_AUDIO))
-    {
-      warningdialog (_("Cannot mix audio and MIDI recordings"));
-      return FALSE;
-    }
 
-  if (Denemo.project->movement->recorded_midi_track && midi_is_from_file ())
-    {
-      warningdialog (_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
-      return FALSE;
-    }
-  if (Denemo.project->movement->recording && !confirm (_("MIDI Recording"), _("Resume recording?")))
-    {
-      return FALSE;
-    }
-
-  if (!Denemo.project->movement->recording)
-		new_midi_recording ();
- else
-		resume_midi_recording ();
-  Denemo.project->midi_destination |= MIDIRECORD;
-
-  gtk_widget_hide (deletebutton);
-  gtk_widget_hide (convertbutton);
-  set_midi_in_status ();
-  return TRUE;
-}
 
 static void
 pb_audiorecord (GtkWidget * button)
@@ -1505,8 +1462,6 @@ void pb_midi_delete (void)
 
       delete_recording ();
     }
-  gtk_widget_hide (convertbutton);
-  gtk_widget_hide (deletebutton);
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 
@@ -3572,11 +3527,11 @@ create_window (void)
       midiplayalongbutton =
         create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
 
-      deletebutton = create_playbutton (hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
+      //deletebutton = create_playbutton (hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
 
-      convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
-      midirecordbutton = create_playbutton (hbox, NULL, pb_record, "media-record", _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
-      
+      //convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
+      midirecordbutton = create_playbutton (hbox, NULL, start_midi_record, "media-record", _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
+      declare_record_button (midirecordbutton);//informs midirecord.c where the record button is
       
 #define MIDI_CONTROL_HELP _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\nYou may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\nlooking for MIDI in devices (turn your device on first).\nWhen you have a MIDI controller durations are inserted without any pitch (they appear in brown)\n playing on the controller puts the pitches onto the durations.\nThe Shift and Control and ALT keys can also be used for listening without entering notes,\nchecking pitches entered and entering chords.\nThe foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord\n- timing is unimportant, play the chord fast or slow.\nOr use Input → MIDI → Chord Entry Without Pedal to enter chords based on playing the notes simultaneously")
       midihelpbutton = create_playbutton (hbox, _( "Help"), NULL, NULL, MIDI_CONTROL_HELP);
@@ -3589,8 +3544,8 @@ create_window (void)
       gtk_widget_hide (Denemo.playback_control);
       
       
-      gtk_widget_hide (deletebutton);
-      gtk_widget_hide (convertbutton);
+      //gtk_widget_hide (deletebutton);
+      //gtk_widget_hide (convertbutton);
       gtk_widget_hide (exportbutton);
       gtk_widget_hide (Denemo.audio_vol_control);
     }
