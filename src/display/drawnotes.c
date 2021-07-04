@@ -91,12 +91,12 @@ draw_notehead (cairo_t * cr, note * thenote, gint duration, gint numdots, gint x
      three elements.  The change has defeated what had been semi-elegance;
      grrr.  */
 
-  static gint headwidths[6] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH,
+  static gint headwidths[7] = { WHOLEHEAD_WIDTH, HALFHEAD_WIDTH,
     NOTEHEAD_WIDTH, DIAMOND_WIDTH,
-    CROSS_WIDTH, HARMONIC_WIDTH,
+    CROSS_WIDTH, HARMONIC_WIDTH, DIAMOND_WIDTH,
   };
 
-  static gunichar head_char[6] = { 0x54, 0x55, 0x56, 0x58, 0x64, 0x92
+  static gunichar head_char[7] = { 0x54, 0x55, 0x56, 0x93, 0x64, 0x92, 0x56
   };
   gint height = thenote->y;
   gint noteheadtype = 1;
@@ -115,9 +115,9 @@ draw_notehead (cairo_t * cr, note * thenote, gint duration, gint numdots, gint x
     {
       noteheadtype = 5;
     }
-  else if (thenote->noteheadtype == DENEMO_DIAMOND_NOTEHEAD)
+  else if (thenote->noteheadtype == DENEMO_BLACK_NOTEHEAD)
     {
-      noteheadtype = 3;
+      noteheadtype = 2;
     }
   if (duration < 0)
     {
