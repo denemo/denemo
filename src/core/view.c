@@ -1299,7 +1299,7 @@ set_midi_in_status (void)
       if ((Denemo.project->midi_destination & MIDIRECORD) && (Denemo.project->midi_destination & MIDIPLAYALONG))
         text = g_strconcat ("<span foreground=\"blue\">", _("Recording + Play Along"), "</span>", NULL);
       else if (Denemo.project->midi_destination & MIDIRECORD)
-        text = g_strconcat ("<span foreground=\"red\">", _("Recording"), "</span>", NULL);
+        text = g_strconcat ("<span foreground=\"red\">", _("Recording (Off/On)"), "</span>", NULL);
       else if (Denemo.project->midi_destination & MIDIPLAYALONG)
         text = g_strconcat ("<span foreground=\"red\">", _("Play Along"), "</span>", NULL);
       else if ((Denemo.keyboard_state & ~GDK_LOCK_MASK) == (GDK_CONTROL_MASK))
@@ -1320,8 +1320,11 @@ set_midi_in_status (void)
 void
 midi_in_adjust (gint value)
 {
-  Denemo.keyboard_state = value;
-  Denemo.keyboard_state_locked = value; //lock if set to listening or checking
+  if (value>0)
+	Denemo.keyboard_state = value;
+  Denemo.keyboard_state_locked = value; //lock if set to listening or checking or recording
+  if (Denemo.project->movement->recording && (Denemo.project->midi_destination & MIDIRECORD))
+	toggle_midi_record ();
   set_midi_in_status ();
   switch_back_to_main_window ();
 }
@@ -1342,6 +1345,12 @@ midi_in_menu (void)
   item = gtk_menu_item_new_with_label (_("Appending/Editing Pitches"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_in_adjust), 0);
+  
+  item = gtk_menu_item_new_with_label (_("Recording"));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_midi_record), GINT_TO_POINTER (-1));
+  
+  
   gtk_widget_show_all (menu);
   gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
 }
@@ -1381,41 +1390,6 @@ void highlight_audio_record (void)
 #endif
    , GTK_ICON_SIZE_BUTTON));
 }
-
-static void cancel_midi_record (void)
-{
- gtk_button_set_image (GTK_BUTTON (midirecordbutton), gtk_image_new_from_icon_name (
-  
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_RECORD
-#else       
-   "media-record" 
-#endif
-   , GTK_ICON_SIZE_BUTTON));
-}
-void highlight_midi_record (void)
-{
-  static gboolean on;
-  on = !on;
-  gtk_button_set_image (GTK_BUTTON (midirecordbutton), gtk_image_new_from_icon_name (on ?
-  
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
-#else       
-   "media-record"  :  "media-playback-stop"
-#endif
-   , GTK_ICON_SIZE_BUTTON));
-}
-
-gboolean
-show_midi_record_control (void)
-{
-  cancel_midi_record ();//turn button back to a record button - FIXME breaks the highlight_midi_record toggle, but this is operated by drawing in draw.c ugh!
-  //gtk_widget_show (convertbutton);
-  set_midi_in_status ();
-  return FALSE;                 // stop timer callback
-}
-
 
 
 static void
@@ -3525,13 +3499,8 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (hbox), midi_in_button, FALSE, TRUE, 0);
 
       midiplayalongbutton =
-        create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
-
-      //deletebutton = create_playbutton (hbox, "Delete", pb_midi_delete, NULL, _("Delete the MIDI recording you have made."));
-
-      //convertbutton = create_playbutton (hbox, "Convert", pb_midi_convert, NULL, _("Convert the MIDI recording you have made to notation."));
-      midirecordbutton = create_playbutton (hbox, NULL, start_midi_record, "media-record", _("Starts playing and simultaneously records from MIDI in.\nOnce a recording is made it is played back with the score when you press Play.\nIt can be deleted with the Delete button or converted to notation with the Convert button.\nA MIDI recording is not saved with the Denemo score."));
-      declare_record_button (midirecordbutton);//informs midirecord.c where the record button is
+        create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, 
+        _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
       
 #define MIDI_CONTROL_HELP _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\nYou may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\nlooking for MIDI in devices (turn your device on first).\nWhen you have a MIDI controller durations are inserted without any pitch (they appear in brown)\n playing on the controller puts the pitches onto the durations.\nThe Shift and Control and ALT keys can also be used for listening without entering notes,\nchecking pitches entered and entering chords.\nThe foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord\n- timing is unimportant, play the chord fast or slow.\nOr use Input → MIDI → Chord Entry Without Pedal to enter chords based on playing the notes simultaneously")
       midihelpbutton = create_playbutton (hbox, _( "Help"), NULL, NULL, MIDI_CONTROL_HELP);
