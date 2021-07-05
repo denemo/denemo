@@ -44,6 +44,9 @@ void delete_recording (void)
       Denemo.project->movement->recording = NULL;
       Denemo.project->movement->marked_onset = NULL;
       Denemo.project->movement->smfsync = G_MAXINT;
+     
+     if (Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD))
+		toggle_midi_record ();
     }
 }
 
@@ -258,7 +261,7 @@ void popup_recording_menu (gint position)
 	{
 		item = gtk_menu_item_new_with_label (_("Stop/Pause Recording Notes"));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (start_midi_record), NULL);	
+		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_midi_record), NULL);	
 	}
 	
   item = gtk_menu_item_new_with_label (_("Resume Recording Notes"));
@@ -324,44 +327,41 @@ void declare_record_button (GtkWidget *midirecordbutton)
 		MidiRecordButton = midirecordbutton;
 	}
 	
-//callback for record button, starts MIDI recording
-gboolean start_midi_record (void)
+//callback for record button, starts/stops MIDI recording
+gboolean toggle_midi_record (void)
 {
-  if (Denemo.project->midi_recording)
+	if (Denemo.project->midi_recording)
 	{
 		Denemo.project->midi_recording = FALSE;
 	}
-  if ((Denemo.project->midi_destination & MIDIRECORD))
-    {
-      Denemo.project->midi_destination ^= MIDIRECORD;
-      g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) show_midi_record_control, NULL, NULL);
-      return TRUE;
-    }
-    
-  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_AUDIO))
-    {
-      warningdialog (_("Cannot mix audio and MIDI recordings"));
-      return FALSE;
-    }
+	if ((Denemo.project->midi_destination & MIDIRECORD))
+	{
+	  Denemo.project->midi_destination ^= MIDIRECORD;
+	  set_midi_in_status ();
+	  return TRUE;
+	}
 
-  if (Denemo.project->movement->recorded_midi_track && midi_is_from_file ())
-    {
-      warningdialog (_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
-      return FALSE;
-    }
-  if (Denemo.project->movement->recording && !confirm (_("MIDI Recording"), _("Resume recording?")))
-    {
-      return FALSE;
-    }
+	if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_AUDIO))
+	{
+	  warningdialog (_("Cannot mix audio and MIDI recordings"));
+	  return FALSE;
+	}
 
-  if (!Denemo.project->movement->recording)
+	if (Denemo.project->movement->recorded_midi_track && midi_is_from_file ())
+	{
+	  warningdialog (_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
+	  return FALSE;
+	}
+
+	if (!Denemo.project->movement->recording)
 		new_midi_recording ();
- else
+	else
 		resume_midi_recording ();
-  Denemo.project->midi_destination |= MIDIRECORD;
+	Denemo.project->midi_destination |= MIDIRECORD;
 
-  set_midi_in_status ();
-  return TRUE;
+	set_midi_in_status ();
+	switch_back_to_main_window ();
+	return TRUE;
 }
 gboolean marked_midi_note_is_noteoff (void)
 {

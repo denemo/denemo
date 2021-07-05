@@ -1855,7 +1855,7 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
     {
       if (Denemo.prefs.immediateplayback)
         {
-            if(inserting_midi && !rest)
+            if(inserting_midi && (!rest) && !(mode & INPUTBLANK))
                 {
                 DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
                 //play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) mudela_obj_new->object);//compute duration and use that???

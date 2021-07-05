@@ -6298,7 +6298,7 @@ scheme_toggle_conduct (void)
 SCM
 scheme_midi_record (SCM script)
 {
-  start_midi_record ();
+  toggle_midi_record ();
   return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
 }
 

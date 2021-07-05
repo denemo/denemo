@@ -222,14 +222,7 @@ static gboolean update_playbutton_callback (gboolean paused)
   return FALSE;
 }
 
-static void finish_recording (void)
-{
-  if ((Denemo.project->midi_destination & MIDIRECORD))
-    {
-      Denemo.project->midi_destination ^= MIDIRECORD;
-      g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) show_midi_record_control, NULL, NULL);
-    }
-}
+
 void
 stop_playing ()
 {
@@ -237,11 +230,7 @@ stop_playing ()
   g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) update_playbutton_callback, GINT_TO_POINTER (is_paused ()), NULL);
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
-  if (Denemo.project->movement && Denemo.project->movement->recorded_midi_track)
-    {
-      safely_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
-      finish_recording ();
-    }
+
   if (callback_script)
     {
       g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) stop_play_callback, g_string_free (callback_script, FALSE), NULL);
