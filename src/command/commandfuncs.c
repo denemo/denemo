@@ -1415,7 +1415,8 @@ insert_note_following_pattern (DenemoProject * gui)
       GList *h;
       gint mode = gui->mode;
       gui->mode = mode & ~INPUTRHYTHM; //without this, when entering a note-name at the pc-keyboard a pitchless note is entered (with a MIDI controller attached, at least). And playing a note in appending position on the MIDI keyboard first enters a pitchless note.
-
+	  gui->movement->marked_onset = NULL;//this prevents entering pitches from keyboard taking note pitches from MIDI recording at marked_onset
+  
       // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard)
       if (gui->currhythm && gui->cstep) //snippet
         {

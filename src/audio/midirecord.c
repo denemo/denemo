@@ -74,7 +74,7 @@ void resume_midi_recording (void) {
 	recording_time = -1;
     Denemo.project->midi_recording = TRUE;
     Denemo.project->midi_destination |= MIDIRECORD;
-	g_print ("resuming\n");
+	//g_print ("resuming\n");
 }
 
 void delete_last_recorded_note (void)
@@ -150,20 +150,22 @@ void record_midi (gchar * buf)
 	static gdouble current_time;
 	DenemoMovement *si = Denemo.project->movement;
 	gboolean initial = FALSE;
+	static gdouble old_time = 0;
+	gdouble new_time = get_time ();
+	if ((recording_time != -1) && ((new_time - old_time) > 3.0))
+		recording_time = -1;//force resume if we have been too long away, say 3 seconds
+	old_time = new_time;
 	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (((buf[0]&0xF0)==MIDI_NOTE_ON) || (buf[0]&0xF0)==MIDI_NOTE_OFF))
 			{
 				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
 				note->midi_event = g_malloc0(3);
 				memcpy (note->midi_event, buf, 3);
-				
-				//FIXME check on time of last recorded note - if it is too much do recording_time = -1 to force resume.
-				
 				if (recording_time == -1)
 					{
 						gdouble start;
 						if (si->recording->notes) //resume
 							{
-							 start = ((DenemoRecordedNote*)g_list_last (si->recording->notes)->data)->timing/(double)si->recording->samplerate;//should be the last noteoff time
+							 start = 0.2 + ((DenemoRecordedNote*)g_list_last (si->recording->notes)->data)->timing/(double)si->recording->samplerate;//should be the last noteoff time
 							 //g_print ("resuming at %f seconds\n", start);
 							}
 						else {
@@ -171,11 +173,11 @@ void record_midi (gchar * buf)
 								start = get_recording_start_time ();
 								si->recording->offset = start;
 							 }
-						current_time = get_time () - start;
+						current_time = new_time - start;
 						si->smfsync = G_MAXINT;
 						si->marked_onset = g_list_last (Denemo.project->movement->recording->notes);
 					}
-				recording_time = (get_time () - current_time) * si->recording->samplerate;
+				recording_time = (new_time - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
 				//g_print ("Storing NOTE%s at %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate);
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));

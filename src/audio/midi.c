@@ -618,6 +618,9 @@ midiaction (gint notenum)
   enharmonic enote, prevenote;
   gboolean have_previous;
   //g_print("midiaction Adding mask %x, Chord mask %x\n", (Denemo.keyboard_state & ADDING_MASK) , (Denemo.keyboard_state & CHORD_MASK));
+  
+  gui->movement->marked_onset = NULL;//this prevents playing on the MIDI keyboard triggering taking note pitches from MIDI recording at marked_onset
+  
   notenum2enharmonic (notenum, &enote.mid_c_offset, &enote.enshift, &enote.octave);
   if (Denemo.project->movement->cursor_appending)
     have_previous = get_current (&prevenote);
