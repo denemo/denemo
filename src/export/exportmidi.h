@@ -18,9 +18,6 @@ void free_midi_data (DenemoMovement * si);
 
 int dia_to_midinote (int offs);
 
-void synchronize_recording (void);
-void scale_recording (gdouble scale);
-
 void	generate_midi_from_recorded_notes (smf_t *smf);
 
 #endif

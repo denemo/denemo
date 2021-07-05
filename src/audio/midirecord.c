@@ -393,3 +393,49 @@ void advance_marked_midi (gint steps)
 						si->marked_onset = si->marked_onset->prev;
 			}
 }
+
+void synchronize_recording (void)
+{
+	Denemo.project->movement->smfsync = G_MAXINT;
+	generate_midi ();
+	gdouble newoffset = get_time_at_cursor ();
+	
+	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes)
+		{
+			GList *g = Denemo.project->movement->recording->notes;
+			gdouble offset = ((DenemoRecordedNote *)g->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+			if (Denemo.project->movement->marked_onset)
+				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+			g_print ("current offset %f new time of start %f\n", offset, newoffset);
+			for (;g;g=g->next)
+				{
+					DenemoRecordedNote *note = g->data;
+					//g_print ("before %f\t", note->timing/(double)Denemo.project->movement->recording->samplerate);
+					note->timing += (newoffset - offset)*Denemo.project->movement->recording->samplerate;
+					//g_print ("after %f\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
+				}
+			Denemo.project->movement->recording->offset = newoffset;
+		}
+	Denemo.project->movement->smfsync = G_MAXINT;
+	generate_midi ();		
+}
+
+void scale_recording (gdouble scale)// keeps Denemo.project->movement->marked_onset->timing constant while scaling values before and after
+	{
+	double rate = (double)Denemo.project->movement->recording->samplerate;
+	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes)
+		{
+			GList *g = Denemo.project->movement->recording->notes;
+			gdouble fixed = rate * ((DenemoRecordedNote *)g->data)->timing;
+			if (Denemo.project->movement->marked_onset)
+				fixed = rate * ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing;
+			for (;g;g=g->next)
+						{
+							DenemoRecordedNote *note = g->data;
+							//g_print ("value %d becomes\t", note->timing);
+							note->timing = (fixed + (rate * note->timing - fixed)*scale)/rate;
+							//g_print ("value%d\n", note->timing);
+							
+						}					
+			}
+		}
