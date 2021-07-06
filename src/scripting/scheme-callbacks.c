@@ -6285,22 +6285,32 @@ SCM
 scheme_toggle_playalong (void)
 {
   pb_playalong (get_playalong_button ());
-  return SCM_BOOL (Denemo.project->midi_destination | MIDIPLAYALONG);
+  return SCM_BOOL (Denemo.project->midi_destination & MIDIPLAYALONG);
 }
 
 SCM
 scheme_toggle_conduct (void)
 {
   pb_conduct (get_conduct_button ());
-  return SCM_BOOL (Denemo.project->midi_destination | MIDICONDUCT);
+  return SCM_BOOL (Denemo.project->midi_destination & MIDICONDUCT);
 }
 
-SCM
-scheme_midi_record (SCM script)
+SCM scheme_midi_record (void)
 {
   toggle_midi_record ();
-  return SCM_BOOL (Denemo.project->midi_destination | MIDIRECORD);
+  return SCM_BOOL (Denemo.project->midi_destination & MIDIRECORD);
 }
+
+
+SCM scheme_recording_midi (void)
+{
+  return SCM_BOOL (Denemo.project->midi_destination & MIDIRECORD);
+}
+
+
+
+
+
 
 SCM
 scheme_compute_midi_note_durations (void)

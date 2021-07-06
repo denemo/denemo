@@ -153,7 +153,7 @@ void record_midi (gchar * buf)
 	static gdouble old_time = 0;
 	gdouble new_time = get_time ();
 	if ((recording_time != -1) && ((new_time - old_time) > Denemo.prefs.recording_timeout/1000.0))
-		recording_time = -1;//force resume if we have been too long away, say 3 seconds
+		recording_time = -1;//force resume if we have been too long away
 	old_time = new_time;
 	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (((buf[0]&0xF0)==MIDI_NOTE_ON) || (buf[0]&0xF0)==MIDI_NOTE_OFF))
 			{
