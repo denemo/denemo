@@ -512,6 +512,7 @@ typedef struct DenemoPrefs
   gboolean saveparts; /**< Automatically save parts*/
   gboolean autosave; /**< whether to Auto save data */
   gint autosave_timeout;
+  gint recording_timeout;
   gboolean autoupdate;/**< update command set from denemo.org */
   gint maxhistory;/**< how long a history of used files to retain */
   gint compression;/**< compression to be applied to .denemo files, suffix is unchanged */

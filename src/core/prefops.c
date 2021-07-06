@@ -131,6 +131,7 @@ initprefs (void)
   ret->portmidi_input_device = g_string_new ("default");
   ret->portmidi_output_device = g_string_new ("none");//Denemo has no code to output MIDI in real time, this turns off the setting up of the channel
 
+  ret->recording_timeout = 1000;
   gchar *soundfontpath = find_denemo_file(DENEMO_DIR_SOUNDFONTS, "A320U.sf2");
 
   ret->fluidsynth_soundfont = g_string_new (soundfontpath);
@@ -381,6 +382,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READXMLENTRY (portaudio_device)
         READINTXMLENTRY (portaudio_sample_rate)
         READINTXMLENTRY (portaudio_period_size)
+        READINTXMLENTRY (recording_timeout)
         READINTXMLENTRY (maxrecordingtime)
         READXMLENTRY (portmidi_input_device)
         READXMLENTRY (portmidi_output_device)
@@ -846,6 +848,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEBOOLXMLENTRY (fluidsynth_reverb)
     WRITEBOOLXMLENTRY (fluidsynth_chorus)
     WRITEINTXMLENTRY (dynamic_compression)
+    WRITEINTXMLENTRY (recording_timeout)
     WRITEBOOLXMLENTRY (damping)
     WRITEINTXMLENTRY (zoom)
     WRITEINTXMLENTRY (system_height)

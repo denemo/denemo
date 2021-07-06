@@ -65,6 +65,7 @@ struct callbackdata
   GtkWidget *learning;
   GtkWidget *persistence;
   GtkWidget *startmidiin;
+  GtkWidget *recording_timeout;
   GtkWidget *notesonlymidiin;
   GtkWidget *applytoselection;
   GtkWidget *quickshortcuts;
@@ -300,6 +301,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT (maxhistory)
     ASSIGNBOOLEAN (damping)
     ASSIGNINT (dynamic_compression)
+    ASSIGNINT (recording_timeout)
     ASSIGNINT (zoom)
     ASSIGNINT (system_height)
     ASSIGNBOOLEAN (immediateplayback)
@@ -762,6 +764,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   driver = g_list_nth_data (cbdata.midi_driver_option_list, index);
 
   NEWPAGE (_("MIDI"));
+  INTENTRY_LIMITS (_("% MIDI-in recording timeout (ms)"), recording_timeout, 100, 10000);
 
   BOOLEANENTRY (_("Rhythm Entry for MIDI in"), startmidiin);
   BOOLEANENTRY (_("Ignore MIDI in except for Note On/Off messages"), notesonlymidiin);
