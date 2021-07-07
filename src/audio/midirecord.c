@@ -175,7 +175,7 @@ void record_midi (gchar * buf)
 							 }
 						current_time = new_time - start;
 						si->smfsync = G_MAXINT;
-						si->marked_onset = g_list_last (Denemo.project->movement->recording->notes);
+						//si->marked_onset = g_list_last (Denemo.project->movement->recording->notes);
 					}
 				recording_time = (new_time - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
