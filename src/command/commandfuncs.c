@@ -2779,6 +2779,8 @@ toggle_tie (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam
     {
       store_for_undo_change (si, curmudelaobj);
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
+	  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
+			si->marked_onset = si->marked_onset->prev;//when entering the rhythm for recorded MIDI need to enter the same note after the tie
       draw_score_area();
     }
   score_status (gui, TRUE);
