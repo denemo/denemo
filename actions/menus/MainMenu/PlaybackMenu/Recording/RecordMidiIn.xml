@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>RecordMidiIn</action>
+        <_label>Record from MIDI in (Off/On)</_label>
+        <_tooltip>Records/Stops recording notes played on MIDI keyboard. Notes are recorded on a track above a click track staff at the top of the score. Insert the notes into the score by pressing duration keys/Ins key.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
