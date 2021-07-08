@@ -8690,6 +8690,20 @@ Include rests if they are part of the pattern.
         <_label>Conditional Clef Change</_label>
         <_tooltip>Creates clef change at the cursor will *not* affect the typeset score if the specified condition is met.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>PlayAndAdvance</action>
+        <after>RecordMidiIn</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Play and Advance Marked Midi</_label>
+        <_tooltip>Plays the marked recorded MIDI note and advances the mark.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>BackupAndPlay</action>
+        <after>PlayAndAdvance</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Backup and Play Marked MIDI note.</_label>
+        <_tooltip>Moves the marked MIDI note one note earlier and plays that.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
