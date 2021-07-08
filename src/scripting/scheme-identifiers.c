@@ -1092,13 +1092,15 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Switches to mouse conducting playback. Playback will not advance beyond the cursor position unless then mouse is moved in the drawing area.", DENEMO_SCHEME_PREFIX "ToggleConduct", scheme_toggle_conduct);
 
   install_scm_function (0, "Records from MIDI in. The recording will play back when playing back the score unless muted. The recording is not saved with the score,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
+  install_scm_function (0, "Synchronizes the MIDI recording so that the marked recorded MIDI note plays at the time of the note currently at the Denemo cursor. ", DENEMO_SCHEME_PREFIX "SynchronizeRecording", scheme_synchronize_recording);
   install_scm_function (0, "Plays the marked midi note for 200ms", DENEMO_SCHEME_PREFIX "PlayMarkedMidi", scheme_play_marked_midi);
   install_scm_function (0, "Returns #t (true) if recording from MIDI in,", DENEMO_SCHEME_PREFIX "RecordingMidi", scheme_recording_midi);
   install_scm_function (0, "returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
   install_scm_function (0, "Computes durationss for recorded/imported MIDI notes based on tempo and timing of note off from previous note off or start.", DENEMO_SCHEME_PREFIX "ComputeMidiNoteDurations", scheme_compute_midi_note_durations);
 
   install_scm_function (0, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
-  install_scm_function (0, "Gets the time in seconds of marked recorded midi note or #f if none", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteSeconds", scheme_get_marked_midi_note_seconds);
+  install_scm_function (1, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "SetMarkedMidiNote", scheme_set_marked_midi_note);
+  install_scm_function (0, "Takes a number n, sets the marked midi note n'th note.", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteSeconds", scheme_get_marked_midi_note_seconds);
   install_scm_function (1, "Advances the marked recorded midi note can take an integer for number of steps to advance, or #f to clear the mark. Returns #f if no more marks.", DENEMO_SCHEME_PREFIX "AdvanceMarkedMidi", scheme_advance_marked_midi);
   install_scm_function (0, "Inserts the marked recorded or imported MIDI note using the duration guessed from the note length. Returns #f if nothing marked.", DENEMO_SCHEME_PREFIX "InsertMarkedMidiNote", scheme_insert_marked_midi_note);
 

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SyncRecordingToCursor</action>
+        <after>RecordMidiIn</after>
+        <_label>Synchronize Marked Recorded Midi Note to Denemo Cursor Position</_label>
+        <_tooltip>Alters the timing of the recorded MIDI notes so that the marked note plays at the time of the note currently at the Denemo cursor.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>PlayAndAdvance</action>
         <after>RecordMidiIn</after>
-        <_label>Play and Advance Marked Midi</_label>
+        <_label>Play and Advance Marked Midi Note</_label>
         <_tooltip>Plays the marked recorded MIDI note and advances the mark.</_tooltip>
       </row>
     </map>

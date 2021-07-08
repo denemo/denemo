@@ -257,8 +257,6 @@ actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm
 actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.xml
 actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.scm
 actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.xml
-actions/menus/MainMenu/EditMenu/Delete/DeleteRecordedMidi.scm
-actions/menus/MainMenu/EditMenu/Delete/DeleteRecordedMidi.xml
 actions/menus/MainMenu/EditMenu/Delete/IntelligentDelete.scm
 actions/menus/MainMenu/EditMenu/Delete/IntelligentDelete.xml
 actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.scm
@@ -712,10 +710,14 @@ actions/menus/MainMenu/PlaybackMenu/Recording/Audio/ToggleAudioRecord.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/Audio/ToggleAudioRecord.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/BackupAndPlay.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/BackupAndPlay.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/DeleteRecordedMidi.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/DeleteRecordedMidi.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayAndAdvance.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayAndAdvance.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.scm

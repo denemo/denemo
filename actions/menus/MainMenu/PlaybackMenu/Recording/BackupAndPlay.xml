@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>BackupAndPlay</action>
         <after>PlayAndAdvance</after>
-        <_label>Backup and Play Marked MIDI note.</_label>
+        <_label>Backup and Play Marked MIDI Note.</_label>
         <_tooltip>Moves the marked MIDI note one note earlier and plays that.</_tooltip>
       </row>
     </map>

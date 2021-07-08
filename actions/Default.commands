@@ -6414,9 +6414,9 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>DeleteRecordedMidi</action>
-        <after>DeletePreviousObject</after>
-        <menupath>/MainMenu/EditMenu/Delete</menupath>
-        <_label>Delete Imported/Recorded Midi</_label>
+        <after>Audio</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Delete Recorded Midi</_label>
         <_tooltip>Deletes the MIDI that has been imported or recorded via MIDI in.</_tooltip>
       </row>
       <row type="scheme">
@@ -8694,15 +8694,22 @@ Include rests if they are part of the pattern.
         <action>PlayAndAdvance</action>
         <after>RecordMidiIn</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
-        <_label>Play and Advance Marked Midi</_label>
+        <_label>Play and Advance Marked Midi Note</_label>
         <_tooltip>Plays the marked recorded MIDI note and advances the mark.</_tooltip>
       </row>
       <row type="scheme">
         <action>BackupAndPlay</action>
         <after>PlayAndAdvance</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
-        <_label>Backup and Play Marked MIDI note.</_label>
+        <_label>Backup and Play Marked MIDI Note.</_label>
         <_tooltip>Moves the marked MIDI note one note earlier and plays that.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SyncRecordingToCursor</action>
+        <after>RecordMidiIn</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Synchronize Marked Recorded Midi Note to Denemo Cursor Position</_label>
+        <_tooltip>Alters the timing of the recorded MIDI notes so that the marked note plays at the time of the note currently at the Denemo cursor.</_tooltip>
       </row>
     </map>
   </merge>

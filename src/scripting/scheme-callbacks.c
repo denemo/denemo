@@ -6301,16 +6301,22 @@ SCM scheme_midi_record (void)
   return SCM_BOOL (Denemo.project->midi_destination & MIDIRECORD);
 }
 
+SCM scheme_synchronize_recording (void)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
+    {
+		synchronize_recording ();
+		return SCM_BOOL_T;
+	}
+  return SCM_BOOL_F;
+}
 
 SCM scheme_recording_midi (void)
 {
   return SCM_BOOL (Denemo.project->midi_destination & MIDIRECORD);
 }
-
-
-
-
-
 
 SCM
 scheme_compute_midi_note_durations (void)
@@ -6335,6 +6341,37 @@ scheme_get_marked_midi_note (void)
   return scm;
 }
 
+SCM scheme_set_marked_midi_note (SCM pos)
+{
+ SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (scm_is_integer (pos) && si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->recording->notes)
+    {
+      gint val = 2 * scm_to_int (pos);// each note has two entries in the list off and on
+      si->marked_onset = (val<0) ? g_list_last (si->recording->notes) : g_list_nth (si->recording->notes, val - 1);
+      if (si->marked_onset)
+		{
+			
+			DenemoRecordedNote *thenote;
+			while (1) {
+						 thenote = (DenemoRecordedNote *)  si->marked_onset->data;
+						 if (thenote && ((thenote->midi_event[0]&0xF0)!=MIDI_NOTE_ON))
+								{
+									si->marked_onset = si->marked_onset->prev;
+									if (si->marked_onset)
+										continue;
+									else
+										break;
+								}
+						else
+								break;
+					}
+			scm = scm_from_bool (si->marked_onset != NULL);
+		}
+	}	
+return scm;	
+}
 SCM scheme_get_marked_midi_note_seconds (void)
 {
   SCM scm = SCM_BOOL_F;
