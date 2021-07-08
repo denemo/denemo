@@ -6335,8 +6335,7 @@ scheme_get_marked_midi_note (void)
   return scm;
 }
 
-SCM
-scheme_get_marked_midi_note_seconds (void)
+SCM scheme_get_marked_midi_note_seconds (void)
 {
   SCM scm = SCM_BOOL_F;
   DenemoProject *gui = Denemo.project;
@@ -6351,9 +6350,22 @@ scheme_get_marked_midi_note_seconds (void)
   return scm;
 }
 
-
-SCM
-scheme_advance_marked_midi (SCM advance)
+SCM scheme_play_marked_midi (void)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
+    {
+      GList *marked = si->marked_onset;
+      DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+      DenemoRecordedNote *thenote = (DenemoRecordedNote *) marked->data;
+     
+	  play_note (DEFAULT_BACKEND, 0 /*port */ , curstaffstruct->midi_channel, thenote->midi_event[1], 200, 127);
+	  return SCM_BOOL_T;
+    }
+	return SCM_BOOL_F;
+}
+SCM scheme_advance_marked_midi (SCM advance)
 {
   SCM scm = SCM_BOOL_F;
   DenemoProject *gui = Denemo.project;
