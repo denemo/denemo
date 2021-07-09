@@ -361,9 +361,7 @@ generate_midi (void)
     {
       exportmidi (NULL, Denemo.project->movement);
     }
-  else
-   if (Denemo.project->movement->recording)
-	   generate_midi_from_recorded_notes (Denemo.project->movement->smf);
+
   if (Denemo.project->movement->smf == NULL)
     {
       g_critical ("Loading SMF failed.");
