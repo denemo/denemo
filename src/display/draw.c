@@ -346,9 +346,9 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         if ((thechord->lowesty) > itp->lowy + STAFF_HEIGHT)
           itp->lowy = thechord->lowesty - STAFF_HEIGHT;
 
- //display note onsets for source audio above relevant notes in top staff
+ //display note onsets for source audio above relevant notes in first staff, usually a click track
  // if there are not enough notes to use up all the recorded note onsets only some recorded notes are shown.
-         if(cr && si->recording && itp->recordednote && (itp->staffnum == si->top_staff))
+         if(cr && si->recording && itp->recordednote && (itp->staffnum == 1))//only show MIDI track at top of score
             {
              GList *g = itp->recordednote;
              gint current = mudelaitem->earliest_time*si->recording->samplerate;
