@@ -63,10 +63,12 @@ void new_midi_recording (void) {
   recording->type = DENEMO_RECORDING_MIDI;
   recording->samplerate = 44100;
   recording_time = -1;//unset
-  recording->offset = 0;
+  recording->offset = 0.0;
   Denemo.project->midi_recording = TRUE;
   Denemo.project->movement->recording = recording;
-
+  if (si->smfsync != si->changecount)
+			exportmidi (NULL, si); //si->end_time is now the time in seconds of the current score, if the recording extends past this time create more clicks
+			
 }
 void resume_midi_recording (void) {
 	DenemoMovement *si = Denemo.project->movement;
@@ -144,7 +146,7 @@ void delete_last_recorded_note (void)
 	
 }   
 	
-//Add the passed midi to a recording in Denemo.project->movement
+//Add the passed midi event to a recording in Denemo.project->movement
 void record_midi (gchar * buf)
 {
 	static gdouble current_time;

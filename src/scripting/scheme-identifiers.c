@@ -193,6 +193,8 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the MIDI track number of the current imported track.", DENEMO_SCHEME_PREFIX "GetCurrentMidiTrack", scheme_get_current_midi_track);
   install_scm_function (0, "Returns the number of MIDI tracks of the loaded/recorded MIDI.", DENEMO_SCHEME_PREFIX "GetImportedMidiTracks", scheme_get_imported_midi_tracks);
   install_scm_function (0, "Returns the duration in seconds of the recorded MIDI track or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiDuration", scheme_get_recorded_midi_duration);
+  install_scm_function (0, "Returns the time in seconds starting at the cursor position.", DENEMO_SCHEME_PREFIX "GetTimeAtCursor", scheme_get_time_at_cursor);
+  install_scm_function (0, "Returns the duration in seconds of the current movement.", DENEMO_SCHEME_PREFIX "MovementDuration", scheme_movement_duration);
 
   install_scm_function (0, "Returns the number of ticks (PPQN) for the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetDurationInTicks", scheme_get_duration_in_ticks);
   install_scm_function (0, "Returns the number of ticks (PPQN) for the chord without dots or tuplet effects at the cursor, or #f if not a chord. The value is -ve for special durations (i.e. non-standard notes)", DENEMO_SCHEME_PREFIX "GetBaseDurationInTicks", scheme_get_base_duration_in_ticks);
@@ -1100,8 +1102,10 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
   install_scm_function (1, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "SetMarkedMidiNote", scheme_set_marked_midi_note);
-  install_scm_function (0, "Takes a number n, sets the marked midi note n'th note.", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteSeconds", scheme_get_marked_midi_note_seconds);
-  install_scm_function (1, "Advances the marked recorded midi note can take an integer for number of steps to advance, or #f to clear the mark. Returns #f if no more marks.", DENEMO_SCHEME_PREFIX "AdvanceMarkedMidi", scheme_advance_marked_midi);
+  install_scm_function (0, "Returns the start time of the marked midi note or #f if none.", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteSeconds", scheme_get_marked_midi_note_seconds);
+  install_scm_function (0, "Returns the duration in seconds of the MIDI recording or #f if none.", DENEMO_SCHEME_PREFIX "GetMidiRecordingDuration", scheme_get_midi_recording_duration);
+  install_scm_function (0, "Returns the time in seconds where the MIDI recording is synchronized or #f if none.", DENEMO_SCHEME_PREFIX "GetMidiRecordingOffset", scheme_get_midi_recording_offset);
+  install_scm_function (1, "Advances the marked recorded midi note; can take an integer for number of steps to advance, or #f to clear the mark. Returns #f if no more marks.", DENEMO_SCHEME_PREFIX "AdvanceMarkedMidi", scheme_advance_marked_midi);
   install_scm_function (0, "Inserts the marked recorded or imported MIDI note using the duration guessed from the note length. Returns #f if nothing marked.", DENEMO_SCHEME_PREFIX "InsertMarkedMidiNote", scheme_insert_marked_midi_note);
 
   install_scm_function (0, "Generates the MIDI timings for the music of the current movement. Returns TRUE if the MIDI was re-computed else FALSE (call was unnecessary).", DENEMO_SCHEME_PREFIX "CreateTimebase", scheme_create_timebase);

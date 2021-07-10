@@ -3521,6 +3521,8 @@ scheme_get_recorded_midi_tempo (SCM index)
   return SCM_BOOL_F;
 }
 
+
+
 SCM
 scheme_get_imported_midi_track (SCM index)
 {
@@ -3569,6 +3571,20 @@ scheme_get_recorded_midi_duration (void)
   return SCM_BOOL_F;
 }
 
+SCM scheme_get_time_at_cursor (void)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (si->smfsync != si->changecount)
+			exportmidi (NULL, si);	
+    return scm_from_double (get_time_at_cursor ());
+}
+SCM scheme_movement_duration (void)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (si->smfsync != si->changecount)
+			exportmidi (NULL, si);	
+    return scm_from_double (smf_get_length_seconds (si->smf));
+}
 SCM
 scheme_get_duration_in_ticks (void)
 {
@@ -6386,7 +6402,30 @@ SCM scheme_get_marked_midi_note_seconds (void)
     }
   return scm;
 }
+SCM scheme_get_midi_recording_duration (void)
+{
+  SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->recording->notes)
+    {
+      GList *last = g_list_last(si->recording->notes);
+      DenemoRecordedNote *thenote = (DenemoRecordedNote *) last->data;//this should be a note off event, unless someone stops recording while holding down a note.
+      gdouble seconds = thenote->timing / ((gdouble) si->recording->samplerate);
+      scm = scm_from_double (seconds);
+    }
+  return scm;
+}
 
+SCM scheme_get_midi_recording_offset (void)
+{
+  SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
+      scm = scm_from_double (si->recording->offset);
+  return scm;
+}
 SCM scheme_play_marked_midi (void)
 {
   DenemoProject *gui = Denemo.project;

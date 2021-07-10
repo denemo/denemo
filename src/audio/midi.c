@@ -486,11 +486,12 @@ gdouble get_time_at_cursor (void)
 	if (curobj)
 		{
 			obj = Denemo.project->movement->currentobject->data; 
-			time = obj->earliest_time;
+			time = obj->earliest_time;	g_print ("Object time at cursor %f\n", time);
+
 		}
 	else
 		time = ((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->earliest_time;
-	//g_print ("time at cursor %f\n", time);
+	g_print ("so time at cursor %f\n", time);
 	return time;
 }
 

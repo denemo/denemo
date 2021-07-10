@@ -972,7 +972,7 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
  
   
   
-void	generate_midi_from_recorded_notes (smf_t *smf)
+static void	generate_midi_from_recorded_notes (smf_t *smf)
 {
 	smf_track_t* track;
 	if (track = smf_get_track_by_number (smf, 1))
@@ -1115,15 +1115,19 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   smf_t *smf = smf_new ();
   if(smf_set_ppqn (smf, MIDI_RESOLUTION))
     g_debug("smf_set_ppqn failed");
-  if (Denemo.project->movement->recording)
-	generate_midi_from_recorded_notes (smf); 
+
 /*
  * end of headers and meta events, now for some real actions
  */
 
+//play recorded MIDI if the top (click track) staff is unmuted
+  if (Denemo.project->movement->recording && !((DenemoStaff *) si->thescore->data)->mute)
+	generate_midi_from_recorded_notes (smf); 
+
+
   //fraction = 1 / g_list_length (si->thescore);
 
-  /* iterate over all tracks in file */
+  /* iterate over all staffs in movement */
   //printf ("\nsi->stafftoplay in exportmidi = %i", si->stafftoplay);
   curstaff = si->thescore;
   if (si->stafftoplay > 0)
@@ -1909,7 +1913,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
     si->start_time = 0.0;
   if (si->end_time < 0.0)
     si->end_time = smf_get_length_seconds (smf);
-  g_debug ("Start time %f end time %f\n", si->start_time, si->end_time);
+  g_print ("Start time %f end time %f\n", si->start_time, si->end_time);
 
   call_out_to_guile ("(FinalizeMidiGeneration)");
   return smf_get_length_seconds (smf);

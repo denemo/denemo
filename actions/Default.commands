@@ -8711,6 +8711,13 @@ Include rests if they are part of the pattern.
         <_label>Synchronize Marked Recorded Midi Note to Denemo Cursor Position</_label>
         <_tooltip>Alters the timing of the recorded MIDI notes so that the marked note plays at the time of the note currently at the Denemo cursor.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ExtendClickTrack</action>
+        <after>BackupAndPlay</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Extend the Click Track</_label>
+        <_tooltip>Adds measures to the click track to cover all the recorded midi notes</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
