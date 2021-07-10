@@ -8718,6 +8718,13 @@ Include rests if they are part of the pattern.
         <_label>Extend the Click Track</_label>
         <_tooltip>Adds measures to the click track to cover all the recorded midi notes</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteMidiAndClickTrack</action>
+        <after>DeleteRecordedMidi</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Delete Recorded MIDI and Click Track</_label>
+        <_tooltip>Deletes the MIDI recording and the click track that shows it.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
