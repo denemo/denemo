@@ -883,7 +883,15 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
   else
     get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+    
+    //showing what object would become current if the user clicks
   GList *old_obj = Denemo.object_hovering_over;
+  
+  if(gui->movement->recording && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
+	{
+		return TRUE;
+	}
+  
   Denemo.object_hovering_over = pi.the_obj;
   if (old_obj != Denemo.object_hovering_over)
     gtk_widget_queue_draw (Denemo.scorearea);
