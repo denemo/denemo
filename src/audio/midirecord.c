@@ -282,12 +282,27 @@ void popup_recording_menu (gint position)
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (synchronize_recording), NULL);
 
+	{
+	  item = gtk_menu_item_new_with_label (_("Extend the Click Track"));
+	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "(d-ExtendClickTrack)");
+	}
+	
   //if (!(Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD)))
 	{
 	  item = gtk_menu_item_new_with_label (_("Delete Last Recorded Note"));
 	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
 	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_last_recorded_note), NULL);
 	}
+	
+	
+	{
+	  item = gtk_menu_item_new_with_label (_("Mute Off/On"));
+	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "(d-ToggleMuteClickTrack)");
+	}
+	
+	
   item = gtk_menu_item_new_with_label (_("Delete MIDI Recording"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (pb_midi_delete), NULL);

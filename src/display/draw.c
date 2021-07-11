@@ -486,7 +486,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 										{
 										  cairo_set_line_width (cr, 6.0 / Denemo.project->movement->zoom);
 										  cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
-										  cairo_arc (cr, pos + x -extra_width, y + thenote->y, 20 / Denemo.project->movement->zoom, 0, 2 * M_PI);
+										  cairo_arc (cr, pos + x - extra_width + 4, y + thenote->y, 20 / Denemo.project->movement->zoom, 0, 2 * M_PI);
 										  cairo_stroke (cr);
 										}
 								}
