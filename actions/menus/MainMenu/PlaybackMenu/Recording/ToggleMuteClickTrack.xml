@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ToggleMuteClickTrack</action>
+        <after>ExtendClickTrack</after>
+        <_label>Mute/Unmute Recording Playback</_label>
+        <_tooltip>Controls whether the recorded MIDI (and the click track) plays back with your score when you do Play.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

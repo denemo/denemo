@@ -8725,6 +8725,13 @@ Include rests if they are part of the pattern.
         <_label>Delete Recorded MIDI and Click Track</_label>
         <_tooltip>Deletes the MIDI recording and the click track that shows it.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ToggleMuteClickTrack</action>
+        <after>ExtendClickTrack</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Mute/Unmute Recording Playback</_label>
+        <_tooltip>Controls whether the recorded MIDI (and the click track) plays back with your score when you do Play.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
