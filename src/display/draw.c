@@ -200,6 +200,7 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean 
                 cairo_fill (cr);
 
     }
+#ifdef NEEDED_FOR_AUDIO_RECORDING
    static gboolean on;
 
     if(mark)
@@ -213,6 +214,7 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean 
                   cairo_stroke (cr);
                 }
         }
+#endif
 }
 
 /**
@@ -368,7 +370,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
             gint extra_width = (curobj->prev==NULL) ? SPACE_FOR_BARLINE:0; //first note has extra width to leave no gap in timing from end of last bar
 
             notewidth += extra_width;
-
+//draw a blue track for the note onsets to appear above
             cairo_set_source_rgba (cr, 0.0, 0.2, 1.0, 1);
             cairo_move_to (cr, -extra_width + x + mudelaitem->x, 25);
             cairo_line_to (cr, -extra_width + x + mudelaitem->x, 20);
@@ -385,7 +387,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
              for ( ;g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current); g=g->next)
                 {
-					if ((((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_OFF)
+					if (((DenemoRecordedNote*)g->data)->midi_event != NULL //midi
+						&& (((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_OFF)
 						continue;
                     if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
                         cairo_save (cr);
@@ -402,7 +405,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 				gchar *glyph = NULL;
 				pos = notewidth * fraction;
 				pos +=  mudelaitem->x;
-				if ((((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_ON)
+				if (((DenemoRecordedNote*)g->data)->midi_event == NULL //audio
+					|| (((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_ON)
 					{
 					if(g==si->marked_onset)
 						{
@@ -472,14 +476,34 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 							(g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
 								cairo_set_source_rgba (cr, 0, 0, 0, 1);
 							draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);
+							   
+							//highlight the marked onset with a flashing blue circle
+							if((g==si->marked_onset))
+								{
+									static gboolean on;
+									on = !on;
+									if(on)
+										{
+										  cairo_set_line_width (cr, 6.0 / Denemo.project->movement->zoom);
+										  cairo_set_source_rgba (cr, 0, 1, 0, 0.40);
+										  cairo_arc (cr, pos + x -extra_width, y + thenote->y, 20 / Denemo.project->movement->zoom, 0, 2 * M_PI);
+										  cairo_stroke (cr);
+										}
+								}
+							
+							
+							
+							
 							cairo_restore (cr);
 						}
 					}
-				glyph = ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON) ?
-					NULL : "¬";
+				if (((DenemoRecordedNote*)g->data)->midi_event)
+					glyph = ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON) ?
+							NULL : "¬";
                 draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
 
-				if ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON)
+				if ((((DenemoRecordedNote*)g->data)->midi_event == NULL)
+					|| (((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON)
 					{
 						if(g==si->marked_onset)
 							{//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
