@@ -18,6 +18,7 @@
 #include <sndfile.h>
 #include "export/exportmidi.h"
 #include "export/guidedimportmidi.h"
+#include "command/lilydirectives.h"
 
 
 static gboolean playing_recorded_midi = FALSE;
@@ -53,9 +54,6 @@ void delete_recording (void)
 void new_midi_recording (void) {
   DenemoMovement *si = Denemo.project->movement;
   DenemoRecording *recording;
-
-  DenemoStaff* topstaff = (DenemoStaff*) si->thescore->data;
-  //topstaff->space_above = MAX (topstaff->space_above, 50);//leave room for MIDI track above
   if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
 		delete_recording ();
   recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
@@ -145,7 +143,11 @@ void delete_last_recorded_note (void)
 		resume_midi_recording ();
 	
 }   
-	
+gboolean midi_track_present (void)
+{
+	DenemoStaff *topstaff = (DenemoStaff*) Denemo.project->movement->thescore->data;
+	return find_directive (topstaff->clef.directives, DENEMO_CLICK_TRACK_NAME) != NULL;
+} 
 //Add the passed midi event to a recording in Denemo.project->movement
 void record_midi (gchar * buf)
 {

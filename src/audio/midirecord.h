@@ -19,4 +19,5 @@ void declare_record_button (GtkWidget *button);
 void advance_marked_midi (gint steps);
 void synchronize_recording (void);
 void scale_recording (gdouble scale);
+gboolean midi_track_present (void);
 #endif //MIDIRECORD_H
