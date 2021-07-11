@@ -977,93 +977,94 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         return TRUE;
       }
   dragging_separator = FALSE;
-
-  if(gui->movement->recording && gui->movement->recording->type==DENEMO_RECORDING_AUDIO)
-    {
-     //g_debug("audio %f %f\n", event->x, event->y);
-      if(event->y < HeightOfRecordingTrack*gui->movement->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
-        {
-            if (event->type==GDK_2BUTTON_PRESS)
-                {
-                    gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
-                    if (gui->movement->marked_onset_position < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
-                         if (Denemo.prefs.learning)
-                            MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
-												MouseGesture);
-						}
-                    else if (Denemo.prefs.learning)
-                            MouseGestureShow(_("Double Click Recorded MIDI Note"), _("This marks/un-marks the current recorded MIDI note."),
-          MouseGesture);
-                    gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position
-                    return TRUE;
-                } 
-          else
-                {
-					if (is_playing ())
-						{
-							g_warning ("Stop playing first");
-							return TRUE;
-						}
-					
-                    //gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), left?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
-                    left? (dragging_recording_sync = TRUE) : (dragging_tempo = TRUE);
-                    motion_started = FALSE;
-                    //if (is_playing ())
-					//	g_print ("Stopping any playback"), stop_playing ();
-					//else
-					//	start_playing ("(disp \"Finished playback of recording\")");
-                    //if (!left)
-					//	play_recorded_midi ();
-                    if (Denemo.prefs.learning) 
-                     left? 	MouseGestureShow(_("Left on Note Onset"), _("preparing to drag..."),
-											MouseGesture) :
-							MouseGestureShow(_("Start Playing Recording"), _("This starts playing the recorded MIDI notes from the marked onset"),
-											MouseGesture);
-					
-                    gtk_widget_queue_draw(Denemo.scorearea);
-                    return TRUE;
-                }
-        }
-    }
-   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
+  if (gui->movement->top_staff == 1)
 	{
-		if (left)
+	  if(gui->movement->recording && gui->movement->recording->type==DENEMO_RECORDING_AUDIO)
+		{
+		 //g_debug("audio %f %f\n", event->x, event->y);
+		  if(event->y < HeightOfRecordingTrack*gui->movement->zoom /* see draw.c for this value, the note onsets are drawn in the top 20 pixels */)
 			{
-				if (control_held_down ())
+				if (event->type==GDK_2BUTTON_PRESS)
 					{
-						(dragging_tempo = TRUE);
+						gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+						if (gui->movement->marked_onset_position < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
+							 if (Denemo.prefs.learning)
+								MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
+													MouseGesture);
+							}
+						else if (Denemo.prefs.learning)
+								MouseGestureShow(_("Double Click Recorded MIDI Note"), _("This marks/un-marks the current recorded MIDI note."),
+			  MouseGesture);
+						gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position
+						return TRUE;
+					} 
+			  else
+					{
+						if (is_playing ())
+							{
+								g_warning ("Stop playing first");
+								return TRUE;
+							}
+						
+						//gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), left?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
+						left? (dragging_recording_sync = TRUE) : (dragging_tempo = TRUE);
 						motion_started = FALSE;
+						//if (is_playing ())
+						//	g_print ("Stopping any playback"), stop_playing ();
+						//else
+						//	start_playing ("(disp \"Finished playback of recording\")");
+						//if (!left)
+						//	play_recorded_midi ();
 						if (Denemo.prefs.learning) 
-							 MouseGestureShow(_("Control Left click on MIDI Recording Track"), _("Start dragging to change tempo of MIDI recorded track."),
-													MouseGesture);
-					} else
-				if (shift_held_down ())
-					{
-						gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
-						play_recorded_midi ();//toggles
-						if (Denemo.prefs.learning) 
-							 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
-													MouseGesture);
-					} else
-					{
-						gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
-						pause_recording_midi ();
-						if (Denemo.prefs.learning)
-                            MouseGestureShow(_("Left Click Recorded MIDI Note"), _("This marks the current recorded MIDI note."),
-          MouseGesture);
+						 left? 	MouseGestureShow(_("Left on Note Onset"), _("preparing to drag..."),
+												MouseGesture) :
+								MouseGestureShow(_("Start Playing Recording"), _("This starts playing the recorded MIDI notes from the marked onset"),
+												MouseGesture);
+						
+						gtk_widget_queue_draw(Denemo.scorearea);
+						return TRUE;
 					}
-				return TRUE;
 			}
-		else
-			{
-				if (Denemo.prefs.learning) 
-                     MouseGestureShow(_("Right click on MIDI Recording Track"), _("Menu of options for MIDI recorded track."),
-											MouseGesture);
-				popup_recording_menu((gint)event->x/gui->movement->zoom);
-				return TRUE;
-			}
-	}
-
+		}
+	   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
+		{
+			if (left)
+				{
+					if (control_held_down ())
+						{
+							(dragging_tempo = TRUE);
+							motion_started = FALSE;
+							if (Denemo.prefs.learning) 
+								 MouseGestureShow(_("Control Left click on MIDI Recording Track"), _("Start dragging to change tempo of MIDI recorded track."),
+														MouseGesture);
+						} else
+					if (shift_held_down ())
+						{
+							gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+							play_recorded_midi ();//toggles
+							if (Denemo.prefs.learning) 
+								 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
+														MouseGesture);
+						} else
+						{
+							gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+							pause_recording_midi ();
+							if (Denemo.prefs.learning)
+								MouseGestureShow(_("Left Click Recorded MIDI Note"), _("This marks the current recorded MIDI note."),
+			  MouseGesture);
+						}
+					return TRUE;
+				}
+			else
+				{
+					if (Denemo.prefs.learning) 
+						 MouseGestureShow(_("Right click on MIDI Recording Track"), _("Menu of options for MIDI recorded track."),
+												MouseGesture);
+					popup_recording_menu((gint)event->x/gui->movement->zoom);
+					return TRUE;
+				}
+		}
+  }
 
   //g_debug("before %f %f\n", event->x, event->y);
   transform_coords (&event->x, &event->y);

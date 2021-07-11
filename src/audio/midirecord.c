@@ -55,7 +55,7 @@ void new_midi_recording (void) {
   DenemoRecording *recording;
 
   DenemoStaff* topstaff = (DenemoStaff*) si->thescore->data;
-  topstaff->space_above = MAX (topstaff->space_above, 50);//leave room for MIDI track above
+  //topstaff->space_above = MAX (topstaff->space_above, 50);//leave room for MIDI track above
   if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
 		delete_recording ();
   recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));

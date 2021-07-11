@@ -7152,8 +7152,7 @@ scheme_set_staff_range (void)
   return SCM_BOOL_F;
 }
 
-SCM
-scheme_shorten_staff_height (SCM shorten)
+SCM scheme_shorten_staff_height (SCM shorten)
 {
   DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
 
@@ -7165,6 +7164,30 @@ scheme_shorten_staff_height (SCM shorten)
     }
   return scm_from_int (thestaff->space_shorten);
 }
+
+SCM scheme_staff_set_space_above (SCM space)
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (scm_is_integer (space))
+    {
+      gint value = scm_to_int (space);
+      thestaff->space_above = value;
+      displayhelper (Denemo.project);
+    }
+  return scm_from_int (thestaff->space_above);
+}
+SCM scheme_staff_set_space_below (SCM space)
+{
+  DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+  if (scm_is_integer (space))
+    {
+      gint value = scm_to_int (space);
+      thestaff->space_below = value;
+      displayhelper (Denemo.project);
+    }
+  return scm_from_int (thestaff->space_below);
+}
+
 
 SCM
 scheme_set_color_of_staff (SCM color)
