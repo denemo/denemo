@@ -194,9 +194,9 @@ static void draw_note_onset(cairo_t *cr, double x, const gchar *glyph, gboolean 
         drawlargetext_cr (cr, glyph, x, 20);
     } else
     {
-                cairo_move_to (cr, x, 32);
-                cairo_line_to (cr, x, 0);
-                cairo_line_to (cr, x + 10, 32);
+                cairo_move_to (cr, x, 10);
+                cairo_line_to (cr, x, 20);
+                cairo_line_to (cr, x + 10, 20);
                 cairo_fill (cr);
 
     }
@@ -1898,7 +1898,7 @@ draw_callback (cairo_t * cr)
   if (Denemo.project->audio_recording || Denemo.project->midi_recording)
 	{
 		cairo_set_source_rgba (cr, 0.9, 0.4, 0.4, 0.5);
-		general_draw_text (cr, "Times 24", _( "Recording"), 110.0, -14.0);
+		general_draw_text (cr, "Times 24", _( "Recording"), 50.0, -14.0);
 	}
  if (Denemo.project->movement->playingnow)
 		{
