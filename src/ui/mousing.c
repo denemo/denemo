@@ -23,7 +23,7 @@
 #include "audio/midirecord.h"
 #include "export/exportmidi.h"
 
-#define HeightOfRecordingTrack (35)
+#define HeightOfRecordingTrack (161) //includes the entire click track at the top
 
 static gboolean lh_down;
 static gdouble last_event_x;
@@ -1176,7 +1176,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       if (event->type==GDK_2BUTTON_PRESS)
                 {
                     if(gui->movement->recording &&  !g_strcmp0 (((DenemoStaff *) gui->movement->currentstaff->data)->denemo_name->str, DENEMO_CLICK_TRACK_NAME))
-                        {
+                        {//FIXME this is never reached as we don't allow the mouse to access the click track 
                             gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
                             if (Denemo.prefs.learning)
                                 MouseGestureShow(_("Double Click on Click Track"), _("This will mark the MIDI note onset."), MouseGesture);
