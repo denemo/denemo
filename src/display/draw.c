@@ -1878,12 +1878,18 @@ draw_callback (cairo_t * cr)
     }
   else if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
     {
-      if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
-        cairo_set_source_rgb (cr, 0.9, 0.85, 1.0);
-      else if (Denemo.project->input_source == INPUTMIDI && Denemo.keyboard_state == GDK_CONTROL_MASK)      //checking pitches
-        cairo_set_source_rgb (cr, 0.85, 1.0, 0.9);
-      else
-        cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
+	if (Denemo.project->movement->recording  && (Denemo.project->midi_destination & MIDIRECORD))
+		{
+			cairo_set_source_rgb (cr, 0.7, 0.8, 0.9);
+		} else 
+		{
+			  if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
+				cairo_set_source_rgb (cr, 0.9, 0.85, 1.0);
+			  else if (Denemo.project->input_source == INPUTMIDI && Denemo.keyboard_state == GDK_CONTROL_MASK)      //checking pitches
+				cairo_set_source_rgb (cr, 0.85, 1.0, 0.9);
+			  else
+				cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
+		}
     }
 
   else
