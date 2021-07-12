@@ -7330,7 +7330,7 @@ and others in the LilyPond documentation.</_tooltip>
         <after>ToggleCurrentStaffDisplay</after>
         <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
         <_label>Display All (Other) Staffs (Off/On)</_label>
-        <_tooltip>If the current staff is hidden show all other staffs else hide all other staffs.</_tooltip>
+        <_tooltip>Show the current staff in the display and hide/show all other staffs. Typesetting is not affected.</_tooltip>
       </row>
       <row type="scheme">
         <action>HideNotSelectedStaffs</action>
@@ -8731,6 +8731,13 @@ Include rests if they are part of the pattern.
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
         <_label>Mute/Unmute Recording Playback</_label>
         <_tooltip>Controls whether the recorded MIDI (and the click track) plays back with your score when you do Play.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleHideOtherStaffsKeepingClick</action>
+        <after>ToggleMuteClickTrack</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Hide Other Staffs (Off/On)</_label>
+        <_tooltip>Hides/unhides other staffs in the display while keeping the MIDI track at the top visible.</_tooltip>
       </row>
     </map>
   </merge>

@@ -722,6 +722,8 @@ actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/ToggleHideOtherStaffsKeepingClick.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/ToggleHideOtherStaffsKeepingClick.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/ToggleMuteClickTrack.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/ToggleMuteClickTrack.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
