@@ -6364,8 +6364,24 @@ SCM scheme_set_marked_midi_note (SCM pos)
   DenemoMovement *si = gui->movement;
   if (scm_is_integer (pos) && si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->recording->notes)
     {
-      gint val = 2 * scm_to_int (pos);// each note has two entries in the list off and on
-      si->marked_onset = (val<0) ? g_list_last (si->recording->notes) : g_list_nth (si->recording->notes, val - 1);
+	  gint i;
+	  GList *g;
+      gint val = scm_to_int (pos);
+      if (val>0)
+		  for (i=0, g = si->recording->notes; g; g= g->next)
+			{
+				DenemoRecordedNote *thenote = (DenemoRecordedNote *) g->data;
+				if ((thenote->midi_event[0]&0xF0)!=MIDI_NOTE_ON)
+					continue;
+				i++;
+				if (i == val)
+					{
+						si->marked_onset = g;
+						break;
+					}
+			}
+	else 
+		si->marked_onset = g_list_last (si->recording->notes);
       if (si->marked_onset)
 		{
 			

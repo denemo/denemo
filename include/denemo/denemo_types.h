@@ -951,6 +951,7 @@ typedef struct DenemoMovement
   GList *marked_onset;/**< Note onset in audio selected by user */
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */
+  gboolean hovering_over_midi_track;/**< True when there is a midi track and the mouse is moving over it */
   DenemoObject *playingnow; /**< the last object played via MIDI; it must not be dereferenced as it may no longer exist */
   gdouble playhead; /**< MIDI time in seconds of playhead, ie point when last MIDI event was processed for output */
   gdouble start_player;/**< system time when MIDI player started */

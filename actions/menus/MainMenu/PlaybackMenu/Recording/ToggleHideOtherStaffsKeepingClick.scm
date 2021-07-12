@@ -4,5 +4,5 @@
 (d-PushPosition)
 (d-GoToPosition #f 1 1 1)
 (if (d-Directive-clef? DenemoClickTrack)
-	(d-HideStaff #f)
+	(d-StaffHidden #f))
 (d-PopPosition)

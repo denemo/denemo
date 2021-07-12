@@ -529,6 +529,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   if (Denemo.scorearea == NULL)
     return FALSE;
     
+   gui->movement->hovering_over_midi_track = (gui->movement->recording && (event->y < HeightOfRecordingTrack*gui->movement->zoom));
+
   // this would avoid an interesting "cursor follow the pointer" mode, which we don't use because you would not be able to move the mouse pointer away e.g. to choose a menu without the Denemo Cursor moving...
   //if (selecting && lh_down && !Denemo.project->movement->markstaffnum)
   // selecting = lh_down = 0; 
@@ -603,6 +605,9 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 
         return TRUE;
       }
+
+  
+	
 
 
 

@@ -1895,8 +1895,27 @@ draw_callback (cairo_t * cr)
   else
     {
       cairo_set_source_rgb (cr, 0.8, 0.8, 0.8); //gray background when key strokes are not being received.
+      
+
+      
     }
   cairo_paint (cr);
+
+	if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))
+		{
+			//to gray out the lower staffs:
+		  cairo_save (cr);
+		  cairo_rectangle (cr,
+					 0.0,
+					 161.0 * gui->movement->zoom,
+					 10000.0,
+					 10000.0);
+		  cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+		  cairo_clip (cr);
+		  cairo_paint (cr);
+		  cairo_restore (cr);
+	  }
+      
   /* Draw the score. */
   draw_score (cr);
   
