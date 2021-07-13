@@ -1880,7 +1880,10 @@ draw_callback (cairo_t * cr)
     {
 	if (Denemo.project->movement->recording  && (Denemo.project->midi_destination & MIDIRECORD))
 		{
-			cairo_set_source_rgb (cr, 0.7, 0.8, 0.9);
+			if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))	
+				cairo_set_source_rgb (cr, 0.9, 0.8, 0.7);
+			else
+				cairo_set_source_rgb (cr, 0.87, 0.85, 0.8);
 		} else 
 		{
 			  if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
@@ -1901,16 +1904,24 @@ draw_callback (cairo_t * cr)
     }
   cairo_paint (cr);
 
-	if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))
+			
+	if (Denemo.project->movement->recording)
 		{
-			//to gray out the lower staffs:
+			//to lightly gray out the lower staffs which only respond to un-diverted keystrokes
 		  cairo_save (cr);
 		  cairo_rectangle (cr,
 					 0.0,
 					 161.0 * gui->movement->zoom,
 					 10000.0,
 					 10000.0);
-		  cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+		  if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))
+			  {							
+				  cairo_set_source_rgb (cr, 0.87, 0.85, 0.8);
+			  }
+		  else
+			  {
+				  cairo_set_source_rgb (cr, 0.9, 0.8, 0.7);
+			  }
 		  cairo_clip (cr);
 		  cairo_paint (cr);
 		  cairo_restore (cr);
