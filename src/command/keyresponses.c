@@ -377,7 +377,7 @@ static gint keypress_on_midi_track (GdkEventKey * event)
 gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
-  g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
+  //g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
   if ((Denemo.project->movement->hovering_over_midi_track) && keypress_on_midi_track(event))
 		return TRUE;
   if ((event->keyval == 65481) && (event->state == 0)) //Fn12 hardwired to repeat last command

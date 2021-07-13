@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-04-24"/>
+<meta name="create-date" content="2021-07-13"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -576,7 +576,16 @@ Table of Contents
 </div>
 <div class="tocindent">
 <div class="toc">
-<a class="Link" href="#toc-Subsubsection-21.2.1">Subsubsection 21.2.1: The Numeric Keypad</a>
+<a class="Link" href="#toc-Subsubsection-21.2.1">Subsubsection 21.2.1: Pitches-First Method</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-21.2.2">Subsubsection 21.2.2: Rhythms-First Method</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-21.2.3">Subsubsection 21.2.3: The Numeric Keypad</a>
+</div>
+<div class="toc">
+<a class="Link" href="#toc-Subsubsection-21.2.4">Subsubsection 21.2.4: Filtering MIDI in.</a>
 </div>
 </div>
 <div class="toc">
@@ -1526,7 +1535,7 @@ As you enter music if you enter an augmented or dimished interval a different in
 [<b>Switch to Play Along Playback</b>] button: When you press Play with this option set, the music will not advance past the cursor until you play the note. (Mute the current staff to prevent double sounding of notes)
 </div>
 <div class="Indented">
-The [<b>record</b>] button allows you to record from your MIDI keyboard while the score is playing back. (Press MIDI record button then start playback). Once the playback is stopped anything you have played on the MIDI keyboard has been recorded and two buttons Convert and Delete will appear. If you press start playback again (without record) the MIDI recording will be played back with the score, once you are happy with it then it can be converted to notation or if, you want to try again, deleted. See also the Playback/Record-&gt;Recording menu for more commands to record Denemo’s audio output.
+The Playback/Record-&gt;Recording menu has commands to record MIDI in and enter the notes played into a score see <a class="Reference" href="#sec:A-Survey-of-Input-Methods">A Survey of the Input Methods↓</a>.
 </div>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-3.6">3.6</a> Object Menus
@@ -3036,7 +3045,7 @@ By default, Denemo offers several ways of entering music: typing at the keyboard
 Typing at the keyboard can be very fast, if you forget which keypress you need you can consult the menu system to find out. This method is good for touch typists.
 </div>
 <div class="Indented">
-For entering a lot of already written-out music, playing the music in via a MIDI keyboard or microphone can offer the fastest and most musical method.
+For entering a lot of already written-out music, playing the music in via a MIDI keyboard can offer the fastest and most musical method. There are two ways of doing this: rhythm first and pitches first. The latter is new in version 2.6 and may well prove to be the best of all.
 </div>
 <div class="Indented">
 For composing one method is to set the MIDI-in control panel button to &ldquo;Listening to Pitches&rdquo; for trying out the melodic line you are tinkering with, and then pressing the Shift key to actually enter the pitches, releasing after so that further playing will be listening-only. This is good also for transcribing by ear from a audio track - you can listen to a phrase, reproduce it on your keyboard, enter the rhythms from the numeric keypad and then pessing Shift enter the pitches from the MIDI keyboard.
@@ -3050,38 +3059,41 @@ With all methods of note entry a measure start sound will be heard when your not
 <div class="Unindented">
 Denemo can take pitches directly from MIDI input<a class="IndexReference" name="entry-MIDI-1" href="#index-MIDI">↓</a>. Select Input-&gt;Midi Input. The control panel allows you to choose the enharmonic range<a class="IndexReference" name="entry-Enharmonic-Range-0" href="#index-Enharmonic-Range">↓</a>, the default centers around the initial key signature<a class="IndexReference" name="entry-Key-Signature-3" href="#index-Key-Signature">↓</a> (e. g. E-flat to G-sharp for C-major). If you enter a diminished or augmented interval the note will be played in a separate MIDI channel which can be used to alert you to pitch-spelling<a class="IndexReference" name="entry-Pitch-Spelling-1" href="#index-Pitch-Spelling">↓</a> mistakes (e. g. entering A-flat when G-sharp was meant, you will get a lot more augmented and dimished intervals if you have the enharmonic range set wrongly for your piece). 
 </div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-21.2.1">21.2.1</a> Pitches-First Method
+</h3>
+<div class="Unindented">
+This is new in version 2.6. The Playback/Record-&gt;Recording menu gives the commands to start recording pitches from your MIDI controller. First you position at the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording. A click track is created at the top of the score to act as a MIDI track set against its own background color. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
+</div>
 <div class="Indented">
-The best way to use the MIDI keyboard is enter the music firstly as pure rhythms using the pc-keyboard, ignoring the note names. The durations show as yellow/brown notes. Each duration makes a distinctive sound as you enter the durations. As you start each measure a sound is made so that you can keep your eyes on the score you are copying from, without needing to look up and check that you haven’t miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. 
+Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display. If you pause while recording (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. When you stop recording the MIDI track will be extended if necessary to have enough bars to cover the time of your recording in the tempo of the score. You don’t have to stop recording to go on to entering the rhythms or playing back what you have recorded, but it may be better to do so at least at first.
+</div>
+<div class="Indented">
+The green MIDI note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note by Shift Left Clicking on it. To reset the marked MIDI note click on the note in the MIDI track which you want to be marked or use the arrows or the menu items they invoke to move marker.
+</div>
+<div class="Indented">
+You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to play back the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable. 
+</div>
+<div class="Indented">
+Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You enter rests in between the durations for the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem.
+</div>
+<div class="Indented">
+Right-clicking on the MIDI track pops up a menu with some of the commands available as a special set of keyboard shortcuts which override the normal ones while the mouse is over the MIDI track. These special shortcuts are indicated in parentheses () after the command. E.g. (h) hides/unhides all the other staffs so that you just have the MIDI track and the staff for which the recorded notes are intended in view. This means you can use the arrow keys to play through the MIDI recording rather than move the Denemo cursor as usual. The commands in this menu also appear in the Playback-&gt;Recording menu, where they can be given ordinary shortcuts; these will apply wherever the mouse pointer is.
+</div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-21.2.2">21.2.2</a> Rhythms-First Method
+</h3>
+<div class="Unindented">
+Until Version 2.6 this was the quickest and most musical method of transcribing music available from any music notation program.
+</div>
+<div class="Indented">
+In this method you enter the music firstly as pure rhythms using the pc-keyboard, ignoring the note names. The durations show as yellow/brown notes. Each duration makes a distinctive sound as you enter the durations. As you start each measure a sound is made so that you can keep your eyes on the score you are copying from, without needing to look up and check that you haven’t miss-typed. If you are a reading musician you will find that you tap in the rhythm rhythmically which helps to keep your place in the piece you are entering. 
 </div>
 <div class="Indented">
 Once you have entered the rhythms for one or more measures you can play the notes via MIDI – the cursor automatically goes to the start of the rhythms you have entered. As you play notes in via MIDI they give their pitches to the rhythm you have notated. By this means you can enter a piece of music in the time taken to play it twice – once to give the rhythm and once to give the pitches. If the piece modulates strongly you may need to shift the set of accidentals used to match the score, the pitch spelling facility will alert you to this. (If entering pitches via a mic you need to navigate to the start point, but this isn’t needed for MIDI in).
 </div>
-<div class="Indented">
-Under Input-&gt;MIDI are various "MIDI filters<a class="IndexReference" name="entry-MIDI-Filters-0" href="#index-MIDI-Filters">↓</a>" that allow you to control how the MIDI input is used: with none active the behavior is as if you had entered the notes using the pc-keyboard, but with the following advantages 
-</div>
-<ul>
-<li>
-The octave, accidental and note name are all entered in one press of the MIDI key. The cursor automatically advances so you can continue to play in notes.
-</li>
-<li>
-The duration keys enter the yellow/brown duration-only notes, when you play a MIDI key the cursor automatically moves to the first of these.
-</li>
-<li>
-Holding down the <tt>Alt</tt> key (or sustain pedal) lets you enter chords.
-</li>
-<li>
-Holding down the <tt>Ctrl</tt> key lets you check the pitches of a piece already entered. The cursor only advances if the note played is the one at the cursor.
-</li>
-<li>
-Holding down the <tt>Shift</tt> key lets you listen to the MIDI keyboard without affecting the score.
-</li>
-<li>
-The problem of entering the wrong enharmonic is largely avoided by Denemo’s simple pitch-spelling strategy. The more extreme intervals are played in a separate MIDI channel so that if, for example you enter F - A-sharp it sounds quite distinct from F - B-flat.
-</li>
-
-</ul>
 <h3 class="Subsubsection">
-<a class="toc" name="toc-Subsubsection-21.2.1">21.2.1</a> The Numeric Keypad<a class="IndexReference" name="entry-Numeric-Keypad-0" href="#index-Numeric-Keypad">↓</a>
+<a class="toc" name="toc-Subsubsection-21.2.3">21.2.3</a> The Numeric Keypad<a class="IndexReference" name="entry-Numeric-Keypad-0" href="#index-Numeric-Keypad">↓</a>
 </h3>
 <div class="Unindented">
 The set of keys for entering numerical data that appear on full-sized keyboards make a very useful tool for entering rhythms. Even if you use a laptop without such a numeric keypad it is worth the 5 or 6 dollars/euros/pounds that a separate USB keyboard costs nowadays – it can be blu-tacked to your MIDI controller for easy access.
@@ -3105,6 +3117,33 @@ Some computers don’t respect the numeric keypad’s keys – confusing the Ent
 </div>
 
 </div>
+<h3 class="Subsubsection">
+<a class="toc" name="toc-Subsubsection-21.2.4">21.2.4</a> Filtering MIDI in.
+</h3>
+<div class="Unindented">
+Under Input-&gt;MIDI are various "MIDI filters<a class="IndexReference" name="entry-MIDI-Filters-0" href="#index-MIDI-Filters">↓</a>" that allow you to control how the MIDI input is used: with none active the behavior is as if you had entered the notes using the pc-keyboard, but with the following advantages 
+</div>
+<ul>
+<li>
+The octave, accidental and note name are all entered in one press of the MIDI key. The cursor automatically advances so you can continue to play in notes.
+</li>
+<li>
+The duration keys enter the yellow/brown duration-only notes, when you play a MIDI key the cursor automatically moves to the first of these.
+</li>
+<li>
+Holding down the <tt>Alt</tt> key (or sustain pedal) lets you enter chords.
+</li>
+<li>
+Holding down the <tt>Ctrl</tt> key lets you check the pitches of a piece already entered. The cursor only advances if the note played is the one at the cursor.
+</li>
+<li>
+Holding down the <tt>Shift</tt> key lets you listen to the MIDI keyboard without affecting the score.
+</li>
+<li>
+The problem of entering the wrong enharmonic is largely avoided by Denemo’s simple pitch-spelling strategy. The more extreme intervals are played in a separate MIDI channel so that if, for example you enter F - A-sharp it sounds quite distinct from F - B-flat.
+</li>
+
+</ul>
 <h2 class="Subsection">
 <a class="toc" name="toc-Subsection-21.3">21.3</a> Using an On-screen Piano Keyboard
 </h2>
@@ -5881,7 +5920,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-04-24T17:16:25.006557</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-07-13T13:05:26.145951</span>
 </div>
 </div>
 </body>

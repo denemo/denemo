@@ -244,20 +244,17 @@ static gboolean play_recorded_notes (GList *notenode)
 
 static void midi_recording_help (void)
 {
-	infodialog (_("With the mouse pointer over the MIDI track a set of special keyboard shortcuts override any others. These are indicated on this menu in parens.\
-The commands also appear in the Playback->Recording menu where they can be given ordinary shortcuts.\
-The MIDI note with the highlighted circle is the currently marked MIDI note. You can play the recording from this note by shift-clicking on it.\
-Or you can step through the recoding using the arrow keys.\
-Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor."
-	));
+	infodialog (_("The top staff is the MIDI track - it has no clef because the notes are placed on the staff assuming the clef of the staff that contains the Denemo cursor.\n\
+The MIDI note with the highlighted circle is the currently marked MIDI note. You can play the recording from this note by Shift Left Clicking on it.\n\
+You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to\n\
+playback the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable.\n\
+Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm.\n\
+Use the Ins key to enter the additional notes in a chord.\n\
+With the mouse pointer over the MIDI track a set of special keyboard shortcuts override the normal ones. These are indicated on this menu in parentheses ().\n\
+This means you can use the arrow keys to play through the MIDI recording rather than move the Denemo cursor as usual.\n\
+The commands in this menu also appear in the Playback->Recording menu, where they can be given ordinary shortcuts; these will apply wherever the mouse pointer is."));
 }  
-static void mark_recorded_note (gint position)
-{
-	pause_recording_midi ();
-	Denemo.project->movement->marked_onset_position = position;
-    gtk_widget_queue_draw(Denemo.scorearea);//sets marked_onset to match marked_onset_position during re-draw
-}   
-  
+
 void popup_recording_menu (gint position)
 {
 	pause_recording_midi ();
@@ -271,17 +268,14 @@ void popup_recording_menu (gint position)
 	{
 		item = gtk_menu_item_new_with_label (_("Stop Recording Notes (w)"));
 		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_midi_record), NULL);	
+		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "d-RecordMidiIn)");	
 	}
   else
 	{
 	  item = gtk_menu_item_new_with_label (_("Resume Recording Notes (w)"));
 	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (resume_midi_recording), NULL);
+	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "d-RecordMidiIn)");
 	}
-  //~ item = gtk_menu_item_new_with_label (_("Mark Note"));
-  //~ gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  //~ g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (mark_recorded_note), GINT_TO_POINTER (position));
 
   item = gtk_menu_item_new_with_label (_("Sync Marked Recorded Note to Denemo Cursor Note (s)"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);

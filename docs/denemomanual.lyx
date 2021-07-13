@@ -2777,20 +2777,15 @@ Switch to Play Along Playback
 \end_layout
 
 \begin_layout Standard
-The [
-\series bold
-record
-\series default
-] button allows you to record from your MIDI keyboard while the score is
- playing back.
- (Press MIDI record button then start playback).
- Once the playback is stopped anything you have played on the MIDI keyboard
- has been recorded and two buttons Convert and Delete will appear.
- If you press start playback again (without record) the MIDI recording will
- be played back with the score, once you are happy with it then it can be
- converted to notation or if, you want to try again, deleted.
- See also the Playback/Record->Recording menu for more commands to record
- Denemo's audio output.
+The Playback/Record->Recording menu has commands to record MIDI in and enter
+ the notes played into a score see 
+\begin_inset CommandInset ref
+LatexCommand nameref
+reference "sec:A-Survey-of-Input-Methods"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Subsection
@@ -9470,7 +9465,9 @@ Typing at the keyboard can be very fast, if you forget which keypress you
 
 \begin_layout Standard
 For entering a lot of already written-out music, playing the music in via
- a MIDI keyboard or microphone can offer the fastest and most musical method.
+ a MIDI keyboard can offer the fastest and most musical method.
+ There are two ways of doing this: rhythm first and pitches first.
+ The latter is new in version 2.6 and may well prove to be the best of all.
 \end_layout
 
 \begin_layout Standard
@@ -9570,9 +9567,114 @@ g.
  
 \end_layout
 
+\begin_layout Subsubsection
+Pitches-First Method
+\end_layout
+
 \begin_layout Standard
-The best way to use the MIDI keyboard is enter the music firstly as pure
- rhythms using the pc-keyboard, ignoring the note names.
+This is new in version 2.6.
+ The Playback/Record->Recording menu gives the commands to start recording
+ pitches from your MIDI controller.
+ First you position at the Denemo cursor at place where you want to enter
+ the notes into the score.
+ Then you invoke Record from MIDI-in (Off/On) to start recording.
+ A click track is created at the top of the score to act as a MIDI track
+ set against its own background color.
+ It has no clef because the recorded notes are displayed on the staff as
+ belonging to the clef of the staff you are intending to enter the notes
+ into, the one that contains the Denemo cursor.
+ While you are recording the Denemo Display has a red cast to it to remind
+ you that playing the MIDI keyboard will enter notes into the recording
+ rather than into the score.
+\end_layout
+
+\begin_layout Standard
+Once you start playing on the MIDI keyboard headless notes are entered on
+ the MIDI track staff with an indication of their start and end points on
+ the blue line at the top of the display.
+ If you pause while recording (e.g.
+ because of a long rest) the recorded track will not leave a big gap but
+ resume directly after the last note - you can control the amount of rest
+ time you want to allow in a recording via the Edit->Preferences->MIDI preferenc
+e 
+\begin_inset Quotes eld
+\end_inset
+
+MIDI-in recording timeout
+\begin_inset Quotes erd
+\end_inset
+
+.
+ When you stop recording the MIDI track will be extended if necessary to
+ have enough bars to cover the time of your recording in the tempo of the
+ score.
+ You don't have to stop recording to go on to entering the rhythms or playing
+ back what you have recorded, but it may be better to do so at least at
+ first.
+\end_layout
+
+\begin_layout Standard
+The green MIDI note with the highlighted green circle is the 
+\emph on
+currently marked MIDI note
+\emph default
+.
+ You can play the recording from this note by Shift Left Clicking on it.
+ To reset the marked MIDI note click on the note in the MIDI track which
+ you want to be marked or use the arrows or the menu items they invoke to
+ move marker.
+\end_layout
+
+\begin_layout Standard
+You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very*
+ slowly as it is slow to respond and will overshoot.
+ This is only needed if you want to play back the MIDI recording with your
+ score, otherwise just synchronize the right note with the Denemo cursor
+ position if it gets too far out of alignment to be comfortable.
+ 
+\end_layout
+
+\begin_layout Standard
+Pressing duration keys, including dotted rhythm, triplet and ties and slurred
+ versions of those commands will insert the marked MIDI note into the score
+ at the Denemo cursor and move it forwards so you can continually enter
+ the music mostly in music time and rhythm.
+ Use the Ins key to enter the additional notes in a chord.
+ You enter rests in between the durations for the notes via the usual shortcuts
+ (Alt-0,1,2 ...
+ ).
+ Mostly you can enter the rhythm in music-time so that you hear the melody
+ as you press the duration keys, but you can stop off at any moment to insert
+ dynamics etc and resume entering durations without a problem.
+\end_layout
+
+\begin_layout Standard
+Right-clicking on the MIDI track pops up a menu with some of the commands
+ available as a special set of keyboard shortcuts which override the normal
+ ones while the mouse is over the MIDI track.
+ These special shortcuts are indicated in parentheses () after the command.
+ E.g.
+ (h) hides/unhides all the other staffs so that you just have the MIDI track
+ and the staff for which the recorded notes are intended in view.
+ This means you can use the arrow keys to play through the MIDI recording
+ rather than move the Denemo cursor as usual.
+ The commands in this menu also appear in the Playback->Recording menu,
+ where they can be given ordinary shortcuts; these will apply wherever the
+ mouse pointer is.
+\end_layout
+
+\begin_layout Subsubsection
+Rhythms-First Method
+\end_layout
+
+\begin_layout Standard
+Until Version 2.6 this was the quickest and most musical method of transcribing
+ music available from any music notation program.
+\end_layout
+
+\begin_layout Standard
+In this method you enter the music firstly as pure rhythms using the pc-keyboard
+, ignoring the note names.
  The durations show as yellow/brown notes.
  Each duration makes a distinctive sound as you enter the durations.
  As you start each measure a sound is made so that you can keep your eyes
@@ -9596,66 +9698,6 @@ Once you have entered the rhythms for one or more measures you can play
  this.
  (If entering pitches via a mic you need to navigate to the start point,
  but this isn't needed for MIDI in).
-\end_layout
-
-\begin_layout Standard
-Under Input->MIDI are various "MIDI filters
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-MIDI Filters
-\end_layout
-
-\end_inset
-
-" that allow you to control how the MIDI input is used: with none active
- the behavior is as if you had entered the notes using the pc-keyboard,
- but with the following advantages 
-\end_layout
-
-\begin_layout Itemize
-The octave, accidental and note name are all entered in one press of the
- MIDI key.
- The cursor automatically advances so you can continue to play in notes.
-\end_layout
-
-\begin_layout Itemize
-The duration keys enter the yellow/brown duration-only notes, when you play
- a MIDI key the cursor automatically moves to the first of these.
-\end_layout
-
-\begin_layout Itemize
-Holding down the 
-\family typewriter
-Alt
-\family default
- key (or sustain pedal) lets you enter chords.
-\end_layout
-
-\begin_layout Itemize
-Holding down the 
-\family typewriter
-Ctrl
-\family default
- key lets you check the pitches of a piece already entered.
- The cursor only advances if the note played is the one at the cursor.
-\end_layout
-
-\begin_layout Itemize
-Holding down the 
-\family typewriter
-Shift
-\family default
- key lets you listen to the MIDI keyboard without affecting the score.
-\end_layout
-
-\begin_layout Itemize
-The problem of entering the wrong enharmonic is largely avoided by Denemo's
- simple pitch-spelling strategy.
- The more extreme intervals are played in a separate MIDI channel so that
- if, for example you enter F - A-sharp it sounds quite distinct from F -
- B-flat.
 \end_layout
 
 \begin_layout Subsubsection
@@ -9775,6 +9817,70 @@ Some computers don't respect the numeric keypad's keys – confusing the Enter
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsubsection
+Filtering MIDI in.
+\end_layout
+
+\begin_layout Standard
+Under Input->MIDI are various "MIDI filters
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+MIDI Filters
+\end_layout
+
+\end_inset
+
+" that allow you to control how the MIDI input is used: with none active
+ the behavior is as if you had entered the notes using the pc-keyboard,
+ but with the following advantages 
+\end_layout
+
+\begin_layout Itemize
+The octave, accidental and note name are all entered in one press of the
+ MIDI key.
+ The cursor automatically advances so you can continue to play in notes.
+\end_layout
+
+\begin_layout Itemize
+The duration keys enter the yellow/brown duration-only notes, when you play
+ a MIDI key the cursor automatically moves to the first of these.
+\end_layout
+
+\begin_layout Itemize
+Holding down the 
+\family typewriter
+Alt
+\family default
+ key (or sustain pedal) lets you enter chords.
+\end_layout
+
+\begin_layout Itemize
+Holding down the 
+\family typewriter
+Ctrl
+\family default
+ key lets you check the pitches of a piece already entered.
+ The cursor only advances if the note played is the one at the cursor.
+\end_layout
+
+\begin_layout Itemize
+Holding down the 
+\family typewriter
+Shift
+\family default
+ key lets you listen to the MIDI keyboard without affecting the score.
+\end_layout
+
+\begin_layout Itemize
+The problem of entering the wrong enharmonic is largely avoided by Denemo's
+ simple pitch-spelling strategy.
+ The more extreme intervals are played in a separate MIDI channel so that
+ if, for example you enter F - A-sharp it sounds quite distinct from F -
+ B-flat.
 \end_layout
 
 \begin_layout Subsection
