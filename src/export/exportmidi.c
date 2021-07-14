@@ -969,27 +969,20 @@ gdouble load_lilypond_midi (gchar * outfile, gboolean keep) {
 }
 
 
- 
+static void do_tempo (smf_track_t* track, gint cur_tempo)
+{
+     smf_event_t* event = midi_tempo (cur_tempo);
+     smf_track_add_event_delta_pulses (track, event, 0);
+}
   
   
-static void	generate_midi_from_recorded_notes (smf_t *smf)
+static void generate_midi_from_recorded_notes (smf_t *smf)
 {
 	smf_track_t* track;
-	if (track = smf_get_track_by_number (smf, 1))
-		{
-			smf_event_t *event;
-			gint i;
-			for (i=1;(event = smf_track_get_event_by_number (track, i)); i++)
-				{
-					smf_event_remove_from_track (event);
-					smf_event_delete (event);
-				}
-		} 
-	else
-		{
-			track = smf_track_new ();
-			smf_add_track (smf, track);
-		}
+	track = smf_track_new ();
+	smf_add_track (smf, track);
+	
+	do_tempo (track, Denemo.project->movement->tempo);
 	GList *g;
 	for (g=Denemo.project->movement->recording->notes; g; g=g->next)
 		{
@@ -1033,7 +1026,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   gint enshift;
   gint mid_c_offset;
   GList *curtone;
-  //gdouble fraction;
+  gboolean no_recorded_midi_track = TRUE;
 
   gint measurenum, last = 0;
 
@@ -1122,7 +1115,10 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
 //play recorded MIDI if the top (click track) staff is unmuted
   if (Denemo.project->movement->recording && !((DenemoStaff *) si->thescore->data)->mute)
-	generate_midi_from_recorded_notes (smf); 
+	{
+		generate_midi_from_recorded_notes (smf); 
+		no_recorded_midi_track = FALSE;
+	}
 
 
   //fraction = 1 / g_list_length (si->thescore);
@@ -1168,11 +1164,9 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
       /* tempo */
       gint cur_tempo = si->tempo;
 
-      if (tracknumber == 1)
-        {                       //Do not set the tempo for later tracks as there may be tempo directives at the start of the first measure which libsmf will muddle up with any done here
-          event = midi_tempo (cur_tempo);
-          smf_track_add_event_delta_pulses (track, event, 0);
-        }
+      if (no_recorded_midi_track && (tracknumber == 1))
+        do_tempo (track, cur_tempo);//Do not set the tempo for later tracks as there may be tempo directives at the start of the first measure which libsmf will muddle up with any done here
+ 
       /* Midi Client/Port */
 //      track->user_pointer = (DevicePort *) device_manager_get_DevicePort(curstaffstruct->device_port->str);
 
