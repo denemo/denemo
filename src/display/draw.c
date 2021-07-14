@@ -1914,14 +1914,31 @@ draw_callback (cairo_t * cr)
 					 161.0 * gui->movement->zoom,
 					 10000.0,
 					 10000.0);
-		  if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))
-			  {							
-				  cairo_set_source_rgb (cr, 0.87, 0.85, 0.8);
-			  }
-		  else
-			  {
-				  cairo_set_source_rgb (cr, 0.9, 0.8, 0.7);
-			  }
+		if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
+			{
+					if (Denemo.project->midi_destination & MIDIRECORD)
+						{
+						  if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))
+							  {							
+								  cairo_set_source_rgb (cr, 0.87, 0.85, 0.8);
+							  }
+						  else
+							  {
+								  cairo_set_source_rgb (cr, 0.9, 0.8, 0.7);
+							  }
+						  } 
+						  else //recording present but not currently recording
+						  {
+							    if (gui->movement->hovering_over_midi_track && (gui->movement->top_staff == 1))
+									{
+										cairo_set_source_rgb (cr, 0.8, 0.8, 0.8);
+									}
+								else {			
+										cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);				
+										}
+						  }
+			} else
+				cairo_set_source_rgb (cr, 0.8, 0.8, 0.8); //gray background when key strokes are not being received.
 		  cairo_clip (cr);
 		  cairo_paint (cr);
 		  cairo_restore (cr);
