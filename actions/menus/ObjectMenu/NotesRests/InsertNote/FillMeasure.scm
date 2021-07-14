@@ -1,9 +1,9 @@
 ;;;FillMeasure
-(let ((appending (Appending?)))
+(let ((params FillMeasure::params)(appending (Appending?))(denominator (cadr (string-split (d-GetPrevailingTimesig) #\/))))
     (if (FullDurationMeasure?)
-        (d-AddDuplicateMeasure 'play)
+        (d-AddDuplicateMeasure (if params 'play #f))
         (if (ZeroDurationMeasure?)
-            (d-PutNote #f)
+            (eval-string (string-append "(d-" (number->string (duration::lilypond->denemo (string->number denominator))) ")"))
             (begin
                 (if appending
                     (d-MoveCursorLeft))
@@ -13,3 +13,4 @@
                     (d-PutNote #f))
                 (if appending
                     (d-MoveCursorRight))))))
+;;;;;;;;;
