@@ -195,7 +195,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Returns the MIDI track number of the current imported track.", DENEMO_SCHEME_PREFIX "GetCurrentMidiTrack", scheme_get_current_midi_track);
   install_scm_function (0, "Returns the number of MIDI tracks of the loaded/recorded MIDI.", DENEMO_SCHEME_PREFIX "GetImportedMidiTracks", scheme_get_imported_midi_tracks);
   install_scm_function (0, "Returns the duration in seconds of the recorded MIDI track or #f if none", DENEMO_SCHEME_PREFIX "GetRecordedMidiDuration", scheme_get_recorded_midi_duration);
-  install_scm_function (0, "Returns the time in seconds starting at the cursor position.", DENEMO_SCHEME_PREFIX "GetTimeAtCursor", scheme_get_time_at_cursor);
+  install_scm_function (0, "Returns the time in seconds starting at the cursor position. This is the time of the end of the note at the cursor, or the start of the measure when the cursor is in an empty measure.", DENEMO_SCHEME_PREFIX "GetTimeAtCursor", scheme_get_time_at_cursor);
   install_scm_function (0, "Returns the duration in seconds of the current movement.", DENEMO_SCHEME_PREFIX "MovementDuration", scheme_movement_duration);
 
   install_scm_function (0, "Returns the number of ticks (PPQN) for the object at the cursor, or #f if none", DENEMO_SCHEME_PREFIX "GetDurationInTicks", scheme_get_duration_in_ticks);
