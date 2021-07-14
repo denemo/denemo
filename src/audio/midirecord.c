@@ -426,7 +426,7 @@ void synchronize_recording (void)
 			gdouble offset = ((DenemoRecordedNote *)g->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 			if (Denemo.project->movement->marked_onset)
 				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
-			g_print ("current offset %f new time of start %f\n", offset, newoffset);
+			//g_print ("current offset %f new time of start %f\n", offset, newoffset);
 			for (;g;g=g->next)
 				{
 					DenemoRecordedNote *note = g->data;
