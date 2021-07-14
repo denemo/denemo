@@ -79,6 +79,8 @@
                     (d-UnsetMark)
                     (d-PushPosition)        
                     (while (d-MoveToStaffUp))
+                    (if (d-Directive-clef? DenemoClickTrack)
+                    	(d-MoveToStaffDown))
                     (let loop ()    
                         (DeleteUpbeat)
                         (d-Paste)
