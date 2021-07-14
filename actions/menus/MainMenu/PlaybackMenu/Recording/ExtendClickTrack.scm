@@ -8,11 +8,11 @@
 				(begin
 					(d-MoveToBeginning)
 					(d-DirectiveDelete-standalone "MuteStaff");remove the speaker icon
-					(d-MoveToEnd)
+					(while (and (not (UnderfullMeasure?)) (d-MoveToMeasureRight)))
 					(set! time (d-GetTimeAtCursor))
 					(while (< time rec-time)
-						(d-FillMeasure)
-						(d-MoveToEnd)
+						(d-FillMeasure #t)
+						(d-MoveToMeasureRight)
 						(set! time (d-GetTimeAtCursor)))
 					(DenemoSetPlaybackEnd)
 					(d-MuteStaff)))
