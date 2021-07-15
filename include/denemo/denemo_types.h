@@ -475,7 +475,7 @@ typedef struct DenemoPrefs
   gboolean immediateplayback; /**< This options sends audio directly to synth as notes are being entered */
   gint measureswitchsound; /**< MIDI key to play on cursor move to new measure */
   gint pitchspellingchannel; /**< channel to use for feedback when entering extreme intervals via MIDI in, that may indicate an enharmonic error, 0 means no pitch spelling*/
-  gint pitchspellingprogram; /**< program to set pitchspellingchannel to on startup */
+  gint use_pitchspelling; /**<whether or not to use pitchspelling on MIDI in */
   gboolean startmidiin; /**< try to start midi in on startup */
   gboolean notesonlymidiin; /**< whether to ignore MIDI signals other than note on/off from MIDI in source. */
   gboolean applytoselection; /**< apply commands to selection */

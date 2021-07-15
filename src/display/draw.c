@@ -355,7 +355,11 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
              GList *g = itp->recordednote;
              gint current = mudelaitem->earliest_time*si->recording->samplerate;
              gint next =  mudelaitem->latest_time*si->recording->samplerate;
+             #if 0
              gint leadin =  (si->recording->type == DENEMO_RECORDING_MIDI)? 0 : si->recording->leadin;
+             #else
+             gint leadin = si->recording->leadin;
+             #endif
              gint notewidth = 0;
              objnode *curobjnext = curobj->next;
              if(curobjnext){
@@ -381,20 +385,21 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
             cairo_fill (cr);
 
-			leadin = MIN (leadin, -10);//to allow for rounding errors...
+			leadin--;//to allow for rounding errors...
 
             cairo_set_source_rgba (cr, 0.1, 0.1, 0.1, 0.9);
+            if((itp->measurenum == 1) && (curobj->prev==NULL))
+				{//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
 
-             for ( ;g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current); g=g->next)
-                {
-					if (((DenemoRecordedNote*)g->data)->midi_event != NULL //midi
-						&& (((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_OFF)
-						continue;
-                    if(itp->measurenum == 1) {//represent onsets before score starts as single red onset mark 10 pixels before the first note. test g==itp->onset to avoid re-drawing
-                        cairo_save (cr);
-                        cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
-                        draw_note_onset (cr, x - 10, NULL, FALSE);
-                        cairo_restore (cr);
+				for ( ;g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < current); g=g->next)
+					{
+						if (((DenemoRecordedNote*)g->data)->midi_event != NULL //midi
+							&& (((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_OFF)
+							continue;
+						cairo_save (cr);
+						cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 1.0);
+						draw_note_onset (cr, x - 10, NULL, FALSE);
+						cairo_restore (cr);
                     }
                 }
             while( g && (((gint)(((DenemoRecordedNote*)g->data)->timing) - leadin) < next))

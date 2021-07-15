@@ -58,7 +58,7 @@ struct callbackdata
   GtkWidget *lastmeasure;
   GtkWidget *laststaff;
   GtkWidget *pitchspellingchannel;
-  GtkWidget *pitchspellingprogram;
+  GtkWidget *use_pitchspelling;
   GtkWidget *cursor_highlight;
   GtkWidget *return_key_is_special;
   GtkWidget *newbie;
@@ -316,7 +316,7 @@ set_preferences (struct callbackdata *cbdata)
     ASSIGNINT (lastmeasure)
     ASSIGNINT (laststaff)
     ASSIGNINT (pitchspellingchannel)
-    ASSIGNINT (pitchspellingprogram)
+    ASSIGNBOOLEAN (use_pitchspelling)
 
     ASSIGNBOOLEAN (persistence)
     ASSIGNBOOLEAN (cursor_highlight)
@@ -695,7 +695,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   BOOLEANENTRY (_("Play back entered notes immediately"), immediateplayback);
   INTENTRY_LIMITS (_("MIDI key sound on measure end\n  (0 = Off)"), measureswitchsound, 0, 127);
   INTENTRY_LIMITS (_("Pitch Spelling Channel"), pitchspellingchannel, 0, 15);
-  INTENTRY_LIMITS (_("Pitch Spelling Program"), pitchspellingprogram, 0, 127);
+  BOOLEANENTRY (_("Use Pitch Spelling"), use_pitchspelling);
 
 
   INTENTRY_LIMITS (_("% MIDI-in Dynamic Compression"), dynamic_compression, 0, 100);

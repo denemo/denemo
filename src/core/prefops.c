@@ -136,7 +136,7 @@ initprefs (void)
 
   ret->fluidsynth_soundfont = g_string_new (soundfontpath);
   ret->pitchspellingchannel = 15;
-  ret->pitchspellingprogram = 17;
+  ret->use_pitchspelling = 1;
 
   ret->saveparts = FALSE;
   ret->spillover = TRUE;
@@ -334,7 +334,7 @@ parseConfig (xmlDocPtr doc, xmlNodePtr cur, DenemoPrefs * prefs)
         READINTXMLENTRY (lastmeasure)
         READINTXMLENTRY (laststaff)
         READINTXMLENTRY (pitchspellingchannel)
-        READINTXMLENTRY (pitchspellingprogram)
+        READINTXMLENTRY (use_pitchspelling)
 
         READBOOLXMLENTRY (persistence)
         READBOOLXMLENTRY (cursor_highlight)
@@ -473,7 +473,7 @@ get_int_pref (gchar * prefname)
     GETINTPREF (lastmeasure)
     GETINTPREF (laststaff)
     GETINTPREF (pitchspellingchannel)
-    GETINTPREF (pitchspellingprogram)
+    GETINTPREF (use_pitchspelling)
     GETINTPREF (mode)
     GETINTPREF (resolution)
     GETINTPREF (animation_steps)
@@ -795,7 +795,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
     WRITEINTXMLENTRY (lastmeasure)
     WRITEINTXMLENTRY (laststaff)
     WRITEINTXMLENTRY (pitchspellingchannel)
-    WRITEINTXMLENTRY (pitchspellingprogram)
+    WRITEINTXMLENTRY (use_pitchspelling)
 
     WRITEBOOLXMLENTRY (persistence)
     WRITEBOOLXMLENTRY (cursor_highlight)
