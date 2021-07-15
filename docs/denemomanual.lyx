@@ -9575,8 +9575,8 @@ Pitches-First Method
 This is new in version 2.6.
  The Playback/Record->Recording menu gives the commands to start recording
  pitches from your MIDI controller.
- First you position at the Denemo cursor at place where you want to enter
- the notes into the score.
+ First you position the Denemo cursor at place where you want to enter the
+ notes into the score.
  Then you invoke Record from MIDI-in (Off/On) to start recording.
  A click track is created at the top of the score to act as a MIDI track
  set against its own background color.
