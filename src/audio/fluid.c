@@ -42,7 +42,7 @@ void reset_synth_channels (void)
         }
     }
     if (Denemo.prefs.pitchspellingchannel)
-        fluid_synth_program_change (synth, Denemo.prefs.pitchspellingchannel, Denemo.prefs.pitchspellingprogram);
+        fluid_synth_program_change (synth, Denemo.prefs.pitchspellingchannel, 17);
     set_tuning ();
 }
 

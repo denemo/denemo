@@ -996,12 +996,33 @@ handle_midi_event (gchar * buf)
     }
   if ((Denemo.project->midi_destination & MIDIRECORD) || (Denemo.project->midi_destination & (MIDIPLAYALONG | MIDICONDUCT)))
     {
+	  
       if (Denemo.project->midi_destination & MIDIRECORD)
         record_midi (buf);
       if (Denemo.project->midi_destination & (MIDIPLAYALONG))
         advance_until_time (buf);//FIXME is this thread-safe????
       else
-        play_adjusted_midi_event (buf);//play_midi_event (DEFAULT_BACKEND, 0, (guchar *) buf);
+       {
+		   GList *g;
+		   if (Denemo.project->movement->recording && (g = g_list_last (Denemo.project->movement->recording->notes)))
+			{
+				DenemoRecordedNote *note, *prevnote;
+				note = (DenemoRecordedNote *)g->data;
+				prevnote = g->prev?(DenemoRecordedNote *)g->prev->data : NULL;
+				if (Denemo.prefs.use_pitchspelling && note && prevnote && check_interval (note->mid_c_offset, note->enshift, prevnote->mid_c_offset, prevnote->enshift))
+					{
+						gint channel = Denemo.prefs.pitchspellingchannel;
+						buf[0] = (buf[0] & 0xF0) | channel;
+						//g_print ("Now %x from midcoffset %d enshift %d to %d %d\n", buf[0], note->mid_c_offset, note->enshift, prevnote->mid_c_offset, prevnote->enshift);
+						play_note (DEFAULT_BACKEND, 0 /*port */ , channel, buf[1], 300 /*duration */ , 0);
+						//play_midi_event (DEFAULT_BACKEND, 0, (guchar*) buf); //audiointerface.h puts buf[] into the immediate queue, however we can't catch the note off which would be in the wrong channel
+					}
+				else
+					play_adjusted_midi_event (buf);
+			}
+		else		
+		   play_adjusted_midi_event (buf);//play_midi_event (DEFAULT_BACKEND, 0, (guchar *) buf);
+		}
     }
   else
     {

@@ -61,7 +61,7 @@ void new_midi_recording (void) {
   recording->type = DENEMO_RECORDING_MIDI;
   recording->samplerate = 44100;
   recording_time = -1;//unset
-  recording->offset = 0.0;
+  recording->offset = 0.0;//FIXME not used
   Denemo.project->midi_recording = TRUE;
   Denemo.project->movement->recording = recording;
   if (si->smfsync != si->changecount)
@@ -153,6 +153,7 @@ void record_midi (gchar * buf)
 {
 	static gdouble current_time;
 	DenemoMovement *si = Denemo.project->movement;
+	DenemoRecordedNote *note = NULL;
 	gboolean initial = FALSE;
 	static gdouble old_time = 0;
 	gdouble new_time = get_time ();
@@ -161,7 +162,7 @@ void record_midi (gchar * buf)
 	old_time = new_time;
 	if(Denemo.project->midi_recording && Denemo.project->movement->recording && (((buf[0]&0xF0)==MIDI_NOTE_ON) || (buf[0]&0xF0)==MIDI_NOTE_OFF))
 			{
-				DenemoRecordedNote *note = g_malloc0(sizeof(DenemoRecordedNote));
+				note = g_malloc0(sizeof(DenemoRecordedNote));
 				note->midi_event = g_malloc0(3);
 				memcpy (note->midi_event, buf, 3);
 				if (recording_time == -1)
@@ -174,8 +175,8 @@ void record_midi (gchar * buf)
 							}
 						else {
 								initial = TRUE;
-								start = get_recording_start_time ();
-								si->recording->offset = start;
+								start = get_recording_start_time ();// time at cursor, after sync-ing the smf
+								si->recording->offset = start;//FIXME not used
 							 }
 						current_time = new_time - start;
 						si->smfsync = G_MAXINT;
@@ -183,7 +184,7 @@ void record_midi (gchar * buf)
 					}
 				recording_time = (new_time - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
-				//g_print ("Storing NOTE%s at %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate);
+				//g_print ("Storing NOTE%s at %f leadin %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate, si->recording->leadin/(double)si->recording->samplerate);
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
 				si->recording->notes = g_list_append (si->recording->notes, note);
 				if (initial) si->marked_onset = si->recording->notes;
@@ -416,9 +417,10 @@ void advance_marked_midi (gint steps)
 
 void synchronize_recording (void)
 {
-	Denemo.project->movement->smfsync = G_MAXINT;
+	Denemo.project->movement->smfsync = G_MAXINT;//FIXME these three lines are for get_recording_start_time ()
 	generate_midi ();
-	gdouble newoffset = get_time_at_cursor ();
+	gdouble newoffset = get_time_at_cursor ();//draw.c compares the ->timing value with the time at the note it is drawing, 
+	//so instead of changing all the timing values could set leadin and allow draw.c to use it for MIDI recording
 	
 	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes)
 		{
@@ -427,14 +429,8 @@ void synchronize_recording (void)
 			if (Denemo.project->movement->marked_onset)
 				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 			//g_print ("current offset %f new time of start %f\n", offset, newoffset);
-			for (;g;g=g->next)
-				{
-					DenemoRecordedNote *note = g->data;
-					//g_print ("before %f\t", note->timing/(double)Denemo.project->movement->recording->samplerate);
-					note->timing += (newoffset - offset)*Denemo.project->movement->recording->samplerate;
-					//g_print ("after %f\n", note->timing/(double)Denemo.project->movement->recording->samplerate);
-				}
-			Denemo.project->movement->recording->offset = newoffset;
+			Denemo.project->movement->recording->leadin = -(newoffset - offset)*Denemo.project->movement->recording->samplerate;
+			Denemo.project->movement->recording->offset = newoffset;//FIXME not used
 		}
 	Denemo.project->movement->smfsync = G_MAXINT;
 	generate_midi ();		
