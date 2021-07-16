@@ -385,7 +385,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 
             cairo_fill (cr);
 
-			leadin--;//to allow for rounding errors...
+			leadin-=5;//to allow for rounding errors...
 
             cairo_set_source_rgba (cr, 0.1, 0.1, 0.1, 0.9);
             if((itp->measurenum == 1) && (curobj->prev==NULL))

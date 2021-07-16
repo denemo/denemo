@@ -6442,6 +6442,20 @@ SCM scheme_get_midi_recording_offset (void)
       scm = scm_from_double (si->recording->offset);
   return scm;
 }
+
+SCM scheme_delete_last_recorded_note (void)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->recording->notes)
+	{
+		delete_last_recorded_note ();
+		return SCM_BOOL_T;
+	}
+return SCM_BOOL_F;
+}
+
+
 SCM scheme_play_marked_midi (void)
 {
   DenemoProject *gui = Denemo.project;
@@ -6457,6 +6471,19 @@ SCM scheme_play_marked_midi (void)
     }
 	return SCM_BOOL_F;
 }
+
+SCM scheme_toggle_play_recorded_midi (void)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
+    {
+	 play_recorded_midi ();
+	 return SCM_BOOL_T;
+ }
+	return SCM_BOOL_F; 
+}
+
 SCM scheme_advance_marked_midi (SCM advance)
 {
   SCM scm = SCM_BOOL_F;

@@ -198,20 +198,51 @@ gdouble get_recording_start_time (void)
 			exportmidi (NULL, si);
 		return get_time_at_cursor ();
 	}	
-	
-static gboolean play_buffer (gchar *buffer)
+
+static gboolean play_from (GList *notenode)
 {
+	DenemoMovement *si = Denemo.project->movement;
+	pause_recording_midi ();
+	if (!si->recording)
+		return FALSE;//no more
+	if (notenode==NULL)
+		return FALSE;
+	DenemoRecordedNote* note = (DenemoRecordedNote*)notenode->data;
+	DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
+	DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
+	gdouble rate = (double)si->recording->samplerate;
+	gdouble this_time = ((DenemoRecordedNote*)notenode->data)->timing/rate;
+	gchar *buffer = note->midi_event;
 	if (playing_recorded_midi)
-		{
-			DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+		{	
+			buffer[0] = (buffer[0]&0xF0) | curstaffstruct->midi_channel;
+			buffer[2] = 127;//Full volume
 			play_midi_event (DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
+			if (nextnote)
+				{
+					gdouble next_play_time = (nextnote->timing/rate - this_time)* 1000;
+					g_timeout_add (next_play_time, (GSourceFunc)play_from, notenode->next);
+				}
+			else 
+				playing_recorded_midi = FALSE;
 		}
-return FALSE;
+	else 
+		{
+			if ((buffer[0]&0xF0)==MIDI_NOTE_OFF)
+				{
+					buffer[0] = (buffer[0]&0xF0) | curstaffstruct->midi_channel;
+					play_midi_event (DEFAULT_BACKEND, curstaffstruct->midi_port, buffer);
+					if (nextnote)
+						{
+							gdouble next_play_time = (nextnote->timing/rate - this_time)* 1000;
+							if ((nextnote->midi_event[0]&0xF0)==MIDI_NOTE_OFF)
+								g_timeout_add (next_play_time, (GSourceFunc)play_from, notenode->next);//it would be safer to do all notes off...
+						}
+				}
+		}
+	return FALSE; //do not call again
 }
-static void end_play (void)
-{
-	playing_recorded_midi = FALSE;// so if someone tries to toggle back on after it has finished playing it will re-start
-}
+
 static gboolean play_recorded_notes (GList *notenode)
 {
 	DenemoMovement *si = Denemo.project->movement;
@@ -222,24 +253,7 @@ static gboolean play_recorded_notes (GList *notenode)
 		return FALSE;
 	if (!playing_recorded_midi)
 		return FALSE;
-	DenemoRecordedNote *note = (DenemoRecordedNote *)notenode->data;
-	gdouble rate = si->recording->samplerate;
-	gdouble start = note->timing/rate;
-	gint last_off;
-	while (notenode)
-		{
-			note = (DenemoRecordedNote *)notenode->data;
-			DenemoRecordedNote *nextnote = notenode->next?(DenemoRecordedNote *)notenode->next->data:NULL;
-			DenemoStaff *curstaffstruct = (DenemoStaff *) si->currentstaff->data;
-			gchar *buffer = note->midi_event;
-			buffer[0] = (buffer[0]&0xF0) | curstaffstruct->midi_channel;
-			buffer[2] = 127;//Full volume
-			last_off = (note->timing/rate - start)* 1000;
-			g_timeout_add (last_off, (GSourceFunc)play_buffer, buffer);
-			//g_print ("schedule %x note %d at %.2f\n", (char)buffer[0], buffer[1], note->timing/rate - start);
-			notenode = notenode->next;
-		}
-	g_timeout_add (last_off, (GSourceFunc)end_play, NULL);	
+	play_from (notenode);
 	return FALSE;
 }
 

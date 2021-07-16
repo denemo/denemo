@@ -8739,6 +8739,20 @@ Include rests if they are part of the pattern.
         <_label>Hide Other Staffs (Off/On)</_label>
         <_tooltip>Hides/unhides other staffs in the display while keeping the MIDI track at the top visible.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DeleteLastRecordedMidi</action>
+        <after>ToggleHideOtherStaffsKeepingClick</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Delete Last Recorded Note</_label>
+        <_tooltip>Plays the last recorded note, deletes it and marks the new last note.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PlayRecordedMidi</action>
+        <after>SyncRecordingToCursor</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Play Recorded MIDI (Off/On)</_label>
+        <_tooltip>Plays the recorded MIDI track from the marked MIDI note or beginning if no note is marked. Stops playing if already playing MIDI track.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

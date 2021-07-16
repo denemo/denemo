@@ -291,11 +291,9 @@ get_start_time ()
 double
 get_end_time ()
 {
-  if (Denemo.project && Denemo.project->movement && Denemo.project->movement->smf)
+  if (Denemo.project && Denemo.project->movement && (Denemo.project->movement->end_time > 0.0))
     {
-      if (Denemo.project->movement->end_time < 0.0)
-        Denemo.project->movement->end_time = smf_get_length_seconds (Denemo.project->movement->smf);
-      return Denemo.project->movement->end_time;
+      return  Denemo.project->movement->end_time;
     }
   else
     {
