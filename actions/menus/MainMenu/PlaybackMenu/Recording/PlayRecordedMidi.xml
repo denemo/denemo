@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>PlayRecordedMidi</action>
+        <after>SyncRecordingToCursor</after>
+        <_label>Play Recorded MIDI (Off/On)</_label>
+        <_tooltip>Plays the recorded MIDI track from the marked MIDI note or beginning if no note is marked. Stops playing if already playing MIDI track.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

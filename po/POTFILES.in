@@ -710,6 +710,8 @@ actions/menus/MainMenu/PlaybackMenu/Recording/Audio/ToggleAudioRecord.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/Audio/ToggleAudioRecord.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/BackupAndPlay.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/BackupAndPlay.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/DeleteLastRecordedMidi.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/DeleteLastRecordedMidi.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/DeleteMidiAndClickTrack.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/DeleteMidiAndClickTrack.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/DeleteRecordedMidi.scm
@@ -718,6 +720,8 @@ actions/menus/MainMenu/PlaybackMenu/Recording/ExtendClickTrack.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/ExtendClickTrack.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayAndAdvance.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayAndAdvance.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/PlayRecordedMidi.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/PlayRecordedMidi.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.scm
