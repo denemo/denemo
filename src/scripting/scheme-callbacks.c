@@ -6341,7 +6341,7 @@ scheme_compute_midi_note_durations (void)
 }
 
 SCM
-scheme_get_marked_midi_note (void)
+scheme_get_marked_midi_note_as_lilypond (void)
 {
   SCM scm = SCM_BOOL_F;
   DenemoProject *gui = Denemo.project;
@@ -6356,7 +6356,19 @@ scheme_get_marked_midi_note (void)
     }
   return scm;
 }
-
+SCM
+scheme_get_marked_midi_note (void)
+{
+  SCM scm = SCM_BOOL_F;
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
+    {
+      gint pos = g_list_position (si->recording->notes, si->marked_onset);
+      scm = scm_from_int (++pos);
+    }
+  return scm;
+}
 SCM scheme_set_marked_midi_note (SCM pos)
 {
  SCM scm = SCM_BOOL_F;
@@ -6367,6 +6379,12 @@ SCM scheme_set_marked_midi_note (SCM pos)
 	  gint i;
 	  GList *g;
       gint val = scm_to_int (pos);
+      if (val==0) //pos 0 means unset marked midi
+		{
+		si->marked_onset = NULL;
+		return SCM_BOOL_F;
+		}
+	  //val--; //pos starts at 1 (or -1 for last)
       if (val>0)
 		  for (i=0, g = si->recording->notes; g; g= g->next)
 			{
