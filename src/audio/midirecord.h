@@ -14,7 +14,6 @@ gdouble get_recording_start_time (void);
 void play_recorded_midi (void);
 void pause_recording_midi (void);
 gboolean toggle_midi_record (void);
-void declare_record_button (GtkWidget *button);
 void advance_marked_midi (gint steps);
 void synchronize_recording (void);
 void scale_recording (gdouble scale);

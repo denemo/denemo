@@ -156,6 +156,7 @@ void record_midi (gchar * buf)
 	DenemoRecordedNote *note = NULL;
 	gboolean initial = FALSE;
 	static gdouble old_time = 0;
+	gboolean resumed = (si->recording && si->recording->notes && (si->marked_onset==NULL));
 	gdouble new_time = get_time ();
 	if ((recording_time != -1) && ((new_time - old_time) > Denemo.prefs.recording_timeout/1000.0))
 		recording_time = -1;//force resume if we have been too long away
@@ -189,6 +190,12 @@ void record_midi (gchar * buf)
 				si->recording->notes = g_list_append (si->recording->notes, note);
 				if (initial) si->marked_onset = si->recording->notes;
 			}
+	if (resumed) 
+		{
+			si->marked_onset = g_list_last (si->recording->notes);
+			call_out_to_guile ("(d-ExtendClickTrack)");
+			synchronize_recording ();
+		}
 }
 
 gdouble get_recording_start_time (void)
@@ -299,10 +306,6 @@ void pause_recording_midi (void)
 	recording_time = -1;	
 }
 
-void declare_record_button (GtkWidget *midirecordbutton)
-	{
-		MidiRecordButton = midirecordbutton;
-	}
 	
 //callback for record button, starts/stops MIDI recording
 gboolean toggle_midi_record (void)
