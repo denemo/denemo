@@ -53,10 +53,9 @@ static GtkWidget *playbutton;
 static GtkWidget *midirecordbutton;
 static GtkWidget *midihelpbutton;
 static GtkWidget *audiorecordbutton;
-static GtkWidget *midirecordbutton;
+static GtkWidget *midiconductbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
-static GtkWidget *midiconductbutton;
 static GtkWidget *exportbutton;
 static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
@@ -96,11 +95,6 @@ get_conduct_button ()
   return midiconductbutton;
 }
 
-GtkWidget *
-get_record_button ()
-{
-  return midirecordbutton;
-}
 
 
 static gint scm_eval_status = 0;
@@ -1439,6 +1433,11 @@ void pb_midi_delete (void)
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 
+static void pb_midi_record (void)
+{
+	
+	popup_menu ("Recording");
+}
 static void
 pb_midi_convert (GtkWidget * button)
 {
@@ -3501,7 +3500,8 @@ create_window (void)
       midiplayalongbutton =
         create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, 
         _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
-      
+	  midirecordbutton = 
+		create_playbutton (hbox,_("Record Commands"), pb_midi_record, NULL, _("Menu of commands for recording MIDI-in"));
 #define MIDI_CONTROL_HELP _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\nYou may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\nlooking for MIDI in devices (turn your device on first).\nWhen you have a MIDI controller durations are inserted without any pitch (they appear in brown)\n playing on the controller puts the pitches onto the durations.\nThe Shift and Control and ALT keys can also be used for listening without entering notes,\nchecking pitches entered and entering chords.\nThe foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord\n- timing is unimportant, play the chord fast or slow.\nOr use Input → MIDI → Chord Entry Without Pedal to enter chords based on playing the notes simultaneously")
       midihelpbutton = create_playbutton (hbox, _( "Help"), NULL, NULL, MIDI_CONTROL_HELP);
       g_signal_connect_swapped (midihelpbutton, "clicked", G_CALLBACK(infodialog), MIDI_CONTROL_HELP);
