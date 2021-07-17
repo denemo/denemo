@@ -265,68 +265,10 @@ You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* sl
 playback the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable.\n\
 Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm.\n\
 Use the Ins key to enter the additional notes in a chord.\n\
-With the mouse pointer over the MIDI track a set of special keyboard shortcuts override the normal ones. These are indicated on this menu in parentheses ().\n\
-This means you can use the arrow keys to play through the MIDI recording rather than move the Denemo cursor as usual.\n\
-The commands in this menu also appear in the Playback->Recording menu, where they can be given ordinary shortcuts; these will apply wherever the mouse pointer is."));
+"));
 }  
 
-void popup_recording_menu (gint position)
-{
-	pause_recording_midi ();
-	//Chord Recognition interval (number of ms to count as chord not note)
-  GtkWidget *menu = gtk_menu_new ();
-  GtkWidget *item = gtk_menu_item_new_with_label (_("Help"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (midi_recording_help), NULL);
-  
-  if (Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD))
-	{
-		item = gtk_menu_item_new_with_label (_("Stop Recording Notes (w)"));
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-		g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "d-RecordMidiIn)");	
-	}
-  else
-	{
-	  item = gtk_menu_item_new_with_label (_("Resume Recording Notes (w)"));
-	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "d-RecordMidiIn)");
-	}
 
-  item = gtk_menu_item_new_with_label (_("Sync Marked Recorded Note to Denemo Cursor Note (s)"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (synchronize_recording), NULL);
-
-	{
-	  item = gtk_menu_item_new_with_label (_("Extend the Click Track (e)"));
-	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "(d-ExtendClickTrack)");
-	}
-	
-  //if (!(Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD)))
-	{
-	  item = gtk_menu_item_new_with_label (_("Delete Last Recorded Note (Alt Backspace)"));
-	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (delete_last_recorded_note), NULL);
-	}
-	
-	
-	{
-	  item = gtk_menu_item_new_with_label (_("Mute Off/On (m)"));
-	  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-	  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "(d-ToggleMuteClickTrack)");
-	}
-	
-	
-  item = gtk_menu_item_new_with_label (_("Delete MIDI Recording (Alt-Del)"));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (pb_midi_delete), NULL);
-    
-  
-  
-  gtk_widget_show_all (menu);
-  gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL, 0, gtk_get_current_event_time ());
-	
-}
 
 static gboolean start_recorded_midi_play (void)
 {

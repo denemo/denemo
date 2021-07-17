@@ -1073,7 +1073,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 					if (Denemo.prefs.learning) 
 						 MouseGestureShow(_("Right click on MIDI Recording Track"), _("Menu of options for MIDI recorded track."),
 												MouseGesture);
-					popup_recording_menu((gint)event->x/gui->movement->zoom);
+					popup_menu ("Recording");
 					return TRUE;
 				}
 		}
