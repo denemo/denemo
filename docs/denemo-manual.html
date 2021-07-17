@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-07-13"/>
+<meta name="create-date" content="2021-07-17"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -1526,7 +1526,7 @@ These are the controls for a MIDI keyboard attached to the computer. You should 
 The Enharmonic Selection control lets you determine what accidental will be used for the MIDI notes – e.g whether to enter C-sharp or D-flat. The buttons at each end change the enharmonic range sharper/flatter. 
 </div>
 <div class="Indented">
-As you enter music if you enter an augmented or dimished interval a different instrument is used for the playback which helps you avoid pitch-spelling errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program <a class="Reference" href="#subsec:The-Audio-Tab">16.6↓</a> to turn this off/change instrument).
+As you enter music if you enter an augmented or dimished interval a different instrument is used for the playback which helps you avoid pitch spelling<a class="IndexReference" name="entry-Pitch-Spelling-0" href="#index-Pitch-Spelling">↓</a> errors. (See Edit-&gt;Change Preferences-&gt;Audio pitch spelling channel/program <a class="Reference" href="#subsec:The-Audio-Tab">16.6↓</a> to turn this off/change instrument).
 </div>
 <div class="Indented">
 [<b>Appending/Editing</b>] button: This shows how MIDI in will be treated. Press Control/Shift/Alt keys to modify or click and select Listening to listen directly to the MIDI keyboard, Checking notes played on the MIDI keyboard against notes in the score or Appending/Editing to alter the score. This last mode edits at the first rhythm-only (yellow) note before the cursor or at the cursor position if no rhythm-only notes have been entered. If you select Listening via this button then pressing Shift will temporarily switch you into Appending/Editing mode.
@@ -2634,7 +2634,7 @@ The Autosave options guard against a power failure while you are working – now
 This tab affects the sounds you will hear via a connected audio system. The first section is for feedback when entering music. If you are looking at a source manuscript while entering rhythms or notes you will not want to look across at the input display to check that you are still entering at the right part of the bar. The sound effect that tells you a new bar is beginning is set via the first field – it is one of the drum effects available in the default Denemo soundfont, number 72, change this to 0 to turn it off, or other values for a more discrete sound.
 </div>
 <div class="Indented">
-There are settings for controlling the pitch spelling<a class="IndexReference" name="entry-Pitch-Spelling-0" href="#index-Pitch-Spelling">↓</a> for MIDI in – augmented and diminished intervals switch to this channel; if you hear this on an interval that was not supposed to be augmented or diminished you are alerted that you have the enharmonic range wrongly set for the piece. You can set this to the instrument in use to avoid the effect.
+There are settings for controlling the pitch spelling<a class="IndexReference" name="entry-Pitch-Spelling-1" href="#index-Pitch-Spelling">↓</a> for MIDI in – augmented and diminished intervals switch to this channel; if you hear this on an interval that was not supposed to be augmented or diminished you are alerted that you have the enharmonic range wrongly set for the piece. You can turn this effect off with the check box (The picture is out of date in this respect).
 </div>
 <div class="Indented">
 The Dynamic Compression affects the volume at which notes are played back as you enter them from a MIDI keyboard – by compressing 100% you avoid meaningless variations in volume – you are only entering notes, not giving a moving performance, after all! Without this you will find some notes are too quiet to be noticed and will think the note wasn’t registered. Note that the value 99 for dynamic compression is a &ldquo;magic&rdquo; value, it gives a slight after-touch effect, useful for percussive instruments (disatrous for organs!) to avoid the clipped sound when the note terminates.
@@ -3057,28 +3057,43 @@ With all methods of note entry a measure start sound will be heard when your not
 <a class="toc" name="toc-Subsection-21.2">21.2</a> Playing Notes into Denemo – MIDI<a class="Label" name="subsec:Playing-Notes-into"> </a>
 </h2>
 <div class="Unindented">
-Denemo can take pitches directly from MIDI input<a class="IndexReference" name="entry-MIDI-1" href="#index-MIDI">↓</a>. Select Input-&gt;Midi Input. The control panel allows you to choose the enharmonic range<a class="IndexReference" name="entry-Enharmonic-Range-0" href="#index-Enharmonic-Range">↓</a>, the default centers around the initial key signature<a class="IndexReference" name="entry-Key-Signature-3" href="#index-Key-Signature">↓</a> (e. g. E-flat to G-sharp for C-major). If you enter a diminished or augmented interval the note will be played in a separate MIDI channel which can be used to alert you to pitch-spelling<a class="IndexReference" name="entry-Pitch-Spelling-1" href="#index-Pitch-Spelling">↓</a> mistakes (e. g. entering A-flat when G-sharp was meant, you will get a lot more augmented and dimished intervals if you have the enharmonic range set wrongly for your piece). 
+Denemo can take pitches directly from MIDI input<a class="IndexReference" name="entry-MIDI-1" href="#index-MIDI">↓</a>. Select Input-&gt;Midi Input. The control panel allows you to choose the enharmonic range<a class="IndexReference" name="entry-Enharmonic-Range-0" href="#index-Enharmonic-Range">↓</a>, the default centers around the initial key signature<a class="IndexReference" name="entry-Key-Signature-3" href="#index-Key-Signature">↓</a> (e. g. E-flat to G-sharp for C-major). If you enter a diminished or augmented interval the note will be played in a separate MIDI channel which can be used to alert you to pitch-spelling<a class="IndexReference" name="entry-Pitch-Spelling-2" href="#index-Pitch-Spelling">↓</a> mistakes (e. g. entering A-flat when G-sharp was meant, you will get a lot more augmented and dimished intervals if you have the enharmonic range set wrongly for your piece). 
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-21.2.1">21.2.1</a> Pitches-First Method
 </h3>
 <div class="Unindented">
-This is new in version 2.6. The Playback/Record-&gt;Recording menu gives the commands to start recording pitches from your MIDI controller. First you position at the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording. A click track is created at the top of the score to act as a MIDI track set against its own background color. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
+This is new in version 2.6. The Playback/Record-&gt;Recording menu gives the commands to start/pause recording pitches from your MIDI controller. First you position the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r. A click track is created at the top of the score to act as a MIDI track. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
 </div>
 <div class="Indented">
-Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display. If you pause while recording (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. When you stop recording the MIDI track will be extended if necessary to have enough bars to cover the time of your recording in the tempo of the score. You don’t have to stop recording to go on to entering the rhythms or playing back what you have recorded, but it may be better to do so at least at first.
+Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display. If you leave a long gap between two notes (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. 
 </div>
 <div class="Indented">
-The green MIDI note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note by Shift Left Clicking on it. To reset the marked MIDI note click on the note in the MIDI track which you want to be marked or use the arrows or the menu items they invoke to move marker.
+When you stop recording the MIDI track will be extended if necessary to have enough bars to cover the time of your recording in the tempo of the score. Conversely, if you do not have enough bars in the click track you will not see the end of your recording until you do pause the recording. You don’t have to pause recording to go on to entering the rhythms or playing back what you have recorded, but it may be better to do so at least at first. If you make a mistake while playing there are commands to delete the last recorded note(s), however you may find it better simply to pause recording and enter the rhythms so far - it may help to make a mark on the source original that you are playing from at this stage by dragging a small gray square at the location where you have stopped. 
+</div>
+<div class="Indented">
+Again, if you played a wrong note and want to delete it you may find it better to pause recording especially if the click track is not long enough to cover the music you have just played in.
+</div>
+<div class="Indented">
+The green MIDI note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note by Shift Left Clicking on it. To reset the marked MIDI note click on the note in the MIDI track which you want to be marked or use the arrows or the menu items they invoke to move the marker.
 </div>
 <div class="Indented">
 You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to play back the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable. 
 </div>
 <div class="Indented">
-Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You enter rests in between the durations for the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem.
+Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You enter rests in between the durations for the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem. When you reach the end of the recorded notes the duration keys will revert to entering pure duations - by this time you will have reached the small gray marker in the original source you are transcribing from, if any.
 </div>
 <div class="Indented">
-Right-clicking on the MIDI track pops up a menu with some of the commands available as a special set of keyboard shortcuts which override the normal ones while the mouse is over the MIDI track. These special shortcuts are indicated in parentheses () after the command. E.g. (h) hides/unhides all the other staffs so that you just have the MIDI track and the staff for which the recorded notes are intended in view. This means you can use the arrow keys to play through the MIDI recording rather than move the Denemo cursor as usual. The commands in this menu also appear in the Playback-&gt;Recording menu, where they can be given ordinary shortcuts; these will apply wherever the mouse pointer is.
+Right-clicking on the MIDI track pops up the menu of the commands available in the Playback-&gt;Recording menu.
+</div>
+<div class="Indented">
+When playing the pitches augmented and diminished intervals are played on the pitch-spelling channel, so that you can easily detect enharmonic errors (e.g. D-sharp for E-flat). You can turn this off via the Edit-&gt;Change Preferences-&gt;Audio tab.
+</div>
+<div class="Indented">
+This entry method can be used even by unskilled keyboard players. As long as you can pick out the notes one after the other there is no need to play the music strictly in time - you can just enter one bar, or a line, or a short passage and then immediately switch to entering the durations with the number keys not even looking at the MIDI track created. Once you have used up the pitches you can just continue playing in another passage and so on until the piece is done.
+</div>
+<div class="Indented">
+On the other hand skilled keyboard players may want to press Alt-r to start recording then Fn5 to start the click track playing and the play in the notes in time to the click track. Then the entered notes will appear in the bars they belong to and (if you are composing rather than transcribing) can give you an indication of the rhythm you need to enter to notate what you played.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-21.2.2">21.2.2</a> Rhythms-First Method
@@ -5789,7 +5804,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 <a class="printindex" name="index-Pickup"></a>Pickup: <a class="IndexArrow" href="#entry-Pickup-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Pitch-Spelling"></a>Pitch Spelling: <a class="IndexArrow" href="#entry-Pitch-Spelling-0">↑</a>, <a class="IndexArrow" href="#entry-Pitch-Spelling-1">↑</a>
+<a class="printindex" name="index-Pitch-Spelling"></a>Pitch Spelling: <a class="IndexArrow" href="#entry-Pitch-Spelling-0">↑</a>, <a class="IndexArrow" href="#entry-Pitch-Spelling-1">↑</a>, <a class="IndexArrow" href="#entry-Pitch-Spelling-2">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Playback"></a>Playback: <a class="IndexArrow" href="#entry-Playback-0">↑</a>
@@ -5920,7 +5935,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-07-13T13:05:26.145951</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-07-17T09:11:44.301866</span>
 </div>
 </div>
 </body>

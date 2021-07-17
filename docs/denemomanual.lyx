@@ -2739,7 +2739,16 @@ The Enharmonic Selection control lets you determine what accidental will
 
 \begin_layout Standard
 As you enter music if you enter an augmented or dimished interval a different
- instrument is used for the playback which helps you avoid pitch-spelling
+ instrument is used for the playback which helps you avoid pitch spelling
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Pitch Spelling
+\end_layout
+
+\end_inset
+
  errors.
  (See Edit->Change Preferences->Audio pitch spelling channel/program 
 \begin_inset CommandInset ref
@@ -7698,7 +7707,8 @@ Pitch Spelling
  if you hear this on an interval that was not supposed to be augmented or
  diminished you are alerted that you have the enharmonic range wrongly set
  for the piece.
- You can set this to the instrument in use to avoid the effect.
+ You can turn this effect off with the check box (The picture is out of
+ date in this respect).
 \end_layout
 
 \begin_layout Standard
@@ -9573,13 +9583,12 @@ Pitches-First Method
 
 \begin_layout Standard
 This is new in version 2.6.
- The Playback/Record->Recording menu gives the commands to start recording
+ The Playback/Record->Recording menu gives the commands to start/pause recording
  pitches from your MIDI controller.
  First you position the Denemo cursor at place where you want to enter the
  notes into the score.
- Then you invoke Record from MIDI-in (Off/On) to start recording.
- A click track is created at the top of the score to act as a MIDI track
- set against its own background color.
+ Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r.
+ A click track is created at the top of the score to act as a MIDI track.
  It has no clef because the recorded notes are displayed on the staff as
  belonging to the clef of the staff you are intending to enter the notes
  into, the one that contains the Denemo cursor.
@@ -9592,7 +9601,7 @@ This is new in version 2.6.
 Once you start playing on the MIDI keyboard headless notes are entered on
  the MIDI track staff with an indication of their start and end points on
  the blue line at the top of the display.
- If you pause while recording (e.g.
+ If you leave a long gap between two notes (e.g.
  because of a long rest) the recorded track will not leave a big gap but
  resume directly after the last note - you can control the amount of rest
  time you want to allow in a recording via the Edit->Preferences->MIDI preferenc
@@ -9605,12 +9614,30 @@ MIDI-in recording timeout
 \end_inset
 
 .
- When you stop recording the MIDI track will be extended if necessary to
+ 
+\end_layout
+
+\begin_layout Standard
+When you stop recording the MIDI track will be extended if necessary to
  have enough bars to cover the time of your recording in the tempo of the
  score.
- You don't have to stop recording to go on to entering the rhythms or playing
+ Conversely, if you do not have enough bars in the click track you will
+ not see the end of your recording until you do pause the recording.
+ You don't have to pause recording to go on to entering the rhythms or playing
  back what you have recorded, but it may be better to do so at least at
  first.
+ If you make a mistake while playing there are commands to delete the last
+ recorded note(s), however you may find it better simply to pause recording
+ and enter the rhythms so far - it may help to make a mark on the source
+ original that you are playing from at this stage by dragging a small gray
+ square at the location where you have stopped.
+ 
+\end_layout
+
+\begin_layout Standard
+Again, if you played a wrong note and want to delete it you may find it
+ better to pause recording especially if the click track is not long enough
+ to cover the music you have just played in.
 \end_layout
 
 \begin_layout Standard
@@ -9622,7 +9649,7 @@ currently marked MIDI note
  You can play the recording from this note by Shift Left Clicking on it.
  To reset the marked MIDI note click on the note in the MIDI track which
  you want to be marked or use the arrows or the menu items they invoke to
- move marker.
+ move the marker.
 \end_layout
 
 \begin_layout Standard
@@ -9646,21 +9673,41 @@ Pressing duration keys, including dotted rhythm, triplet and ties and slurred
  Mostly you can enter the rhythm in music-time so that you hear the melody
  as you press the duration keys, but you can stop off at any moment to insert
  dynamics etc and resume entering durations without a problem.
+ When you reach the end of the recorded notes the duration keys will revert
+ to entering pure duations - by this time you will have reached the small
+ gray marker in the original source you are transcribing from, if any.
 \end_layout
 
 \begin_layout Standard
-Right-clicking on the MIDI track pops up a menu with some of the commands
- available as a special set of keyboard shortcuts which override the normal
- ones while the mouse is over the MIDI track.
- These special shortcuts are indicated in parentheses () after the command.
- E.g.
- (h) hides/unhides all the other staffs so that you just have the MIDI track
- and the staff for which the recorded notes are intended in view.
- This means you can use the arrow keys to play through the MIDI recording
- rather than move the Denemo cursor as usual.
- The commands in this menu also appear in the Playback->Recording menu,
- where they can be given ordinary shortcuts; these will apply wherever the
- mouse pointer is.
+Right-clicking on the MIDI track pops up the menu of the commands available
+ in the Playback->Recording menu.
+\end_layout
+
+\begin_layout Standard
+When playing the pitches augmented and diminished intervals are played on
+ the pitch-spelling channel, so that you can easily detect enharmonic errors
+ (e.g.
+ D-sharp for E-flat).
+ You can turn this off via the Edit->Change Preferences->Audio tab.
+\end_layout
+
+\begin_layout Standard
+This entry method can be used even by unskilled keyboard players.
+ As long as you can pick out the notes one after the other there is no need
+ to play the music strictly in time - you can just enter one bar, or a line,
+ or a short passage and then immediately switch to entering the durations
+ with the number keys not even looking at the MIDI track created.
+ Once you have used up the pitches you can just continue playing in another
+ passage and so on until the piece is done.
+\end_layout
+
+\begin_layout Standard
+On the other hand skilled keyboard players may want to press Alt-r to start
+ recording then Fn5 to start the click track playing and the play in the
+ notes in time to the click track.
+ Then the entered notes will appear in the bars they belong to and (if you
+ are composing rather than transcribing) can give you an indication of the
+ rhythm you need to enter to notate what you played.
 \end_layout
 
 \begin_layout Subsubsection
