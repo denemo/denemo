@@ -326,49 +326,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
   return NULL;
 }
 
-//key presses while area devoted to the MIDI track is in focus, these are hard-wired.
-static gint keypress_on_midi_track (GdkEventKey * event)
-{
-	if (event->state == 0)
-		switch (event->keyval)
-			{
-				case 104: // h
-					call_out_to_guile ("(d-ToggleHideOtherStaffsKeepingClick)");
-					return TRUE;
-				case 65361: // <-
-					call_out_to_guile ("(d-BackupAndPlay)");
-					return TRUE;
-				case 65363: // ->
-					call_out_to_guile ("(d-PlayAndAdvance)");
-					return TRUE;
-				case 109: // m
-					call_out_to_guile ("(d-ToggleMuteClickTrack)");
-					return TRUE;	
-				case 119: // w
-					call_out_to_guile ("(d-RecordMidiIn)");
-					return TRUE;
-				case 101: // e
-					call_out_to_guile ("(d-ExtendClickTrack)");
-					return TRUE;										
-				case 115: // s
-					call_out_to_guile ("(d-SyncRecordingToCursor)");
-					return TRUE;															
-			}
-	else if (event->state == 8) //alt
-		switch (event->keyval)
-			{
-				case 65535: //Alt Del
-					call_out_to_guile ("(d-DeleteMidiAndClickTrack)");
-					Denemo.project->movement->hovering_over_midi_track = FALSE;
-					return TRUE;
-				case 65288: // Alt Backspace
-					delete_last_recorded_note ();
-					return TRUE;
-							
-			}
-	return FALSE;
-	
-}
+
 /**
  * keypress event callback
  * looks up the key press and executes the correct function
@@ -378,8 +336,6 @@ gint
 scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 {
   //g_print ("Scorearea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
-  if ((Denemo.project->movement->hovering_over_midi_track) && keypress_on_midi_track(event))
-		return TRUE;
   if ((event->keyval == 65481) && (event->state == 0)) //Fn12 hardwired to repeat last command
     {
       if (Denemo.LastCommandId != -1)
