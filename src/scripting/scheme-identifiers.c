@@ -1104,8 +1104,9 @@ create_scheme_identfiers (void)
   install_scm_function (0, "returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
   install_scm_function (0, "Computes durationss for recorded/imported MIDI notes based on tempo and timing of note off from previous note off or start.", DENEMO_SCHEME_PREFIX "ComputeMidiNoteDurations", scheme_compute_midi_note_durations);
 
-  install_scm_function (0, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
-  install_scm_function (1, "Gets the marked recorded midi note as LilyPond", DENEMO_SCHEME_PREFIX "SetMarkedMidiNote", scheme_set_marked_midi_note);
+  install_scm_function (0, "Gets the marked recorded midi note in LilyPond syntax", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteAsLilyPond", scheme_get_marked_midi_note_as_lilypond);
+  install_scm_function (0, "Gets position (1,2 ...) of the marked recorded midi note in the list of recorded notes", DENEMO_SCHEME_PREFIX "GetMarkedMidiNote", scheme_get_marked_midi_note);
+  install_scm_function (1, "Sets the marked recorded midi note to the position passed in.", DENEMO_SCHEME_PREFIX "SetMarkedMidiNote", scheme_set_marked_midi_note);
   install_scm_function (0, "Returns the start time of the marked midi note or #f if none.", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteSeconds", scheme_get_marked_midi_note_seconds);
   install_scm_function (0, "Returns the duration in seconds of the MIDI recording or #f if none.", DENEMO_SCHEME_PREFIX "GetMidiRecordingDuration", scheme_get_midi_recording_duration);
   install_scm_function (0, "Returns the time in seconds where the MIDI recording is synchronized or #f if none.", DENEMO_SCHEME_PREFIX "GetMidiRecordingOffset", scheme_get_midi_recording_offset);
