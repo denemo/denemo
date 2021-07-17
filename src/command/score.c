@@ -68,10 +68,10 @@ point_to_new_movement (DenemoProject * gui)
 }
 
 static void select_movement (gint movementnum) {
-   gboolean ok = goto_movement_staff_obj (NULL, movementnum, 1, 1, 0, 0);// this was moving to the movement but failing on the staff num g_print ("ok is %d\n", ok);
-    set_movement_selector (Denemo.project);
-    displayhelper (Denemo.project);
-    write_status (Denemo.project);
+   gboolean ok = goto_movement_staff_obj (NULL, movementnum, -1, -1, -1, 0);
+   set_movement_selector (Denemo.project);
+   displayhelper (Denemo.project);
+   write_status (Denemo.project);
 }
 
 #define NUM_MOVEMENTS_TO_SHOW (2*5)
