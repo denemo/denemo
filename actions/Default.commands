@@ -8729,7 +8729,7 @@ Include rests if they are part of the pattern.
         <action>ToggleMuteClickTrack</action>
         <after>ExtendClickTrack</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
-        <_label>Mute/Unmute Recording Playback</_label>
+        <_label>Unmute/Mute Recording Playback</_label>
         <_tooltip>Controls whether the recorded MIDI (and the click track) plays back with your score when you do Play.</_tooltip>
       </row>
       <row type="scheme">
