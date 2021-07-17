@@ -9583,7 +9583,12 @@ Pitches-First Method
 
 \begin_layout Standard
 This is new in version 2.6.
- The Playback/Record->Recording menu gives the commands to start/pause recording
+ The basic idea is to play in the pitches using the MIDI keyboard and then
+ use the duration keys to actually enter the notes into the score.
+\end_layout
+
+\begin_layout Standard
+The Playback/Record->Recording menu gives the commands to start/pause recording
  pitches from your MIDI controller.
  First you position the Denemo cursor at place where you want to enter the
  notes into the score.
@@ -9622,22 +9627,21 @@ When you stop recording the MIDI track will be extended if necessary to
  have enough bars to cover the time of your recording in the tempo of the
  score.
  Conversely, if you do not have enough bars in the click track you will
- not see the end of your recording until you do pause the recording.
- You don't have to pause recording to go on to entering the rhythms or playing
- back what you have recorded, but it may be better to do so at least at
- first.
- If you make a mistake while playing there are commands to delete the last
- recorded note(s), however you may find it better simply to pause recording
- and enter the rhythms so far - it may help to make a mark on the source
- original that you are playing from at this stage by dragging a small gray
- square at the location where you have stopped.
+ not see the end of your recording but you can invoke Extend the Click track
+ (Alt-t) or pause the recording.
+ There is no need to pause recording to go on to entering the rhythms -
+ just play in the durations.
+ When you have finished entering all the notes you can start playing-in
+ again and the played in notes will re-synchronize to the Denemo cursor.
  
 \end_layout
 
 \begin_layout Standard
-Again, if you played a wrong note and want to delete it you may find it
- better to pause recording especially if the click track is not long enough
- to cover the music you have just played in.
+If you played a wrong note and you can delete it with Alt-Backspace and
+ then continue playing the correct notes - it may help to make a mark on
+ the source original that you are playing from at this stage by dragging
+ a small line at the location where you have stopped.
+ .
 \end_layout
 
 \begin_layout Standard
@@ -9648,16 +9652,7 @@ currently marked MIDI note
 .
  You can play the recording from this note by Shift Left Clicking on it.
  To reset the marked MIDI note click on the note in the MIDI track which
- you want to be marked or use the arrows or the menu items they invoke to
- move the marker.
-\end_layout
-
-\begin_layout Standard
-You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very*
- slowly as it is slow to respond and will overshoot.
- This is only needed if you want to play back the MIDI recording with your
- score, otherwise just synchronize the right note with the Denemo cursor
- position if it gets too far out of alignment to be comfortable.
+ you want to be marked or use the Alt-Left/Right to move the marker.
  
 \end_layout
 
@@ -9708,6 +9703,15 @@ On the other hand skilled keyboard players may want to press Alt-r to start
  Then the entered notes will appear in the bars they belong to and (if you
  are composing rather than transcribing) can give you an indication of the
  rhythm you need to enter to notate what you played.
+\end_layout
+
+\begin_layout Standard
+You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very*
+ slowly as it is slow to respond and will overshoot.
+ This is only needed if you want to play back the MIDI recording with your
+ score, otherwise just synchronize the right note with the Denemo cursor
+ position if it gets too far out of alignment to be comfortable.
+ 
 \end_layout
 
 \begin_layout Subsubsection

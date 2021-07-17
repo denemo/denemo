@@ -3063,22 +3063,22 @@ Denemo can take pitches directly from MIDI input<a class="IndexReference" name="
 <a class="toc" name="toc-Subsubsection-21.2.1">21.2.1</a> Pitches-First Method
 </h3>
 <div class="Unindented">
-This is new in version 2.6. The Playback/Record-&gt;Recording menu gives the commands to start/pause recording pitches from your MIDI controller. First you position the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r. A click track is created at the top of the score to act as a MIDI track. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
+This is new in version 2.6. The basic idea is to play in the pitches using the MIDI keyboard and then use the duration keys to actually enter the notes into the score.
+</div>
+<div class="Indented">
+The Playback/Record-&gt;Recording menu gives the commands to start/pause recording pitches from your MIDI controller. First you position the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r. A click track is created at the top of the score to act as a MIDI track. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
 </div>
 <div class="Indented">
 Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display. If you leave a long gap between two notes (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. 
 </div>
 <div class="Indented">
-When you stop recording the MIDI track will be extended if necessary to have enough bars to cover the time of your recording in the tempo of the score. Conversely, if you do not have enough bars in the click track you will not see the end of your recording until you do pause the recording. You don’t have to pause recording to go on to entering the rhythms or playing back what you have recorded, but it may be better to do so at least at first. If you make a mistake while playing there are commands to delete the last recorded note(s), however you may find it better simply to pause recording and enter the rhythms so far - it may help to make a mark on the source original that you are playing from at this stage by dragging a small gray square at the location where you have stopped. 
+When you stop recording the MIDI track will be extended if necessary to have enough bars to cover the time of your recording in the tempo of the score. Conversely, if you do not have enough bars in the click track you will not see the end of your recording but you can invoke Extend the Click track (Alt-t) or pause the recording. There is no need to pause recording to go on to entering the rhythms - just play in the durations. When you have finished entering all the notes you can start playing-in again and the played in notes will re-synchronize to the Denemo cursor. 
 </div>
 <div class="Indented">
-Again, if you played a wrong note and want to delete it you may find it better to pause recording especially if the click track is not long enough to cover the music you have just played in.
+If you played a wrong note and you can delete it with Alt-Backspace and then continue playing the correct notes - it may help to make a mark on the source original that you are playing from at this stage by dragging a small line at the location where you have stopped. .
 </div>
 <div class="Indented">
-The green MIDI note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note by Shift Left Clicking on it. To reset the marked MIDI note click on the note in the MIDI track which you want to be marked or use the arrows or the menu items they invoke to move the marker.
-</div>
-<div class="Indented">
-You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to play back the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable. 
+The green MIDI note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note by Shift Left Clicking on it. To reset the marked MIDI note click on the note in the MIDI track which you want to be marked or use the Alt-Left/Right to move the marker. 
 </div>
 <div class="Indented">
 Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You enter rests in between the durations for the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem. When you reach the end of the recorded notes the duration keys will revert to entering pure duations - by this time you will have reached the small gray marker in the original source you are transcribing from, if any.
@@ -3094,6 +3094,9 @@ This entry method can be used even by unskilled keyboard players. As long as you
 </div>
 <div class="Indented">
 On the other hand skilled keyboard players may want to press Alt-r to start recording then Fn5 to start the click track playing and the play in the notes in time to the click track. Then the entered notes will appear in the bars they belong to and (if you are composing rather than transcribing) can give you an indication of the rhythm you need to enter to notate what you played.
+</div>
+<div class="Indented">
+You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to play back the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable. 
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-21.2.2">21.2.2</a> Rhythms-First Method
@@ -5935,7 +5938,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-07-17T09:11:44.301866</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-07-17T19:19:05.794882</span>
 </div>
 </div>
 </body>
