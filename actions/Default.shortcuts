@@ -1147,8 +1147,12 @@
       </row>
       <row>
         <action>DeleteMidiAndClickTrack</action>
-        <bind>Alt+W</bind>
+        <bind>Alt+Delete,r</bind>
       </row>
+		<row>
+        <action>DeleteMidiAndClickTrack</action>
+        <bind>Alt+Delete,Alt+Delete</bind>
+      </row>  
       <row>
         <action>ToggleMuteClickTrack</action>
         <bind>Alt+u</bind>
