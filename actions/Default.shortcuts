@@ -945,10 +945,6 @@
         <bind>Tab</bind>
       </row>
       <row>
-        <action>Tremolo</action>
-        <bind>Alt+t</bind>
-      </row>
-      <row>
         <action>ToggleTrill</action>
         <bind>backslash</bind>
       </row>
@@ -1132,6 +1128,42 @@
       <row>
         <action>TopMarkupSpacingDist</action>
         <hidden>true</hidden>
+      </row>
+      <row>
+        <action>PlayAndAdvance</action>
+        <bind>Alt+Right</bind>
+      </row>
+      <row>
+        <action>BackupAndPlay</action>
+        <bind>Alt+Left</bind>
+      </row>
+      <row>
+        <action>SyncRecordingToCursor</action>
+        <bind>Alt+s</bind>
+      </row>
+      <row>
+        <action>ExtendClickTrack</action>
+        <bind>Alt+t</bind>
+      </row>
+      <row>
+        <action>DeleteMidiAndClickTrack</action>
+        <bind>Alt+W</bind>
+      </row>
+      <row>
+        <action>ToggleMuteClickTrack</action>
+        <bind>Alt+u</bind>
+      </row>
+      <row>
+        <action>ToggleHideOtherStaffsKeepingClick</action>
+        <bind>Alt+h</bind>
+      </row>
+      <row>
+        <action>DeleteLastRecordedMidi</action>
+        <bind>Alt+BackSpace</bind>
+      </row>
+      <row>
+        <action>PlayRecordedMidi</action>
+        <bind>Alt+p</bind>
       </row>
     </map>
   </merge>
