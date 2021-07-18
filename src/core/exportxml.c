@@ -1261,7 +1261,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
         newScrollPointsElem (mvmntElem, ns, si->scroll_points);
       
       // output audio source
-      if (si->recording)
+      if (si->recording && (si->recording->type==DENEMO_RECORDING_AUDIO))
         outputAudio (mvmntElem, ns, si->recording);
 
       parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
