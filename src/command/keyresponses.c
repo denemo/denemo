@@ -136,19 +136,28 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
                   if ((Denemo.keyboard_state & CHORD_MASK)) //At least one note has been entered in a chord
                     next_editable_note ();
                   Denemo.keyboard_state &= ~CHORD_MASK;
+                  set_midi_in_status ();
                 }
-              set_midi_in_status ();
+               else if ((Denemo.keyboard_state == 0) && ((event->keyval == GDK_Shift_L) || (event->keyval == GDK_Shift_R)))
+				{
+				if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI))
+					toggle_midi_record ();
+					
+				}
+              
         }
      else
 		{
 			if ((Denemo.keyboard_state == 0) && ((event->keyval == GDK_Shift_L) || (event->keyval == GDK_Shift_R)))
 					{
+
 						Denemo.keyboard_state = 1;
 						set_midi_in_status ();
 					}
 			else
 				if ((Denemo.keyboard_state == 0) && ((event->keyval == GDK_Control_L) || (event->keyval == GDK_Control_R)))
 						{
+														
 							Denemo.keyboard_state = 4;
 							set_midi_in_status ();
 						}
@@ -349,13 +358,15 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 
       if(!Denemo.keyboard_state_locked)
           {
-			  //g_print ("keyboard state not locked was %x\t", Denemo.keyboard_state);
+			  //g_print ("keyboard state not locked state is %x\t", Denemo.keyboard_state);
               Denemo.keyboard_state |= (0xf & klock_mask (event->keyval));
               Denemo.keyboard_state ^= llock_mask (event->keyval);
               //g_print ("...becomes %x\t", Denemo.keyboard_state);
+            if (Denemo.project->movement->recording && (Denemo.project->midi_destination & MIDIRECORD) && 
+					(Denemo.keyboard_state == 1) && ((event->keyval == GDK_Shift_L) || (event->keyval == GDK_Shift_R)))
+				toggle_midi_record ();	
               set_midi_in_status ();
               //g_print ("...leaving %x, locked is now %x\n", Denemo.keyboard_state, Denemo.keyboard_state_locked);
-
           }
        else
 		{
