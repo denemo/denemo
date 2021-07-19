@@ -43,6 +43,7 @@
 #include "source/sourceaudio.h"
 #include "source/proof.h"
 #include "audio/pitchentry.h"
+#include "audio/midirecord.h"
 #include "audio/audiointerface.h"
 #include "printview/printview.h"
 
@@ -431,6 +432,9 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
                 result = importXML (zip, gui, type);
                 g_free (zip);
               }
+              
+            if ((result == 0) && midi_track_present () && gui->movement->thescore->next)
+				call_out_to_guile ("(while (d-MoveToStaffUp)) (d-DeleteStaff)");
         }
       else if (has_extension (filename, ".ly"))
         result = lyinput (filename);

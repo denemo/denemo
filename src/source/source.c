@@ -119,7 +119,10 @@ overdraw (cairo_t * cr, GtkWidget* view)
         for (g=Highlights;g;g = g->next)
             {
                GdkRectangle *r = (GdkRectangle*)g->data;
-               cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+               if (r->width > r->height)
+					cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+			   else
+					cairo_set_source_rgba (cr, 1.0, 0.0, 0.0, 0.5);
                cairo_rectangle (cr, r->x * scale, r->y * scale, abs(r->width)* scale, abs(r->height)* scale);
                // cairo_rectangle (cr, r->x , r->y , abs(r->width), abs(r->height));
                cairo_fill (cr); // cairo_clip (cr);//
@@ -129,7 +132,10 @@ overdraw (cairo_t * cr, GtkWidget* view)
     {
         gdouble xx = MIN (DragStart.x, DragEnd.x);
         gdouble yy = MIN (DragStart.y, DragEnd.y);
-      cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
+        if ((abs(DragStart.y-DragEnd.y)>0) && (abs(DragStart.x-DragEnd.x)/abs(DragStart.y-DragEnd.y)) < 1)
+			 cairo_set_source_rgba (cr, 0.7, 0.0, 0.0, 0.5);
+		else	
+			cairo_set_source_rgba (cr, 0.5, 0.5, 0.5, 0.5);
       cairo_rectangle (cr, xx * scale, yy * scale, abs(DragStart.x-DragEnd.x) * scale, abs(DragStart.y-DragEnd.y) * scale);
       cairo_fill (cr);
       cairo_set_source_rgb (cr, 0, 0, 0);
@@ -214,7 +220,7 @@ static void remove_highlights (GtkWidget *view)
 
 static void help (void)
  {
-     infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display.\nTo shade in gray parts of the source that you don't want to see drag over the area.\nUse this for transcribing from a score with many parts to ease following the part from system to system.\nClick on a grayed-out patch to remove it."));
+     infodialog (_("To insert a link at the Denemo cursor position to a point in this document\nright-click on the point.\nLater you will be able to re-open the document at that point by right clicking on the link in the Denemo display.\nTo shade in gray parts of the source that you don't want to see drag over the area.\nUse this for transcribing from a score with many parts to ease following the part from system to system.\nClick on a grayed-out patch to remove it.\nTo mark a place in the score for looking back at drag a line downwards which will show as a red mark - it is just another color of shading."));
  }
         
 static gboolean
@@ -268,12 +274,12 @@ static void popup_highlight_menu (GtkWidget *view, GList *highlight, GdkEventBut
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (help), NULL);
 
-  item = gtk_menu_item_new_with_label (_("Remove this Shading"));
+  item = gtk_menu_item_new_with_label (_("Remove this Shading/Marker"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_object_set_data (G_OBJECT (item), "fileview", g_object_get_data (G_OBJECT (view), "fileview"));
   g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (remove_highlight), highlight);
 
-  item = gtk_menu_item_new_with_label (_("Remove all Shading"));
+  item = gtk_menu_item_new_with_label (_("Remove all Shadings/Markers"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
   g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (remove_highlights), view);
   gtk_widget_show_all (menu);
