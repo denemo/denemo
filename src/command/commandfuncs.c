@@ -41,7 +41,10 @@ DenemoObject *curmudelaobj = \
        ((((DenemoObject *)si->currentobject->data)->type == TUPCLOSE) ? \
        (si->currentobject->prev?si->currentobject->prev->data:si->currentobject->data) : si->currentobject->data) : NULL)
 
-
+static void warn_end_of_midi_reached (void)
+	{
+		play_note (DEFAULT_BACKEND, 0, 9, 49, 200, 127);
+	}
 /**
  * Move the current rhythm on to the next one
  * FIXME re-arrange the list of rhythms each time as well so that it
@@ -1834,7 +1837,9 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
 					si->marked_onset = si->marked_onset->next;
 					if (si->marked_onset)
 						midinote = (DenemoRecordedNote*)si->marked_onset->data;
-				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);		
+				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);	
+			if (si->marked_onset == NULL)//reached the end of the recording - warn
+				warn_end_of_midi_reached ();
         } else
         addtone (mudela_obj_new, si->cursor_y, get_cursoracc ()); //mudela_obj_new->keysig->accs[si->staffletter_y]);
 
@@ -2014,6 +2019,8 @@ notechange (DenemoMovement * si, gboolean remove)
 					if (si->marked_onset)
 						midinote = (DenemoRecordedNote*)si->marked_onset->data;
 				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);
+			if (si->marked_onset == NULL)//reached the end of the recording - warn
+				warn_end_of_midi_reached ();
             }
         else
             ret = (gboolean) (intptr_t) addtone (curmudelaobj, si->cursor_y /* mid_c_offset */ ,
