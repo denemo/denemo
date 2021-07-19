@@ -548,7 +548,7 @@
   (d-PopPosition)
   offtime)
   
-(define DenemoClickTrack (_ "Click Track")) 
+;;(define DenemoClickTrack (_ "Click Track")) this is defined as DENEMO_CLICK_TRACK_NAME in C
 
 ;;;
 (define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo
