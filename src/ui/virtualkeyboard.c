@@ -48,7 +48,10 @@ static gboolean noteon (GtkWidget *widget, GdkEventButton  *event, gint key)
         }
         else
             Denemo.keyboard_state &= ~(CHORD_MASK | ADDING_MASK);
-        process_midi_event (buf);
+        //if (Denemo.project->midi_destination & MIDIRECORD)
+			handle_midi_event (buf);
+		//else
+		//	process_midi_event (buf);
         return TRUE;
     }
 
@@ -58,8 +61,11 @@ static gboolean noteoff (GtkWidget *widget, GdkEventButton  *event, gint key)
         gboolean right = (event->button == 3);
         if (right)
             Denemo.keyboard_state &= ~(CHORD_MASK | ADDING_MASK);
-        process_midi_event (buf);
-        return TRUE;
+        //if (Denemo.project->midi_destination & MIDIRECORD)
+			handle_midi_event (buf);
+		//else
+		//	process_midi_event (buf);
+        //return TRUE;
     }
       
     
