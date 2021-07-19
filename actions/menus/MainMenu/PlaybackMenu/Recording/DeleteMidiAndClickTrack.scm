@@ -1,6 +1,6 @@
 ;DeleteMidiAndClickTrack
 (let ((pos (GetPosition)))
-	(d-DeleteRecordedMidi)
+	(d-DeleteImportedMidi)
 	(while (d-MoveToStaffUp))
 	(if (equal? DenemoClickTrack (d-StaffProperties "query=denemo_name"))
 		(begin
