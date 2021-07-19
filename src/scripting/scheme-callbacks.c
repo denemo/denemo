@@ -6329,6 +6329,29 @@ SCM scheme_synchronize_recording (void)
   return SCM_BOOL_F;
 }
 
+SCM scheme_reposition_recorded_midi (SCM secs_from_end)
+{
+  DenemoProject *gui = Denemo.project;
+  DenemoMovement *si = gui->movement;
+  if (scm_is_real (secs_from_end) && si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
+    {
+		GList *g = g_list_last (si->recording->notes);
+		gint time = ((DenemoRecordedNote*)g->data)->timing;
+		gint interval = scm_to_double (secs_from_end) * si->recording->samplerate;
+		for (;g;g=g->prev)
+			{
+				DenemoRecordedNote *thenote = (DenemoRecordedNote*)g->data;
+				if (((thenote->midi_event[0]&0xF0)==MIDI_NOTE_ON) && (time - thenote->timing) >= interval)
+					{
+						si->marked_onset = g;
+						call_out_to_guile ("(d-SyncRecordingToCursor)");// syncs and extends MIDI track
+						return SCM_BOOL_T;
+					}	
+			}
+	}
+  return SCM_BOOL_F;
+}
+
 SCM scheme_recording_midi (void)
 {
   return SCM_BOOL (Denemo.project->midi_destination & MIDIRECORD);

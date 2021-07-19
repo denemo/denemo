@@ -1097,6 +1097,7 @@ create_scheme_identfiers (void)
 
   install_scm_function (0, "Records from MIDI in. The recording will play back when playing back the score unless muted. The recording is not saved with the score,", DENEMO_SCHEME_PREFIX "MidiRecord", scheme_midi_record);
   install_scm_function (0, "Synchronizes the MIDI recording so that the marked recorded MIDI note plays at the time of the note currently at the Denemo cursor. ", DENEMO_SCHEME_PREFIX "SynchronizeRecording", scheme_synchronize_recording);
+  install_scm_function (1, "Takes time-from-end seconds, rewinds the MIDI recording so that the marked recorded MIDI note is at that time and synchronizes that to the Denemo Cursor . ", DENEMO_SCHEME_PREFIX "RepositionRecordedMidi", scheme_reposition_recorded_midi);
   install_scm_function (0, "Plays the marked midi note for 200ms", DENEMO_SCHEME_PREFIX "PlayMarkedMidi", scheme_play_marked_midi);
   install_scm_function (0, "Plays/Stops playing the recorded MIDI track from the marked MIDI note or beginning if none.", DENEMO_SCHEME_PREFIX "TogglePlayRecordedMidi", scheme_toggle_play_recorded_midi);
   install_scm_function (0, "Deletes the last recorded MIDI note from the MIDI track.", DENEMO_SCHEME_PREFIX "DeleteLastRecordedNote", scheme_delete_last_recorded_note);

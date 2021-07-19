@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetMarkedMidiFromEnd</action>
+        <after>BackupAndPlay</after>
+        <_label>Reposition Relative to End</_label>
+        <_tooltip>Asks for a number of seconds back from the end of the recording which you want to synchronize with the Denemo Cursor. Use this to find and position a passage you have just recorded ready for transcribing.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

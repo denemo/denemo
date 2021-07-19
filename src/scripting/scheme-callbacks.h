@@ -141,6 +141,7 @@ SCM scheme_get_imported_midi_track (SCM index);
 SCM scheme_delete_imported_midi (void);
 SCM scheme_midi_record (void);
 SCM scheme_synchronize_recording (void);
+SCM scheme_reposition_recorded_midi (SCM secs_from_end);
 SCM scheme_recording_midi (void);
 SCM scheme_play_marked_midi (void);
 SCM scheme_toggle_play_recorded_midi (void);

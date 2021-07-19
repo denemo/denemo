@@ -724,6 +724,8 @@ actions/menus/MainMenu/PlaybackMenu/Recording/PlayRecordedMidi.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayRecordedMidi.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/RecordMidiIn.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/SetMarkedMidiFromEnd.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/SetMarkedMidiFromEnd.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/SyncRecordingToCursor.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/ToggleHideOtherStaffsKeepingClick.scm
