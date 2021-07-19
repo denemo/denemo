@@ -1166,6 +1166,10 @@
         <action>PlayRecordedMidi</action>
         <bind>Alt+p</bind>
       </row>
+      <row>
+        <action>SetMarkedMidiFromEnd</action>
+        <bind>Alt+Up</bind>
+      </row>
     </map>
   </merge>
 </Denemo>
