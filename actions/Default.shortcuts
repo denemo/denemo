@@ -6,12 +6,12 @@
     <map>
       <cursors>
         <cursor-binding>
-          <state>102</state>
-          <cursor>146</cursor>
-        </cursor-binding>
-        <cursor-binding>
           <state>104</state>
           <cursor>116</cursor>
+        </cursor-binding>
+        <cursor-binding>
+          <state>102</state>
+          <cursor>146</cursor>
         </cursor-binding>
       </cursors>
       <row>
@@ -29,6 +29,10 @@
       <row>
         <action>SharpenEnharmonicSet</action>
         <bind>Shft+KP_Add</bind>
+      </row>
+      <row>
+        <action>RecordMidiIn</action>
+        <bind>Alt+r</bind>
       </row>
       <row>
         <action>Play</action>
@@ -321,6 +325,10 @@
         <bind>M,n</bind>
       </row>
       <row>
+        <action>ImportLilypond</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>ImportMusicXml</action>
         <hidden>true</hidden>
       </row>
@@ -469,16 +477,16 @@
         <bind>F,F</bind>
       </row>
       <row>
+        <action>AddF</action>
+        <bind>Alt+F</bind>
+      </row>
+      <row>
         <action>InsertG</action>
         <bind>G,G</bind>
       </row>
       <row>
         <action>AddG</action>
         <bind>Alt+G</bind>
-      </row>
-      <row>
-        <action>AddF</action>
-        <bind>Alt+F</bind>
       </row>
       <row>
         <action>0</action>
@@ -551,6 +559,38 @@
       <row>
         <action>EndVolta</action>
         <bind>r,e</bind>
+      </row>
+      <row>
+        <action>MarkupSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreMarkupSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>SystemSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MarkupMarkupSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TopSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>LastBottomSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>ScoreSystemSpacingDist</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>TopMarkupSpacingDist</action>
+        <hidden>true</hidden>
       </row>
       <row>
         <action>ToggleAccent</action>
@@ -682,10 +722,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>FindEditPoint</action>
-        <bind>Alt+Left</bind>
-      </row>
-      <row>
         <action>FingeringsDoublestroke</action>
         <hidden>true</hidden>
       </row>
@@ -712,9 +748,6 @@
       <row>
         <action>ToggleHarmonic</action>
         <hidden>true</hidden>
-      </row>
-      <row>
-        <action>HelpForReturnKey</action>
       </row>
       <row>
         <action>Import-Midi</action>
@@ -1000,6 +1033,10 @@
         <bind>Ctrl+Subtract</bind>
       </row>
       <row>
+        <action>DeleteRecordedMidi</action>
+        <bind>Alt+Delete,Alt+Delete</bind>
+      </row>
+      <row>
         <action>ChangeTo0</action>
         <bind>Shft+0</bind>
       </row>
@@ -1048,6 +1085,14 @@
         <bind>p</bind>
       </row>
       <row>
+        <action>SetBeamExceptions</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>MovementBeamingRules</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>FillMeasure</action>
         <bind>KP_Enter</bind>
       </row>
@@ -1086,50 +1131,6 @@
         <hidden>true</hidden>
       </row>
       <row>
-        <action>ImportLilypond</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>SetBeamExceptions</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MovementBeamingRules</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MarkupSystemSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreMarkupSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>SystemSystemSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>MarkupMarkupSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>TopSystemSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>LastBottomSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>ScoreSystemSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
-        <action>TopMarkupSpacingDist</action>
-        <hidden>true</hidden>
-      </row>
-      <row>
         <action>PlayAndAdvance</action>
         <bind>Alt+Right</bind>
       </row>
@@ -1147,12 +1148,8 @@
       </row>
       <row>
         <action>DeleteMidiAndClickTrack</action>
-        <bind>Alt+Delete,r</bind>
+        <bind>Alt+Delete,c</bind>
       </row>
-		<row>
-        <action>DeleteMidiAndClickTrack</action>
-        <bind>Alt+Delete,Alt+Delete</bind>
-      </row>  
       <row>
         <action>ToggleMuteClickTrack</action>
         <bind>Alt+u</bind>
