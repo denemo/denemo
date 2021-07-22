@@ -8760,6 +8760,13 @@ Include rests if they are part of the pattern.
         <_label>Reposition Relative to End</_label>
         <_tooltip>Asks for a number of seconds back from the end of the recording which you want to synchronize with the Denemo Cursor. Use this to find and position a passage you have just recorded ready for transcribing.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>AdjustTempoToMidiRecording</action>
+        <after>SyncRecordingToCursor</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Adjust Tempo to Recording</_label>
+        <_tooltip>Adjusts the movement tempo to match the tempo of the MIDI recording. You have to designate two places to be synchronized.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

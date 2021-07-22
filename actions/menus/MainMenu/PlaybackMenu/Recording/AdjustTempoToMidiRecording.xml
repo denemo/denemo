@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>AdjustTempoToMidiRecording</action>
+        <after>SyncRecordingToCursor</after>
+        <_label>Adjust Tempo to Recording</_label>
+        <_tooltip>Adjusts the movement tempo to match the tempo of the MIDI recording. You have to designate two places to be synchronized.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
