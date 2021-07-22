@@ -883,7 +883,7 @@ typedef struct DenemoRecording {
   gint samplerate; /**< frames per second */
   gint channels; /**< audio only */
   gint leadin;/**< AUDIO: number of frames to skip at start, silence to be emitted before play if negative */
-  gdouble offset;/**<MIDI: time in seconds by which the MIDI track has been offset */
+  //gdouble offset;/**<MIDI: time in seconds by which the MIDI track has been offset */
   gdouble volume;
   gint nframes;/**< number of frames in the audio */
   GList *notes;  /**< data is DenemoRecordedNote* */
@@ -959,8 +959,6 @@ typedef struct DenemoMovement
   gpointer loaded_midi_track;//a (part of) the recorded_midi_track synchronized to the score
   
   gdouble master_volume;/**< the volume (velocity) used is this times the nominal vol */
-  gdouble master_tempo;/**< the tempo used is this times the nominal tempo */
-  gdouble tempo_change_time;/**< system time from which the master_tempo is to be used */
   gdouble rightmost_time; /**< MIDI time of rightmost visible object */
   GList *scroll_points; /**< playback view scroll points for this movement */
   DenemoDirective* directive_on_clipboard;/**< when a (non-standalone) directive can be "pasted" using the script CreateScriptForDirective::clipboard this records its origin. Do not de-reference as it may no longer exist */
