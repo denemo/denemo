@@ -25,6 +25,7 @@
 #include "core/cache.h"
 #include "core/utils.h"
 #include "command/lyric.h"
+#include "audio/midirecord.h"
 
 gboolean
 signal_structural_change (DenemoProject * project)
@@ -417,7 +418,12 @@ staff_delete (DenemoProject * project, gboolean interactive)
   (void) signal_structural_change (project);
   if (movement->currentstaff == NULL)
     return;
-
+  if (midi_track_present () && (g_list_length (movement->thescore) == 2))
+	{
+			if (interactive)
+				warningdialog ( _("Cannot delete last staff"));
+			return;
+	}
   gboolean give_info = FALSE;   //give info about removing matching context
   if (interactive && (curstaffstruct->context != DENEMO_NONE) && (!confirm (_("A context is set on this staff"), _("You will need to alter/delete the matching staff; Proceed?"))))
     return;

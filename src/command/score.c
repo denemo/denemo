@@ -23,6 +23,7 @@
 #include "ui/moveviewport.h"
 #include "command/contexts.h"
 #include "audio/midi.h"
+#include "audio/midirecord.h"
 #include "display/displayanimation.h"
 #include "command/lilydirectives.h"
 #include "export/exportmidi.h"
@@ -188,21 +189,25 @@ append_movement (DenemoAction * action, gpointer param, gboolean populate)
   DenemoProject *gui = Denemo.project;
   DenemoMovement *source_movement = gui->movement;
   GList *g;
+  g = midi_track_present ()?source_movement->thescore->next : source_movement->thescore;
   (void) signal_structural_change (gui);
 
   if (gui->movement->lyricsbox)
     gtk_widget_hide (gui->movement->lyricsbox);
   point_to_empty_movement (gui);
-  for (g = source_movement->thescore; g; g = g->next)
-    {
-      DenemoStaff *source_staff = g->data;
-      staff_new (gui, LAST, DENEMO_NONE);
-      if (!populate)
-        break;
-      GList *dest = g_list_last (gui->movement->thescore);
-      DenemoStaff *dest_staff = dest->data;
-      staff_copy (source_staff, dest_staff, TRUE);
-    }
+  if (g==NULL)
+	staff_new (gui, LAST, DENEMO_NONE);
+  else
+	  for (;g; g = g->next)
+		{
+		  DenemoStaff *source_staff = g->data;
+		  staff_new (gui, LAST, DENEMO_NONE);
+		  if (!populate)
+			break;
+		  GList *dest = g_list_last (gui->movement->thescore);
+		  DenemoStaff *dest_staff = dest->data;
+		  staff_copy (source_staff, dest_staff, TRUE);
+		}
   gui->movements = g_list_append (gui->movements, gui->movement);
   //gui->movement->currentmovementnum = 1 + g_list_index (gui->movements, gui->movement);
   set_movement_selector (gui);
