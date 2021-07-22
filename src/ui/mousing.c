@@ -647,16 +647,15 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
     }
   if (gui->movement->recording && (gui->movement->recording->type == DENEMO_RECORDING_AUDIO) && dragging_tempo)
     {
-        gdouble change = (event->x_root - last_event_x)/gui->movement->zoom;
-        last_event_x = event->x_root;
-        struct placement_info pi;
-        get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
-        change /= pi.measure_number;
-        update_tempo_widget ( change);
-        set_tempo ();
-        score_status (Denemo.project, TRUE);
-        exportmidi (NULL, gui->movement);
-        gtk_widget_queue_draw(Denemo.scorearea);
+        //~ gdouble change = (event->x_root - last_event_x)/gui->movement->zoom;
+        //~ last_event_x = event->x_root;
+        //~ struct placement_info pi;
+        //~ get_placement_from_coordinates (&pi, event->x, 0, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
+        //~ change /= pi.measure_number;
+        //~ update_tempo_widget ( change);
+        //~ score_status (Denemo.project, TRUE);
+        //~ exportmidi (NULL, gui->movement);
+        //~ gtk_widget_queue_draw(Denemo.scorearea);
         return TRUE;
     }
     else if (gui->movement->recording && (gui->movement->recording->type == DENEMO_RECORDING_MIDI) && dragging_tempo)
