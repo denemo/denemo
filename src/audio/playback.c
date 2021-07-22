@@ -34,21 +34,6 @@
 #endif
 #include <errno.h>
 
-//incorporates the master_tempo into the movement tempo, re-setting the master_tempo factor to unity; adjusts the start and end times to suit the new tempo
-void
-set_tempo (void)
-{
-  gdouble tempo = Denemo.project->movement->master_tempo;
-  if (tempo < 0.001 || (tempo > 0.999 && tempo < 1.001))
-    return;
-  Denemo.project->movement->tempo *= tempo;
-  Denemo.project->movement->start_time /= tempo;
-  Denemo.project->movement->end_time /= tempo;
-
-  Denemo.project->movement->master_tempo = 1.0;
-  //caller should call this:score_status (Denemo.project, TRUE);
-  // caller should call this: exportmidi (NULL, Denemo.project->movement);
-}
 
 
 /* start playing the current movement as MIDI
@@ -68,7 +53,7 @@ ext_midi_playback (DenemoAction * action, DenemoScriptParam * param)
       toggle_paused ();
       return;
     }
-  set_tempo ();
+
 #ifdef DISABLE_AUBIO
 #else
   //rewind_audio(); done in start_audio_playing()

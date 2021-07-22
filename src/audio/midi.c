@@ -95,99 +95,13 @@ update_position (smf_event_t * event)
 }
 
 
-
-
-static void
-safely_add_track (smf_t * smf, smf_track_t * track)
-{g_print ("Adding the recorded track - ignored\n");	 return;
-	int i;
-	gdouble offset = 0.0;//a new time in seconds to offset the recorded notes by
-	gdouble current_offset = 0;//Denemo.project->movement->recording->offset;
-	if (Denemo.project->movement->loaded_midi_track == NULL)
-		{g_print ("added recorded midi track and set loaded to it\n");
-			smf_add_track(smf, Denemo.project->movement->recorded_midi_track);
-			Denemo.project->movement->loaded_midi_track = Denemo.project->movement->recorded_midi_track;
-			return;
-		}
-	smf_event_t *event;
-	smf_track_t *newtrack = smf_track_new();
-    smf_add_track(smf, newtrack);
-g_print ("offset %f seconds\n", current_offset);
-    if (Denemo.project->movement->marked_onset && Denemo.project->movement->currentobject)
-				{
-					DenemoRecordedNote *recordednote = (DenemoRecordedNote *) Denemo.project->movement->marked_onset->data;
-					DenemoObject *curobj = Denemo.project->movement->currentobject->data;
-					if (curobj->type == CHORD)
-						{g_print ("marked onset at time %f seconds\n", recordednote->timing/(double)Denemo.project->movement->recording->samplerate);
-							offset = curobj->earliest_time - recordednote->timing/(double)Denemo.project->movement->recording->samplerate;
-							Denemo.project->movement->recording->offset = offset;							
-						}
-				}
-	for  (i=1; (event = smf_track_get_event_by_number(track, i));i++)
-		{
-			smf_event_t *newevent;
-			char *buf;
-			double seconds = event->time_seconds;
-			g_print ("event %d seconds %f becomes %f\n", i, seconds, seconds + offset - current_offset);
-			if (seconds + offset - current_offset >= 0.0)
-							{
-								buf = malloc (event->midi_buffer_length);
-								memcpy (buf, event->midi_buffer, event->midi_buffer_length);
-								newevent = smf_event_new_from_pointer (buf, event->midi_buffer_length);
-								smf_track_add_event_seconds (newtrack, newevent, seconds + offset - current_offset);
-							}
-							else
-							{
-								g_warning ("Negative timing event dropped\n");
-							}
-		}
-		Denemo.project->movement->loaded_midi_track = newtrack;
-		
-
-	//~ for  (i=1; (event = smf_track_get_event_by_number(track, i));i++)
-		//~ {
-			//~ if (event->midi_buffer)
-				//~ free (event->midi_buffer);
-		//~ }
-	//~ free (track);
-	//~ Denemo.project->movement->recorded_midi_track = newtrack;		
-}
-
-static void
-safely_track_remove_from_smf (smf_track_t * track)
-{g_print ("Removing the loaded %x recorded %x track Ignored\n", Denemo.project->movement->loaded_midi_track, Denemo.project->movement->recorded_midi_track);return;
-	if (Denemo.project->movement->loaded_midi_track)
-		smf_track_remove_from_smf (Denemo.project->movement->loaded_midi_track);
-	else
-		smf_track_remove_from_smf (Denemo.project->movement->recorded_midi_track);
-	
-	if (Denemo.project->movement->recorded_midi_track != Denemo.project->movement->loaded_midi_track)
-			{
-				int i;
-				smf_event_t* event;
-				//smf_track_delete (Denemo.project->movement->loaded_midi_track);
-				for  (i=1; (event = smf_track_get_event_by_number(Denemo.project->movement->loaded_midi_track, i));i++)
-					{
-						if (event->midi_buffer)
-							free (event->midi_buffer);
-					}
-				free (track);
-				//LEAVE THIS AS FLAG to show recorded midi track has been loaded once and is now detached Denemo.project->movement->loaded_midi_track = NULL;
-			}
-  //~ if (track->smf != NULL && (track->track_number>=1))
-    //~ smf_track_remove_from_smf (track);
-  //~ track->smf = NULL;
-}
-
 static GString *callback_script = NULL;
 void start_playing (gchar * callback)
 {
   smf_t *smf = Denemo.project->movement->smf;
   if (callback && *callback)
     callback_script = g_string_new (callback);
-  if (Denemo.project->movement->recorded_midi_track)
-    safely_add_track (Denemo.project->movement->smf, Denemo.project->movement->recorded_midi_track);
-
+ 
   fix_start_end_ordering ();
   smf_rewind (smf);
   gdouble start = (Denemo.project->movement->start_time/get_playback_speed()) - SHAVING;
@@ -484,8 +398,7 @@ gdouble get_time_at_cursor (void)
 	if (curobj)
 		{
 			obj = Denemo.project->movement->currentobject->data; 
-			time = obj->latest_time;	//g_print ("Get time at cursor: Object %p time at cursor %f\n", obj, time);
-
+			time = Denemo.project->movement->cursor_appending ? obj->latest_time :  obj->earliest_time;	//g_print ("Get time at cursor: Object %p time at cursor %f\n", obj, time);
 		}
 	else
 		time = ((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->earliest_time;
