@@ -90,7 +90,6 @@ void delete_last_recorded_note (void)
 	GList *g = g_list_last (si->recording->notes);
 	DenemoRecordedNote *note = g->data;
 	gint start_of_deleted_note;
-
 	gboolean was_recording = Denemo.project->midi_recording;
 	Denemo.project->midi_recording = FALSE;
     Denemo.project->midi_destination ^= MIDIRECORD;//turn off recording
@@ -117,9 +116,12 @@ void delete_last_recorded_note (void)
 						start_of_deleted_note = note->timing;
 					if (midi == next)//the noteon for the deleted note
 						{
+							if (si->marked_onset == g) 
+								si->marked_onset = NULL;	
 							si->recording->notes = g_list_remove_link (si->recording->notes, g);
 							free_one_recorded_note (note);
-							g_list_free (g);	
+							g_list_free (g);
+							
 							break;
 						}
 				}
@@ -132,22 +134,18 @@ void delete_last_recorded_note (void)
 		}
 	else
 		{
-			Denemo.project->movement->marked_onset = g_list_last (si->recording->notes);
+			g = g_list_last (si->recording->notes);
 			//this is the NOTEOFF event
-			gint end_of_recording = ((DenemoRecordedNote*)si->marked_onset->data)->timing;
+			gint end_of_recording = ((DenemoRecordedNote*)g->data)->timing;
 			gdouble gap = (start_of_deleted_note - end_of_recording)/(double)si->recording->samplerate;
 			//g_print ("Gap between last notes was %f\n", gap);
 			if (gap > 0.4)
 				gap = 0.2;
 				//g_print ("Note off was at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
-			((DenemoRecordedNote*)si->marked_onset->data)->timing += (gint)(gap*si->recording->samplerate);
-			//g_print ("Note off now at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
-
-			Denemo.project->movement->marked_onset = Denemo.project->movement->marked_onset->prev;//move to the NOTEON
+			((DenemoRecordedNote*)g->data)->timing += (gint)(gap*si->recording->samplerate);
 		}
 	if (was_recording)
 		resume_midi_recording ();
-	
 }   
 gboolean midi_track_present (void)
 {
