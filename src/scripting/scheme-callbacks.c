@@ -2155,58 +2155,38 @@ scheme_zoom (SCM factor)
   return SCM_BOOL_F;
 }
 
-SCM
-scheme_master_tempo (SCM factor)
-{
-  DenemoMovement *si = Denemo.project->movement;
-  gdouble request_time = get_time ();
-  gdouble duration = request_time - si->tempo_change_time;
-  si->start_player += duration * (1.0 - si->master_tempo);
 
-  if (scm_is_real (factor))
-    si->master_tempo = scm_to_double (factor);
-  else if (scm_is_string (factor))
-    {
-      char *name;
-      name = scm_to_locale_string (factor);
-      if (name)
-        {
-          si->master_tempo = atof (name);
-          free (name);
-        }
-    }
-  else
-    {
-      return scm_from_double (si->master_tempo);
-    }
-  if (si->master_tempo < 0.0)
-    si->master_tempo = 1.0;
-
-  si->tempo_change_time = request_time;
-  return scm_from_double (si->master_tempo);
-}
 
 SCM
 scheme_movement_tempo (SCM bpm)
 {
   DenemoMovement *si = Denemo.project->movement;
+  gint tempo = 0;
+  if (scm_is_integer (bpm))
+		{
+		 tempo = scm_to_int (bpm);
+		 
+		} 
+  else   
   if (scm_is_real (bpm))
-    si->tempo = scm_to_int (bpm);
-  if (scm_is_string (bpm))
-    {
-      char *name;
-      name = scm_to_locale_string (bpm);
-      if (name)
-        {
-          gdouble tempo = atof (name);
-          si->tempo = tempo;
-          set_master_tempo (si, si->master_tempo);
-          free (name);
-        }
-    }
-
-  if (si->tempo < 1)
-    si->tempo = 120;
+		{
+		 double val = scm_to_double (bpm);
+		 tempo = (int) (val + 0.5);
+		} 
+	else
+	  if (scm_is_string (bpm))
+		{
+		  char *name;
+		  name = scm_to_locale_string (bpm);
+		  if (name)
+			{
+			  tempo = atoi (name);
+			  free (name);
+			}
+		  
+		}
+  if (tempo)
+	set_movement_tempo (tempo);
   return scm_from_int (si->tempo);
 }
 
@@ -6474,13 +6454,29 @@ SCM scheme_get_midi_recording_duration (void)
   return scm;
 }
 
-SCM scheme_get_midi_recording_offset (void)
+SCM scheme_midi_recording_offset (SCM leadin)
 {
   SCM scm = SCM_BOOL_F;
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
+ 
   if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI))
-      scm = scm_from_double (si->recording->offset);
+	{
+	 gint offset;
+	  if (scm_is_integer (leadin))
+		{
+		 offset = scm_to_int (leadin);
+		 si->recording->leadin = offset;
+		} 
+	  else   
+		if (scm_is_real (leadin))
+			{
+			 double val = scm_to_double (leadin);
+			 offset = (int) (val + 0.5);
+			 si->recording->leadin = offset;
+			} 
+	 scm = scm_from_int (si->recording->leadin);
+	}
   return scm;
 }
 

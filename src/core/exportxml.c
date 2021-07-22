@@ -1267,7 +1267,7 @@ exportXML (gchar * thefilename, DenemoProject * gui)
       parentElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "score-info", NULL);
       curElem = xmlNewChild (parentElem, ns, (xmlChar *) "tempo", NULL);
       //newXMLFraction (xmlNewChild (curElem, ns, (xmlChar *) "duration", NULL), ns, 1, 4); do not create this, it is always a quarter note
-      newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo * si->master_tempo);
+      newXMLIntChild (curElem, ns, (xmlChar *) "bpm", si->tempo);
 
       stavesElem = xmlNewChild (mvmntElem, ns, (xmlChar *) "staves", NULL);
       for (curStaff = si->thescore; curStaff != NULL; curStaff = curStaff->next)

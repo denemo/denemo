@@ -829,7 +829,6 @@ static gboolean update_playback_view (void)
     //g_print ("Testing %d not equal %d or %d not equal %d \n", changecount, Denemo.project->changecount, Denemo.project->movement->changecount, Denemo.project->movement->smfsync);
  if ((changecount != Denemo.project->movement->changecount) || (Denemo.project->movement->changecount != Denemo.project->movement->smfsync))
         {
-        set_tempo ();
         call_out_to_guile (PartOnly?"(d-PlaybackView 'part)":"(d-PlaybackView)");//this installs the temporary directives to typeset svg and thendisplay_svg (gdouble scale, gboolean part)
         Denemo.project->movement->smfsync = Denemo.project->movement->changecount;
         changecount = Denemo.project->movement->changecount;
@@ -1159,7 +1158,6 @@ static void play_button (void)
 static void part_button (void)
 {
     PartOnly = TRUE;
-    set_tempo ();
     if (Denemo.project->movement->smf)
         AllPartsTypeset = confirm ( _("MIDI Already Present"), _("Keep this music while typesetting current part?"));
     call_out_to_guile ("(d-PlaybackView 'part)");//this installs the temporary directives to typeset svg and then
@@ -1168,7 +1166,6 @@ static void part_button (void)
 static void movement_button (void)
 {
     PartOnly = FALSE;
-    set_tempo ();
     call_out_to_guile ("(d-PlaybackView #f)");//this installs the temporary directives to typeset svg and then
 }
 
