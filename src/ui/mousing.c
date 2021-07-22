@@ -1038,7 +1038,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 					}
 			}
 		}
-	   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
+	   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < HeightOfRecordingTrack*gui->movement->zoom) && midi_track_present ())
 		{
 			if (left)
 				{
@@ -1453,7 +1453,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
       return TRUE;
     }
 
-	if(gui->movement->recording && (event->y < HeightOfRecordingTrack*gui->movement->zoom))
+	if(gui->movement->recording && (event->y < HeightOfRecordingTrack*gui->movement->zoom) && midi_track_present ())
 	{
 		return TRUE;
 	}
