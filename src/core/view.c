@@ -60,7 +60,7 @@ static GtkWidget *exportbutton;
 static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
 static GtkAdjustment *audio_vol_adj;
-static GtkSpinButton *master_tempo_adj;
+static GtkWidget *tempo_widget;
 #ifdef _HAVE_RUBBERBAND_
 static GtkAdjustment *speed_adj;
 #endif
@@ -1151,21 +1151,26 @@ pb_loop (GtkWidget * button)
   call_out_to_guile ("(DenemoLoop)");
 }
 
-static void
-pb_tempo (GtkEditable *editable)
+static void pb_tempo (void)
 {
- gchar * text = gtk_editable_get_chars (editable, 0, -1);
- gdouble tempo;
- gdouble bpm = atof (text);
- //g_print ("text is %s, bpm = %f\n", text, bpm);
- if (bpm > 10 && bpm < 1000)
+ static gchar * value;
+ if (value==NULL)
+	value = g_strdup ("120");
+ gchar *newvalue = string_dialog_entry (Denemo.project, "Movement Tempo", "Give value in beats per minute", value);
+ if (newvalue)
 	{
-	  tempo = (Denemo.project->movement->tempo > 0) ? bpm / Denemo.project->movement->tempo : 1.0;
-	  scm_c_define ("DenemoTempo::Value", scm_from_double (tempo));
-	  call_out_to_guile ("(DenemoTempo)");//this sets Denemo.project->movement->master_tempo to the value tempo, a factor that will be used to re-define the movement tempo before playing.
-	  Denemo.project->movement->smfsync = G_MAXINT;
+		gint bpm = atoi (newvalue);
+		g_free (value);
+		value = newvalue;
+		if (bpm > 10 && bpm < 1000)
+			{
+				set_movement_tempo (bpm);
+				update_tempo_widget (value);
+				Denemo.project->movement->smfsync = G_MAXINT;
+				exportmidi (NULL, Denemo.project->movement);
+				switch_back_to_main_window ();
+			}
 	}
- g_free (text);
 }
 static void
 pb_mute_staffs ()
@@ -1174,13 +1179,11 @@ pb_mute_staffs ()
 }
 
 void
-update_tempo_widget (gdouble value)
+update_tempo_widget (gchar *value)
 {
-  gdouble bpm = gtk_spin_button_get_value (master_tempo_adj);    //g_debug("bpm %f and correction %f\n", bpm, value);
-  bpm += value;
-  gtk_spin_button_set_value (master_tempo_adj, bpm);
-  //gtk_adjustment_changed (master_tempo_adj);
-  Denemo.project->movement->smfsync = G_MAXINT;
+ gchar *text =  g_strdup_printf ("𝅘𝅥 = %s bpm", value);
+ gtk_label_set_markup (GTK_LABEL(tempo_widget), text);
+ g_free (text);
 }
 
 #ifdef _HAVE_RUBBERBAND_
@@ -3146,23 +3149,25 @@ set_master_volume (DenemoMovement * si, gdouble volume)
     }
 }
 
-//Set the master tempo of the passed score and change the slider to suit
+//Set the master tempo of the passed score and change the label and start/end times to suit
 void
-set_master_tempo (DenemoMovement * si, gdouble tempo)
+set_movement_tempo (gint tempo)
 {
-  if (si->master_tempo > 0.0)
+	gdouble factor = tempo/(gdouble) Denemo.project->movement->tempo;
+	if (Denemo.project->movement->end_time != -1)
+		Denemo.project->movement->end_time /= factor;
+	if (Denemo.project->movement->start_time != -1)
+		Denemo.project->movement->start_time /= factor;
+	g_print ("Factor %.2f\n", factor);
+    Denemo.project->movement->tempo = tempo;
+  if (tempo_widget)
     {
-      Denemo.project->movement->end_time /= si->master_tempo;
-      Denemo.project->movement->start_time /= si->master_tempo;
+	  gchar *text = g_strdup_printf ("%d", tempo);
+      update_tempo_widget (text);
+      g_free (text);
     }
-  si->master_tempo = tempo;
-  Denemo.project->movement->end_time *= si->master_tempo;
-  Denemo.project->movement->start_time *= si->master_tempo;
-  if (master_tempo_adj)
-    {
-      gtk_spin_button_set_value (master_tempo_adj, tempo * si->tempo);
-      //gtk_adjustment_changed (master_tempo_adj);
-    }
+ Denemo.project->movement->smfsync = G_MAXINT;
+ exportmidi (NULL, Denemo.project->movement);
 }
 
 static void
@@ -3371,15 +3376,13 @@ create_window (void)
       hbox = gtk_hbox_new (FALSE, 1);
       gtk_box_pack_start (GTK_BOX (inner1), hbox, TRUE, TRUE, 0);
       
+
+      GtkWidget *tempo_button = (GtkWidget *) gtk_button_new_with_label ("𝅘𝅥  = 120");
+      tempo_widget = gtk_bin_get_child (GTK_BIN (tempo_button));
+      gtk_label_set_use_markup (GTK_LABEL (tempo_widget), TRUE);
+      g_signal_connect (G_OBJECT (tempo_button), "clicked", G_CALLBACK (pb_tempo), NULL);
       
-      label = gtk_label_new (_("Tempo:"));
-      gtk_widget_set_tooltip_text (label, _("Set the (initial) tempo of the movement"));
-      gtk_widget_set_can_focus (label, FALSE);
-      gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-      master_tempo_adj = (GtkSpinButton *) gtk_spin_button_new_with_range (10, 1000, 1);
-      g_signal_connect (G_OBJECT (master_tempo_adj), "changed", G_CALLBACK (pb_tempo), NULL);
-      
-      gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (master_tempo_adj), FALSE, TRUE, 0);
+      gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (tempo_button), FALSE, TRUE, 0);
       create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
 
       // Volume
