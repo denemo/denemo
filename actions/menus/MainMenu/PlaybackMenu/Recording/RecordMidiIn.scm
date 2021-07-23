@@ -1,5 +1,5 @@
 ;RecordMidiIn
-(let ((pos (GetPosition)) (staff-added 0)(num (d-GetMeasuresInStaff)))
+(let ((pos (GetPosition)) (staff-added 0)(num (max 8 (d-GetMeasuresInStaff))))
 	(d-MidiRecord)
 	(if (d-RecordingMidi)
 		(begin

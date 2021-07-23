@@ -152,6 +152,15 @@ gboolean midi_track_present (void)
 	DenemoStaff *topstaff = (DenemoStaff*) Denemo.project->movement->thescore->data;
 	return find_directive (topstaff->clef.directives, DENEMO_CLICK_TRACK_NAME) != NULL;
 } 
+gdouble measure_duration (void)
+{
+	DenemoStaff *topstaff = (DenemoStaff*) Denemo.project->movement->thescore->data;
+	DenemoMeasure *themeasure = (DenemoMeasure*)topstaff->themeasures->data,
+					*nextmeasure = topstaff->themeasures->next? (DenemoMeasure*)(topstaff->themeasures->next)->data : NULL;
+	if (themeasure && nextmeasure)
+		return nextmeasure->earliest_time - themeasure->earliest_time ;
+	else return -1.0;
+}
 //Add the passed midi event to a recording in Denemo.project->movement
 void record_midi (gchar * buf)
 {
@@ -196,12 +205,13 @@ void record_midi (gchar * buf)
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
 				si->recording->notes = g_list_append (si->recording->notes, note);
 				if (initial) si->marked_onset = si->recording->notes;
+				si->recording->click_track_created = TRUE;//this should really only be set once, after the click track is created, but that is done in scheme which doesn't have access to set it. Would need to create a callback to do that.
 			}
 	if (resumed) 
 		{
 			si->marked_onset = g_list_last (si->recording->notes);
-			call_out_to_guile ("(d-ExtendClickTrack)");
-			synchronize_recording ();
+			//call_out_to_guile ("(d-ExtendClickTrack)");
+			//synchronize_recording ();
 		}
 }
 
@@ -389,8 +399,8 @@ void synchronize_recording (void)
 			//g_print ("current offset %f new time of start %f\n", offset, newoffset);
 			Denemo.project->movement->recording->leadin = -(newoffset - offset)*Denemo.project->movement->recording->samplerate;
 		}
-	Denemo.project->movement->smfsync = G_MAXINT;
-	generate_midi ();		
+	//~ Denemo.project->movement->smfsync = G_MAXINT;
+	//~ generate_midi ();		
 }
 
 void scale_recording (gdouble scale)// keeps Denemo.project->movement->marked_onset->timing constant while scaling values before and after

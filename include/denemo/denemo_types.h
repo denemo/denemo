@@ -888,6 +888,7 @@ typedef struct DenemoRecording {
   gint nframes;/**< number of frames in the audio */
   GList *notes;  /**< data is DenemoRecordedNote* */
   gpointer sndfile; /**< sndfile handle */
+  gboolean click_track_created; /**<when creating click track do not clone measures and when adding to click track, call synchronize_recording() */
 } DenemoRecording;
 
 typedef enum DenemoTargetType {

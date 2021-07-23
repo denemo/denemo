@@ -14,6 +14,7 @@
 #include "command/measure.h"
 #include "audio/pitchrecog.h"
 #include "audio/audiocapture.h"
+#include "audio/midirecord.h"
 
 #define DEFAULT_HIGH (1400.0)
 #define DEFAULT_LOW (60.0)
@@ -591,6 +592,8 @@ signal_measure_end (void)
     {
       play_note (DEFAULT_BACKEND, 0 /*port */ , 9, Denemo.prefs.measureswitchsound, 300, 127);//(gint) (100 * Denemo.project->movement->master_volume));
     }
+  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->click_track_created))
+	synchronize_recording ();
 }
 
 

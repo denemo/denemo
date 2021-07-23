@@ -38,7 +38,7 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 {
   staffnode *curstaff;
   guint i;
-  objnode *barlinenode = NULL;
+  DenemoMeasure *newmeasure = NULL;
   if(all)
         stage_undo (si, ACTION_STAGE_END);
   for (i = 0; i < nummeasures; i++)
@@ -49,8 +49,12 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
           for (j = 1, curstaff = si->thescore; curstaff; j++, curstaff = curstaff->next)
             {
               store_for_undo_measure_create (si, j, pos);
-              barlinenode = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
-              ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), barlinenode, pos);
+              if (Denemo.project->movement->recording && Denemo.project->movement->recording->click_track_created && j==1)
+				newmeasure = clone_measure ((DenemoMeasure*)g_list_last(staff_first_measure_node (curstaff))->data);//MIDi track: fill out the measure as duplicate clone_measure
+			  else
+				newmeasure = g_malloc0 (sizeof (DenemoMeasure));
+				
+              ((DenemoStaff *) curstaff->data)->themeasures = g_list_insert (staff_first_measure_node (curstaff), newmeasure, pos);
               ((DenemoStaff *) curstaff->data)->nummeasures++;
             }
 
@@ -58,8 +62,8 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
       else
         {
           store_for_undo_measure_create (si, si->currentstaffnum, pos);
-           barlinenode = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
-          ((DenemoStaff *) si->currentstaff->data)->themeasures = g_list_insert (staff_first_measure_node (si->currentstaff), barlinenode, pos);
+           newmeasure = g_malloc0 (sizeof (DenemoMeasure)); //use NULL  originally
+          ((DenemoStaff *) si->currentstaff->data)->themeasures = g_list_insert (staff_first_measure_node (si->currentstaff), newmeasure, pos);
           ((DenemoStaff *) si->currentstaff->data)->nummeasures++;
         }
 
@@ -76,8 +80,6 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
 
 
     }
-
-
     if (all)
         cache_all();
     else
@@ -120,8 +122,7 @@ freeobjlist (objnode *delobjs)
     }
 }
 
-DenemoMeasure *
-clone_measure (DenemoMeasure* m)
+DenemoMeasure * clone_measure (DenemoMeasure* m)
 { GList *g;
    DenemoMeasure *ret = g_malloc0 (sizeof (DenemoMeasure));
    memcpy (ret, m, sizeof (DenemoMeasure));
