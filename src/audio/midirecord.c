@@ -74,26 +74,15 @@ void new_midi_recording (void) {
 			//~ exportmidi (NULL, si); //si->end_time is now the time in seconds of the current score, if the recording extends past this time create more clicks
 			
 }
-void resume_midi_recording (void) {
-	DenemoMovement *si = Denemo.project->movement;
-	si->smfsync = G_MAXINT;
-	recording_time = -1;
-    Denemo.project->midi_recording = TRUE;
-    Denemo.project->midi_destination |= MIDIRECORD;
-	//g_print ("resuming\n");
-}
+
 
 void delete_last_recorded_note (void)
 {
-	pause_recording_midi (); //FIXME I think this pause_ and resume_ is uneccesary, MIDI in is not in a different process or thread.
 	DenemoMovement *si = Denemo.project->movement;
 	GList *g = g_list_last (si->recording->notes);
 	DenemoRecordedNote *note = g->data;
 	gint start_of_deleted_note;
-	gboolean was_recording = Denemo.project->midi_recording;
-	Denemo.project->midi_recording = FALSE;
-    Denemo.project->midi_destination ^= MIDIRECORD;//turn off recording
-      
+
 	if ((note->midi_event[0]&0xF0)==MIDI_NOTE_ON)
 		{
 			start_of_deleted_note = note->timing;
@@ -131,6 +120,9 @@ void delete_last_recorded_note (void)
 			si->marked_onset = NULL;
 			g_free (si->recording);
 			si->recording = NULL;
+			Denemo.project->midi_recording = FALSE;
+			Denemo.project->midi_destination ^= MIDIRECORD;
+			toggle_midi_record ();//turn recording back on 
 		}
 	else
 		{
@@ -144,8 +136,6 @@ void delete_last_recorded_note (void)
 				//g_print ("Note off was at %f\t", ((DenemoRecordedNote*)si->marked_onset->data)->timing/(double)si->recording->samplerate);
 			((DenemoRecordedNote*)g->data)->timing += (gint)(gap*si->recording->samplerate);
 		}
-	if (was_recording)
-		resume_midi_recording ();
 }   
 gboolean midi_track_present (void)
 {
@@ -345,10 +335,9 @@ gboolean toggle_midi_record (void)
 
 	if (!Denemo.project->movement->recording)
 		new_midi_recording ();
-	else
-		resume_midi_recording ();
-	Denemo.project->midi_destination |= MIDIRECORD;
 
+	Denemo.project->midi_destination |= MIDIRECORD;
+	Denemo.project->midi_recording = TRUE;
 	set_midi_in_status ();
 	switch_back_to_main_window ();
 	return TRUE;
