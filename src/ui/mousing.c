@@ -1060,7 +1060,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 						} else
 						{
 							gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
-							pause_recording_midi ();
+							pause_recording_midi ();//ensures further recording does not leave a long gap if the user has recording long rests enabled
 							if (Denemo.prefs.learning)
 								MouseGestureShow(_("Left Click Recorded MIDI Note"), _("This marks the current recorded MIDI note."),
 			  MouseGesture);
