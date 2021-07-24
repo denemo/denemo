@@ -52,7 +52,12 @@ point_to_empty_movement (DenemoProject * gui)
   g_mutex_unlock (&smfmutex);
   if(!Denemo.non_interactive)
     gtk_widget_show (gui->movement->buttonbox);
-
+  if (gui->midi_recording)
+	{
+		gui->midi_recording = FALSE;
+		Denemo.project->midi_destination ^= MIDIRECORD;
+		set_midi_in_status ();
+	}
 }
 
 /**
