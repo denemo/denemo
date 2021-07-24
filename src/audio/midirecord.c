@@ -70,8 +70,8 @@ void new_midi_recording (void) {
   recording_time = -1;//unset
   Denemo.project->midi_recording = TRUE;
   Denemo.project->movement->recording = recording;
-  if (si->smfsync != si->changecount)
-			exportmidi (NULL, si); //si->end_time is now the time in seconds of the current score, if the recording extends past this time create more clicks
+  //~ if (si->smfsync != si->changecount)
+			//~ exportmidi (NULL, si); //si->end_time is now the time in seconds of the current score, if the recording extends past this time create more clicks
 			
 }
 void resume_midi_recording (void) {
@@ -85,7 +85,7 @@ void resume_midi_recording (void) {
 
 void delete_last_recorded_note (void)
 {
-	pause_recording_midi ();
+	pause_recording_midi (); //FIXME I think this pause_ and resume_ is uneccesary, MIDI in is not in a different process or thread.
 	DenemoMovement *si = Denemo.project->movement;
 	GList *g = g_list_last (si->recording->notes);
 	DenemoRecordedNote *note = g->data;
