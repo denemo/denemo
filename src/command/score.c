@@ -188,6 +188,12 @@ append_movement (DenemoAction * action, gpointer param, gboolean populate)
 {
   DenemoProject *gui = Denemo.project;
   DenemoMovement *source_movement = gui->movement;
+  if (gui->midi_recording)
+	{
+		gui->midi_recording = FALSE;
+		Denemo.project->midi_destination ^= MIDIRECORD;
+		set_midi_in_status ();
+	}
   GList *g;
   g = midi_track_present ()?source_movement->thescore->next : source_movement->thescore;
   (void) signal_structural_change (gui);
