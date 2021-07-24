@@ -3,13 +3,13 @@
  (define (writeBar numerator denominator)
     (let loop ((count numerator))
       (if (positive? count)
-      (begin (disp count "/t")
+      (begin
         (eval-string (string-append "(d-" (number->string (duration::lilypond->denemo denominator)) ")"))
         (loop (- count 1))))))
         
   (define (writeBars count numer denom)
     (if (positive? count)
-                    (begin       (disp "bar " count "\n")           
+                    (begin         
                         (writeBar numer denom)
                         (writeBars (1- count)  numer denom))))
     
