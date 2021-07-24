@@ -3149,16 +3149,16 @@ set_master_volume (DenemoMovement * si, gdouble volume)
     }
 }
 
-//Set the master tempo of the passed score and change the label and start/end times to suit
+//Set the tempo of the  movement and change the label and start/end times to suit
 void
 set_movement_tempo (gint tempo)
 {
 	gdouble factor = tempo/(gdouble) Denemo.project->movement->tempo;
-	if (Denemo.project->movement->end_time != -1)
+	if (Denemo.project->movement->end_time > 0.0)
 		Denemo.project->movement->end_time /= factor;
-	if (Denemo.project->movement->start_time != -1)
+	if (Denemo.project->movement->start_time > 0.0)
 		Denemo.project->movement->start_time /= factor;
-	g_print ("Factor %.2f\n", factor);
+	//g_print ("Factor %.2f\n", factor);
     Denemo.project->movement->tempo = tempo;
   if (tempo_widget)
     {
@@ -3166,8 +3166,11 @@ set_movement_tempo (gint tempo)
       update_tempo_widget (text);
       g_free (text);
     }
- Denemo.project->movement->smfsync = G_MAXINT;
- exportmidi (NULL, Denemo.project->movement);
+  if (Denemo.project->movement->smf)
+	{
+	 Denemo.project->movement->smfsync = G_MAXINT;
+	 exportmidi (NULL, Denemo.project->movement);
+	}
 }
 
 static void
