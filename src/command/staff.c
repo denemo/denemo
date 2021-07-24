@@ -418,7 +418,7 @@ staff_delete (DenemoProject * project, gboolean interactive)
   (void) signal_structural_change (project);
   if (movement->currentstaff == NULL)
     return;
-  if (midi_track_present () && (g_list_length (movement->thescore) == 2))
+  if (midi_track_present () && (g_list_length (movement->thescore) == 2) && (movement->thescore != movement->currentstaff))
 	{
 			if (interactive)
 				warningdialog ( _("Cannot delete last staff"));
