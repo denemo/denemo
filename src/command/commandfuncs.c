@@ -1688,36 +1688,40 @@ insertion_point (DenemoMovement * si)
 
   if (next_measure)
     {
-      if (!si->currentmeasure->next)
-        {
-          gboolean all = TRUE;  //add to all measures
-          //g_debug ("Appending a new measure\n");
+		if (!si->currentmeasure->next)
+		{
+		  gboolean all = TRUE;  //add to all measures
+		  //g_debug ("Appending a new measure\n");
 
-          /* Add a measure and make it currentmeasure */
-          if (!(all && si->currentstaff && g_list_length (((DenemoStaff *) si->currentstaff->data)->themeasures) == g_list_length (si->measurewidths)))
-            all = FALSE;        // add only to current staff if it is shorter than some other staff
-          si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum, 1, all);
-        }
-      else
-        si->currentmeasure = si->currentmeasure->next;
-
-
+		  /* Add a measure and make it currentmeasure */
+		  if (!(all && si->currentstaff && g_list_length (((DenemoStaff *) si->currentstaff->data)->themeasures) == g_list_length (si->measurewidths)))
+			all = FALSE;        // add only to current staff if it is shorter than some other staff
+		  si->currentmeasure = dnm_addmeasures (si, si->currentmeasurenum, 1, all);
+		}
+		else
+		si->currentmeasure = si->currentmeasure->next;
 
 
-      if (Denemo.project->mode & (INPUTRHYTHM))
-        signal_measure_end ();
-      /* Now the stuff that needs to be done for each case */
-      si->currentmeasurenum++;
-      si->currentobject = (objnode *) (si->currentmeasure->data?((DenemoMeasure*)si->currentmeasure->data)->objects : NULL);
-      si->cursor_x = 0;
-      while(si->currentobject && (((DenemoObject *)si->currentobject->data)->type != CHORD))
-        {
-            si->currentobject = si->currentobject->next;
-            si->cursor_x++;
-        }
-     // memcpy (si->cursoraccs, si->nextmeasureaccs, SEVENGINTS);
-     // memcpy (si->curmeasureaccs, si->nextmeasureaccs, SEVENGINTS);
-     // si->curmeasureclef = si->cursorclef;
+
+
+		if (Denemo.project->mode & (INPUTRHYTHM))
+		signal_measure_end ();
+		/* Now the stuff that needs to be done for each case */
+		si->currentmeasurenum++;
+		si->currentobject = (objnode *) (si->currentmeasure->data?((DenemoMeasure*)si->currentmeasure->data)->objects : NULL);
+		si->cursor_x = 0;
+		while(si->currentobject && (((DenemoObject *)si->currentobject->data)->type != CHORD))
+		{
+			si->currentobject = si->currentobject->next;
+			si->cursor_x++;
+		}
+
+		if (si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset)
+			{
+				// move viewport so user can see upcoming recorded MIDI notes
+				moveto_currentmeasurenum (Denemo.project, si->currentmeasurenum, si->currentmeasurenum - 1);
+			}
+
     }
 }
 
