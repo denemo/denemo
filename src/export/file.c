@@ -434,7 +434,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
               }
               
             if ((result == 0) && midi_track_present () && gui->movement->thescore->next)
-				call_out_to_guile ("(while (d-MoveToStaffUp)) (d-DeleteStaff)");
+				call_out_to_guile ("(RemoveClickTracks)");
         }
       else if (has_extension (filename, ".ly"))
         result = lyinput (filename);
