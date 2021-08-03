@@ -883,7 +883,7 @@ typedef struct DenemoRecording {
   gint samplerate; /**< frames per second */
   gint channels; /**< audio only */
   gint leadin;/**< AUDIO: number of frames to skip at start, silence to be emitted before play if negative */
-  //gdouble offset;/**<MIDI: time in seconds by which the MIDI track has been offset */
+  GList *sync;/**< Note onset that sync'd to measure */
   gdouble volume;
   gint nframes;/**< number of frames in the audio */
   GList *notes;  /**< data is DenemoRecordedNote* */
@@ -948,8 +948,8 @@ typedef struct DenemoMovement
   gint staffspace;
 
   DenemoRecording *recording;/**< Audio or MIDI recording attached to movement */
-  gint marked_onset_position;/**< horizontal position in display of note onset in audio marked by user */
-  GList *marked_onset;/**< Note onset in audio selected by user */
+  gint marked_onset_position;/**< horizontal position in display of note onset in audio/midi marked by user */
+  GList *marked_onset;/**< Note onset in audio/recorded midi selected by user FIXME move to DenemoRecording*/
   gdouble start_time; /**< time in seconds to start playing at */
   gdouble end_time; /**< time to end playing at */
   gboolean hovering_over_midi_track;/**< True when there is a midi track and the mouse is moving over it */

@@ -28,6 +28,8 @@ static void free_one_recorded_note (DenemoRecordedNote *n)
 	{
 		g_free (n->midi_event);
 		g_free (n);
+		if (Denemo.project->movement->recording && Denemo.project->movement->recording->sync && (Denemo.project->movement->recording->sync->data == n))
+			Denemo.project->movement->recording->sync = NULL;
 	}
 static gdouble get_recording_start_time (void)
 	{
@@ -373,7 +375,8 @@ void advance_marked_midi (gint steps)
 			}
 }
 
-void synchronize_recording (void)
+
+static void sync_leadin (void)
 {
 
 	gdouble newoffset = get_recording_start_time ();//draw.c compares the ->timing value with the time at the note it is drawing, 
@@ -387,10 +390,57 @@ void synchronize_recording (void)
 				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 			//g_print ("current offset %f new time of start %f\n", offset, newoffset);
 			Denemo.project->movement->recording->leadin = -(newoffset - offset)*Denemo.project->movement->recording->samplerate;
-		}
-	//~ Denemo.project->movement->smfsync = G_MAXINT;
-	//~ generate_midi ();		
+		}	
 }
+
+void synchronize_recording (void)
+{
+	gdouble measure_duration;
+	GList *curmeas = Denemo.project->movement->currentmeasure;
+	exportmidi (NULL, Denemo.project->movement);
+	if (curmeas->prev)
+		measure_duration = ((DenemoMeasure*)curmeas->data)->earliest_time
+												- ((DenemoMeasure*)curmeas->prev->data)->earliest_time;
+	else if (curmeas->next)
+		measure_duration = ((DenemoMeasure*)curmeas->next->data)->earliest_time - ((DenemoMeasure*)curmeas->data)->earliest_time;
+	else
+		return;
+
+	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes && Denemo.project->movement->marked_onset)
+		{
+			GList *g = Denemo.project->movement->marked_onset;
+			if ((Denemo.project->movement->recording->sync == NULL))
+					{
+						Denemo.project->movement->recording->sync = g;
+						sync_leadin ();
+					}
+			else
+				{
+					//g_print ("Measure duration is %0.2f\n", measure_duration);
+					gdouble this = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+					gdouble that = ((DenemoRecordedNote *)Denemo.project->movement->recording->sync->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+					gdouble factor = (this-that)/measure_duration; //recorded midi notes from here on need their timings relative to the time of sync note scaled by factor
+					//g_print ("Factor %0.2f\tthis %0.2f that %0.2f\n", factor, this, that);
+					g = Denemo.project->movement->recording->sync;
+					gint leadin = ((DenemoRecordedNote *)g->data)->timing;
+					Denemo.project->movement->recording->sync = Denemo.project->movement->marked_onset;
+					if (factor>0.1 && factor < 10)
+						for (g=g->next;g;g=g->next)
+							{
+								DenemoRecordedNote *note = (DenemoRecordedNote *)g->data;
+								//g_print ("Note %0.2f\t", note->timing/44100.0);
+								note->timing = leadin + (gint)((gdouble)(note->timing-leadin)/factor);
+								//g_print (" to Note %0.2f\n", note->timing/44100.0);
+							}
+					else
+						g_warning ("Change of tempo is out of range");
+				}
+		}
+
+//g_print ("Timing of the marked onset (new sync) is %0.2f\n", ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/44100.0);
+
+}
+
 
 void scale_recording (gdouble scale)// keeps Denemo.project->movement->marked_onset->timing constant while scaling values before and after
 	{
