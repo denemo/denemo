@@ -548,7 +548,11 @@
   (d-PopPosition)
   offtime)
   
-;;(define DenemoClickTrack (_ "Click Track")) this is defined as DENEMO_CLICK_TRACK_NAME in C
+;;(define DenemoClickTrack ... this is defined to be DENEMO_CLICK_TRACK_NAME in C, the value is "Click"
+
+;RemoveClickTracks from all movements
+(define (RemoveClickTracks)
+	(ForAllMovements "(d-GoToPosition #f 1 1 1)(if (d-Directive-clef? DenemoClickTrack) (d-DeleteStaff))"))
 
 ;;;
 (define d-GetOnsetTime d-GetMidiOnTime)  ;;;was a duplicate, not used by Denemo

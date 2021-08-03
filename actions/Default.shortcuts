@@ -1143,10 +1143,6 @@
         <bind>Alt+s</bind>
       </row>
       <row>
-        <action>ExtendClickTrack</action>
-        <bind>Alt+t</bind>
-      </row>
-      <row>
         <action>DeleteMidiAndClickTrack</action>
         <bind>Alt+Delete,c</bind>
       </row>

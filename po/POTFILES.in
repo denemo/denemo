@@ -696,6 +696,8 @@ actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml
 actions/menus/MainMenu/PlaybackMenu/PlaybackView.scm
 actions/menus/MainMenu/PlaybackMenu/PlaybackView.xml
+actions/menus/MainMenu/PlaybackMenu/Recording/AdjustTempoToMidiRecording.scm
+actions/menus/MainMenu/PlaybackMenu/Recording/AdjustTempoToMidiRecording.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/Audio/AudioPlay.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/Audio/AudioPlay.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/Audio/CloseSourceAudioFile.scm
@@ -716,8 +718,6 @@ actions/menus/MainMenu/PlaybackMenu/Recording/DeleteMidiAndClickTrack.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/DeleteMidiAndClickTrack.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/DeleteRecordedMidi.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/DeleteRecordedMidi.xml
-actions/menus/MainMenu/PlaybackMenu/Recording/ExtendClickTrack.scm
-actions/menus/MainMenu/PlaybackMenu/Recording/ExtendClickTrack.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayAndAdvance.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayAndAdvance.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/PlayRecordedMidi.scm
