@@ -881,8 +881,10 @@ deletepreviousobject (DenemoAction* action, DenemoScriptParam *param)
                 RhythmPattern *cursnip = (RhythmPattern *)Denemo.project->currhythm->data;
                 set_rhythm_label (cursnip, ((RhythmElement *) Denemo.project->rstep->data)->highlightlabel);
             }
-        }
+        } 
 
+	  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI) && anote && Denemo.project->movement->marked_onset)
+		  advance_marked_midi (-1);
     }
   else
     {                           /* go to the previous measure, go to end of it, and start deleting there */
