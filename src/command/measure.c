@@ -19,6 +19,7 @@
 #include "command/select.h"
 #include "display/displayanimation.h"
 #include "command/commandfuncs.h"
+#include "export/exportmidi.h"
 
 #define STEMDIFFERENCE 6
 #define HALFSTEMDIFFERENCE 3
@@ -96,6 +97,8 @@ addmeasures (DenemoMovement * si, gint pos, guint nummeasures, gint all)
   if (ret)
     return ret;
   g_warning ("Add measures was going to return NULL");
+  if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes)
+	exportmidi (NULL, Denemo.project->movement);//recorded notes will not be visible if they come after the old last measure until the timing of this measure is done.
   return g_list_last (staff_first_measure_node (si->currentstaff));
 }
 
