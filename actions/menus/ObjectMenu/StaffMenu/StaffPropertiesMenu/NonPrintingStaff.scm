@@ -1,7 +1,7 @@
 ;;;NonPrintingStaff
-(let ((tag "NonPrintingStaff")(params NonPrintingStaff::params))(disp "params " params " so eq set? " (eq? params 'set) (eq? params 'unset) "\n")
+(let ((tag "NonPrintingStaff")(params NonPrintingStaff::params));(disp "params " params " so eq set? " (eq? params 'set) (eq? params 'unset) "\n")
      (if (eq? params 'unset)
-     	(begin (disp "deleting for " params "\n") 
+     	(begin ;(disp "deleting for " params "\n") 
      		(d-DirectiveDelete-staff tag))
      	(begin
      		(if (eq? params 'set)

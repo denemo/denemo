@@ -643,7 +643,7 @@ midiaction (gint notenum)
             signal_measure_end();
         }
     }
-  if (gui->movement->recording) gui->movement->recording->marked_onset =marked_onset;
+  if (gui->movement->recording) gui->movement->recording->marked_onset = marked_onset;
   return TRUE;
 }
 
