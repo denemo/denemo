@@ -883,7 +883,7 @@ deletepreviousobject (DenemoAction* action, DenemoScriptParam *param)
             }
         } 
 
-	  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI) && anote && Denemo.project->movement->marked_onset)
+	  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI) && anote && Denemo.project->movement->recording->marked_onset)
 		  advance_marked_midi (-1);
     }
   else

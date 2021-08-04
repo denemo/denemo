@@ -52,7 +52,6 @@ void delete_recording (void)
       g_list_free_full (temp->notes, (GDestroyNotify)free_one_recorded_note);
       g_free (temp);
       Denemo.project->movement->recording = NULL;
-      Denemo.project->movement->marked_onset = NULL;
       Denemo.project->movement->smfsync = G_MAXINT;
      
      if (Denemo.project->midi_recording && (Denemo.project->midi_destination & MIDIRECORD))
@@ -65,8 +64,7 @@ void new_midi_recording (void) {
   DenemoRecording *recording;
   if(Denemo.project->movement->recording && (Denemo.project->movement->recording->type==DENEMO_RECORDING_MIDI))
 		delete_recording ();
-  recording = (DenemoRecording *) g_malloc (sizeof (DenemoRecording));
-  Denemo.project->movement->marked_onset = NULL;
+  recording = (DenemoRecording *) g_malloc0 (sizeof (DenemoRecording));
   recording->type = DENEMO_RECORDING_MIDI;
   recording->samplerate = 44100;
   recording_time = -1;//unset
@@ -107,8 +105,8 @@ void delete_last_recorded_note (void)
 						start_of_deleted_note = note->timing;
 					if (midi == next)//the noteon for the deleted note
 						{
-							if (si->marked_onset == g) 
-								si->marked_onset = NULL;	
+							if (si->recording->marked_onset == g) 
+								si->recording->marked_onset = NULL;	
 							si->recording->notes = g_list_remove_link (si->recording->notes, g);
 							free_one_recorded_note (note);
 							g_list_free (g);
@@ -119,7 +117,7 @@ void delete_last_recorded_note (void)
 		}
 	if (si->recording->notes == NULL)
 		{
-			si->marked_onset = NULL;
+			si->recording->marked_onset = NULL;
 			g_free (si->recording);
 			si->recording = NULL;
 			Denemo.project->midi_recording = FALSE;
@@ -161,7 +159,7 @@ void record_midi (gchar * buf)
 	DenemoRecordedNote *note = NULL;
 	gboolean initial = FALSE;
 	static gdouble old_time = 0;
-	gboolean resumed = (si->recording && si->recording->notes && (si->marked_onset==NULL));
+	gboolean resumed = (si->recording && si->recording->notes && (si->recording->marked_onset==NULL));
 	gdouble new_time = get_time ();
 	
 	if (resumed && si->currentobject && (!si->cursor_appending) && !si->currentobject->next) //when resuming move right to appending if possible
@@ -196,12 +194,12 @@ void record_midi (gchar * buf)
 				//g_print ("Storing NOTE%s at %f leadin %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate, si->recording->leadin/(double)si->recording->samplerate);
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
 				si->recording->notes = g_list_append (si->recording->notes, note);
-				if (initial) si->marked_onset = si->recording->notes;
+				if (initial) si->recording->marked_onset = si->recording->notes;
 				si->recording->click_track_created = TRUE;//this should really only be set once, after the click track is created, but that is done in scheme which doesn't have access to set it. Would need to create a callback to do that.
 			}
 	if (resumed) 
 		{
-			si->marked_onset = g_list_last (si->recording->notes);
+			si->recording->marked_onset = g_list_last (si->recording->notes);
 			//call_out_to_guile ("(d-ExtendClickTrack)");
 			//synchronize_recording ();
 		}
@@ -288,7 +286,7 @@ void play_recorded_midi (void)
 {
 	pause_recording_midi ();
 	DenemoMovement *si = Denemo.project->movement;
-	if (si->marked_onset_position)
+	if (si->recording->marked_onset_position)
 		{
 		gtk_widget_queue_draw (Denemo.scorearea);
 		g_timeout_add (100, (GSourceFunc) start_recorded_midi_play, NULL);
@@ -300,7 +298,7 @@ void play_recorded_midi (void)
 		{
 		playing_recorded_midi = TRUE;
 		if (si->recording)
-			play_recorded_notes (si->marked_onset? si->marked_onset : si->recording->notes);
+			play_recorded_notes (si->recording->marked_onset? si->recording->marked_onset : si->recording->notes);
 		}
 }
 void pause_recording_midi (void)
@@ -347,9 +345,10 @@ gboolean toggle_midi_record (void)
 gboolean marked_midi_note_is_noteoff (void)
 {
 	DenemoMovement *si = Denemo.project->movement;
-	if (si->marked_onset)
+	if (!si->recording) return FALSE;
+	if (si->recording->marked_onset)
 		{
-			DenemoRecordedNote *note = si->marked_onset->data;
+			DenemoRecordedNote *note = si->recording->marked_onset->data;
 			return ((note->midi_event[0]&0xF0)) == MIDI_NOTE_OFF;
 		}
 	return FALSE;
@@ -359,19 +358,20 @@ void advance_marked_midi (gint steps)
 {
 	DenemoMovement *si = Denemo.project->movement;
 	if (steps==0) return;
+	if (!si->recording) return;
 	if (steps>0)
-			while (steps-- && si->marked_onset)
+			while (steps-- && si->recording->marked_onset)
 				{ 
-					si->marked_onset = si->marked_onset->next;
-					while (si->marked_onset && marked_midi_note_is_noteoff ())
-						si->marked_onset = si->marked_onset->next;
+					si->recording->marked_onset = si->recording->marked_onset->next;
+					while (si->recording->marked_onset && marked_midi_note_is_noteoff ())
+						si->recording->marked_onset = si->recording->marked_onset->next;
 				}
 	else
-		while (steps++ && si->marked_onset)
+		while (steps++ && si->recording->marked_onset)
 			{
-				si->marked_onset = si->marked_onset->prev;
-				while (si->marked_onset && marked_midi_note_is_noteoff ())
-						si->marked_onset = si->marked_onset->prev;
+				si->recording->marked_onset = si->recording->marked_onset->prev;
+				while (si->recording->marked_onset && marked_midi_note_is_noteoff ())
+						si->recording->marked_onset = si->recording->marked_onset->prev;
 			}
 }
 
@@ -386,8 +386,8 @@ static void sync_leadin (void)
 		{
 			GList *g = Denemo.project->movement->recording->notes;
 			gdouble offset = ((DenemoRecordedNote *)g->data)->timing/(double)Denemo.project->movement->recording->samplerate;
-			if (Denemo.project->movement->marked_onset)
-				offset = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+			if (Denemo.project->movement->recording->marked_onset)
+				offset = ((DenemoRecordedNote *)Denemo.project->movement->recording->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 			//g_print ("current offset %f new time of start %f\n", offset, newoffset);
 			Denemo.project->movement->recording->leadin = -(newoffset - offset)*Denemo.project->movement->recording->samplerate;
 		}	
@@ -406,9 +406,9 @@ void synchronize_recording (void)
 	else
 		return;
 
-	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes && Denemo.project->movement->marked_onset)
+	if (Denemo.project->movement->recording && Denemo.project->movement->recording->notes && Denemo.project->movement->recording->marked_onset)
 		{
-			GList *g = Denemo.project->movement->marked_onset;
+			GList *g = Denemo.project->movement->recording->marked_onset;
 			if ((Denemo.project->movement->recording->sync == NULL))
 					{
 						Denemo.project->movement->recording->sync = g;
@@ -417,13 +417,13 @@ void synchronize_recording (void)
 			else
 				{
 					//g_print ("Measure duration is %0.2f\n", measure_duration);
-					gdouble this = ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
+					gdouble this = ((DenemoRecordedNote *)Denemo.project->movement->recording->marked_onset->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 					gdouble that = ((DenemoRecordedNote *)Denemo.project->movement->recording->sync->data)->timing/(double)Denemo.project->movement->recording->samplerate;
 					gdouble factor = (this-that)/measure_duration; //recorded midi notes from here on need their timings relative to the time of sync note scaled by factor
 					//g_print ("Factor %0.2f\tthis %0.2f that %0.2f\n", factor, this, that);
 					g = Denemo.project->movement->recording->sync;
 					gint leadin = ((DenemoRecordedNote *)g->data)->timing;
-					Denemo.project->movement->recording->sync = Denemo.project->movement->marked_onset;
+					Denemo.project->movement->recording->sync = Denemo.project->movement->recording->marked_onset;
 					if (factor>0.1 && factor < 10)
 						for (g=g->next;g;g=g->next)
 							{
@@ -449,8 +449,8 @@ void scale_recording (gdouble scale)// keeps Denemo.project->movement->marked_on
 		{
 			GList *g = Denemo.project->movement->recording->notes;
 			gdouble fixed = rate * ((DenemoRecordedNote *)g->data)->timing;
-			if (Denemo.project->movement->marked_onset)
-				fixed = rate * ((DenemoRecordedNote *)Denemo.project->movement->marked_onset->data)->timing;
+			if (Denemo.project->movement->recording->marked_onset)
+				fixed = rate * ((DenemoRecordedNote *)Denemo.project->movement->recording->marked_onset->data)->timing;
 			for (;g;g=g->next)
 						{
 							DenemoRecordedNote *note = g->data;

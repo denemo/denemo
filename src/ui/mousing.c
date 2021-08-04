@@ -998,8 +998,8 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 			{
 				if (event->type==GDK_2BUTTON_PRESS)
 					{
-						gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
-						if (gui->movement->marked_onset_position < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
+						gui->movement->recording->marked_onset_position = (gint)event->x/gui->movement->zoom;
+						if (gui->movement->recording->marked_onset_position < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) {
 							 if (Denemo.prefs.learning)
 								MouseGestureShow(_("Double Click Note Onset"), _("This represents detected note onsets which occur\nbefore the start of the score.\nIf they are just noise,\nor if you are working on just a portion of the audio that is ok.\nOtherwise drag with left mouse button to synchronize\nwith the start of the score."),
 													MouseGesture);
@@ -1052,14 +1052,14 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 						} else
 					if (shift_held_down ())
 						{
-							gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+							gui->movement->recording->marked_onset_position = (gint)event->x/gui->movement->zoom;
 							play_recorded_midi ();//toggles
 							if (Denemo.prefs.learning) 
 								 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
 														MouseGesture);
 						} else
 						{
-							gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+							gui->movement->recording->marked_onset_position = (gint)event->x/gui->movement->zoom;
 							pause_recording_midi ();//ensures further recording does not leave a long gap if the user has recording long rests enabled
 							if (Denemo.prefs.learning)
 								MouseGestureShow(_("Left Click Recorded MIDI Note"), _("This marks the current recorded MIDI note."),
@@ -1189,7 +1189,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
                 {
                     if(gui->movement->recording &&  !g_strcmp0 (((DenemoStaff *) gui->movement->currentstaff->data)->denemo_name->str, DENEMO_CLICK_TRACK_NAME))
                         {//FIXME this is never reached as we don't allow the mouse to access the click track 
-                            gui->movement->marked_onset_position = (gint)event->x/gui->movement->zoom;
+                            gui->movement->recording->marked_onset_position = (gint)event->x/gui->movement->zoom;
                             if (Denemo.prefs.learning)
                                 MouseGestureShow(_("Double Click on Click Track"), _("This will mark the MIDI note onset."), MouseGesture);
                             return TRUE;

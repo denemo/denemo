@@ -1418,7 +1418,7 @@ insert_note_following_pattern (DenemoProject * gui)
       GList *h;
       gint mode = gui->mode;
       gui->mode = mode & ~INPUTRHYTHM; //without this, when entering a note-name at the pc-keyboard a pitchless note is entered (with a MIDI controller attached, at least). And playing a note in appending position on the MIDI keyboard first enters a pitchless note.
-	  gui->movement->marked_onset = NULL;//this prevents entering pitches from keyboard taking note pitches from MIDI recording at marked_onset
+	  if (gui->movement->recording) gui->movement->recording->marked_onset = NULL;//this prevents entering pitches from keyboard taking note pitches from MIDI recording at marked_onset
   
       // if(gui->currhythm && gui->currhythm->data && ((RhythmPattern*)gui->currhythm->data)->clipboard)
       if (gui->currhythm && gui->cstep) //snippet
@@ -1716,7 +1716,7 @@ insertion_point (DenemoMovement * si)
 			si->cursor_x++;
 		}
 
-		if (si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset)
+		if (si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset)
 			{
 				// move viewport so user can see upcoming recorded MIDI notes
 				moveto_currentmeasurenum (Denemo.project, si->currentmeasurenum, si->currentmeasurenum - 1);
@@ -1779,7 +1779,7 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
 {
   DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
-  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
+  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
   insertion_point (si);
 
 //At this point, if it is the user's preference, check if there is room for this duration in the current measure.
@@ -1833,16 +1833,16 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
 
   if ((mode & INPUTNORMAL) && (rest != TRUE))
     {
-        if(inserting_midi && si->recording && si->marked_onset && si->marked_onset->data)
+        if(inserting_midi && si->recording && si->recording->marked_onset && si->recording->marked_onset->data)
         {
-            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
+            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;
             addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             do {
-					si->marked_onset = si->marked_onset->next;
-					if (si->marked_onset)
-						midinote = (DenemoRecordedNote*)si->marked_onset->data;
-				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);	
-			if (si->marked_onset == NULL)//reached the end of the recording - warn
+					si->recording->marked_onset = si->recording->marked_onset->next;
+					if (si->recording->marked_onset)
+						midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;
+				} while (si->recording->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);	
+			if (si->recording->marked_onset == NULL)//reached the end of the recording - warn
 				warn_end_of_midi_reached ();
         } else
         addtone (mudela_obj_new, si->cursor_y, get_cursoracc ()); //mudela_obj_new->keysig->accs[si->staffletter_y]);
@@ -1910,12 +1910,12 @@ gboolean
 insert_marked_midi_note (void)
 {
     DenemoMovement *si = Denemo.project->movement;
-    gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
+    gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
 
-    if(inserting_midi && si->marked_onset && si->marked_onset->data)
+    if(inserting_midi && si->recording->marked_onset && si->recording->marked_onset->data)
         {
             gint dots;
-            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;//FIXME look at marked_onset->prev to see if we should add to a chord
+            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;//FIXME look at marked_onset->prev to see if we should add to a chord
             dnm_insertnote (Denemo.project, midinote->duration, INPUTNORMAL, FALSE);
             changenumdots (si->currentobject->data, midinote->dots);
             return TRUE;
@@ -2005,7 +2005,7 @@ notechange (DenemoMovement * si, gboolean remove)
 {
   declarecurmudelaobj;
   gboolean ret = FALSE;
-  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->marked_onset;
+  gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
 
   if (curmudelaobj && curmudelaobj->type == CHORD)
     {
@@ -2016,14 +2016,14 @@ notechange (DenemoMovement * si, gboolean remove)
 
         if(inserting_midi)
             {
-            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->marked_onset->data;
+            DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;
             ret = (gboolean) (intptr_t) addtone (curmudelaobj,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
              do {
-					si->marked_onset = si->marked_onset->next;
-					if (si->marked_onset)
-						midinote = (DenemoRecordedNote*)si->marked_onset->data;
-				} while (si->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);
-			if (si->marked_onset == NULL)//reached the end of the recording - warn
+					si->recording->marked_onset = si->recording->marked_onset->next;
+					if (si->recording->marked_onset)
+						midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;
+				} while (si->recording->marked_onset && (midinote->midi_event[0] & 0xF0)==MIDI_NOTE_OFF);
+			if (si->recording->marked_onset == NULL)//reached the end of the recording - warn
 				warn_end_of_midi_reached ();
             }
         else
@@ -2790,8 +2790,8 @@ toggle_tie (G_GNUC_UNUSED DenemoAction * action, G_GNUC_UNUSED DenemoScriptParam
     {
       store_for_undo_change (si, curmudelaobj);
       ((chord *) curmudelaobj->object)->is_tied ^= 1;
-	  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->marked_onset)
-			si->marked_onset = si->marked_onset->prev;//when entering the rhythm for recorded MIDI need to enter the same note after the tie
+	  if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->recording->marked_onset)
+			si->recording->marked_onset = si->recording->marked_onset->prev;//when entering the rhythm for recorded MIDI need to enter the same note after the tie
       draw_score_area();
     }
   score_status (gui, TRUE);

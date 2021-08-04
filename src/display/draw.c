@@ -413,7 +413,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 				if (((DenemoRecordedNote*)g->data)->midi_event == NULL //audio
 					|| (((DenemoRecordedNote*)g->data)->midi_event[0] & 0xF0)==MIDI_NOTE_ON)
 					{
-					if(g==si->marked_onset)
+					if(g==si->recording->marked_onset)
 						{
 							cairo_save (cr);//restore is at line 482
 							cairo_set_source_rgba (cr, 0, 0.5, 0, 1);//g_debug("marked offset %2.2f seconds ", midinote->timing/(double)si->recording->samplerate);
@@ -478,12 +478,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 							}
 
 							cairo_save (cr);
-							(g==si->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
+							(g==si->recording->marked_onset) ?cairo_set_source_rgba (cr, 0, 0.5, 0, 1):
 								cairo_set_source_rgba (cr, 0, 0, 0, 1);
 							draw_chord (cr, MidiDrawObject, pos + x -extra_width, y, 0, itp->curaccs, FALSE, FALSE);
 							   
 							//highlight the marked onset with a flashing blue circle
-							if((g==si->marked_onset))
+							if((g==si->recording->marked_onset))
 								{
 									static gboolean on;
 									on = !on;
@@ -505,16 +505,16 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 				if (((DenemoRecordedNote*)g->data)->midi_event)
 					glyph = ((((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON) ?
 							NULL : "¬";
-                draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->marked_onset));
+                draw_note_onset(cr, pos + x - extra_width, glyph, (g==si->recording->marked_onset));
 
 				if ((((DenemoRecordedNote*)g->data)->midi_event == NULL)
 					|| (((DenemoRecordedNote*)g->data)->midi_event[0] & MIDI_NOTE_ON)==MIDI_NOTE_ON)
 					{
-						if(g==si->marked_onset)
+						if(g==si->recording->marked_onset)
 							{//g_debug("fraction = %f; notewidth = %d ", fraction, notewidth);
 								cairo_restore (cr);
 							}
-						if(si->marked_onset_position && ABS((gint)(pos + x - si->marked_onset_position))<20)
+						if(si->recording->marked_onset_position && ABS((gint)(pos + x - si->recording->marked_onset_position))<20)
 							{
 								//if ( si->marked_onset == g)
 								//	{
@@ -522,10 +522,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
 								//	}
 							//	else
 									{
-									si->marked_onset = g;
+									si->recording->marked_onset = g;
 									 //g_debug("Found selected onset\n\n");
 									}
-								si->marked_onset_position = 0;
+								si->recording->marked_onset_position = 0;
 							}
 					}
 
