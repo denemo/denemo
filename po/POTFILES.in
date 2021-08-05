@@ -1398,8 +1398,6 @@ actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml
-actions/menus/ObjectMenu/NotesRests/ChangeDuration/ShiftDot.scm
-actions/menus/ObjectMenu/NotesRests/ChangeDuration/ShiftDot.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.scm
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.xml
 actions/menus/ObjectMenu/NotesRests/ChangeDuration/split.scm
@@ -1813,6 +1811,8 @@ actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.scm
 actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.xml
 actions/menus/ObjectMenu/NotesRests/SelectDuration/SetLonga.scm
 actions/menus/ObjectMenu/NotesRests/SelectDuration/SetLonga.xml
+actions/menus/ObjectMenu/NotesRests/ShiftDot.scm
+actions/menus/ObjectMenu/NotesRests/ShiftDot.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.scm
 actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.xml
 actions/menus/ObjectMenu/NotesRests/Slurs/BeginPhrasingSlur.scm

@@ -68,12 +68,7 @@
         <_label>Record from MIDI in (Off/On)</_label>
         <_tooltip>Records/Stops recording notes played on MIDI keyboard. Notes are recorded on a track above a click track staff at the top of the score. Insert the notes into the score by pressing duration keys/Ins key.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>RecordAndAttach</action>
-        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
-        <_label>Record (Start/Stop) and Attach at Cursor</_label>
-        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording - the audio is attached to an (optional) click track created at the top of the staffs. The recording will play along with your notated music - ensure you have enough filled measures after the cursor to attach the audio to otherwise it won't play.</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>Play</action>
         <menupath>/MainMenu/PlaybackMenu</menupath>
@@ -419,6 +414,12 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Augment</_label>
         <_tooltip>Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Diminish</action>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Diminish</_label>
+        <_tooltip>Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note. </_tooltip>
       </row>
       <row type="builtin">
         <action>PendingSharpen</action>
@@ -3185,19 +3186,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Breath Mark</_label>
         <_tooltip>Inserts a Breath Mark at the cursor position</_tooltip>
       </row>
-      <row type="scheme">
-        <action>Breve</action>
-        <after>InsertRhythm</after>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
-        <_label>Breve</_label>
-        <_tooltip>Append/Insert Breve</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>ChangeBreve</action>
-        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
-        <_label>Breve</_label>
-        <_tooltip>Change current note duration to Breve</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>InsertBreve</action>
         <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
@@ -3458,13 +3447,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Clef Chooser</_label>
         <_tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>CloseSourceAudioFile</action>
-        <after>SynchronizeAudio</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
-        <_label>Delete Audio Recording</_label>
-        <_tooltip>Deletes the current audio recording.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>CloseRepeat</action>
         <after>OpenRepeat</after>
@@ -3799,12 +3782,7 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_label>Diatonic within Clef Range</_label>
         <_tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>Diminish</action>
-        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
-        <_label>Diminish</_label>
-        <_tooltip>Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note. </_tooltip>
-      </row>
+
       <row type="scheme">
         <action>DiminishedOrAugmented</action>
         <after>MajorOrMinor</after>
@@ -4598,23 +4576,22 @@ accidentals are usually printed over the note.</_tooltip>
         <_tooltip>%tests your ability to recognize the difference between line and space</_tooltip>
       </row>
       <row type="scheme">
+        <action>ChangeBreve</action>
+        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
+        <_label>Breve</_label>
+        <_tooltip>Change current note duration to Breve</_tooltip>
+      </row>
+      <row type="scheme">
         <action>ChangeLonga</action>
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Longa</_label>
         <_tooltip>Change current note duration to Longa</_tooltip>
-      </row>
+      </row>      
       <row type="scheme">
         <action>InsertLonga</action>
         <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
         <_label>Longa</_label>
         <_tooltip>Insert a Longa</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>Longa</action>
-        <after>Breve</after>
-        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
-        <_label>Longa</_label>
-        <_tooltip>Append/Insert Longa duration</_tooltip>
       </row>
       <row type="scheme">
         <action>SetLonga</action>
@@ -5702,6 +5679,20 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests.</_tooltip>
       </row>
       <row type="scheme">
+        <action>Breve</action>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <_label>Breve</_label>
+        <_tooltip>Append/Insert Breve</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>Longa</action>
+        <after>Breve</after>
+        <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
+        <_label>Longa</_label>
+        <_tooltip>Append/Insert Longa duration</_tooltip>
+      </row>
+
+      <row type="scheme">
         <action>StaccatissimoSelectionSwitcher</action>
         <after>ToggleStaccatissimo</after>
         <menupath>/ObjectMenu/NotesRests/Markings/Articulations</menupath>
@@ -5866,13 +5857,7 @@ for second and subsequent systems</_tooltip>
         <_label>Sustain On</_label>
         <_tooltip>Prints a Sustain Pedal On Mark</_tooltip>
       </row>
-      <row type="scheme">
-        <action>SynchronizeAudio</action>
-        <after>PlayAndRecordMidiIn</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
-        <_label>Synchronize Audio</_label>
-        <_tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>SystemSystemPadding</action>
         <after>ScoreIndent</after>
@@ -6413,6 +6398,13 @@ for second and subsequent systems</_tooltip>
         <_tooltip>Creates a staff for the next MIDI track after the current one, making that the current one.</_tooltip>
       </row>
       <row type="scheme">
+        <action>DeleteLastRecordedMidi</action>
+        <after>ToggleHideOtherStaffsKeepingClick</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
+        <_label>Delete Last Recorded Note</_label>
+        <_tooltip>Plays the last recorded note, deletes it and marks the new last note.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>DeleteRecordedMidi</action>
         <after>Audio</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
@@ -6669,9 +6661,16 @@ for second and subsequent systems</_tooltip>
         <action>DisplaceHorizontally</action>
         <after>ParenthesizeNote</after>
         <menupath>/ObjectMenu/NotesRests</menupath>
-        <_label>Displace Horizontally</_label>
+        <_label>(Print) Displace Horizontally</_label>
         <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given.
 Use this to refine the positioning, but be aware that notes in other staffs will not be affected. For polyphony, see NoteColumnShift under the Voices menu instead.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ShiftDot</action>
+        <after>DisplaceHorizontally</after>
+        <menupath>/ObjectMenu/NotesRests</menupath>
+        <_label>(Print) Move Dot</_label>
+        <_tooltip>Adjust the position of the dot on the current note by the amounts given (in units of staff line spaces).</_tooltip>
       </row>
       <row type="scheme">
         <action>FretBoards</action>
@@ -8597,13 +8596,6 @@ Invoke the command again to stop.</_tooltip>
         <_tooltip>Moves to the next note, topping at blank measures. Sounds a warning if no more notes.</_tooltip>
       </row>
       <row type="scheme">
-        <action>ShiftDot</action>
-        <after>DotDoubleDotNoDot</after>
-        <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
-        <_label>(Print) Move Dot</_label>
-        <_tooltip>Adjust the position of the dot on the current note by the amounts given (in units of staff line spaces).</_tooltip>
-      </row>
-      <row type="scheme">
         <action>OrnamentBassFigureHeight</action>
         <after>AdjustFiguredBassHeights</after>
         <menupath>/ObjectMenu/NotesRests/Markings/FiguredBass</menupath>
@@ -8648,20 +8640,8 @@ Include rests if they are part of the pattern.
         <_label>Export Score as Audio</_label>
         <_tooltip>Plays a performance of the whole score, including repeats, then offers to save the recording as Audio.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>ToggleAudioRecord</action>
-        <after>RecordAndAttach</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
-        <_label>Record (Start/Stop)</_label>
-        <_tooltip>Starts/Stops recording the audio output from Denemo.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>SaveRecording</action>
-        <after>ToggleRecordingAudio</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
-        <_label>Save Recording</_label>
-        <_tooltip>Saves the recorded autio to disk.</_tooltip>
-      </row>
+
+
       <row type="scheme">
         <action>MarkConsecutivesAcrossStaffs</action>
         <after>MarkConsecutives</after>
@@ -8732,13 +8712,7 @@ Include rests if they are part of the pattern.
         <_label>Hide Other Staffs (Off/On)</_label>
         <_tooltip>Hides/unhides other staffs in the display while keeping the MIDI track at the top visible.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>DeleteLastRecordedMidi</action>
-        <after>ToggleHideOtherStaffsKeepingClick</after>
-        <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
-        <_label>Delete Last Recorded Note</_label>
-        <_tooltip>Plays the last recorded note, deletes it and marks the new last note.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>PlayRecordedMidi</action>
         <after>SyncRecordingToCursor</after>
@@ -8759,6 +8733,40 @@ Include rests if they are part of the pattern.
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
         <_label>Adjust Tempo to Recording</_label>
         <_tooltip>Adjusts the movement tempo to match the tempo of the MIDI recording. You have to designate two places to be synchronized.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>RecordAndAttach</action>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
+        <_label>Record (Start/Stop) and Attach at Cursor</_label>
+        <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording - the audio is attached to an (optional) click track created at the top of the staffs. The recording will play along with your notated music - ensure you have enough filled measures after the cursor to attach the audio to otherwise it won't play.</_tooltip>
+      </row>
+            <row type="scheme">
+        <action>CloseSourceAudioFile</action>
+        <after>SynchronizeAudio</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
+        <_label>Delete Audio Recording</_label>
+        <_tooltip>Deletes the current audio recording.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SaveRecording</action>
+        <after>ToggleRecordingAudio</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
+        <_label>Save Recording</_label>
+        <_tooltip>Saves the recorded autio to disk.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleAudioRecord</action>
+        <after>RecordAndAttach</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
+        <_label>Record (Start/Stop)</_label>
+        <_tooltip>Starts/Stops recording the audio output from Denemo.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>SynchronizeAudio</action>
+        <after>PlayAndRecordMidiIn</after>
+        <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
+        <_label>Synchronize Audio</_label>
+        <_tooltip>Plays the audio attached to the current movement. Creates a timing bar for each space bar press. Music written in the staffs below will synchronize with the audio.</_tooltip>
       </row>
     </map>
   </merge>

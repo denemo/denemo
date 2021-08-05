@@ -7,7 +7,7 @@
       <row type="scheme">
         <action>DisplaceHorizontally</action>
         <after>ParenthesizeNote</after>
-        <_label>Displace Horizontally</_label>
+        <_label>(Print) Displace Horizontally</_label>
         <_tooltip>Shifts the next note, chord or rest and its markings horizontally by the amount given.
 Use this to refine the positioning, but be aware that notes in other staffs will not be affected. For polyphony, see NoteColumnShift under the Voices menu</_tooltip>
       </row>
