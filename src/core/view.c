@@ -3154,23 +3154,29 @@ void
 set_movement_tempo (gint tempo)
 {
 	gdouble factor = tempo/(gdouble) Denemo.project->movement->tempo;
-	if (Denemo.project->movement->end_time > 0.0)
-		Denemo.project->movement->end_time /= factor;
-	if (Denemo.project->movement->start_time > 0.0)
-		Denemo.project->movement->start_time /= factor;
-	//g_print ("Factor %.2f\n", factor);
-    Denemo.project->movement->tempo = tempo;
-  if (tempo_widget)
-    {
-	  gchar *text = g_strdup_printf ("%d", tempo);
-      update_tempo_widget (text);
-      g_free (text);
-    }
-  if (Denemo.project->movement->smf)
-	{
-	 Denemo.project->movement->smfsync = G_MAXINT;
-	 exportmidi (NULL, Denemo.project->movement);
-	}
+	
+	if (tempo != Denemo.project->movement->tempo)
+		{
+			if (Denemo.project->movement->end_time > 0.0)
+				Denemo.project->movement->end_time /= factor;
+			if (Denemo.project->movement->start_time > 0.0)
+				Denemo.project->movement->start_time /= factor;
+			//g_print ("Factor %.2f\n", factor);
+			Denemo.project->movement->tempo = tempo;
+
+			if (Denemo.project->movement->smf)
+			{
+			 Denemo.project->movement->smfsync = G_MAXINT;
+			 exportmidi (NULL, Denemo.project->movement);
+			}
+			score_status (Denemo.project, TRUE);
+		}
+	 if (tempo_widget)
+			{
+			  gchar *text = g_strdup_printf ("%d", tempo);
+			  update_tempo_widget (text);
+			  g_free (text);
+			}
 }
 
 static void

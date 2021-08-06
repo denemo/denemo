@@ -157,7 +157,7 @@ void set_movement_selector (DenemoProject *gui)
     if(i==2)
         gtk_widget_hide (gui->movements_selector);
     if(gui->movement)
-        set_movement_tempo (120);
+        set_movement_tempo (gui->movement->tempo);
 
 
     if ((gui->movement) && gui->movement->lyricsbox /*&& Denemo.prefs.lyrics_pane*/)
@@ -654,9 +654,8 @@ init_score (DenemoMovement * si, DenemoProject * gui)
 
   
   if (Denemo.project->movement)
-    set_movement_tempo (120);
-  else
-    si->tempo = 120;
+    set_movement_tempo (Denemo.project->movement->tempo);
+
   si->smfsync = G_MAXINT;
   if (gui->filename == NULL)
       gui->filename = g_string_new ("");
