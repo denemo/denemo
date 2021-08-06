@@ -1478,7 +1478,7 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
     return FALSE;
   switch (event->direction)
     {
-      DenemoScriptParam param;
+    DenemoScriptParam param;//for testing move to staffup/down
     case GDK_SCROLL_UP:
       if (event->state & GDK_CONTROL_MASK)
         {
@@ -1504,14 +1504,17 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
             gint command_idx = lookup_command_from_name(Denemo.map, "MoveToStaffUp");
             KeyStrokeShow (_("Unshifted + Mouse Wheel Up"), command_idx, TRUE);
           }
-          movetostaffup (NULL, &param);
-          if (!param.status) {
-            DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->movement->currentstaff->data);
-            if(thestaff->space_above < MAXEXTRASPACE)
-              {
-                thestaff->space_above++;
-                g_debug ("Increasing the height of the top staff");
-              }
+         if (!(midi_track_present () && Denemo.project->movement->currentstaff == Denemo.project->movement->thescore->next))
+			{
+				movetostaffup (NULL, &param);
+				if (!param.status) { //i.e. movetostaffup failed
+				DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->movement->currentstaff->data);
+				if(thestaff->space_above < MAXEXTRASPACE)
+				  {
+					thestaff->space_above++;
+					g_debug ("Increasing the height of the top staff");
+				  }
+			  }
           }
         }
       break;
