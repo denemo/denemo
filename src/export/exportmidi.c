@@ -1114,7 +1114,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
  */
 
 //play recorded MIDI if the top (click track) staff is unmuted
-  if (Denemo.project->movement->recording && !((DenemoStaff *) si->thescore->data)->mute)
+  if (Denemo.project->movement->recording  && Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI && !((DenemoStaff *) si->thescore->data)->mute)
 	{
 		generate_midi_from_recorded_notes (smf); 
 		no_recorded_midi_track = FALSE;
