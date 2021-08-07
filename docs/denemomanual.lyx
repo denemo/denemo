@@ -9641,7 +9641,6 @@ If you played a wrong note and you can delete it with Alt-Backspace and
  then continue playing the correct notes - it may help to make a mark on
  the source original that you are playing from at this stage by dragging
  a small line at the location where you have stopped.
- .
 \end_layout
 
 \begin_layout Standard
@@ -9671,6 +9670,27 @@ Pressing duration keys, including dotted rhythm, triplet and ties and slurred
  When you reach the end of the recorded notes the duration keys will revert
  to entering pure duations - by this time you will have reached the small
  gray marker in the original source you are transcribing from, if any.
+ While you are entering the rhythm the MIDI recording track re-synchronizes
+ the marked MIDI note at every new bar you reach so that the recorded note
+ that will be entered next in that bar is visible immediately above on the
+ MIDI track.
+\end_layout
+
+\begin_layout Standard
+If you make a mistake while entering the rhythm you can delete the last
+ rhythm you entered using the Backspace key - the 
+\emph on
+currently marked MIDI note 
+\emph default
+will back up by one and you can continue with the correct note.
+ Alternatively you can alter the duration using the usual Shift-n shortcut
+ and continue.
+ If you want to delete a note without backing up you can use the other deletion
+ methods (Del,Del, or Ctrl-X etc) or move the 
+\emph on
+currently marked MIDI note 
+\emph default
+forward using Alt-Right.
 \end_layout
 
 \begin_layout Standard
