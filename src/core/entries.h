@@ -243,7 +243,7 @@
 {"ExportMusicXML", GTK_STOCK_SAVE_AS, N_("Export MusicXML"), "",N_("Export the score as a MusicXML file"),G_CALLBACK (export_musicxml_action)},
 {"ExportPDF", GTK_STOCK_SAVE_AS, N_("Export PDF"), "",N_("Export the score as a PDF document file"),G_CALLBACK (export_pdf_action)},
 {"ExportPNG", GTK_STOCK_SAVE_AS, N_("Export Score as PNG"), "",N_("Export the score as a PNG image file"),G_CALLBACK (export_png_action)},
-{"ExportMIDI", GTK_STOCK_SAVE_AS, N_("Export MIDI"), "",N_("Export the score as a MIDI file"),G_CALLBACK (export_midi_action)},
+{"ExportMIDI", GTK_STOCK_SAVE_AS, N_("Export MIDI"), "",N_("Export the current score as a MIDI file"),G_CALLBACK (export_midi_action)},
 {"PrintMenu", GTK_STOCK_PRINT, N_("Print"), "",N_("Menu:\nCommands for typesetting and then printing the music.\nA part, movement, full score or various reduced scores can be typeset.\n See also the Score Layout view for further options.")},
 {"PrintView", GTK_STOCK_PRINT_PREVIEW, N_("Print Preview"), "",N_("Typesets the score\nIf you have a score layout selected it will use that\notherwise all movements staffs and lyrics are typeset by default.\nBe patient! It takes time to create a beautifully laid out score.\nOnce complete you can view and then send to your printer or to a file as a .pdf document."),G_CALLBACK (show_print_view)},
 {"PrintSelection", GTK_STOCK_PRINT, N_("Print Selection"), "",N_("Displays selected music from score in your pdf viewer"),G_CALLBACK (printselection_cb)},
