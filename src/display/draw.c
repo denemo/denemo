@@ -1433,7 +1433,7 @@ draw_score (cairo_t * cr)
   itp.startposition = -1;
   itp.endposition = -1;
   itp.startisoffscreen = FALSE;
-  
+  itp.rightmosttime = 0.0;
   itp.tupletstart = itp.tuplety = 0;
   itp.recordednote = si->recording?si->recording->notes:NULL;
   itp.currentframe = (get_playback_time()/get_playback_speed())*(si->recording?si->recording->samplerate:SAMPLERATE);
