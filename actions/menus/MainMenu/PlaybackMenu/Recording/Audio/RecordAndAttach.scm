@@ -11,7 +11,7 @@
 			(while (d-MoveToStaffUp))
 			(if (not (equal? DenemoClickTrack (d-StaffProperties "query=denemo_name")))
 				(begin
-					(d-CreateClickStaffForMidi (d-GetMeasuresInStaff))
+					(d-CreateClickStaffForMidi (max 8 (d-GetMeasuresInStaff)))
 					(d-GoToPosition #f (1+ (list-ref RecordAndAttach::position 1))(list-ref RecordAndAttach::position 2)(list-ref RecordAndAttach::position 3))
 					(set! RecordAndAttach::position (GetPosition))))
 			(d-GoToPosition #f 1 (list-ref RecordAndAttach::position 2) (list-ref RecordAndAttach::position 3))
@@ -26,9 +26,6 @@
 			(if RecordAndAttach::explain
 				(let ((confirm #f))
 					(set! RecordAndAttach::explain #f)
-					(set! confirm (d-GetUserInput (_ "Record and Attach") (_ "Drop the click track?") "y"))
-					(if (and confirm (equal? confirm (_ "y")))
-						(set! RecordAndAttach::deleteClickTrack #t))
 					(d-InfoDialog (_ "Now the music is attached to the score starting at the cursor position.
 The timing of the notes is shown at the top of the score.
 You can drag the timing of start of the music by left-clicking above the blue line.
