@@ -436,7 +436,7 @@ void synchronize_recording (void)
 								
 								if ((g->next == NULL) && (note->timing)/(double)Denemo.project->movement->recording->samplerate > Denemo.project->movement->rightmost_time)
 									{
-										call_out_to_guile ("(d-AppendMeasureAllStaffs)");g_print ("Appending measure\n");
+										call_out_to_guile ("(d-AppendMeasureAllStaffs)");
 										Denemo.project->movement->end_time = -1;
 										exportmidi (NULL, Denemo.project->movement);
 									}
