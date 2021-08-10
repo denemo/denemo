@@ -328,6 +328,7 @@ SCM scheme_restart_play (void);
 SCM scheme_staff_to_play (SCM);
 SCM scheme_get_midi_on_time (void);
 SCM scheme_get_midi_off_time (void);
+SCM scheme_get_rightmost_time (void);
 SCM scheme_midi_in_append_edit (void);
 SCM scheme_midi_in_checking (void);
 SCM scheme_midi_in_listening (void);

@@ -2368,8 +2368,8 @@ scheme_next_midi_notes (SCM interval)
   return SCM_BOOL_F;
 }
 
-SCM
-scheme_get_midi_on_time (void)
+//time at start of current object if smf up to date
+SCM scheme_get_midi_on_time (void)
 {
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
@@ -2381,8 +2381,9 @@ scheme_get_midi_on_time (void)
   return SCM_BOOL_F;
 }
 
-SCM
-scheme_get_midi_off_time (void)
+//time at end of first note/rest on/after current object if smf up to date
+
+SCM scheme_get_midi_off_time (void)
 {
   if (!(Denemo.project->movement->currentobject))
     return SCM_BOOL_F;
@@ -2392,6 +2393,26 @@ scheme_get_midi_off_time (void)
   if (curObj && (Denemo.project->movement->smfsync == Denemo.project->movement->changecount))
     return scm_from_double (((DenemoObject *) curObj->data)->latest_time);
   return SCM_BOOL_F;
+}
+
+//time at right most measure visible on screen if smf up to date - rightmost_time is set by drawing
+SCM scheme_get_rightmost_time (void)
+{
+	DenemoMovement *si = Denemo.project->movement;
+	if (si->smfsync != si->changecount)
+			 {
+				 exportmidi (NULL, si);
+				 gint right = si->rightmeasurenum;
+				GList *g = g_list_nth (((DenemoStaff*)si->currentstaff->data)->themeasures, right - 1);
+				if (g)
+					{
+						DenemoMeasure *rMeasure = g->data; g_print ("Taking earliest time of last measure %0.2f\n", rMeasure->earliest_time);
+						return scm_from_double (rMeasure->earliest_time);//well really it should have measure duration added...
+					}
+			}
+	else
+		return scm_from_double (si->rightmost_time);//rMeasure->earliest_time);
+	return SCM_BOOL_F;
 }
 
 SCM
