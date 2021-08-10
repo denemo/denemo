@@ -211,8 +211,10 @@ get_end_time ()
     }
   else
     {
-      return 0.0;
+	 // if (Denemo.project->movement->smf) smf_get_length_seconds (Denemo.project->movement->smf); seems not to be thread safe ...
+		return 0.0;
     }
+ return 0.0;
 }
 
 
