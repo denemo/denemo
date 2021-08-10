@@ -35,7 +35,7 @@ static gdouble get_recording_start_time (void)
 	{
 		DenemoMovement *si = Denemo.project->movement;
 		if (si->smfsync != si->changecount)
-			exportmidi (NULL, si);
+			si->end_time = -1.0, exportmidi (NULL, si);
 		return get_time_at_cursor ();
 	}	
 
@@ -72,7 +72,7 @@ void new_midi_recording (void) {
   Denemo.project->movement->recording = recording;
   //~ if (si->smfsync != si->changecount)
 			//~ exportmidi (NULL, si); //si->end_time is now the time in seconds of the current score, if the recording extends past this time create more clicks
-			
+  //si->end_time = -1.0, exportmidi (NULL, si);		
 }
 
 
@@ -189,13 +189,24 @@ void record_midi (gchar * buf)
 						si->smfsync = G_MAXINT;
 						//si->marked_onset = g_list_last (Denemo.project->movement->recording->notes);
 					}
+				si->recording->click_track_created = TRUE;//this should really only be set once, after the click track is created, but that is done in scheme which doesn't have access to set it. Would need to create a callback to do that.					
+				if ((new_time - current_time) > si->rightmost_time)
+						page_viewport();
+
+				if ((new_time - current_time) > si->rightmost_time)
+						{
+							call_out_to_guile ("(d-AppendMeasureAllStaffs)(d-MoveToEnd)");
+							si->end_time = -1;
+							exportmidi (NULL, si);
+						}
+					
+					
 				recording_time = (new_time - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
 				//g_print ("Storing NOTE%s at %f leadin %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate, si->recording->leadin/(double)si->recording->samplerate);
 				notenum2enharmonic (buf[1], &(note->mid_c_offset), &(note->enshift), &(note->octave));
 				si->recording->notes = g_list_append (si->recording->notes, note);
 				if (initial) si->recording->marked_onset = si->recording->notes;
-				si->recording->click_track_created = TRUE;//this should really only be set once, after the click track is created, but that is done in scheme which doesn't have access to set it. Would need to create a callback to do that.
 			}
 	if (resumed) 
 		{
@@ -264,16 +275,6 @@ static gboolean play_recorded_notes (GList *notenode)
 	return FALSE;
 }
 
-static void midi_recording_help (void)
-{
-	infodialog (_("The top staff is the MIDI track - it has no clef because the notes are placed on the staff assuming the clef of the staff that contains the Denemo cursor.\n\
-The MIDI note with the highlighted circle is the currently marked MIDI note. You can play the recording from this note by Shift Left Clicking on it.\n\
-You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to\n\
-playback the MIDI recording with your score, otherwise just synchronize the right note with the Denemo cursor position if it gets too far out of alignment to be comfortable.\n\
-Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm.\n\
-Use the Ins key to enter the additional notes in a chord.\n\
-"));
-}  
 
 
 
@@ -397,6 +398,7 @@ void synchronize_recording (void)
 {
 	gdouble measure_duration;
 	GList *curmeas = Denemo.project->movement->currentmeasure;
+	Denemo.project->movement->end_time = -1;
 	exportmidi (NULL, Denemo.project->movement);
 	if (curmeas->prev)
 		measure_duration = ((DenemoMeasure*)curmeas->data)->earliest_time
@@ -431,6 +433,13 @@ void synchronize_recording (void)
 								//g_print ("Note %0.2f\t", note->timing/44100.0);
 								note->timing = leadin + (gint)((gdouble)(note->timing-leadin)/factor);
 								//g_print (" to Note %0.2f\n", note->timing/44100.0);
+								
+								if ((g->next == NULL) && (note->timing)/(double)Denemo.project->movement->recording->samplerate > Denemo.project->movement->rightmost_time)
+									{
+										call_out_to_guile ("(d-AppendMeasureAllStaffs)");g_print ("Appending measure\n");
+										Denemo.project->movement->end_time = -1;
+										exportmidi (NULL, Denemo.project->movement);
+									}
 							}
 					else
 						g_warning ("Change of tempo is out of range");
