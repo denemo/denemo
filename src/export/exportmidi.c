@@ -1899,7 +1899,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
    save_smf_to_file (smf, thefilename);
 
 
-  load_smf (si, smf);
+  load_smf (si, smf);//frees the old Denemo.project->movement->smf and points it to this one
 
 
 
