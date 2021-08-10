@@ -1780,6 +1780,14 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
   DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
   gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
+  if (inserting_midi) {
+	GList *g = Denemo.project->movement->currentmeasure;
+	while (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL && Denemo.project->movement->currentmeasure->prev)
+		movetomeasureleft (NULL, NULL);
+    while (!Denemo.project->movement->cursor_appending)
+		movecursorright (NULL, NULL);
+	}
+          
   insertion_point (si);
 
 //At this point, if it is the user's preference, check if there is room for this duration in the current measure.
@@ -1836,6 +1844,11 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
         if(inserting_midi && si->recording && si->recording->marked_onset && si->recording->marked_onset->data)
         {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;
+            
+
+            
+            
+            
             addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             do {
 					si->recording->marked_onset = si->recording->marked_onset->next;
