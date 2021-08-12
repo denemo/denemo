@@ -1782,10 +1782,14 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
   gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
   if (inserting_midi) {
 	GList *g = Denemo.project->movement->currentmeasure;
-	while (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL && Denemo.project->movement->currentmeasure->prev)
+	while (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL && 
+			Denemo.project->movement->currentmeasure->prev &&
+			(DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data &&
+			(((DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data)->objects == NULL)	
+		)
 		movetomeasureleft (NULL, NULL);
-    while (!Denemo.project->movement->cursor_appending)
-		movecursorright (NULL, NULL);
+   // while (!Denemo.project->movement->cursor_appending)
+	//	movecursorright (NULL, NULL);
 	}
           
   insertion_point (si);
