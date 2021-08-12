@@ -8668,7 +8668,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8676,7 +8675,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
@@ -9714,11 +9712,15 @@ This entry method can be used even by unskilled keyboard players.
  with the number keys not even looking at the MIDI track created.
  Once you have used up the pitches you can just continue playing in another
  passage and so on until the piece is done.
+ The shortcut Alt-Del, Alt-Del deletes the current recording while Alt-Del,
+ c deletes the recording, the MIDI click track and any trailing blank measures
+ that may have been created if your recording tempo did not match the tempo
+ of the movement.
 \end_layout
 
 \begin_layout Standard
-On the other hand skilled keyboard players may want to press Alt-r to start
- recording then Fn5 to start the click track playing and the play in the
+Another method, for skilled keyboard players, is to press Alt-r to start
+ recording then Fn5 to start the click track playing and then play in the
  notes in time to the click track.
  Then the entered notes will appear in the bars they belong to and (if you
  are composing rather than transcribing) can give you an indication of the
@@ -9729,8 +9731,10 @@ On the other hand skilled keyboard players may want to press Alt-r to start
 You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very*
  slowly as it is slow to respond and will overshoot.
  This is only needed if you want to play back the MIDI recording with your
- score, otherwise just synchronize the right note with the Denemo cursor
- position if it gets too far out of alignment to be comfortable.
+ score, otherwise the recording will be automatically synchronized when
+ you enter the rhythm as you reach each new measure.
+ A click sounds as this re-synchronization takes place - this provides a
+ check that you have entered the correct rhythm to complete the measure.
 \end_layout
 
 \begin_layout Standard
@@ -9751,6 +9755,8 @@ rewind
  some more or stopping when you reach the right point.
  Once synchronized to this starting point you can proceeed to enter the
  durations as usual.
+ Again Alt-Del, c will delete the unwanted blank measures at the end if
+ you have created them.
 \end_layout
 
 \begin_layout Subsubsection
