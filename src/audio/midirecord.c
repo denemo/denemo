@@ -193,14 +193,18 @@ void record_midi (gchar * buf)
 				if ((new_time - current_time) > si->rightmost_time)
 						page_viewport();
 
-				if ((new_time - current_time) > si->rightmost_time)
+				if ((new_time - current_time) > si->end_time)
 						{
-							call_out_to_guile ("(d-AppendMeasureAllStaffs)(d-MoveToEnd)");
-							si->end_time = -1;
-							exportmidi (NULL, si);
+						si->smfsync = G_MAXINT;
+						si->end_time = -1;
+						exportmidi (NULL, si);
+						if ((new_time - current_time) > si->end_time)
+							{
+								call_out_to_guile ("(d-AppendMeasureAllStaffs)(d-MoveToEnd)");
+								si->end_time = -1;
+								exportmidi (NULL, si);//g_print ("appended - going to end %0.2f %0.2f\n", si->end_time, (new_time - current_time));
+							}
 						}
-					
-					
 				recording_time = (new_time - current_time) * si->recording->samplerate;
 				note->timing = recording_time;
 				//g_print ("Storing NOTE%s at %f leadin %f\n", ((buf[0]&0xF0)==MIDI_NOTE_ON)?"ON":"OFF", recording_time/(double)si->recording->samplerate, si->recording->leadin/(double)si->recording->samplerate);
@@ -434,7 +438,7 @@ void synchronize_recording (void)
 								note->timing = leadin + (gint)((gdouble)(note->timing-leadin)/factor);
 								//g_print (" to Note %0.2f\n", note->timing/44100.0);
 								
-								if ((g->next == NULL) && (note->timing)/(double)Denemo.project->movement->recording->samplerate > Denemo.project->movement->rightmost_time)
+								if ((g->next == NULL) && (note->timing)/(double)Denemo.project->movement->recording->samplerate > Denemo.project->movement->end_time)
 									{
 										call_out_to_guile ("(d-AppendMeasureAllStaffs)");
 										Denemo.project->movement->end_time = -1;
