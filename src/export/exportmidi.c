@@ -1896,7 +1896,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
   /********
    * Done!
    ********/
-   save_smf_to_file (smf, thefilename);
+  save_smf_to_file (smf, thefilename);
 
 
   load_smf (si, smf);//frees the old Denemo.project->movement->smf and points it to this one
@@ -1905,7 +1905,7 @@ exportmidi (gchar * thefilename, DenemoMovement * si)
 
   if (si->start_time < 0.0)
     si->start_time = 0.0;
-  if (si->end_time < 0.0)
+  if (si->end_time < 0.0 || (si->end_time > smf_get_length_seconds (smf)))
     si->end_time = smf_get_length_seconds (smf);
   g_print ("Start time %f end time %f\n", si->start_time, si->end_time);
 
