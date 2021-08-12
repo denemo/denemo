@@ -8,7 +8,7 @@
         <action>DeleteMidiAndClickTrack</action>
         <after>DeleteRecordedMidi</after>
         <_label>Delete Recorded MIDI and Click Track</_label>
-        <_tooltip>Deletes the MIDI recording and the click track that shows it.</_tooltip>
+        <_tooltip>Deletes the MIDI recording and the click track that shows it and any trailing blank measures.</_tooltip>
       </row>
     </map>
   </merge>

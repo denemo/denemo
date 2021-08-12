@@ -8696,7 +8696,7 @@ Include rests if they are part of the pattern.
         <after>DeleteRecordedMidi</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
         <_label>Delete Recorded MIDI and Click Track</_label>
-        <_tooltip>Deletes the MIDI recording and the click track that shows it.</_tooltip>
+        <_tooltip>Deletes the MIDI recording and the click track that shows it and any trailing blank measures.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleMuteClickTrack</action>
