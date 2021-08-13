@@ -1788,9 +1788,11 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
 			(((DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data)->objects == NULL)	
 		)
 		movetomeasureleft (NULL, NULL);
-   // while (!Denemo.project->movement->cursor_appending)
-	//	movecursorright (NULL, NULL);
-	}
+  if (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL)    
+	movecursorleft (NULL, NULL);	
+  while (!Denemo.project->movement->cursor_appending)
+	movecursorright (NULL, NULL);
+}
           
   insertion_point (si);
 
