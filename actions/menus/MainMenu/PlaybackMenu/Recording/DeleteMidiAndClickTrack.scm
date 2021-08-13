@@ -2,7 +2,7 @@
 (let ((pos (GetPosition)))
 	(define (remove-trailing-blanks)
 		(define (remove-one)
-			(if (EmptyMeasure?)
+			(if (and (EmptyMeasure?) (> (d-GetMeasuresInStaff) 1))
 				(begin
 					(while (and (d-MoveToStaffDown)
 							(EmptyMeasure?)))
