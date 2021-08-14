@@ -29,9 +29,9 @@
  </description>
  <url type="homepage">http://www.denemo.org/</url>
  <screenshots> 
- <screenshot type="default" width="1584" height="891">http://www.denemo.org/~rshann/DenemoScreenshot.png</screenshot>
- <screenshot width="1584" height="891">http://www.denemo.org/~rshann/DenemoScreenshot2.png</screenshot>
- <screenshot width="1056" height="594">http://www.denemo.org/~rshann/DenemoScreenshot3.png</screenshot>
+ <screenshot type="default" width="826" height="1169">http://www.denemo.org/wp-content/uploads/2013/10/display68.png</screenshot>
+ <screenshot width="1920" height="1080">http://www.denemo.org/wp-content/uploads/2013/10/display4.png</screenshot>
+ <screenshot width="1920" height="1080">http://www.denemo.org/wp-content/uploads/2013/10/display7.png</screenshot>
  </screenshots>
  <updatecontact>denemo-devel@gnu.org</updatecontact>
  <project_group>Denemo</project_group>
