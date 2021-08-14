@@ -188,8 +188,8 @@ staffremovemeasures (staffnode * curstaff, guint pos)
             {
               get_position (si, &undo->position);
               //!!!!!!!! that is setting the cursor position
-                undo->position.staff = 1 + g_list_position (si->thescore, curstaff);
-                g_print ("Setting staff %d\n", undo->position.staff);
+              undo->position.staff = 1 + g_list_position (si->thescore, curstaff);
+                //g_print ("Setting staff %d\n", undo->position.staff);
               undo->action = ACTION_MEASURE_DELETE;
               update_undo_info (si, undo);
             }
