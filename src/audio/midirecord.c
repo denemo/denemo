@@ -446,7 +446,7 @@ void synchronize_recording (void)
 									}
 							}
 					else
-						g_warning ("Change of tempo is out of range");
+						sync_leadin (), g_warning ("Change of tempo is out of range");
 				}
 		}
 
