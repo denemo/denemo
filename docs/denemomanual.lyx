@@ -9692,6 +9692,18 @@ forward using Alt-Right.
 \end_layout
 
 \begin_layout Standard
+When playing in the pitches you do not have to keep strict time, but it
+ helps in keeping the display of the pitches nicely placed over the bars.
+ For this reason it helps to set the movement tempo in the playback controls
+ to a tempo you can comfortably play the notes at - you can change it afterwards
+ to the intended tempo of the movement.
+ If you want to reset the marked MIDI note to the start of the recording
+ you can use the Alt-Up shortcut and accept the default value given - this
+ places the marked MIDI note at the start and synchronizes it to the current
+ cursor position.
+\end_layout
+
+\begin_layout Standard
 Right-clicking on the MIDI track pops up the menu of the commands available
  in the Playback->Recording menu.
 \end_layout
