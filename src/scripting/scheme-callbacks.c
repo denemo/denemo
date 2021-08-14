@@ -6389,8 +6389,18 @@ scheme_get_marked_midi_note (void)
   DenemoMovement *si = gui->movement;
   if (si->recording && (si->recording->type == DENEMO_RECORDING_MIDI) && si->recording->marked_onset)
     {
-      gint pos = g_list_position (si->recording->notes, si->recording->marked_onset);
-      scm = scm_from_int (++pos);
+		GList *g;
+		int i;
+		for (i=0, g = si->recording->notes; g; g= g->next)
+			{
+				DenemoRecordedNote *thenote = (DenemoRecordedNote *) g->data;
+				if ((thenote->midi_event[0]&0xF0)!=MIDI_NOTE_ON)
+					continue;
+				i++;
+				if (si->recording->marked_onset == g)
+					break;
+			}
+      scm = scm_from_int (i);
     }
   return scm;
 }
