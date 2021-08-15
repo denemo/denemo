@@ -1237,6 +1237,7 @@ struct DenemoRoot
   GdkCursor *GDK_BLANK_CURSOR;
   GdkCursor *GDK_X_CURSOR;
   GdkCursor *GDK_TARGET;
+  GdkCursor *GDK_CIRCLE;
   
   
   

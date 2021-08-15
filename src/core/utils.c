@@ -3345,6 +3345,7 @@ void init_gdk_cursors (void) {
     Denemo.GDK_X_CURSOR = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_X_CURSOR);
     Denemo.GDK_BLANK_CURSOR = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_BLANK_CURSOR);
     Denemo.GDK_TARGET = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_TARGET);
+    Denemo.GDK_CIRCLE = gdk_cursor_new_for_display (gdk_display_get_default (), GDK_CIRCLE);
 }
 /**
  * find_dir_for_file:
