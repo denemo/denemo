@@ -539,10 +539,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 	{
 		if ((!motion_started) )
 			{
-				gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), dragging_recording_sync?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
-				//~ if (Denemo.prefs.learning)
-					//~ MouseGestureShow(_("Left Drag Note Onset"), _("This moves the recording to synchronize the start with the note at the Denemo cursor."),
-									//~ MouseGesture);
+				gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), dragging_recording_sync?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_CIRCLE);
 				if (is_playing ())
 				 return TRUE;// avoid crashing
 				motion_started = TRUE;
@@ -614,7 +611,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
   if(gui->movement->recording && dragging_recording_sync)
     {
         if(gui->movement->recording->type == DENEMO_RECORDING_MIDI)
-        {
+        { //g_print ("motion notify recording & dragging sync\n\n");
 //FIXME repeated code:
 		  struct placement_info pi;
 		  pi.the_staff = NULL;
@@ -624,21 +621,21 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 			get_placement_from_coordinates (&pi, event->x, event->y, gui->lefts[line_num], gui->rights[line_num], gui->scales[line_num]);
 		  if (pi.the_staff == NULL)
 			return TRUE;            //could not place the cursor
-		  if (pi.the_measure != NULL)
-			{                       /*don't place cursor in a place that is not there */
+			
+		  if ((pi.staff_number>1) && pi.the_measure != NULL)
+			{                       /*don't place cursor in a place that is not there nor on the MIDI track*/
 			  change_staff (gui->movement, pi.staff_number, pi.the_staff);
 			  gui->movement->currentmeasurenum = pi.measure_number;
 			  gui->movement->currentmeasure = pi.the_measure;
 			  gui->movement->currentobject = pi.the_obj;
 			  gui->movement->cursor_x = pi.cursor_x;
 			  gui->movement->cursor_appending = (gui->movement->cursor_x == (gint) (g_list_length ((objnode *) ((DenemoMeasure*)gui->movement->currentmeasure->data)->objects)));
-
 			  set_cursor_y_from_click (gui, event->y);
 			 }
             //g_warning("Dragging for MIDI ... release on note");
             return TRUE;
         }
-
+//NOT Recording MIDI, so recording AUDIO
         gui->movement->recording->leadin -= 500*(event->x_root - last_event_x)/gui->movement->zoom;//g_debug("%d %d => %d\n", (int)(10*last_event_x), (int)(10*event->x_root), (int)(10*last_event_x) - (int)(10*event->x_root));
         last_event_x = event->x_root;
         update_leadin_widget ( gui->movement->recording->leadin/(double)gui->movement->recording->samplerate);
@@ -664,7 +661,8 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 			if (change>0)
 				scale_recording (1.005);
 			else
-				scale_recording (0.995);		
+				scale_recording (0.995);
+			last_event_x = event->x_root;		
 			return TRUE;
 			
 		}
@@ -1021,12 +1019,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 						//gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), left?Denemo.GDK_SB_H_DOUBLE_ARROW:Denemo.GDK_X_CURSOR);
 						left? (dragging_recording_sync = TRUE) : (dragging_tempo = TRUE);
 						motion_started = FALSE;
-						//if (is_playing ())
-						//	g_print ("Stopping any playback"), stop_playing ();
-						//else
-						//	start_playing ("(disp \"Finished playback of recording\")");
-						//if (!left)
-						//	play_recorded_midi ();
+						
 						if (Denemo.prefs.learning) 
 						 left? 	MouseGestureShow(_("Left on Note Onset"), _("preparing to drag..."),
 												MouseGesture) :
@@ -1037,14 +1030,23 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 						return TRUE;
 					}
 			}
-		}
+		} //end of Audio
 	   else  if(gui->movement->recording && (gui->movement->recording->type==DENEMO_RECORDING_MIDI) && (event->y < HeightOfRecordingTrack*gui->movement->zoom) && midi_track_present ())
 		{
 			if (left)
 				{
+					
+					if (control_held_down () && shift_held_down ())
+						{
+							gui->movement->recording->marked_onset_position = (gint)event->x/gui->movement->zoom;
+							play_recorded_midi ();//toggles
+							if (Denemo.prefs.learning) 
+								 MouseGestureShow(_("Control-Shift Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
+														MouseGesture);
+						} else
 					if (control_held_down ())
 						{
-							(dragging_tempo = TRUE);
+							dragging_tempo = TRUE;
 							motion_started = FALSE;
 							if (Denemo.prefs.learning) 
 								 MouseGestureShow(_("Control Left click on MIDI Recording Track"), _("Start dragging to change tempo of MIDI recorded track."),
@@ -1052,10 +1054,11 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
 						} else
 					if (shift_held_down ())
 						{
-							gui->movement->recording->marked_onset_position = (gint)event->x/gui->movement->zoom;
-							play_recorded_midi ();//toggles
+
+							dragging_recording_sync = TRUE;
+							motion_started = FALSE;
 							if (Denemo.prefs.learning) 
-								 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Starts/Stops playback of recorded MIDI from marked note."),
+								 MouseGestureShow(_("Shift Left click on MIDI Recording Track"), _("Drag the marked MIDI note to synchronize to a place in the score."),
 														MouseGesture);
 						} else
 						{
@@ -1424,15 +1427,19 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   gboolean left = (event->button != 3);
   if(gui->movement->recording && (dragging_tempo || dragging_recording_sync))
     {
-		//g_print ("synchronize to 0x%x because dragging %d or %d\n", gui->movement->currentobject, dragging_recording_sync, dragging_tempo);
+		//g_print ("button release -  current object = 0x%p dragging sync %d or tempo %d\n", gui->movement->currentobject, dragging_recording_sync, dragging_tempo);
         if (motion_started)
 			{
 				if (gui->movement->recording && gui->movement->recording->type == DENEMO_RECORDING_MIDI)
 					{
 						if(dragging_recording_sync)
-							synchronize_recording ();
+							{
+								Denemo.project->movement->recording->sync = NULL;
+							    synchronize_recording ();//changes leadin only
+							}
 						else
 							//g_print ("Scaling Done\n");//this should stretch or squash the timings in Denemo.project->recording->notes keeping any marked offset at the same time
+							;//do nothing
 						dragging_tempo = dragging_recording_sync = FALSE;
 						return TRUE;
 					}
