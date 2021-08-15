@@ -6345,7 +6345,7 @@ SCM scheme_reposition_recorded_midi (SCM secs_from_end)
 				if (((thenote->midi_event[0]&0xF0)==MIDI_NOTE_ON) && (time - thenote->timing) >= interval)
 					{
 						si->recording->marked_onset = g;
-						Denemo.project->movement->recording->sync = NULL;g_print ("secs from end %0.2f recording end time %0.2f, this note %0.2f \n", scm_to_double (secs_from_end), time/44100.0, thenote->timing/44100.0);
+						Denemo.project->movement->recording->sync = NULL;//g_print ("secs from end %0.2f recording end time %0.2f, this note %0.2f \n", scm_to_double (secs_from_end), time/44100.0, thenote->timing/44100.0);
 						call_out_to_guile ("(d-SyncRecordingToCursor)");// syncs and extends MIDI track
 						return SCM_BOOL_T;
 					}	
