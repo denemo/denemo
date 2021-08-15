@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-08-14"/>
+<meta name="create-date" content="2021-08-15"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -3068,44 +3068,80 @@ This is new in version 2.6. The basic idea is to play in the pitches using the M
 <div class="Indented">
 The Playback/Record-&gt;Recording menu gives the commands to start/pause recording pitches from your MIDI controller. First you position the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r. A click track is created at the top of the score to act as a MIDI track. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
 </div>
-<div class="Indented">
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-1"></a>Playing in the pitches
+</div>
+<div class="Unindented">
 Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display. If you leave a long gap between two notes (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. 
 </div>
 <div class="Indented">
-As you record the pitches the staffs will have extra blank measures added so that the MIDI track can show the pitches cover in the tempo of the movement. There is no need to pause recording to go on to entering the rhythms - just play in the durations. When you have finished entering all the notes you can start playing-in again and the played in notes will re-synchronize to the Denemo cursor. 
+If you play a wrong note and you can delete it with Alt-Backspace and then continue playing the correct notes - it may help to make a mark on the source original that you are playing from at this stage by dragging a small line at the location where you have stopped.
 </div>
 <div class="Indented">
-If you played a wrong note and you can delete it with Alt-Backspace and then continue playing the correct notes - it may help to make a mark on the source original that you are playing from at this stage by dragging a small line at the location where you have stopped.
+On the MIDI track the green MIDI headless note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note with Alt-p. To alter which note is <i>currently marked MIDI note</i> click on the note in the MIDI track which you want to be marked or use the Alt-Left/Right to move the marker. The currently marked MIDI note is the first one that will be entered into the score when you enter a duration.
 </div>
 <div class="Indented">
-The green MIDI note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note by Shift Left Clicking on it. To reset the marked MIDI note click on the note in the MIDI track which you want to be marked or use the Alt-Left/Right to move the marker. 
+When playing the pitches augmented and diminished intervals are played on the pitch-spelling channel, so that you can easily detect enharmonic errors (e.g. D-sharp for E-flat). You can turn this off via the Edit-&gt;Change Preferences-&gt;Audio tab, by making the pitch-spelling channel the same as the channel for the notes.
 </div>
 <div class="Indented">
-Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move it forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You enter rests in between the durations for the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem. When you reach the end of the recorded notes the duration keys will revert to entering pure duations - by this time you will have reached the small gray marker in the original source you are transcribing from, if any. While you are entering the rhythm the MIDI recording track re-synchronizes the marked MIDI note at every new bar you reach so that the recorded note that will be entered next in that bar is visible immediately above on the MIDI track.
+When playing in the pitches you do not have to keep strict time, but it helps in keeping the display of the pitches nicely placed over the bars. For this reason it helps to set the movement tempo in the playback controls to a tempo you can comfortably play the notes at - you can change it afterwards to the intended tempo of the movement.
 </div>
 <div class="Indented">
-If you make a mistake while entering the rhythm you can delete the last rhythm you entered using the Backspace key - the <i>currently marked MIDI note </i>will back up by one and you can continue with the correct note. Alternatively you can alter the duration using the usual Shift-n shortcut and continue. If you want to delete a note without backing up you can use the other deletion methods (Del,Del, or Ctrl-X etc) or move the <i>currently marked MIDI note </i>forward using Alt-Right or by clicking on the note that you want to be the marked MIDI note.
+As you record the pitches the staffs will have extra blank measures added so that the MIDI track can show the pitches in the tempo of the movement. There is no need to pause recording to go on to entering the rhythms - just start typing in the durations.
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-2"></a>Playing in the durations
+</div>
+<div class="Unindented">
+Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move the marked MIDI note forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You should enter any rests needed in between the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem. When you reach the end of the recorded notes a clash of cymbals sounds and the duration keys will revert to entering pure duations - by this time you will have reached the small red marker in the original source you are transcribing from (if you placed one as you finished playing the notes). While you are entering the rhythm the MIDI recording track re-synchronizes the marked MIDI note at every new bar you reach so that the recorded note that will be entered next in that bar is visible immediately above on the MIDI track.
 </div>
 <div class="Indented">
-When playing in the pitches you do not have to keep strict time, but it helps in keeping the display of the pitches nicely placed over the bars. For this reason it helps to set the movement tempo in the playback controls to a tempo you can comfortably play the notes at - you can change it afterwards to the intended tempo of the movement. If you want to reset the marked MIDI note to the start of the recording you can use the Alt-Up shortcut and accept the default value given - this places the marked MIDI note at the start and synchronizes it to the current cursor position.
+If you make a mistake while entering a duration you can delete the last duration(s) you entered using the Backspace key - the <i>currently marked MIDI note </i>will back up and you can continue with the correct duration(s). Alternatively you can alter the duration using the usual Shift-n shortcut and continue. If you want to delete a note without backing up you can use the other deletion methods (Del,Del, or Ctrl-X etc) or move the <i>currently marked MIDI note </i>forward using Alt-Right or by clicking on the note that you want to be the marked MIDI note. 
 </div>
 <div class="Indented">
+<div class="Shadowbox" style="width: 100%;">
+The shortcuts for entering triplets crash the sounding of the notes together - you can use the TAB shortcut to avoid this if you wish, though that, of course, breaks up the rhythm of your keystrokes. Otherwise you can just visually check that the right notes have been entered in the triplet.
+</div>
+
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-3"></a>Mouse Operations
+</div>
+<div class="Unindented">
 Right-clicking on the MIDI track pops up the menu of the commands available in the Playback-&gt;Recording menu.
 </div>
 <div class="Indented">
-When playing the pitches augmented and diminished intervals are played on the pitch-spelling channel, so that you can easily detect enharmonic errors (e.g. D-sharp for E-flat). You can turn this off via the Edit-&gt;Change Preferences-&gt;Audio tab.
+Left clicking on a note on the MIDI track will make that note become the <i>currently marked MIDI note</i>. Other left click operations:
 </div>
 <div class="Indented">
-This entry method can be used even by unskilled keyboard players. As long as you can pick out the notes one after the other there is no need to play the music strictly in time - you can just enter one bar, or a line, or a short passage and then immediately switch to entering the durations with the number keys not even looking at the MIDI track created. Once you have used up the pitches you can just continue playing in another passage and so on until the piece is done. The shortcut Alt-Del, Alt-Del deletes the current recording while Alt-Del, c deletes the recording, the MIDI click track and any trailing blank measures that may have been created if your recording tempo did not match the tempo of the movement. As mentioned above, the display of the pitches over the measures they belong to will not be perfect, but it is not critical.
+You can alter the tempo of the MIDI recording by Ctrl-Left-Drag, moving to the right stretches the recording out, to the left compresses it. This is only needed if you want to play back the MIDI recording with your score, otherwise the recording will be automatically synchronized and stretched/compressed while entering the durations as you reach each new measure. A click sounds as this re-synchronization takes place - this provides a check that you have entered the correct rhythm to complete the measure. 
+</div>
+<div class="Indented">
+To reposition the recorded MIDI track relative to the score you can Shift-Left-Drag: drag from the MIDI track down to the place in your score where you want the <i>currently marked MIDI note </i>to be synchronized to and release. The MIDI track will be shifted so that the marked MIDI note appears above the place chosen. With Ctrl-Shift-Click you can set a note on the MIDI track as the currently marked MIDI note and start the recorded MIDI playing from there - clicking again stops the play.
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-4"></a>Composers
+</div>
+<div class="Unindented">
+For people who compose at the keyboard one possibility is to turn on recording (Alt-r) and then play around with musical ideas until you have found one you wish to transcribe. At this point you can &ldquo;rewind&rdquo; your recording (using Alt-Up arrow) by a specified interval from the end. The exact place to rewind to can be found by playing the recording from this point (use Alt-right to step through or Alt-p to play) and rewinding some more or stopping when you reach the right point. Once synchronized to this starting point you can proceeed to enter the durations as usual. Again Alt-Del, c will delete the unwanted blank measures at the end if you have created them.
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-5"></a>When finished
+</div>
+<div class="Unindented">
+The shortcut Alt-Del, Alt-Del deletes the current recording while Alt-Del, c deletes the recording, the MIDI click track and any trailing blank measures that may have been created if your recording tempo did not match the tempo of the movement.
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-6"></a>Miscellaneous points
+</div>
+<div class="Unindented">
+If you want to reset the marked MIDI note to the start of the recording you can use the Alt-Up shortcut and accept the default value given - this places the marked MIDI note at the start and synchronizes it to the current cursor position.
+</div>
+<div class="Indented">
+The pitches-first entry method can be used even by unskilled keyboard players. As long as you can pick out the notes one after the other there is no need to play the music strictly in time - you can just enter one bar, or a line, or a short passage and then immediately switch to entering the durations with the number keys not even looking at the MIDI track created. Once you have used up the pitches you can just continue playing in another passage and so on until the piece is done. As mentioned above, the display of the pitches over the measures they belong to will not be perfect, but it is not critical.
 </div>
 <div class="Indented">
 Another method, for skilled keyboard players, is to press Alt-r to start recording then Fn5 to start the click track playing and then play in the notes in time to the click track. Then the entered notes will appear in the bars they belong to and (if you are composing rather than transcribing) can give you an indication of the rhythm you need to enter to notate what you played.
-</div>
-<div class="Indented">
-You can alter the tempo of the MIDI recording by Ctrl-Left-Drag - drag *very* slowly as it is slow to respond and will overshoot. This is only needed if you want to play back the MIDI recording with your score, otherwise the recording will be automatically synchronized when you enter the rhythm as you reach each new measure. A click sounds as this re-synchronization takes place - this provides a check that you have entered the correct rhythm to complete the measure.
-</div>
-<div class="Indented">
-For people who compose at the keyboard one possibility is to turn on recording (Alt-r) and then play around with musical ideas until you have found one you wish to transcribe. At this point you can &ldquo;rewind&rdquo; your recording (using Alt-Up arrow) by a specified interval from the end. The exact place to rewind to can be found by playing the recording from this point (use Alt-right to step through or Alt-p to play) and rewinding some more or stopping when you reach the right point. Once synchronized to this starting point you can proceeed to enter the durations as usual. Again Alt-Del, c will delete the unwanted blank measures at the end if you have created them.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-21.2.2">21.2.2</a> Rhythms-First Method
@@ -3136,7 +3172,7 @@ The default key shortcuts for the numeric keypad are illustrated here:
 Here I have actually stuck labels with the most used durations and over-drawn an indication of the others. (Keys 5 and 6 do the1/32 and 1/64th notes). The keypad 7 does triplets with a double press (so that it makes three presses for a triplet, e. g. Key 4, Key 7, Key 7 for a triplet of 1/16th notes). The dotted rhythm &ldquo;dottifies&rdquo; the current note whatever its duration is. Likewise the grace note key turns the current note into a grace note and the tie key turns tied status off/on for the current note. Keypad 8 fills the rest of the bar with the current note or rest, while Enter duplicates the current bar. The enharmonic shifts<a class="IndexReference" name="entry-Enharmonic-Range-1" href="#index-Enharmonic-Range">↓</a> can be pressed repeatedly to shift the set of accidentals to be used sharp-wise of flat-wise, subsequent notes played in will be taken from the new set, which is indicated on the status bar. The duration keys, triplet key and dottify key can all be used with the Control modifier to slur from the previous note.
 </div>
 <div class="Indented">
-With this arrangement you can play in the rhythm of a piece in musical time and then play once more with the MIDI keyboard to add the notes (chords require the Alt key or foot pedal). Before you are practiced in this use of the numeric keypad it is a good idea to do just a bar or two, or a line or two at a time, so as not to lose your place.
+With this arrangement you can play in the rhythm of a piece in musical time and then play once more with the MIDI keyboard to add the notes (chords require the Ins key for the pitches first method or the Alt key or foot pedal for the rhythms first method). Before you are practiced in this use of the numeric keypad, if you are using the rhythms-first method it is a good idea to do just a bar or two, or a line or two at a time, so as not to lose your place. Correspondingly, if you are using the pitches-first method start by just playing a phrase or two of the music at a time before switching to entering the durations. In both methods no operation is needed to switch from entering pitches to entering durations or vice versa.
 </div>
 <div class="Indented">
 <div class="Shadowbox" style="width: 100%;">
@@ -3549,7 +3585,7 @@ Mouse Shortcuts are tricky to set – you are able to control what happens on mo
 It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard/mouse shortcut and keep the command in your default setup. Scheme to be executed at startup can be placed in the denemo.scm file.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-1"></a>An example – quicker dynamics selection
+<a class="toc" name="toc-Paragraph-7"></a>An example – quicker dynamics selection
 </div>
 <div class="Unindented">
 It can be slow to choose dynamics (<tt>Ctrl-D</tt>) because the list is quite long to move down (or move to the mouse). You can define a list of the dynamics you actually want to be readily available as for example: (define DenemoDynamicList ’(("f" "127" "Forte") ("p" "127" "Piano"))) This makes forte available just by pressing Return and piano available by pressing down arrow Return. (The others via More of course). If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then it will be defined when you start Denemo.
@@ -5047,7 +5083,7 @@ The MIDI filters are scheme scripts, so they can be tailored to do whatever you 
 <a class="toc" name="toc-Subsection-30.12">30.12</a> LilyPond Editing
 </h2>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-2"></a>Introduction
+<a class="toc" name="toc-Paragraph-8"></a>Introduction
 </div>
 <div class="Unindented">
 From version 0.7.8 we have the ability to edit the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e. g. multiple verses for songs) with the music still editable from within Denemo. The gallery of examples and the standard templates contain examples which you can use.
@@ -5071,7 +5107,7 @@ Right clicking on the text gives a menu for actions on the LilyPond text. LilyPo
 This menu also includes a Print command that operates on the visible LilyPond text in the window. This means you can open specific custom score layouts and print from them, or even make a temporary edit for just one print. If you save the score with custom layouts then these are remembered. So when you reload and the custom score layout will be printed.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-3"></a>Detail
+<a class="toc" name="toc-Paragraph-9"></a>Detail
 </div>
 <div class="Unindented">
 Several custom layouts can be kept, selecting them in the Score Layout view enables the same Denemo file to print a variety of things from the same music input. 
@@ -5356,7 +5392,7 @@ In this example the directive is a standalone directive. MIDI commands are being
 <a class="toc" name="toc-Subsection-32.2">32.2</a> Directive Edit Scripts
 </h2>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-4"></a>Introduction
+<a class="toc" name="toc-Paragraph-10"></a>Introduction
 </div>
 <div class="Unindented">
 Score and movement directives can define a value for their graphic – a button then appears at the top of the score which can be used to edit the directive. Likewise Staff and Voice directives show as a properties icon before the staff to which they apply (staff directives above, voice directives below). Clicking on these lets you edit the directive.
@@ -5540,7 +5576,7 @@ cvs − d:pserver:anonymouspserver.git.sv.gnu.org: ⁄ denemo.gitco �
 </span>
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-5"></a>Dependencies
+<a class="toc" name="toc-Paragraph-11"></a>Dependencies
 </div>
 <div class="Unindented">
 To build Denemo from a source package, pleas see the website for an up-to-date list of dependencies. Remember to install the development packages as well (check your distribution for the specific package name):
@@ -5947,7 +5983,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-08-14T19:27:41.425270</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-08-15T15:23:05.093762</span>
 </div>
 </div>
 </body>
