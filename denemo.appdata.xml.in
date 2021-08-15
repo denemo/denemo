@@ -46,4 +46,8 @@
     <keyword>MIDI</keyword>
     <keyword>Music</keyword>
  </keywords>
+ <releases>
+  <release version="2.5.0" date="2021-03-03" />
+ </releases>
+ <content_rating type="oars-1.1" />
 </application>
