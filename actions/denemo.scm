@@ -1504,12 +1504,14 @@
 (define (EditMovement)
         (let* ((choice (RadioBoxMenu 
             (cons (_ "Help") 'help)
+            (cons (_ "Movement Tempo") 'tempo)
             (cons (_ "Mute Staffs") 'mute)
             (cons (_ "(Display) Show All Staffs") 'show)
             (cons (_ "(Display) Hide All Other Staffs") 'hide)
             (cons (_ "Movement Editor") 'editor))))
         (case choice
             ((help) (d-InfoDialog (_ "This sets the visibility/mute and other properties for the whole movement")))
+            ((tempo) (d-MovementTempo))
             ((mute) (d-MuteStaffs))
             ((show) (StaffsVisibility #t))
             ((hide)  (StaffsVisibility #f))

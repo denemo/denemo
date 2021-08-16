@@ -96,7 +96,7 @@ void set_playbutton (gboolean pause);
 void set_master_volume (DenemoMovement * si, gdouble volume);
 
 void set_movement_tempo (gint tempo);
-
+gint movement_tempo_from_user (void);
 void toggle_to_drawing_area (gboolean show);
 
 void ToggleReduceToDrawingArea (DenemoAction * action, DenemoScriptParam * param);

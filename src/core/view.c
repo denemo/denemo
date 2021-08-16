@@ -1151,15 +1151,21 @@ pb_loop (GtkWidget * button)
   call_out_to_guile ("(DenemoLoop)");
 }
 
-static void pb_tempo (void)
+//gets the desired tempo in beats per minute from user, sets the tempo widget, re-computes MIDI and adjusts playback end time
+// returns any previously set value if no valid new value is given else defaults to 120
+gint movement_tempo_from_user (void)
 {
- static gchar * value;
- if (value==NULL)
-	value = g_strdup ("120");
+ gchar * value;
+ gint bpm = (gint)g_object_get_data (G_OBJECT (tempo_widget), "value");
+ 
+ if (bpm==0)
+	value = g_strdup ("120"); 
+ else 
+	value = g_strdup_printf ("%d", bpm);
  gchar *newvalue = string_dialog_entry (Denemo.project, "Movement Tempo", "Give value in beats per minute", value);
  if (newvalue)
 	{
-		gint bpm = atoi (newvalue);
+		bpm = atoi (newvalue);
 		g_free (value);
 		value = newvalue;
 		if (bpm > 10 && bpm < 1000)
@@ -1171,6 +1177,9 @@ static void pb_tempo (void)
 				switch_back_to_main_window ();
 			}
 	}
+ else 
+	bpm = atoi (value);
+ return bpm;
 }
 static void
 pb_mute_staffs ()
@@ -1183,6 +1192,7 @@ update_tempo_widget (gchar *value)
 {
  gchar *text =  g_strdup_printf ("𝅘𝅥 = %s bpm", value);
  gtk_label_set_markup (GTK_LABEL(tempo_widget), text);
+ g_object_set_data (G_OBJECT (tempo_widget), "value", atoi(value));
  g_free (text);
 }
 
@@ -3389,7 +3399,7 @@ create_window (void)
       GtkWidget *tempo_button = (GtkWidget *) gtk_button_new_with_label ("𝅘𝅥  = 120");
       tempo_widget = gtk_bin_get_child (GTK_BIN (tempo_button));
       gtk_label_set_use_markup (GTK_LABEL (tempo_widget), TRUE);
-      g_signal_connect (G_OBJECT (tempo_button), "clicked", G_CALLBACK (pb_tempo), NULL);
+      g_signal_connect (G_OBJECT (tempo_button), "clicked", G_CALLBACK (movement_tempo_from_user), NULL);
       
       gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (tempo_button), FALSE, TRUE, 0);
       create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
