@@ -9797,6 +9797,14 @@ to be synchronized to and release.
  again stops the play.
 \end_layout
 
+\begin_layout Standard
+Finally Ctrl-Shift-Left click moves the 
+\emph on
+currently marked MIDI note 
+\emph default
+to the clicked note and start playing the MIDI recording from there.
+\end_layout
+
 \begin_layout Paragraph
 Composers
 \end_layout
@@ -9864,6 +9872,36 @@ Another method, for skilled keyboard players, is to press Alt-r to start
  Then the entered notes will appear in the bars they belong to and (if you
  are composing rather than transcribing) can give you an indication of the
  rhythm you need to enter to notate what you played.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Note that recorded MIDI is not saved with the score - it is intended only
+ as a temporary storage until you have entered the durations and the pitches
+ become real notes.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection
