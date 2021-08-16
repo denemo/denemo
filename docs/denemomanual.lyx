@@ -118,7 +118,7 @@ target "http://creativecommons.org/licenses/by-sa/3.0"
 
 \begin_layout Standard
 \align center
-Copyright © 2009 - 2019 Denemo Project
+Copyright © 2009 - 2021 Denemo Project
 \end_layout
 
 \begin_layout Standard
@@ -9590,13 +9590,28 @@ This is new in version 2.6.
 \begin_layout Standard
 The Playback/Record->Recording menu gives the commands to start/pause recording
  pitches from your MIDI controller.
- First you position the Denemo cursor at place where you want to enter the
- notes into the score.
+ First you position the Denemo cursor at the place where you want to enter
+ the notes into the score.
  Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r.
  A click track is created at the top of the score to act as a MIDI track.
  It has no clef because the recorded notes are displayed on the staff as
  belonging to the clef of the staff you are intending to enter the notes
  into, the one that contains the Denemo cursor.
+ 
+\end_layout
+
+\begin_layout Standard
+If you have several staffs in your score and the one you are playing in
+ is too far below the MIDI track you can invoke the command 
+\begin_inset Quotes eld
+\end_inset
+
+Hide Other Staffs (Off/On)
+\begin_inset Quotes erd
+\end_inset
+
+ (Alt-h is the standard shortcut) which will temporarily hide the staffs
+ you do not need to see.
  While you are recording the Denemo Display has a red cast to it to remind
  you that playing the MIDI keyboard will enter notes into the recording
  rather than into the score.
@@ -9610,45 +9625,39 @@ Playing in the pitches
 Once you start playing on the MIDI keyboard headless notes are entered on
  the MIDI track staff with an indication of their start and end points on
  the blue line at the top of the display.
- If you leave a long gap between two notes (e.g.
- because of a long rest) the recorded track will not leave a big gap but
- resume directly after the last note - you can control the amount of rest
- time you want to allow in a recording via the Edit->Preferences->MIDI preferenc
-e 
-\begin_inset Quotes eld
-\end_inset
-
-MIDI-in recording timeout
-\begin_inset Quotes erd
-\end_inset
-
-.
- 
 \end_layout
 
 \begin_layout Standard
 If you play a wrong note and you can delete it with Alt-Backspace and then
  continue playing the correct notes - it may help to make a mark on the
  source original that you are playing from at this stage by dragging a small
- line at the location where you have stopped.
+ line at the location where you have stopped if you think you may lose your
+ place.
 \end_layout
 
 \begin_layout Standard
-On the MIDI track the green MIDI headless note with the highlighted green
- circle is the 
+On the MIDI track one of the notes is the 
 \emph on
 currently marked MIDI note
 \emph default
-.
- You can play the recording from this note with Alt-p.
- To alter which note is 
+ - it is colored green and highlighted with a green circle.
+ The 
 \emph on
 currently marked MIDI note
 \emph default
- click on the note in the MIDI track which you want to be marked or use
- the Alt-Left/Right to move the marker.
- The currently marked MIDI note is the first one that will be entered into
- the score when you enter a duration.
+ is the first one that will be entered into the score when you enter a duration.
+ You can play the recording from this 
+\emph on
+currently marked MIDI note
+\emph default
+ with Alt-p.
+ To alter which note is the 
+\emph on
+currently marked MIDI note
+\emph default
+ click on the note on the MIDI track which or use the Alt-Left/Right to
+ move the marker.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -9666,6 +9675,23 @@ When playing in the pitches you do not have to keep strict time, but it
  For this reason it helps to set the movement tempo in the playback controls
  to a tempo you can comfortably play the notes at - you can change it afterwards
  to the intended tempo of the movement.
+\end_layout
+
+\begin_layout Standard
+If you leave a long gap between two notes (e.g.
+ because of a long rest) the recorded track will not leave a big gap but
+ resume directly after the last note - you can control the amount of rest
+ time you want to allow in a recording via the Edit->Preferences->MIDI preferenc
+e 
+\begin_inset Quotes eld
+\end_inset
+
+MIDI-in recording timeout
+\begin_inset Quotes erd
+\end_inset
+
+.
+ 
 \end_layout
 
 \begin_layout Standard

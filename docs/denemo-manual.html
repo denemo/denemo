@@ -30,7 +30,7 @@ This Manual is released under the <a class="URL" href="http://creativecommons.or
 </div>
 <div class="Indented">
 <div class="center">
-Copyright © 2009 - 2019 Denemo Project
+Copyright © 2009 - 2021 Denemo Project
 </div>
 
 </div>
@@ -3066,25 +3066,31 @@ Denemo can take pitches directly from MIDI input<a class="IndexReference" name="
 This is new in version 2.6. The basic idea is to play in the pitches using the MIDI keyboard and then use the duration keys to actually enter the notes into the score.
 </div>
 <div class="Indented">
-The Playback/Record-&gt;Recording menu gives the commands to start/pause recording pitches from your MIDI controller. First you position the Denemo cursor at place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r. A click track is created at the top of the score to act as a MIDI track. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
+The Playback/Record-&gt;Recording menu gives the commands to start/pause recording pitches from your MIDI controller. First you position the Denemo cursor at the place where you want to enter the notes into the score. Then you invoke Record from MIDI-in (Off/On) to start recording, Alt-r. A click track is created at the top of the score to act as a MIDI track. It has no clef because the recorded notes are displayed on the staff as belonging to the clef of the staff you are intending to enter the notes into, the one that contains the Denemo cursor. 
+</div>
+<div class="Indented">
+If you have several staffs in your score and the one you are playing in is too far below the MIDI track you can invoke the command &ldquo;Hide Other Staffs (Off/On)&rdquo; (Alt-h is the standard shortcut) which will temporarily hide the staffs you do not need to see. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
 </div>
 <div class="Paragraph">
 <a class="toc" name="toc-Paragraph-1"></a>Playing in the pitches
 </div>
 <div class="Unindented">
-Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display. If you leave a long gap between two notes (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. 
+Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display.
 </div>
 <div class="Indented">
-If you play a wrong note and you can delete it with Alt-Backspace and then continue playing the correct notes - it may help to make a mark on the source original that you are playing from at this stage by dragging a small line at the location where you have stopped.
+If you play a wrong note and you can delete it with Alt-Backspace and then continue playing the correct notes - it may help to make a mark on the source original that you are playing from at this stage by dragging a small line at the location where you have stopped if you think you may lose your place.
 </div>
 <div class="Indented">
-On the MIDI track the green MIDI headless note with the highlighted green circle is the <i>currently marked MIDI note</i>. You can play the recording from this note with Alt-p. To alter which note is <i>currently marked MIDI note</i> click on the note in the MIDI track which you want to be marked or use the Alt-Left/Right to move the marker. The currently marked MIDI note is the first one that will be entered into the score when you enter a duration.
+On the MIDI track one of the notes is the <i>currently marked MIDI note</i> - it is colored green and highlighted with a green circle. The <i>currently marked MIDI note</i> is the first one that will be entered into the score when you enter a duration. You can play the recording from this <i>currently marked MIDI note</i> with Alt-p. To alter which note is the <i>currently marked MIDI note</i> click on the note on the MIDI track which or use the Alt-Left/Right to move the marker. 
 </div>
 <div class="Indented">
 When playing the pitches augmented and diminished intervals are played on the pitch-spelling channel, so that you can easily detect enharmonic errors (e.g. D-sharp for E-flat). You can turn this off via the Edit-&gt;Change Preferences-&gt;Audio tab, by making the pitch-spelling channel the same as the channel for the notes.
 </div>
 <div class="Indented">
 When playing in the pitches you do not have to keep strict time, but it helps in keeping the display of the pitches nicely placed over the bars. For this reason it helps to set the movement tempo in the playback controls to a tempo you can comfortably play the notes at - you can change it afterwards to the intended tempo of the movement.
+</div>
+<div class="Indented">
+If you leave a long gap between two notes (e.g. because of a long rest) the recorded track will not leave a big gap but resume directly after the last note - you can control the amount of rest time you want to allow in a recording via the Edit-&gt;Preferences-&gt;MIDI preference &ldquo;MIDI-in recording timeout&rdquo;. 
 </div>
 <div class="Indented">
 As you record the pitches the staffs will have extra blank measures added so that the MIDI track can show the pitches in the tempo of the movement. There is no need to pause recording to go on to entering the rhythms - just start typing in the durations.
@@ -5992,7 +5998,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-08-16T15:46:50.852598</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-08-16T19:27:12.490725</span>
 </div>
 </div>
 </body>
