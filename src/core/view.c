@@ -1156,8 +1156,8 @@ pb_loop (GtkWidget * button)
 gint movement_tempo_from_user (void)
 {
  gchar * value;
- gint bpm = GPOINTER_TO_INT(g_object_get_data (G_OBJECT (tempo_widget), "value"));
- if (bpm==0)
+ gint bpm = Denemo.project->movement?Denemo.project->movement->tempo:120;
+ if ((bpm<10) || (bpm>1000))
 	value = g_strdup ("120"); 
  else 
 	value = g_strdup_printf ("%d", bpm);
@@ -1191,7 +1191,6 @@ update_tempo_widget (gchar *value)
 {
  gchar *text =  g_strdup_printf ("𝅘𝅥 = %s bpm", value);
  gtk_label_set_markup (GTK_LABEL(tempo_widget), text);
- g_object_set_data (G_OBJECT (tempo_widget), "value", GINT_TO_POINTER(atoi(value)));
  g_free (text);
 }
 
