@@ -2613,7 +2613,11 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
 #endif    
   GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
-
+  
+  button = gtk_button_new_with_label (_("Movement Tempo"));
+  g_signal_connect_swapped (button, "clicked", G_CALLBACK (movement_tempo_from_user), NULL);
+  gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+  
   button = gtk_button_new_with_label (_("⬅ Previous Movement"));
   g_signal_connect_swapped (button, "clicked", G_CALLBACK (go_previous), editscorewin);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
