@@ -159,9 +159,14 @@ void record_midi (gchar * buf)
 	DenemoRecordedNote *note = NULL;
 	gboolean initial = FALSE;
 	static gdouble old_time = 0;
+	static gchar last_0;//last midi event type
+	static gchar last_1;//last midi key
 	gboolean resumed = (si->recording && si->recording->notes && (si->recording->marked_onset==NULL));
 	gdouble new_time = get_time ();
-	
+	if ((last_0 == buf[0]) && (last_1 == buf[1]) && (new_time - old_time < 0.01))
+		return;//key bounce - ignore. This happens with mouse driven virtual keyboard
+	last_0 = buf[0];
+	last_1 = buf[1];
 	if (resumed && si->currentobject && (!si->cursor_appending) && !si->currentobject->next) //when resuming move right to appending if possible
 		movecursorright (NULL, NULL);
 
