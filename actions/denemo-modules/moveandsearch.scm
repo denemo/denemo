@@ -187,3 +187,14 @@
 
 (define (LastMeasure?) (not (Probe (lambda () #t) d-MoveToMeasureRight)))
 (define (FirstMeasure?) (not (Probe (lambda () #t) d-MoveToMeasureLeft)))
+
+(define (ForEachStaffInScore script)
+	(define (do-movement)
+		(while (d-MoveToStaffUp))
+		(eval-string script)
+		(while (d-MoveToStaffDown)
+			(eval-string script)))
+	(while (d-PreviousMovement))
+	(do-movement)
+	(while (d-NextMovement)
+		(do-movement)))
