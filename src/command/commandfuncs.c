@@ -1725,6 +1725,23 @@ insertion_point (DenemoMovement * si)
     }
 }
 
+//move cursor over blank measures to the appending position in the current staff
+void move_to_earliest_append_position_in_staff (void)
+{
+	GList *g = Denemo.project->movement->currentmeasure;
+	while (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL && 
+			Denemo.project->movement->currentmeasure->prev &&
+			(DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data &&
+			(((DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data)->objects == NULL)	
+		)
+		movetomeasureleft (NULL, NULL);
+  if (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL)    
+	movecursorleft (NULL, NULL);	
+  while (!Denemo.project->movement->cursor_appending)
+	movecursorright (NULL, NULL);
+}
+
+
 //get the prevailing accidental for the current cursor height, that is the last accidental before the cursor at this height (from a note or keysig change), or the cached keysig accidental
 static gint get_cursoracc (void)
     {
@@ -1780,20 +1797,8 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
   DenemoMovement *si = gui->movement;
   DenemoObject *mudela_obj_new;
   gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
-  if (inserting_midi) {
-	GList *g = Denemo.project->movement->currentmeasure;
-	while (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL && 
-			Denemo.project->movement->currentmeasure->prev &&
-			(DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data &&
-			(((DenemoMeasure*)Denemo.project->movement->currentmeasure->prev->data)->objects == NULL)	
-		)
-		movetomeasureleft (NULL, NULL);
-  if (((DenemoMeasure*)Denemo.project->movement->currentmeasure->data)->objects == NULL)    
-	movecursorleft (NULL, NULL);	
-  while (!Denemo.project->movement->cursor_appending)
-	movecursorright (NULL, NULL);
-}
-          
+  if (inserting_midi) 
+	 move_to_earliest_append_position_in_staff ();
   insertion_point (si);
 
 //At this point, if it is the user's preference, check if there is room for this duration in the current measure.
@@ -1850,11 +1855,6 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
         if(inserting_midi && si->recording && si->recording->marked_onset && si->recording->marked_onset->data)
         {
             DenemoRecordedNote *midinote = (DenemoRecordedNote*)si->recording->marked_onset->data;
-            
-
-            
-            
-            
             addtone (mudela_obj_new,  midinote->mid_c_offset + 7 * midinote->octave,  midinote->enshift);
             do {
 					si->recording->marked_onset = si->recording->marked_onset->next;
