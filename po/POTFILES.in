@@ -1956,6 +1956,8 @@ actions/menus/ObjectMenu/Score/LilyPondDefinition.scm
 actions/menus/ObjectMenu/Score/LilyPondDefinition.xml
 actions/menus/ObjectMenu/Score/LilyPondInclude.scm
 actions/menus/ObjectMenu/Score/LilyPondInclude.xml
+actions/menus/ObjectMenu/Score/Playback/TransposeScoreOnPlayback.scm
+actions/menus/ObjectMenu/Score/Playback/TransposeScoreOnPlayback.xml
 actions/menus/ObjectMenu/Score/RefreshDynamicDirectives.scm
 actions/menus/ObjectMenu/Score/RefreshDynamicDirectives.xml
 actions/menus/ObjectMenu/Score/ScoreBlockProlog.scm
