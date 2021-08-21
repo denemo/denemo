@@ -539,7 +539,7 @@ staff_properties_change (void)
 void
 staff_properties_change_cb (DenemoAction * action, DenemoScriptParam * param)
 {
-  GET_4PARAMS (action, param, denemo_name, device_port, midi_prognum, midi_channel);
+  GET_5PARAMS (action, param, denemo_name, transposition, device_port, midi_prognum, midi_channel);
   DenemoStaff *staff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
 
   if (query)
@@ -599,7 +599,7 @@ staff_properties_change_cb (DenemoAction * action, DenemoScriptParam * param)
       param->status = ok;
       return;
     }
-
+  Denemo.project->movement->smfsync = G_MAXINT;
   if (device_port)
     {
       g_string_assign (staff->device_port, device_port);
@@ -610,11 +610,19 @@ staff_properties_change_cb (DenemoAction * action, DenemoScriptParam * param)
   if (midi_prognum)
     {
       staff->midi_prognum = atoi (midi_prognum);
+      param->status = TRUE;
       return;
     }
   if (midi_channel)
     {
       staff->midi_channel = atoi (midi_channel);
+      param->status = TRUE;
+      return;
+    }
+  if (transposition)
+    {
+      staff->transposition = atoi (transposition);
+      param->status = TRUE;
       return;
     }
   (void) staff_properties_change ();

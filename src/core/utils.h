@@ -281,6 +281,36 @@ if(!action && param){\
      if(nothing)\
       param_name1=values?values->str:NULL;\
 }
+#define GET_5PARAMS(action, param, param_name1, param_name2, param_name3, param_name4, param_name5) \
+G_GNUC_UNUSED gchar * query = NULL;\
+gchar * param_name1 = NULL;\
+gchar * param_name2 = NULL;\
+gchar * param_name3 = NULL;\
+gchar * param_name4 = NULL;\
+gchar * param_name5 = NULL;\
+  DenemoScriptParam dummy;\
+  dummy.string=NULL;\
+  if(param==NULL)\
+    param = &dummy;\
+  param->status = FALSE;\
+if(!action && param){\
+    GString *values = ((DenemoScriptParam *)param)->string;\
+    gboolean nothing=TRUE;\
+    if(values) {\
+     gchar *str;\
+     guint i;\
+       for(i=0;i<values->len;i+=strlen(values->str+i)+1) {\
+          UTILS_H_PARAM_ASSIGN(query)\
+          UTILS_H_PARAM_ASSIGN(param_name1)\
+          UTILS_H_PARAM_ASSIGN(param_name2)\
+          UTILS_H_PARAM_ASSIGN(param_name3)\
+          UTILS_H_PARAM_ASSIGN(param_name4)\
+          UTILS_H_PARAM_ASSIGN(param_name5)\
+       }\
+     }\
+     if(nothing)\
+      param_name1=values?values->str:NULL;\
+}
 
 gchar *get_option (gchar * title, gchar * str, gint length);
 void console_output (gchar * text);
