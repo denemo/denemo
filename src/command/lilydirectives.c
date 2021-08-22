@@ -474,8 +474,16 @@ get_lily_directive (gchar ** directive, gchar ** display, gboolean * locked)
   *display = string_dialog_entry (gui, _("Insert LilyPond"), _("Give Display text if required"), *display);
   return TRUE;
 }
-
-/* return the directive whose tag is prefixed with tag if present at cursor postion
+/* compare two strings, if they are identical up to newline return TRUE else FALSE */
+static gboolean identical_first_lines (gchar *s1, gchar *s2)
+{
+	if (s1==NULL) return FALSE;
+	if (s2==NULL) return FALSE;
+	while (*s1 && *s2 && (*s1==*s2) && (*s1 != '\n'))
+	s1++, s2++;
+	return (*s1==*s2) || (*s1==0 && *s2=='\n') || (*s2==0 && *s1=='\n');
+}
+/* return the directive whose tag is prefixed (up to end of line) with tag if present at cursor postion
  if tag is NULL, return any directive at current position*/
 static DenemoDirective *get_standalone_directive (gchar * tag)
 {
@@ -487,7 +495,7 @@ static DenemoDirective *get_standalone_directive (gchar * tag)
         return ret;
       if (*tag == 0)
         return ret;
-      if (ret && ret->tag && !g_str_has_prefix (ret->tag->str, tag))
+      if (ret && ret->tag && !identical_first_lines (ret->tag->str, tag))
         ret = NULL;
       return ret;
     }
