@@ -135,10 +135,10 @@ icon-rest-4.svg \
 icon-rest-5.svg 
 
 icondir=$(datadir)/pixmaps
-icon_DATA=$(srcdir)/denemo.png
+icon_DATA=$(srcdir)/org.denemo.Denemo.png
 
 desktopdir = $(datadir)/applications
-desktop_DATA = denemo.desktop
+desktop_DATA = org.denemo.Denemo.desktop
 
 EXTRA_DIST = $(pixmaps_DATA) $(icon_DATA) $(desktop_DATA)
 CLEANFILES = *~ #*#

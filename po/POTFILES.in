@@ -2380,4 +2380,4 @@ actions/palettes.xml
 actions/quote.l.scm
 actions/silex.scm
 actions/Simple.scm
-denemo.appdata.xml.in
+org.denemo.Denemo.appdata.xml.in

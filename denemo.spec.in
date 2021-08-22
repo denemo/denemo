@@ -40,7 +40,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 rm -rf $RPM_BUILD_ROOT/%{prefix}/include
 desktop-file-install --vendor=""               \
 --dir=${RPM_BUILD_ROOT}%{_datadir}/applications         \
-%{buildroot}/%{_datadir}/applications/denemo.desktop
+%{buildroot}/%{_datadir}/applications/org.denemo.Denemo.desktop
 %find_lang %{name}
 
 %clean
@@ -52,7 +52,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/denemo
 %{_datadir}/icons/denemo.png
 %{_datadir}/fonts/truetype/denemo
-%{_datadir}/applications/denemo.desktop
+%{_datadir}/applications/org.denemo.Denemo.desktop
 %{_bindir}/denemo
 %doc COPYING README README.lilypond ChangeLog 
 

@@ -1,6 +1,6 @@
 [Desktop Entry]
 Exec=denemo %F
-Icon=denemo
+Icon=org.denemo.Denemo
 StartupNotify=true
 Terminal=false
 Type=Application
