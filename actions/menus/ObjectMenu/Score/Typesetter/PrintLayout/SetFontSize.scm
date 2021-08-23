@@ -1,5 +1,5 @@
 ;;SetFontSize
-(let* ((tag "SetFontSize") (newsize (d-DirectiveGet-score-data tag)) (size  (d-ScoreProperties "query=fontsize")))
+(let* ((tag "SetFontSize") (newsize (d-DirectiveGet-paper-data tag)) (size  (d-ScoreProperties "query=fontsize")))
 	(if (not newsize)
 		(set! newsize size))
 	(set! newsize  (d-GetUserInput "Overall Score Sizing"  "Give font size to use" newsize))
