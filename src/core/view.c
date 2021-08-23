@@ -3222,7 +3222,7 @@ create_window (void)
   icon_dirs = g_list_append (icon_dirs, g_build_filename (PACKAGE_SOURCE_DIR, PIXMAPS_DIR, NULL));
   icon_dirs = g_list_append (icon_dirs, g_strconcat (get_system_data_dir (), "/../pixmaps", NULL));     //FIXME installed in wrong place?
 
-  data_file = find_path_for_file ("denemo.png", icon_dirs);
+  data_file = find_path_for_file ("org.denemo.Denemo.png", icon_dirs);
   if (data_file)
     gtk_window_set_default_icon_from_file (data_file, NULL);
 #endif

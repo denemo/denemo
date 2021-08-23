@@ -30,19 +30,27 @@ about (DenemoAction * action, DenemoScriptParam* callback_data)
   gtk_about_dialog_set_version (GTK_ABOUT_DIALOG (dialog), VERSION);
   gtk_about_dialog_set_website (GTK_ABOUT_DIALOG (dialog), "http://www.denemo.org");
   gtk_about_dialog_set_website_label (GTK_ABOUT_DIALOG (dialog), _("Denemo Website"));
-  gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (dialog), _("(c) 1999 - 2010 Matthew Hiller, Adam Tee, and others.\n\n\
+  gtk_about_dialog_set_license (GTK_ABOUT_DIALOG (dialog), _("(c) 1999 - 2021 Matthew Hiller, Adam Tee, Jeremiah Benham, Richard Shann and others.\n\n\
 http://www.denemo.org\n\n\
-This program is licensed under the terms of the GNU\n\
-General Public License and is provided with absolutely\n\
-NO WARRANTY; see the file COPYING for details."));
+  This program is free software; you can redistribute it and/or modify\
+  it under the terms of the GNU General Public License as published by\
+  the Free Software Foundation; either version 3 of the License, or\
+  (at your option) any later version.\
+  This program is distributed in the hope that it will be useful,\
+  but WITHOUT ANY WARRANTY; without even the implied warranty of\
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\
+  GNU General Public License for more details.\
+  You should have received a copy of the GNU General Public License\
+  along with this program; if not, write to the Free Software\
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,\
+  MA 02110-1301, USA."));
 
-
+  gtk_about_dialog_set_wrap_license (GTK_ABOUT_DIALOG (dialog), TRUE);
   gtk_about_dialog_set_authors (GTK_ABOUT_DIALOG (dialog), authors);
   gtk_window_set_transient_for (GTK_WINDOW (dialog), GTK_WINDOW (Denemo.window));
   gtk_dialog_run (GTK_DIALOG (dialog));
   gtk_widget_destroy (dialog);
 }
-
 
 /**
  * Function to allow browsing the user manual
