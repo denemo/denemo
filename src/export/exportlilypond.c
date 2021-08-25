@@ -507,7 +507,10 @@ output_figured_bass (GString * figures, chord * pchord)
   else
     {
       if (fb_continuation)
-         figures = g_string_append (figures, "\\bassFigureExtendersOff <");
+         {
+			 figures = g_string_append (figures, "\\bassFigureExtendersOff <");
+			 fb_continuation = FALSE;
+		 }
       else
         figures = g_string_append (figures, "<");
     }
@@ -2130,7 +2133,8 @@ outputStaff (DenemoProject * gui, DenemoStaff * curstaffstruct, gint start, gint
                       if (curmeasure->next)
                         g_string_append_printf (endstr, "%s", "\\AutoBarline\n");
                       else
-                        g_string_append_printf (endstr, "%s", " \\AutoEndMovementBarline\n");
+                       if (curstaffstruct->voicecontrol == DENEMO_PRIMARY)
+						g_string_append_printf (endstr, "%s", " \\AutoEndMovementBarline\n");
                     }
 
                   gtk_text_buffer_get_iter_at_mark (Denemo.textbuffer, &iter, curmark);
