@@ -1430,7 +1430,7 @@ Once complete you can view and then send to your printer or to a file as a .pdf 
       <row type="builtin">
         <action>PrintHistory</action>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
-        <_label>Print History</_label>
+        <_label>History of Printing</_label>
         <_tooltip>Shows the history of print outs for this score. Only saved documents have their printing recorded</_tooltip>
       </row>
       <row type="builtin">
