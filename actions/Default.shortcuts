@@ -252,12 +252,12 @@
       </row>
       <row>
         <action>Sharpen</action>
-        <bind>Shft+plus</bind>
+        <bind>Shft+equal</bind>
         <bind>KP_Add</bind>
       </row>
       <row>
         <action>Flatten</action>
-        <bind>Shft+underscore</bind>
+        <bind>Shft+minus</bind>
         <bind>KP_Subtract</bind>
       </row>
       <row>
