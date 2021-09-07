@@ -68,7 +68,6 @@
         <_label>Record from MIDI in (Off/On)</_label>
         <_tooltip>Records/Stops recording notes played on MIDI keyboard. Notes are recorded on a track above a click track staff at the top of the score. Insert the notes into the score by pressing duration keys/Ins key.</_tooltip>
       </row>
-
       <row type="builtin">
         <action>Play</action>
         <menupath>/MainMenu/PlaybackMenu</menupath>
@@ -3186,7 +3185,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Breath Mark</_label>
         <_tooltip>Inserts a Breath Mark at the cursor position</_tooltip>
       </row>
-
       <row type="scheme">
         <action>InsertBreve</action>
         <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
@@ -3447,7 +3445,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Clef Chooser</_label>
         <_tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>CloseRepeat</action>
         <after>OpenRepeat</after>
@@ -3782,7 +3779,6 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <_label>Diatonic within Clef Range</_label>
         <_tooltip>Insert a random note within clef range, only diatonic notes according to current keysignature.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>DiminishedOrAugmented</action>
         <after>MajorOrMinor</after>
@@ -4586,7 +4582,7 @@ accidentals are usually printed over the note.</_tooltip>
         <menupath>/ObjectMenu/NotesRests/ChangeDuration</menupath>
         <_label>Longa</_label>
         <_tooltip>Change current note duration to Longa</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>InsertLonga</action>
         <menupath>/ObjectMenu/NotesRests/InsertNote/InsertDuration</menupath>
@@ -5691,7 +5687,6 @@ for second and subsequent systems</_tooltip>
         <_label>Longa</_label>
         <_tooltip>Append/Insert Longa duration</_tooltip>
       </row>
-
       <row type="scheme">
         <action>StaccatissimoSelectionSwitcher</action>
         <after>ToggleStaccatissimo</after>
@@ -5857,7 +5852,6 @@ for second and subsequent systems</_tooltip>
         <_label>Sustain On</_label>
         <_tooltip>Prints a Sustain Pedal On Mark</_tooltip>
       </row>
-
       <row type="scheme">
         <action>SystemSystemPadding</action>
         <after>ScoreIndent</after>
@@ -8640,8 +8634,6 @@ Include rests if they are part of the pattern.
         <_label>Export Score as Audio</_label>
         <_tooltip>Plays a performance of the whole score, including repeats, then offers to save the recording as Audio.</_tooltip>
       </row>
-
-
       <row type="scheme">
         <action>MarkConsecutivesAcrossStaffs</action>
         <after>MarkConsecutives</after>
@@ -8691,7 +8683,7 @@ Include rests if they are part of the pattern.
         <_label>Synchronize Marked Recorded Midi Note to Denemo Cursor Position</_label>
         <_tooltip>Alters the timing of the recorded MIDI notes so that the marked note plays at the time of the note currently at the Denemo cursor.</_tooltip>
       </row>
-     <row type="scheme">
+      <row type="scheme">
         <action>DeleteMidiAndClickTrack</action>
         <after>DeleteRecordedMidi</after>
         <menupath>/MainMenu/PlaybackMenu/Recording</menupath>
@@ -8712,7 +8704,6 @@ Include rests if they are part of the pattern.
         <_label>Hide Other Staffs (Off/On)</_label>
         <_tooltip>Hides/unhides other staffs in the display while keeping the MIDI track at the top visible.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>PlayRecordedMidi</action>
         <after>SyncRecordingToCursor</after>
@@ -8740,7 +8731,7 @@ Include rests if they are part of the pattern.
         <_label>Record (Start/Stop) and Attach at Cursor</_label>
         <_tooltip>The first invocation of this command starts recording - play the melody you want to notate. Then invoke the command again to stop the recording - the audio is attached to an (optional) click track created at the top of the staffs. The recording will play along with your notated music - ensure you have enough filled measures after the cursor to attach the audio to otherwise it won't play.</_tooltip>
       </row>
-            <row type="scheme">
+      <row type="scheme">
         <action>CloseSourceAudioFile</action>
         <menupath>/MainMenu/PlaybackMenu/Recording/Audio</menupath>
         <_label>Delete Audio Recording</_label>
