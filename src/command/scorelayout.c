@@ -1867,13 +1867,44 @@ create_score_directives (GtkWidget * vbox, DenemoScoreblock * sb)
       if (wrong_layout (directive, sb->id))
         continue;
 
-      if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)))
+      if (directive->prefix && !(directive->override & (DENEMO_OVERRIDE_AFFIX)) && !(directive->override & (DENEMO_ALT_OVERRIDE)))
         {
           GtkWidget *label = gtk_label_new (directive->tag->str);
           create_element (inner_vbox, label, g_strdup (directive->prefix->str));
         }
     }
 }
+
+static void
+create_alt_score_directives (GtkWidget * vbox, DenemoScoreblock * sb)
+{
+  DenemoProject *gui = Denemo.project;
+  if (gui->lilycontrol.directives == NULL)
+    return;
+  GtkWidget *frame = gtk_frame_new (NULL);
+  gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
+  GtkWidget *top_expander = gtk_expander_new (_("Alt Score Directives"));
+  gtk_widget_set_tooltip_text (top_expander, _("Includes the global font size ..."));
+  gtk_container_add (GTK_CONTAINER (frame), top_expander);
+  GtkWidget *inner_vbox = gtk_vbox_new (FALSE, 8);
+  gtk_container_add (GTK_CONTAINER (top_expander), inner_vbox);
+
+  GList *g = gui->lilycontrol.directives;
+  for (; g; g = g->next)
+    {
+      DenemoDirective *directive = g->data;
+      if (wrong_layout (directive, sb->id))
+        continue;
+
+      if (directive->prefix && (directive->override & (DENEMO_ALT_OVERRIDE)))
+        {
+          GtkWidget *label = gtk_label_new (directive->tag->str);
+          create_element (inner_vbox, label, g_strdup (directive->prefix->str));
+        }
+    }
+}
+
+
 
 static void
 fill_scorewide_frame (GtkWidget * frame, GtkWidget * reload_button, DenemoScoreblock * sb)
@@ -1898,6 +1929,7 @@ fill_scorewide_frame (GtkWidget * frame, GtkWidget * reload_button, DenemoScoreb
   create_scoreheader_directives (inner_box, sb);
   create_score_directives (inner_box, sb);
   create_misc_scorewide (inner_box);
+  create_alt_score_directives (inner_box, sb);
 }
 
 static GtkWidget *
