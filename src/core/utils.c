@@ -557,7 +557,7 @@ normal_cursor (GtkWidget * area)
  */
 
 
-#ifdef G_OS_WIN32
+#ifdef OBSOLETE_G_OS_WIN32
 //this code actually works on GNU/Linux too, it is not clear what to prefer
 static void
 windows_draw_text (cairo_t * cr, const char *font, const char *text, double x, double y, double size, gboolean invert)
@@ -612,7 +612,7 @@ drawbitmapinverse_cr (cairo_t * cr, DenemoGraphic * mask, gint x, gint y, gboole
     case DENEMO_FONT:
       {
         DenemoGlyph *glyph = mask->graphic;
-#ifdef G_OS_WIN32
+#ifdef OBSOLETE_G_OS_WIN32
         windows_draw_text (cr, glyph->fontname, glyph->utf, x, y - 11, glyph->size, invert);
 #else
         cairo_select_font_face (cr, glyph->fontname, glyph->slant, glyph->weight);
@@ -650,7 +650,7 @@ drawtext_cr (cairo_t * cr, const char *text, double x, double y, double size)
 {
   if (*text)
     {
-#ifdef G_OS_WIN32
+#ifdef OBSOLETE_G_OS_WIN32
       return windows_draw_text (cr, "Denemo", text, x, y, size, FALSE); //these values arrived at by trial and error, to match the previously used code below
 #else
       //use the FreeSerif font as it has music symbols - there is no font substitution done by cairo here
