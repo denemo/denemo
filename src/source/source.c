@@ -335,16 +335,17 @@ button_press (EvView * view, GdkEventButton * event)
         {
       
       
-          //gchar *escaped = g_strescape(filename, "");
-          gchar *text = g_strdup_printf ("(InsertLink \"%s:%d:%d:%d\")", filename //escaped
+          gchar *escaped = escape_scheme(filename);
+          gchar *text = g_strdup_printf ("(InsertLink \"%s:%d:%d:%d\")", escaped
                       , (gint) (x / scale), (gint) (y / scale), page);
-         // g_free(escaped);
+          g_free(escaped);
           Mark.x = (x - MARKER / 2) / scale;
           Mark.y = (y - MARKER / 2) / scale;
           Mark.width = Mark.height = MARKER;
           if (!gdk_rectangle_intersect (&Mark, &candidate, NULL))
             OldMark = candidate;
           gtk_widget_queue_draw (GTK_WIDGET (view));
+          g_print ("Calling %s\n", text);
           call_out_to_guile (text);
           switch_back_to_main_window ();
       }
