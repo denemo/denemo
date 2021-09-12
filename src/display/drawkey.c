@@ -11,7 +11,7 @@
 #include "core/utils.h"
 
 #define SPACE_BETWEEN_ACCS 8
-#define m * HALF_LINE_SPACE
+
 
 /**
  * This function draws the key, if desired, and returns the width required
@@ -25,17 +25,20 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
   /* These are just hard-coded offsets in pixels from the top of the staff.
    * mid_c_offset arrays. There's probably
    * a better way to do this, but I haven't thought of it */
+#define m * HALF_LINE_SPACE
   static gint treble_flat_ys[7] = { 4 m, 1 m, 5 m, 2 m, 6 m, 3 m, 7 m };
   static gint treble_sharp_ys[7] = { 0, 3 m, -1 m, 2 m, 5 m, 1 m, 4 m };
   static gint bass_flat_ys[7] = { 6 m, 3 m, 7 m, 4 m, 8 m, 5 m, 9 m };
   static gint bass_sharp_ys[7] = { 2 m, 5 m, 1 m, 4 m, 7 m, 3 m, 6 m };
   static gint alto_flat_ys[7] = { 5 m, 2 m, 6 m, 3 m, 7 m, 4 m, 8 m };
   static gint alto_sharp_ys[7] = { 1 m, 4 m, 0, 3 m, 6 m, 2 m, 5 m };
-  static gint tenor_flat_ys[7] = { 2 m, 0, 4 m, 1 m, 5 m, 2 m, 6 m };
-  static gint tenor_sharp_ys[7] = { -1 m, 2 m, 5 m, 1 m, 4 m, 0 m, 3 m };
+  static gint tenor_flat_ys[7] = { 3 m, 0, 4 m, 1 m, 5 m, 2 m, 6 m };
+  static gint tenor_sharp_ys[7] = { 6 m, 2 m, 5 m, 1 m, 4 m, 0 m, 3 m };
   static gint soprano_flat_ys[7] = { 2 m, 6 m, 3 m, 7 m, 4 m, 8 m, 5 m };
   static gint soprano_sharp_ys[7] = { 5 m, 8 m, 4 m, 7 m, 3 m, 6 m, 2 m };
-
+  static gint baritone_flat_ys[7] = { 8 m, 5 m, 9 m, 6 m, 3 m, 7 m, 4 m };
+  static gint baritone_sharp_ys[7] = { 4 m, 7 m, 3 m, 6 m, 2 m, 5 m, 1 m };
+#undef m
   gint *theys = 0;
   gint *theprevys = 0;
   gint i;
@@ -92,8 +95,13 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
               theprevys = (prevnumber < 0) ? soprano_flat_ys : soprano_sharp_ys;
               theys = (number < 0) ? soprano_flat_ys : soprano_sharp_ys;
               break;
+            case DENEMO_BARITONE_CLEF:
+              theprevys = (prevnumber < 0) ? baritone_flat_ys : baritone_sharp_ys;
+              theys = (number < 0) ? baritone_flat_ys : baritone_sharp_ys;
+              break;              
             default:
-              /* Silently default to the treble stuff. Fix me. */
+              /* Silently default to the treble stuff. */
+              g_warning ("Unknown Clef, key signature locations unknown");
               theprevys = (prevnumber < 0) ? treble_flat_ys : treble_sharp_ys;
               theys = (number < 0) ? treble_flat_ys : treble_sharp_ys;
               break;
