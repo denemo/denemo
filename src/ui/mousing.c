@@ -1554,11 +1554,12 @@ scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event)
           }
           movetostaffdown (NULL, &param);
           if (!param.status) {
-            warningmessage ("This is the bottom staff");
-           // DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->movement->currentstaff->data);
-           // thestaff->space_below++; //This doesn't help, because the viewport does not change.
-           // warningmessage ("Increasing the space below the bottom staff");
-           //move_viewport_down(Denemo.project);
+			  DenemoStaff *thestaff = (DenemoStaff*)(Denemo.project->movement->thescore->data);
+				if((thestaff->space_above > 0))
+				  {
+					thestaff->space_above--;
+					g_debug ("Decreasing the height of the top staff");
+				  }
           }
         }
       break;
