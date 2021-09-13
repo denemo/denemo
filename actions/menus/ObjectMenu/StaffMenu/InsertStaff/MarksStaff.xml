@@ -8,7 +8,7 @@
         <after>PianoStaff</after>
         <action>MarksStaff</action>
         <_label>Add Staff for Marks</_label>
-        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!</_tooltip>
+        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\nWARNING: Do not start/end staff-groupings on this staff. Do not place clef changes etc in this staff - they may trigger the creation of a separate staff on typesetting!</_tooltip>
       </row>
     </map>
   </merge>

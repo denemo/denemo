@@ -3008,7 +3008,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <after>PianoStaff</after>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add Staff for Marks</_label>
-        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers. WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!</_tooltip>
+        <_tooltip> This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\nWARNING: Do not start/end staff-groupings on this staff. Do not place clef changes etc in this staff - they may trigger the creation of a separate staff on typesetting!</_tooltip>
       </row>
       <row type="scheme">
         <action>RehearsalMark</action>
@@ -3029,7 +3029,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/InsertStaff</menupath>
         <_label>Add a Separate Line for Dynamics</_label>
         <_tooltip>This line ("staff") is for holding cresc. dim hairpins and dynamic markings so that they can be positioned (using dummy notes, colored blue) and will align with each other.\nCreate this between the staffs for a piano work or on any staff where alignment of hairpins and dynamic marks is needed.
-WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!
+WARNING: Do not start/end staff-groupings on this staff. Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!
 This Dynamics "staff" must have the same part name as the staff the dynamics should appear on.
         </_tooltip>
       </row>
