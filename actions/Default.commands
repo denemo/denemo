@@ -5678,14 +5678,14 @@ for second and subsequent systems</_tooltip>
         <action>Breve</action>
         <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Breve</_label>
-        <_tooltip>Append/Insert Breve</_tooltip>
+        <_tooltip>Append/Insert Breve. N.B. turns off spillover to next measure if set in preferences.</_tooltip>
       </row>
       <row type="scheme">
         <action>Longa</action>
         <after>Breve</after>
         <menupath>/ObjectMenu/NotesRests/EditDuration</menupath>
         <_label>Longa</_label>
-        <_tooltip>Append/Insert Longa duration</_tooltip>
+        <_tooltip>Append/Insert Longa. N.B. turns off spillover to next measure if set in preferences.</_tooltip>
       </row>
       <row type="scheme">
         <action>StaccatissimoSelectionSwitcher</action>

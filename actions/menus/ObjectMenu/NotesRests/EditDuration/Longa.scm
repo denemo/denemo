@@ -1,5 +1,6 @@
 ;;Longa
 (let ((appending (or (None?) (Appending?))))
+(d-SetPrefs "<spillover>0</spillover>")
 (d-0)
 (if (Appending?)
     (d-MoveCursorLeft))

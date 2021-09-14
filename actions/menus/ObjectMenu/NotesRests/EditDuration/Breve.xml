@@ -8,7 +8,7 @@
         <after>InsertRhythm</after>
         <action>Breve</action>
         <_label>Breve</_label>
-        <_tooltip>Append/Insert Breve</_tooltip>
+        <_tooltip>Append/Insert Breve. N.B. turns off spillover to next measure if set in preferences.</_tooltip>
       </row>
     </map>
   </merge>

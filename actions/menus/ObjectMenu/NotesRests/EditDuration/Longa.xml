@@ -8,7 +8,7 @@
         <after>Breve</after>
         <action>Longa</action>
         <_label>Longa</_label>
-        <_tooltip>Append/Insert Longa duration</_tooltip>
+        <_tooltip>Append/Insert Longa. N.B. turns off spillover to next measure if set in preferences.</_tooltip>
       </row>
     </map>
   </merge>
