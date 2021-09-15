@@ -1,5 +1,5 @@
 ;;Longa
-(let ((appending (or (None?) (Appending?))))
+(let ((spillover (d-GetBooleanPref "spillover")) (appending (or (None?) (Appending?))))
 (d-SetPrefs "<spillover>0</spillover>")
 (d-0)
 (if (Appending?)
@@ -9,5 +9,6 @@
     (d-SelectSnippet Snippet::Longa)
     (d-CreateSnippetFromObject "Longa"))
   (if appending
-    (d-MoveCursorRight)))
-
+    (d-MoveCursorRight))
+	(if spillover 
+		(d-SetPrefs "<spillover>1</spillover>")))
