@@ -10,7 +10,7 @@
                                      }")
   (d-DirectivePut-staff-prefix tag "
     \\remove \"Time_signature_engraver\"
-    \\remove \"Key_engraver\"
+    \\hide Staff.KeySignature
       \\remove \"Clef_engraver\"
     fontSize = #-2
    \\override StaffSymbol #'staff-space = #(magstep -2)
