@@ -353,12 +353,35 @@ static void delete_all_rhythms (void)
 {
   DenemoProject *project = Denemo.project;
   GList *g;
-  for (g = project->rhythms;g;g=project->rhythms)
+  for (g = project->rhythms;g;g=project->rhythms) //the head of the list changes at each delete
     {
         delete_rhythm_pattern (g->data);
     }
 }
+static void delete_auto_rhythms (void) //delete rhythm patterns created automatically by Denemo
+{
+ DenemoProject *project = Denemo.project;
+  GList *g;
+  for (g = project->rhythms;g;)
+    {
+		RhythmPattern *r = g->data;
+        if (r->nickname && ((!g_strcmp0 (r->nickname->str, "Breve")) || 
+				(!g_strcmp0 (r->nickname->str, "Longa")) ||
+				 (!g_strcmp0 (r->nickname->str, "Maxima"))))
+			{ 
+				GList *h = g->next;
+				delete_rhythm_pattern (g->data);
+				call_out_to_guile ("(set! Snippet::Breve 0)");
+				call_out_to_guile ("(set! Snippet::Longa 0)");
+				call_out_to_guile ("(set! Snippet::Maxima 0)");
+				g = h;
+			}
+		else
+			g=g->next;
+    }	
+}
 static void enquire_rhythms (void) {
+delete_auto_rhythms ();
 if (Denemo.project->rhythms && choose_option (_("Music Snippets Can be Kept"), _("Drop Music Snippets"), _("Keep Music Snippets")))
     delete_all_rhythms ();
 }
