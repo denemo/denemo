@@ -3481,7 +3481,7 @@ scheme_set_duration_in_ticks (SCM duration)
       if (thedur >= 0)
           {
             thechord->baseduration *= -1;
-            if (thechord->baseduration == 0)
+            if (thechord->baseduration == 0) // a semibreve being used for higher duration notes, it means you cannot give a custom duration to a semibreve.
               thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here
             if (thechord->is_grace)
               thechord->is_grace |= DURATION_SET;
@@ -3492,8 +3492,8 @@ scheme_set_duration_in_ticks (SCM duration)
               thechord->is_grace &= ~DURATION_SET;
             gint duration = thechord->baseduration;
             if ((duration >= -7) && (duration < 0))
-              duration *= -1;
-            changedur (curObj, duration, thechord->numdots);
+              duration *= -1; //unset the swing on this note
+            changedur (curObj, duration, thechord->numdots);//give it the default number of ticks
           }
     }
   objnode *prev = Denemo.project->movement->currentobject->prev;
