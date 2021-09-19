@@ -121,7 +121,7 @@ typedef struct chord
   gint lowestpitch;
   gint highesty;
   gint lowesty;
-  gint baseduration; /**< Value to denote the basic chord length, 0 = whole note, 1 = 1/2 note etc. A negative value specifies the basic chord length in terms of ticks, used for longer durations. */
+  gint baseduration; /**< Value to denote the basic chord length, 0 = whole note, 1 = 1/2 note etc. Values -1...-7 are swung notes other negative values specifies the basic chord length in terms of ticks, used for breve etc. */
   gint numdots; /**< Number of dots that are applied to the note */
   gint sum_mid_c_offset;
   gint numnotes;
