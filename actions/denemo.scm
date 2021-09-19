@@ -865,6 +865,12 @@
 (define (d-Change-3072) (d-ChangeBreve))
 (define (d-Change-6411) (d-ChangeLonga))
 
+(define-once Snippet::Breve 0)
+(define-once Snippet::Longa 0)
+(define-once Snippet::Maxima 0)
+
+
+
 ;Insert a no-pitch note of the prevailing duration.
 (define (d-Enter) (eval-string (string-append "(d-" (number->string (abs (d-GetPrevailingDuration))) ")" )))
 
