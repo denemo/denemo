@@ -1796,7 +1796,13 @@ create_rhythm_and_pattern (GList * curobj, RhythmPattern * r, GString * pattern)
 
             if (ch->notes)
               {
-                switch (ch->baseduration)
+				gint baseduration = ch->baseduration;
+				if (baseduration<-7)
+					baseduration = 0;//ie use insert_chord_0key: breve etc are actually semibreves with a Directive attached, however it means the label for the snippet uses a semibreve glyph FIXME
+				else
+					if (baseduration<0)
+						baseduration = -baseduration;//a swung note
+                switch (baseduration)
                   {
                   case 0:
                     fn = insert_chord_0key;
@@ -1835,7 +1841,13 @@ create_rhythm_and_pattern (GList * curobj, RhythmPattern * r, GString * pattern)
               }
             else
               {                 /* a rest */
-                switch (ch->baseduration)
+				gint baseduration = ch->baseduration;
+				if (baseduration<-7)
+					baseduration = 0;
+				else
+					if (baseduration<0)
+						baseduration = -baseduration;//a swung rest if such a thing were created
+                switch (baseduration)
                   {
                   case 0:
                     fn = insert_rest_0key;
