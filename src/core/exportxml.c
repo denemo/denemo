@@ -240,6 +240,11 @@ determineDuration (gint duration, gchar ** durationName)
         {
           return determineDuration (-duration, durationName);
         }
+     else  if (duration > 7)
+        {
+           *durationName = "whole";
+			g_critical ("chord with baseduration set to unusual value %d", duration);
+        }        
       break;
     }
 }
