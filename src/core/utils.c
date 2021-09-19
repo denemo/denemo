@@ -892,31 +892,33 @@ set_basic_numticks (DenemoObject * theobj)
   switch (theobj->type)
     {
     case CHORD:
-      if (((chord *) theobj->object)->baseduration < 0)
-        {
-          if (((chord *) theobj->object)->baseduration > -7)
-            {
-              g_warning ("Attempt to change duration of a custom-duration chord");
-              return;//this object has had its duration fixed
-            }
-          //the high value ticks are breve, longa, maxima
-          withoutdots = -((chord *) theobj->object)->baseduration;
-        }
-      else
-        {
-          power = 1 << ((chord *) theobj->object)->baseduration;
-          withoutdots = WHOLE_NUMTICKS / power;
-        }
-      addperdot = withoutdots / 2;
-      // theobj->durinticks = theobj->basic_durinticks = withoutdots; this should be correct, but the display thinks the duration is wrong.
-      theobj->durinticks = theobj->basic_durinticks = withoutdots; //this fails to set durinticks and sets basic_durinticks to the value with dots...
-      for (i = 0; i < ((chord *) theobj->object)->numdots; addperdot /= 2, i++)
-          theobj->basic_durinticks += addperdot;//FIXME this should be theobj->durinticks += addperdot;
-          
-      theobj->durinticks = theobj->basic_durinticks;   
-          
-      if (((chord *) theobj->object)->is_grace)
-        theobj->durinticks = 0;
+		{
+	     gint basedur = ((chord *) theobj->object)->baseduration;
+		  if ((basedur < 0) || (basedur > 7)) //not a regular 0-7 note
+			{
+			  if ((basedur >= -7) && (basedur < 0)) //-1 to -7 are regular (not breve etc) notes with custom duration
+				{
+				  g_warning ("Attempt to change duration of a custom-duration chord");
+				  return;//this object has had its duration fixed
+				}
+			  //the high value ticks are breve, longa, maxima
+			  withoutdots = basedur>0 ? basedur : -basedur; //guard against them being set to high +ve value rather than the -ve convention documented.
+			}
+		  else //1-7 are the regular notes wholenote downwards
+			{
+			  power = 1 << basedur;
+			  withoutdots = WHOLE_NUMTICKS / power;
+			}
+		  addperdot = withoutdots / 2;
+		  // basic_durinticks includes dots but excludes effects of tuplets or grace notes - see denemo_types.h
+		  theobj->durinticks = theobj->basic_durinticks = withoutdots;
+		  for (i = 0; i < ((chord *) theobj->object)->numdots; addperdot /= 2, i++)
+			  theobj->basic_durinticks += addperdot;
+		  theobj->durinticks = theobj->basic_durinticks;   
+			  
+		  if (((chord *) theobj->object)->is_grace)
+			theobj->durinticks = 0; //durinticks takes account of grace note status
+       }
       break;
     default:
       theobj->basic_durinticks = 0;
