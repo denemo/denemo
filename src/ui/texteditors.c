@@ -145,8 +145,7 @@ deleteSchemeText (void)
  Denemo.project->has_script = FALSE;
 }
 
-void
-appendSchemeText (gchar * text)
+void appendSchemeText (gchar * text)
 {
   if(!Denemo.non_interactive){
     GtkTextIter enditer;

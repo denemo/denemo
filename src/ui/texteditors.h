@@ -14,5 +14,5 @@ gchar *get_script_view_text (void);
 void deleteSchemeText (void);
 void appendSchemeText (gchar * text);
 gint getNumCharsSchemeText (void);
-
+void appendSchemeText (gchar * text);
 #endif

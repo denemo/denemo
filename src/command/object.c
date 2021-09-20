@@ -6,6 +6,7 @@
  */
 
 #include <denemo/denemo.h>
+#include <string.h>
 #include "command/chord.h"
 #include "core/utils.h"
 #include "core/kbd-custom.h"
@@ -20,7 +21,7 @@
 #include "core/view.h"
 #include "command/lilydirectives.h"
 #include "command/scorelayout.h"
-#include <string.h>
+#include "ui/texteditors.h"
 
 typedef enum DIRECTIVE_TYPE
 { DIRECTIVE_OBJECT = 0, DIRECTIVE_SCORE = 1, DIRECTIVE_MOVEMENT = 2, DIRECTIVE_STAFF = 3, DIRECTIVE_VOICE = 4, DIRECTIVE_KEYSIG = 5, DIRECTIVE_TIMESIG = 6, DIRECTIVE_CLEF = 7} DIRECTIVE_TYPE;
@@ -1015,6 +1016,21 @@ create_palette_button_for_directive (GtkWidget * button, gchar * what)
     }
   g_string_free (script, TRUE);
 }
+
+static void
+create_script_for_directive (GtkWidget * button, gchar * what)
+{
+  DenemoDirective *directive = (DenemoDirective *) g_object_get_data (G_OBJECT (button), "directive");
+  DenemoPalette *pal = NULL;
+  if (!strcmp (what, "lilycontrol"))
+    what = "score";
+  GString *script = g_string_new (get_script_for_directive (directive, what));
+  appendSchemeText (script->str);
+  gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
+  if(!sensitive) set_toggle ("ToggleScript", TRUE);
+  g_string_free (script, TRUE);
+}
+
 static void dummy_rerun (void)
 {
     g_warning ("No action");
@@ -1632,12 +1648,6 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
         }
       if (tooltip == NULL)
         tooltip = _("No tooltip");
-
-
-
-
-
-
 
       if (action)
         {
@@ -2474,7 +2484,12 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       g_signal_connect (button, "clicked", G_CALLBACK (create_palette_button_for_directive), (gpointer) (field));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-
+      button = gtk_button_new_with_label (_("Get Script into Scheme Window"));
+      gtk_widget_set_tooltip_text (button, _("Place a script to create this Directive into the Scheme Window. Use this after loading the initialization script into the Scheme window - once saved this Directive will be installed on new scores at startup."));
+      g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
+      g_signal_connect (button, "clicked", G_CALLBACK (create_script_for_directive), (gpointer) (field));
+      gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
+ 
       button = gtk_button_new_with_label (_("Advanced"));
       g_object_set_data (G_OBJECT (button), "directives", pdirectives);
       g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
