@@ -2904,6 +2904,11 @@ parseRhythmElem (xmlNodePtr sElem, RhythmPattern* r)
     r->lilypond = g_string_new (xmlGetProp (sElem, "lilypond"));
     gchar *nick = xmlGetProp (sElem, "nickname");
     if (nick && *nick) r->nickname = g_string_new (nick);
+    if ((!g_strcmp0 (nick, "Breve")) ||
+		(!g_strcmp0 (nick, "Longa")) ||
+	    (!g_strcmp0 (nick, "Maxima")))
+		return;    //don't load automatically generated rhythms
+    
     childElem = getXMLChild (sElem, "objects");
     if (childElem) {
      gboolean dummy1, dummy2;
