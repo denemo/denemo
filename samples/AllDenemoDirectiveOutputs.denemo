@@ -28,6 +28,7 @@
   </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
+    <lilyversion>2.20</lilyversion>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
     <total-edit-time>214</total-edit-time>
@@ -47,6 +48,11 @@
 </postfix>
         <override>16</override>
       </directive>
+      <directive>
+        <tag>scorewithalt</tag>
+        <prefix>%{score prefix with alt override set%}</prefix>
+        <override>2</override>
+      </directive>
     </score-directives>
   </lilycontrol>
   <movement-number>1</movement-number>
@@ -54,12 +60,12 @@
     <edit-info>
       <staffno>1</staffno>
       <measureno>2</measureno>
-      <cursorposition>4</cursorposition>
+      <cursorposition>1</cursorposition>
       <tonalcenter>0</tonalcenter>
       <zoom>100</zoom>
       <system-height>100</system-height>
-      <page-zoom>0</page-zoom>
-      <page-system-height>0</page-system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
     </edit-info>
     <header-directives>
       <directive>
@@ -98,10 +104,6 @@
     </movementcontrol-directives>
     <score-info>
       <tempo>
-        <duration>
-          <numerator>1</numerator>
-          <denominator>4</denominator>
-        </duration>
         <bpm>120</bpm>
       </tempo>
     </score-info>
@@ -196,7 +198,7 @@
                   <middle-c-offset>-2</middle-c-offset>
                 </note>
                 <note id="id4">
-                  <middle-c-offset>1</middle-c-offset>
+                  <middle-c-offset>2</middle-c-offset>
                 </note>
               </notes>
             </chord>
