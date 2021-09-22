@@ -1024,11 +1024,16 @@ create_script_for_directive (GtkWidget * button, gchar * what)
   DenemoPalette *pal = NULL;
   if (!strcmp (what, "lilycontrol"))
     what = "score";
-  GString *script = g_string_new (get_script_for_directive (directive, what));
-  appendSchemeText (script->str);
+  gchar *script = g_strdup_printf ( ";;;;;;;;;;;;;;;;;;;;;;\n;;;Create %s directive tagged %s if it is not present\n\
+(if (not (d-Directive-%s? \"%s\"))\n%s);END OF SCRIPT\n", 
+									what, directive->tag->str, what, directive->tag->str, get_script_for_directive (directive, what));
+  appendSchemeText (script);
   gboolean sensitive = gtk_widget_get_visible (gtk_widget_get_toplevel (Denemo.script_view));
-  if(!sensitive) set_toggle ("ToggleScript", TRUE);
-  g_string_free (script, TRUE);
+  if(!sensitive) {
+	  set_toggle ("ToggleScript", TRUE);
+	  warningdialog (_("The Scheme Window is now open, but you must dismiss the Score Properties Editor to access it."));  
+  }
+  g_free (script);
 }
 
 static void dummy_rerun (void)
