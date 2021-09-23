@@ -235,11 +235,17 @@ save_scheme_text (GtkWidget * widget, GtkWidget * textview)
           warningdialog (_ ("If you have loaded this script from a menu item or palette button then you must save it using a right click on that same menu item or palette button (and choosing \"Save Script from Scheme Window\").\nOtherwise use \"Save As\" from this menu."));
         }
   else
-    {
+    { 
+		
       gchar *text = get_script_view_text ();
-      buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
-      g_file_set_contents (*pfilename, text, -1, NULL);
-      gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
+      		if (confirm (*pfilename, (text && *text) ? _("Overwrite this file?") : _("Blank out this file?")))
+      		{
+			  buffer = gtk_text_view_get_buffer (GTK_TEXT_VIEW (Denemo.script_view));
+			  g_file_set_contents (*pfilename, text, -1, NULL);
+			  gtk_text_buffer_set_modified (GTK_TEXT_BUFFER (buffer), FALSE);
+			  infodialog (_("Saved File"));
+			 } else
+			 warningdialog (_("Cancelled"));
       g_free (text);
     }
 }
