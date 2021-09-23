@@ -2490,7 +2490,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
       button = gtk_button_new_with_label (_("Get Script into Scheme Window"));
-      gtk_widget_set_tooltip_text (button, _("Place a script to create this Directive into the Scheme Window. Use this after loading the initialization script into the Scheme window - once saved this Directive will be installed on new scores at startup."));
+      gtk_widget_set_tooltip_text (button, _("Place a script to create this Directive (if absent) into the Scheme Window. Use this after loading the initialization script into the Scheme window - once saved this Directive will be installed on new scores at startup."));
       g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
       g_signal_connect (button, "clicked", G_CALLBACK (create_script_for_directive), (gpointer) (field));
       gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
