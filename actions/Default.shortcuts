@@ -573,6 +573,10 @@
         <hidden>true</hidden>
       </row>
       <row>
+        <action>SystemSystemPadding</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
         <action>MarkupMarkupSpacingDist</action>
         <hidden>true</hidden>
       </row>
