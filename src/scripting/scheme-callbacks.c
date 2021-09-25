@@ -3469,7 +3469,7 @@ scheme_set_duration_in_ticks (SCM duration)
   gint thedur = -1; //unset
   if (scm_is_integer (duration))
     {
-      thedur = scm_to_int (duration);
+      thedur = scm_to_int (duration); //1536
     }
 
   if (thedur >= 0)
@@ -3480,9 +3480,10 @@ scheme_set_duration_in_ticks (SCM duration)
       
       if (thedur >= 0)
           {
-            thechord->baseduration *= -1;
-            if (thechord->baseduration == 0) // a semibreve being used for higher duration notes, it means you cannot give a custom duration to a semibreve.
-              thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here
+			if ((thechord->baseduration <= 7) && (thechord->baseduration > 1)) //SWING or other cusstom duration being set - not available for wholenotes
+				thechord->baseduration *= -1; // is 0
+            if (thechord->baseduration == 0) // a wholenote being used for higher duration notes, it means you cannot give a custom duration to a wholenote.
+              thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here = -1536 for wholemeasure rest in 4/4
             if (thechord->is_grace)
               thechord->is_grace |= DURATION_SET;
           }
@@ -3490,10 +3491,10 @@ scheme_set_duration_in_ticks (SCM duration)
           {
             if (thechord->is_grace)
               thechord->is_grace &= ~DURATION_SET;
-            gint duration = thechord->baseduration;
-            if ((duration >= -7) && (duration < 0))
-              duration *= -1; //unset the swing on this note
-            changedur (curObj, duration, thechord->numdots);//give it the default number of ticks
+            gint curdur = thechord->baseduration;
+            if ((curdur >= -7) && (curdur < 0))
+              curdur *= -1; //unset the swing on this note
+            changedur (curObj, curdur, thechord->numdots);//give it the default number of ticks
           }
     }
   objnode *prev = Denemo.project->movement->currentobject->prev;
@@ -3502,7 +3503,6 @@ scheme_set_duration_in_ticks (SCM duration)
   curObj->starttickofnextnote = starttick + ((thedur < 0)? curObj->durinticks:thedur);
   return SCM_BOOL_T;
 }
-
 
 SCM
 scheme_get_recorded_midi_tempo (SCM index)
