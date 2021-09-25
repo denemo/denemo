@@ -3061,6 +3061,7 @@ SCM
 scheme_toggle_sketch (void)
 {
    Denemo.project->movement->sketch = !Denemo.project->movement->sketch;
+   signal_structural_change (Denemo.project);
   return Denemo.project->movement->sketch? SCM_BOOL_T:SCM_BOOL_F;
 }
 
@@ -3469,7 +3470,7 @@ scheme_set_duration_in_ticks (SCM duration)
   gint thedur = -1; //unset
   if (scm_is_integer (duration))
     {
-      thedur = scm_to_int (duration); //1536
+      thedur = scm_to_int (duration);
     }
 
   if (thedur >= 0)
@@ -3481,7 +3482,7 @@ scheme_set_duration_in_ticks (SCM duration)
       if (thedur >= 0)
           {
 			if ((thechord->baseduration <= 7) && (thechord->baseduration > 1)) //SWING or other cusstom duration being set - not available for wholenotes
-				thechord->baseduration *= -1; // is 0
+				thechord->baseduration *= -1;
             if (thechord->baseduration == 0) // a wholenote being used for higher duration notes, it means you cannot give a custom duration to a wholenote.
               thechord->baseduration  = -thedur;//for breve etc we hide the actual ticks here = -1536 for wholemeasure rest in 4/4
             if (thechord->is_grace)
