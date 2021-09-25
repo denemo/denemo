@@ -1,5 +1,5 @@
+;InsertLongaRest
 (d-InsertWholeRest)
-(if (Appending?)
-	(d-MoveCursorLeft))
+(d-MoveCursorLeft)
 (d-ChangeLonga)
 (d-MoveCursorRight)

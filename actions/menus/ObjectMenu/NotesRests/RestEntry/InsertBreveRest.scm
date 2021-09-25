@@ -1,5 +1,5 @@
+;InsertBreveRest
 (d-InsertWholeRest)
-(if (Appending?)
-	(d-MoveCursorLeft))
+(d-MoveCursorLeft)
 (d-ChangeBreve)
 (d-MoveCursorRight)
