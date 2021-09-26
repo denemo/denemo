@@ -1758,13 +1758,13 @@ these may need re-making.</_tooltip>
       <row type="builtin">
         <action>GoToBeginning</action>
         <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
-        <_label>Go to Beginning</_label>
+        <_label>Select to Beginning</_label>
         <_tooltip>Cursor to start of staff/voice, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
         <action>GoToEnd</action>
         <menupath>/MainMenu/EditMenu/Select/ExtendSelect</menupath>
-        <_label>Go to End</_label>
+        <_label>Select to End</_label>
         <_tooltip>Cursor to end of staff/voice, extending selection if any</_tooltip>
       </row>
       <row type="builtin">
