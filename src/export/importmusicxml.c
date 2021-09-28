@@ -152,16 +152,16 @@ parse_key (GString ** scripts, gint numvoices, gint measurenum, xmlNodePtr rootE
 
     if (ELEM_NAME_EQ (childElem, "fifths"))
       fifths = getXMLIntChild (childElem);
-    if (ELEM_NAME_EQ (childElem, "mode"))
-      mode = xmlNodeListGetString (childElem->doc, childElem->children, 1);
+   // if (ELEM_NAME_EQ (childElem, "mode"))
+   //   mode = xmlNodeListGetString (childElem->doc, childElem->children, 1);
   }
-  if (mode)
+ // if (mode)
     for (i = 0; i < numvoices; i++)
       if (measurenum == 1)
         g_string_append_printf (scripts[i + 1], "(d-InitialKey \"C major\")(d-IncrementKeysig %d)", fifths);
       else
         g_string_append_printf (scripts[i + 1], "(d-InsertKey \"C major\")(d-IncrementKeysig %d)", fifths);
- g_free (mode);
+ //g_free (mode);
 }
 
 static void
