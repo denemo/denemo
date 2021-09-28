@@ -1619,6 +1619,7 @@ draw_score (cairo_t * cr)
 
       itp.in_highy = highy, itp.in_lowy = lowy;
       itp.highy = 0;            //do not pass on extra_space from one staff to the next
+      itp.lowy = 0;            //do not pass on extra_space from one staff to the next
       if (flip_count <= 0)
       if (cr)
           {
