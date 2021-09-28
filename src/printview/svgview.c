@@ -494,7 +494,25 @@ static void compute_timings (gchar *base, GList *ids)
 
     g_free (events);
 }
-
+static xmlNodePtr get_path_elem (xmlNodePtr rootElem)
+{
+xmlNodePtr childElem;
+FOREACH_CHILD_ELEM (childElem, rootElem)
+	{
+	//g_print ("Elem %s has transform %s\n", childElem->name, xmlGetProp (childElem, (xmlChar *) "transform"));
+	if (ELEM_NAME_EQ (childElem, "g"))
+		{
+			if (xmlGetProp (childElem, (xmlChar *) "transform"))
+				return childElem;
+			else
+				return get_path_elem (childElem);
+		}
+	else 			
+		if (xmlGetProp (childElem, (xmlChar *) "transform"))
+			return childElem;
+	}
+return NULL;
+}
 static GList * create_positions (gchar *filename)
 {
   GList *ret = NULL;
@@ -506,57 +524,53 @@ static GList * create_positions (gchar *filename)
   xmlKeepBlanksDefault (0);
   /* Try to parse the file(s). */
   filename = g_strdup (filename); //we may modify it
-  while (g_file_test (filename, G_FILE_TEST_EXISTS))
+  while (g_file_test (filename, G_FILE_TEST_EXISTS)) //multiple svg files
     {
       doc = xmlParseFile (filename);
       if (doc == NULL)
         {
           g_warning ("Could not read svg file %s", filename);
-         break;
+          break;
         }
         else
-        {//g_print ("Parsing %s\n", filename);
+        {
+		  //g_print ("Parsing %s\n", filename);
           rootElem = xmlDocGetRootElement (doc);
           xmlNodePtr childElem;
           FOREACH_CHILD_ELEM (childElem, rootElem)
           {
               if (ELEM_NAME_EQ (childElem, "g"))
-                { xmlNodePtr grandChildElem;
+                { xmlNodePtr pathElem;
                   gchar *id = xmlGetProp (childElem, (xmlChar *) "id");
-                     FOREACH_CHILD_ELEM (grandChildElem, childElem)
-                       {
-                         if (ELEM_NAME_EQ (grandChildElem, "g"))   //grouping to set color to black
-                          { xmlNodePtr greatgrandChildElem;
-                            FOREACH_CHILD_ELEM (greatgrandChildElem, grandChildElem)
-                                {
-                                    if (ELEM_NAME_EQ (greatgrandChildElem, "path"))
-                                        {
-                                            gchar *coords = xmlGetProp (greatgrandChildElem, (xmlChar *) "transform");
-                                            //g_print ("ID %s has Coords %s\n", id, coords);
-                                            if (id && coords)
-                                                {
-                                                gchar *data = g_strconcat (id, coords, NULL);
-                                                ret = g_list_append (ret, data);
-                                                xmlFree (id);
-                                                xmlFree (coords);
-                                                }
-                                        } else g_debug ("create_positions: Found group containing %s - ignoring.", greatgrandChildElem->name);
-                                    }
-                            }
-                        }
-                    }
-            }
-              if (doc != NULL)
-            xmlFreeDoc (doc);
-
-        }
-        //It may have spilt over into several svg files denemoprintA-page-1.svg etc
-       gint num_pos = strlen (filename)-5;//"<n>.svg"
+                  //g_print ("Elem %s has id %s\n", childElem->name, id);
+                  if (id)
+					{
+					  pathElem = get_path_elem (childElem);
+					  if (pathElem)
+						{
+							gchar *coords = xmlGetProp (pathElem, (xmlChar *) "transform");
+							//g_print ("ID %s has Coords %s\n", id, coords);
+							if (id && coords)
+								{
+								gchar *data = g_strconcat (id, coords, NULL);
+								ret = g_list_append (ret, data);
+								xmlFree (id);
+								xmlFree (coords);
+								}
+						}
+					}
+                }
+			}
+		}
+    if (doc != NULL)
+         xmlFreeDoc (doc);
+    //It may have spilt over into several svg files denemoprintA-page-1.svg etc
+    gint num_pos = strlen (filename)-5;//"<n>.svg"
        *(filename+num_pos) = *(filename+num_pos) + 1; //no attempt beyond 9 pages!
        //FIXME check that mtime of this file is later than the last, or delete old svg's before starting.
     }
-    g_free (filename);
-    //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
+  //g_print ("Read %d ids from file %s\n", g_list_length (ret), filename);
+  g_free (filename);
   return ret;
 }
 static gint get_number_of_pages (gchar *base)
@@ -641,7 +655,7 @@ set_playback_view (void)
                 Denemo.playbackview = gtk_image_new_from_pixbuf (pb);
             //g_print ("Loaded %s via rsvg pixbuf loader", filename);
         } else
-        g_print ("\n\nThe rsvg pixbuf load of %s gave error: %s\n\n", filename, err?err->message: "no error return");
+        g_warning ("\n\nThe rsvg pixbuf load of %s gave error: %s\n\n", filename, err?err->message: "no error return");
 
 #else
       if(Denemo.playbackview)
