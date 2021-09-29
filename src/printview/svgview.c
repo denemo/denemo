@@ -396,7 +396,7 @@ static void compute_timings (gchar *base, GList *ids)
             gdouble nextTempoMoment = 0;
             gboolean incomingTempo = FALSE;
             while (2 == fscanf (fp, "%lf%10s", &moment, type))
-                {
+                { 
                //g_print ("moment %.2f %s latestMoment %.2f\n", moment, type, latestMoment);
                 moment /= 1000; //now events.txt stores ms to avoid decimal point
                   if (!strcmp (type, "tempo"))
@@ -409,10 +409,16 @@ static void compute_timings (gchar *base, GList *ids)
                                 } else g_warning ("Malformed events file");
                         }
                  else
-                    {
+                    {//breve duration is log = -1  if longa log = -2
+						//e.g.  0	rest	log = -1	2000	point-and-click 9 21
+					gchar basedur[10];
+					if (1 == fscanf (fp, "%4s", basedur))
+						{
+						if (!strcmp (basedur, "log"))
+							fscanf (fp, " %*s %*s");
                         if (!strcmp (type, "note"))
                             {
-                            if (4 == fscanf (fp, "%*s%lf%*s%d%d%d", &duration, &col, &line, &midi))
+								if (4 == fscanf (fp, " %lf%*s%d%d%d", &duration, &col, &line, &midi))
                                     {
                                        //g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
                                        duration /= 1000; //now events.txt stores ms to avoid decimal point
@@ -445,10 +451,9 @@ static void compute_timings (gchar *base, GList *ids)
                                     else
                                     g_warning ("Could not parse type %s\n", type);
                             }
-
-                        else if(!strcmp (type, "rest"))
+                        else if (!strcmp (type, "rest"))
                             {
-                                if (3 == fscanf (fp, "%*s%lf%*s%d%d",  &duration, &col, &line))
+                                if (3 == fscanf (fp, " %lf%*s%d%d",  &duration, &col, &line))
                                     {
                                        //g_print ("moment ... %.2f %s %.2f %d %d %d\n", moment, type, duration, col, line, midi);
                                        duration /= 1000; //now events.txt stores ms to avoid decimal point
@@ -465,22 +470,22 @@ static void compute_timings (gchar *base, GList *ids)
                                         adjustedElapsedTime += elapsedTime * timeCoef;//g_print ("adjustedElapsedtime %f\n", adjustedElapsedTime);
                                         gchar *idStr;
                                         Timing *timing;
+										idStr = g_strdup_printf ("Rest-%d-%d" , line, col);
+										timing = get_svg_position (idStr, ids);
+										if(timing)
+											{
+											timing->line = line;
+											timing->col = col;
+											timing->time = adjustedElapsedTime;
+											add_note (timing);//g_print ("AdjustedElapsed time %.2f rest \n", adjustedElapsedTime);
+											}
+									} else
+										g_warning ("Could not parse type %s\n", type);
 
-
-
-                                            idStr = g_strdup_printf ("Rest-%d-%d" , line, col);
-                                            timing = get_svg_position (idStr, ids);
-                                            if(timing)
-                                                {
-                                                timing->line = line;
-                                                timing->col = col;
-                                                timing->time = adjustedElapsedTime;
-                                                add_note (timing);//g_print ("AdjustedElapsed time %.2f rest \n", adjustedElapsedTime);
-                                                }
-
-                                } //rest
-                            else g_warning ("Don't know how to handle %s\n", type);
-                            }
+							} //rest
+                          else 
+							g_warning ("Don't know how to handle %s\n", type);
+                          }
                             latestMoment = moment;
                         }// not tempo
                     } //while events
