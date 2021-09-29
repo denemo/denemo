@@ -817,7 +817,7 @@ parseObjects (xmlNodePtr measureElem, xmlNsPtr ns, GList * curObjNode)
                 newDirectivesElem (objElem, ns, (thechord)->directives, "directives");
               }
             if (thechord->baseduration < -7) //breve etc have negative of actual ticks stored here
-              newXMLIntChild (objElem, ns, (xmlChar *) "ticks", -thechord->baseduration);
+              newXMLIntChild (objElem, ns, (xmlChar *) "ticks", curObj->durinticks);// -thechord->baseduration);
             else if (thechord->baseduration < 0) //a swung note, swung notes have negative of the nominal duration, usually 1/8th notes ie 3
               newXMLIntChild (objElem, ns, (xmlChar *) "ticks", curObj->durinticks);
             /*
