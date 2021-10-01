@@ -63,6 +63,9 @@ fix_start_end_ordering (void)
             start = Denemo.project->movement->start_time;
             end = Denemo.project->movement->end_time;
         }
+     else
+		if (end<=0.0)
+			Denemo.project->movement->end_time = smf_get_length_seconds (Denemo.project->movement->smf);
     }
 }
 
