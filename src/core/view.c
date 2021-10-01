@@ -3138,6 +3138,12 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
 void
 set_playbutton (gboolean pause)
 {
+ static gboolean first = TRUE;
+ if (first)
+	{
+		pause = !pause;
+		first = FALSE;
+	}
   if (pause)
     {
         
