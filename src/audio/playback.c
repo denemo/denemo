@@ -20,6 +20,7 @@
 #include "audio/midi.h"
 #include "core/view.h"
 #include "source/sourceaudio.h"
+#include "audio/fluid.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -51,9 +52,9 @@ ext_midi_playback (DenemoAction * action, DenemoScriptParam * param)
   if (is_playing ())
     {
       toggle_paused ();
+      fluidsynth_all_notes_off ();
       return;
     }
-
 #ifdef DISABLE_AUBIO
 #else
   //rewind_audio(); done in start_audio_playing()
