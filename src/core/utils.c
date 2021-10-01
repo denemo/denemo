@@ -3247,6 +3247,8 @@ KeyPlusMouseGestureShow (gchar * str, gint command_idx)
 void
 KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
 {
+  if (!g_strcmp0 (str, "0xffffff")) return;//strange value seen sometimes (on Windows?) when the OS intercepts only part of a keypress?
+	
   if (str != NULL)
     {
       str = g_strdup_printf ("%s", str);
