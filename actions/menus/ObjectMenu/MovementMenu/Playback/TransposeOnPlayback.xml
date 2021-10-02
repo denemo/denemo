@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TransposeOnPlayback</action>
+        <after>SwapMovements</after>
+        <_label>Transpose on Playback</_label>
+        <_tooltip>Sets the MIDI transpose on each staff of the current movement up or down by the number of semitones given.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -1242,6 +1242,8 @@ actions/menus/ObjectMenu/MovementMenu/MvntComment.scm
 actions/menus/ObjectMenu/MovementMenu/MvntComment.xml
 actions/menus/ObjectMenu/MovementMenu/Playback/SetMovementTempo.scm
 actions/menus/ObjectMenu/MovementMenu/Playback/SetMovementTempo.xml
+actions/menus/ObjectMenu/MovementMenu/Playback/TransposeOnPlayback.scm
+actions/menus/ObjectMenu/MovementMenu/Playback/TransposeOnPlayback.xml
 actions/menus/ObjectMenu/MovementMenu/ReBar.scm
 actions/menus/ObjectMenu/MovementMenu/ReBar.xml
 actions/menus/ObjectMenu/MovementMenu/SplitMovementAtCursor.scm
