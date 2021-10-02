@@ -2186,7 +2186,8 @@ scheme_movement_tempo (SCM bpm)
 		  
 		}
   else
-	tempo = movement_tempo_from_user ();
+	if (scm_is_bool (bpm))
+		tempo = movement_tempo_from_user ();
   if (tempo)
 	set_movement_tempo (tempo);
   return scm_from_int (si->tempo);
