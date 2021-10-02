@@ -1168,6 +1168,8 @@ actions/menus/ObjectMenu/Lyrics/LyricFontSize.xml
 actions/menus/ObjectMenu/Lyrics/LyricFont.xml
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.scm
 actions/menus/ObjectMenu/Lyrics/LyricVerseDynamic.xml
+actions/menus/ObjectMenu/Lyrics/ShowLyricVerse.scm
+actions/menus/ObjectMenu/Lyrics/ShowLyricVerse.xml
 actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.scm
 actions/menus/ObjectMenu/Lyrics/ToggleTypesetOfLyrics.xml
 actions/menus/ObjectMenu/Lyrics/TypesetVersesAtEnd.scm
