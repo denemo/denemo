@@ -7,7 +7,8 @@
  */
 
 #include "core/utils.h"              /* Includes <gdk.h> */
-
+#include "command/scorelayout.h"
+#include "command/lilydirectives.h"
 /**
  * Draw timesig on the score
  *
@@ -34,7 +35,12 @@ draw_timesig (cairo_t * cr, gint xx, gint y, gint time1, gint time2, timesig * t
       for (; g; g = g->next, count++)
         {
           DenemoDirective *directive = g->data;
+          guint layout = selected_layout_id ();
+		  gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5 : 0.0;
+		  gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
           override = override | directive->override;
+		  directive->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 1.0);
+
           if (directive->display)
             {
               drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + count * 10);

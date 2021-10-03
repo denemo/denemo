@@ -9,6 +9,8 @@
 #include "display/accwidths.h"
 #include "display/drawingprims.h"
 #include "core/utils.h"
+#include "command/lilydirectives.h"
+#include "command/scorelayout.h"
 
 #define SPACE_BETWEEN_ACCS 8
 
@@ -53,7 +55,12 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
       for (; g; g = g->next, count++)
         {
           DenemoDirective *directive = g->data;
+          guint layout = selected_layout_id ();
+		  gdouble only = (directive->layouts && !wrong_layout (directive, layout)) ? 0.5 : 0.0;
+		  gdouble exclude = (directive->layouts && wrong_layout (directive, layout)) ? 0.9 : 0.0;
           override = override | directive->override;
+          directive->graphic ? cairo_set_source_rgb (cr, 0.0 + exclude, 0.0 + only, 0.0) : cairo_set_source_rgba (cr, 0.4 + exclude, 0.5 + only, 0.4, 1.0);
+
           if (directive->display)
             {
               drawnormaltext_cr (cr, directive->display->str, xx + directive->tx, y + count * 10);
