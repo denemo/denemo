@@ -2444,7 +2444,7 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
   *pdirective = get_standalone_directive (NULL);
 
   if (*pdirective)
-    return;                     //FIXME is this needed???? a return will be done anyway
+    return;
 
   {
     tuplet *curtuplet = get_tuplet ();
@@ -2457,6 +2457,8 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
         *pdirective = select_directive (instr, **pdirectives);
       }
   }
+  if (*pdirective)
+    return;
   {
     gchar *instr = _("Select a directive attached to the stem control object");
     stemdirective *curstemdir = get_stemdirective ();
@@ -2468,7 +2470,44 @@ user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDir
       }
 
   }
-
+  if (*pdirective)
+    return;  
+   {
+    gchar *instr = _("Select a directive attached to the clef change object");
+    clef *curclef = get_clef ();
+    if (curclef && curclef->directives)
+      {
+        *pdirectives = &curclef->directives;
+        *what = "clefd";
+        *pdirective = select_directive (instr, **pdirectives);
+      }
+  }
+  if (*pdirective)
+    return;
+  {
+    gchar *instr = _("Select a directive attached to the time signature object");
+    timesig *curtimesig = get_timesig ();
+    if (curtimesig && curtimesig->directives)
+      {
+        *pdirectives = &curtimesig->directives;
+        *what = "timesig";
+        *pdirective = select_directive (instr, **pdirectives);
+      }
+  }
+  if (*pdirective)
+    return;  
+  {
+    gchar *instr = _("Select a directive attached to the key change object");
+    keysig *curkeysig = get_keysig ();
+    if (curkeysig && curkeysig->directives)
+      {
+        *pdirectives = &curkeysig->directives;
+        *what = "keysig";
+        *pdirective = select_directive (instr, **pdirectives);
+      }
+  }  
+  if (*pdirective)
+    return;    
   gchar *name = NULL;
   note *curnote = get_note ();
   if (curnote != NULL)
