@@ -3269,6 +3269,7 @@ lily_directive_new (gchar * type)
   ret = (DenemoObject *) g_malloc0 (sizeof (DenemoObject));
   ret->type = LILYDIRECTIVE;
   newlily->postfix = g_string_new (type);
+  newlily->display = g_string_new (" ");
   ret->object = newlily;
   set_basic_numticks (ret);
   setpixelmin (ret);

@@ -299,6 +299,8 @@ parseDirective (xmlNodePtr parentElem, DenemoDirective * directive)
     DO_DIREC (prefix);
     DO_DIREC (postfix);
     DO_DIREC (display);
+    if (directive->display == NULL)
+		directive->display = g_string_new (" ");//avoid strange effects on display widgets
     DO_DIREC (midibytes);
     DO_DIREC (data);
     DO_DIREC (grob);
