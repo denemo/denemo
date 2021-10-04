@@ -1170,6 +1170,10 @@
         <action>SetMarkedMidiFromEnd</action>
         <bind>Alt+Up</bind>
       </row>
+      <row>
+        <action>ConditionalClefChange</action>
+        <hidden>true</hidden>
+      </row>
     </map>
   </merge>
 </Denemo>
