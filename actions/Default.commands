@@ -8765,6 +8765,13 @@ Include rests if they are part of the pattern.
         <_label>Show Verse</_label>
         <_tooltip>Opens up the lyric pane that contains the verse(s) for this staff (if any)</_tooltip>
       </row>
+      <row type="scheme">
+        <action>MakeDirectiveConditional</action>
+        <after>EditScoreAndMovementDirectives</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Make Object Directive Conditional</_label>
+        <_tooltip>Allows you to make conditional a Denemo Directive attached to the object at the cursor.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

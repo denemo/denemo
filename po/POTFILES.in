@@ -275,6 +275,8 @@ actions/menus/MainMenu/EditMenu/InsertNthSnippet.scm
 actions/menus/MainMenu/EditMenu/InsertNthSnippet.xml
 actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.scm
 actions/menus/MainMenu/EditMenu/KeyBindings/StartEmacs2KeyShortcut.xml
+actions/menus/MainMenu/EditMenu/MakeDirectiveConditional.scm
+actions/menus/MainMenu/EditMenu/MakeDirectiveConditional.xml
 actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsBinaryRhythm.scm
 actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsBinaryRhythm.xml
 actions/menus/MainMenu/EditMenu/NotationMagick/GenerateRhythmFromString/NotationMagick-InsertReversedStringAsReversedBinaryRhythm.scm

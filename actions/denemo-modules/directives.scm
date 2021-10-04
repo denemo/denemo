@@ -357,7 +357,7 @@
                             (cons (string-append (_ "Ignore for Layout \"") (d-GetLayoutName) "\"") 'ignore-default)
                             (cons (_ "For all Layouts") 'all))))
             
-     (if type/tag 
+     (if (and type/tag (cdr type/tag))
             (case choice
                     ((ignore-only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)  
                                     (d-GetCurrentStaffLayoutId)))
