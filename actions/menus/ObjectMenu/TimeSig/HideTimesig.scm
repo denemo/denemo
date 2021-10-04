@@ -1,13 +1,20 @@
 ;;;HideTimesig
-;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
-(let ((lilycontext "Staff"))
-(if lilycontext
-    (begin 
-        (if (d-Directive-timesig? "HideTimesig")
-            (d-DirectiveDelete-timesig "HideTimesig")
-            (begin
-                (d-DirectivePut-timesig-prefix "HideTimesig"  (string-append  "\\once \\override " lilycontext ".TimeSignature #'stencil = ##f "  ))
-                (d-DirectivePut-timesig-gy "HideTimesig" 60)
-                (d-DirectivePut-timesig-graphic "HideTimesig" "\n⋃\nDenemo\n24")))
-            (d-SetSaved #f))))
-            
+(let ((tag "HideTimesig"))
+	(if (Timesignature?)
+		(if (d-Directive-clef? tag)
+		    (d-DirectiveDelete-clef tag)
+		    (begin
+		        (d-DirectivePut-timesig-prefix tag   "%{Clef Omitted%}")
+		        (d-DirectivePut-timesig-override tag DENEMO_OVERRIDE_LILYPOND)
+		        (d-DirectivePut-timesig-gy tag 60)
+		        (d-DirectivePut-timesig-graphic tag "\n⋃\nDenemo\n24")
+		        (SetDirectiveConditional #f (cons "timesig" tag))))
+	 (begin 
+		(if (d-Directive-timesig? tag)
+		    (d-DirectiveDelete-timesig tag)
+		    (begin
+		        (d-DirectivePut-timesig-prefix tag  (string-append  "\\once \\override Staff.TimeSignature #'stencil = ##f"  ))
+		        (d-DirectivePut-timesig-gy tag 60)
+		        (d-DirectivePut-timesig-graphic tag "\n⋃\nDenemo\n24")
+		        (SetDirectiveConditional #f (cons "timesig" tag))))))
+	(d-SetSaved #f))

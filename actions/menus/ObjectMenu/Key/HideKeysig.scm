@@ -1,13 +1,20 @@
 ;;;HideKeysig
-;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
-(let ((lilycontext "Staff"))
-(if lilycontext
-    (begin 
-        (if (d-Directive-keysig? "HideKeysig")
-            (d-DirectiveDelete-keysig "HideKeysig")
-            (begin
-                (d-DirectivePut-keysig-prefix "HideKeysig"  (string-append  "\\once \\override " lilycontext ".KeySignature #'stencil = ##f"  ))
-                (d-DirectivePut-keysig-gy "HideKeysig" 60)
-                (d-DirectivePut-keysig-graphic "HideKeysig" "\n⋃\nDenemo\n24")))
-            (d-SetSaved #f))))
-            
+(let ((tag "HideKeysig"))
+	(if (Keysignature?)
+		(if (d-Directive-keysig? tag)
+		    (d-DirectiveDelete-keysig tag)
+		    (begin
+		        (d-DirectivePut-keysig-prefix tag   "%{keysig Omitted%}")
+		        (d-DirectivePut-keysig-override tag DENEMO_OVERRIDE_LILYPOND)
+		        (d-DirectivePut-keysig-gy tag 60)
+		        (d-DirectivePut-keysig-graphic tag "\n⋃\nDenemo\n24")
+		        (SetDirectiveConditional #f (cons "keysig" tag))))
+	 (begin 
+		(if (d-Directive-keysig? tag)
+		    (d-DirectiveDelete-keysig tag)
+		    (begin
+		        (d-DirectivePut-keysig-prefix tag  (string-append  "\\once \\override Staff.KeySignature #'stencil = ##f"  ))
+		        (d-DirectivePut-keysig-gy tag 60)
+		        (d-DirectivePut-keysig-graphic tag "\n⋃\nDenemo\n24")
+		        (SetDirectiveConditional #f (cons "keysig" tag))))))
+	(d-SetSaved #f))

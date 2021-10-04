@@ -1,13 +1,20 @@
 ;;;HideClef
-;(let ((lilycontext (d-GetOption  (string-append "Score" stop "Staff" stop "Voice" stop))))
-(let ((lilycontext "Staff"))
-(if lilycontext
-    (begin 
-        (if (d-Directive-clef? "HideClef")
-            (d-DirectiveDelete-clef "HideClef")
-            (begin
-                (d-DirectivePut-clef-prefix "HideClef"  (string-append  "\\once \\override " lilycontext ".Clef #'stencil = ##f"  ))
-                (d-DirectivePut-clef-gy "HideClef" 60)
-                (d-DirectivePut-clef-graphic "HideClef" "\n⋃\nDenemo\n24")))
-            (d-SetSaved #f))))
-            
+(let ((tag "HideClef"))
+	(if (Clef?)
+		(if (d-Directive-clef? tag)
+		    (d-DirectiveDelete-clef tag)
+		    (begin
+		        (d-DirectivePut-clef-prefix tag   "%{Clef Omitted%}")
+		        (d-DirectivePut-clef-override tag DENEMO_OVERRIDE_LILYPOND)
+		        (d-DirectivePut-clef-gy tag 60)
+		        (d-DirectivePut-clef-graphic tag "\n⋃\nDenemo\n24")
+		        (SetDirectiveConditional #f (cons "clef" tag))))
+	 (begin 
+		(if (d-Directive-clef? tag)
+		    (d-DirectiveDelete-clef tag)
+		    (begin
+		        (d-DirectivePut-clef-prefix tag  (string-append  "\\once \\override Staff.Clef #'stencil = ##f"  ))
+		        (d-DirectivePut-clef-gy tag 60)
+		        (d-DirectivePut-clef-graphic tag "\n⋃\nDenemo\n24")
+		        (SetDirectiveConditional #f (cons "clef" tag))))))
+	(d-SetSaved #f))
