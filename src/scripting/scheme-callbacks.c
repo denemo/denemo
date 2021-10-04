@@ -5339,6 +5339,7 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   extern gboolean what##_directive_put_##field (gchar *tagname, gchar *valuename);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, (gchar*)valuename);\
   structural_change_##what ();\
+  score_status (Denemo.project, TRUE);\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
@@ -5487,6 +5488,7 @@ SCM scheme_##what##_directive_put_allow(SCM tag, SCM value) {\
   extern  gboolean  what##_directive_put_allow (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_allow ((gchar*)tagname, valuename);\
   structural_change_##what ();\
+  score_status (Denemo.project, TRUE);\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -5502,6 +5504,7 @@ SCM scheme_##what##_directive_put_ignore(SCM tag, SCM value) {\
   extern  gboolean  what##_directive_put_ignore (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_ignore ((gchar*)tagname, valuename);\
   structural_change_##what ();\
+  score_status (Denemo.project, TRUE);\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -5516,7 +5519,8 @@ SCM scheme_##what##_directive_put_##field(SCM tag, SCM value) {\
   gint valuename = scm_to_int(value);\
   extern  gboolean  what##_directive_put_##field (gchar *tag, gint value);\
   gboolean ret = what##_directive_put_##field ((gchar*)tagname, valuename);\
-structural_change_##what ();\
+  structural_change_##what ();\
+  score_status (Denemo.project, TRUE);\
   if(tagname) free(tagname);\
   return SCM_BOOL(ret);\
 }
@@ -5544,7 +5548,8 @@ SCM scheme_##what##_directive_put_graphic(SCM tag, SCM value) {\
   char *valuename;\
   valuename = scm_to_locale_string(value);\
   gboolean ret = what##_directive_put_graphic ((gchar*)tagname, (gchar*)valuename);\
-structural_change_##what ();\
+  structural_change_##what ();\
+  score_status (Denemo.project, TRUE);\
   if(tagname) free(tagname);\
   if(valuename) free(valuename);\
   return SCM_BOOL(ret);\
