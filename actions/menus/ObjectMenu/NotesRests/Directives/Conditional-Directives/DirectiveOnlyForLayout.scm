@@ -21,16 +21,15 @@
                     (set! params (cons (cons (d-GetLayoutName) id) params)))))    
         (if (pair? params)
             (let ((layout (car params)))
-              (set! id (cdr layout))
-              (set! params (cdr params))
-              (set! tag (car params))
-              (set! note (cdr params))
-             
-              (if note
-                (d-DirectivePut-note-allow tag id)
-                (d-DirectivePut-chord-allow tag id))
-             (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will be typeset for the layout ") "\"" (car layout) "\""))
-             (d-SetSaved #f))
-            (begin
-              (d-WarningDialog (_ "Cancelled")))))))
+				  (set! id (cdr layout))
+				  (set! params (cdr params))
+				  (set! tag (car params))
+				  (set! note (cdr params))
+				 
+				  (if note
+					(d-DirectivePut-note-allow tag id)
+					(d-DirectivePut-chord-allow tag id))
+				 (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will be typeset for the layout ") "\"" (car layout) "\""))
+				 (d-SetSaved #f))
+            (d-WarningDialog (_ "Cancelled"))))))
         
