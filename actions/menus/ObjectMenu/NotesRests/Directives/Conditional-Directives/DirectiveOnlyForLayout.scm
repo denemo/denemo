@@ -2,15 +2,6 @@
 (let ((params DirectiveOnlyForLayout::params)(tag (d-DirectiveGetTag-standalone)) (id (d-GetLayoutId)) (text #f) (note #f))
  (define (d-InfoDialog string)
         (Help::TimedNotice (string-append string "\n") 5000))
-  (define (do-rest)
-    (d-PushPosition)
-    (while (d-NextObject)
-        (if note
-            (if (d-Directive-note? tag)
-                (d-DirectivePut-note-allow tag id))
-            (if (d-Directive-chord? tag)
-                (d-DirectivePut-chord-allow tag id))))
-    (d-PopPosition))
   (if tag
      (d-OnlyForLayout #f)
      (begin

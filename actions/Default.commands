@@ -7741,7 +7741,7 @@ and others in the LilyPond documentation.</_tooltip>
         <action>DirectiveForAllLayouts</action>
         <after>DirectiveNotForLayout</after>
         <menupath>/ObjectMenu/NotesRests/Directives/Conditional-Directives</menupath>
-        <_label>Reset for All Layours</_label>
+        <_label>Reset for All Layouts</_label>
         <_tooltip>Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
       </row>
       <row type="scheme">
@@ -8771,6 +8771,13 @@ Include rests if they are part of the pattern.
         <menupath>/MainMenu/EditMenu</menupath>
         <_label>Make Object Directive Conditional</_label>
         <_tooltip>Allows you to make conditional a Denemo Directive attached to the object at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EditLilyPondSyntax</action>
+        <after>EditObject</after>
+        <menupath>/MainMenu/EditMenu</menupath>
+        <_label>Edit LilyPond Syntax</_label>
+        <_tooltip>Let's you replace the syntax sent to the LilyPond typesetter with your own choice of syntax to typeset the object at the cursor. Be aware that Denemo will continue to display the object as originally defined, only the typesetting will change.</_tooltip>
       </row>
     </map>
   </merge>

@@ -267,6 +267,8 @@ actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.scm
 actions/menus/MainMenu/EditMenu/DenemoDurationInTicks.xml
 actions/menus/MainMenu/EditMenu/EditAll.scm
 actions/menus/MainMenu/EditMenu/EditAll.xml
+actions/menus/MainMenu/EditMenu/EditLilyPondSyntax.scm
+actions/menus/MainMenu/EditMenu/EditLilyPondSyntax.xml
 actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.scm
 actions/menus/MainMenu/EditMenu/EditScoreAndMovementDirectives.xml
 actions/menus/MainMenu/EditMenu/EditSimilar.scm

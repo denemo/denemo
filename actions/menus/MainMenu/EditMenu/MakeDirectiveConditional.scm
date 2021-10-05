@@ -1,8 +1,10 @@
-;MakeDirectiveConditional
+;;;MakeDirectiveConditional
 (let ((params MakeDirectiveConditional::params))
    (if (d-Directive-standalone?)
 		(d-ChooseCondition)
-		(if (Music?) (d-ChooseCondition)
+		(if (Music?) 
+			(let ((tag/type (d-ChooseTagAtCursor)))
+				(SetDirectiveConditional #f (cons (if (cdr tag/type) "note" "chord")   (car tag/type))))
 				(if (Clef?)
 					(SetDirectiveConditional #f (cons "clef"   (d-ChooseTagAtCursor )))
 					(if (Timesignature?)
