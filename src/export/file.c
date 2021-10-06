@@ -1233,6 +1233,14 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
       gchar *file_name = gtk_file_chooser_get_filename (GTK_FILE_CHOOSER (dialog));
       if (g_str_has_suffix (file_name, ".gz"))
         *(file_name + strlen (file_name) - strlen (".gz")) = 0;
+        
+        
+      if (data->template && !has_extension (file_name, ".denemo"))
+		{
+			gchar *filename = g_strdup_printf ("%s%s", file_name, ".denemo");
+			g_free (file_name);
+			file_name = filename;
+		}
       if (replace_existing_file_dialog (file_name, data->format_id))
         {
           gint status = filesel_save (gui, file_name, data->format_id, data->template);
