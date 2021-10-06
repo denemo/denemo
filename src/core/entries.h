@@ -320,7 +320,6 @@
 {"EditClefDirective", NULL, N_("Edit Clef Directives"), "",N_("Edit any directives attached to clef."),G_CALLBACK (edit_clef_directive)},
 {"EditTimesigDirective", NULL, N_("Edit Time Signature Directives"), "",N_("Edit any directives attached to time signature."),G_CALLBACK (edit_timesig_directive)},
 {"EditKeysigDirective", NULL, N_("Edit Key Signature Directives"), "",N_("Edit any directives attached to key signature."),G_CALLBACK (edit_keysig_directive)},
-{"DeleteDirective", NULL, N_("Delete a Directive"), "",N_("Delete a directive attached to chord/note at cursor."),G_CALLBACK (delete_chord_or_note_directive)},
 {"NavigationMenu", NULL, N_("Navigation"), "",N_("Moving the cursor within the current movement, setting bookmarks, seeking things in the score")},
 {"GoToMeasure", NULL, N_("Go to Measure"), "",N_("Opens a dialog for going to a numbered measure"),G_CALLBACK (tomeasurenum)},
 {"GoToBeginning", GTK_STOCK_GOTO_FIRST, N_("Select to Beginning"), "",N_("Cursor to start of staff/voice, extending selection if any"),G_CALLBACK (tohome)},

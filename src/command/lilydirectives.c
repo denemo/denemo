@@ -3294,7 +3294,7 @@ edit_object_directive (DenemoAction * action, DenemoScriptParam * param)
 }
 
 /**
- * callback for DeleteDirective
+ * OBSOLETE was a callback for DeleteDirective
  */
 void
 delete_chord_or_note_directive (DenemoAction * action, DenemoScriptParam * param)
