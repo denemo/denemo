@@ -257,6 +257,8 @@ actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.scm
 actions/menus/MainMenu/EditMenu/ChooseSeekEditDirectives.xml
 actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.scm
 actions/menus/MainMenu/EditMenu/ConvertDrum2GmSingleSelection.xml
+actions/menus/MainMenu/EditMenu/Delete/DeleteDirective.scm
+actions/menus/MainMenu/EditMenu/Delete/DeleteDirective.xml
 actions/menus/MainMenu/EditMenu/Delete/IntelligentDelete.scm
 actions/menus/MainMenu/EditMenu/Delete/IntelligentDelete.xml
 actions/menus/MainMenu/EditMenu/Delete/RemoveSchemeInit.scm

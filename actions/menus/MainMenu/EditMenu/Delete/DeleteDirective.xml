@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DeleteDirective</action>
+        <after>StagedDelete</after>
+        <_label>Delete Directive at Cursor.</_label>
+        <_tooltip>Deletes a Denemo Directive at the cursor. This may be a standalone directive or one attached to a object. Position the cursor at the note height when the directive is attached to just one note in a chord, alternatively not at a note height if the directive is attached to the chord as a whole.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
