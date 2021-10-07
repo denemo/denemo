@@ -51,7 +51,8 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
   if (wetrun && keysig->directives)
     {
       gint count = 0;
-      GList *g = keysig->directives;
+      GList *g = keysig->directives; 
+      cairo_save (cr);
       for (; g; g = g->next, count++)
         {
           DenemoDirective *directive = g->data;
@@ -70,6 +71,7 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
               drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx + count, y + directive->gy, FALSE);
             }
         }
+      cairo_restore (cr);
     }
   if (!(DENEMO_OVERRIDE_GRAPHIC & override))
     {

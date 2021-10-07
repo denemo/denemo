@@ -32,6 +32,7 @@ draw_timesig (cairo_t * cr, gint xx, gint y, gint time1, gint time2, timesig * t
     {
       gint count = 0;
       GList *g = timesig->directives;
+      cairo_save (cr);
       for (; g; g = g->next, count++)
         {
           DenemoDirective *directive = g->data;
@@ -50,6 +51,7 @@ draw_timesig (cairo_t * cr, gint xx, gint y, gint time1, gint time2, timesig * t
               drawbitmapinverse_cr (cr, directive->graphic, xx + directive->gx + count, y + directive->gy, FALSE);
             }
         }
+      cairo_restore (cr);
     }
   if (!(DENEMO_OVERRIDE_GRAPHIC & override))
     {
