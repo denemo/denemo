@@ -1817,3 +1817,22 @@
 				(NextNonSketchMovement)
 				#t))
 		#f))
+;;gets a list of all layouts in Score Layout view together with the default one for the current part
+(define (GetLayoutList)
+	(let ((thelist '())(start (d-GetLayoutId))(partid #f))
+	(define (addtolist name id)
+		(if (not (equal? id partid))
+			(set! thelist (cons (cons name id) thelist))))
+	(set! partid (d-GetCurrentStaffLayoutId))
+	(d-SelectFirstLayout)
+	(addtolist (d-GetLayoutName) (d-GetLayoutId))
+	(while (d-SelectNextLayout)
+		(addtolist (d-GetLayoutName) (d-GetLayoutId)))
+	(if partid
+			(set! thelist (cons (cons (d-StaffProperties "query=lily_name") partid) thelist)))
+	(d-SelectLayoutId start)
+	thelist))
+	
+	
+	
+	

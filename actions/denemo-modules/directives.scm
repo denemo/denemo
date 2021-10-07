@@ -343,45 +343,33 @@
   (if choice
       (SetDirectiveConditionalOnCondition criteria directive type/tag choice) 
       (SetDirectiveConditionalOnLayout directive type/tag)))
-
-(define* (SetDirectiveConditionalOnLayout #:optional (directive #f) (type/tag #f))
-    (define choice (if (equal? (d-StaffProperties "query=lily_name") (d-GetLayoutName))
-                        (RadioBoxMenu
-                            (cons (string-append (_ "Allow for Layout \"") (d-GetLayoutName) "\"") 'default)
-                            (cons (string-append (_ "Ignore for Layout \"") (d-GetLayoutName) "\"") 'ignore-default)
-                            (cons (_ "For all Layouts") 'all))
-                        (RadioBoxMenu
-                            (cons (string-append (_ "Allow for the Layout for Part \"") (d-StaffProperties "query=lily_name") "\"")   'only)   
-                            (cons (string-append (_ "Ignore for the Layout for Part \"") (d-StaffProperties "query=lily_name") "\"")   'ignore-only)   
-                            (cons (string-append (_ "Allow for Layout \"") (d-GetLayoutName) "\"") 'default)
-                            (cons (string-append (_ "Ignore for Layout \"") (d-GetLayoutName) "\"") 'ignore-default)
-                            (cons (_ "For all Layouts") 'all))))
             
-     (if (and type/tag (cdr type/tag))
-            (case choice
-                    ((ignore-only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)  
-                                    (d-GetCurrentStaffLayoutId)))
-                    ((ignore-default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)  
-                                    (d-GetLayoutId)))
-                    ((all) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)   0)
-                            ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag)   0))
-                    ((default) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag) 
-                            (d-GetLayoutId)))
-                    ((only) ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag) 
-                            (d-GetCurrentStaffLayoutId))))
-            (if (pair? directive)
-                (case choice
-                    ((ignore-only) (d-DirectiveNotForLayout (cons (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)) directive))) 
-                    ((ignore-default)  (d-DirectiveNotForLayout (cons (cons (d-GetLayoutName) (d-GetLayoutId))directive)))
-                    ((all) (d-DirectiveForAllLayouts directive))
-                    ((default) (d-DirectiveOnlyForLayout (cons (cons (d-GetLayoutName) (d-GetLayoutId)) directive)))
-                    ((only) (d-DirectiveOnlyForLayout  (cons (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId)) directive))))
-                (case choice
-                    ((ignore-only) (d-NotForLayout (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))
-                    ((ignore-default) (d-NotForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
-                    ((all) (d-ForAllLayouts))
-                    ((default) (d-OnlyForLayout (cons (d-GetLayoutName) (d-GetLayoutId))))
-                    ((only) (d-OnlyForLayout (cons (d-StaffProperties "query=lily_name") (d-GetCurrentStaffLayoutId))))))))
+(define* (SetDirectiveConditionalOnLayout #:optional (directive #f) (type/tag #f))
+		(define allow-or-ignore 
+                        (RadioBoxMenu
+							(cons (string-append (if type/tag (cdr type/tag) 
+										(_ (d-DirectiveGetForTag-standalone))) (_ ": For all layouts")) #f)
+                            (cons (string-append (if type/tag (cdr type/tag) 
+										(_ (d-DirectiveGetForTag-standalone))) (_ ": Allow for a layout")) "allow")
+                            (cons (string-append (if type/tag (cdr type/tag) 
+										(_ (d-DirectiveGetForTag-standalone))) (_ ": Ignore for a layout")) "ignore")))
+		(define thelist (GetLayoutList))
+		(define choiceId #f)
+		(if allow-or-ignore
+			(begin
+				(set! choiceId (RadioBoxMenuList 
+					(map-in-order (lambda (layout)
+									(cons (string-append allow-or-ignore " for " (car layout)) (cdr layout)))
+								   thelist)))
+				(if choiceId
+					(if type/tag
+						((eval-string (string-append "d-DirectivePut-" (car type/tag) "-" allow-or-ignore)) (cdr type/tag)  
+													choiceId)
+						((eval-string (string-append "d-DirectivePut-standalone-" allow-or-ignore)) (d-DirectiveGetForTag-standalone)  
+													choiceId))))
+		   (begin
+				((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)   0)
+				((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag)   0))))
 
 ;;; Toggle the DENEMO_OVERRIDE_HIDDEN override of the directive at the cursor
 (define (ToggleHidden type tag) ;;; eg (ToggleHidden "note" "Fingering")
