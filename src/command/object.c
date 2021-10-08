@@ -1486,20 +1486,28 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
       gchar *display = directive->display ? directive->display->str : "";
       gchar *filename = get_editscript_filename (directive->tag->str);
 
+#ifndef G_OS_WIN32     
       if (!label)
         label = directive->tag->str;
-
       gchar *label_text = g_strdup_printf ("%s %c%s%c", label, '[', display, ']');
       GtkWidget *expander = gtk_expander_new (label_text);
-      g_free (label_text);
-
-
+      g_free (label_text);     
       gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
       gtk_widget_set_sensitive (expander, TRUE);
       gtk_container_set_border_width (GTK_CONTAINER (expander), 0);
       gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
       GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
       gtk_container_add (GTK_CONTAINER (expander), inner_box);
+#else
+      if (!label)
+        label = directive->tag->str;
+      gchar *label_text = g_strdup_printf ("%s %c%s%c", label, '[', display, ']');
+      GtkWidget *expander = gtk_frame_new (label_text);
+      g_free (label_text);     
+      gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
+      GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+      gtk_container_add (GTK_CONTAINER (expander), inner_box);
+#endif
 
       if (filename)
         {
