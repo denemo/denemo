@@ -1,4 +1,4 @@
-;;;; ScoreShortIndent Set indent
+;;;; ScoreShortIndent Set indent for subsequent systems
 (let ((tag "ScoreShortIndent")(amount #f) (current "0.0")(thematch #f)(params ScoreShortIndent::params))
   (set! current (d-DirectiveGet-score-data tag))
   (if (not current)
@@ -12,6 +12,7 @@
         (d-DirectivePut-score-prefix tag (string-append "\\layout {short-indent = " amount "}\n"))
         (d-DirectivePut-score-override tag DENEMO_OVERRIDE_GRAPHIC)
         (d-DirectivePut-score-data tag amount)
+        (d-DirectivePut-score-ignore tag (d-GetIdForName (d-StaffProperties "query=lily_name"))) 
         (d-DirectivePut-score-display tag (string-append (_ "short indent=") amount)))
     (d-DirectiveDelete-score tag))
   (d-SetSaved #f))
