@@ -1315,7 +1315,7 @@ seek_standalone_directive (GtkWidget * button, gchar * tag)
 static void
 make_type_directive_conditional (gchar *type, gchar * tag)
 {
-  gchar *script = g_strdup_printf ("(SetDirectiveConditional #f (cons \"%s\" \"%s\"))", type, tag);
+  gchar *script = g_strdup_printf ("(SetDirectiveConditional\"%s\" \"%s\")", type, tag);
   chuck_object_editor ();
   call_out_to_guile (script);
   g_free (script);
@@ -1372,7 +1372,7 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
   rerun = g_object_get_data (G_OBJECT (button), "rerun");
   if (!rerun) rerun = dummy_rerun;
   field = (const gchar *) g_object_get_data (G_OBJECT (button), "field");
-  gchar *script = g_strdup_printf ("(SetDirectiveConditional  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);
+  gchar *script = g_strdup_printf ("(SetDirectiveConditional\"%s\" \"%s\")", field, directive->tag->str);
   if (directive && directive->tag)
     {
        if (Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
@@ -1386,7 +1386,7 @@ make_directive_conditional (GtkWidget * button, DenemoDirective * directive)
           if (confirm_first_choice (text, text2, "Leave as is"))
             directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(id));
           else
-           script = g_strdup_printf ("(SetDirectiveConditionalOnLayout  #f (cons \"%s\" \"%s\"))", field, directive->tag->str);
+           script = g_strdup_printf ("(SetDirectiveConditional\"%s\" \"%s\")", field, directive->tag->str);
         }
       signal_structural_change (Denemo.project);        //changing the conditional behavior of non-object directives requires score layouts to be reconstructed
       if (script)

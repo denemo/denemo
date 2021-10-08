@@ -13,6 +13,6 @@
                 (d-DirectivePut-standalone-minpixels tag 10)    
                 (d-RefreshDisplay)  
                 (if (not params)
-                    (SetDirectiveConditional))
+                    (SetDirectiveConditional "standalone" tag))
                 (d-SetSaved #f)
                 )))))

@@ -17,5 +17,5 @@
 				(d-DirectivePut-staff-override tag  (logior DENEMO_ALT_OVERRIDE DENEMO_OVERRIDE_GRAPHIC))
 				(d-DirectivePut-staff-display tag "Hidden Staff")
 				(if (not params)
-					(SetDirectiveConditional #f (cons "staff"  tag)))))
+					(SetDirectiveConditional "staff"  tag))))
 				(d-SetSaved #f))))

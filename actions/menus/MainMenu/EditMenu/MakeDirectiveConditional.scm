@@ -1,15 +1,15 @@
 ;;;MakeDirectiveConditional
-(let ((params MakeDirectiveConditional::params))
+(let ()
    (if (d-Directive-standalone?)
-		(d-ChooseCondition)
+		(SetDirectiveConditional "standalone" (d-DirectiveGetForTag-standalone))
 		(if (Music?) 
 			(let ((tag/type (d-ChooseTagAtCursor)))
-				(SetDirectiveConditional #f (cons (if (cdr tag/type) "note" "chord")   (car tag/type))))
-				(if (Clef?)
-					(SetDirectiveConditional #f (cons "clef"   (d-ChooseTagAtCursor )))
-					(if (Timesignature?)
-							(SetDirectiveConditional #f (cons "timesig"   (d-ChooseTagAtCursor )))
-							(if (Keysignature?)
-								(SetDirectiveConditional #f (cons "keysig"   (d-ChooseTagAtCursor )))))))))
-					
-							
+				(if tag/type 
+					(SetDirectiveConditional (if (cdr tag/type) "note" "chord")   (car tag/type))
+					(d-WarningDialog (_ "Cancelled"))))
+			(if (Clef?)
+				(SetDirectiveConditional "clef" (d-ChooseTagAtCursor))
+				(if (Timesignature?)
+					(SetDirectiveConditional "timesig" (d-ChooseTagAtCursor))
+					(if (Keysignature?)
+						(SetDirectiveConditional "keysig" (d-ChooseTagAtCursor))))))))

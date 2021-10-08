@@ -5,7 +5,7 @@
 			(d-DirectivePut-score-prefix tag (string-append "\\paper { page-count=" count "}"))
 			(d-DirectivePut-score-display tag (string-append (_ "Page Count") count))
 			
-			(SetDirectiveConditional #f (cons "score"  tag))
+			(SetDirectiveConditional "score"  tag)
 			(d-SetSaved #f))
 		(begin
 			(d-DirectiveDelete-score tag)

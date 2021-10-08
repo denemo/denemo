@@ -13,4 +13,4 @@ Denemo
         (d-DirectivePut-standalone-minpixels tag 10)
         (d-SetSaved #f)
         (d-RefreshDisplay)
-        (if (not params) (SetDirectiveConditional)))))
+        (if (not params) (SetDirectiveConditional "standalone" tag)))))

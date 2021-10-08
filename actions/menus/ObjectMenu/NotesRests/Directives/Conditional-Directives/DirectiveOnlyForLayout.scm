@@ -5,11 +5,12 @@
   (if tag
      (d-OnlyForLayout #f)
      (begin
-        (if (not (pair? params))
+        (if (and (not (pair? params)) (Music?))
             (begin
                 (set! params (d-ChooseTagAtCursor))
                 (if params
-                    (set! params (cons (cons (d-GetLayoutName) id) params)))))    
+                    (set! params (cons (cons (d-GetLayoutName) id) params))))
+            (d-MakeDirectiveConditional))  
         (if (pair? params)
             (let ((layout (car params)))
 				  (set! id (cdr layout))
@@ -21,6 +22,4 @@
 					(d-DirectivePut-note-allow tag id)
 					(d-DirectivePut-chord-allow tag id))
 				 (d-InfoDialog (string-append (_ "Directive ") "\"" tag "\"" (_ " on ") (if note (_ "Note") (_ "Chord")) (_ " will be typeset for the layout ") "\"" (car layout) "\""))
-				 (d-SetSaved #f))
-            (d-WarningDialog (_ "Cancelled"))))))
-        
+		(d-SetSaved #f))))))

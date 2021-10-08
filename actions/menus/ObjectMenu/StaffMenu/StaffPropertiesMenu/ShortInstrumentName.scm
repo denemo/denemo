@@ -19,7 +19,7 @@
             (d-DirectivePut-staff-display tag current)
             (d-DirectivePut-staff-override tag   (logior DENEMO_ALT_OVERRIDE  DENEMO_OVERRIDE_AFFIX  DENEMO_OVERRIDE_GRAPHIC))
             (d-DirectivePut-staff-prefix tag  (string-append " shortInstrumentName = \"" current "\""))
-            (d-DirectivePut-staff-ignore tag (d-GetIdForName (d-StaffProperties "query=lily_name"))) ;(SetDirectiveConditional #f (cons "staff" tag))
+            (d-DirectivePut-staff-ignore tag (d-GetIdForName (d-StaffProperties "query=lily_name"))) ;(SetDirectiveConditional "staff" tag)
             (set! indent (max (string->number indent) (* size (string-length current))))
             (d-ScoreShortIndent indent)
             (d-SetSaved #f))))))

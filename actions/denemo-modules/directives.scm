@@ -309,29 +309,20 @@
            (d-SetSaved #f))))      
         
         
-(define* (SetDirectiveConditionalOnCondition criteria #:optional (directive #f) (type/tag #f) (action 'omit))
+(define* (SetDirectiveConditionalOnCondition criteria type tag action)
   (define criterion (RadioBoxMenuList criteria))
   (if criterion
     (begin
       ;;;it would be nice to check here if "criterion" was already in the list of "layouts" attached to directive, but this would require a new fleet of functions to enquire, one for each type of directive...
-      (if type/tag 
-        (begin
-          ((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)  
+     ((eval-string (string-append "d-DirectivePut-" type "-ignore")) tag  
                                         criterion)
           (d-SetSaved #f))
-        (if (pair? directive)                                
-          (begin
-            (disp "pair Not Implemented\n\n\n"))
-          (begin (disp "criterion " criterion " being set/unset for " action "\n\n")
-            (if (eq? action 'omit)
-              (d-DirectivePut-standalone-ignore (d-DirectiveGetTag-standalone) criterion)
-              (d-DirectivePut-standalone-allow (d-DirectiveGetTag-standalone) criterion))
-            (d-SetSaved #f)))))))
+     (d-WarningDialog (_ "Cancelled"))))
         
         
         
                                    
-(define* (SetDirectiveConditional #:optional (directive #f) (type/tag #f))
+(define* (SetDirectiveConditional type tag)
  (define choice #f)
  (define criteria (d-GetOmitCriteria))
  (if (not (null? criteria))
@@ -341,35 +332,33 @@
             (cons (_ "Omit for an Omission Criterion") 'omit)
             (cons (_ "Allow when Omission Criterion set") 'drop))))
   (if choice
-      (SetDirectiveConditionalOnCondition criteria directive type/tag choice) 
-      (SetDirectiveConditionalOnLayout directive type/tag)))
+      (SetDirectiveConditionalOnCondition criteria type tag choice)
+      (SetDirectiveConditionalOnLayout type tag)))
             
-(define* (SetDirectiveConditionalOnLayout #:optional (directive #f) (type/tag #f))
+(define* (SetDirectiveConditionalOnLayout type tag)
 		(define allow-or-ignore 
                         (RadioBoxMenu
-							(cons (string-append (if type/tag (cdr type/tag) 
-										(_ (d-DirectiveGetForTag-standalone))) (_ ": For all layouts")) #f)
-                            (cons (string-append (if type/tag (cdr type/tag) 
-										(_ (d-DirectiveGetForTag-standalone))) (_ ": Allow for a layout")) "allow")
-                            (cons (string-append (if type/tag (cdr type/tag) 
-										(_ (d-DirectiveGetForTag-standalone))) (_ ": Ignore for a layout")) "ignore")))
+							(cons (string-append tag (_ ": For all layouts")) 'all)
+                            (cons (string-append tag (_ ": Allow for a layout")) "allow")
+                            (cons (string-append tag (_ ": Ignore for a layout")) "ignore")))
 		(define thelist (GetLayoutList))
 		(define choiceId #f)
 		(if allow-or-ignore
-			(begin
-				(set! choiceId (RadioBoxMenuList 
-					(map-in-order (lambda (layout)
-									(cons (string-append allow-or-ignore " for " (car layout)) (cdr layout)))
-								   thelist)))
-				(if choiceId
-					(if type/tag
-						((eval-string (string-append "d-DirectivePut-" (car type/tag) "-" allow-or-ignore)) (cdr type/tag)  
-													choiceId)
-						((eval-string (string-append "d-DirectivePut-standalone-" allow-or-ignore)) (d-DirectiveGetForTag-standalone)  
-													choiceId))))
-		   (begin
-				((eval-string (string-append "d-DirectivePut-" (car type/tag) "-ignore")) (cdr type/tag)   0)
-				((eval-string (string-append "d-DirectivePut-" (car type/tag) "-allow")) (cdr type/tag)   0))))
+			(if (eq? allow-or-ignore 'all)
+				(begin
+					((eval-string (string-append "d-DirectivePut-" type "-ignore")) tag 0)
+					((eval-string (string-append "d-DirectivePut-" type "-allow")) tag 0))
+				(begin	
+					(set! choiceId (RadioBoxMenuList 
+						(map-in-order (lambda (layout)
+										(cons (string-append allow-or-ignore " for " (car layout)) (cdr layout)))
+									   thelist)))
+					(if choiceId
+						
+							((eval-string (string-append "d-DirectivePut-" type "-" allow-or-ignore)) tag  
+														choiceId))))
+			(d-WarningDialog (_ "Cancelled"))))
+		   
 
 ;;; Toggle the DENEMO_OVERRIDE_HIDDEN override of the directive at the cursor
 (define (ToggleHidden type tag) ;;; eg (ToggleHidden "note" "Fingering")

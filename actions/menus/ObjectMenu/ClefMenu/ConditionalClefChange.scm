@@ -8,5 +8,5 @@
 		(d-DirectivePut-clef-postfix tag " %} ")
 		(d-DirectivePut-clef-graphic tag "\n?\nDenemo\n24")
 		(d-DirectivePut-clef-gy tag 80)
-		(SetDirectiveConditional #f (cons "clef" tag))
+		(SetDirectiveConditional "clef" tag)
 		(d-SetSaved #f))))

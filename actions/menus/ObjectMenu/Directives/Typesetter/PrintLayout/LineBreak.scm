@@ -21,5 +21,5 @@ Denemo
                 (d-RefreshDisplay)
                 (if params
                     (d-MoveCursorRight)
-                    (SetDirectiveConditional))
+                    (SetDirectiveConditional "standalone" tag))
                 (d-SetSaved #f))))))

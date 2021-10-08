@@ -12,7 +12,7 @@
         (d-DirectivePut-movementcontrol-prefix  tag "\n\\pageBreak\n")
         (if (d-IsInteractive)
 			(begin
-				(SetDirectiveConditional  #f (cons "movementcontrol"  tag))
+				(SetDirectiveConditional "movementcontrol"  tag)
 				(TimedNotice Inserted)))        
         (d-DirectivePrioritizeTag-movementcontrol tag))
         
@@ -22,6 +22,6 @@
                     (begin
                         (TimedNotice Removed)
                         (d-DirectiveDelete-movementcontrol tag))
-                    (SetDirectiveConditional  #f (cons "movementcontrol"  tag))))     
+                    (SetDirectiveConditional "movementcontrol"  tag)))     
             (put-break))
    (d-SetSaved #f))
