@@ -1486,28 +1486,18 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
       gchar *display = directive->display ? directive->display->str : "";
       gchar *filename = get_editscript_filename (directive->tag->str);
 
-#ifndef G_OS_WIN32     
       if (!label)
         label = directive->tag->str;
       gchar *label_text = g_strdup_printf ("%s %c%s%c", label, '[', display, ']');
-      GtkWidget *expander = gtk_expander_new (label_text);
-      g_free (label_text);     
-      gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
-      gtk_widget_set_sensitive (expander, TRUE);
-      gtk_container_set_border_width (GTK_CONTAINER (expander), 0);
-      gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
+      GtkWidget *frame = gtk_frame_new (label_text);
+      g_free (label_text);
+      set_foreground_color (frame, "#000000");
+      //gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
+      gtk_widget_set_sensitive (frame, TRUE);
+      gtk_container_set_border_width (GTK_CONTAINER (frame), 0);
+      gtk_box_pack_start (GTK_BOX (vbox), frame, FALSE, TRUE, 0);
       GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-      gtk_container_add (GTK_CONTAINER (expander), inner_box);
-#else
-      if (!label)
-        label = directive->tag->str;
-      gchar *label_text = g_strdup_printf ("%s %c%s%c", label, '[', display, ']');
-      GtkWidget *expander = gtk_frame_new (label_text);
-      g_free (label_text);     
-      gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
-      GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
-      gtk_container_add (GTK_CONTAINER (expander), inner_box);
-#endif
+      gtk_container_add (GTK_CONTAINER (frame), inner_box);
 
       if (filename)
         {
@@ -2561,33 +2551,15 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 #endif
   gtk_box_pack_start (GTK_BOX (vbox), pane, TRUE, TRUE, 0);
-  GtkWidget *expander = gtk_expander_new (_("Score Properties"));
-  gtk_expander_set_expanded (GTK_EXPANDER (expander), show_score);
-  gtk_widget_set_sensitive (expander, TRUE);
-  gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
-  //get_color (&color, 0.1, 0.8, 0.1, 1.0);
 
-  //gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-  
-  
-  //set_foreground_color (expander, "rgb(2525,200,25)");
-  set_foreground_color (expander, "rgb(0,100,0)");// "Edit Built-in Properties" and "Score Directives" are this color
-  // gtk_box_pack_start (GTK_BOX (vbox), expander, TRUE, TRUE, 0);
-
-  GtkWidget *frame = gtk_frame_new (NULL);
-  //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-
-
-
+  GtkWidget *frame = gtk_frame_new (_("Score Properties"));
   gtk_paned_add1 (GTK_PANED (pane), frame);
-
-  gtk_container_add (GTK_CONTAINER (frame), expander);
 
   GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
 #if GTK_MAJOR_VERSION==3
   gtk_widget_set_vexpand (scrolled_window, TRUE);
 #endif  
-  gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
+  gtk_container_add (GTK_CONTAINER (frame), scrolled_window);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
   
@@ -2605,33 +2577,17 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   place_buttons_for_directives ((GList **) & Denemo.project->scoreheader, inner_box, DIRECTIVE_SCORE, "scoreheader");
   place_buttons_for_directives ((GList **) & Denemo.project->paper, inner_box, DIRECTIVE_SCORE, "paper");
 
-
-
   gchar *mnum = g_strdup_printf ("%s %d %s", _("Movement"), Denemo.project->movement->currentmovementnum, _("Properties"));
-  expander = gtk_expander_new (mnum);
+  frame = gtk_frame_new (mnum);
   g_free (mnum);
-  gtk_expander_set_expanded (GTK_EXPANDER (expander), !show_score);
-  gtk_widget_set_sensitive (expander, TRUE);
-  gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
-#if GTK_MAJOR_VERSION == 2
-  get_color (&color, 0.1, 0.1, 0.8, 1.0);
-  gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-#else
-  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
-#endif 
-
-
-  frame = gtk_frame_new (NULL);
-  //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
 
   gtk_paned_add2 (GTK_PANED (pane), frame);
-  gtk_container_add (GTK_CONTAINER (frame), expander);
 
   scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
 #if GTK_MAJOR_VERSION==3
   gtk_widget_set_vexpand (scrolled_window, TRUE);
 #endif
-  gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
+  gtk_container_add (GTK_CONTAINER (frame), scrolled_window);
   inner_box = gtk_vbox_new (FALSE, 0);
           
 #if GTK_MAJOR_VERSION==2       
@@ -2815,31 +2771,15 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   pane = gtk_paned_new (GTK_ORIENTATION_VERTICAL);
 #endif
   gtk_box_pack_start (GTK_BOX (vbox), pane, TRUE, TRUE, 0);
-  GtkWidget *expander = gtk_expander_new (_("Staff Properties"));
-  gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
-  gtk_widget_set_sensitive (expander, TRUE);
-  gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
 
-#if GTK_MAJOR_VERSION == 2
-  get_color (&color, 0.1, 0.1, 0.8, 1.0);
-  gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-#else
-  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
-#endif 
-  GtkWidget *frame = gtk_frame_new (NULL);
-  //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-
-
-
+  GtkWidget *frame = gtk_frame_new (_("Staff Properties"));
   gtk_paned_add1 (GTK_PANED (pane), frame);
-
-  gtk_container_add (GTK_CONTAINER (frame), expander);
 
   GtkWidget *scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
 #if GTK_MAJOR_VERSION==3
   gtk_widget_set_vexpand (scrolled_window, TRUE);
 #endif
-  gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
+  gtk_container_add (GTK_CONTAINER (frame), scrolled_window);
 
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
           
@@ -2919,31 +2859,13 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
       place_buttons_for_directives ((GList **) & (thestaff->clef.directives), inner_box, DIRECTIVE_CLEF, "clef");
     }
 
-
-  expander = gtk_expander_new (_("Voice Properties"));
-
-  gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
-  gtk_widget_set_sensitive (expander, TRUE);
-  gtk_container_set_border_width (GTK_CONTAINER (expander), 10);
-
-#if GTK_MAJOR_VERSION == 2
-  get_color (&color, 0.1, 0.1, 0.8, 1.0);
-  gtk_widget_override_color (expander, GTK_STATE_FLAG_NORMAL, &color);
-#else
-  set_foreground_color (expander, "rgb(25, 25, 200)");//blue
-#endif 
-
-  frame = gtk_frame_new (NULL);
-  //gtk_frame_set_shadow_type (GTK_FRAME (frame), GTK_SHADOW_IN);
-
+  frame = gtk_frame_new (_("Voice Properties"));
   gtk_paned_add2 (GTK_PANED (pane), frame);
-  gtk_container_add (GTK_CONTAINER (frame), expander);
-
   scrolled_window = gtk_scrolled_window_new (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0), gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
 #if GTK_MAJOR_VERSION==3
   gtk_widget_set_vexpand (scrolled_window, TRUE);
 #endif
-  gtk_container_add (GTK_CONTAINER (expander), scrolled_window);
+  gtk_container_add (GTK_CONTAINER (frame), scrolled_window);
   inner_box = gtk_vbox_new (FALSE, 0);
           
 #if GTK_MAJOR_VERSION==2       
@@ -2954,15 +2876,8 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
 
-
-
-
   place_buttons_for_directives ((GList **) & thestaff->voice_directives, inner_box, DIRECTIVE_VOICE, "voice");
-
-
   gtk_paned_set_position (GTK_PANED (pane), window_height / 2);
-
-
 
   if (g_list_length (gtk_container_get_children (GTK_CONTAINER (vbox))) == 1)
     {                           //just the close button
