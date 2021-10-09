@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-08-16"/>
+<meta name="create-date" content="2021-10-09"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -1227,6 +1227,9 @@ The <b>Edit</b> menu collects command for editing: mostly editing objects in the
 There are commands for deleting the object before the cursor, the object at the cursor and for partially deleting from the object at the cursor (e. g. deleting notes from chords). Other delete commands are in the Object Menu (deleting movements, staffs, measures etc).
 </div>
 <div class="Indented">
+Invoking an Editor for the object at the cursor is done from this menu, as well as editing the LilyPond syntax to be generated for the current object. For example when creating a piano edition for players with smaller hands it is possible to modify the notes of a chord, making the changed syntax conditional on which edition you wish to typeset. Or where the left hand part of a piano piece is to be typeset for cello it is possible to change to tenor clefs where needed omitting these for an omission criterion which might be named &ldquo;pianoforte&rdquo; in this case. Setting any Denemo Directive attached to an object at the cursor to be conditional can be done from this menu - for example if fingerings attached to notes are not to be printed then they can be made conditional on a layout or omitted when some Omission Criterion<a class="Reference" href="#sec:Omission-Criteria">14↓</a> is set.
+</div>
+<div class="Indented">
 There are commands for editing all the Denemo Objects of a chosen type across the whole of a score. Commands for managing the<i> selection<a class="IndexReference" name="entry-Selection-0" href="#index-Selection">↓</a> </i>are also here. Editing using the keyboard to invoke a palette button is here too (usual shortcut is <tt>p</tt>).
 </div>
 <div class="Indented">
@@ -1763,7 +1766,7 @@ All objects, including Denemo Directives can be inspected and edited via the Obj
 One general feature is the Conditional Directives<a class="IndexReference" name="entry-Conditional-Directive-1" href="#index-Conditional-Directive">↓</a> which can be used to restrict a directive to a particular type of score layout<a class="IndexReference" name="entry-Score-Layout-1" href="#index-Score-Layout">↓</a> (e. g. only to be used when printing a part, or a full score). This can be used, for example, to prevent a cue being printed on the full score (as it is only relevant when printing the part).
 </div>
 <div class="Indented">
-Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Denemo-Directives">32↓</a>.
+Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Omission-Criteria">14↓</a>.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.11">3.6.11</a> Lyrics Menu<a class="IndexReference" name="entry-Lyrics-0" href="#index-Lyrics">↓</a> 
@@ -2226,7 +2229,7 @@ The first sections are definitions of the music for each staff/voice.
 The last section is the <i>score layout<a class="IndexReference" name="entry-Score-Layout-3" href="#index-Score-Layout">↓</a></i> which can be a custom one or a default layout (or if continuous typesetting is on, a temporary one). If you want to edit the score layout directly as text then you can click on the Score Layout button here and convert it to a custom layout.
 </div>
 <div class="Indented">
-There is also a pane that shows any error messages that LilyPond may issue when typesetting your score. When an error occurs the remainder of the text is marked in red. Using the arrow keys to move around this text, the Denemo cursor in the Denemo Display will follow, using the little gray anchors that appear before each note, rest, chord or other music object.
+There is also a pane that shows any error messages that LilyPond may issue when typesetting your score. These are not not issued when a typeset is tried by the continuous typesetting mechanism, as you may be in the middle of an edit which might make the score un-typesettable (e.g. start beam with not end beam). Right-click and choose Typeset this LilyPond Text to force a typeset in this circumstance. Then when an error occurs the remainder of the text is marked in red. Using the arrow keys to move around this text, the Denemo cursor in the Denemo Display will follow, using the little gray anchors that appear before each note, rest, chord or other music object.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-9">9</a> The Playback View<a class="IndexReference" name="entry-Playback-View-0" href="#index-Playback-View">↓</a><a class="Label" name="sec:The-Playback-View"> </a>
@@ -2501,10 +2504,10 @@ As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a
 <a class="toc" name="toc-Section-14">14</a> Omission Criteria<a class="IndexReference" name="entry-Omission-Criteria-0" href="#index-Omission-Criteria">↓</a><a class="Label" name="sec:Omission-Criteria"> </a>
 </h1>
 <div class="Unindented">
-Omission Criteria are a sort of lightweight easy-to-use alternative to full-scale Score Layouts. So, for example, if you want to generate score and parts for both a transposed and an un-transposed version of your score you can create an omission criterion (say, &ldquo;untransposed&rdquo;) and set it on the Denemo Directive(s) that control the transposition of the score. Then you only have to turn the omission criterion on or off in the Print View and the typesetting switches between versions. If the instrument names should change as well then you can duplicate the instrument name directive in the Staff Editor and set the omission criterion on the second of those so that it is not used when the score is untransposed.
+Omission Criteria are a sort of lightweight easy-to-use alternative to full-scale Score Layouts. So, for example, if you want to generate score and parts for both a transposed and an un-transposed version of your score you can create an omission criterion with a name of your choice (say, &ldquo;untransposed&rdquo;) and set it on the Denemo Directive(s) that control the transposition of the score. Then you only have to turn the omission criterion on or off in the Print View and the typesetting switches between versions. If the instrument names should change as well then you can duplicate the instrument name directive in the Staff Editor and set the omission criterion on the second of those so that it is not used when the score is untransposed.
 </div>
 <div class="Indented">
-You create omission criterion names in the Print View<a class="Reference" href="#sec:The-Print-View">7↑</a>using the button labelled &ldquo;No Omission Criterion Set&rdquo; and apply them to directives using the Conditional Directive commands. For standalone directives the Conditional Directive commands are in the Directives menu and in the Object Editor, for score, movement, staff etc directives you use Conditional button on the Directive in the respective editor (Score Editor, Movement Editor, Staff Editor etc).
+You create omission criterion names in the Print View<a class="Reference" href="#sec:The-Print-View">7↑</a>using the button labelled &ldquo;No Omission Criterion Set&rdquo; and apply them to directives using the Conditional Directive commands. For standalone directives the Conditional Directive commands are in the Directives menu and in the Object Editor, for score, movement, staff etc directives you use Conditional button on the Directive in the respective editor (Score Editor, Movement Editor, Staff Editor etc). For all other objects (notes, chords, clefs, time signatures, key signatures) there is a Conditional button in the Object Editor, or the Make Object Directive Conditional command in the Edit menu.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-15">15</a> The Score Layouts<a class="IndexReference" name="entry-Score-Layout-4" href="#index-Score-Layout">↓</a> Window<a class="Label" name="sec:The-Score-Layouts"> </a>
@@ -5998,7 +6001,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-08-16T19:27:12.490725</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-09T18:30:05.370502</span>
 </div>
 </div>
 </body>

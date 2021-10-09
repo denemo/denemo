@@ -1777,6 +1777,37 @@ g.
 \end_layout
 
 \begin_layout Standard
+Invoking an Editor for the object at the cursor is done from this menu,
+ as well as editing the LilyPond syntax to be generated for the current
+ object.
+ For example when creating a piano edition for players with smaller hands
+ it is possible to modify the notes of a chord, making the changed syntax
+ conditional on which edition you wish to typeset.
+ Or where the left hand part of a piano piece is to be typeset for cello
+ it is possible to change to tenor clefs where needed omitting these for
+ an omission criterion which might be named 
+\begin_inset Quotes eld
+\end_inset
+
+pianoforte
+\begin_inset Quotes erd
+\end_inset
+
+ in this case.
+ Setting any Denemo Directive attached to an object at the cursor to be
+ conditional can be done from this menu - for example if fingerings attached
+ to notes are not to be printed then they can be made conditional on a layout
+ or omitted when some Omission Criterion
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Omission-Criteria"
+
+\end_inset
+
+ is set.
+\end_layout
+
+\begin_layout Standard
 There are commands for editing all the Denemo Objects of a chosen type across
  the whole of a score.
  Commands for managing the
@@ -4205,7 +4236,7 @@ attached
  Denemo Directives are described in a separate section
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Denemo-Directives"
+reference "sec:Omission-Criteria"
 
 \end_inset
 
@@ -5863,7 +5894,13 @@ Score Layout
 \begin_layout Standard
 There is also a pane that shows any error messages that LilyPond may issue
  when typesetting your score.
- When an error occurs the remainder of the text is marked in red.
+ These are not not issued when a typeset is tried by the continuous typesetting
+ mechanism, as you may be in the middle of an edit which might make the
+ score un-typesettable (e.g.
+ start beam with not end beam).
+ Right-click and choose Typeset this LilyPond Text to force a typeset in
+ this circumstance.
+ Then when an error occurs the remainder of the text is marked in red.
  Using the arrow keys to move around this text, the Denemo cursor in the
  Denemo Display will follow, using the little gray anchors that appear before
  each note, rest, chord or other music object.
@@ -7209,7 +7246,7 @@ Omission Criteria are a sort of lightweight easy-to-use alternative to full-scal
 e Score Layouts.
  So, for example, if you want to generate score and parts for both a transposed
  and an un-transposed version of your score you can create an omission criterion
- (say, 
+ with a name of your choice (say, 
 \begin_inset Quotes eld
 \end_inset
 
@@ -7247,6 +7284,9 @@ No Omission Criterion Set
  Directives menu and in the Object Editor, for score, movement, staff etc
  directives you use Conditional button on the Directive in the respective
  editor (Score Editor, Movement Editor, Staff Editor etc).
+ For all other objects (notes, chords, clefs, time signatures, key signatures)
+ there is a Conditional button in the Object Editor, or the Make Object
+ Directive Conditional command in the Edit menu.
 \end_layout
 
 \begin_layout Section
@@ -8668,7 +8708,6 @@ markup.
 
 \begin_layout Verbatim
 
-
 \backslash
 markup
 \backslash
@@ -8676,7 +8715,6 @@ box
 \end_layout
 
 \begin_layout Verbatim
-
 "boxed words" 
 \end_layout
 
