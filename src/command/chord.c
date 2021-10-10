@@ -501,16 +501,15 @@ changenumdots (DenemoObject * thechord, gint number)
 				pchord->is_tied = tied;//tie was not needed bale out
 			}
 		else //spillover
-			
-				{
-					si->cursor_y = pchord->sum_mid_c_offset;
-					si->staffletter_y = offsettonumber (si->cursor_y); //in case cursor was moved before dotting
-					dnm_insertnote (Denemo.project, pchord->baseduration + 1, INPUTNORMAL, FALSE);
-					DenemoObject *newchord = (DenemoObject*)si->currentobject->data;
-					if (newchord && (newchord->type==CHORD))
-						newchord->isinvisible = thechord->isinvisible;
-					return;
-				}
+			{
+				si->cursor_y = pchord->sum_mid_c_offset;
+				si->staffletter_y = offsettonumber (si->cursor_y); //in case cursor was moved before dotting
+				dnm_insertnote (Denemo.project, pchord->baseduration + 1, INPUTNORMAL, FALSE);
+				DenemoObject *newchord = (DenemoObject*)si->currentobject->data;
+				if (newchord && (newchord->type==CHORD))
+					newchord->isinvisible = thechord->isinvisible;
+				return;
+			}
 		}
   ((chord *) thechord->object)->numdots = MAX (((chord *) thechord->object)->numdots + number, 0);
   set_basic_numticks (thechord);
