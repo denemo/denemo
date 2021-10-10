@@ -1803,11 +1803,7 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
 
 //At this point, if it is the user's preference, check if there is room for this duration in the current measure.
 //if not put in a shorter note and tie it, then call recursively to put in the remaining duration.
-//only do this if we are in the appending position
-//The difficulty here is that we do not have the prevailing time signature cached (?), so we do not know when a measure is full. draw.c is used to compute this.
-//well, they are cached as cursortime1 and 2 in the DenemoMovement structure.
-// is the curObj->starttickofnextnote > tickspermeasure where  tickspermeasure = WHOLE_NUMTICKS * time1 / time2
-
+//only do this if we are in the appending position and not entering a chord
   if(Denemo.prefs.spillover && si->cursor_appending && (Denemo.keyboard_state != ADDING_MASK))
     {
      DenemoObject *curObj;
