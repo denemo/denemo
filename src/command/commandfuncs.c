@@ -1808,7 +1808,7 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
 //well, they are cached as cursortime1 and 2 in the DenemoMovement structure.
 // is the curObj->starttickofnextnote > tickspermeasure where  tickspermeasure = WHOLE_NUMTICKS * time1 / time2
 
-  if(Denemo.prefs.spillover && si->cursor_appending)
+  if(Denemo.prefs.spillover && si->cursor_appending && (Denemo.keyboard_state != ADDING_MASK))
     {
      DenemoObject *curObj;
 
