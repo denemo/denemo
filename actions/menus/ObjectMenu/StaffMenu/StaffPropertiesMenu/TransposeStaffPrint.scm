@@ -12,6 +12,6 @@
 		    (set! text (string-append  (_ "Print transposed:  ") Transpose::Interval " "))
 		    (d-DirectivePut-staff-override tag  DENEMO_OVERRIDE_GRAPHIC)
 		    (d-DirectivePut-staff-display  tag text)
-		    (d-DirectivePut-staff-postfix  tag lily)
+		    (d-DirectivePut-staff-prefix  tag lily)
 		    (d-SetSaved #f))
 		(d-WarningDialog (_ "Cancelled")))))
