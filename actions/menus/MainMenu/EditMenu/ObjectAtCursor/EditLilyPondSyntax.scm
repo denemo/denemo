@@ -16,6 +16,7 @@
 						(if (Music?)
 							(begin
 								(d-DirectivePut-chord-postfix tag syntax)
+								(d-DirectivePut-chord-display tag syntax)
 								(d-DirectivePut-chord-override tag DENEMO_OVERRIDE_LILYPOND)
 								(SetDirectiveConditional "chord" tag))
 							(if (Clef?)
