@@ -8,7 +8,7 @@
         <action>DenemoDurationInTicks</action>
         <after>EditAll</after>
         <_label>(Display) Set Object Duration</_label>
-        <_tooltip>Sets the duration of the object at the cursor for display purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting.</_tooltip>
+        <_tooltip>Sets the duration of the object at the cursor for display/playback purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting.</_tooltip>
       </row>
     </map>
   </merge>

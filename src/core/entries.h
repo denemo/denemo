@@ -258,6 +258,7 @@
 {"Undo", GTK_STOCK_UNDO, N_("Undo"), "",N_("Undoes one (more) step of your edits to the music in the Display Window. Does not work for titles, settings etc - repeat the command for those."),G_CALLBACK (undowrapper)},
 {"Redo", GTK_STOCK_REDO, N_("Redo"), "",N_("Redoes the next of the steps you have Undone"),G_CALLBACK (redowrapper)},
 {"Select", NULL, N_("Select"), "",N_("Selecting stretches of notes")},
+{"ObjectAtCursor", NULL, N_("Object At Cursor"), "",N_("Editing the object at the cursor")},
 {"ExtendSelect", NULL, N_("Create and Extend Selection"), "",N_("Create/Extend the selection.")},
 {"Copy", GTK_STOCK_COPY, N_("Copy"), "",N_("Copy the music selected to the Denemo clipboard"),G_CALLBACK (copywrapper)},
 {"Cut", GTK_STOCK_CUT, N_("Cut"), "",N_("Cut the music selected to the Denemo clipboard"),G_CALLBACK (cutwrapper)},

@@ -6,9 +6,8 @@
     <map>
       <row type="scheme">
         <action>ToggleNonPrinting</action>
-        <after>WholeMeasureSpacer</after>
-        <_label>Spacer/Normal Rest</_label>
-        <_tooltip>Makes the rest at the cursor a spacer rest/restores it as a printing rest.</_tooltip>
+        <_label>Non-Printing Object (Off/On)</_label>
+        <_tooltip>Makes the object at the cursor non-printing (off/on). For notes this means a rhythm-only note.</_tooltip>
       </row>
     </map>
   </merge>

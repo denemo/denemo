@@ -1178,6 +1178,33 @@ The cursor position determines which note to add</_tooltip>
         <_label>Drop the Selection</_label>
         <_tooltip>Gets rid of the selection.</_tooltip>
       </row>
+      
+      
+      
+        <row type="scheme">
+        <action>MakeDirectiveConditional</action>
+        <after>UnsetMark</after>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
+        <_label>Make Object Directive Conditional</_label>
+        <_tooltip>Allows you to make conditional a Denemo Directive attached to the object at the cursor.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EditLilyPondSyntax</action>
+        <after>ToggleNonprintingSelection</after>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
+        <_label>Edit LilyPond Syntax</_label>
+        <_tooltip>Let's you replace the syntax sent to the LilyPond typesetter with your own choice of syntax to typeset the object at the cursor. Be aware that Denemo will continue to display the object as originally defined, only the typesetting will change.</_tooltip>
+      </row>    
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       <row type="builtin">
         <action>ToggleBeginSlur</action>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
@@ -1692,7 +1719,7 @@ these may need re-making.</_tooltip>
       </row>
       <row type="builtin">
         <action>EditObject</action>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>Edit at Cursor</_label>
         <_tooltip>Edit in the context of the object at the cursor.</_tooltip>
       </row>
@@ -5580,14 +5607,14 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="builtin">
         <action>EditCursorObject</action>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>Run Object Editor</_label>
         <_tooltip>Opens a dialog to edit the object at the cursor.</_tooltip>
       </row>
       <row type="scheme">
         <action>ShowLastChange</action>
-        <after>PasteComment</after>
-        <menupath>/MainMenu/EditMenu</menupath>
+        
+        <menupath>/MainMenu/ViewMenu</menupath>
         <_label>Show Last Change</_label>
         <_tooltip>Shows the last change recorded on the Undo stack.</_tooltip>
       </row>
@@ -6544,7 +6571,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>Void</action>
         <after>DenemoDurationInTicks</after>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>(Print) Void Object</_label>
         <_tooltip>On typesetting the current object will be evaluated, but otherwise ignored.</_tooltip>
       </row>
@@ -6586,7 +6613,7 @@ for second and subsequent systems</_tooltip>
       <row type="scheme">
         <action>AdvancedEdit</action>
         <after>EditSimilar</after>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>Advanced Edit</_label>
         <_tooltip>Edits a Denemo Directive at the lowest level. Advanced users only!</_tooltip>
       </row>
@@ -7121,7 +7148,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>ActivatePaletteButtonByLabel</action>
         <after>ShowLastChange</after>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/ViewMenu</menupath>
         <_label>Activate Palette Button</_label>
         <_tooltip>Allows you "click" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help.</_tooltip>
       </row>
@@ -7446,6 +7473,9 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Selection Non-printing (Off/On)</_label>
         <_tooltip>Sets/Unsets all objects in the selection to be non-printing.</_tooltip>
       </row>
+      
+
+      
       <row type="scheme">
         <action>Dottify2</action>
         <after>Dottify</after>
@@ -8039,9 +8069,9 @@ Start Ligature earlier in the same staff.</_tooltip>
       <row type="scheme">
         <action>DenemoDurationInTicks</action>
         <after>EditAll</after>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>(Display) Set Object Duration</_label>
-        <_tooltip>Sets the duration of the object at the cursor for display purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting.</_tooltip>
+        <_tooltip>Sets the duration of the object at the cursor for display/playback purposes. Value is pulses per quarter note - ie MIDI ticks. No effect on typesetting.</_tooltip>
       </row>
       <row type="scheme">
         <action>PolymetricStaffs</action>
@@ -8329,7 +8359,7 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_tooltip>Creates an index including only those scores for which the script in the Scheme Window evaluates to true (i.e. the last expression evaluates as not #f). The comment for each index entry can be created using the procedure DenemoIndexCommentDisplay, e.g. (DenemoIndexCommentDisplay mycomment).</_tooltip>
       </row>
       <row type="scheme">
-        <action>ActivateObjectAtCursor</action>
+        <action>ActivateObjectAtCursor/ObjectAtCursor</action>
         <after>EditCursorObject</after>
         <menupath>/MainMenu/EditMenu</menupath>
         <_label>Activate Object</_label>
@@ -8351,10 +8381,10 @@ Start Ligature earlier in the same staff.</_tooltip>
       </row>
       <row type="scheme">
         <action>ToggleNonPrinting</action>
-        <after>WholeMeasureSpacer</after>
-        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <_label>Spacer/Normal Rest</_label>
-        <_tooltip>Makes the rest at the cursor a spacer rest/restores it as a printing rest.</_tooltip>
+        <after>Void</after>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
+        <_label>Non-Printing Object (Off/On)</_label>
+        <_tooltip>Makes the object at the cursor non-printing (off/on). For notes this means a rhythm-only note.</_tooltip>
       </row>
       <row type="scheme">
         <action>MarkPassages</action>
@@ -8767,20 +8797,7 @@ Include rests if they are part of the pattern.
         <_label>Show Verse</_label>
         <_tooltip>Opens up the lyric pane that contains the verse(s) for this staff (if any)</_tooltip>
       </row>
-      <row type="scheme">
-        <action>MakeDirectiveConditional</action>
-        <after>EditScoreAndMovementDirectives</after>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Make Object Directive Conditional</_label>
-        <_tooltip>Allows you to make conditional a Denemo Directive attached to the object at the cursor.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>EditLilyPondSyntax</action>
-        <after>EditObject</after>
-        <menupath>/MainMenu/EditMenu</menupath>
-        <_label>Edit LilyPond Syntax</_label>
-        <_tooltip>Let's you replace the syntax sent to the LilyPond typesetter with your own choice of syntax to typeset the object at the cursor. Be aware that Denemo will continue to display the object as originally defined, only the typesetting will change.</_tooltip>
-      </row>
+
     </map>
   </merge>
 </Denemo>
