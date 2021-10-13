@@ -7148,7 +7148,7 @@ and others in the LilyPond documentation.</_tooltip>
       <row type="scheme">
         <action>ActivatePaletteButtonByLabel</action>
         <after>ShowLastChange</after>
-        <menupath>/MainMenu/ViewMenu</menupath>
+        <menupath>/MainMenu/EditMenu</menupath>
         <_label>Activate Palette Button</_label>
         <_tooltip>Allows you "click" a palette button by typing the label. Use a keyboard shortcut to start this command, then type the label followed by Return. The last used palette is the active one. Click on the menu item for this command for more help.</_tooltip>
       </row>
@@ -8359,9 +8359,9 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_tooltip>Creates an index including only those scores for which the script in the Scheme Window evaluates to true (i.e. the last expression evaluates as not #f). The comment for each index entry can be created using the procedure DenemoIndexCommentDisplay, e.g. (DenemoIndexCommentDisplay mycomment).</_tooltip>
       </row>
       <row type="scheme">
-        <action>ActivateObjectAtCursor/ObjectAtCursor</action>
+        <action>ActivateObjectAtCursor</action>
         <after>EditCursorObject</after>
-        <menupath>/MainMenu/EditMenu</menupath>
+        <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>Activate Object</_label>
         <_tooltip>Activates the object at the Denemo cursor, equivalent to right-clicking on it. Control and Shift keys will affect the response if used in the key shortcut for this command.</_tooltip>
       </row>
