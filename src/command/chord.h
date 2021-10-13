@@ -42,6 +42,6 @@ void freechord (DenemoObject * mudelaobj);
 
 DenemoObject *clone_chord (DenemoObject * mudelaobj);
 DenemoObject *hidechord (DenemoObject * thechord);
-
+gint get_cursoracc (void);
 
 #endif /*CHORDOPSH */

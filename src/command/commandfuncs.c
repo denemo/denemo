@@ -1742,40 +1742,7 @@ void move_to_earliest_append_position_in_staff (void)
 }
 
 
-//get the prevailing accidental for the current cursor height, that is the last accidental before the cursor at this height (from a note or keysig change), or the cached keysig accidental
-static gint get_cursoracc (void)
-    {
-        //g_print ("Get cursoracc with %d\n", Denemo.project->last_source);
-    if ( Denemo.project->last_source) return 0; //INPUT_MIDI and AUDIO ignore cursoracc
-      DenemoMovement *si = Denemo.project->movement;
-      gint noteheight = si->staffletter_y;
-      measurenode *meas = si->currentmeasure;
-      objnode *obj = si->currentobject;
-      if ((!si->cursor_appending) && obj)
-        obj = obj->prev;//want the object before the cursor unless appending
 
-      for (;obj;obj = obj->prev)
-        {
-          DenemoObject *curobj = (DenemoObject*)obj->data;
-          if (curobj->type == CHORD)
-            {
-                chord *thechord = (chord*) curobj->object;
-                GList *g;
-                for (g = thechord->notes?thechord->notes:NULL;g;g=g->next)
-                    {
-                            note *thenote = (note*)g->data;
-                            if (offsettonumber(thenote->mid_c_offset) == noteheight)
-                                return thenote->enshift;
-                    }
-            }
-         else if (curobj->type == KEYSIG)
-          return curobj->keysig->accs [noteheight];
-        }
-        //if (meas && meas->data && ((DenemoMeasure *)meas->data)->keysig)
-            return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
-       // else
-        //    return 0;
-    }    
     
 void change_duration (gint duration)
 {
@@ -1816,15 +1783,19 @@ dnm_insertnote (DenemoProject * gui, gint duration, input_mode mode, gboolean re
                 gint tickspermeasure =  WHOLE_NUMTICKS * ((DenemoMeasure*)si->currentmeasure->data)->timesig->time1 / ((DenemoMeasure*)si->currentmeasure->data)->timesig->time2;
                 if ((curObj->starttickofnextnote < tickspermeasure) && ((ticks + curObj->starttickofnextnote) > tickspermeasure))
                     {
-                        gint enshift = Denemo.project->movement->pending_enshift;
-                    dnm_insertnote (gui, duration+1, mode, rest);
-                    //set si->cursoroffend if measure is full
-                    curObj = si->currentobject->data;
-                    si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
-                    toggle_tie (NULL, NULL);
-                    Denemo.project->movement->pending_enshift = enshift;
-                    dnm_insertnote (gui, duration+1, mode, rest);
-                    return;
+						gint enshift = Denemo.project->movement->pending_enshift;
+						gint old_cursoracc = get_cursoracc ();
+						//g_print ("Have pending %d and getcursoracc %d\n", enshift, old_cursoracc);
+						dnm_insertnote (gui, duration+1, mode, rest);
+						//set si->cursoroffend if measure is full
+						curObj = si->currentobject->data;
+						si->cursoroffend = (curObj->starttickofnextnote >= tickspermeasure);
+						toggle_tie (NULL, NULL);
+						insertion_point (si);
+						gint new_cursoracc = get_cursoracc ();
+						Denemo.project->movement->pending_enshift = enshift + (old_cursoracc - new_cursoracc);
+						dnm_insertnote (gui, duration+1, mode, rest);
+						return;
                     }
             }
         }

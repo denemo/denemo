@@ -480,7 +480,38 @@ changedur (DenemoObject * thechord, gint baseduration, gint numdots)
 
   set_basic_numticks (thechord);
 }
+//get the prevailing accidental for the current cursor height, that is the last accidental before the cursor at this height (from a note or keysig change), or the cached keysig accidental
+gint get_cursoracc (void)
+   {
+        //g_print ("Get cursoracc with %d\n", Denemo.project->last_source);
+	if (Denemo.project->last_source) 
+		return 0; //INPUT_MIDI and AUDIO ignore cursoracc
+	DenemoMovement *si = Denemo.project->movement;
+	gint noteheight = si->staffletter_y;
+	measurenode *meas = si->currentmeasure;
+	objnode *obj = si->currentobject;
+	if ((!si->cursor_appending) && obj)
+		obj = obj->prev;//want the object before the cursor unless appending
 
+    for (;obj;obj = obj->prev)
+        {
+          DenemoObject *curobj = (DenemoObject*)obj->data;
+          if (curobj->type == CHORD)
+            {
+                chord *thechord = (chord*) curobj->object;
+                GList *g;
+                for (g = thechord->notes?thechord->notes:NULL;g;g=g->next)
+                    {
+                            note *thenote = (note*)g->data;
+                            if (offsettonumber(thenote->mid_c_offset) == noteheight)
+                                return thenote->enshift;
+                    }
+			}
+		 else if (curobj->type == KEYSIG)
+			  return curobj->keysig->accs [noteheight];
+        }
+    return ((DenemoMeasure *)meas->data)->keysig->accs [noteheight];// p *((DenemoMeasure *)(Denemo.project->movement->currentmeasure->data))->keysig
+   }    
 /**
  *  Set the number of dots on the chord
  *  if spillover is set then spillover single dotting (only).
@@ -490,10 +521,14 @@ changenumdots (DenemoObject * thechord, gint number)
 {
 	DenemoMovement *si = Denemo.project->movement;
 	chord *pchord = (chord *) thechord->object;
-	if ((thechord->isinvisible) && number==1 && Denemo.prefs.spillover && (pchord->numdots==0) && (pchord->baseduration>=0))
+	gboolean inserting_midi = si->recording && (si->recording->type==DENEMO_RECORDING_MIDI) && si->recording->marked_onset;
+
+	if ((!inserting_midi) && number==1 && Denemo.prefs.spillover && (pchord->numdots==0) && (pchord->baseduration>=0))
 		{
 		gint num = si->currentmeasurenum;
 		gboolean tied = pchord->is_tied;
+		gint enshift = Denemo.project->movement->pending_enshift;
+		gint old_cursoracc = get_cursoracc ();
 		pchord->is_tied = TRUE;
 		insertion_point (si);
 		if (num == si->currentmeasurenum)
@@ -504,6 +539,8 @@ changenumdots (DenemoObject * thechord, gint number)
 			{
 				si->cursor_y = pchord->sum_mid_c_offset;
 				si->staffletter_y = offsettonumber (si->cursor_y); //in case cursor was moved before dotting
+				gint new_cursoracc = get_cursoracc ();
+				Denemo.project->movement->pending_enshift = enshift + (old_cursoracc - new_cursoracc);
 				dnm_insertnote (Denemo.project, pchord->baseduration + 1, INPUTNORMAL, FALSE);
 				DenemoObject *newchord = (DenemoObject*)si->currentobject->data;
 				if (newchord && (newchord->type==CHORD))
