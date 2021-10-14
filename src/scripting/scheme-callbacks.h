@@ -307,6 +307,7 @@ SCM scheme_get_saved (SCM);
 SCM scheme_mark_status (SCM);
 SCM scheme_selection_start_staff (SCM);
 SCM scheme_selection_end_staff (SCM);
+SCM scheme_get_selection (void);
 SCM scheme_get_help (SCM);
 SCM scheme_email_help (SCM);
 SCM scheme_load_keybindings (SCM);

@@ -7572,7 +7572,25 @@ scheme_selection_end_staff (SCM optional)
 	else
 		return SCM_BOOL_F;
 }
-
+/* return start & end of selection as pair of positions (#f,staff,measure,object) or #f if none */
+SCM scheme_get_selection (void)
+{
+	gint firststaff = Denemo.project->movement->selection.firststaffmarked;
+	gint laststaff = Denemo.project->movement->selection.laststaffmarked;
+	gint firstmeas = Denemo.project->movement->selection.firstmeasuremarked;
+	gint lastmeas = Denemo.project->movement->selection.lastmeasuremarked;
+	gint firstobj = Denemo.project->movement->selection.firstobjmarked + 1;//selection object numbers start at 0
+	gint lastobj;
+	if (firststaff && (firststaff != laststaff))
+		lastobj = 1;//lastobjmarked is a dummy in this case - the whole measure is selected.
+	else
+		lastobj =  Denemo.project->movement->selection.lastobjmarked + 1;
+	if (firststaff)
+		return scm_cons (scm_list_4 (SCM_BOOL_F, scm_from_int (firststaff), scm_from_int (firstmeas), scm_from_int (firstobj)),
+						scm_list_4 (SCM_BOOL_F, scm_from_int (laststaff), scm_from_int (lastmeas), scm_from_int (lastobj)));
+	else
+		return SCM_BOOL_F;
+}
 SCM
 scheme_next_standalone_directive (SCM optional)
 {
