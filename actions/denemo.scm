@@ -1832,7 +1832,17 @@
 			(set! thelist (cons (cons (d-StaffProperties "query=lily_name") partid) thelist)))
 	(d-SelectLayoutId start)
 	thelist))
-	
-	
+
+(define-once MasterMute::value #f) ;saved value for MasterVolume when muted between (MasterMute #t) and (MasterMute #f)	
+(define (MasterMute mute)
+		(if (and mute (not MasterMute::value))
+			(begin
+				(set! MasterMute::value (d-MasterVolume))
+				(d-MasterVolume 0))
+			(begin
+				(if MasterMute::value
+					(d-MasterVolume MasterMute::value)
+					(d-MasterVolume 1))
+				(set! MasterMute::value #f))))
 	
 	
