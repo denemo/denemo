@@ -1305,9 +1305,11 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
 
     case ACTION_INSERT:
       {
-        chunk->object = dnm_clone_object (gui->movement->currentobject->data);
-        dnm_deleteobject (gui->movement);
-        chunk->action = ACTION_DELETE;
+       if(gui->movement->currentobject) {
+			chunk->object = dnm_clone_object (gui->movement->currentobject->data);
+			dnm_deleteobject (gui->movement);
+			chunk->action = ACTION_DELETE;
+		}
       }
       break;
     case ACTION_DELETE:
@@ -1318,11 +1320,12 @@ action_chunk (DenemoProject * gui, DenemoUndoData ** pchunk)
       }
       break;
     case ACTION_CHANGE:
-      {
-        //FIXME guard against a corrupt undo queue here by checking  if(gui->movement->currentobject) {
-        DenemoObject *temp = gui->movement->currentobject->data;
-        gui->movement->currentobject->data = chunk->object;
-        chunk->object = temp;cache_all ();
+      { 
+        if(gui->movement->currentobject) {
+			DenemoObject *temp = gui->movement->currentobject->data;
+			gui->movement->currentobject->data = chunk->object;
+			chunk->object = temp;cache_all ();
+		}
       }
       break;
     case ACTION_SNAPSHOT:
