@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-10-09"/>
+<meta name="create-date" content="2021-10-18"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -457,7 +457,7 @@ Table of Contents
 <a class="Link" href="#toc-Section-13">Section 13: The Staff and Voice Properties Editor</a>
 </div>
 <div class="toc">
-<a class="Link" href="#toc-Section-14">Section 14: Omission Criteria</a>
+<a class="Link" href="#toc-Section-14">Section 14: Inclusion Criteria</a>
 </div>
 <div class="toc">
 <a class="Link" href="#toc-Section-15">Section 15: The Score Layouts Window</a>
@@ -1223,11 +1223,23 @@ These are commands to move along the note onsets in an imported MIDI file (guide
 <div class="Unindented">
 The <b>Edit</b> menu collects command for editing: mostly editing objects in the display, the <a class="Reference" href="#sec:Denemo-Objects">Denemo Objects↓</a>but also editing global properties of the score and your preferences. 
 </div>
-<div class="Indented">
-There are commands for deleting the object before the cursor, the object at the cursor and for partially deleting from the object at the cursor (e. g. deleting notes from chords). Other delete commands are in the Object Menu (deleting movements, staffs, measures etc).
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-1"></a>Edit-&gt;Delete Submenu
 </div>
-<div class="Indented">
-Invoking an Editor for the object at the cursor is done from this menu, as well as editing the LilyPond syntax to be generated for the current object. For example when creating a piano edition for players with smaller hands it is possible to modify the notes of a chord, making the changed syntax conditional on which edition you wish to typeset. Or where the left hand part of a piano piece is to be typeset for cello it is possible to change to tenor clefs where needed omitting these for an omission criterion which might be named &ldquo;pianoforte&rdquo; in this case. Setting any Denemo Directive attached to an object at the cursor to be conditional can be done from this menu - for example if fingerings attached to notes are not to be printed then they can be made conditional on a layout or omitted when some Omission Criterion<a class="Reference" href="#sec:Omission-Criteria">14↓</a> is set.
+<div class="Unindented">
+There are commands for deleting the object before the cursor, the object at the cursor and for partially deleting from the object at the cursor (e. g. deleting notes from chords). Other delete commands are in the Object Menubar menus (deleting movements, staffs, measures etc).
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-2"></a>Edit-&gt;Select Submenu
+</div>
+<div class="Unindented">
+This menu has commands for creating and editing a selection of the music: a selection can begin and end at any object in a single staff or can be a range of measures in adjacent staffs.
+</div>
+<div class="Paragraph">
+<a class="toc" name="toc-Paragraph-3"></a>Edit-&gt;Object at Cursor Submenu
+</div>
+<div class="Unindented">
+Invoking an Editor for the object at the cursor is done from this menu, as well as editing the LilyPond syntax to be generated for the current object. For example when creating a piano edition for players with smaller hands it is possible to modify the notes of a chord, making the changed syntax conditional on which edition you wish to typeset. Or where the left hand part of a piano piece is to be typeset for cello it is possible to insert tenor clefs where needed with a &ldquo;Hide&rdquo; directive guarded by an inclusion criterion which might be named &ldquo;pianoforte&rdquo; in this case. Setting any Denemo Directive attached to an object at the cursor to be conditional can be done from this menu - for example if fingerings attached to notes are not to be printed then they can be made conditional on a layout or specific to some Inclusion Criterion<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a> set on the fingering.
 </div>
 <div class="Indented">
 There are commands for editing all the Denemo Objects of a chosen type across the whole of a score. Commands for managing the<i> selection<a class="IndexReference" name="entry-Selection-0" href="#index-Selection">↓</a> </i>are also here. Editing using the keyboard to invoke a palette button is here too (usual shortcut is <tt>p</tt>).
@@ -1766,7 +1778,7 @@ All objects, including Denemo Directives can be inspected and edited via the Obj
 One general feature is the Conditional Directives<a class="IndexReference" name="entry-Conditional-Directive-1" href="#index-Conditional-Directive">↓</a> which can be used to restrict a directive to a particular type of score layout<a class="IndexReference" name="entry-Score-Layout-1" href="#index-Score-Layout">↓</a> (e. g. only to be used when printing a part, or a full score). This can be used, for example, to prevent a cue being printed on the full score (as it is only relevant when printing the part).
 </div>
 <div class="Indented">
-Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Omission-Criteria">14↓</a>.
+Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a>.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-3.6.11">3.6.11</a> Lyrics Menu<a class="IndexReference" name="entry-Lyrics-0" href="#index-Lyrics">↓</a> 
@@ -2140,7 +2152,7 @@ Part. Creates a Score Layout from the current Part and typesets that. A <i>part 
 Refresh. Repeats that last typeset command. For example, if Part was the last then it typesets the current part (which may be different from the one last typeset if the cursor is in a different part).
 </li>
 <li>
-Omission Criteria. This button is labelled either &ldquo;No Omission Criterion Set&rdquo; or with the name of an Omission Criterion. With it you can create an omission criterion and set it to control the typesetting of the score - see Omission Criteria<a class="Reference" href="#sec:Omission-Criteria">14↓</a>.
+Inlcusion Criteria. This button is labelled either &ldquo;No Inclusion Criterion Set&rdquo; or with the name of an Inclusion Criterion. With it you can create an Inclusion criterion and set it to control the typesetting of the score - see Inclusion Criteria<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a>.
 </li>
 <li>
 Continuous/Manual. This both indicates the current mode of typesetting and acts as a menu for altering it and choosing how much to typeset in continuous mode. In continuous mode the score is re-typeset every time it is altered – choose the range if the score is large so that it refreshes quickly. For entering music rapidly set this to Manual, and re-typeset on demand.\begin_inset Separator latexpar\end_inset<ul>
@@ -2400,7 +2412,7 @@ The &ldquo;Conditional&rdquo; button allows you to say if you want the directive
 <a class="toc" name="toc-Subsubsection-11.1.2">11.1.2</a> Making the Directive Conditional
 </h3>
 <div class="Unindented">
-The conditional button allows make the directive inactive for certain Omission Criteria<a class="Reference" href="#sec:Omission-Criteria">14↓</a> or Score Layouts<a class="Reference" href="#sec:The-Score-Layouts">15↓</a>. You can name omission criteria as meaning the directive should be ignored on typesetting. Or you can designate certain score layouts (e. g. typesetting just one part, or one movement) as ones for which this directive is active or ones which ignore the directive. So if the full score is wanted without fingerings then by clicking this button with the full score as the currently typeset layout the fingering directive can be designated as ignored by that layout. Further examples can be searched and similarly marked in the dialog that follows.
+The conditional button allows make the directive active only for certain Inclusion Criteria<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a> or Score Layouts<a class="Reference" href="#sec:The-Score-Layouts">15↓</a>. You specify inclusion criteria to mean the directive should only be typeset when that criterion is set in the Print View - Note: You have to create the inclusion criterion in the Print View first. Or you can designate certain score layouts (e. g. typesetting just one part, or one movement) as ones for which this directive is active or ones which ignore the directive. So if the full score is wanted without fingerings then by clicking this button with the full score as the currently typeset layout the fingering directive can be designated as ignored by that layout. Further examples can be searched and similarly marked in the dialog that follows.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-11.1.3">11.1.3</a> Making a Copy of the Directive
@@ -2501,13 +2513,13 @@ Note that if there are additional voices on a staff these are usually displayed 
 As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal, </i>and as with the Score/Movements and Staff/Voices editors there are facilities to make duplicate directives for conditional<a class="IndexReference" name="entry-Conditional-Directive-4" href="#index-Conditional-Directive">↓</a> use in the various layouts you may need.
 </div>
 <h1 class="Section">
-<a class="toc" name="toc-Section-14">14</a> Omission Criteria<a class="IndexReference" name="entry-Omission-Criteria-0" href="#index-Omission-Criteria">↓</a><a class="Label" name="sec:Omission-Criteria"> </a>
+<a class="toc" name="toc-Section-14">14</a> Inclusion Criteria<a class="IndexReference" name="entry-Inclusion-Criteria-0" href="#index-Inclusion-Criteria">↓</a><a class="Label" name="sec:Inclusion-Criteria"> </a>
 </h1>
 <div class="Unindented">
-Omission Criteria are a sort of lightweight easy-to-use alternative to full-scale Score Layouts. So, for example, if you want to generate score and parts for both a transposed and an un-transposed version of your score you can create an omission criterion with a name of your choice (say, &ldquo;untransposed&rdquo;) and set it on the Denemo Directive(s) that control the transposition of the score. Then you only have to turn the omission criterion on or off in the Print View and the typesetting switches between versions. If the instrument names should change as well then you can duplicate the instrument name directive in the Staff Editor and set the omission criterion on the second of those so that it is not used when the score is untransposed.
+Inlcusion Criteria are a sort of lightweight easy-to-use alternative to full-scale Score Layouts. So, for example, if you want to generate score and parts for both a transposed and an un-transposed version of your score you can create an inclusion criterion with a name of your choice (say, &ldquo;transposed&rdquo;) and set it on the Denemo Directive(s) that control the transposition of the score. Then you only have to turn the inclusion criterion on or off in the Print View and the typesetting switches between versions. If the instrument names should change as well then you can duplicate the instrument name directive in the Staff Editor and set the inclusion criterion on the second of those so that it is used when the score is transposed.
 </div>
 <div class="Indented">
-You create omission criterion names in the Print View<a class="Reference" href="#sec:The-Print-View">7↑</a>using the button labelled &ldquo;No Omission Criterion Set&rdquo; and apply them to directives using the Conditional Directive commands. For standalone directives the Conditional Directive commands are in the Directives menu and in the Object Editor, for score, movement, staff etc directives you use Conditional button on the Directive in the respective editor (Score Editor, Movement Editor, Staff Editor etc). For all other objects (notes, chords, clefs, time signatures, key signatures) there is a Conditional button in the Object Editor, or the Make Object Directive Conditional command in the Edit menu.
+You create inclusion criterion names in the Print View<a class="Reference" href="#sec:The-Print-View">7↑</a>using the button labelled &ldquo;No Inclusion Criterion Set&rdquo; and apply them to directives using the Conditional Directive commands. For score, movement, staff etc directives you use Conditional button on the Directive in the respective editor (Score Editor, Movement Editor, Staff Editor etc). For objects (notes, chords, clefs, time signatures, key signatures, standalone Denemo Directives) there is a Conditional button in the Object Editor, or the Make Object Directive Conditional command in the Edit-&gt;Object at Cursor menu.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-15">15</a> The Score Layouts<a class="IndexReference" name="entry-Score-Layout-4" href="#index-Score-Layout">↓</a> Window<a class="Label" name="sec:The-Score-Layouts"> </a>
@@ -3075,7 +3087,7 @@ The Playback/Record-&gt;Recording menu gives the commands to start/pause recordi
 If you have several staffs in your score and the one you are playing in is too far below the MIDI track you can invoke the command &ldquo;Hide Other Staffs (Off/On)&rdquo; (Alt-h is the standard shortcut) which will temporarily hide the staffs you do not need to see. While you are recording the Denemo Display has a red cast to it to remind you that playing the MIDI keyboard will enter notes into the recording rather than into the score.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-1"></a>Playing in the pitches
+<a class="toc" name="toc-Paragraph-4"></a>Playing in the pitches
 </div>
 <div class="Unindented">
 Once you start playing on the MIDI keyboard headless notes are entered on the MIDI track staff with an indication of their start and end points on the blue line at the top of the display.
@@ -3099,7 +3111,7 @@ If you leave a long gap between two notes (e.g. because of a long rest) the reco
 As you record the pitches the staffs will have extra blank measures added so that the MIDI track can show the pitches in the tempo of the movement. There is no need to pause recording to go on to entering the rhythms - just start typing in the durations.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-2"></a>Playing in the durations
+<a class="toc" name="toc-Paragraph-5"></a>Playing in the durations
 </div>
 <div class="Unindented">
 Pressing duration keys, including dotted rhythm, triplet and ties and slurred versions of those commands will insert the marked MIDI note into the score at the Denemo cursor and move the marked MIDI note forwards so you can continually enter the music mostly in music time and rhythm. Use the Ins key to enter the additional notes in a chord. You should enter any rests needed in between the notes via the usual shortcuts (Alt-0,1,2 ... ). Mostly you can enter the rhythm in music-time so that you hear the melody as you press the duration keys, but you can stop off at any moment to insert dynamics etc and resume entering durations without a problem. When you reach the end of the recorded notes a clash of cymbals sounds and the duration keys will revert to entering pure duations - by this time you will have reached the small red marker in the original source you are transcribing from (if you placed one as you finished playing the notes). While you are entering the rhythm the MIDI recording track re-synchronizes the marked MIDI note at every new bar you reach so that the recorded note that will be entered next in that bar is visible immediately above on the MIDI track.
@@ -3114,7 +3126,7 @@ The shortcuts for entering triplets crash the sounding of the notes together - y
 
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-3"></a>Mouse Operations
+<a class="toc" name="toc-Paragraph-6"></a>Mouse Operations
 </div>
 <div class="Unindented">
 Right-clicking on the MIDI track pops up the menu of the commands available in the Playback-&gt;Recording menu.
@@ -3132,19 +3144,19 @@ To reposition the recorded MIDI track relative to the score you can Shift-Left-D
 Finally Ctrl-Shift-Left click moves the <i>currently marked MIDI note </i>to the clicked note and start playing the MIDI recording from there.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-4"></a>Composers
+<a class="toc" name="toc-Paragraph-7"></a>Composers
 </div>
 <div class="Unindented">
 For people who compose at the keyboard one possibility is to turn on recording (Alt-r) and then play around with musical ideas until you have found one you wish to transcribe. At this point you can &ldquo;rewind&rdquo; your recording (using Alt-Up arrow) by a specified interval from the end. The exact place to rewind to can be found by playing the recording from this point (use Alt-right to step through or Alt-p to play) and rewinding some more or stopping when you reach the right point. Once synchronized to this starting point you can proceeed to enter the durations as usual. Again Alt-Del, c will delete the unwanted blank measures at the end if you have created them.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-5"></a>When finished
+<a class="toc" name="toc-Paragraph-8"></a>When finished
 </div>
 <div class="Unindented">
 The shortcut Alt-Del, Alt-Del deletes the current recording while Alt-Del, c deletes the recording, the MIDI click track and any trailing blank measures that may have been created if your recording tempo did not match the tempo of the movement.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-6"></a>Miscellaneous points
+<a class="toc" name="toc-Paragraph-9"></a>Miscellaneous points
 </div>
 <div class="Unindented">
 If you want to reset the marked MIDI note to the start of the recording you can use the Alt-Up shortcut and accept the default value given - this places the marked MIDI note at the start and synchronizes it to the current cursor position.
@@ -3603,7 +3615,7 @@ Mouse Shortcuts are tricky to set – you are able to control what happens on mo
 It is possible to add more commands to the set that Denemo ships with. Some of these are shipped with Denemo, but not added automatically so as to keep the menu sizes manageable. Generally, you right-click to find more menu items to add; once added you can set a keyboard/mouse shortcut and keep the command in your default setup. Scheme to be executed at startup can be placed in the denemo.scm file.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-7"></a>An example – quicker dynamics selection
+<a class="toc" name="toc-Paragraph-10"></a>An example – quicker dynamics selection
 </div>
 <div class="Unindented">
 It can be slow to choose dynamics (<tt>Ctrl-D</tt>) because the list is quite long to move down (or move to the mouse). You can define a list of the dynamics you actually want to be readily available as for example: (define DenemoDynamicList ’(("f" "127" "Forte") ("p" "127" "Piano"))) This makes forte available just by pressing Return and piano available by pressing down arrow Return. (The others via More of course). If you place this in (home directory)/.denemo-x.x.x/actions/denemo.scm then it will be defined when you start Denemo.
@@ -5101,7 +5113,7 @@ The MIDI filters are scheme scripts, so they can be tailored to do whatever you 
 <a class="toc" name="toc-Subsection-30.12">30.12</a> LilyPond Editing
 </h2>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-8"></a>Introduction
+<a class="toc" name="toc-Paragraph-11"></a>Introduction
 </div>
 <div class="Unindented">
 From version 0.7.8 we have the ability to edit the LilyPond output within Denemo. This approach immediately makes Denemo able to do many more things (e. g. multiple verses for songs) with the music still editable from within Denemo. The gallery of examples and the standard templates contain examples which you can use.
@@ -5125,7 +5137,7 @@ Right clicking on the text gives a menu for actions on the LilyPond text. LilyPo
 This menu also includes a Print command that operates on the visible LilyPond text in the window. This means you can open specific custom score layouts and print from them, or even make a temporary edit for just one print. If you save the score with custom layouts then these are remembered. So when you reload and the custom score layout will be printed.
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-9"></a>Detail
+<a class="toc" name="toc-Paragraph-12"></a>Detail
 </div>
 <div class="Unindented">
 Several custom layouts can be kept, selecting them in the Score Layout view enables the same Denemo file to print a variety of things from the same music input. 
@@ -5410,7 +5422,7 @@ In this example the directive is a standalone directive. MIDI commands are being
 <a class="toc" name="toc-Subsection-32.2">32.2</a> Directive Edit Scripts
 </h2>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-10"></a>Introduction
+<a class="toc" name="toc-Paragraph-13"></a>Introduction
 </div>
 <div class="Unindented">
 Score and movement directives can define a value for their graphic – a button then appears at the top of the score which can be used to edit the directive. Likewise Staff and Voice directives show as a properties icon before the staff to which they apply (staff directives above, voice directives below). Clicking on these lets you edit the directive.
@@ -5594,7 +5606,7 @@ cvs − d:pserver:anonymouspserver.git.sv.gnu.org: ⁄ denemo.gitco �
 </span>
 </div>
 <div class="Paragraph">
-<a class="toc" name="toc-Paragraph-11"></a>Dependencies
+<a class="toc" name="toc-Paragraph-14"></a>Dependencies
 </div>
 <div class="Unindented">
 To build Denemo from a source package, pleas see the website for an up-to-date list of dependencies. Remember to install the development packages as well (check your distribution for the specific package name):
@@ -5777,6 +5789,9 @@ Many people have contributed to this manual, directly and indirectly, over the y
 <a class="printindex" name="index-Hidden-Staffs"></a>Hidden Staffs: <a class="IndexArrow" href="#entry-Hidden-Staffs-0">↑</a>
 </p>
 <p class="printindex">
+<a class="printindex" name="index-Inclusion-Criteria"></a>Inclusion Criteria: <a class="IndexArrow" href="#entry-Inclusion-Criteria-0">↑</a>
+</p>
+<p class="printindex">
 <a class="printindex" name="index-Indent"></a>Indent: <a class="IndexArrow" href="#entry-Indent-0">↑</a>
 </p>
 <p class="printindex">
@@ -5835,9 +5850,6 @@ Many people have contributed to this manual, directly and indirectly, over the y
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Object-Inspector"></a>Object Inspector: <a class="IndexArrow" href="#entry-Object-Inspector-0">↑</a>, <a class="IndexArrow" href="#entry-Object-Inspector-1">↑</a>
-</p>
-<p class="printindex">
-<a class="printindex" name="index-Omission-Criteria"></a>Omission Criteria: <a class="IndexArrow" href="#entry-Omission-Criteria-0">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Ornaments"></a>Ornaments: <a class="IndexArrow" href="#entry-Ornaments-0">↑</a>, <a class="IndexArrow" href="#entry-Ornaments-1">↑</a>, <a class="IndexArrow" href="#entry-Ornaments-2">↑</a>
@@ -6001,7 +6013,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-09T18:30:05.370502</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-18T15:25:56.990527</span>
 </div>
 </div>
 </body>

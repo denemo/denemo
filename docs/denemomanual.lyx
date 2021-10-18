@@ -1763,6 +1763,10 @@ but also editing global properties of the score and your preferences.
  
 \end_layout
 
+\begin_layout Paragraph
+Edit->Delete Submenu
+\end_layout
+
 \begin_layout Standard
 There are commands for deleting the object before the cursor, the object
  at the cursor and for partially deleting from the object at the cursor
@@ -1772,8 +1776,22 @@ There are commands for deleting the object before the cursor, the object
 
 g.
  deleting notes from chords).
- Other delete commands are in the Object Menu (deleting movements, staffs,
- measures etc).
+ Other delete commands are in the Object Menubar menus (deleting movements,
+ staffs, measures etc).
+\end_layout
+
+\begin_layout Paragraph
+Edit->Select Submenu
+\end_layout
+
+\begin_layout Standard
+This menu has commands for creating and editing a selection of the music:
+ a selection can begin and end at any object in a single staff or can be
+ a range of measures in adjacent staffs.
+\end_layout
+
+\begin_layout Paragraph
+Edit->Object at Cursor Submenu
 \end_layout
 
 \begin_layout Standard
@@ -1784,8 +1802,15 @@ Invoking an Editor for the object at the cursor is done from this menu,
  it is possible to modify the notes of a chord, making the changed syntax
  conditional on which edition you wish to typeset.
  Or where the left hand part of a piano piece is to be typeset for cello
- it is possible to change to tenor clefs where needed omitting these for
- an omission criterion which might be named 
+ it is possible to insert tenor clefs where needed with a 
+\begin_inset Quotes eld
+\end_inset
+
+Hide
+\begin_inset Quotes erd
+\end_inset
+
+ directive guarded by an inclusion criterion which might be named 
 \begin_inset Quotes eld
 \end_inset
 
@@ -1797,14 +1822,14 @@ pianoforte
  Setting any Denemo Directive attached to an object at the cursor to be
  conditional can be done from this menu - for example if fingerings attached
  to notes are not to be printed then they can be made conditional on a layout
- or omitted when some Omission Criterion
+ or specific to some Inclusion Criterion
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Omission-Criteria"
+reference "sec:Inclusion-Criteria"
 
 \end_inset
 
- is set.
+ set on the fingering.
 \end_layout
 
 \begin_layout Standard
@@ -4236,7 +4261,7 @@ attached
  Denemo Directives are described in a separate section
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Omission-Criteria"
+reference "sec:Inclusion-Criteria"
 
 \end_inset
 
@@ -5477,21 +5502,21 @@ Refresh.
 \end_layout
 
 \begin_layout Itemize
-Omission Criteria.
+Inlcusion Criteria.
  This button is labelled either 
 \begin_inset Quotes eld
 \end_inset
 
-No Omission Criterion Set
+No Inclusion Criterion Set
 \begin_inset Quotes erd
 \end_inset
 
- or with the name of an Omission Criterion.
- With it you can create an omission criterion and set it to control the
- typesetting of the score - see Omission Criteria
+ or with the name of an Inclusion Criterion.
+ With it you can create an Inclusion criterion and set it to control the
+ typesetting of the score - see Inclusion Criteria
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Omission-Criteria"
+reference "sec:Inclusion-Criteria"
 
 \end_inset
 
@@ -6698,11 +6723,11 @@ Making the Directive Conditional
 \end_layout
 
 \begin_layout Standard
-The conditional button allows make the directive inactive for certain Omission
- Criteria
+The conditional button allows make the directive active only for certain
+ Inclusion Criteria
 \begin_inset CommandInset ref
 LatexCommand ref
-reference "sec:Omission-Criteria"
+reference "sec:Inclusion-Criteria"
 
 \end_inset
 
@@ -6714,8 +6739,9 @@ reference "sec:The-Score-Layouts"
 \end_inset
 
 .
- You can name omission criteria as meaning the directive should be ignored
- on typesetting.
+ You specify inclusion criteria to mean the directive should only be typeset
+ when that criterion is set in the Print View - Note: You have to create
+ the inclusion criterion in the Print View first.
  Or you can designate certain score layouts (e.
 \begin_inset space \thinspace{}
 \end_inset
@@ -7221,12 +7247,12 @@ Conditional Directive
 \end_layout
 
 \begin_layout Section
-Omission Criteria
+Inclusion Criteria
 \begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-Omission Criteria
+Inclusion Criteria
 \end_layout
 
 \end_inset
@@ -7234,7 +7260,7 @@ Omission Criteria
 
 \begin_inset CommandInset label
 LatexCommand label
-name "sec:Omission-Criteria"
+name "sec:Inclusion-Criteria"
 
 \end_inset
 
@@ -7242,29 +7268,29 @@ name "sec:Omission-Criteria"
 \end_layout
 
 \begin_layout Standard
-Omission Criteria are a sort of lightweight easy-to-use alternative to full-scal
-e Score Layouts.
+Inlcusion Criteria are a sort of lightweight easy-to-use alternative to
+ full-scale Score Layouts.
  So, for example, if you want to generate score and parts for both a transposed
- and an un-transposed version of your score you can create an omission criterion
- with a name of your choice (say, 
+ and an un-transposed version of your score you can create an inclusion
+ criterion with a name of your choice (say, 
 \begin_inset Quotes eld
 \end_inset
 
-untransposed
+transposed
 \begin_inset Quotes erd
 \end_inset
 
 ) and set it on the Denemo Directive(s) that control the transposition of
  the score.
- Then you only have to turn the omission criterion on or off in the Print
+ Then you only have to turn the inclusion criterion on or off in the Print
  View and the typesetting switches between versions.
  If the instrument names should change as well then you can duplicate the
- instrument name directive in the Staff Editor and set the omission criterion
- on the second of those so that it is not used when the score is untransposed.
+ instrument name directive in the Staff Editor and set the inclusion criterion
+ on the second of those so that it is used when the score is transposed.
 \end_layout
 
 \begin_layout Standard
-You create omission criterion names in the Print View
+You create inclusion criterion names in the Print View
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:The-Print-View"
@@ -7275,18 +7301,18 @@ using the button labelled
 \begin_inset Quotes eld
 \end_inset
 
-No Omission Criterion Set
+No Inclusion Criterion Set
 \begin_inset Quotes erd
 \end_inset
 
  and apply them to directives using the Conditional Directive commands.
- For standalone directives the Conditional Directive commands are in the
- Directives menu and in the Object Editor, for score, movement, staff etc
- directives you use Conditional button on the Directive in the respective
- editor (Score Editor, Movement Editor, Staff Editor etc).
- For all other objects (notes, chords, clefs, time signatures, key signatures)
- there is a Conditional button in the Object Editor, or the Make Object
- Directive Conditional command in the Edit menu.
+ For score, movement, staff etc directives you use Conditional button on
+ the Directive in the respective editor (Score Editor, Movement Editor,
+ Staff Editor etc).
+ For objects (notes, chords, clefs, time signatures, key signatures, standalone
+ Denemo Directives) there is a Conditional button in the Object Editor,
+ or the Make Object Directive Conditional command in the Edit->Object at
+ Cursor menu.
 \end_layout
 
 \begin_layout Section
@@ -8708,6 +8734,7 @@ markup.
 
 \begin_layout Verbatim
 
+
 \backslash
 markup
 \backslash
@@ -8715,6 +8742,7 @@ box
 \end_layout
 
 \begin_layout Verbatim
+
 "boxed words" 
 \end_layout
 
