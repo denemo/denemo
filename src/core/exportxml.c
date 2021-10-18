@@ -1176,8 +1176,8 @@ exportXML (gchar * thefilename, DenemoProject * gui)
   GList *conditions;
   for (conditions = gui->criteria; conditions; conditions = conditions->next)
     {
-      DenemoOmissionCriterion *condition = (DenemoOmissionCriterion *)conditions->data;
-      xmlNewTextChild (scoreElem, ns, (xmlChar *) "omission-criterion", (xmlChar *) (condition->name));
+      DenemoInclusionCriterion *condition = (DenemoInclusionCriterion *)conditions->data;
+      xmlNewTextChild (scoreElem, ns, (xmlChar *) "Inclusion-criterion", (xmlChar *) (condition->name));
     }
     
   /* lilycontrol for the whole musical score */

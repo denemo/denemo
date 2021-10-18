@@ -70,7 +70,8 @@ DenemoDirective *get_header_directive (gchar * tag);
 DenemoDirective *get_score_directive (gchar * tag);
 
 
-DenemoDirective *get_score_directive (gchar * tag);
+DenemoDirective *get_staff_directive (gchar * tag);
+DenemoDirective *get_voice_directive (gchar * tag);
 
 DenemoDirective *get_clef_directive (gchar * tag);
 DenemoDirective *get_keysig_directive (gchar * tag);

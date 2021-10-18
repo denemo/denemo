@@ -1190,17 +1190,17 @@ parseSources (xmlNodePtr parentElem)
 
 
 /**
- * Parse the given omission criterion element.
+ * Parse the given Inclusion criterion element.
  *
  * @param chordElem the XML node to process
  * @param  Denemo project  */
 static void
-parseOmissionCriterion (xmlNodePtr parentElem, DenemoProject *gui)
+parseInclusionCriterion (xmlNodePtr parentElem, DenemoProject *gui)
 {
 
   gchar *name = (gchar*) xmlNodeListGetString (parentElem->doc, parentElem->children, 1);
   guint id = get_layout_id_for_name (name);
-  DenemoOmissionCriterion *condition = g_malloc (sizeof (DenemoOmissionCriterion));
+  DenemoInclusionCriterion *condition = g_malloc (sizeof (DenemoInclusionCriterion));
   condition->name = name;
   condition->id = id;
   gui->criteria = g_list_append (gui->criteria, condition);
@@ -3111,9 +3111,9 @@ importXML (gchar * filename, DenemoProject * gui, ImportType type)
               {
                 parseSourceFileElem (childElem, gui);
               }
-            else if (ELEM_NAME_EQ (childElem, "omission-criterion"))
+            else if (ELEM_NAME_EQ (childElem, "Inclusion-criterion"))
               {
-                parseOmissionCriterion (childElem, gui);
+                parseInclusionCriterion (childElem, gui);
               }              
             else if (ELEM_NAME_EQ (childElem, "rhythms"))
               {

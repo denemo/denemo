@@ -1229,10 +1229,11 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Selects the first score layout.", DENEMO_SCHEME_PREFIX "SelectFirstLayout", scheme_select_first_layout);
   install_scm_function (0, "Selects the next custom score layout. If the current layout is the last, returns #f otherwise #t.", DENEMO_SCHEME_PREFIX "SelectNextCustomLayout", scheme_select_next_custom_layout);
   install_scm_function (0, "Selects the first custom score layout.", DENEMO_SCHEME_PREFIX "SelectFirstCustomLayout", scheme_select_first_custom_layout);
-  install_scm_function (0, "If there is a current omission criterion set in the Print View this returns it as a pair (name id), else returns #f", DENEMO_SCHEME_PREFIX "GetOmitCriterion", scheme_get_omit_criterion);
-  install_scm_function (0, "Sets an omission criterion for typesetting in the Print View takes a name or #f to set unconditional typesetting", DENEMO_SCHEME_PREFIX "SetOmitCriterion", scheme_set_omit_criterion);
-  install_scm_function (0, "Returns a list of omission criteria defined for the current score", DENEMO_SCHEME_PREFIX "GetOmitCriteria", scheme_get_omit_criteria);
-  install_scm_function (1, "Takes a name and returns the corresponding (layout or omission criterion) id.", DENEMO_SCHEME_PREFIX "GetIdForName", scheme_get_id_for_name);
+  install_scm_function (0, "If there is a current Inclusion criterion set in the Print View this returns it as a pair (name id), else returns #f", DENEMO_SCHEME_PREFIX "GetIncludeCriterion", scheme_get_include_criterion);
+  install_scm_function (0, "Sets an Inclusion criterion for typesetting in the Print View takes a name or #f to set unconditional typesetting", DENEMO_SCHEME_PREFIX "SetIncludeCriterion", scheme_set_include_criterion);
+  install_scm_function (0, "Returns a list of Inclusion criteria defined for the current score", DENEMO_SCHEME_PREFIX "GetIncludeCriteria", scheme_get_include_criteria);
+  install_scm_function (2, "Takes a tag and a type, returns a list of Inclusion criteria set on the directive of that type and tag.", DENEMO_SCHEME_PREFIX "GetIncludeCriteriaOnDirective", scheme_get_include_criteria_on_directive);
+  install_scm_function (1, "Takes a name and returns the corresponding (layout or Inclusion criterion) id.", DENEMO_SCHEME_PREFIX "GetIdForName", scheme_get_id_for_name);
   
   install_scm_function (2, "Takes a tag name and a layout name, sets the staff directive of that tag to be allowed only for that layout", DENEMO_SCHEME_PREFIX "StaffDirectivePutAllow", scheme_staff_directive_put_allow);
   install_scm_function (2, "Takes a tag name and a layout name, sets the scoreheader directive of that tag to be allowed only for that layout", DENEMO_SCHEME_PREFIX "ScoreheaderDirectivePutAllow", scheme_scoreheader_directive_put_allow);

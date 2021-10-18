@@ -13,7 +13,7 @@
 #include "export/exportlilypond.h"
 #include "source/sourceaudio.h"
 
-#define NO_CONDITION_LABEL _( "No Omission Criterion Set")
+#define NO_CONDITION_LABEL _( "No Inclusion Criterion Set")
 
 
 static gint changecount = -1;   //changecount when the printfile was last created FIXME multiple tabs are muddled
@@ -2554,12 +2554,13 @@ get_updates_button (void)
 static void conditions_menu (void);
 static void create_new_condition (void)
 {
-    gchar *name = string_dialog_entry (Denemo.project, _("New Omission Criterion"), _("Give a name for this new criterion"), _("Not transposed"));
+    gchar *name = string_dialog_entry (Denemo.project, _("New Inclusion Criterion"), _("Give a name for this new criterion"), _("Transposed"));
     if (name)
       {
-        DenemoOmissionCriterion *condition = g_malloc (sizeof (DenemoOmissionCriterion));
-        condition->name = name;
-        condition->id = get_layout_id_for_name (name);
+        DenemoInclusionCriterion *condition = g_malloc (sizeof (DenemoInclusionCriterion));
+        condition->name = g_strconcat (" ", name, NULL);
+        g_free (name);
+        condition->id = get_layout_id_for_name (condition->name);
         Denemo.project->criteria = g_list_append (Denemo.project->criteria, condition);
         conditions_menu ();
       }
@@ -2568,16 +2569,16 @@ static void create_new_condition (void)
 static GtkWidget *condition_button; 
 
 
-void  set_condition (DenemoOmissionCriterion *condition)
+void  set_condition (DenemoInclusionCriterion *condition)
   {
     Denemo.project->criterion = condition;
-    gchar *text = condition? g_strdup_printf ("%s", condition->name) : g_strdup (NO_CONDITION_LABEL);
+    gchar *text = condition? g_strdup_printf ("%s%s", _("For:"), condition->name) : g_strdup (NO_CONDITION_LABEL);
     gtk_button_set_label (GTK_BUTTON (condition_button), text);
     g_free (text);
     update_standard_scoreblocks ();
   }
   
-static void drop_condition (DenemoOmissionCriterion *condition)
+static void drop_condition (DenemoInclusionCriterion *condition)
 {
   g_free (condition->name);
   Denemo.project->criteria = g_list_remove (Denemo.project->criteria, condition);
@@ -2589,7 +2590,7 @@ void delete_conditions (DenemoProject *gui)
   GList *g;
   for (g=gui->criteria;g;g=g->next)
     {
-      g_free (((DenemoOmissionCriterion*)g->data)->name);
+      g_free (((DenemoInclusionCriterion*)g->data)->name);
     }
   g_list_free (gui->criteria);
   gui->criterion = NULL;
@@ -2605,36 +2606,35 @@ static GtkWidget *get_conditions_menu (void)
   
   if (Denemo.project->criterion)
     {
-     item = gtk_menu_item_new_with_label (_("Unconditional Typesetting"));
-      gtk_widget_set_tooltip_text (item, _("Typesetting will ignore any omission criteria that may have been set on Denemo Directives."));
+     item = gtk_menu_item_new_with_label (_("No Inclusion Criterion"));
+      gtk_widget_set_tooltip_text (item, _("Typesetting will ignore any directives which have been set to require an Inclusion Criterion."));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_condition), NULL);
     }
-  
-  item = gtk_menu_item_new_with_label (_("New Named Omission Criterion"));
-  gtk_widget_set_tooltip_text (item, _("Create a new omission criterion to say which condtional directives should be ignored."));
-  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (create_new_condition), NULL);
-      
   for (g=Denemo.project->criteria;g;g=g->next)
     {
-      DenemoOmissionCriterion *condition = g->data;
+      DenemoInclusionCriterion *condition = g->data;
       if (condition == Denemo.project->criterion)
         continue;
-      gchar *text = g_strdup_printf ("%s%s", _("Omit: "), condition->name);
+      gchar *text = g_strdup_printf ("%s%s", _("Typeset including:"), condition->name);
       item = gtk_menu_item_new_with_label (text);
       g_free (text);
-      gtk_widget_set_tooltip_text (item, _("Select this as the active omission criterion"));
+      gtk_widget_set_tooltip_text (item, _("Select this as the active Inclusion Criterion"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (set_condition), g->data);
-    }
-    
+    }  
+
+  item = gtk_menu_item_new_with_label (_("New Named Inclusion Criterion"));
+  gtk_widget_set_tooltip_text (item, _("Create a new Inclusion Criterion to determine which condtional directives should be included."));
+  gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+  g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (create_new_condition), NULL);
+ 
  if (Denemo.project->criterion)
     {
-      gchar *text = g_strdup_printf ("%s %s", _("Destroy criterion:"),  Denemo.project->criterion->name);
+      gchar *text = g_strdup_printf ("%s %s", _("Destroy Criterion:"),  Denemo.project->criterion->name);
       item = gtk_menu_item_new_with_label (text);
       g_free (text);
-      gtk_widget_set_tooltip_text (item, _("No longer use this as an omission criterion for this score"));
+      gtk_widget_set_tooltip_text (item, _("No longer use this as an Inclusion Criterion for this score; all directives tagged with this criterion will be active as normal."));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (drop_condition), Denemo.project->criterion);       
     }    
@@ -2651,7 +2651,7 @@ static GtkWidget *
 create_condition_button (void)
 {
   condition_button = gtk_button_new_with_label (NO_CONDITION_LABEL);
-  gtk_widget_set_tooltip_text (condition_button, _("Make an ommision criterion active. Any directive set to be ignored for the named criterion will not affect the typesetting."));
+  gtk_widget_set_tooltip_text (condition_button, _("Make an Inclusion Criterion active. Any directive set to be included for the named criterion now affect the typesetting."));
   g_signal_connect (condition_button, "clicked", G_CALLBACK (conditions_menu), NULL);
   return condition_button;
 }

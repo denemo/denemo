@@ -925,10 +925,10 @@ typedef struct DenemoScrollPoint {
      gdouble time, adj;
      gdouble x, y;
 } DenemoScrollPoint;
-typedef struct DenemoOmissionCriterion {
+typedef struct DenemoInclusionCriterion {
      gchar *name;
      guint32 id;
-} DenemoOmissionCriterion;
+} DenemoInclusionCriterion;
 
 /*
  *  DenemoScore structure representing a single movement of a piece of music.
@@ -1102,8 +1102,8 @@ typedef struct DenemoProject
   GList *custom_scoreblocks; /**< List of customized  \score blocks for LilyPond output, elements are DenemoScoreblock * */
   GtkWidget *score_layout; /**< The window in which custom_scoreblock widgets are placed */
   guint layout_id; /**< cached value of the currently selected layout id */
-  DenemoOmissionCriterion *criterion; /**< an omission criterion chosen by the user to avoid directives marked to ignore this name - a lightweight score layout in effect. */
-  GList *criteria; /**< a list of DenemoOmissionCriterion which have been defined for this score */
+  DenemoInclusionCriterion *criterion; /**< an inclusion criterion chosen by the user to avoid directives marked to ignore this name - a lightweight score layout in effect. */
+  GList *criteria; /**< a list of DenemoInclusionCriterion which have been defined for this score */
   GList *callbacks;/**< scheme callbacks on deletion */
   gpointer lilystart, lilyend; /**<range of lilytext  */
   GString **target; /**< pointer to target string for modification in lilytext  */

@@ -942,7 +942,7 @@ DenemoDirective *get_score_directive (gchar * tag)
   return find_directive (Denemo.project->lilycontrol.directives, tag);
 }
 
-static DenemoDirective *get_staff_directive (gchar * tag)
+DenemoDirective *get_staff_directive (gchar * tag)
 {
   if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
@@ -953,7 +953,7 @@ static DenemoDirective *get_staff_directive (gchar * tag)
   return find_directive (curstaff->staff_directives, tag);
 }
 
-static DenemoDirective *get_voice_directive (gchar * tag)
+DenemoDirective *get_voice_directive (gchar * tag)
 {
   if (Denemo.project->movement->currentstaff == NULL)
     return NULL;
@@ -1296,13 +1296,13 @@ static GList *remove_layout (GList *layouts, guint id)
    return g_list_remove (layouts, GUINT_TO_POINTER(id));
 }
 
-static gboolean is_omission_criterion (guint id)
+static gboolean is_Inclusion_criterion (guint id)
   {
     GList *g;
     if (Denemo.project->criteria)
       for (g=Denemo.project->criteria; g; g = g->next)
         {
-          DenemoOmissionCriterion *condition = g->data;
+          DenemoInclusionCriterion *condition = g->data;
           if (condition->id == id)
             return TRUE;
         }
@@ -1324,8 +1324,8 @@ static void action_ignore (DenemoDirective *directive, guint value) {
                  directive->layouts = add_layout (directive->layouts, value);//g_print("Added %x to ignored layouts\n", value);
                 }
             else {
-                     if (is_omission_criterion(value))
-                      directive->layouts = g_list_append (directive->layouts, GUINT_TO_POINTER(value)); //an omission criterion is always added
+                     if (is_Inclusion_criterion(value))
+                      directive->layouts = g_list_append (directive->layouts, GUINT_TO_POINTER(value)); //an Inclusion criterion is always added
                     else
                       {
                         directive->layouts = remove_layout (directive->layouts, value);//g_print("Removed %x from allowed layouts\n", value);
@@ -1340,7 +1340,7 @@ static void action_ignore (DenemoDirective *directive, guint value) {
             {
               //g_list_free (directive->layouts);//g_print("Removed conditions\n");
               guint id = GPOINTER_TO_INT(g->data);
-              if (is_omission_criterion(id))
+              if (is_Inclusion_criterion(id))
                 continue;
               else
                 directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(id));
@@ -1351,7 +1351,7 @@ static void action_ignore (DenemoDirective *directive, guint value) {
 static void action_allow (DenemoDirective *directive, guint value) {
   if (value)
       {
-        if (is_omission_criterion(value))
+        if (is_Inclusion_criterion(value))
            directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(value));
         else {
         
@@ -1378,7 +1378,7 @@ static void action_allow (DenemoDirective *directive, guint value) {
       for (g=directive->layouts;g;g=g->next)
         {
           //g_list_free (directive->layouts);//g_print("Removed conditions\n");
-          if (is_omission_criterion(GPOINTER_TO_INT(g->data)))
+          if (is_Inclusion_criterion(GPOINTER_TO_INT(g->data)))
               continue;
           else
             directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(g->data));
@@ -3041,9 +3041,9 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
 
   if (directive->layouts == NULL)
     {
-        button = gtk_button_new_with_label (_("Applies to all layouts/omission criteria"));
+        button = gtk_button_new_with_label (_("Applies to all layouts/Inclusion criteria"));
         set_foreground_color(button, "#00ff00");
-        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/omission criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an omission criterion set in the Print View."));
+        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/Inclusion criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an Inclusion criterion set in the Print View."));
     }
   else
     {
@@ -3052,11 +3052,11 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
           {
             gchar *name = Denemo.project->criterion->name;
             guint id = Denemo.project->criterion->id;
-            gchar *text = g_strdup_printf ("%s%s", _("Turned off by omission criterion: "), name);
+            gchar *text = g_strdup_printf ("%s%s", _("Turned off by Inclusion criterion: "), name);
             button = gtk_button_new_with_label (text);
             g_free (text);
             set_foreground_color(button, "#ff0000");
-            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("To allow this directive to apply turn off the omission criterion in the Print View or use the Conditional button in the Score/Movement/Staff/Voice/Object Editor to change the directive's conditionality"));
+            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("To allow this directive to apply turn off the Inclusion criterion in the Print View or use the Conditional button in the Score/Movement/Staff/Voice/Object Editor to change the directive's conditionality"));
           }
         else {
               gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);//g_print ("Current layout %x directive->flag %d and directive->layouts->data %x which is wrong = %d\n", Denemo.project->layout_id, directive->flag, directive->layouts->data, wrong);
@@ -3072,9 +3072,9 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
                   {
                     button = gtk_button_new_with_label (wrong?
                                       _("Excludes the current layout.")
-                                      :_("Excludes certain layouts/omission criteria, but applies to the current one."));
+                                      :_("Excludes certain layouts/Inclusion criteria, but applies to the current one."));
                     set_foreground_color(button, wrong?"#ff0000":"#00ff00");
-                    g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts or when certain omission criteria are set. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
+                    g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts or when certain Inclusion criteria are set. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
                   }
             }
     }
@@ -4156,24 +4156,43 @@ REORDER_TAG (movementcontrol, directives);
 
 gboolean wrong_layout (DenemoDirective *directive, guint id)
 {
- if (directive->layouts && Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
-    return TRUE; // an omit criterion always means omit
-    
- if (Denemo.pending_layout_id)
-    id = Denemo.pending_layout_id;
- if (directive->layouts)
-    {
-     if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
-        {
-           if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))<0)
-             return TRUE;
-          return FALSE;
-        }
-       if(directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
-        {
-         if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))>=0)
-            return TRUE;
-        }
-    }
- return FALSE;
+	GList *g;
+	gboolean has_include_criterion = FALSE;
+	gboolean directive_unmatched_inclusion_criterion = FALSE;
+
+	for (g=Denemo.project->criteria;g;g=g->next)
+		{
+			DenemoInclusionCriterion *condition = g->data;
+			if (g_list_index (directive->layouts, GUINT_TO_POINTER(condition->id))>=0)
+				{//  this directive has the condition->id as an inclusion criterion - if it that condition is set in printview then break and check the layout
+					directive_unmatched_inclusion_criterion = TRUE;
+					has_include_criterion = TRUE;
+					if ((Denemo.project->criterion) && (Denemo.project->criterion->id == condition->id))
+						{
+							directive_unmatched_inclusion_criterion = FALSE;//is is matched
+							break;//go on to check if it is good for the layout
+						}
+				}
+		}
+	if (has_include_criterion && ((!Denemo.project->criterion) || directive_unmatched_inclusion_criterion))
+		return TRUE; // we won't include this directive because none of its Include Criteria are set in the print view	
+		
+	if (Denemo.pending_layout_id)
+	id = Denemo.pending_layout_id;
+	if (directive->layouts)
+	{
+	 if(directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+		{
+		   if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))<0)
+			 return TRUE;
+		  return FALSE;
+		}
+	   if(directive->flag == DENEMO_IGNORE_FOR_LAYOUTS)
+		{
+		 if (g_list_index (directive->layouts, GUINT_TO_POINTER(id))>=0)
+			return TRUE;
+		}
+	}
+	return FALSE;
 }
+

@@ -1452,14 +1452,14 @@ scheme_select_first_custom_layout (void)
 }
 
 SCM
-scheme_get_omit_criterion (void)
+scheme_get_include_criterion (void)
 {
   if (Denemo.project->criterion)
     return scm_cons (scm_from_locale_string (Denemo.project->criterion->name), scm_from_int (Denemo.project->criterion->id));
   else return SCM_BOOL_F;
 }
 SCM
-scheme_set_omit_criterion (SCM value)
+scheme_set_include_criterion (SCM value)
 {
   GList *g;
   gchar *name = NULL;
@@ -1468,7 +1468,7 @@ scheme_set_omit_criterion (SCM value)
   if (name)
     for (g=Denemo.project->criteria; g; g=g->next)
       {
-        DenemoOmissionCriterion *condition = g->data;
+        DenemoInclusionCriterion *condition = g->data;
         if (!strcmp (name, condition->name))
           {
             set_condition (condition);
@@ -1480,18 +1480,114 @@ scheme_set_omit_criterion (SCM value)
   return  SCM_BOOL_F;
 }
 SCM
-scheme_get_omit_criteria (void)
+scheme_get_include_criteria (void)
 {
   GList *g;
   SCM ret = scm_list_n (SCM_UNDEFINED);
   for (g=Denemo.project->criteria; g; g=g->next)
     {
-      DenemoOmissionCriterion *condition = g->data;
+      DenemoInclusionCriterion *condition = g->data;
       ret = scm_cons (scm_cons (scm_from_locale_string (condition->name), scm_from_int (condition->id)), ret);
     }
   return ret;
 }
 
+static gchar *is_inclusion_criterion (gint id)
+{
+	GList *g;
+	  for (g=Denemo.project->criteria; g; g=g->next)
+		{
+		  DenemoInclusionCriterion *condition = g->data;
+		  if (condition->id == id) return condition->name;
+		}	
+return NULL;	
+}
+SCM scheme_get_include_criteria_on_directive (SCM tagname, SCM typename)
+{
+  GList *h, *g;
+  SCM ret = scm_list_n (SCM_UNDEFINED);
+  DenemoDirective *directive = NULL;
+  GList *curObj = Denemo.project->movement->currentobject;
+  DenemoObject *theobj = curObj?(DenemoObject *) curObj->data : NULL;
+  if (scm_is_string (tagname) && scm_is_string (typename))
+	{
+	  gchar *tag = scm_to_locale_string (tagname);
+	  gchar *type = scm_to_locale_string (typename);
+	  if (!strcmp (type, "clef"))
+		{
+			if (theobj && theobj->type == CLEF);
+				directive = get_clef_directive (tag);
+		}
+	  else if (!strcmp (type, "timesig"))
+		{
+			if (theobj && theobj->type == TIMESIG)
+				directive = get_timesig_directive (tag);
+		}
+	  else if (!strcmp (type, "keysignature"))	  
+		{
+			if (theobj && theobj->type == KEYSIG)
+				directive = get_keysig_directive (tag);
+		}
+	  else if (!strcmp (type, "note"))	  
+		{
+			if (theobj && theobj->type == CHORD)
+				directive = get_note_directive (tag);
+		}
+	  else if (!strcmp (type, "chord"))	  
+		{
+			if (theobj && theobj->type == CHORD)
+				directive = get_chord_directive (tag);
+		}
+	  else if (!strcmp (type, "standalone"))	  
+		{
+			if (theobj && theobj->type == LILYDIRECTIVE)
+				directive = (DenemoDirective*)theobj->object; //tag is assumed correct from caller
+		}
+	  else if (!strcmp (type, "scoreheader"))	  
+		{
+			directive = get_scoreheader_directive (tag);
+		}
+	  else if (!strcmp (type, "paper"))	  
+		{
+			directive = get_paper_directive (tag);
+		}
+	  else if (!strcmp (type, "layout"))	  
+		{
+			directive = get_layout_directive (tag);
+		}
+	  else if (!strcmp (type, "movementcontrol"))	  
+		{
+			directive = get_movementcontrol_directive (tag);
+		}
+	  else if (!strcmp (type, "header"))	  
+		{
+			directive = get_header_directive (tag);
+		}
+	  else if (!strcmp (type, "score"))	  
+		{
+			directive = get_score_directive (tag);
+		}
+	  else if (!strcmp (type, "staff"))	  
+		{
+			directive = get_staff_directive (tag);
+		}
+	  else if (!strcmp (type, "voice"))	  
+		{
+			directive = get_voice_directive (tag);
+		}
+	if (directive)
+		{
+			for (h = directive->layouts;h;h=h->next)
+				{
+					gchar *name = is_inclusion_criterion (GPOINTER_TO_INT(h->data));
+					if (name)
+						ret = scm_cons (scm_from_locale_string (name), ret);
+				}
+			return ret;
+		}
+	}
+  return SCM_BOOL_F;
+}
 SCM
 scheme_get_id_for_name (SCM layout_name)
 {
