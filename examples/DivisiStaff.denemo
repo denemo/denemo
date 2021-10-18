@@ -241,6 +241,7 @@ Serif
             <directives>
               <directive>
                 <tag>SubstituteMusic</tag>
+                <display> </display>
                 <graphic_name>
 S
 Denemo
@@ -255,6 +256,7 @@ Denemo
             <directives>
               <directive>
                 <tag>SubstituteMusic</tag>
+                <display> </display>
                 <override>5</override>
               </directive>
             </directives>
@@ -267,6 +269,7 @@ Denemo
             <directives>
               <directive>
                 <tag>SubstituteMusic</tag>
+                <display> </display>
                 <override>5</override>
               </directive>
             </directives>
@@ -306,6 +309,7 @@ Denemo
           <clef-directives>
             <directive>
               <tag>SubstituteMusic</tag>
+              <display> </display>
               <graphic_name>
 S
 Denemo
@@ -320,6 +324,7 @@ Denemo
             <lily-directive>
               <tag>help</tag>
               <postfix> </postfix>
+              <display> </display>
               <graphic_name>
 Music here is mirrored from Mandolin 1 a on Staff 1
 Denemo
@@ -339,6 +344,7 @@ Denemo
             <directives>
               <directive>
                 <tag>SubstituteMusic</tag>
+                <display> </display>
                 <graphic_name>
 S
 Denemo
@@ -353,6 +359,7 @@ Denemo
             <directives>
               <directive>
                 <tag>SubstituteMusic</tag>
+                <display> </display>
                 <override>5</override>
               </directive>
             </directives>
@@ -365,6 +372,7 @@ Denemo
             <directives>
               <directive>
                 <tag>SubstituteMusic</tag>
+                <display> </display>
                 <override>5</override>
               </directive>
             </directives>
@@ -395,6 +403,7 @@ Denemo
           <clef-directives>
             <directive>
               <tag>SubstituteMusic</tag>
+              <display> </display>
               <graphic_name>
 S
 Denemo
@@ -409,6 +418,7 @@ Denemo
             <lily-directive>
               <tag>help</tag>
               <postfix> </postfix>
+              <display> </display>
               <graphic_name>
 Music here is mirrored from Mandolin 1 b on Staff 2
 Denemo

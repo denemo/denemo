@@ -156,6 +156,7 @@ instrument = ##f
             <lily-directive>
               <tag>RepeatEndStart</tag>
               <postfix>\bar ":..:"</postfix>
+              <display> </display>
               <graphic_name>RepeatEndStart</graphic_name>
               <minpixels>50</minpixels>
               <override>4</override>
@@ -275,6 +276,7 @@ instrument = ##f
             <lily-directive>
               <tag>RepeatEndStart</tag>
               <postfix>\bar ":..:"</postfix>
+              <display> </display>
               <graphic_name>RepeatEndStart</graphic_name>
               <minpixels>50</minpixels>
               <override>4</override>

@@ -152,6 +152,7 @@ page-limit-inter-system-space-factor = 1.2
             <directives>
               <directive>
                 <tag>RhythmStaff</tag>
+                <display> </display>
                 <graphic_name>
 R
 Denemo
@@ -166,6 +167,7 @@ Denemo
             <directives>
               <directive>
                 <tag>RhythmStaff</tag>
+                <display> </display>
                 <override>5</override>
               </directive>
             </directives>
@@ -178,6 +180,7 @@ Denemo
             <directives>
               <directive>
                 <tag>RhythmStaff</tag>
+                <display> </display>
                 <override>1</override>
               </directive>
             </directives>
@@ -223,6 +226,7 @@ Denemo
           <clef-directives>
             <directive>
               <tag>RhythmStaff</tag>
+              <display> </display>
               <graphic_name>
 R
 Denemo
@@ -237,6 +241,7 @@ Denemo
             <lily-directive locked="true">
               <tag>MuteStaff</tag>
               <postfix> </postfix>
+              <display> </display>
               <graphic_name>Speaker_Icon_Mute</graphic_name>
               <minpixels>50</minpixels>
               <gx>20</gx>
@@ -246,6 +251,7 @@ Denemo
                 <directive>
                   <tag>VoiceSetting</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif

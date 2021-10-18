@@ -287,6 +287,7 @@ Note that the double length bars are counted as two in the bar numbering.
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -308,6 +309,7 @@ Serif
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -335,6 +337,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -358,6 +361,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -414,6 +418,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -441,6 +446,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -459,6 +465,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -649,6 +656,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -750,6 +758,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -1015,6 +1024,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -1047,6 +1057,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -1059,6 +1070,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -1117,6 +1129,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>PageBreak</tag>
               <postfix>\pageBreak</postfix>
+              <display> </display>
               <graphic_name>
 ⁋
 Denemo
@@ -1132,6 +1145,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -1446,6 +1460,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>b02eebfab501d37173a71616ead147dd</tag>
               <postfix>%{%}</postfix>
+              <display> </display>
               <minpixels>1</minpixels>
             </lily-directive>
             <chord show="true" id="id237">
@@ -1454,6 +1469,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -1469,6 +1485,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>b02eebfab501d37173a71616ead147dd</tag>
               <postfix>%{%}</postfix>
+              <display> </display>
               <minpixels>1</minpixels>
             </lily-directive>
             <chord show="true" id="id239">
@@ -1495,6 +1512,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -1968,6 +1986,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -2055,6 +2074,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2446,6 +2466,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2747,6 +2768,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2785,6 +2807,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2826,6 +2849,7 @@ Denemo
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                     </directive>
                   </directives>
                 </note>
@@ -2842,6 +2866,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2884,6 +2909,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2950,6 +2976,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -2982,6 +3009,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -5242,6 +5270,7 @@ Denemo
             <lily-directive>
               <tag>PageBreak</tag>
               <postfix>\pageBreak</postfix>
+              <display> </display>
               <graphic_name>
 ⁋
 Denemo
@@ -5252,6 +5281,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -5264,6 +5294,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -5314,6 +5345,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \flat</postfix>
+                  <display> </display>
                   <graphic_name>
 ♭
 Sans
@@ -5330,6 +5362,7 @@ Sans
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -5363,6 +5396,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -5422,6 +5456,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -5439,6 +5474,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -5536,6 +5572,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -5636,6 +5673,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -5933,6 +5971,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -5983,6 +6022,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6041,6 +6081,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6096,6 +6137,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6161,6 +6203,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6269,6 +6312,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6301,6 +6345,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6349,6 +6394,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6381,6 +6427,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -6530,6 +6577,7 @@ Denemo
             <lily-directive>
               <tag>PageBreak</tag>
               <postfix>\pageBreak</postfix>
+              <display> </display>
               <graphic_name>
 ⁋
 Denemo
@@ -6540,6 +6588,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -6580,6 +6629,7 @@ Denemo
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \flat</postfix>
+                  <display> </display>
                   <graphic_name>
 ♭
 Sans
@@ -6707,6 +6757,7 @@ Sans
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -6871,6 +6922,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -7994,6 +8046,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\oneVoice</postfix>
+                  <display> </display>
                   <graphic_name>
 vAuto
 Serif
@@ -8094,6 +8147,7 @@ Serif
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                     </directive>
                   </directives>
                 </note>
@@ -9119,6 +9173,7 @@ Serif
                 <directive>
                   <tag>HideTimesig</tag>
                   <prefix>\once \override Staff.TimeSignature #'stencil = ##f</prefix>
+                  <display> </display>
                   <graphic_name>
 ⋂
 Denemo
@@ -9132,6 +9187,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -9154,6 +9210,7 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -9182,6 +9239,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>PageBreak</tag>
               <postfix>\pageBreak</postfix>
+              <display> </display>
               <graphic_name>
 ⁋
 Denemo
@@ -9192,6 +9250,7 @@ Denemo
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -9283,6 +9342,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -9305,6 +9365,7 @@ Serif
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                     </directive>
                   </directives>
                 </note>
@@ -9352,6 +9413,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -9411,6 +9473,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -9489,6 +9552,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -9502,6 +9566,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -9540,6 +9605,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -9552,6 +9618,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -9597,6 +9664,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -9609,6 +9677,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -9660,6 +9729,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -9676,6 +9746,7 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -9743,6 +9814,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -9756,6 +9828,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -9785,6 +9858,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -10141,6 +10215,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -10153,6 +10228,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -10238,6 +10314,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -10251,6 +10328,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -10770,6 +10848,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -10884,6 +10963,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -11041,6 +11121,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -11054,6 +11135,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -11192,6 +11274,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -11205,6 +11288,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -11392,6 +11476,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -11405,6 +11490,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -11435,6 +11521,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -11448,6 +11535,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -11549,6 +11637,7 @@ Denemo
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -11827,6 +11916,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -11914,6 +12004,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -11931,6 +12022,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\oneVoice</postfix>
+                  <display> </display>
                   <graphic_name>
 vAuto
 Serif
@@ -11989,6 +12081,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -12001,6 +12094,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -12034,6 +12128,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -12046,6 +12141,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -12134,6 +12230,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -12158,6 +12255,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -12211,6 +12309,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -12223,6 +12322,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -12328,6 +12428,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -12350,6 +12451,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -12385,6 +12487,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -12398,6 +12501,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -12758,6 +12862,7 @@ Denemo
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                     </directive>
                   </directives>
                 </note>
@@ -13080,6 +13185,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -13093,6 +13199,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -13151,6 +13258,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -13161,6 +13269,7 @@ Denemo
             <lily-directive>
               <tag>DisplaceRestHorizontally</tag>
               <postfix>\once \override Voice.Rest #'extra-offset = #'(1.5 . 0.0)</postfix>
+              <display> </display>
               <graphic_name>
 ⬌
 Denemo
@@ -13175,6 +13284,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -13200,6 +13310,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -13221,6 +13332,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -13238,6 +13350,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -13248,6 +13361,7 @@ Denemo
             <lily-directive>
               <tag>DisplaceRestHorizontally</tag>
               <postfix>\once \override Voice.Rest #'extra-offset = #'(1.5 . 0.0)</postfix>
+              <display> </display>
               <graphic_name>
 ⬌
 Denemo
@@ -13261,6 +13375,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -13287,6 +13402,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -13372,6 +13488,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -13384,6 +13501,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -13497,6 +13615,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -13559,6 +13678,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -13572,6 +13692,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -13593,6 +13714,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -13764,6 +13886,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -13777,6 +13900,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -13826,6 +13950,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -13878,6 +14003,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -14305,6 +14431,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -14541,6 +14668,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -14726,6 +14854,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -14743,6 +14872,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -14820,6 +14950,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -15077,6 +15208,7 @@ Serif
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -15275,6 +15407,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -15288,6 +15421,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -15349,6 +15483,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -15378,6 +15513,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -15490,6 +15626,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -15503,6 +15640,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -15561,6 +15699,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -15574,6 +15713,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -15860,6 +16000,7 @@ Denemo
             <lily-directive>
               <tag>DisplaceRestHorizontally</tag>
               <postfix>\once \override Voice.Rest #'extra-offset = #'(2.0 . 0.0)</postfix>
+              <display> </display>
               <graphic_name>
 ⬌
 Denemo
@@ -15873,6 +16014,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -15942,6 +16084,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -15960,6 +16103,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -15998,6 +16142,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \flat</postfix>
+                  <display> </display>
                   <graphic_name>
 ♭
 Sans
@@ -16035,6 +16180,7 @@ Sans
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -16261,6 +16407,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -16285,6 +16432,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -16330,6 +16478,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -16831,6 +16980,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -16880,6 +17030,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -16900,6 +17051,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -16920,6 +17072,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -16942,6 +17095,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -16955,6 +17109,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -16986,6 +17141,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -17092,6 +17248,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -17178,6 +17335,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -17191,6 +17349,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -17271,6 +17430,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -17283,6 +17443,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -17487,6 +17648,7 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -17570,6 +17732,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -18495,6 +18658,7 @@ Serif
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -18624,6 +18788,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\oneVoice</postfix>
+                  <display> </display>
                   <graphic_name>
 vAuto
 Serif
@@ -18940,6 +19105,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\oneVoice</postfix>
+                  <display> </display>
                   <graphic_name>
 vAuto
 Serif
@@ -19176,6 +19342,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -19931,6 +20098,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -19965,6 +20133,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \flat</postfix>
+                  <display> </display>
                   <graphic_name>
 ♭
 Sans
@@ -20092,6 +20261,7 @@ Sans
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -20371,6 +20541,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\oneVoice</postfix>
+                  <display> </display>
                   <graphic_name>
 vAuto
 Serif
@@ -20609,6 +20780,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -20690,6 +20862,7 @@ Serif
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \natural</postfix>
+                  <display> </display>
                   <graphic_name>
 ♮
 Sans
@@ -20884,6 +21057,7 @@ Sans
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                     </directive>
                   </directives>
                 </note>
@@ -21009,6 +21183,7 @@ Sans
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \natural</postfix>
+                  <display> </display>
                   <graphic_name>
 ♮
 Sans
@@ -21086,6 +21261,7 @@ Sans
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \natural</postfix>
+                  <display> </display>
                   <graphic_name>
 ♮
 Sans
@@ -21581,6 +21757,7 @@ Sans
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -21685,6 +21862,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -21860,6 +22038,7 @@ Serif
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -21996,6 +22175,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -22008,6 +22188,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -22365,6 +22546,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -22700,6 +22882,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -23302,6 +23485,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -23314,6 +23498,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -23365,6 +23550,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -23483,6 +23669,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -23621,6 +23808,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -23834,6 +24022,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>NoBarline</tag>
               <postfix>\bar ""</postfix>
+              <display> </display>
               <graphic_name>
 ⋂
 Denemo
@@ -23874,6 +24063,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -23886,6 +24076,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -23919,6 +24110,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \flat</postfix>
+                  <display> </display>
                   <graphic_name>
 ♭
 Sans
@@ -24113,6 +24305,7 @@ Sans
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -24251,6 +24444,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -24497,6 +24691,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>HideTimesig</tag>
                   <prefix>\once \override Staff.TimeSignature #'stencil = ##f</prefix>
+                  <display> </display>
                   <graphic_name>
 ⋂
 Denemo
@@ -24510,6 +24705,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -24526,6 +24722,7 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -24561,6 +24758,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -24615,6 +24813,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -24819,6 +25018,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -24896,6 +25096,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -24951,6 +25152,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -25046,6 +25248,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -25407,6 +25610,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -25911,6 +26115,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -26307,6 +26512,7 @@ Serif
                 <directive>
                   <tag>HideTimesig</tag>
                   <prefix>\once \override Staff.TimeSignature #'stencil = ##f</prefix>
+                  <display> </display>
                   <graphic_name>
 ⋂
 Denemo
@@ -26320,6 +26526,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -26336,6 +26543,7 @@ Serif
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -26370,6 +26578,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -26417,6 +26626,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -26437,6 +26647,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -26458,6 +26669,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -26491,6 +26703,7 @@ Denemo
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -26538,6 +26751,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -26551,6 +26765,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -26576,6 +26791,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -26597,6 +26813,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -26606,6 +26823,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -26618,6 +26836,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -26667,6 +26886,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -26679,6 +26899,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -26819,6 +27040,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27050,6 +27272,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27076,6 +27299,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27102,6 +27326,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27199,6 +27424,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27225,6 +27451,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27366,6 +27593,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27611,6 +27839,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>HideTimesig</tag>
                   <prefix>\once \override Staff.TimeSignature #'stencil = ##f</prefix>
+                  <display> </display>
                   <graphic_name>
 ⋂
 Denemo
@@ -27625,6 +27854,7 @@ Denemo
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -27692,6 +27922,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -27965,6 +28196,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -28090,6 +28322,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -28121,6 +28354,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -28277,6 +28511,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -28411,6 +28646,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -28476,6 +28712,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -28488,6 +28725,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -28528,6 +28766,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -28540,6 +28779,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -28556,6 +28796,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -28593,6 +28834,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -28624,6 +28866,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -28903,6 +29146,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -28929,6 +29173,7 @@ Serif
                 <directive>
                   <tag>SuggestedAccidental</tag>
                   <postfix>^\markup \flat</postfix>
+                  <display> </display>
                   <graphic_name>
 ♭
 Sans
@@ -29065,6 +29310,7 @@ Sans
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -29078,6 +29324,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 1" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 1
 Denemo
@@ -29104,6 +29351,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -29116,6 +29364,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -29155,6 +29404,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 3" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 3
 Denemo
@@ -29167,6 +29417,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -29183,6 +29434,7 @@ Serif
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -29220,6 +29472,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -29274,6 +29527,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>HideTimesig</tag>
                   <prefix>\once \override Staff.TimeSignature #'stencil = ##f</prefix>
+                  <display> </display>
                   <graphic_name>
 ⋂
 Denemo
@@ -29340,6 +29594,7 @@ Denemo
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -29596,6 +29851,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -30151,6 +30407,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -30399,6 +30656,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -30672,6 +30930,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -31138,6 +31397,7 @@ Serif
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -31541,6 +31801,7 @@ Serif
                 <directive>
                   <tag>HideTimesig</tag>
                   <prefix>\once \override Staff.TimeSignature #'stencil = ##f</prefix>
+                  <display> </display>
                   <graphic_name>
 ⋂
 Denemo
@@ -31555,6 +31816,7 @@ Denemo
                 <directive>
                   <tag>Duration</tag>
                   <prefix>\breve </prefix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -31793,6 +32055,7 @@ emmentaler</graphic_name>
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif
@@ -33789,6 +34052,7 @@ Serif
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -33841,6 +34105,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -35878,6 +36143,7 @@ Serif
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -35924,6 +36190,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -35937,6 +36204,7 @@ Serif
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -35958,6 +36226,7 @@ Denemo
                 <directive>
                   <tag>PolyphonicRest</tag>
                   <postfix>\rest</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>
@@ -35973,6 +36242,7 @@ emmentaler</graphic_name>
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -36027,6 +36297,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -36079,6 +36350,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -36116,6 +36388,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -36553,6 +36826,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -36591,6 +36865,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -36748,6 +37023,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -36996,6 +37272,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -37521,6 +37798,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -37609,6 +37887,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -37707,6 +37986,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -37726,6 +38006,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -37904,6 +38185,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -37923,6 +38205,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38049,6 +38332,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38079,6 +38363,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38197,6 +38482,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38223,6 +38509,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38291,6 +38578,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38309,6 +38597,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38424,6 +38713,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38451,6 +38741,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38617,6 +38908,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38637,6 +38929,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38682,6 +38975,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38785,6 +39079,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -38804,6 +39099,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 2" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 2
 Denemo
@@ -38834,6 +39130,7 @@ Denemo
             <lily-directive>
               <tag>StaffChange</tag>
               <postfix>\change Staff="voice 4" </postfix>
+              <display> </display>
               <graphic_name>
 ⇒voice 4
 Denemo
@@ -39580,6 +39877,7 @@ Denemo
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -40459,6 +40757,7 @@ Denemo
             <lily-directive>
               <tag>RepeatEndStart</tag>
               <postfix>\bar ":..:"</postfix>
+              <display> </display>
               <graphic_name>RepeatEndStart</graphic_name>
               <minpixels>50</minpixels>
               <gx>10</gx>
@@ -41701,6 +42000,7 @@ Denemo
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -43492,6 +43792,7 @@ Denemo
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -45841,6 +46142,7 @@ Denemo
             <lily-directive>
               <tag>ClosingBarline</tag>
               <postfix>\bar "|."</postfix>
+              <display> </display>
               <graphic_name>ClosingBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>

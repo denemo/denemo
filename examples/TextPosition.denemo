@@ -95,6 +95,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <lily-directive>
               <postfix> \once \override TextScript #'extra-offset = #'( 0.0 . -4.0 )</postfix>
+              <display> </display>
               <override>32</override>
             </lily-directive>
             <chord show="true" id="id2">
@@ -108,6 +109,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>&lt;Unknown Tag&gt;</tag>
               <postfix>_\markup {text moved down}</postfix>
+              <display> </display>
               <override>32</override>
             </lily-directive>
             <chord show="true" id="id4">
@@ -157,6 +159,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
           <measure>
             <lily-directive>
               <postfix> \once \override TextScript #'extra-offset = #'( -4.0 . 0.0 )</postfix>
+              <display> </display>
               <override>32</override>
             </lily-directive>
             <chord show="true" id="id11">
@@ -169,6 +172,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             </chord>
             <lily-directive>
               <postfix>_\markup {text moved to left}</postfix>
+              <display> </display>
               <override>32</override>
             </lily-directive>
             <chord show="true" id="id13">
@@ -258,6 +262,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>&lt;Unknown Tag&gt;</tag>
               <postfix>_\markup \italic \bold {D.C. al fine}</postfix>
+              <display> </display>
               <override>32</override>
             </lily-directive>
             <chord show="true" id="id33">

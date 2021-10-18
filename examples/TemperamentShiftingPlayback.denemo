@@ -968,6 +968,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -3191,6 +3192,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta "1"))
 </postfix>
+              <display> </display>
               <graphic_name>FirstTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -3244,6 +3246,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -3253,6 +3256,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta #f))
 </postfix>
+              <display> </display>
               <graphic_name>EndSecondTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -3274,6 +3278,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta "2"))
 </postfix>
+              <display> </display>
               <graphic_name>SecondTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -3318,6 +3323,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta #f))
 </postfix>
+              <display> </display>
               <graphic_name>EndSecondTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -3338,6 +3344,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                       <override>32</override>
                     </directive>
                   </directives>
@@ -4810,6 +4817,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -5334,6 +5342,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>DoubleBarline</tag>
               <postfix>\bar "||"</postfix>
+              <display> </display>
               <graphic_name>DoubleBarline</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -6587,6 +6596,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta "1"))
 </postfix>
+              <display> </display>
               <graphic_name>FirstTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -6611,6 +6621,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -6620,6 +6631,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta #f))
 </postfix>
+              <display> </display>
               <graphic_name>EndSecondTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -6632,6 +6644,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta "2"))
 </postfix>
+              <display> </display>
               <graphic_name>SecondTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -6658,6 +6671,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
               <postfix>
 \set Score.repeatCommands = #'((volta #f))
 </postfix>
+              <display> </display>
               <graphic_name>EndSecondTimeBar</graphic_name>
               <minpixels>30</minpixels>
               <gy>-33</gy>
@@ -6786,6 +6800,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                       <override>32</override>
                     </directive>
                   </directives>
@@ -6989,6 +7004,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>!</postfix>
+                      <display> </display>
                       <override>32</override>
                     </directive>
                   </directives>
@@ -8042,6 +8058,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>

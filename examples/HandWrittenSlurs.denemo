@@ -19,6 +19,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
+    <lilyversion>2.22</lilyversion>
     <fontsize>18</fontsize>
     <orientation>1</orientation>
     <total-edit-time>1377</total-edit-time>

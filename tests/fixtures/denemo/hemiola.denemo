@@ -139,6 +139,7 @@ instrument = ##f
                 <directive>
                   <tag>VoiceSetting</tag>
                   <postfix>\oneVoice</postfix>
+                  <display> </display>
                   <graphic_name>
 vAuto
 Serif
@@ -295,6 +296,7 @@ Serif
                 <directive>
                   <tag>VoiceSetting</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -435,6 +437,7 @@ Serif
                 <directive>
                   <tag>VoiceSetting</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -448,6 +451,7 @@ Serif
             <lily-directive>
               <tag>!</tag>
               <postfix> </postfix>
+              <display> </display>
               <minpixels>10</minpixels>
             </lily-directive>
           </measure>

@@ -150,6 +150,7 @@ a bug in LilyPond.
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -300,6 +301,7 @@ a bug in LilyPond.
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>

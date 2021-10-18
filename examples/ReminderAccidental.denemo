@@ -119,6 +119,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
                     <directive>
                       <tag>WarnAccidental</tag>
                       <postfix>?</postfix>
+                      <display> </display>
                     </directive>
                   </directives>
                 </note>

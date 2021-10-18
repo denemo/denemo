@@ -128,6 +128,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RehearsalMark</tag>
               <postfix> \mark \default</postfix>
+              <display> </display>
               <grob>RehearsalMark</grob>
               <graphic_name>RehearsalMark</graphic_name>
               <minpixels>30</minpixels>
@@ -171,6 +172,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RehearsalMark</tag>
               <postfix> \mark \default</postfix>
+              <display> </display>
               <grob>RehearsalMark</grob>
               <graphic_name>RehearsalMark</graphic_name>
               <minpixels>30</minpixels>
@@ -232,6 +234,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <lily-directive>
               <tag>RehearsalMark</tag>
               <postfix> \mark \default</postfix>
+              <display> </display>
               <grob>RehearsalMark</grob>
               <graphic_name>RehearsalMark</graphic_name>
               <minpixels>30</minpixels>

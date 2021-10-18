@@ -790,6 +790,7 @@ Denemo 48</graphic_name>
                 <directive>
                   <tag>Trill</tag>
                   <postfix>\trill</postfix>
+                  <display> </display>
                   <graphic_name>
 
 emmentaler</graphic_name>

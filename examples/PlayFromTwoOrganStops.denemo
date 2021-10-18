@@ -39,6 +39,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
   </thumbnail>
   <lilycontrol>
     <papersize>a4</papersize>
+    <lilyversion>2.22</lilyversion>
     <fontsize>20</fontsize>
     <orientation>1</orientation>
     <total-edit-time>0</total-edit-time>
@@ -136,6 +137,7 @@ instrument = ##f
             <lily-directive locked="true">
               <tag>MuteStaffDummy</tag>
               <postfix> </postfix>
+              <display> </display>
               <minpixels>50</minpixels>
               <gx>20</gx>
             </lily-directive>
@@ -199,6 +201,7 @@ instrument = ##f
             <lily-directive locked="true">
               <tag>MuteStaffDummy</tag>
               <postfix> </postfix>
+              <display> </display>
               <graphic_name>
 Use Space Bar to change stops.
 Denemo

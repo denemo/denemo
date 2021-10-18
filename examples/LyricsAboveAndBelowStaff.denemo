@@ -217,6 +217,7 @@ title = "Edit This Title in the LilyPond Window"
                 <directive>
                   <tag>VoiceSetting</tag>
                   <postfix>\voiceOne </postfix>
+                  <display> </display>
                   <graphic_name>
 v1
 Serif
@@ -336,6 +337,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceTwo</postfix>
+                  <display> </display>
                   <graphic_name>
 v2
 Serif
@@ -424,6 +426,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceThree</postfix>
+                  <display> </display>
                   <graphic_name>
 v3
 Serif
@@ -552,6 +555,7 @@ Serif
                 <directive>
                   <tag>Voice</tag>
                   <postfix>\voiceFour</postfix>
+                  <display> </display>
                   <graphic_name>
 v4
 Serif

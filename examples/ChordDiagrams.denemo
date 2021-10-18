@@ -685,6 +685,7 @@ Eee -- i Eee -- i -- oh!</verse>
             <lily-directive locked="true">
               <tag>MuteStaff</tag>
               <postfix> </postfix>
+              <display> </display>
               <graphic_name>Speaker_Icon</graphic_name>
               <minpixels>50</minpixels>
               <gx>20</gx>

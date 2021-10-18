@@ -308,6 +308,7 @@ title = "Untitled"
             <lily-directive>
               <tag>RepeatEndStart</tag>
               <postfix>\bar ":|:"</postfix>
+              <display> </display>
               <graphic_name>RepeatEndStart</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -439,6 +440,7 @@ title = "Untitled"
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -715,6 +717,7 @@ title = "Untitled"
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -1004,6 +1007,7 @@ title = "Untitled"
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>
@@ -1293,6 +1297,7 @@ title = "Untitled"
             <lily-directive>
               <tag>RepeatEnd</tag>
               <postfix>\bar ":|."</postfix>
+              <display> </display>
               <graphic_name>RepeatEnd</graphic_name>
               <minpixels>30</minpixels>
               <override>4</override>

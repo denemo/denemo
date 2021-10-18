@@ -120,6 +120,7 @@ page-limit-inter-system-space-factor = 1.2</postfix>
             <directives>
               <directive>
                 <tag>DynamicsStaff</tag>
+                <display> </display>
                 <graphic_name>
 D
 Denemo
@@ -134,6 +135,7 @@ Denemo
             <directives>
               <directive>
                 <tag>DynamicsStaff</tag>
+                <display> </display>
                 <override>5</override>
               </directive>
             </directives>
@@ -146,6 +148,7 @@ Denemo
             <directives>
               <directive>
                 <tag>DynamicsStaff</tag>
+                <display> </display>
                 <override>1</override>
               </directive>
             </directives>
@@ -186,6 +189,7 @@ Denemo
           <clef-directives>
             <directive>
               <tag>DynamicsStaff</tag>
+              <display> </display>
               <graphic_name>
 D
 Denemo
