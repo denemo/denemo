@@ -3041,42 +3041,40 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
 
   if (directive->layouts == NULL)
     {
-        button = gtk_button_new_with_label (_("Applies to all layouts/Inclusion criteria"));
+        button = gtk_button_new_with_label (_("Applies to all layouts/Inclusion Criteria"));
         set_foreground_color(button, "#00ff00");
-        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/Inclusion criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an Inclusion criterion set in the Print View."));
+        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/Inclusion Criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an Inclusion criterion set in the Print View."));
     }
   else
     {
- 
-        if (Denemo.project->criterion && g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))>=0)
-          {
-            gchar *name = Denemo.project->criterion->name;
-            guint id = Denemo.project->criterion->id;
-            gchar *text = g_strdup_printf ("%s%s", _("Turned off by Inclusion criterion: "), name);
-            button = gtk_button_new_with_label (text);
-            g_free (text);
-            set_foreground_color(button, "#ff0000");
-            g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("To allow this directive to apply turn off the Inclusion criterion in the Print View or use the Conditional button in the Score/Movement/Staff/Voice/Object Editor to change the directive's conditionality"));
-          }
-        else {
-              gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);//g_print ("Current layout %x directive->flag %d and directive->layouts->data %x which is wrong = %d\n", Denemo.project->layout_id, directive->flag, directive->layouts->data, wrong);
-              if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
-                  {
-                    button = gtk_button_new_with_label (wrong?
-                                      _("Applies only to certain layouts, excluding the current one.")
-                                      :_("Applies only to certain layouts, including the current one."));
-                    set_foreground_color(button, wrong?"#ff0000":"#00ff00");
-                    g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
-                  }
-              else
-                  {
-                    button = gtk_button_new_with_label (wrong?
-                                      _("Excludes the current layout.")
-                                      :_("Excludes certain layouts/Inclusion criteria, but applies to the current one."));
-                    set_foreground_color(button, wrong?"#ff0000":"#00ff00");
-                    g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts or when certain Inclusion criteria are set. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
-                  }
-            }
+	gboolean wrong = wrong_layout (directive, Denemo.project->layout_id);//g_print ("Current layout %x directive->flag %d and directive->layouts->data %x which is wrong = %d\n", Denemo.project->layout_id, directive->flag, directive->layouts->data, wrong);
+	gchar *text = NULL;
+	if (wrong && Denemo.project->criterion) 
+		{
+			gchar *name = Denemo.project->criterion->name;
+			guint id = Denemo.project->criterion->id;
+			if (g_list_index (directive->layouts, GUINT_TO_POINTER(Denemo.project->criterion->id))<0)
+				text = g_strdup_printf ("%s%s", _("Blocked by not having Inclusion Criterion: "), name);
+		}		      
+
+	  if (directive->flag == DENEMO_ALLOW_FOR_LAYOUTS)
+		  {
+			button = gtk_button_new_with_label (wrong? (text? text:
+							  _("Applies only to certain layouts or inclusion criteria, excluding the current ones."))
+							  :_("Applies only to certain layouts, including the current one."));
+			set_foreground_color(button, wrong?"#ff0000":"#00ff00");
+			g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored only by certain layouts or inclusion criteria. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
+		  }
+	  else
+		  {
+			button = gtk_button_new_with_label (wrong?
+				   (Denemo.project->criterion? (text? text :_("Excludes the current layout.")): _("Excludes the current layout or requires an Inclusion Criterion."))
+							  :
+					(Denemo.project->criterion? _("Excludes certain layouts/Inclusion Criteria, but applies to the current one.")
+								: _("Excludes certain layouts, but applies to the current one.")));
+			set_foreground_color(button, wrong?"#ff0000":"#00ff00");
+			g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts or when certain Inclusion criteria are set. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
+		  }
     }
     
     if (directive->locked)
