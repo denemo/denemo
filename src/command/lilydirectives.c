@@ -1345,7 +1345,7 @@ static void action_ignore (DenemoDirective *directive, guint value) {
               else
                 directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(id));
             }
-          directive->flag = 0;
+          if(directive->layouts == NULL) directive->flag = 0;
         }
 }
 static void action_allow (DenemoDirective *directive, guint value) {
@@ -1383,7 +1383,7 @@ static void action_allow (DenemoDirective *directive, guint value) {
           else
             directive->layouts = g_list_remove (directive->layouts, GUINT_TO_POINTER(g->data));
         }
-      directive->flag = 0;
+      if(directive->layouts == NULL) directive->flag = 0;
     }
 }
 
@@ -3041,9 +3041,9 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
 
   if (directive->layouts == NULL)
     {
-        button = gtk_button_new_with_label (_("Applies to all layouts/Inclusion Criteria"));
+        button = gtk_button_new_with_label (_("Applies to all layouts/Inclusion criteria"));
         set_foreground_color(button, "#00ff00");
-        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/Inclusion Criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an Inclusion criterion set in the Print View."));
+        g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/Inclusion criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an Inclusion criterion set in the Print View."));
     }
   else
     {
