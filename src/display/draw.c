@@ -1358,7 +1358,7 @@ static void
 draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_height)
 {
   //g_print ("\nMarkers at staff %d for top %d with start %d end %d:", itp->staffnum, Denemo.project->movement->top_staff, itp->startposition, itp->endposition);
-  if (itp->startposition > 0)
+  if ((itp->startposition > 0) && (Denemo.project->movement->start_time>0.0001)) //Don't show start marker when at the start of the movement, it makes clutter and is the default
     {
       if (!(Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight ))
         draw_playback_marker (cr, GREEN,0.4,itp->startposition, yy, line_height);
