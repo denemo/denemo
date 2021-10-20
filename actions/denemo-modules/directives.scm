@@ -350,22 +350,34 @@
 (define* (SetDirectiveConditional type tag)
 	(if tag
 		(let ((choice #f) (criteria (d-GetIncludeCriteria)))
-			 (if (not (null? criteria))
-				(set! choice
-					  (RadioBoxMenu 
-						(cons (_ "Conditional on Layout") #f)
-						(cons (_ "Only when an Inclusion Criterion set") 'include)
-						(cons (_ "Drop an Inclusion Criterion") 'drop))))
-			  (if choice
-				  (SetDirectiveConditionalOnCondition criteria type tag choice)
-				  (SetDirectiveConditionalOnLayout type tag)))
+			(set! choice
+				  (RadioBoxMenu 
+					(cons (_ "Conditional on Layout") 'layout)
+					(cons (string-append tag (_ ": For all layouts")) 'all)
+					(cons (_ "Only when an Inclusion Criterion set") 'include)
+					(cons (_ "Drop an Inclusion Criterion") 'drop)))
+			  (case choice
+				((layout)
+					(SetDirectiveConditionalOnLayout type tag))
+				((all)
+					((eval-string (string-append "d-DirectivePut-" type "-ignore")) tag 0)
+					((eval-string (string-append "d-DirectivePut-" type "-allow")) tag 0))
+				((include)
+					(if (null? criteria)
+						(begin
+							(set! criteria (d-CreateIncludeCriterion))))
+					(if (not (null? criteria))
+						(SetDirectiveConditionalOnCondition criteria type tag choice)
+						(d-WarningDialog (_ "Cancelled"))))
+				((drop)
+					(SetDirectiveConditionalOnCondition criteria type tag choice))))
 		(d-WarningDialog (_ "No Denemo Directive here"))))
 
             
 (define* (SetDirectiveConditionalOnLayout type tag)
 		(define allow-or-ignore 
 						(RadioBoxMenu
-							(cons (string-append tag (_ ": For all layouts")) 'all)
+							
 							(cons (string-append tag (_ ": Allow for a layout")) "allow")
 							(cons (string-append tag (_ ": Ignore for a layout")) "ignore")))
 		(define thelist (GetLayoutList))
