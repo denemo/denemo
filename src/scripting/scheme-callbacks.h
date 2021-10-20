@@ -365,6 +365,7 @@ SCM scheme_select_first_custom_layout (void);
 SCM scheme_get_include_criterion (void);
 SCM scheme_set_include_criterion (SCM name);
 SCM scheme_get_include_criteria (void);
+SCM scheme_create_include_criterion (void);
 SCM scheme_get_include_criteria_on_directive (SCM tag, SCM type);
 SCM scheme_get_id_for_name (SCM name);
 SCM scheme_get_filename (void);

@@ -30,4 +30,5 @@ void pause_continuous_typesetting (void);
 void display_printhistory (void);
 void delete_conditions (DenemoProject *gui);
 void  set_condition (DenemoInclusionCriterion *condition);
+void create_new_inclusion_criterion (void);
 #endif

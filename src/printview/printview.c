@@ -2552,7 +2552,7 @@ get_updates_button (void)
 }
 
 static void conditions_menu (void);
-static void create_new_condition (void)
+void create_new_inclusion_criterion (void)
 {
     gchar *name = string_dialog_entry (Denemo.project, _("New Inclusion Criterion"), _("Give a name for this new criterion"), _("Transposed"));
     if (name)
@@ -2562,8 +2562,13 @@ static void create_new_condition (void)
         g_free (name);
         condition->id = get_layout_id_for_name (condition->name);
         Denemo.project->criteria = g_list_append (Denemo.project->criteria, condition);
-        conditions_menu ();
-      }
+	}
+}
+static void create_new_condition (void)
+{
+    gchar *name = string_dialog_entry (Denemo.project, _("New Inclusion Criterion"), _("Give a name for this new criterion"), _("Transposed"));
+    create_new_inclusion_criterion ();
+    conditions_menu ();
 }
 
 static GtkWidget *condition_button; 

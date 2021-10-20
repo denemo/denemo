@@ -1232,6 +1232,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "If there is a current Inclusion criterion set in the Print View this returns it as a pair (name id), else returns #f", DENEMO_SCHEME_PREFIX "GetIncludeCriterion", scheme_get_include_criterion);
   install_scm_function (0, "Sets an Inclusion criterion for typesetting in the Print View takes a name or #f to set unconditional typesetting", DENEMO_SCHEME_PREFIX "SetIncludeCriterion", scheme_set_include_criterion);
   install_scm_function (0, "Returns a list of Inclusion criteria defined for the current score", DENEMO_SCHEME_PREFIX "GetIncludeCriteria", scheme_get_include_criteria);
+  install_scm_function (0, "Gets a new Inclusion Criterion name from the user, returns the list of Inclusion Criteria", DENEMO_SCHEME_PREFIX "CreateIncludeCriterion", scheme_create_include_criterion);
   install_scm_function (2, "Takes a tag and a type, returns a list of Inclusion criteria set on the directive of that type and tag.", DENEMO_SCHEME_PREFIX "GetIncludeCriteriaOnDirective", scheme_get_include_criteria_on_directive);
   install_scm_function (1, "Takes a name and returns the corresponding (layout or Inclusion criterion) id.", DENEMO_SCHEME_PREFIX "GetIdForName", scheme_get_id_for_name);
   

@@ -1444,15 +1444,13 @@ scheme_select_first_custom_layout (void)
   return SCM_BOOL (iterate_custom_layout (TRUE));
 }
 
-SCM
-scheme_get_include_criterion (void)
+SCM scheme_get_include_criterion (void)
 {
   if (Denemo.project->criterion)
     return scm_cons (scm_from_locale_string (Denemo.project->criterion->name), scm_from_int (Denemo.project->criterion->id));
   else return SCM_BOOL_F;
 }
-SCM
-scheme_set_include_criterion (SCM value)
+SCM scheme_set_include_criterion (SCM value)
 {
   GList *g;
   gchar *name = NULL;
@@ -1472,8 +1470,7 @@ scheme_set_include_criterion (SCM value)
     set_condition (NULL);
   return  SCM_BOOL_F;
 }
-SCM
-scheme_get_include_criteria (void)
+SCM scheme_get_include_criteria (void)
 {
   GList *g;
   SCM ret = scm_list_n (SCM_UNDEFINED);
@@ -1484,7 +1481,11 @@ scheme_get_include_criteria (void)
     }
   return ret;
 }
-
+SCM scheme_create_include_criterion (void)
+{
+  create_new_inclusion_criterion ();
+  return scheme_get_include_criteria ();
+}
 static gchar *is_inclusion_criterion (gint id)
 {
 	GList *g;
@@ -1495,6 +1496,7 @@ static gchar *is_inclusion_criterion (gint id)
 		}	
 return NULL;	
 }
+
 SCM scheme_get_include_criteria_on_directive (SCM tagname, SCM typename)
 {
   GList *h, *g;
@@ -7953,3 +7955,4 @@ scheme_log_error (SCM message)
     }
   return SCM_BOOL_T;
 }
+
