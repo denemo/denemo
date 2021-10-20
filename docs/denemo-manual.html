@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-10-18"/>
+<meta name="create-date" content="2021-10-20"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -2152,7 +2152,7 @@ Part. Creates a Score Layout from the current Part and typesets that. A <i>part 
 Refresh. Repeats that last typeset command. For example, if Part was the last then it typesets the current part (which may be different from the one last typeset if the cursor is in a different part).
 </li>
 <li>
-Inlcusion Criteria. This button is labelled either &ldquo;No Inclusion Criterion Set&rdquo; or with the name of an Inclusion Criterion. With it you can create an Inclusion criterion and set it to control the typesetting of the score - see Inclusion Criteria<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a>.
+Inclusion Criteria. This button is labelled either &ldquo;No Inclusion Criterion Set&rdquo; or with the name of an Inclusion Criterion. With it you can create an Inclusion criterion and set it to control the typesetting of the score - see Inclusion Criteria<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a>.
 </li>
 <li>
 Continuous/Manual. This both indicates the current mode of typesetting and acts as a menu for altering it and choosing how much to typeset in continuous mode. In continuous mode the score is re-typeset every time it is altered – choose the range if the score is large so that it refreshes quickly. For entering music rapidly set this to Manual, and re-typeset on demand.\begin_inset Separator latexpar\end_inset<ul>
@@ -2412,7 +2412,7 @@ The &ldquo;Conditional&rdquo; button allows you to say if you want the directive
 <a class="toc" name="toc-Subsubsection-11.1.2">11.1.2</a> Making the Directive Conditional
 </h3>
 <div class="Unindented">
-The conditional button allows make the directive active only for certain Inclusion Criteria<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a> or Score Layouts<a class="Reference" href="#sec:The-Score-Layouts">15↓</a>. You specify inclusion criteria to mean the directive should only be typeset when that criterion is set in the Print View - Note: You have to create the inclusion criterion in the Print View first. Or you can designate certain score layouts (e. g. typesetting just one part, or one movement) as ones for which this directive is active or ones which ignore the directive. So if the full score is wanted without fingerings then by clicking this button with the full score as the currently typeset layout the fingering directive can be designated as ignored by that layout. Further examples can be searched and similarly marked in the dialog that follows.
+The conditional button allows make the directive active only for certain Inclusion Criteria<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a> or Score Layouts<a class="Reference" href="#sec:The-Score-Layouts">15↓</a>. You specify inclusion criteria to mean the directive should only be typeset when that criterion is set in the Print View. Or you can designate certain score layouts (e. g. typesetting just one part, or one movement) as ones for which this directive is active or ones which ignore the directive. So if the full score is wanted without fingerings then by clicking this button with the full score as the currently typeset layout the fingering directive can be designated as ignored by that layout. Further examples can be searched and similarly marked in the dialog that follows.
 </div>
 <h3 class="Subsubsection">
 <a class="toc" name="toc-Subsubsection-11.1.3">11.1.3</a> Making a Copy of the Directive
@@ -2519,13 +2519,13 @@ As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a
 Inlcusion Criteria are a sort of lightweight easy-to-use alternative to full-scale Score Layouts. So, for example, if you want to generate score and parts for both a transposed and an un-transposed version of your score you can create an inclusion criterion with a name of your choice (say, &ldquo;transposed&rdquo;) and set it on the Denemo Directive(s) that control the transposition of the score. Then you only have to turn the inclusion criterion on or off in the Print View and the typesetting switches between versions. If the instrument names should change as well then you can duplicate the instrument name directive in the Staff Editor and set the inclusion criterion on the second of those so that it is used when the score is transposed.
 </div>
 <div class="Indented">
-You create inclusion criterion names in the Print View<a class="Reference" href="#sec:The-Print-View">7↑</a>using the button labelled &ldquo;No Inclusion Criterion Set&rdquo; and apply them to directives using the Conditional Directive commands. For score, movement, staff etc directives you use Conditional button on the Directive in the respective editor (Score Editor, Movement Editor, Staff Editor etc). For objects (notes, chords, clefs, time signatures, key signatures, standalone Denemo Directives) there is a Conditional button in the Object Editor, or the Make Object Directive Conditional command in the Edit-&gt;Object at Cursor menu.
+You can create an inclusion criterion in the Print View<a class="Reference" href="#sec:The-Print-View">7↑</a>using the button labelled &ldquo;No Inclusion Criterion Set&rdquo; or just create it on the fly when you make a directive conditional using the Conditional Directive commands. For score, movement, staff etc directives you use Conditional button on the Directive in the respective editor (Score Editor, Movement Editor, Staff Editor etc). For objects (notes, chords, clefs, time signatures, key signatures, standalone Denemo Directives) there is a Conditional button in the Object Editor, or the Make Object Directive Conditional command in the Edit-&gt;Object at Cursor menu.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-15">15</a> The Score Layouts<a class="IndexReference" name="entry-Score-Layout-4" href="#index-Score-Layout">↓</a> Window<a class="Label" name="sec:The-Score-Layouts"> </a>
 </h1>
 <div class="Unindented">
-Score Layouts are ways of typesetting a score for different purposes. Even without ever looking at the score layouts window you may find that you have been using them all along. For example, if you print just one part from a chamber work, or the vocal part from a song with piano accompaniment a score layout is created for this. In fact, layouts are always created when you typeset music – for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu. These are <i>default score layouts </i>they are created automatically, and you don’t have to think about them. 
+Score Layouts are ways of typesetting a score for different purposes. Even without ever looking at the score layouts window you may find that you have been using them all along. For example, if you print just one part from a chamber work, or the vocal part from a song with piano accompaniment a score layout is created for this. In fact, layouts are always created when you typeset music – for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu. These are <i>default score layouts </i>they are created automatically, and you don’t have to think about them. They are useful for making things like page breaks apply only to the part or only to the full score etc - see making Directives conditional<a class="IndexReference" name="entry-Conditional-Directive-5" href="#index-Conditional-Directive">↓</a>.
 </div>
 <div class="Indented">
 You can also create a layout using the Print-&gt;Select Staffs to Print menu item - by un-checking the &ldquo;Do not Create Layout for this selection&rdquo; check box you can create a custom layout that will print just the staffs(voices) that you leave checked. In addition other commands in the Print menu generate custom score layouts – for example a layout for the accompanist to play from, with the solo part printed on a smaller staff.
@@ -5726,7 +5726,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 <a class="printindex" name="index-Command-Center"></a>Command Center: <a class="IndexArrow" href="#entry-Command-Center-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-3">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-4">↑</a>
+<a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-3">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-4">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-5">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Copy/Cut-and-Paste"></a>Copy/Cut and Paste: <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-0">↑</a>, <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-1">↑</a>
@@ -6013,7 +6013,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-18T15:25:56.990527</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-20T15:17:22.894282</span>
 </div>
 </div>
 </body>

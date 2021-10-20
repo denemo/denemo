@@ -155,16 +155,11 @@ Getting Started
 
 \begin_layout Section*
 Introduction  
-\begin_inset ERT
+\begin_inset Index idx
 status open
 
 \begin_layout Plain Layout
-
-
-\backslash
-pagenumbering{arabic} 
-\backslash
-setcounter{page}{1}
+Conditional Directive
 \end_layout
 
 \end_inset
@@ -5502,7 +5497,7 @@ Refresh.
 \end_layout
 
 \begin_layout Itemize
-Inlcusion Criteria.
+Inclusion Criteria.
  This button is labelled either 
 \begin_inset Quotes eld
 \end_inset
@@ -6740,8 +6735,7 @@ reference "sec:The-Score-Layouts"
 
 .
  You specify inclusion criteria to mean the directive should only be typeset
- when that criterion is set in the Print View - Note: You have to create
- the inclusion criterion in the Print View first.
+ when that criterion is set in the Print View.
  Or you can designate certain score layouts (e.
 \begin_inset space \thinspace{}
 \end_inset
@@ -7290,7 +7284,7 @@ transposed
 \end_layout
 
 \begin_layout Standard
-You create inclusion criterion names in the Print View
+You can create an inclusion criterion in the Print View
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:The-Print-View"
@@ -7305,7 +7299,8 @@ No Inclusion Criterion Set
 \begin_inset Quotes erd
 \end_inset
 
- and apply them to directives using the Conditional Directive commands.
+ or just create it on the fly when you make a directive conditional using
+ the Conditional Directive commands.
  For score, movement, staff etc directives you use Conditional button on
  the Directive in the respective editor (Score Editor, Movement Editor,
  Staff Editor etc).
@@ -7351,7 +7346,18 @@ Score Layouts are ways of typesetting a score for different purposes.
 default score layouts 
 \emph default
 they are created automatically, and you don't have to think about them.
- 
+ They are useful for making things like page breaks apply only to the part
+ or only to the full score etc - see making Directives conditional
+\begin_inset Index idx
+status open
+
+\begin_layout Plain Layout
+Conditional Directive
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
