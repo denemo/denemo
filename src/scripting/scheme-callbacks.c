@@ -1419,23 +1419,16 @@ scheme_get_layout_name (void)
 SCM
 scheme_select_next_layout (void)
 {
-  if (gtk_widget_get_visible (Denemo.project->score_layout))
-    {
-      DenemoScoreblock *sb = (DenemoScoreblock *) get_next_scoreblock ();
-      return sb ? SCM_BOOL_T : SCM_BOOL_F;
-    }
-  return SCM_BOOL_F;
+
+ DenemoScoreblock *sb = (DenemoScoreblock *) get_next_scoreblock ();
+ return sb ? SCM_BOOL_T : SCM_BOOL_F;
 }
 
 SCM
 scheme_select_first_layout (void)
 {
-  if (gtk_widget_get_visible (Denemo.project->score_layout))
-    {
-      DenemoScoreblock *sb = (DenemoScoreblock *) get_first_scoreblock ();
-      return sb ? SCM_BOOL_T : SCM_BOOL_F;
-    }
-  return SCM_BOOL_F;
+  DenemoScoreblock *sb = (DenemoScoreblock *) get_first_scoreblock ();
+  return sb ? SCM_BOOL_T : SCM_BOOL_F;
 }
 
 
