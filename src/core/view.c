@@ -1275,6 +1275,8 @@ pb_panic (GtkWidget * button)
 #endif  
   Denemo.project->movement->start_time = 0.0;
   Denemo.project->movement->end_time = -1.0;    //ie unset
+  Denemo.project->movement->smfsync = G_MAXINT;
+  exportmidi (NULL, Denemo.project->movement);
   fix_start_end_ordering ();
   reset_temperament ();
   draw_score_area ();
