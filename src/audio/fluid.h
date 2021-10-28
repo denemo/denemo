@@ -41,4 +41,5 @@ void fluidsynth_render_audio (unsigned int nframes, float *left_channel, float *
  */
 void choose_sound_font (GtkWidget * widget, GtkWidget * fluidsynth_soundfont);
 void reset_synth_channels (void);
+void fluid_set_gain (gdouble gain);
 #endif // FLUID_H

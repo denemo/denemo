@@ -133,8 +133,10 @@ get_audio_sample (float *sample)
         {
           ret = (2 == sf_read_float (Denemo.project->movement->recording->sndfile, sample, 2));
           if (ret)
-            *sample *= Denemo.project->movement->recording->volume;
-          *(sample + 1) *= Denemo.project->movement->recording->volume;
+            {
+				*sample *= Denemo.project->movement->recording->volume;
+				*(sample + 1) *= Denemo.project->movement->recording->volume;
+			}
         }
     }
   return ret;
@@ -187,7 +189,6 @@ open_source_audio (gchar * filename)
 				}
         }
     }
-  Denemo.project->movement->recording ? gtk_widget_show (Denemo.audio_vol_control) : gtk_widget_hide (Denemo.audio_vol_control);
   return (Denemo.project->movement->recording != NULL);
 }
 
@@ -234,8 +235,6 @@ rewind_audio (void)
         remaining_leadin = 0;//we will sf_seek to start the audio straight away from there     
 		sf_seek (Denemo.project->movement->recording->sndfile, 0, SEEK_SET);
     }
-  else
-    gtk_widget_hide (Denemo.audio_vol_control);
 }
 
 gboolean

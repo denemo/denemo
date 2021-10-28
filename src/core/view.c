@@ -23,6 +23,7 @@
 #include "audio/playback.h"
 #include "audio/pitchentry.h"
 #include "audio/portaudiobackend.h"
+#include "audio/fluid.h"
 #include "export/exportlilypond.h"
 #include "export/print.h"
 #include "printview/printview.h"
@@ -59,7 +60,6 @@ static GtkWidget *midiplayalongbutton;
 static GtkWidget *exportbutton;
 static GtkSpinButton *leadin;
 static GtkAdjustment *master_vol_adj;
-static GtkAdjustment *audio_vol_adj;
 static GtkWidget *tempo_widget;
 #ifdef _HAVE_RUBBERBAND_
 static GtkAdjustment *speed_adj;
@@ -1206,28 +1206,22 @@ set_speed (GtkAdjustment * adjustment)
 static void
 pb_volume (GtkAdjustment * adjustment)
 {
-  gdouble volume = gtk_adjustment_get_value (adjustment);
-  scm_c_define ("DenemoVolume::Value", scm_from_double (volume));
-  call_out_to_guile ("(DenemoVolume)");
+	gdouble volume = gtk_adjustment_get_value (adjustment);
+	if (volume < 50)
+		{
+			fluid_set_gain (volume/50);
+			if (Denemo.project->movement->recording)
+				Denemo.project->movement->recording->volume = (volume/500);
+		}
+	else
+		{
+		fluid_set_gain (1 + (volume-50)/5);
+		if (Denemo.project->movement->recording)
+			Denemo.project->movement->recording->volume = 0.1 + (volume-50)/5;
+		}
 }
 
-static void
-audio_volume_cut (GtkAdjustment * adjustment)
-{
-  if (Denemo.project->movement->recording)
-    {
-      Denemo.project->movement->recording->volume = gtk_adjustment_get_value (adjustment);
-    }
-}
 
-static void
-audio_volume_boost (GtkAdjustment * adjustment)
-{
-  if (Denemo.project->movement->recording)
-    {
-      Denemo.project->movement->recording->volume = gtk_adjustment_get_value (adjustment);
-    }
-}
 
 static void
 leadin_changed (GtkSpinButton * spin)
@@ -3170,11 +3164,7 @@ void
 set_master_volume (DenemoMovement * si, gdouble volume)
 {
   si->master_volume = volume;
-  if (master_vol_adj)
-    {
-      gtk_adjustment_set_value (master_vol_adj, volume);
-      //gtk_adjustment_changed (master_vol_adj);
-    }
+
 }
 
 //Set the tempo of the  movement and change the label and start/end times to suit
@@ -3430,63 +3420,21 @@ create_window (void)
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
 
-      master_vol_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 0.0, 1.0, 1.0, 1.0, 0.0);
+      master_vol_adj = (GtkAdjustment *) gtk_adjustment_new (50.0, 0.0, 100.0, 1.0, 1.0, 10.0);
 
       GtkWidget *hscale = gtk_hscale_new (GTK_ADJUSTMENT (master_vol_adj));
-      gtk_scale_set_digits (GTK_SCALE (hscale), 2);
+      gtk_scale_set_digits (GTK_SCALE (hscale), 0);
       gtk_widget_set_can_focus (hscale, FALSE);
       //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
       g_signal_connect (G_OBJECT (master_vol_adj), "value_changed", G_CALLBACK (pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
 
-      GtkWidget *always_full_volume = gtk_check_button_new_with_label (_("Always Full Volume"));
+      GtkWidget *always_full_volume = gtk_check_button_new_with_label (_("Ignore Dynamics"));
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (always_full_volume), Denemo.prefs.dynamic_compression);
       g_signal_connect_swapped (G_OBJECT (always_full_volume), "toggled", G_CALLBACK (toggle_dynamic_compression), &Denemo.prefs.dynamic_compression);
       gtk_box_pack_start (GTK_BOX (hbox), always_full_volume, FALSE, FALSE, 10);
 
 
-      // Audio Volume
-      Denemo.audio_vol_control = gtk_hbox_new (FALSE, 1);
-      label = gtk_label_new (_("Audio Volume Cut"));
-      gtk_widget_set_tooltip_text (label, _("Reduce the volume of the source audio relative to the volume of the score"));
-
-      gtk_widget_set_can_focus (label, FALSE);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-
-      audio_vol_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 0.0, 1.0, 0.1, 0.2, 0.0);
-
-      hscale = gtk_hscale_new (GTK_ADJUSTMENT (audio_vol_adj));
-      gtk_scale_set_digits (GTK_SCALE (hscale), 2);
-      gtk_widget_set_can_focus (hscale, FALSE);
-      //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
-      g_signal_connect (G_OBJECT (audio_vol_adj), "value_changed", G_CALLBACK (audio_volume_cut), NULL);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
-
-      label = gtk_label_new (_("Audio Volume Boost"));
-      gtk_widget_set_tooltip_text (label, _("Boost the volume of the source audio relative to the volume of the score"));
-      gtk_widget_set_can_focus (label, FALSE);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-
-      audio_vol_adj = (GtkAdjustment *) gtk_adjustment_new (1.0, 1.0, 10.0, 0.5, 2.0, 0.0);
-
-      hscale = gtk_hscale_new (GTK_ADJUSTMENT (audio_vol_adj));
-      gtk_scale_set_digits (GTK_SCALE (hscale), 2);
-      gtk_widget_set_can_focus (hscale, FALSE);
-      //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
-      g_signal_connect (G_OBJECT (audio_vol_adj), "value_changed", G_CALLBACK (audio_volume_boost), NULL);
-      gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), hscale, TRUE, TRUE, 0);
-      //label = gtk_label_new (_("Audio Lead In "));
-      //gtk_widget_set_can_focus (label, FALSE);
-      //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-      //leadin = (GtkSpinButton *) gtk_spin_button_new_with_range (-2.0, 2.0, 0.01);
-      //gtk_widget_set_tooltip_text (GTK_WIDGET (label), _("Set the number of seconds to clip from the audio, or if negative number of seconds silence before audio plays.\nThis is useful when the audio track does not begin on a barline."));
-      //g_signal_connect (G_OBJECT (leadin), "value_changed", G_CALLBACK (leadin_changed), NULL);
-      //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), GTK_WIDGET (leadin), FALSE, TRUE, 0);
-      //label = gtk_label_new (_(" secs."));
-      //gtk_widget_set_can_focus (label, FALSE);
-      //gtk_box_pack_start (GTK_BOX (Denemo.audio_vol_control), label, FALSE, TRUE, 0);
-
-      gtk_box_pack_start (GTK_BOX (hbox), Denemo.audio_vol_control, TRUE, TRUE, 0);
 
 #ifdef _HAVE_RUBBERBAND_
       /* Speed */
@@ -3556,7 +3504,6 @@ create_window (void)
       //gtk_widget_hide (deletebutton);
       //gtk_widget_hide (convertbutton);
       gtk_widget_hide (exportbutton);
-      gtk_widget_hide (Denemo.audio_vol_control);
     }
   }
 

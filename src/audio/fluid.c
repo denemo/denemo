@@ -24,6 +24,11 @@ static fluid_settings_t *settings = NULL;
 static fluid_synth_t *synth = NULL;
 static int sfont_id = -1;
 
+void fluid_set_gain (gdouble gain)
+{
+	if (synth)
+		fluid_synth_set_gain (synth, gain);
+}
 void reset_synth_channels (void)
 {
   // select bank 0 and preset 0 in the soundfont we just loaded on channel 0
@@ -90,7 +95,8 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
       return -1;
     }
   else
-    {
+    {	 
+	  fluid_set_gain (1.0); //to correspond with the value 50 in the volume slider
       g_message ("The default fluidsynth soundfont has been loaded");
     }
  reset_synth_channels ();
