@@ -96,7 +96,7 @@ fluidsynth_init (DenemoPrefs * config, unsigned int samplerate)
     }
   else
     {	 
-	  fluid_set_gain (1.0); //to correspond with the value 50 in the volume slider
+	  fluid_set_gain (0.1); //to correspond with the value 50 in the volume slider
       g_message ("The default fluidsynth soundfont has been loaded");
     }
  reset_synth_channels ();

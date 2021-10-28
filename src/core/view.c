@@ -1209,13 +1209,13 @@ pb_volume (GtkAdjustment * adjustment)
 	gdouble volume = gtk_adjustment_get_value (adjustment);
 	if (volume < 50)
 		{
-			fluid_set_gain (volume/50);
+			fluid_set_gain (volume/500);
 			if (Denemo.project->movement->recording)
 				Denemo.project->movement->recording->volume = (volume/500);
 		}
 	else
 		{
-		fluid_set_gain (1 + (volume-50)/5);
+		fluid_set_gain (0.1 + (volume-50)/20);
 		if (Denemo.project->movement->recording)
 			Denemo.project->movement->recording->volume = 0.1 + (volume-50)/5;
 		}
