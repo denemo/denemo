@@ -51,9 +51,8 @@
 #include "scripting/scheme-callbacks.h"
 
 static GtkWidget *playbutton;
-static GtkWidget *midirecordbutton;
 static GtkWidget *midihelpbutton;
-static GtkWidget *audiorecordbutton;
+static GtkWidget *audiorecordbuttonlabel;
 static GtkWidget *midiconductbutton;
 static GtkWidget *midi_in_status;
 static GtkWidget *midiplayalongbutton;
@@ -1378,25 +1377,22 @@ pb_playalong (GtkWidget * button)
     gtk_button_set_label (GTK_BUTTON (button), _("Switch to Play Along Playback"));
   set_midi_in_status ();
 }
+
+
 void highlight_audio_record (void)
 {
   static gboolean on;
   on = !on;
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name (on ?
-  
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        GTK_STOCK_MEDIA_RECORD : GTK_STOCK_MEDIA_STOP
-#else       
-   "media-record"  :  "media-playback-stop"
-#endif
-   , GTK_ICON_SIZE_BUTTON));
+	gtk_label_set_markup(GTK_LABEL (audiorecordbuttonlabel), on? 
+			"<span foreground=\"black\"><b> ▇ </b></span>":
+			"<span foreground=\"red\"><b>●</b></span>");
 }
 
 
 static void
 pb_audiorecord (GtkWidget * button)
-{
-  gtk_button_set_image (GTK_BUTTON (audiorecordbutton), gtk_image_new_from_icon_name ("media-record", GTK_ICON_SIZE_BUTTON));       //highlighting may have turned it off
+{  
+  gtk_label_set_markup(GTK_LABEL (audiorecordbuttonlabel),  "<span foreground=\"red\"><b>●</b></span>");
   if (Denemo.prefs.maxrecordingtime)
     {
       Denemo.project->audio_recording = !Denemo.project->audio_recording;
@@ -1440,9 +1436,8 @@ void pb_midi_delete (void)
   gtk_widget_queue_draw (Denemo.scorearea);
 }
 
-static void pb_midi_record (void)
+static void pb_midi_record_help (void)
 {
-	
 	popup_menu ("Recording");
 }
 static void
@@ -3107,7 +3102,7 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
 
 
 static GtkWidget *
-create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar * image, gchar * tooltip)
+create_helpbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar * tooltip)
 {
   GtkWidget *button;
   if (thelabel)
@@ -3119,44 +3114,47 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
   else
     button = gtk_button_new ();
   gtk_widget_set_can_focus (button, FALSE);
-  if (image)
-    {
-      gtk_button_set_image (GTK_BUTTON (button), gtk_image_new_from_icon_name (image, GTK_ICON_SIZE_BUTTON));
-    }
   if (callback)
     g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (callback), NULL);
   gtk_box_pack_start (GTK_BOX (box), button, FALSE, TRUE, 0);
   gtk_widget_set_tooltip_text (button, tooltip);
   return button;
 }
+static GtkWidget *
+create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar * tooltip)
+{
+  GtkWidget *button;
+  GtkWidget *label;
+  if (thelabel)
+    {button = gtk_button_new_with_label ("");
+    label = gtk_bin_get_child (GTK_BIN(button));
+    gtk_label_set_use_markup (GTK_LABEL (label), TRUE);
+    gtk_label_set_markup(GTK_LABEL (label), thelabel);
+    }
+  else
+    button = gtk_button_new ();
+  gtk_widget_set_can_focus (button, FALSE);
+  if (callback)
+    g_signal_connect (G_OBJECT(button), "clicked", G_CALLBACK (callback), NULL);
+  gtk_box_pack_start (GTK_BOX (box), button, FALSE, TRUE, 0);
+  gtk_widget_set_tooltip_text (button, tooltip);
+  return label;
+}
 
 
 void
 set_playbutton (gboolean pause)
 {
- static gboolean first = TRUE;
- if (first)
+	static gboolean first = TRUE;
+	if (first)
 	{
 		pause = !pause;
 		first = FALSE;
 	}
-  if (pause)
-    {
-        
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))        
-      gtk_button_set_label (GTK_BUTTON (playbutton), _("Pause"));
-#else
-    gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-pause", GTK_ICON_SIZE_BUTTON));
-#endif
-    }
-  else
-    {
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))        
-      gtk_button_set_label (GTK_BUTTON (playbutton), _("Play"));
-#else
-     gtk_button_set_image (GTK_BUTTON (playbutton), gtk_image_new_from_icon_name ("media-playback-start" , GTK_ICON_SIZE_BUTTON));
-#endif 
-    }
+	if (pause)
+	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>Ⅱ</b></span>");
+	else
+	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>▶</b></span>");
 }
 
 //Set the master volume of the passed score and change the slider to suit
@@ -3322,59 +3320,36 @@ create_window (void)
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
     
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-     create_playbutton (inner, "◀-", pb_go_back,   NULL
-#else 
-    create_playbutton (inner, NULL, pb_go_back, "go-previous"
-#endif     
-     , _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+     create_playbutton (inner, "◀-", pb_go_back,
+     _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, "<span foreground=\"lightgreen\"><b>❙</b></span>", pb_start_to_cursor, NULL, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"green\"><b>❙</b></span>", pb_start_to_cursor, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-        create_playbutton (inner, "-▶", pb_next, NULL
-#else 
-     create_playbutton (inner, NULL, pb_next, "go-next"
-#endif     
-     , _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, NULL, pb_stop, "media-playback-stop", _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
+
+    create_playbutton (inner, "-▶", pb_next,
+     _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "▇", pb_stop, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
 
 
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-            playbutton = create_playbutton (inner, _("Play"), pb_play, NULL
-#else
-         playbutton = create_playbutton (inner, _("Play"), pb_play, "media-playback-start"
-#endif
-     , _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
+    playbutton = create_playbutton (inner, "<span foreground=\"blue\"><b>▶</b></span>", pb_play,
+     _("Starts playing back from the playback start (green bar) until the playback end (red bar).\nWhen playing it pauses the play, and continues when pressed again."));
 
 
 
 
-    audiorecordbutton = create_playbutton (inner, NULL, pb_audiorecord, "media-record", _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
-    exportbutton = create_playbutton (inner, NULL, pb_exportaudio, "document-save", _("Exports the audio recorded to disk"));
+    audiorecordbuttonlabel = create_playbutton (inner, "<span foreground=\"red\"><b>●</b></span>", pb_audiorecord, _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
+    exportbutton = create_helpbutton (inner, "<span foreground=\"green\"><b>☳</b></span>", pb_exportaudio, _("Exports the audio recorded to disk"));
 
-   
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-     create_playbutton (inner, "◀-", pb_previous,   NULL
-#else 
-    create_playbutton (inner, NULL, pb_previous, "go-previous"
-#endif 
-    , _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, "<span foreground=\"red\"><b>❙</b></span>", pb_end_to_cursor, NULL, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "◀-", pb_previous,
+			 _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"red\"><b>❙</b></span>", pb_end_to_cursor, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     
-#if ((GTK_MAJOR_VERSION==3)&&(GTK_MINOR_VERSION<10))
-     create_playbutton (inner, "-▶", pb_go_forward, NULL
-#else 
-     create_playbutton (inner, NULL, pb_go_forward, "go-next"
-#endif     
-    , _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    //create_playbutton(inner,NULL, pb_forward, GTK_STOCK_MEDIA_FORWARD);
+     create_playbutton (inner, "-▶", pb_go_forward, 
+			 _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, _("Loop"), pb_loop, NULL, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\n(so that you can continuously listen as you try alternatives)."));
-
-    // midiconductbutton = create_playbutton (inner, _("Conductor"), pb_conduct, NULL, _("With the mouse conductor once you press play the playback progresses as you move the mouse around\nWith this you can speed up and slow down the playback to listen in detail to a certain passage\n"));
+    create_playbutton (inner, _("Loop"), pb_loop, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\n(so that you can continuously listen as you try alternatives)."));
 
     create_playbutton (inner,
 #ifdef _HAVE_JACK_
@@ -3382,21 +3357,19 @@ create_window (void)
 #else
                        _("Reset")
 #endif
-                       , pb_panic, NULL, _("Resets the synthesizer, on JACK it sends a JACK panic."));
+                       , pb_panic, _("Resets the synthesizer, on JACK it sends a JACK panic."));
 
 
-    create_playbutton (inner, _("Play Selection"), pb_play_range, NULL, _("Plays the current selection or from the cursor to the end if no selection present."));
-    create_playbutton (inner, _("Playback Range"), pb_range, NULL, _("Pops up a dialog to get timings for start and end of playback."));
+    create_playbutton (inner, _("Play Selection"), pb_play_range, _("Plays the current selection or from the cursor to the end if no selection present."));
+    create_playbutton (inner, _("Playback Range"), pb_range,  _("Pops up a dialog to get timings for start and end of playback."));
     GtkWidget *temperament_control = get_temperament_combo ();
     if (!gtk_widget_get_parent (temperament_control))
       //gtk_container_add (GTK_CONTAINER (inner), temperament_control);
       gtk_box_pack_start (GTK_BOX (inner), temperament_control, FALSE, FALSE, 0);
 #define PLAYBACK_HELP  _("Controls for playback.\nThe arrows on either side of the PLAY and STOP buttons move the playback start\nand playback end markers.\nLoop plays in a loop - you can edit while it plays.\nYou can also record the output and save it as .ogg or .wav file.\nThe temperament used for playing back can be set here.")
     
-     GtkWidget* helpbutton = create_playbutton (inner, _("Help"), NULL, NULL, PLAYBACK_HELP);
+     GtkWidget* helpbutton = create_helpbutton (inner, _("Help"), NULL, PLAYBACK_HELP);
      g_signal_connect_swapped (helpbutton, "clicked", G_CALLBACK(infodialog), PLAYBACK_HELP);
-      
-      
       
     {
       GtkWidget *hbox;
@@ -3410,7 +3383,7 @@ create_window (void)
       g_signal_connect (G_OBJECT (tempo_button), "clicked", G_CALLBACK (movement_tempo_from_user), NULL);
       
       gtk_box_pack_start (GTK_BOX (hbox), GTK_WIDGET (tempo_button), FALSE, TRUE, 0);
-      create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, NULL, _("Select which staffs should be muted during playback."));
+      create_playbutton (hbox, _("Mute Staffs"), pb_mute_staffs, _("Select which staffs should be muted during playback."));
 
       // Volume
       label = gtk_label_new (_("Volume"));
@@ -3486,12 +3459,11 @@ create_window (void)
       gtk_box_pack_start (GTK_BOX (hbox), midi_in_button, FALSE, TRUE, 0);
 
       midiplayalongbutton =
-        create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, NULL, 
+        create_playbutton (hbox, _("Switch to Play Along Playback"), pb_playalong, 
         _("When in playalong mode, on clicking Play, the music plays until it reaches the Denemo cursor\nFrom then on you must play the notes at the cursor to progress the playback.\nSo if you set the cursor on the first note of the part you want to play, then once you have pressed play you can play along with Denemo, with Denemo filling in the other parts and waiting if you play a wrong note."));
-	  midirecordbutton = 
-		create_playbutton (hbox,_("Record Commands"), pb_midi_record, NULL, _("Menu of commands for recording MIDI-in"));
+	  create_helpbutton (hbox,_("Record Commands"), pb_midi_record_help,_("Menu of commands for recording MIDI-in"));
 #define MIDI_CONTROL_HELP _("Controls for managing input from a MIDI controller (e.g. keyboard) attached to the computer.\nYou may need to select your MIDI device first using MainMenu → Edit → Change Preferences → MIDI\nlooking for MIDI in devices (turn your device on first).\nWhen you have a MIDI controller durations are inserted without any pitch (they appear in brown)\n playing on the controller puts the pitches onto the durations.\nThe Shift and Control and ALT keys can also be used for listening without entering notes,\nchecking pitches entered and entering chords.\nThe foot pedal can also be used for chords. Release the ALT key and re-press to start a new chord\n- timing is unimportant, play the chord fast or slow.\nOr use Input → MIDI → Chord Entry Without Pedal to enter chords based on playing the notes simultaneously")
-      midihelpbutton = create_playbutton (hbox, _( "Help"), NULL, NULL, MIDI_CONTROL_HELP);
+      midihelpbutton = create_helpbutton (hbox, _( "Help"), NULL, MIDI_CONTROL_HELP);
       g_signal_connect_swapped (midihelpbutton, "clicked", G_CALLBACK(infodialog), MIDI_CONTROL_HELP);
       
       gtk_widget_show_all (Denemo.midi_in_control);
