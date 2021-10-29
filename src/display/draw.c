@@ -308,9 +308,12 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
       if ( (!itp->startisoffscreen) && (itp->startposition < 0) &&  (mudelaitem->earliest_time > (Denemo.project->movement->start_time - 0.001))) 
         {
           if (((curobj==itp->leftmostobj) && (fabs (mudelaitem->earliest_time - Denemo.project->movement->start_time)>0.001)))
-            itp->startisoffscreen = TRUE;
+            {
+					itp->startisoffscreen = TRUE;
+					itp->startposition = 0;
+			}
           else
-            itp->startposition = x + mudelaitem->x;
+			itp->startposition = x + mudelaitem->x;
         }
       if ((itp->endposition < 0) && (mudelaitem->latest_time >= Denemo.project->movement->end_time)) {
         itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
