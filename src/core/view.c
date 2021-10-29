@@ -3328,7 +3328,7 @@ create_window (void)
 
     create_playbutton (inner, "-▶", pb_next,
      _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, "▇", pb_stop, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
+    create_playbutton (inner, "■", pb_stop, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
 
 
     playbutton = create_playbutton (inner, "<span foreground=\"blue\"><b>▶</b></span>", pb_play,
