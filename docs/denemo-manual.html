@@ -4,7 +4,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <meta name="generator" content="http://www.nongnu.org/elyxer/"/>
-<meta name="create-date" content="2021-10-20"/>
+<meta name="create-date" content="2021-10-28"/>
 <link rel="stylesheet" href="http://elyxer.nongnu.org/lyx.css" type="text/css" media="all"/>
 <title>Denemo User Manual</title>
 </head>
@@ -834,7 +834,7 @@ Table of Contents
 <a class="toc" name="toc-Part-I">Part I.</a> Getting Started
 </h1>
 <h1 class="Section-">
-<a class="toc" name="toc-Section--1"></a>Introduction  
+<a class="toc" name="toc-Section--1"></a>Introduction  <a class="IndexReference" name="entry-Conditional-Directive-0" href="#index-Conditional-Directive">↓</a>
 </h1>
 <div class="Unindented">
 Denemo lets you create musical scores. You can type music in using the keyboard or play it in using a MIDI contoller or the microphone input. You can edit your music – the input display window shows you what you are working on in music notation – and you can playback to check how it sounds. The Print View window shows the final printed score, typeset to the highest standards used in the music publishing industry – thanks to the Lilypond music typesetting program.
@@ -1491,7 +1491,7 @@ Jumps to the last measure of the movement.
 <a class="toc" name="toc-Subsection-3.4">3.4</a> Playback Controls<a class="IndexReference" name="entry-Playback-Controls-0" href="#index-Playback-Controls">↓</a><a class="Label" name="subsec:Playback-Controls"> </a>
 </h2>
 <div class="Unindented">
-<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="width: 779px; max-width: 1114px; height: 163px; max-height: 233px;"/>
+<img class="embedded" src="images/playbackcontrols.png" alt="figure images/playbackcontrols.png" style="width: 877px; max-width: 1253px; height: 185px; max-height: 265px;"/>
 
 </div>
 <div class="Indented">
@@ -1507,13 +1507,10 @@ The Play Selection button plays the selection or, if no selection plays from the
 The Mute Staffs button allows you to select groups of staffs to play, muting others.
 </div>
 <div class="Indented">
-Always Full Volume if checked means that the dynamics<a class="IndexReference" name="entry-Dynamics-0" href="#index-Dynamics">↓</a> in the piece are ignored – good for checking note pitches are correct.
-</div>
-<div class="Indented">
 Playing of sections of the music and looping is possible (including editing as the music loops, so that you can listen to different possibilities) as well as recording the audio output (mixed with anything you play on your MIDI keyboard if you have recording set in the MIDI controls).
 </div>
 <div class="Indented">
-The master tempo<a class="IndexReference" name="entry-Tempo-0" href="#index-Tempo">↓</a> and volume can be set, which will be overridden by tempo and dynamics placed in the music.
+The master tempo<a class="IndexReference" name="entry-Tempo-0" href="#index-Tempo">↓</a> and volume can be set, which may be overridden by tempi and dynamics placed in the music. Dynamics in the score can be turned off with the &ldquo;Ignore Dynamics&rdquo; check box.
 </div>
 <div class="Indented">
 Recording the audio output is also possible as well as real-time slow down of the audio playing back (not to be confused with simply setting a slower tempo!). This last is used when transcribing from audio (See File-&gt;Open-&gt;Open Source Audio).
@@ -1637,10 +1634,10 @@ For historical reasons, some properties such as part-name are &ldquo;built-in&rd
 <a class="toc" name="toc-Subsubsection--30"></a>The Add Staff Submenu
 </h3>
 <div class="Unindented">
-This allows adding staffs to the current movement. Piano staffs can be added as well as specialized sorts of staff for dynamics<a class="IndexReference" name="entry-Dynamics-1" href="#index-Dynamics">↓</a>, marks (so that they appear once for all layouts), and coulés (diagonal lines positioned between thirds in some music). The Add Structured Staff command duplicates the current staff with regard to measures and time signature changes, ready for the insertion of music. Add Staff for Instrument allows you to add the staff(s) needed for various instruments (e. g. organ) with the ranges of acceptable notes for the instrument set on the staff(s). In the MIDI sub-sub-menu are commands to add a click track<a class="IndexReference" name="entry-Click-Track-0" href="#index-Click-Track">↓</a> (a staff which does not typeset but contains clicks on each beat which are played with the score) and to add staffs for imported MIDI tracks.
+This allows adding staffs to the current movement. Piano staffs can be added as well as specialized sorts of staff for dynamics<a class="IndexReference" name="entry-Dynamics-0" href="#index-Dynamics">↓</a>, marks (so that they appear once for all layouts), and coulés (diagonal lines positioned between thirds in some music). The Add Structured Staff command duplicates the current staff with regard to measures and time signature changes, ready for the insertion of music. Add Staff for Instrument allows you to add the staff(s) needed for various instruments (e. g. organ) with the ranges of acceptable notes for the instrument set on the staff(s). In the MIDI sub-sub-menu are commands to add a click track<a class="IndexReference" name="entry-Click-Track-0" href="#index-Click-Track">↓</a> (a staff which does not typeset but contains clicks on each beat which are played with the score) and to add staffs for imported MIDI tracks.
 </div>
 <div class="Indented">
-Staffs with &ldquo;mirrored&rdquo; music can also be added. In this case the staff does not have music of its own, instead the music mirrors that in another staff. By setting the part-name<a class="IndexReference" name="entry-Part-Name-0" href="#index-Part-Name">↓</a> on such a staff a greater variety of parts can be printed from one score without needing to create a custom layout<a class="IndexReference" name="entry-Score-Layout-0" href="#index-Score-Layout">↓</a> for them. For example, two flute parts can be printed separately and as a combined (&ldquo;divisi&rdquo;) part, using the same music. Any marks etc that need to be handled differently can be made conditional<a class="IndexReference" name="entry-Conditional-Directive-0" href="#index-Conditional-Directive">↓</a> on the part name.
+Staffs with &ldquo;mirrored&rdquo; music can also be added. In this case the staff does not have music of its own, instead the music mirrors that in another staff. By setting the part-name<a class="IndexReference" name="entry-Part-Name-0" href="#index-Part-Name">↓</a> on such a staff a greater variety of parts can be printed from one score without needing to create a custom layout<a class="IndexReference" name="entry-Score-Layout-0" href="#index-Score-Layout">↓</a> for them. For example, two flute parts can be printed separately and as a combined (&ldquo;divisi&rdquo;) part, using the same music. Any marks etc that need to be handled differently can be made conditional<a class="IndexReference" name="entry-Conditional-Directive-1" href="#index-Conditional-Directive">↓</a> on the part name.
 </div>
 <h3 class="Subsubsection-">
 <a class="toc" name="toc-Subsubsection--31"></a>The Voices<a class="IndexReference" name="entry-Voice-3" href="#index-Voice">↓</a> Submenu
@@ -1715,7 +1712,7 @@ Here are commands to add notes to a chord either at the cursor, by note name or 
 <a class="toc" name="toc-Subsubsection-3.6.9">3.6.9</a> Notes/Rests Menu<a class="IndexReference" name="entry-Notes-0" href="#index-Notes">↓</a><a class="IndexReference" name="entry-Rests-0" href="#index-Rests">↓</a>
 </h3>
 <div class="Unindented">
-This covers inserting, deleting and modifying notes in pitch, duration and appearance and all sorts of things that are attached to note objects such as slurs<a class="IndexReference" name="entry-Slurs-0" href="#index-Slurs">↓</a>, phrasing slurs, ties<a class="IndexReference" name="entry-Ties-0" href="#index-Ties">↓</a>, beaming<a class="IndexReference" name="entry-Beaming-2" href="#index-Beaming">↓</a> controls, ornaments<a class="IndexReference" name="entry-Ornaments-0" href="#index-Ornaments">↓</a> (trill, turn, \SpecialChar ldots), grace notes, articulations<a class="IndexReference" name="entry-Articulations-0" href="#index-Articulations">↓</a> (staccato, tenuto \SpecialChar ldots), fingerings<a class="IndexReference" name="entry-Fingerings-0" href="#index-Fingerings">↓</a>, textual markings<a class="IndexReference" name="entry-Markings-0" href="#index-Markings">↓</a>, cresc. and dim.<a class="IndexReference" name="entry-Cresc.-and-dim.-0" href="#index-Cresc.-and-dim.">↓</a> (both hairpins and extended cresc. — poco — a — poco style) chord symbols<a class="IndexReference" name="entry-Chord-Symbols-1" href="#index-Chord-Symbols">↓</a> (&ldquo;fake chords&rdquo;<a class="IndexReference" name="entry-Fake-Chords-seeChord-Symbols-0" href="#index-Fake-Chords-seeChord-Symbols">↓</a>), figured bass. Dynamic markings such as <i>f </i>and<i> p </i>are separate objects (see Directives-&gt;Markings-&gt;Dynamics<a class="IndexReference" name="entry-Dynamics-2" href="#index-Dynamics">↓</a>). 
+This covers inserting, deleting and modifying notes in pitch, duration and appearance and all sorts of things that are attached to note objects such as slurs<a class="IndexReference" name="entry-Slurs-0" href="#index-Slurs">↓</a>, phrasing slurs, ties<a class="IndexReference" name="entry-Ties-0" href="#index-Ties">↓</a>, beaming<a class="IndexReference" name="entry-Beaming-2" href="#index-Beaming">↓</a> controls, ornaments<a class="IndexReference" name="entry-Ornaments-0" href="#index-Ornaments">↓</a> (trill, turn, \SpecialChar ldots), grace notes, articulations<a class="IndexReference" name="entry-Articulations-0" href="#index-Articulations">↓</a> (staccato, tenuto \SpecialChar ldots), fingerings<a class="IndexReference" name="entry-Fingerings-0" href="#index-Fingerings">↓</a>, textual markings<a class="IndexReference" name="entry-Markings-0" href="#index-Markings">↓</a>, cresc. and dim.<a class="IndexReference" name="entry-Cresc.-and-dim.-0" href="#index-Cresc.-and-dim.">↓</a> (both hairpins and extended cresc. — poco — a — poco style) chord symbols<a class="IndexReference" name="entry-Chord-Symbols-1" href="#index-Chord-Symbols">↓</a> (&ldquo;fake chords&rdquo;<a class="IndexReference" name="entry-Fake-Chords-seeChord-Symbols-0" href="#index-Fake-Chords-seeChord-Symbols">↓</a>), figured bass. Dynamic markings such as <i>f </i>and<i> p </i>are separate objects (see Directives-&gt;Markings-&gt;Dynamics<a class="IndexReference" name="entry-Dynamics-1" href="#index-Dynamics">↓</a>). 
 </div>
 <div class="Indented">
 Also here is the tuplet<a class="IndexReference" name="entry-Tuplets-0" href="#index-Tuplets">↓</a> menu, for groups of notes that have a duration that is a fraction of the written duration, such as triplets. These actually insert tuplet start and end objects, before and after the notes concerned so, strictly speaking they should come in a separate miscellaneous objects category. As usual, the most useful commands have shortcuts already – Tab starts/stops a triplet alternately (so you can press it once, enter the notes and press it again to finish the triplet). And the two key shortcut Keypad 7, Keypad 7 turns the note entered into a triplet of notes (with Control as well they are slurred). This is set as a two-key shortcut so that you can type it in as a triplet rhythm: e. g. the three keypresses 4, KP_7, KP_7 will give a triplet of three 1/16th notes.
@@ -1775,7 +1772,7 @@ This covers all the things that aren’t notes but sit in between them – <i>st
 All objects, including Denemo Directives can be inspected and edited via the Object Editor
 </div>
 <div class="Indented">
-One general feature is the Conditional Directives<a class="IndexReference" name="entry-Conditional-Directive-1" href="#index-Conditional-Directive">↓</a> which can be used to restrict a directive to a particular type of score layout<a class="IndexReference" name="entry-Score-Layout-1" href="#index-Score-Layout">↓</a> (e. g. only to be used when printing a part, or a full score). This can be used, for example, to prevent a cue being printed on the full score (as it is only relevant when printing the part).
+One general feature is the Conditional Directives<a class="IndexReference" name="entry-Conditional-Directive-2" href="#index-Conditional-Directive">↓</a> which can be used to restrict a directive to a particular type of score layout<a class="IndexReference" name="entry-Score-Layout-1" href="#index-Score-Layout">↓</a> (e. g. only to be used when printing a part, or a full score). This can be used, for example, to prevent a cue being printed on the full score (as it is only relevant when printing the part).
 </div>
 <div class="Indented">
 Note there is a further class of Denemo Directives, the ones <i>attached</i> to notes/chords/staffs/movements/scores – these direct the typesetter to do special things such as attach fingerings, ornaments etc. Denemo Directives are described in a separate section<a class="Reference" href="#sec:Inclusion-Criteria">14↓</a>.
@@ -1993,7 +1990,7 @@ This palette inserts a chord of the given type using the <i>prevailing duration<
 Custom ornaments can be created as encapsulated postscript files using the same methods as graphic title pages. If you have a vector graphics editor (e. g. inkscape) installed and in your Preferences (Externals tab, Graphics Editor) then you can edit from within Denemo. As usual hover over the buttons for instructions.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-4.7">4.7</a> Dynamics<a class="IndexReference" name="entry-Dynamics-3" href="#index-Dynamics">↓</a> Palette
+<a class="toc" name="toc-Subsection-4.7">4.7</a> Dynamics<a class="IndexReference" name="entry-Dynamics-2" href="#index-Dynamics">↓</a> Palette
 </h2>
 <div class="Unindented">
 <img class="embedded" src="images/DynamicsPalette.png" alt="figure images/DynamicsPalette.png" style="max-width: 493px; max-height: 72px;"/>
@@ -2400,7 +2397,7 @@ Below this is a row of buttons – the first will delete the Denemo Directive, w
 <a class="toc" name="toc-Subsubsection-11.1.1">11.1.1</a> Seeking<a class="IndexReference" name="entry-Seek-0" href="#index-Seek">↓</a><a class="IndexReference" name="entry-Search-Objects--seeSeek-0" href="#index-Search-Objects--seeSeek">↓</a>, Editing and Conditionals
 </h3>
 <div class="Unindented">
-The next three buttons allow you to seek and edit further occurrences of this particular Denemo Directive in the score (&ldquo;Next&rdquo;) to set conditional behavior on the Denemo Directive (&ldquo;Conditional<a class="IndexReference" name="entry-Conditional-Directive-2" href="#index-Conditional-Directive">↓</a>&rdquo;) or to get the description of the command that originated this directive (&ldquo;Help&rdquo;).
+The next three buttons allow you to seek and edit further occurrences of this particular Denemo Directive in the score (&ldquo;Next&rdquo;) to set conditional behavior on the Denemo Directive (&ldquo;Conditional<a class="IndexReference" name="entry-Conditional-Directive-3" href="#index-Conditional-Directive">↓</a>&rdquo;) or to get the description of the command that originated this directive (&ldquo;Help&rdquo;).
 </div>
 <div class="Indented">
 The &ldquo;Next-&gt;&rdquo; button allows you to search on from the cursor for further occurrences of the Denemo Directive – other fingerings for button on the Fingering directive, for example. When found they can be edited and the search resumed (the usual shortcut for resuming the search is <tt>Ctrl-E,r). </tt>These search commands can be invoked from the Edit menu, but this button provides a convenient start point.
@@ -2470,7 +2467,7 @@ Some older commands do not have edit facilities.
 As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal.</i>
 </div>
 <div class="Indented">
-In addition to the buttons described for the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>there is a button to create a duplicate<a class="IndexReference" name="entry-Duplicate-Directives-0" href="#index-Duplicate-Directives">↓</a> of the directive. The purpose of this is to have two versions of some setting (e. g. the indent for the first staff) which are used for different score layouts – a full score may require a larger indent than an individual part. If you make the duplicate conditional<a class="IndexReference" name="entry-Conditional-Directive-3" href="#index-Conditional-Directive">↓</a> on one layout, then it is good practice to make the original conditionally <i>ignored</i> by the same layout, rather than relying on it overriding the earlier directive. <div class="Shadowbox" style="width: 100%;">
+In addition to the buttons described for the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>there is a button to create a duplicate<a class="IndexReference" name="entry-Duplicate-Directives-0" href="#index-Duplicate-Directives">↓</a> of the directive. The purpose of this is to have two versions of some setting (e. g. the indent for the first staff) which are used for different score layouts – a full score may require a larger indent than an individual part. If you make the duplicate conditional<a class="IndexReference" name="entry-Conditional-Directive-4" href="#index-Conditional-Directive">↓</a> on one layout, then it is good practice to make the original conditionally <i>ignored</i> by the same layout, rather than relying on it overriding the earlier directive. <div class="Shadowbox" style="width: 100%;">
 Note that the command that created the directive you have duplicated will only edit the original directive, not the duplicate. So if you want to change it you can either use the Advanced edit button or delete and re-create it with the different value desired. (And then return to the value desired for the original copy of the directive).
 </div>
 
@@ -2510,7 +2507,7 @@ Note that if there are additional voices on a staff these are usually displayed 
 
 </div>
 <div class="Indented">
-As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal, </i>and as with the Score/Movements and Staff/Voices editors there are facilities to make duplicate directives for conditional<a class="IndexReference" name="entry-Conditional-Directive-4" href="#index-Conditional-Directive">↓</a> use in the various layouts you may need.
+As with the Object Editor<a class="Reference" href="#sec:Object-Editor">11↑</a>, this editor is <i>modal, </i>and as with the Score/Movements and Staff/Voices editors there are facilities to make duplicate directives for conditional<a class="IndexReference" name="entry-Conditional-Directive-5" href="#index-Conditional-Directive">↓</a> use in the various layouts you may need.
 </div>
 <h1 class="Section">
 <a class="toc" name="toc-Section-14">14</a> Inclusion Criteria<a class="IndexReference" name="entry-Inclusion-Criteria-0" href="#index-Inclusion-Criteria">↓</a><a class="Label" name="sec:Inclusion-Criteria"> </a>
@@ -2525,7 +2522,7 @@ You can create an inclusion criterion in the Print View<a class="Reference" href
 <a class="toc" name="toc-Section-15">15</a> The Score Layouts<a class="IndexReference" name="entry-Score-Layout-4" href="#index-Score-Layout">↓</a> Window<a class="Label" name="sec:The-Score-Layouts"> </a>
 </h1>
 <div class="Unindented">
-Score Layouts are ways of typesetting a score for different purposes. Even without ever looking at the score layouts window you may find that you have been using them all along. For example, if you print just one part from a chamber work, or the vocal part from a song with piano accompaniment a score layout is created for this. In fact, layouts are always created when you typeset music – for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu. These are <i>default score layouts </i>they are created automatically, and you don’t have to think about them. They are useful for making things like page breaks apply only to the part or only to the full score etc - see making Directives conditional<a class="IndexReference" name="entry-Conditional-Directive-5" href="#index-Conditional-Directive">↓</a>.
+Score Layouts are ways of typesetting a score for different purposes. Even without ever looking at the score layouts window you may find that you have been using them all along. For example, if you print just one part from a chamber work, or the vocal part from a song with piano accompaniment a score layout is created for this. In fact, layouts are always created when you typeset music – for example from the Print Window Typeset, Part or Movement buttons, or from the Print menu. These are <i>default score layouts </i>they are created automatically, and you don’t have to think about them. They are useful for making things like page breaks apply only to the part or only to the full score etc - see making Directives conditional<a class="IndexReference" name="entry-Conditional-Directive-6" href="#index-Conditional-Directive">↓</a>.
 </div>
 <div class="Indented">
 You can also create a layout using the Print-&gt;Select Staffs to Print menu item - by un-checking the &ldquo;Do not Create Layout for this selection&rdquo; check box you can create a custom layout that will print just the staffs(voices) that you leave checked. In addition other commands in the Print menu generate custom score layouts – for example a layout for the accompanist to play from, with the solo part printed on a smaller staff.
@@ -2966,7 +2963,7 @@ Grace Notes present a peculiar problem to the LilyPond typesetter that Denemo us
 Notes/Rests-&gt;Markings-&gt;Ornaments for ornaments attached to notes/chords. Directives-&gt;Markings-&gt;Ornaments for customized ornaments which appear in the Denemo Display as separate objects before the note they decorate. Besides all the standard ornaments, there are commands to stack accidental signs above/below ornaments and to create customized ornaments, drawn using an external vector graphics editor. One set of custom-built ornaments for French harpsichord ornaments is provided.
 </div>
 <h2 class="Subsection">
-<a class="toc" name="toc-Subsection-20.7">20.7</a> Dynamics<a class="IndexReference" name="entry-Dynamics-4" href="#index-Dynamics">↓</a>
+<a class="toc" name="toc-Subsection-20.7">20.7</a> Dynamics<a class="IndexReference" name="entry-Dynamics-3" href="#index-Dynamics">↓</a>
 </h2>
 <div class="Unindented">
 Notes/Rests-&gt;Markings-&gt;Dynamics for dynamic spanners (cresc. dim. etc, both hairpins and textual). Directives-&gt;Markings-&gt;Dynamics (shortcut Ctrl-d) for dynamic marks (<i>p, sfz etc) </i>they appear as objects in the Denemo Display just before the note they relate to. These dynamics affect both typeset and playback.
@@ -5726,7 +5723,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 <a class="printindex" name="index-Command-Center"></a>Command Center: <a class="IndexArrow" href="#entry-Command-Center-0">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-3">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-4">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-5">↑</a>
+<a class="printindex" name="index-Conditional-Directive"></a>Conditional Directive: <a class="IndexArrow" href="#entry-Conditional-Directive-0">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-1">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-2">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-3">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-4">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-5">↑</a>, <a class="IndexArrow" href="#entry-Conditional-Directive-6">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Copy/Cut-and-Paste"></a>Copy/Cut and Paste: <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-0">↑</a>, <a class="IndexArrow" href="#entry-Copy/Cut-and-Paste-1">↑</a>
@@ -5759,7 +5756,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 <a class="printindex" name="index-Duration"></a>Duration: <a class="IndexArrow" href="#entry-Duration-0">↑</a>, <a class="IndexArrow" href="#entry-Duration-1">↑</a>, <a class="IndexArrow" href="#entry-Duration-2">↑</a>
 </p>
 <p class="printindex">
-<a class="printindex" name="index-Dynamics"></a>Dynamics: <a class="IndexArrow" href="#entry-Dynamics-0">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-1">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-2">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-3">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-4">↑</a>
+<a class="printindex" name="index-Dynamics"></a>Dynamics: <a class="IndexArrow" href="#entry-Dynamics-0">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-1">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-2">↑</a>, <a class="IndexArrow" href="#entry-Dynamics-3">↑</a>
 </p>
 <p class="printindex">
 <a class="printindex" name="index-Educational"></a>Educational: <a class="IndexArrow" href="#entry-Educational-0">↑</a>
@@ -6013,7 +6010,7 @@ Many people have contributed to this manual, directly and indirectly, over the y
 
 <hr class="footer"/>
 <div class="footer" id="generated-by">
-Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-20T15:17:22.894282</span>
+Document generated by <a href="http://elyxer.nongnu.org/">eLyXer 1.2.5 (2013-03-10)</a> on <span class="create-date">2021-10-28T17:04:26.622090</span>
 </div>
 </div>
 </body>

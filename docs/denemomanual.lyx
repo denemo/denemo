@@ -151,6 +151,21 @@ LatexCommand tableofcontents
 
 \begin_layout Part
 Getting Started
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic} 
+\backslash
+setcounter{page}{1}
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section*
@@ -2675,20 +2690,6 @@ The Mute Staffs button allows you to select groups of staffs to play, muting
 \end_layout
 
 \begin_layout Standard
-Always Full Volume if checked means that the dynamics
-\begin_inset Index idx
-status open
-
-\begin_layout Plain Layout
-Dynamics
-\end_layout
-
-\end_inset
-
- in the piece are ignored – good for checking note pitches are correct.
-\end_layout
-
-\begin_layout Standard
 Playing of sections of the music and looping is possible (including editing
  as the music loops, so that you can listen to different possibilities)
  as well as recording the audio output (mixed with anything you play on
@@ -2706,8 +2707,17 @@ Tempo
 
 \end_inset
 
- and volume can be set, which will be overridden by tempo and dynamics placed
+ and volume can be set, which may be overridden by tempi and dynamics placed
  in the music.
+ Dynamics in the score can be turned off with the 
+\begin_inset Quotes eld
+\end_inset
+
+Ignore Dynamics
+\begin_inset Quotes erd
+\end_inset
+
+ check box.
 \end_layout
 
 \begin_layout Standard
