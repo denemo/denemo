@@ -699,9 +699,7 @@ ToggleMenuEntry toggle_menu_entries[] = {
   , 
     
 
-  {TogglePlaybackView_STRING, NULL, N_("Playback"), NULL, N_("Shows the PlayBack View from which a more sophisticated playback of the music is possible"),
-   G_CALLBACK (toggle_playback_view), FALSE}
-  ,    
+
   {ToggleCommandManager_STRING, NULL, N_("Command Center"), NULL, N_("Shows a searchable list of all commands, enables setting of keyboard short-cuts, etc."),
    G_CALLBACK (toggle_command_manager), FALSE}
   ,
@@ -728,6 +726,9 @@ ToggleMenuEntry toggle_menu_entries[] = {
   {ToggleMidiInControls_STRING, NULL, N_("Midi In Control"), NULL, N_("Show/hide Midi Input controls"),
    G_CALLBACK (toggle_midi_in_controls), FALSE}
   ,
+  {TogglePlaybackView_STRING, NULL, N_("Playback View"), NULL, N_("Shows the PlayBack View from which a more sophisticated playback of the music is possible"),
+   G_CALLBACK (toggle_playback_view), FALSE}
+  ,    
 
   {ToggleScoreTitles_STRING, NULL, N_("Titles, Buttons etc"), NULL, N_("Shows a bar holding the title etc of the music and buttons for selecting a movement to make currrent."),
    G_CALLBACK (toggle_scoretitles), FALSE}
