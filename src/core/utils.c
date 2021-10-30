@@ -484,13 +484,11 @@ progressbar (gchar * msg, gpointer callback)
     pdata->window;
   if (pdata->window == NULL)
     {
-      if (callback && Denemo.prefs.progressbardecorations)
-        pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-      else
-        pdata->window = gtk_window_new (GTK_WINDOW_POPUP);
+      pdata->window = gtk_window_new (GTK_WINDOW_TOPLEVEL);
       gtk_window_set_accept_focus (GTK_WINDOW (pdata->window), FALSE);  //FIXME this is only a hint; perhaps we should embed the progress bar in the status line...
       gtk_window_set_title (GTK_WINDOW (pdata->window), _("Progress"));
-      gtk_widget_set_tooltip_text (pdata->window, _("This indicates the the LilyPond typesetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typesetting is taking place.\nKill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."));
+      if (callback) //FIXME eventually we may want to pass a tooltip in to this function.
+		gtk_widget_set_tooltip_text (pdata->window, _("This indicates the the LilyPond typesetter is still working on setting the Denemo score. This can take a long time, particularly for polyphony where voices must not collide. You can continue editing while the typesetting is taking place.\nKill this window if you want to re-start the typesetting e.g. after fixing a mistake you just spotted."));
       gtk_window_set_transient_for (GTK_WINDOW (pdata->window), GTK_WINDOW (Denemo.window));
       gtk_window_set_keep_above (GTK_WINDOW (pdata->window), TRUE);
       vbox = gtk_vbox_new (FALSE, 5);
@@ -500,6 +498,7 @@ progressbar (gchar * msg, gpointer callback)
       gtk_widget_show_all (vbox);
     }
   /* set text inside progress bar */
+  gtk_progress_bar_set_show_text (GTK_PROGRESS_BAR (pdata->pbar), TRUE);
   gtk_progress_bar_set_text (GTK_PROGRESS_BAR (pdata->pbar), msg);
   if (pdata->timer == 0)
     pdata->timer = g_timeout_add (100, (GSourceFunc) progress_timeout, pdata);
@@ -512,7 +511,6 @@ progressbar (gchar * msg, gpointer callback)
     g_signal_connect (G_OBJECT (pdata->window), "delete-event", G_CALLBACK (progressbar_stop), NULL);
   return GTK_WINDOW (pdata->window);
 }
-
 void
 progressbar_stop (void)
 {
