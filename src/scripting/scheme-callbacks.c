@@ -7582,8 +7582,7 @@ scheme_refresh_display (SCM optional)
 SCM
 scheme_keep_alive (SCM optional)
 {
- while (gtk_events_pending ())
-  gtk_main_iteration ();
+  keep_alive ();
   return SCM_BOOL (TRUE);
 }
 
