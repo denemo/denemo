@@ -2553,14 +2553,13 @@ get_updates_button (void)
 }
 
 static void conditions_menu (void);
-void create_new_inclusion_criterion (void)
+void create_new_inclusion_criterion (gchar *name)
 {
-    gchar *name = string_dialog_entry (Denemo.project, _("New Inclusion Criterion"), _("Give a name for this new criterion"), _("Transposed"));
+    name = name? name : string_dialog_entry (Denemo.project, _("New Inclusion Criterion"), _("Give a name for this new criterion"), _("Transposed"));
     if (name)
       {
         DenemoInclusionCriterion *condition = g_malloc (sizeof (DenemoInclusionCriterion));
         condition->name = g_strconcat (" ", name, NULL);
-        g_free (name);
         condition->id = get_layout_id_for_name (condition->name);
         Denemo.project->criteria = g_list_append (Denemo.project->criteria, condition);
 	}
@@ -2568,7 +2567,8 @@ void create_new_inclusion_criterion (void)
 static void create_new_condition (void)
 {
     gchar *name = string_dialog_entry (Denemo.project, _("New Inclusion Criterion"), _("Give a name for this new criterion"), _("Transposed"));
-    create_new_inclusion_criterion ();
+    if (name)
+		create_new_inclusion_criterion (name);
     conditions_menu ();
 }
 

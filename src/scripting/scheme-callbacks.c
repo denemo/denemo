@@ -1455,7 +1455,10 @@ SCM scheme_set_include_criterion (SCM value)
   GList *g;
   gchar *name = NULL;
   if (scm_is_string (value))
-    name = scm_to_locale_string (value);
+    {
+		name = scm_to_locale_string (value);
+		name = g_strconcat (" ", name, NULL);//inclusion criteria have leading space
+	}
   if (name)
     for (g=Denemo.project->criteria; g; g=g->next)
       {
@@ -1481,11 +1484,7 @@ SCM scheme_get_include_criteria (void)
     }
   return ret;
 }
-SCM scheme_create_include_criterion (void)
-{
-  create_new_inclusion_criterion ();
-  return scheme_get_include_criteria ();
-}
+
 static gchar *is_inclusion_criterion (gint id)
 {
 	GList *g;
@@ -1497,6 +1496,16 @@ static gchar *is_inclusion_criterion (gint id)
 return NULL;	
 }
 
+SCM scheme_create_include_criterion (SCM aname)
+{
+	gchar *name = NULL;
+	if (scm_is_string (aname))
+		name = g_strconcat (" ", scm_to_locale_string (aname), NULL);
+	if (name == NULL || !is_inclusion_criterion (get_layout_id_for_name (name)))	
+		create_new_inclusion_criterion (name + 1);//skip space
+	g_free (name);
+	return scheme_get_include_criteria ();
+}
 SCM scheme_get_include_criteria_on_directive (SCM tagname, SCM typename)
 {
   GList *h, *g;

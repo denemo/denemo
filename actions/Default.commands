@@ -1178,10 +1178,7 @@ The cursor position determines which note to add</_tooltip>
         <_label>Drop the Selection</_label>
         <_tooltip>Gets rid of the selection.</_tooltip>
       </row>
-      
-      
-      
-        <row type="scheme">
+      <row type="scheme">
         <action>MakeDirectiveConditional</action>
         <after>UnsetMark</after>
         <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
@@ -1194,17 +1191,7 @@ The cursor position determines which note to add</_tooltip>
         <menupath>/MainMenu/EditMenu/ObjectAtCursor</menupath>
         <_label>Edit LilyPond Syntax</_label>
         <_tooltip>Let's you replace the syntax sent to the LilyPond typesetter with your own choice of syntax to typeset the object at the cursor. Be aware that Denemo will continue to display the object as originally defined, only the typesetting will change.</_tooltip>
-      </row>    
-      
-      
-      
-      
-      
-      
-      
-      
-      
-      
+      </row>
       <row type="builtin">
         <action>ToggleBeginSlur</action>
         <menupath>/ObjectMenu/NotesRests/Slurs</menupath>
@@ -5254,13 +5241,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_tooltip>Prints the top two staffs on a single staff as cue.</_tooltip>
       </row>
       <row type="scheme">
-        <action>PrintWithAmbitus</action>
-        <after>PrintAccompanistsScore</after>
-        <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
-        <_label>Print with Ambitus</_label>
-        <_tooltip>Prints the score printing the range (ambitus) of each part at the start of the staff</_tooltip>
-      </row>
-      <row type="scheme">
         <action>PrintAllLayouts</action>
         <after>Print</after>
         <menupath>/MainMenu/FileMenu/PrintMenu</menupath>
@@ -5613,7 +5593,6 @@ for second and subsequent systems</_tooltip>
       </row>
       <row type="scheme">
         <action>ShowLastChange</action>
-        
         <menupath>/MainMenu/ViewMenu</menupath>
         <_label>Show Last Change</_label>
         <_tooltip>Shows the last change recorded on the Undo stack.</_tooltip>
@@ -7473,9 +7452,6 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Selection Non-printing (Off/On)</_label>
         <_tooltip>Sets/Unsets all objects in the selection to be non-printing.</_tooltip>
       </row>
-      
-
-      
       <row type="scheme">
         <action>Dottify2</action>
         <after>Dottify</after>
@@ -8797,7 +8773,13 @@ Include rests if they are part of the pattern.
         <_label>Show Verse</_label>
         <_tooltip>Opens up the lyric pane that contains the verse(s) for this staff (if any)</_tooltip>
       </row>
-
+      <row type="scheme">
+        <action>AllowAmbitus</action>
+        <after>TinyStaffAllMovements</after>
+        <menupath>/ObjectMenu/Score/Typesetter</menupath>
+        <_label>Ambitus</_label>
+        <_tooltip>Typesets the Ambitus of each staff at the start of the first system. This can then be turned off by the Inclusion Criterion Ambitus in the Print View.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
