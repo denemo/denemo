@@ -517,6 +517,11 @@ progressbar_stop (void)
   progress_data.progressing = FALSE;
 }
 
+void keep_alive (void)
+	{
+		while (gtk_events_pending ())
+		gtk_main_iteration ();
+	}
 
 void
 busy_cursor (GtkWidget * area)

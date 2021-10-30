@@ -124,6 +124,7 @@ GtkWidget *infodialog (gchar * msg);
 
 GtkWindow *progressbar (gchar * msg, gpointer callback);
 void progressbar_stop (void);
+void keep_alive (void);
 void busy_cursor (GtkWidget * area);
 void normal_cursor (GtkWidget * area);
 void headerfields (GtkWidget * dialog, GtkListStore * list_store, GtkTreeIter * iter, DenemoMovement * si, gboolean isdialog);
