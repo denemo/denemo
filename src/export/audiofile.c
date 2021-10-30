@@ -73,6 +73,8 @@ export_recorded_audio (const gchar *outname)
                     {
 					  gsize i;
 					  gboolean silence = TRUE;
+					  
+					  progressbar (_("Saving audio .. please wait"), NULL);
 					  for (i=0;i<length/sizeof(float);i++)
 						{
 							float out[2];
@@ -82,9 +84,12 @@ export_recorded_audio (const gchar *outname)
 							else
 								silence = FALSE;
 							sf_writef_float (outsnd, out, 1);
+							if (!(i%44100))
+								keep_alive ();
 						}
                       g_free(data);
                       sf_close (outsnd);
+                      progressbar_stop ();
                       return TRUE;
                     }
                   else
