@@ -251,9 +251,15 @@ if test "x$usegtk2" = "xyes"; then
     fi
 
     if test "x$have_evince2_3" = "xno"; then
-      PKG_CHECK_MODULES(EVINCE_2_32, evince-view-2.32 >= 2.0)
+      PKG_CHECK_MODULES(EVINCE_2_32, evince-view-2.32 >= 2.0, have_evince2_32=yes, have_evince2_32=no)
       CFLAGS="$CFLAGS $EVINCE_2_32_CFLAGS"
       LIBS="$LIBS $EVINCE_2_32_LIBS"
+    fi
+
+    if test "x$have_evince2_32" = "xno"; then
+      PKG_CHECK_MODULES(ATRIL, atril-view-1.5.0 >= 1.5 have_atril=yes, have_atril=no)
+      CFLAGS="$CFLAGS $ATRIL_CFLAGS"
+      LIBS="$LIBS $ATRIL_LIBS"
     fi
   fi
 fi
@@ -267,15 +273,25 @@ if test "x$usegtk3" = "xyes"; then
   LIBS="$LIBS $GTKSOURCEVIEW_LIBS"
 
   if test "x$useevince" != "xno"; then
-    PKG_CHECK_MODULES(EVINCE, evince-view-3.0 >= 3.0)
+    PKG_CHECK_MODULES(EVINCE, evince-view-3.0 >= 3.0, have_envince_3_0=yes, have_envince_3_0=no)
     CFLAGS="$CFLAGS $EVINCE_CFLAGS"
     LIBS="$LIBS $EVINCE_LIBS"
+  fi
+
+  if test "x$have_envince_3_0" = "xno"; then
+    PKG_CHECK_MODULES(ATRIL, atril-view-1.5.0 >= 1.5, have_atril=yes, have_atril=no)
+    CFLAGS="$CFLAGS $ATRIL_CFLAGS"
+    LIBS="$LIBS $ATRIL_LIBS"
   fi
 fi
 
 if test "x$useevince" = "xyes"; then
   CFLAGS="$CFLAGS -DUSE_EVINCE"
   LIBS="$LIBS -DUSE_EVINCE"
+  if test "x$have_atril" = "xyes"; then
+    CFLAGS="$CFLAGS -DUSE_ATRIL"
+    LIBS="$LIBS $ATRIL_LIBS"
+  fi
 fi
 
 AC_ARG_ENABLE(

@@ -22,7 +22,11 @@
 #include <math.h>
 #include <string.h>
 #include<gtk/gtk.h>
+#ifdef USE_ATRIL
+#include <atril-view.h>
+#else
 #include <evince-view.h>
+#endif
 
 #define SPOT_SIZE (10) //size of spot for picking out an annotation
 typedef struct Location {

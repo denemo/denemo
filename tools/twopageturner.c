@@ -22,7 +22,11 @@
 #include <math.h>
 #include <string.h>
 #include<gtk/gtk.h>
+#ifdef USE_ATRIL
+#include <atril-view.h>
+#else
 #include <evince-view.h>
+#endif
 
 #if !((GTK_MAJOR_VERSION==3) && (GTK_MINOR_VERSION>=18))
 #define gtk_overlay_reorder_overlay(a,b,c) g_critical("Must be Gtk version 3.18 or greater"), exit(-1)

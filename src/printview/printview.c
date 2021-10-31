@@ -1,4 +1,8 @@
+#ifdef USE_ATRIL
+#include <atril-view.h>
+#else
 #include <evince-view.h>
+#endif
 #include <errno.h>
 #include <math.h>
 #include <glib/gstdio.h>

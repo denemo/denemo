@@ -20,7 +20,11 @@
 #include "source/source.h"
 #include "core/view.h"
 #include "core/utils.h"
+#ifdef USE_ATRIL
+#include <atril-view.h>
+#else
 #include <evince-view.h>
+#endif
 
 static gboolean Dragging;
 static GdkPoint DragStart, DragEnd;

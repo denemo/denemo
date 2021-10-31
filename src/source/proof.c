@@ -21,8 +21,13 @@
 #include "source/proof.h"
 #include "core/view.h"
 #include "core/utils.h"
+#ifdef USE_ATRIL
+#include <atril-view.h>
+#include <atril-document.h>
+#else
 #include <evince-view.h>
 #include <evince-document.h>
+#endif
 
 static const gchar *nearest_annotation_text = NULL;
 static GList *annotated_pages = NULL;
