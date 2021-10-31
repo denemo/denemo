@@ -1502,7 +1502,7 @@ SCM scheme_create_include_criterion (SCM aname)
 	if (scm_is_string (aname))
 		name = g_strconcat (" ", scm_to_locale_string (aname), NULL);
 	if (name == NULL || !is_inclusion_criterion (get_layout_id_for_name (name)))	
-		create_new_inclusion_criterion (name + 1);//skip space
+		create_new_inclusion_criterion (name?name + 1 : NULL);//skip space
 	g_free (name);
 	return scheme_get_include_criteria ();
 }
