@@ -232,7 +232,7 @@ static gint
 draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui, struct infotopass *itp)
 {
 
-  itp->highy = itp->lowy = 0;
+  //itp->highy = itp->lowy = 0;
   DenemoMovement *si = gui->movement;
   DenemoObject *mudelaitem = (DenemoObject *) curobj->data;
 
@@ -967,15 +967,17 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
   DenemoStaff *thestaff = (DenemoStaff *) curstaff->data;
   DenemoMovement *si = gui->movement;
   gint x = (gui->leftmargin+35), i;
-    itp->red = (((thestaff->color)>>24)&0xFF)/255.0;
-    itp->green = (((thestaff->color)>>16)&0xFF)/255.0;
-    itp->blue = (((thestaff->color)>>8)&0xFF)/255.0;
-    itp->alpha = (0xFF ^ ((thestaff->color)&0xFF))/255.0;
-    itp->range = thestaff->range;
-    itp->range_lo = thestaff->range_lo;
-    itp->range_hi = thestaff->range_hi;
-  // if(si->marked_onset_position)
-  //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
+  itp->red = (((thestaff->color)>>24)&0xFF)/255.0;
+  itp->green = (((thestaff->color)>>16)&0xFF)/255.0;
+  itp->blue = (((thestaff->color)>>8)&0xFF)/255.0;
+  itp->alpha = (0xFF ^ ((thestaff->color)&0xFF))/255.0;
+  itp->range = thestaff->range;
+  itp->range_lo = thestaff->range_lo;
+  itp->range_hi = thestaff->range_hi;
+  gint space_above = -1;//unset
+  gint space_below = -1;
+  
+ 
   gint nummeasures = g_list_length (thestaff->themeasures);
   //g_debug("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
@@ -1007,9 +1009,6 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
         cairo_set_source_rgb (cr, 0.3, 0.3, 0.3);
     }   //if cr
 
-
-
-
   if (!itp->line_end)
     {                           //not a continuation
       itp->clef = thestaff->leftmost_clefcontext;
@@ -1022,7 +1021,6 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
           draw_clef (cr, gui->leftmargin, y, itp->clef);
           cairo_restore (cr);
         }
-
 
       itp->key = thestaff->leftmost_keysig->number;
       if (cr && !(thestaff->voicecontrol & DENEMO_SECONDARY))
@@ -1180,18 +1178,12 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
 
       if (itp->measurenum == si->currentmeasurenum)
         x += measure_transition_offset (si->currentstaffnum == itp->staffnum);
-      draw_measure (cr, itp->curmeasure, x, y, gui, itp);
+        
+      draw_measure (cr, itp->curmeasure, x, y, gui, itp);//sets itp->highy,lowy to highest/lowest note
  
 
       x += GPOINTER_TO_INT (itp->mwidthiterator->data) + SPACE_FOR_BARLINE;
-
-
-      if (
-#if 0
-/* do not scale the non page views as it perturbs the display animation and anyway does not add anything */
-           (Denemo.project->view != DENEMO_PAGE_VIEW && itp->line_end && itp->measurenum > si->rightmeasurenum) ||
-#endif
-           (Denemo.project->view == DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
+      if ((Denemo.project->view == DENEMO_PAGE_VIEW && itp->line_end && itp->curmeasure->next))
         *itp->scale = (int) (100 * x / (get_widget_width (Denemo.scorearea) / gui->movement->zoom));
       else
         *itp->scale = 100;
@@ -1201,13 +1193,13 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
 
       itp->measurenum++;
       //g_debug("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
-      if  (!itp->line_end)
+     // if  (!itp->line_end)
         {
-          if (-itp->highy > itp->in_highy && -itp->highy < MAXEXTRASPACE)
-           thestaff->space_above = -itp->highy;
+          //if (-itp->highy > itp->in_highy && -itp->highy < MAXEXTRASPACE)
+           space_above = -itp->highy;
               
-          if (itp->lowy > itp->in_lowy && itp->lowy < MAXEXTRASPACE)
-            thestaff->space_below = itp->lowy;
+          //if (itp->lowy > itp->in_lowy && itp->lowy < MAXEXTRASPACE)
+            space_below = itp->lowy;
         }
     }                           // end of loop drawing each measure
 //  if (scale_before != *itp->scale)
@@ -1254,9 +1246,7 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
 
   if (cr)
     cairo_restore (cr);
-  // if(itp->highy > title_highy)
-  //  itp->highy = title_highy;
-
+    
   /* now draw the staff lines, reset itp->slur_stack, and we're done */
   if (cr)
     {
@@ -1278,8 +1268,16 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
-
-}
+  if (space_above>-1)
+	{
+		if (curstaff->prev)
+			thestaff->space_above = space_above;
+		else
+			thestaff->space_above = MAX (space_above, thestaff->space_above);
+	}
+  if (space_below>-1)
+			thestaff->space_below = space_below;
+} //end of draw_staff
 
 
 static void
