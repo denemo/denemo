@@ -134,7 +134,6 @@ struct infotopass
   gint lowy;                    /*(return) the lowest y value drawn */
   gint in_highy;                // FIXME these are passed in so that highy, lowy do not need to be passed back
   gint in_lowy;
-  gboolean source_displayed;    //if pixbufs (sources) have been displayed for a staff - show no further staff content
   gboolean mark;                //whether the region is selected
   gint *left, *right;           //pointer into array, pointing to leftmost/rightmost measurenum for current system(line)
   gint *scale;                  //pointer into an array of scales - this entry is the percent horizontal scale applied to the current system
@@ -1170,12 +1169,6 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
 
   gint scale_before = *itp->scale;
   itp->line_end = FALSE;
-  cairo_t *saved_cr = NULL;
-  if (itp->source_displayed)
-    {                           //We have displayed source material below the last staff, so do not draw anymore staff music. We cannot simply skip the drawing routines however, because they determine the rightmost bar for mouse positioning, so we save and restore it.
-      saved_cr = cr;
-      cr = NULL;
-    }
 
   while ((!itp->line_end) && itp->measurenum <= nummeasures)
     {
@@ -1285,8 +1278,7 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
-  if (saved_cr)
-    cr = saved_cr;
+
 }
 
 
@@ -1413,7 +1405,6 @@ void draw_score (cairo_t * cr)
   //g_debug("Printing for %d\n", flip_count);
   itp.slur_stack = NULL;
   itp.hairpin_stack = NULL;
-  itp.source_displayed = FALSE;
   itp.highy = 0;                //in case there are no objects...
   itp.lowy = 0;
   itp.last_gap = 0;
