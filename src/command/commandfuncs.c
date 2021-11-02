@@ -648,7 +648,6 @@ gostaffup (DenemoScriptParam * param, gboolean extend_selection)
         calcmarkboundaries (gui->movement);
       show_lyrics ();
       find_leftmost_allcontexts (si);
-      update_drawing_cache ();;
       move_viewport_up (gui);
       set_cursor_transition ();
       param->status = TRUE;
@@ -767,8 +766,6 @@ gostaffdown (DenemoScriptParam * param, gboolean extend_selection)
         calcmarkboundaries (gui->movement);
       show_lyrics ();
       find_leftmost_allcontexts (si);
-
-      update_drawing_cache ();
       move_viewport_down (gui);
       set_cursor_transition ();
 
@@ -2806,8 +2803,6 @@ gotoend (gpointer param, gboolean extend_selection)
     cursorright (NULL, param);
   else
     movecursorright (NULL, param);
-  //refresh cached values, eg current timesig
-  update_drawing_cache ();
   find_leftmost_allcontexts (gui->movement);  //FIXME is this done in displayhelper?
   displayhelper (gui);
 }
@@ -2829,11 +2824,6 @@ gotohome (gboolean extend_selection)
   if (extend_selection)
     calcmarkboundaries (gui->movement);
   find_leftmost_allcontexts (gui->movement);
-
-  if(!Denemo.non_interactive){
-    //refresh cached values, eg current timesig
-    update_drawing_cache ();
-  }
 }
 
 

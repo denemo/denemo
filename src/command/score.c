@@ -542,7 +542,6 @@ next_movement (DenemoAction * action, DenemoScriptParam * param)
     //gtk_widget_draw (Denemo.scorearea, NULL);//KLUDGE FIXME see staffup/down
     set_movement_transition (-MOVEMENT_WIDTH);
     draw_score_area();
-    draw_score (NULL);
   }
 }
 
@@ -599,7 +598,6 @@ prev_movement (DenemoAction * action, DenemoScriptParam * param)
 
   if(!Denemo.non_interactive){
     draw_score_area();
-    draw_score (NULL);
   }
 }
 

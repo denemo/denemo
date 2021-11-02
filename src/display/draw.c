@@ -32,14 +32,12 @@
 #define EXCL_WIDTH 3
 #define EXCL_HEIGHT 13
 #define SAMPLERATE (44100) /* arbitrary large figure used if no audio */
-static gboolean layout_needed = TRUE;   //Set FALSE when further call to draw_score(NULL) is not needed.
 static GList *MidiDrawObject;/* a chord used for drawing MIDI recorded notes on the score */
 static gboolean last_tied = FALSE;
 void
 initialize_playhead (void)
 {
 
-  layout_needed = TRUE;
 }
 
 void
@@ -964,13 +962,10 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
  * @param y    y position of the staff
  * @param gui   pointer to the DenemoProject structure
  * @param itp  pointer to the infotopass structure
- * return TRUE if the staff has had to made taller
  */
-static gboolean
-draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, struct infotopass *itp)
+static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, struct infotopass *itp)
 {
   DenemoStaff *thestaff = (DenemoStaff *) curstaff->data;
-  gboolean repeat = FALSE;
   DenemoMovement *si = gui->movement;
   gint x = (gui->leftmargin+35), i;
     itp->red = (((thestaff->color)>>24)&0xFF)/255.0;
@@ -981,10 +976,8 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
     itp->range_lo = thestaff->range_lo;
     itp->range_hi = thestaff->range_hi;
   // if(si->marked_onset_position)
-    //g_debug("repeat"),repeat = TRUE;//we set up the marked onset with this, then need to repeat to draw it
   //g_debug("drawing staff %d at %d\n", itp->staffnum, y);
   gint nummeasures = g_list_length (thestaff->themeasures);
-
   //g_debug("Of %d current %d\n", nummeasures, itp->measurenum);
   if (itp->measurenum > nummeasures)
     cr = NULL;                  //no more drawing on this staff
@@ -1215,23 +1208,17 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
 
       itp->measurenum++;
       //g_debug("line_end is %d, while itp->measurenum=%d and si->rightmeasurenum=%d\n",  itp->line_end, itp->measurenum, si->rightmeasurenum);
-      if (!itp->line_end)
+      if  (!itp->line_end)
         {
           if (-itp->highy > itp->in_highy && -itp->highy < MAXEXTRASPACE)
-            {
-              //g_debug("With %d to change %d\n", -itp->highy, itp->in_highy);
-              thestaff->space_above = -itp->highy;
-              repeat = TRUE;
-            }
+           thestaff->space_above = -itp->highy;
+              
           if (itp->lowy > itp->in_lowy && itp->lowy < MAXEXTRASPACE)
-            {
-              thestaff->space_below = itp->lowy;
-              repeat = TRUE;
-            }
+            thestaff->space_below = itp->lowy;
         }
     }                           // end of loop drawing each measure
-  if (scale_before != *itp->scale)
-    repeat = TRUE;              /* the first system is already drawn, so it is too late to discover that we needed to scale it */
+//  if (scale_before != *itp->scale)
+//    repeat = TRUE;              /* the first system is already drawn, so it is too late to discover that we needed to scale it */
   *itp->right = itp->measurenum - 1;
   /* draw lines connecting the staves in this system at the left and right hand ends */
   if (cr)
@@ -1300,8 +1287,6 @@ draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProject * gui, str
     }
   if (saved_cr)
     cr = saved_cr;
-
-  return repeat;
 }
 
 
@@ -1410,14 +1395,12 @@ schedule_draw (gint * flip_count)
  * @param gui pointer to the DenemoProject structure
  * returns whether the height of the drawing area was sufficient to draw everything
  */
-gboolean
-draw_score (cairo_t * cr)
+void draw_score (cairo_t * cr)
 {                               //g_debug("draw_score %p\n", cr);
-  if (cr == NULL) return TRUE;//no longer need to side effect the data while doing a dummy draw, however cr is set NULL during draw if no more drawing is needed, so we can't remove all the if (cr) conditionals...
+  if (cr == NULL) return;//no longer need to side effect the data while doing a dummy draw, however cr is set NULL during draw if no more drawing is needed, so we can't remove all the if (cr) conditionals...
   staffnode *curstaff;
   gint y = 0;
   struct infotopass itp;
-  gboolean repeat = FALSE;
   gdouble leftmost = 10000000.0;
   DenemoProject *gui = Denemo.project;
   DenemoMovement *si = gui->movement;
@@ -1724,9 +1707,7 @@ draw_score (cairo_t * cr)
       itp.scale = &gui->scales[0];
 
 
-
-      if (draw_staff (flip_count > 0 ? NULL : cr, curstaff, y, gui, &itp))
-        repeat = TRUE;
+      draw_staff (flip_count > 0 ? NULL : cr, curstaff, y, gui, &itp);
 
       if (cr)
         if (itp.staffnum == si->top_staff)
@@ -1758,8 +1739,7 @@ draw_score (cairo_t * cr)
               if (itp.staffnum == si->top_staff)
                 print_system_separator (cr, line_height * system_num);
             system_num++;
-            if (draw_staff (cr, curstaff, yy, gui, &itp))
-              repeat = TRUE;
+            draw_staff (cr, curstaff, yy, gui, &itp);
             if (itp.staffnum == si->top_staff)  //single criterion for all staffs on whether to draw next page
               leftmost = MIN (leftmost, itp.leftmosttime);
             if (cr)
@@ -1809,9 +1789,8 @@ draw_score (cairo_t * cr)
               {
                 cairo_translate (cr, get_widget_width (Denemo.scorearea) * (1 - flip) * 0.5 / Denemo.project->movement->zoom, 0.0);
                 cairo_scale (cr, flip, 1.0);
-
-                if (draw_staff (flip_count > 0 ? cr : NULL, curstaff, y, gui, &itp))
-                  repeat = TRUE;
+                draw_staff (flip_count > 0 ? cr : NULL, curstaff, y, gui, &itp);
+                
                 cairo_scale (cr, 1 / flip, 1.0);
                 cairo_translate (cr, -get_widget_width (Denemo.scorearea) * (1 - flip) * 0.5 / Denemo.project->movement->zoom, 0.0);
               }
@@ -1819,9 +1798,6 @@ draw_score (cairo_t * cr)
           }
         else
           {
-            if (flip_count != -1)
-              repeat = TRUE;
-            //g_debug("Repeating %d\n", repeat);
             flip_count = -1;
           }
        //   if(itp.rightmosttime != si->rightmost_time)
@@ -1845,20 +1821,9 @@ draw_score (cairo_t * cr)
          y += (si->staffspace + staff->space_below);
       }
 
-    }                           // for all the staffs
-
-  //g_debug("Right most time %f\n", si->rightmost_time);
-  //  if(itp.last_midi)
-  //  si->rightmost_time = get_midi_off_time(itp.last_midi);
-
-
-  return repeat;
-
-  /* And we're done */
+    } // for all the staffs
+  /* End of draw_score() */
 }
-
-
-
 
 static gint
 draw_callback (cairo_t * cr)
@@ -1872,14 +1837,12 @@ draw_callback (cairo_t * cr)
       return TRUE;
     }
 
-  /* Layout the score. */
-  if (layout_needed)
-    if (draw_score (NULL))
-      {
-        set_bottom_staff (gui);
-        update_vscrollbar (gui);
-      }
-  layout_needed = TRUE;
+
+  {
+	set_bottom_staff (gui);
+	update_vscrollbar (gui);
+  }
+  
   if(Denemo.project->movement->playingnow)
     gtk_widget_queue_draw (Denemo.playbackview);
 
@@ -1941,15 +1904,6 @@ draw_callback (cairo_t * cr)
   return TRUE;
 }
 
-
-void
-update_drawing_cache (void)
-{
-  if(Denemo.non_interactive)
-    return;
-  draw_score (NULL);
-}
-
 /**
  * Here we have the function that actually draws the score. Note that
  * it does not clip intelligently at all
@@ -1966,7 +1920,6 @@ scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event)
 {
   if (widget == NULL)
     {
-      draw_score (NULL);
       return TRUE;
     }
   /* Setup a cairo context for rendering and clip to the exposed region. */
@@ -1978,3 +1931,4 @@ scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event)
   return TRUE;
 }
 #endif
+

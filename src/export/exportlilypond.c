@@ -3065,8 +3065,6 @@ lily_save (G_GNUC_UNUSED GtkWidget * item, G_GNUC_UNUSED GdkEventCrossing * e)
   // g_signal_handlers_block_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_save), NULL);
   // g_signal_handlers_unblock_by_func (G_OBJECT (SIGNAL_WIDGET), G_CALLBACK (lily_refresh), gui);
   merge_lily_strings (gui);
-  if (gui->movement)
-    update_drawing_cache ();
   return FALSE;
 }
 

@@ -20,8 +20,7 @@ gint scorearea_draw_event (GtkWidget * widget, cairo_t * cr);
 #else
 gint scorearea_draw_event (GtkWidget * widget, GdkEventExpose * event);
 #endif
-void update_drawing_cache (void);
-gboolean draw_score (cairo_t * cr);
+void draw_score (cairo_t * cr);
 void fix_start_end_ordering();
 void draw_score_area();
 #endif

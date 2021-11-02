@@ -945,7 +945,6 @@ display_pitch (double note)
           PR_accurate_pitch = note;
           //gtk_widget_draw(PR_indicator, NULL);
           gtk_widget_queue_draw (PR_indicator);
-          draw_score (NULL);
           gtk_widget_queue_draw (PR_indicator);
         }
     }
@@ -1774,7 +1773,6 @@ scorearea_set_active (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEventCr
   PR_enable = TRUE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
   draw_score_area();
-  draw_score (NULL);
 }
 
 static void
@@ -1783,7 +1781,6 @@ scorearea_set_inactive (G_GNUC_UNUSED GtkWidget * widget, G_GNUC_UNUSED GdkEvent
   PR_enable = FALSE;
   //gtk_widget_draw(Denemo.scorearea, NULL);
   draw_score_area();
-  draw_score (NULL);
 }
 
 void

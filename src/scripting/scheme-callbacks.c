@@ -7010,7 +7010,6 @@ static gint
 flash_cursor (void)
 {
   draw_score_area ();
-  // draw_score (NULL); what was this for?????
   return TRUE;
 }
 
@@ -7115,8 +7114,6 @@ scheme_set_background (SCM color)
       gint value = scm_to_int (color);
       Denemo.color = value;
       draw_score_area ();
-      if (!Denemo.non_interactive)
-        draw_score (NULL);
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
@@ -7468,8 +7465,6 @@ scheme_staff_to_voice (SCM optional)
       signal_structural_change (Denemo.project);
       draw_score_area ();
       score_status (Denemo.project, TRUE);
-      if (!Denemo.non_interactive)
-        draw_score (NULL);
     }
   return ret;
 }
@@ -7589,7 +7584,6 @@ scheme_keep_alive (SCM optional)
 SCM
 scheme_refresh_cache (void)
 {
-  draw_score (NULL);
   return SCM_BOOL (TRUE);
 }
 

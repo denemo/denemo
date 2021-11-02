@@ -1130,7 +1130,6 @@ pb_start_to_cursor (GtkWidget * button)
   call_out_to_guile ("(DenemoSetPlaybackStart)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
   draw_score_area ();
-  draw_score (NULL);
 }
 
 static void
@@ -1140,7 +1139,6 @@ pb_end_to_cursor (GtkWidget * button)
   call_out_to_guile ("(DenemoSetPlaybackEnd)");
   //gtk_widget_draw(Denemo.scorearea, NULL);
   draw_score_area ();
-  draw_score (NULL);
 }
 
 static void
@@ -3092,7 +3090,6 @@ switch_page (GtkNotebook * notebook, GtkWidget * page, guint pagenum)
   highlight_rhythm (Denemo.project->prevailing_rhythm);
   force_lily_refresh (Denemo.project);
   draw_score_area ();
-  draw_score (NULL);
 }
 
 
