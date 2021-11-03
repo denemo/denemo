@@ -1245,6 +1245,9 @@ exportXML (gchar * thefilename, DenemoProject * gui)
         newXMLIntChild (parentElem, ns, (xmlChar *) "page-width", si->page_width);
       if (si->page_height)
         newXMLIntChild (parentElem, ns, (xmlChar *) "page-height", si->page_height);
+      if (si->staffspace != DENEMO_INITIAL_STAFF_HEIGHT)
+        newXMLIntChild (parentElem, ns, (xmlChar *) "staffspace", si->staffspace);
+ 
       if (si->measurewidth != DENEMO_INITIAL_MEASURE_WIDTH)
         newXMLIntChild (parentElem, ns, (xmlChar *) "measure-width", si->measurewidth);
 

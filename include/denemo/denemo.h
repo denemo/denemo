@@ -43,8 +43,23 @@ extern "C" {
 #define ADDING_MASK (GDK_MOD1_MASK)  //Alt
 #define CHORD_MASK (1<<25)  //Not used by GDK
 
+
+#define MAXEXTRASPACE (150)     /* maximum space for ledger lines, for sanity */
+#define LINE_SPACE 10
+#define HALF_LINE_SPACE 5
+#define NO_OF_LINES 5
+#define STAFF_HEIGHT (LINE_SPACE * (NO_OF_LINES - 1))
+#define LYRICS_HEIGHT (STAFF_HEIGHT/2)
+#define MID_STAFF_HEIGHT 2*LINE_SPACE
+#define SPACE_FOR_TIME 35
+#define RIGHT_MARGIN 20
+#define SPACE_FOR_BARLINE 10
+#define HALF_BARLINE_SPACE 5
+#define WHOLE_NUMTICKS 1536
+#define FONT "Sans 9"
+#define TIMESIGFONT "Sans 24"
 #define DENEMO_INITIAL_MEASURE_WIDTH 160
-#define DENEMO_INITIAL_STAFF_HEIGHT 100
+#define DENEMO_INITIAL_STAFF_HEIGHT ((3 * STAFF_HEIGHT)/2)
 
 #define DENEMO_FILE_SUFFIX  ".denemo"
 #define XML_EXT             ".xml"

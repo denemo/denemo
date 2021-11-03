@@ -1828,6 +1828,12 @@ parseEditInfo (xmlNodePtr editInfoElem, DenemoMovement * si)
             if (si->page_height < 0)
               si->page_height = 0;
           }
+        else if (ELEM_NAME_EQ (childElem, "staffspace"))
+          {
+            si->staffspace = getXMLIntChild (childElem);
+            if (si->staffspace < DENEMO_INITIAL_STAFF_HEIGHT)
+              si->staffspace = DENEMO_INITIAL_STAFF_HEIGHT;
+          }
         else if (ELEM_NAME_EQ (childElem, "measure-width"))
           {
             si->measurewidth = getXMLIntChild (childElem);

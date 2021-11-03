@@ -338,8 +338,8 @@ void
 adjuststaffheight (DenemoMovement * si, gint amount)
 {
   si->staffspace += amount;
-  if (si->staffspace < 2 * STAFF_HEIGHT)
-    si->staffspace = 2 * STAFF_HEIGHT;
+  if (si->staffspace < DENEMO_INITIAL_STAFF_HEIGHT)
+    si->staffspace = DENEMO_INITIAL_STAFF_HEIGHT;
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
   /*nudge_downward (si); */

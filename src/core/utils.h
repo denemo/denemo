@@ -17,23 +17,6 @@
 #define DENEMO_CAUTIONARY (3)
 
 #define HIGHLIGHT_OFFSET (20)   /* Fairly arbitrary value to transform codes '0', '1' ... to a new range with the meaning highlight the whole-note, half-note, ..., glyph */
-#define MAXEXTRASPACE (150)     /* maximum space for ledger lines, for sanity */
-
-#define LINE_SPACE 10
-#define HALF_LINE_SPACE 5
-#define NO_OF_LINES 5
-#define STAFF_HEIGHT (LINE_SPACE * (NO_OF_LINES - 1))
-#define LYRICS_HEIGHT (STAFF_HEIGHT/2)
-#define MID_STAFF_HEIGHT 2*LINE_SPACE
-/*#define LEFT_MARGIN 20 now variable for braces to take space */
-//#define KEY_MARGIN (LEFT_MARGIN+35)
-#define SPACE_FOR_TIME 35
-#define RIGHT_MARGIN 20
-#define SPACE_FOR_BARLINE 10
-#define HALF_BARLINE_SPACE 5
-#define WHOLE_NUMTICKS 1536
-#define FONT "Sans 9"
-#define TIMESIGFONT "Sans 24"
 
 #ifndef g_info
 #ifdef G_HAVE_ISO_VARARGS
