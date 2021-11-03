@@ -692,13 +692,13 @@ The cursor position determines which note to add</_tooltip>
       </row>
       <row type="builtin">
         <action>ShorterStaffs</action>
-        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
         <_label>Shorter Staffs</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>TallerStaffs</action>
-        <menupath>/ObjectMenu/StaffMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
         <_label>Taller Staffs</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>

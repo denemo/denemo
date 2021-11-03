@@ -59,7 +59,8 @@ extern "C" {
 #define FONT "Sans 9"
 #define TIMESIGFONT "Sans 24"
 #define DENEMO_INITIAL_MEASURE_WIDTH 160
-#define DENEMO_INITIAL_STAFF_HEIGHT ((3 * STAFF_HEIGHT)/2)
+#define DENEMO_INITIAL_STAFF_HEIGHT ((2 * STAFF_HEIGHT) + 18)
+#define DENEMO_MINIMUM_STAFF_HEIGHT ((3 * STAFF_HEIGHT)/2 - 3)
 
 #define DENEMO_FILE_SUFFIX  ".denemo"
 #define XML_EXT             ".xml"
