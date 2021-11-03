@@ -329,6 +329,7 @@ typedef struct
   gint space_above; /**< space above the staff used in the denemo gui */
   gint space_shorten; /**< space by the staff is shorter in height because of few staff lines */
   gint space_below; /**< space below the staff used in the denemo gui */
+  gboolean fixed_height;/**< height of staff fixed by user - turn off auto-adjust*/
   gboolean range;/**<TRUE if range_hi,lo should be observed. */
   gint range_hi;/**< highest note playable by instrument, mid_c_offset */
   gint range_lo;/**< lowest note playable by instrument, mid_c_offset */

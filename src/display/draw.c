@@ -1122,16 +1122,7 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
         }
     }                           //if cr
 
-
-
   x += transition_offset ();
-
-
-
-
-
-
- 
 
   /* Loop that will draw each measure. Basically a for loop, but was uglier
    * when written that way.  */
@@ -1268,14 +1259,14 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
       g_slist_free (itp->slur_stack);
       itp->slur_stack = NULL;
     }
-  if (space_above>-1)
+  if ((!thestaff->fixed_height) && (space_above>-1))
 	{
 		if (curstaff->prev)
 			thestaff->space_above = space_above;
 		else
 			thestaff->space_above = MAX (space_above, thestaff->space_above);
 	}
-  if (space_below>-1)
+  if ((!thestaff->fixed_height) && (space_below>-1))
 			thestaff->space_below = space_below;
 } //end of draw_staff
 

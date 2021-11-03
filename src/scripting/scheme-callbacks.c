@@ -7399,8 +7399,13 @@ SCM scheme_staff_set_space_above (SCM space)
   if (scm_is_integer (space))
     {
       gint value = scm_to_int (space);
-      thestaff->space_above = value;
-      displayhelper (Denemo.project);
+      if (value<0)
+		thestaff->fixed_height = FALSE;
+	  else
+		{
+		 thestaff->space_above = value;
+		 displayhelper (Denemo.project);
+	    }
     }
   return scm_from_int (thestaff->space_above);
 }

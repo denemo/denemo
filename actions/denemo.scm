@@ -1499,13 +1499,13 @@
             (if (d-StaffHidden)
                 (cons  (string-append (_ "(Display) Show Staff") " " num) 'display)
                 (cons  (string-append (_ "(Display) Hide Staff") " " num) 'display))
-            (cons (_ "(Display) Reset Staff Height") 'reset)    
+            (cons (_ "(Display) Auto Adjust Staff Height") 'reset)    
             (cons (_ "Built-in Staff Properties") 'editor))))
         (case choice
             ((mute) (d-MuteStaff))
             ((show) (d-NonPrintingStaff))
             ((display) (d-ToggleCurrentStaffDisplay))
-            ((reset) (begin (d-StaffSetSpaceAbove 0)  (d-StaffSetSpaceBelow 0)))
+            ((reset) (begin (d-StaffSetSpaceAbove -1)))
             ((editor) (d-StaffProperties)))))
 ;;;;edit movement, called from tools icon at top left of display area
 (define (EditMovement)

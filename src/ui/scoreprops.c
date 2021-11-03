@@ -69,12 +69,19 @@ static void
 setpaperconfig (papersetupcb * cbdata, DenemoProject * gui)
 {
 #if GTK_MAJOR_VERSION==3
-  g_string_assign (gui->lilycontrol.papersize, (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize)));
-  g_string_assign (gui->lilycontrol.staffsize, (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize)));
+  gchar *val = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->papersize));
+  if (!val) val = "a4";
+  g_string_assign (gui->lilycontrol.papersize, val);
+  val = (gchar *) gtk_combo_box_text_get_active_text (GTK_COMBO_BOX_TEXT (cbdata->fontsize));
+  if (!val) val = "18";
+  g_string_assign (gui->lilycontrol.staffsize, val);
 #else
-  g_string_assign (gui->lilycontrol.papersize, (gchar *) gtk_combo_box_get_active_text (cbdata->papersize));
-
-  g_string_assign (gui->lilycontrol.staffsize, (gchar *) gtk_combo_box_get_active_text (cbdata->fontsize));
+  gchar *val = (gchar *) gtk_combo_box_get_active_text (cbdata->papersize);
+  if (!val) val = "a4";
+  g_string_assign (gui->lilycontrol.papersize, val );
+  val = (gchar *) gtk_combo_box_get_active_text (cbdata->fontsize);
+  if (!val) val = "18";
+  g_string_assign (gui->lilycontrol.staffsize, val);
 #endif
   g_string_assign (gui->lilycontrol.lilyversion, (gchar *) gtk_entry_get_text (GTK_ENTRY (cbdata->lilyversion)));
 
@@ -99,7 +106,7 @@ score_properties_dialog (DenemoAction * action, DenemoScriptParam * param)
 {
   DenemoProject *gui = Denemo.project;
 
-  GET_1PARAM (action, param, fontsize);
+  GET_1PARAM (action, param, fontsize); //note "fontsize" is internally called the staffsize
   if (query)
     {
       if (*query)
@@ -158,7 +165,7 @@ score_properties_dialog (DenemoAction * action, DenemoScriptParam * param)
   label = gtk_label_new (_("Staff spacing (pixels):"));
   gtk_misc_set_alignment (GTK_MISC (label), 0, 0.5);
   gtk_container_add (GTK_CONTAINER (hbox), label);
-  staff_spacing = gtk_spin_button_new_with_range (2 * STAFF_HEIGHT, 1000, 1.0);
+  staff_spacing = gtk_spin_button_new_with_range ((3 * STAFF_HEIGHT)/2, 1000, 1.0);
   gtk_spin_button_set_value (GTK_SPIN_BUTTON (staff_spacing), (gdouble) si->staffspace);
   gtk_container_add (GTK_CONTAINER (hbox), staff_spacing);
 

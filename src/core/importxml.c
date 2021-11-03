@@ -2020,7 +2020,16 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
                 curStaff->no_of_lines = 5;
               }
           }
-
+        else if (ELEM_NAME_EQ (childElem, "space_above"))
+          {
+            curStaff->space_above = getXMLIntChild (childElem);
+            curStaff->fixed_height = TRUE;
+          }
+        else if (ELEM_NAME_EQ (childElem, "space_below"))
+          {
+            curStaff->space_below = getXMLIntChild (childElem);
+            curStaff->fixed_height = TRUE;
+          }
         else if (ELEM_NAME_EQ (childElem, "volume"))
           {
             curStaff->volume = getXMLIntChild (childElem);
@@ -2040,14 +2049,6 @@ parseStaff (xmlNodePtr staffElem, DenemoMovement * si)
         else if (ELEM_NAME_EQ (childElem, "transpose"))
           {
             curStaff->transposition = getXMLIntChild (childElem);
-          }
-        else if (ELEM_NAME_EQ (childElem, "space_above"))
-          {                     //  set dynamically now
-            //   curStaff->space_above = getXMLIntChild (childElem);
-          }
-        else if (ELEM_NAME_EQ (childElem, "space_below"))
-          {                     //  set dynamically now
-            //    curStaff->space_below = getXMLIntChild (childElem);
           }
         else if (ELEM_NAME_EQ (childElem, "hasfigures"))
           {
@@ -2222,6 +2223,16 @@ parseVoiceProps (xmlNodePtr voicePropElem, DenemoMovement * si)
 		if (temp)
 			curStaff->type = temp;
       }
+	else if (ELEM_NAME_EQ (childElem, "space_above"))
+	  {
+		curStaff->space_above = getXMLIntChild (childElem);
+		curStaff->fixed_height = TRUE;
+	  }
+	else if (ELEM_NAME_EQ (childElem, "space_below"))
+	  {
+		curStaff->space_below = getXMLIntChild (childElem);
+		curStaff->fixed_height = TRUE;
+	  }
     else if (ELEM_NAME_EQ (childElem, "staff-range"))
       {
         curStaff->range = getXMLIntChild (childElem);

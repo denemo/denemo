@@ -193,6 +193,9 @@ set_properties (struct callbackdata *cbdata)
 {
 
   DenemoStaff *staffstruct = cbdata->staffstruct;
+  gint old_above = staffstruct->space_above;
+  gint old_below = staffstruct->space_below;
+  gint old_volume = staffstruct->volume;
 #if GTK_MAJOR_VERSION==3
 #define ASSIGNTEXT(field) \
   if(cbdata->field) {\
@@ -247,6 +250,10 @@ set_properties (struct callbackdata *cbdata)
   ASSIGNTEXT (device_port);
   ASSIGNBOOLEAN (override_volume);
   ASSIGNNUMBER (volume);
+  
+ if ((Denemo.prefs.dynamic_compression) && (old_volume != staffstruct->volume))
+	 warningdialog (_("The setting for the loudness of this staff will ignored (or at least modified) by the setting of the dynamic compression preference you have.\nSee Preferences Dialog, Audio Tab or Playback Controls \"Always Full Volume\" checkbox."));
+
   // ASSIGNBOOLEAN(midi_prognum_override);
   if (staffstruct->midi_instrument->len)
     {
@@ -274,7 +281,7 @@ set_properties (struct callbackdata *cbdata)
       //   if(staffstruct->midi_prognum != i) /* I am not sure why this was necessary and if it is still needed*/
       //     ASSIGNNUMBER_1(midi_prognum);
       ASSIGNNUMBER_1 (midi_channel);
-      printf ("\nAssigned MIDI Instrument == %s \nAssigned MIDI PROGRAM == %d i == %d\n", staffstruct->midi_instrument->str, staffstruct->midi_prognum, i);
+      //printf ("\nAssigned MIDI Instrument == %s \nAssigned MIDI PROGRAM == %d i == %d\n", staffstruct->midi_instrument->str, staffstruct->midi_prognum, i);
 
     }
   else
@@ -290,6 +297,15 @@ set_properties (struct callbackdata *cbdata)
       buffer[1] = staffstruct->midi_prognum;
       play_midi_event (DEFAULT_BACKEND, staffstruct->midi_port, buffer);
     }
+    
+    if ((old_above != staffstruct->space_above) || (old_below != staffstruct->space_below))
+		{
+			if (!staffstruct->fixed_height)
+				{
+					staffstruct->fixed_height = TRUE;
+					warningdialog (_("This staff will no longer auto-adjust its height to the staff content"));
+				}
+		} 
   //g_debug ("Staff Transposition %d\n", staffstruct->transposition);
   gtk_widget_queue_draw (Denemo.scorearea);
   score_status (cbdata->gui, TRUE);
@@ -530,8 +546,6 @@ staff_properties_change (void)
       warningdialog (msg);
       g_free (msg);
     }
-   if (Denemo.prefs.dynamic_compression)
-	 warningdialog (_("The setting for the loudness of this staff will ignored (or at least modified) by the setting of the dynamic compression preference you have.\nSee Preferences Dialog, Audio Tab or Playback Controls \"Always Full Volume\" checkbox."));
   return result;
 }
 
