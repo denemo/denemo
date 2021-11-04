@@ -220,6 +220,8 @@ append_movement (DenemoAction * action, gpointer param, gboolean populate)
 		  staff_copy (source_staff, dest_staff, TRUE);
 		}
   gui->movements = g_list_append (gui->movements, gui->movement);
+  if (populate)
+	gui->movement->staffspace = source_movement->staffspace;
   //gui->movement->currentmovementnum = 1 + g_list_index (gui->movements, gui->movement);
   set_movement_selector (gui);
   gui->movement->undo_guard = Denemo.prefs.disable_undo;

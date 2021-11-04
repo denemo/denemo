@@ -171,6 +171,7 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all)
   dest->space_above = src->space_above; /**< space above the staff used in the denemo gui */
   dest->space_shorten = src->space_shorten; /**< space by the staff is shorter in height because of few staff lines */
   dest->space_below = src->space_below; /**< space below the staff used in the denemo gui */
+  dest->fixed_height = src->fixed_height;/**< height of staff fixed by user - turn off auto-adjust*/
   dest->range = src->range;/**<TRUE if range_hi,lo should be observed. */
   dest->range_hi = src->range_hi;/**< highest note playable by instrument, mid_c_offset */
   dest->range_lo = src->range_lo;/**< lowest note playable by instrument, mid_c_offset */
@@ -199,8 +200,6 @@ staff_copy (DenemoStaff * src, DenemoStaff * dest, gboolean copy_all)
 
   dest->transposition = src->transposition;
 
-  dest->space_above = 0;
-  dest->space_below = 0;
   dest->context = src->context;
 }
 
