@@ -141,11 +141,85 @@
         <_tooltip>Set the initial time signature of the current staff</_tooltip>
       </row>
       <row type="builtin">
+        <action>ShrinkMeasures</action>
+        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
+        <_label>Shrink Measure</_label>
+        <_tooltip>No Tooltip yet</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>WidenMeasures</action>
+        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
+        <_label>Widen Measures</_label>
+        <_tooltip>No Tooltip yet</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>ShorterStaffs</action>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
+        <_label>Shorter Staffs</_label>
+        <_tooltip>No Tooltip yet</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>TallerStaffs</action>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
+        <_label>Taller Staffs</_label>
+        <_tooltip>No Tooltip yet</_tooltip>
+      </row>
+     <row type="builtin">
+        <action>MoveToMeasureRight</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Move to Measure Right</_label>
+        <_tooltip>Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged</_tooltip>
+      </row>
+      <row type="builtin">
         <action>MoveToMeasureLeft</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Move to Measure Left</_label>
         <_tooltip>Moves the cursor to the first object in the next measure leaving selection, if any, unchanged</_tooltip>
       </row>
+      <row type="builtin">
+        <action>InsertMeasure</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Insert Measure Before</_label>
+        <_tooltip>Insert a blank measure before the current one (in all staffs)</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>AddMeasure</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Insert Measure After</_label>
+        <_tooltip>Insert a blank measure after the current one (in all staffs)</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>InsertMeasureBefore</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Staff Insert Measure Before</_label>
+        <_tooltip>Insert a blank measure before the current one (in current staff)</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>InsertMeasureAfter</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Staff Insert Measure After</_label>
+        <_tooltip>Insert a blank measure in current staff after the current measure</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>AppendMeasure</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Staff Append Measure</_label>
+        <_tooltip>Append an empty measure at the end of the current staff</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>DeleteMeasure</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Staff Delete Measure</_label>
+        <_tooltip>Delete the current measure in this staff, leaving the staff short</_tooltip>
+      </row>
+      <row type="builtin">
+        <action>DeleteMeasureAllStaffs</action>
+        <menupath>/ObjectMenu/MeasureMenu</menupath>
+        <_label>Delete Measure All Staffs</_label>
+        <_tooltip>Delete the current measure in all staffs</_tooltip>
+      </row>
+
+
       <row type="builtin">
         <action>AddA</action>
         <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
@@ -290,12 +364,6 @@ If the cursor is in the appending position, appends a note using the prevailing 
         <menupath>/MainMenu/NavigationMenu/Cursor</menupath>
         <_label>Selection Measure Right</_label>
         <_tooltip>Moves the cursor to the first object in the previous measure, extending selection if any</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>MoveToMeasureRight</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Move to Measure Right</_label>
-        <_tooltip>Moves the cursor to the first object in the previous measure leaving selection, if any, unchanged</_tooltip>
       </row>
       <row type="builtin">
         <action>B</action>
@@ -635,73 +703,9 @@ The cursor position determines which note to add</_tooltip>
         <menupath>/MainMenu/EditMenu/Delete</menupath>
         <_label>Delete Previous Object</_label>
         <_tooltip>Delete to the left of the cursor.</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>InsertMeasure</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Insert Measure Before</_label>
-        <_tooltip>Insert a blank measure before the current one (in all staffs)</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>AddMeasure</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Insert Measure After</_label>
-        <_tooltip>Insert a blank measure after the current one (in all staffs)</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>InsertMeasureBefore</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Staff Insert Measure Before</_label>
-        <_tooltip>Insert a blank measure before the current one (in current staff)</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>InsertMeasureAfter</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Staff Insert Measure After</_label>
-        <_tooltip>Insert a blank measure in current staff after the current measure</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>AppendMeasure</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Staff Append Measure</_label>
-        <_tooltip>Append an empty measure at the end of the current staff</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>DeleteMeasure</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Staff Delete Measure</_label>
-        <_tooltip>Delete the current measure in this staff, leaving the staff short</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>DeleteMeasureAllStaffs</action>
-        <menupath>/ObjectMenu/MeasureMenu</menupath>
-        <_label>Delete Measure All Staffs</_label>
-        <_tooltip>Delete the current measure in all staffs</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ShrinkMeasures</action>
-        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
-        <_label>Shrink Measure</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>WidenMeasures</action>
-        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
-        <_label>Widen Measures</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>ShorterStaffs</action>
-        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
-        <_label>Shorter Staffs</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
-      </row>
-      <row type="builtin">
-        <action>TallerStaffs</action>
-        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
-        <_label>Taller Staffs</_label>
-        <_tooltip>No Tooltip yet</_tooltip>
-      </row>
+      </row>      
+
+
       <row type="builtin">
         <action>InsertTrebleClef</action>
         <_label>New Treble Clef</_label>
@@ -3461,20 +3465,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Clef Chooser</_label>
         <_tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>CloseRepeat</action>
-        <after>OpenRepeat</after>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
-        <_label>Close a Repeat Section</_label>
-        <_tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>CloseReopenRepeat</action>
-        <after>CloseRepeat</after>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
-        <_label>Close and Reopen Repeat</_label>
-        <_tooltip>Closes and open repeat block and opens a new one.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>ClosingBarline</action>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>
@@ -7938,6 +7929,26 @@ and others in the LilyPond documentation.</_tooltip>
         <_tooltip>Changes the bar number displayed for this and subsequent bars. Does not affect the print out, see Set Bar Number command for that.</_tooltip>
       </row>
       <row type="scheme">
+        <action>HelpForRepeats</action>
+        <after>DisplayMeasureNumber</after>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <_label>Help for Repeats</_label>
+        <_tooltip>Explains the different ways of creating repeats.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CloseRepeat</action>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <_label>Close a Repeat Section</_label>
+        <_tooltip>Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>CloseReopenRepeat</action>
+        <after>CloseRepeat</after>
+        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
+        <_label>Close and Reopen Repeat</_label>
+        <_tooltip>Closes and open repeat block and opens a new one.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>Fine</action>
         <after>DaCapo</after>
         <menupath>/ObjectMenu/Directives/Markings/TextMarks</menupath>
@@ -8098,13 +8109,7 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Move Display Left</_label>
         <_tooltip>Moves the view port (the Denemo Display) to the left, leaving the cursor on the same object as long as it is still in view.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>HelpForRepeats</action>
-        <after>CheckTupletsInMeasure</after>
-        <menupath>/ObjectMenu/MeasureMenu/Repeats</menupath>
-        <_label>Help for Repeats</_label>
-        <_tooltip>Explains the different ways of creating repeats.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>Unmeasured</action>
         <after>NumericTimeSig</after>
