@@ -258,13 +258,7 @@ get_smf_event (double until_time)
 gdouble
 get_time ()
 {
-  GTimeVal tv;
-  double seconds;
-
-  g_get_current_time (&tv);
-
-  seconds = tv.tv_sec + tv.tv_usec / 1000000.0;
-  return seconds;
+  return g_get_real_time () / 1000000.0;
 }
 
 
@@ -1067,4 +1061,3 @@ noteon_key (smf_event_t * event)
     return event->midi_buffer[1];
   return 0;
 }
-
