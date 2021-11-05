@@ -135,7 +135,9 @@ extern gchar *format_tooltip (const gchar*);
 
 #define GtkStock gchar*
 
-
+#define gdk_beep() gdk_display_beep(gdk_display_get_default())
+#undef g_string_sprintf
+#define g_string_sprintf g_string_printf
 #define gtk_misc_set_alignment(a,x,y) 
 
 #if GTK_MAJOR_VERSION == 2
