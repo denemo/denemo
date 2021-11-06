@@ -7393,6 +7393,17 @@ SCM scheme_shorten_staff_height (SCM shorten)
   return scm_from_int (thestaff->space_shorten);
 }
 
+SCM scheme_set_minimum_staff_spacing (SCM amount)
+{
+  if (scm_is_integer (amount))
+    {
+      gint value = scm_to_int (amount);
+      Denemo.project->movement->staffspace = value;
+      displayhelper (Denemo.project);
+    }
+  return scm_from_int (Denemo.project->movement->staffspace);
+}
+
 SCM scheme_staff_set_space_above (SCM space)
 {
   DenemoStaff *thestaff = (DenemoStaff *) Denemo.project->movement->currentstaff->data;

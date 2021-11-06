@@ -96,6 +96,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Lessens the display height for the current staff", DENEMO_SCHEME_PREFIX "ShortenStaffHeight", scheme_shorten_staff_height);
   install_scm_function (0, "Sets the display space above the current staff to the passed value of if no value returns the current space. -1 re-sets to auto adjust.", DENEMO_SCHEME_PREFIX "StaffSetSpaceAbove", scheme_staff_set_space_above);
   install_scm_function (0, "Sets the display space below the current staff to the passed value of if no value returns the current space.", DENEMO_SCHEME_PREFIX "StaffSetSpaceBelow", scheme_staff_set_space_below);
+  install_scm_function (0, "Sets the minimum space between staffs in the display to the passed in value. Returns the current value.", DENEMO_SCHEME_PREFIX "StaffSetMinimumStaffSpacing", scheme_set_minimum_staff_spacing);
   install_scm_function (0, "Copies the staff properties from the staff above to the current staff", DENEMO_SCHEME_PREFIX "InheritStaffProperties", scheme_inherit_staff_properties);
   install_scm_function (0, "Sets the number of lines for the current staff", DENEMO_SCHEME_PREFIX "SetLinesInStaff", scheme_set_lines_in_staff);
   install_scm_function (0, "Sets the current staff type, with no argument returns the staff type", DENEMO_SCHEME_PREFIX "StaffType", scheme_staff_type);

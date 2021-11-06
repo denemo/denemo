@@ -77,6 +77,7 @@ SCM scheme_set_staff_range (void);
 SCM scheme_shorten_staff_height (SCM);
 SCM scheme_staff_set_space_above (SCM space);
 SCM scheme_staff_set_space_below (SCM space);
+SCM scheme_set_minimum_staff_spacing (SCM space);
 SCM scheme_set_color_of_staff (SCM);
 SCM scheme_get_staffs_in_movement (SCM);
 SCM scheme_get_movements_in_score (void);
