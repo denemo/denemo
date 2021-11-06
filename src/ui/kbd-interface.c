@@ -586,6 +586,16 @@ static gboolean hide_command_view (void)
     set_toggle (ToggleCommandManager_STRING, FALSE);
     return TRUE;
 }
+static gboolean command_center_keypress_event (GtkWidget * widget, GdkEventKey * event)
+{
+  //g_print ("printarea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
+  if (event->keyval == 65307) //Esc
+	{
+		switch_back_to_main_window ();
+		return TRUE;
+	}
+  return FALSE;
+}
 
 void
 command_center_select_idx (DenemoAction * dummy, gint command_idx)
@@ -642,7 +652,7 @@ command_center_select_idx (DenemoAction * dummy, gint command_idx)
     }
    if(SearchEntry==NULL) {
     SearchEntry = gtk_entry_new ();
-        g_signal_connect(G_OBJECT(SearchEntry), "key-press-event", G_CALLBACK(search_entry_character), NULL);
+    g_signal_connect(G_OBJECT(SearchEntry), "key-press-event", G_CALLBACK(search_entry_character), NULL);
 
     SearchNext = gtk_button_new_with_label ("→");
     gtk_widget_set_tooltip_text (SearchEntry, _("Type search text here. Enter words that might be in the command label,\nor part of the text of a tooltip or the internal name.\nThe search is case insensitive. It goes on to the next match each time you enter letter that doesn't match the current command so check at each keypress.\nThe search re-starts from the top when you delete a letter."));
@@ -656,6 +666,8 @@ command_center_select_idx (DenemoAction * dummy, gint command_idx)
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
   Denemo.command_manager = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  g_signal_connect(G_OBJECT(Denemo.command_manager), "key-press-event", G_CALLBACK(command_center_keypress_event), NULL);
+
   gtk_window_set_title(GTK_WINDOW(Denemo.command_manager), (_("Command Center")));
   if (Denemo.prefs.newbie)
     gtk_widget_set_tooltip_text (Denemo.command_manager,
