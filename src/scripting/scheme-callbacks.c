@@ -254,6 +254,46 @@ scheme_check_boxes (SCM list, SCM title)
 }
 
 
+//make toggling view checkboxes available from Scheme
+SCM scheme_set_view_visible (SCM win, SCM show)
+	{
+		if (scm_is_string (win))
+			{
+				gchar *window = scm_to_locale_string (win);
+				switch (*window)
+					{
+						case 'p':
+							if (*(window+1)=='l')
+								set_toggle (TogglePlaybackControls_STRING, scm_is_true (show));
+							else
+								set_toggle (TogglePrintView_STRING, scm_is_true (show));
+							return SCM_BOOL_T;
+						case 'c':
+							set_toggle (ToggleCommandManager_STRING, scm_is_true (show));
+							return SCM_BOOL_T;							
+						case 's':
+							set_toggle (ToggleScript_STRING, scm_is_true (show)); 
+							return SCM_BOOL_T;						 	
+						case 'l':
+							set_toggle (ToggleLilyText_STRING, scm_is_true (show));
+							return SCM_BOOL_T;	
+						case 'm':
+							set_toggle (ToggleMidiInControls_STRING, scm_is_true (show));
+							return SCM_BOOL_T;															
+					}
+				
+				
+			}
+		
+	return SCM_BOOL_F;	
+	}
+
+
+
+
+
+
+
 
 SCM
 scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)

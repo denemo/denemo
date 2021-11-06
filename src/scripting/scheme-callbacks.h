@@ -27,6 +27,7 @@
 #define ToggleScoreLayout_STRING  "ToggleScoreLayout"
 #define ToggleCommandManager_STRING  "ToggleCommandManager"
 #define ToggleLyricsView_STRING  "ToggleLyricsView"
+#define ToggleSchemeView_STRING  "ToggleSchemeView"
 #define ToggleConsoleView_STRING  "ToggleConsoleView"
 #define ToggleScoreView_STRING  "ToggleScoreView"
 #define ToggleScoreTitles_STRING  "ToggleScoreTitles"
@@ -217,6 +218,7 @@ SCM scheme_detach_quit_callback (void);
 SCM scheme_get_input_source (void);
 SCM scheme_popup_menu (SCM);
 SCM scheme_check_boxes (SCM checkboxlist, SCM title);
+SCM scheme_set_view_visible (SCM windowname, SCM show);
 SCM scheme_get_target_info (void);
 SCM scheme_get_new_target (void);
 SCM scheme_get_new_point (void);
