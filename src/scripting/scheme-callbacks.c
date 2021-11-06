@@ -281,19 +281,9 @@ SCM scheme_set_view_visible (SCM win, SCM show)
 							set_toggle (ToggleMidiInControls_STRING, scm_is_true (show));
 							return SCM_BOOL_T;															
 					}
-				
-				
-			}
-		
+			}		
 	return SCM_BOOL_F;	
 	}
-
-
-
-
-
-
-
 
 SCM
 scheme_create_palette_button (SCM palette, SCM lbl, SCM tltp, SCM scrp)
