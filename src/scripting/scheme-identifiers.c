@@ -96,7 +96,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Lessens the display height for the current staff", DENEMO_SCHEME_PREFIX "ShortenStaffHeight", scheme_shorten_staff_height);
   install_scm_function (0, "Sets the display space above the current staff to the passed value of if no value returns the current space. -1 re-sets to auto adjust.", DENEMO_SCHEME_PREFIX "StaffSetSpaceAbove", scheme_staff_set_space_above);
   install_scm_function (0, "Sets the display space below the current staff to the passed value of if no value returns the current space.", DENEMO_SCHEME_PREFIX "StaffSetSpaceBelow", scheme_staff_set_space_below);
-  install_scm_function (0, "Sets the minimum space between staffs in the display to the passed in value. Returns the current value.", DENEMO_SCHEME_PREFIX "StaffSetMinimumStaffSpacing", scheme_set_minimum_staff_spacing);
+  install_scm_function (0, "Sets the minimum space between staffs in the display to the passed in value. Returns the current value.", DENEMO_SCHEME_PREFIX "SetMinimumStaffSpacing", scheme_set_minimum_staff_spacing);
   install_scm_function (0, "Copies the staff properties from the staff above to the current staff", DENEMO_SCHEME_PREFIX "InheritStaffProperties", scheme_inherit_staff_properties);
   install_scm_function (0, "Sets the number of lines for the current staff", DENEMO_SCHEME_PREFIX "SetLinesInStaff", scheme_set_lines_in_staff);
   install_scm_function (0, "Sets the current staff type, with no argument returns the staff type", DENEMO_SCHEME_PREFIX "StaffType", scheme_staff_type);
@@ -295,10 +295,11 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Removes a callback from the current musical score", DENEMO_SCHEME_PREFIX "DetachQuitCallback", scheme_detach_quit_callback);
   install_scm_function (0, "Returns DENEMO_INPUTMIDI, DENEMO_INPUTKEYBOARD, DENEMO_INPUTAUDIO depending on the source of input to Denemo.", DENEMO_SCHEME_PREFIX "GetInputSource", scheme_get_input_source);
   install_scm_function (0, "Pops up a menu given by the list of pairs in the argument. Each pair should be a label string and an expression, the expression for the chosen label is returned. Alternatively the label string can be replaced by a pair of strings, label . tooltip. The third syntax is just a list of string labels, the chosen string is returned.", DENEMO_SCHEME_PREFIX "PopupMenu", scheme_popup_menu);
-  install_scm_function (1, "Takes a winow name (print,  command, scheme, lilypond playback controls, midi-in controls) and a boolean; brings that window up or down", DENEMO_SCHEME_PREFIX "SetViewVisible", scheme_set_view_visible);
+  install_scm_function (2, "Takes a winow name (print,  command, scheme, lilypond playback controls, midi-in controls) and a boolean; brings that window up or down", DENEMO_SCHEME_PREFIX "SetViewVisibility", scheme_set_view_visibility);
+  install_scm_function (1, "Takes a winow name (print,  command, scheme, lilypond playback controls, midi-in controls) returns #f if the window of that name is currently hidden.", DENEMO_SCHEME_PREFIX "GetViewVisibility", scheme_get_view_visibility);
 
 
-  install_scm_function (1, "Pops up a dialog of check buttons given by the list of pairs in the argument and optional title argument. Each pair should be a label string and a boolean, the list is returned with booleans as chosen or #f returned of camce;;ed.", DENEMO_SCHEME_PREFIX "CheckBoxes", scheme_check_boxes);
+  install_scm_function (1, "Pops up a dialog of check buttons given by the list of pairs in the argument and optional title argument. Each pair should be a label string and a boolean, the list is returned with booleans as chosen or #f returned of cancelled.", DENEMO_SCHEME_PREFIX "CheckBoxes", scheme_check_boxes);
   install_scm_function (0, "Returns a list of the target type and grob (if a directive). Target is set by clicking on the typeset version of the score at a link that LilyPond has inserted.", DENEMO_SCHEME_PREFIX "GetTargetInfo", scheme_get_target_info);
   install_scm_function (0, "Interactively sets a target (a click on a LilyPond link in the printview window) from the user ", DENEMO_SCHEME_PREFIX "GetNewTarget", scheme_get_new_target);
   install_scm_function (0, "Interactively sets a point in the printview window from the user", DENEMO_SCHEME_PREFIX "GetNewPoint", scheme_get_new_point);

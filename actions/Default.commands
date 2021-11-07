@@ -6,12 +6,12 @@
     <map>
       <cursors>
         <cursor-binding>
-          <state>104</state>
-          <cursor>116</cursor>
-        </cursor-binding>
-        <cursor-binding>
           <state>102</state>
           <cursor>146</cursor>
+        </cursor-binding>
+        <cursor-binding>
+          <state>104</state>
+          <cursor>116</cursor>
         </cursor-binding>
       </cursors>
       <row type="builtin">
@@ -164,7 +164,7 @@
         <_label>Taller Staffs</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
-     <row type="builtin">
+      <row type="builtin">
         <action>MoveToMeasureRight</action>
         <menupath>/ObjectMenu/MeasureMenu</menupath>
         <_label>Move to Measure Right</_label>
@@ -218,8 +218,6 @@
         <_label>Delete Measure All Staffs</_label>
         <_tooltip>Delete the current measure in all staffs</_tooltip>
       </row>
-
-
       <row type="builtin">
         <action>AddA</action>
         <menupath>/ObjectMenu/ChordMenu/ChordNoteMenu</menupath>
@@ -703,9 +701,7 @@ The cursor position determines which note to add</_tooltip>
         <menupath>/MainMenu/EditMenu/Delete</menupath>
         <_label>Delete Previous Object</_label>
         <_tooltip>Delete to the left of the cursor.</_tooltip>
-      </row>      
-
-
+      </row>
       <row type="builtin">
         <action>InsertTrebleClef</action>
         <_label>New Treble Clef</_label>
@@ -3465,7 +3461,6 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <_label>Clef Chooser</_label>
         <_tooltip>Choose any sort of clef. If the cursor is at the start change initial clef, else insert chosen clef.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>ClosingBarline</action>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>
@@ -8109,7 +8104,6 @@ Start Ligature earlier in the same staff.</_tooltip>
         <_label>Move Display Left</_label>
         <_tooltip>Moves the view port (the Denemo Display) to the left, leaving the cursor on the same object as long as it is still in view.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>Unmeasured</action>
         <after>NumericTimeSig</after>
@@ -8784,6 +8778,50 @@ Include rests if they are part of the pattern.
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Ambitus</_label>
         <_tooltip>Typesets the Ambitus of each staff at the start of the first system. This can then be turned off by the Inclusion Criterion Ambitus in the Print View.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ChooseMinimumStaffSpacing</action>
+        <after>TallerStaffs</after>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
+        <_label>Minimum Staff Spacing</_label>
+        <_tooltip>Sets the smallest distance in pixels between staff in the Denemo Display. Staffs move further apart to accomodate leger lines where needed, unless fixed staff spacing is turned on. No effect on typesetting.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TogglePrintViewVisibility</action>
+        <after>SwapSourcePosition</after>
+        <menupath>/MainMenu/ViewMenu/Toggles</menupath>
+        <_label>Toggle Print View</_label>
+        <_tooltip>Hides/Unhides the Print View</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleCommandManagerVisibility</action>
+        <menupath>/MainMenu/ViewMenu/Toggles</menupath>
+        <_label>Toggle Command Manager</_label>
+        <_tooltip>Hides/Unhides the Command Manager</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TogglePlaybackControlsVisibility</action>
+        <menupath>/MainMenu/ViewMenu/Toggles</menupath>
+        <_label>Toggle Playback Controls</_label>
+        <_tooltip>Hides/Unhides the PlaybackControls</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleMidiInControlsVisibility</action>
+        <menupath>/MainMenu/ViewMenu/Toggles</menupath>
+        <_label>Toggle MidiIn Controls</_label>
+        <_tooltip>Hides/Unhides the Midi In Controls</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleLilyPondViewVisibility</action>
+        <menupath>/MainMenu/ViewMenu/Toggles</menupath>
+        <_label>Toggle LilyPond View</_label>
+        <_tooltip>Hides/Unhides the LilyPond View</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>ToggleSchemeViewVisibility</action>
+        <menupath>/MainMenu/ViewMenu/Toggles</menupath>
+        <_label>Toggle Scheme View</_label>
+        <_tooltip>Hides/Unhides the Scheme view</_tooltip>
       </row>
     </map>
   </merge>

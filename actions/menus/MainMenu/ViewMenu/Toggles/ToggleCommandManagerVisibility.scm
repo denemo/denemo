@@ -1,0 +1,2 @@
+;;;ToggleCommandManagerViewVisibility
+(ToggleViewVisibility "command")

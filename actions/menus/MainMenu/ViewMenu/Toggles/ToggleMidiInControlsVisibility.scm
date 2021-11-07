@@ -1,0 +1,2 @@
+;;;ToggleMidiInControlsVisibility
+(ToggleViewVisibility "midi")

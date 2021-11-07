@@ -1174,6 +1174,30 @@
         <action>ConditionalClefChange</action>
         <hidden>true</hidden>
       </row>
+      <row>
+        <action>TogglePrintViewVisibility</action>
+		<bind>Escape,p</bind>
+      </row>
+      <row>
+        <action>ToggleCommandManagerVisibility</action>
+        <bind>Escape,c</bind>
+      </row>
+      <row>
+        <action>TogglePlaybackControlsVisibility</action>
+        <bind>Escape,y</bind>
+      </row>
+      <row>
+        <action>ToggleMidiInControlsVisibility</action>
+        <bind>Escape,m</bind>
+      </row>
+      <row>
+        <action>ToggleLilyPondViewVisibility</action>
+        <bind>Escape,l</bind>
+      </row>
+      <row>
+        <action>ToggleSchemeViewVisibility</action>
+        <bind>Escape,s</bind>
+      </row>
     </map>
   </merge>
 </Denemo>

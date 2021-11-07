@@ -1,0 +1,2 @@
+;;;TogglePlaybackControlsViewVisibility
+(ToggleViewVisibility "playback")

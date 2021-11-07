@@ -1845,4 +1845,5 @@
 					(d-MasterVolume 1))
 				(set! MasterMute::value #f))))
 	
-	
+(define (ToggleViewVisibility name)
+	(d-SetViewVisibility name (not (d-GetViewVisibility name))))	

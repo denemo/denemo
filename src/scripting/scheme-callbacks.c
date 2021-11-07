@@ -253,34 +253,47 @@ scheme_check_boxes (SCM list, SCM title)
   return list;
 }
 
-
-//make toggling view checkboxes available from Scheme
-SCM scheme_set_view_visible (SCM win, SCM show)
-	{
-		if (scm_is_string (win))
-			{
-				gchar *window = scm_to_locale_string (win);
-				switch (*window)
+static gchar *get_toggle_name (gchar *window)
+{
+	switch (*window)
 					{
 						case 'p':
 							if (*(window+1)=='l')
-								set_toggle (TogglePlaybackControls_STRING, scm_is_true (show));
+								return TogglePlaybackControls_STRING;
 							else
-								set_toggle (TogglePrintView_STRING, scm_is_true (show));
-							return SCM_BOOL_T;
+								return TogglePrintView_STRING;
 						case 'c':
-							set_toggle (ToggleCommandManager_STRING, scm_is_true (show));
-							return SCM_BOOL_T;							
+							return ToggleCommandManager_STRING;							
 						case 's':
-							set_toggle (ToggleScript_STRING, scm_is_true (show)); 
-							return SCM_BOOL_T;						 	
+							return ToggleScript_STRING; 						 	
 						case 'l':
-							set_toggle (ToggleLilyText_STRING, scm_is_true (show));
-							return SCM_BOOL_T;	
+							return ToggleLilyText_STRING;	
 						case 'm':
-							set_toggle (ToggleMidiInControls_STRING, scm_is_true (show));
-							return SCM_BOOL_T;															
+							return ToggleMidiInControls_STRING;															
 					}
+	return NULL;
+}
+//make toggling view checkboxes available from Scheme
+SCM scheme_set_view_visibility (SCM win, SCM show)
+	{
+		if (scm_is_string (win))
+			{
+				gchar *window = get_toggle_name (scm_to_locale_string (win));
+				if (window)
+					{
+						set_toggle (window, scm_is_true (show));
+						return SCM_BOOL_T;
+					}
+			}		
+	return SCM_BOOL_F;	
+	}
+SCM scheme_get_view_visibility (SCM win)
+	{
+		if (scm_is_string (win))
+			{
+				gchar *window = get_toggle_name (scm_to_locale_string (win));
+				if (window)
+					return scm_from_bool (get_toggle (window));
 			}		
 	return SCM_BOOL_F;	
 	}

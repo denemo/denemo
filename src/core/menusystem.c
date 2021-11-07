@@ -347,15 +347,6 @@ get_initialization_script (GtkWidget * widget, gchar * directory)
   g_free (filename);
 }
 
-
-
-
-
-
-
-
-
-
 /**
  *  Function to toggle whether rhythm toolbar is visible
  *  (no longer switches keymap to Rhythm.keymaprc when toolbar is on back to standard when off.)
@@ -382,6 +373,7 @@ toggle_rhythm_toolbar (DenemoAction * action, gpointer param)
     }
   if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
     Denemo.prefs.rhythm_palette = gtk_widget_get_visible (widget);
+  write_status (Denemo.project);
 }
 
 /**
@@ -400,6 +392,7 @@ toggle_toolbar (DenemoAction * action, gpointer param)
     gtk_widget_show_all (widget);
   if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
     Denemo.prefs.toolbar = gtk_widget_get_visible (widget);
+  write_status (Denemo.project);
 }
 
 /**
@@ -418,6 +411,7 @@ toggle_playback_controls (DenemoAction * action, gpointer param)
     gtk_widget_show (widget);
   if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
     Denemo.prefs.playback_controls = gtk_widget_get_visible (widget);
+  write_status (Denemo.project);
 }
 
 /**
@@ -436,6 +430,7 @@ toggle_midi_in_controls (DenemoAction * action, gpointer param)
     gtk_widget_show (widget);
   if (Denemo.prefs.persistence && (Denemo.project->view == DENEMO_MENU_VIEW))
     Denemo.prefs.midi_in_controls = gtk_widget_get_visible (widget);
+  write_status (Denemo.project);
 }
 
 #if 0
@@ -476,6 +471,7 @@ toggle_print_view (DenemoAction * action, gpointer param)
       implement_show_print_view (TRUE);
     }
 #endif
+write_status (Denemo.project);
 }
 
 /**
@@ -499,6 +495,7 @@ toggle_playback_view (DenemoAction * action, gpointer param)
         call_out_to_guile ("(d-PlaybackView #f)");
 
     }
+write_status (Denemo.project);
 }
 
 /**
@@ -523,7 +520,7 @@ toggle_score_layout (DenemoAction * action, gpointer param)
     {
       gtk_widget_show (w);
     }
-
+write_status (Denemo.project);
 }
 
 
@@ -549,6 +546,7 @@ toggle_command_manager (DenemoAction * action, gpointer param)
       else
         gtk_widget_show (w);
     }
+write_status (Denemo.project);
 }
 
 /**
@@ -1430,7 +1428,18 @@ void set_toggle (gchar *name, gboolean value)
                 }
         }
 }
-
+gboolean get_toggle (gchar *name)
+{
+    gint i;
+    for (i=0;i<G_N_ELEMENTS (toggle_menu_entries);i++)
+        {
+            if (!strcmp (name,    toggle_menu_entries[i].name))
+                {
+                  return gtk_check_menu_item_get_active (GTK_CHECK_MENU_ITEM(toggle_menu_entries[i].item));
+                }
+        }
+   return FALSE;
+}
 
 void denemo_action_group_add_radio_actions (void)
 {

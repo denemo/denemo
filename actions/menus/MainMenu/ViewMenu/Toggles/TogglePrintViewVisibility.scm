@@ -1,0 +1,2 @@
+;;;TogglePrintViewVisibility
+(ToggleViewVisibility "print")

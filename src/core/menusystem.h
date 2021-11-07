@@ -35,6 +35,7 @@ void instantiate_menus (gchar * menupath);
 gchar *get_menupath_for_name (gchar *name);
 gchar *get_location_for_name (gchar *name);
 void set_toggle (gchar *name, gboolean value);
+gboolean get_toggle (gchar *name);
 void toggle_scheme (void);
 void denemo_menusystem_add_command (gchar *path, gchar *name, gchar *after);
 void denemo_menusystem_add_actions (void);

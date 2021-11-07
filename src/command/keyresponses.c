@@ -301,7 +301,7 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
           GString *continuations = g_string_new ("");
           for (g = Denemo.continuations; g; g = g->next)
             g_string_append_printf (continuations, "%s%s", (gchar *) g->data, _(", or "));
-          g_string_printf (prefix_store, _( "Prefix Key %s, waiting for key %stype Esc to abort"), name, continuations->str);
+          g_string_printf (prefix_store, _( "Prefix Key %s, waiting for key %sor other to abort"), name, continuations->str);
           g_string_free (continuations, TRUE);
           if (Denemo.prefs.immediateplayback)
               play_note (DEFAULT_BACKEND, 0, 9, 61, 300, 127 * Denemo.project->movement->master_volume);

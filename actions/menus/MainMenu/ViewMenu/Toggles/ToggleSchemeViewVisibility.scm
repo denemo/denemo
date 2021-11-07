@@ -1,0 +1,2 @@
+;;;ToggleSchemeViewVisibility
+(ToggleViewVisibility "scheme")
