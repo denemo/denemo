@@ -621,10 +621,14 @@ printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 
   if (Denemo.printarea)
     {
+#if 0
       GtkWidget *printarea = gtk_widget_get_toplevel (Denemo.printarea);
       //set_toggle (TogglePrintView_STRING, TRUE);
       if (gtk_window_is_active (GTK_WINDOW (printarea)))
         gtk_window_present (GTK_WINDOW (printarea));
+#else
+	present_print_view_window ();
+#endif
     }
 }
 
@@ -640,6 +644,7 @@ present_print_view_window (void)
     gtk_window_present (GTK_WINDOW (w));
   else
     gtk_widget_show (w);
+  gtk_window_deiconify (GTK_WINDOW(w));
 }
 
 static gboolean
