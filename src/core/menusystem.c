@@ -621,7 +621,7 @@ toggle_lilytext (DenemoAction * action, gpointer param)
     gtk_widget_show /*_all*/ (Denemo.textwindow);
   else
     gtk_widget_hide (Denemo.textwindow);
-  //g_debug("toggling lily window");
+ write_status (Denemo.project);
 }
 
 
@@ -641,6 +641,7 @@ toggle_scheme (void)
     {
       gtk_widget_show (widget);
     }
+write_status (Denemo.project);
 }
 
 //toggle_rhythm_mode
