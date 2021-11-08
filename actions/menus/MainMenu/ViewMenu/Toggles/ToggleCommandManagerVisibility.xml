@@ -6,8 +6,8 @@
     <map>
       <row type="scheme">
         <action>ToggleCommandManagerVisibility</action>
-        <_label>Toggle Command Manager</_label>
-        <_tooltip>Hides/Unhides the Command Manager</_tooltip>
+        <_label>Toggle Command Center</_label>
+        <_tooltip>Hides/Unhides the Command Center</_tooltip>
       </row>
     </map>
   </merge>
