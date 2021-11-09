@@ -393,17 +393,6 @@ toggle_record_script (DenemoAction * action, gpointer param)
   Denemo.ScriptRecording = !Denemo.ScriptRecording;
 }
 
-static gboolean scheme_keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
-  //g_print ("scheme key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
-  if (event->keyval == 65307) //Esc
-	{
-		switch_back_to_main_window ();
-		return TRUE;
-	}
-  return FALSE;
-}
-
 /*
  create_editor_window()
  create a text window for editing Scheme
@@ -442,7 +431,7 @@ create_editor_window (void)
   gtk_window_set_title (GTK_WINDOW (w), _("Denemo Scheme Script"));
   //gtk_window_set_resizable (GTK_WINDOW (w), TRUE);
   g_signal_connect (G_OBJECT (w), "delete-event", G_CALLBACK (hide_scheme /*gtk_widget_hide_on_delete */ ), w);
-  g_signal_connect (G_OBJECT (SchemeWindow), "key_press_event", G_CALLBACK (scheme_keypress_event), NULL);
+  g_signal_connect (G_OBJECT (SchemeWindow), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
 
   
   GtkWidget *main_vbox = gtk_vbox_new (FALSE, 1);

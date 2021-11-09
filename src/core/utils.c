@@ -3078,6 +3078,18 @@ switch_back_to_main_window (void)
   gtk_widget_grab_focus (Denemo.scorearea);
 }
 
+//callback for keypress event on various windows that Denemo creates to close it with Esc etc
+gboolean window_keypress_event (GtkWidget * widget, GdkEventKey * event)
+{
+  //g_print ("window key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
+  if ((event->keyval == 65307) || ((event->keyval == 'w') && (event->state == GDK_CONTROL_MASK))) //Esc OR ctrl-w
+	{
+		switch_back_to_main_window ();
+		return TRUE;
+	}
+  return FALSE;
+}
+
 /* set all labels in the hierarchy below widget to use markup */
 void
 use_markup (GtkWidget * widget)

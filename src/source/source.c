@@ -424,16 +424,6 @@ static gchar *locate_file (gchar *filename) {
     return filename;
 }
 
-static gboolean sourcewindow_keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
- //g_print ("printarea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
-  if (event->keyval == 65307) //Esc
-	{
-		switch_back_to_main_window ();
-		return TRUE;
-	}
-  return FALSE;
-}
 
 static EvView *
 get_view (gchar * filename)
@@ -471,7 +461,7 @@ get_view (gchar * filename)
   g_signal_connect (G_OBJECT(top_vbox), "window-state-event", G_CALLBACK (window_state), NULL);
   
   
-  g_signal_connect (G_OBJECT (top_vbox), "key_press_event", G_CALLBACK (sourcewindow_keypress_event), NULL);
+  g_signal_connect (G_OBJECT (top_vbox), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
 
   
   g_signal_connect (G_OBJECT(model), "page-changed", G_CALLBACK (page_changed), view);

@@ -311,6 +311,7 @@ void init_denemo_notenames (void);
 gint get_widget_height (GtkWidget * w);
 gint get_widget_width (GtkWidget * w);
 void switch_back_to_main_window (void);
+gboolean window_keypress_event (GtkWidget * widget, GdkEventKey * event);
 void use_markup (GtkWidget * widget);
 
 typedef enum

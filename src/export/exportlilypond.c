@@ -3533,16 +3533,7 @@ init_lilypond_buffer (void)
                 
   gtk_source_buffer_set_highlight_syntax (GTK_SOURCE_BUFFER (Denemo.textbuffer), TRUE);
 }
-static gboolean textwindow_keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
-  //g_print ("textwindow key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
-  if (event->keyval == 65307) //Esc
-	{
-		switch_back_to_main_window ();
-		return TRUE;
-	}
-  return FALSE;
-}
+
 void
 create_lilywindow (void)
 {
@@ -3552,7 +3543,7 @@ create_lilywindow (void)
   gtk_window_set_default_size (GTK_WINDOW (Denemo.textwindow), 800, 600);
   gtk_window_set_title (GTK_WINDOW (Denemo.textwindow), "LilyPond Text - Denemo");
   g_signal_connect (G_OBJECT (Denemo.textwindow), "delete-event", G_CALLBACK (lilywindow_closed), NULL);
-  g_signal_connect (G_OBJECT (Denemo.textwindow), "key_press_event", G_CALLBACK (textwindow_keypress_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.textwindow), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
 #if GTK_MAJOR_VERSION == 2
   GtkWidget *top_pane = (GtkWidget *) gtk_vpaned_new ();
 #else

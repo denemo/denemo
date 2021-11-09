@@ -586,16 +586,6 @@ static gboolean hide_command_view (void)
     set_toggle (ToggleCommandManager_STRING, FALSE);
     return TRUE;
 }
-static gboolean command_center_keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
-  //g_print ("printarea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
-  if (event->keyval == 65307) //Esc
-	{
-		switch_back_to_main_window ();
-		return TRUE;
-	}
-  return FALSE;
-}
 
 void
 command_center_select_idx (DenemoAction * dummy, gint command_idx)
@@ -666,7 +656,7 @@ command_center_select_idx (DenemoAction * dummy, gint command_idx)
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
   Denemo.command_manager = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  g_signal_connect(G_OBJECT(Denemo.command_manager), "key-press-event", G_CALLBACK(command_center_keypress_event), NULL);
+  g_signal_connect(G_OBJECT(Denemo.command_manager), "key-press-event", G_CALLBACK(window_keypress_event), NULL);
 
   gtk_window_set_title(GTK_WINDOW(Denemo.command_manager), (_("Command Center")));
   if (Denemo.prefs.newbie)

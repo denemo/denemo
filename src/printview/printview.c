@@ -2685,16 +2685,6 @@ popup_layouts_menu (void)
     typeset_current_layout ();
 }
 
-static gboolean printarea_keypress_event (GtkWidget * widget, GdkEventKey * event)
-{
-  //g_print ("printarea key press event: keyval %d (%s), string |%s|, length %d, state %x, keycode %d, group %d, is_modifier flag %d\n", event->keyval, gdk_keyval_name(event->keyval), event->string, event->length, event->state, event->hardware_keycode, event->group, event->is_modifier);
-  if (event->keyval == 65307) //Esc
-	{
-		switch_back_to_main_window ();
-		return TRUE;
-	}
-  return FALSE;
-}
 void
 install_printpreview (GtkWidget * top_vbox)
 {
@@ -2815,7 +2805,7 @@ install_printpreview (GtkWidget * top_vbox)
   
   g_signal_connect (G_OBJECT (Denemo.printarea), "leave-notify-event", G_CALLBACK (printarea_leave_notify), NULL);
   
-  g_signal_connect (G_OBJECT (Denemo.printarea), "key_press_event", G_CALLBACK (printarea_keypress_event), NULL);
+  g_signal_connect (G_OBJECT (Denemo.printarea), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
 
   //g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",
   //            G_CALLBACK (printarea_focus_in_event), NULL);
