@@ -1318,26 +1318,29 @@ draw_playback_marker (cairo_t * cr, gint color, gdouble alpha, gint pos, gint yy
     }
   cairo_restore (cr);
 }
-
+static gdouble playback_marker_alpha (void)
+{
+	return (Denemo.playback_marker_brightness+50)/100.0;
+}
 static void
 draw_playback_markers (cairo_t * cr, struct infotopass *itp, gint yy, gint line_height)
 {
   //g_print ("\nMarkers at staff %d for top %d with start %d end %d:", itp->staffnum, Denemo.project->movement->top_staff, itp->startposition, itp->endposition);
   if ((itp->startposition > 0)) 
     {
-      if (Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight)
-        draw_playback_marker (cr, GREEN,0.6,itp->startposition, yy, line_height);
-      else
-        draw_playback_marker (cr, GREEN, (Denemo.project->movement->playingnow || (Denemo.project->movement->start_time>0.0001))?0.4:0.2,itp->startposition, yy, line_height);//Don't show strong start marker when at the start of the movement, it makes clutter and is the default
+      //if (Denemo.dragging_start_playback_marker && Denemo.prefs.cursor_highlight)
+        draw_playback_marker (cr, GREEN,playback_marker_alpha(),itp->startposition, yy, line_height);
+      //else
+      //  draw_playback_marker (cr, GREEN, (Denemo.project->movement->playingnow || (Denemo.project->movement->start_time>0.0001))?0.4:0.2,itp->startposition, yy, line_height);//Don't show strong start marker when at the start of the movement, it makes clutter and is the default
     }
   itp->startposition = -1;
 
   if (itp->endposition > 0)
       {
-      if (Denemo.dragging_end_playback_marker && Denemo.prefs.cursor_highlight)
-        draw_playback_marker (cr, RED, 0.6, itp->endposition, yy, line_height);
-      else
-        draw_playback_marker (cr, RED, 0.4, itp->endposition, yy, line_height);
+      //if (Denemo.dragging_end_playback_marker && Denemo.prefs.cursor_highlight)
+        draw_playback_marker (cr, RED, playback_marker_alpha(), itp->endposition, yy, line_height);
+      //else
+      //  draw_playback_marker (cr, RED, 0.4, itp->endposition, yy, line_height);
     }
 
   itp->endposition = -1;

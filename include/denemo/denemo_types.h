@@ -1231,6 +1231,7 @@ struct DenemoRoot
   GList *object_hovering_over;
   gboolean dragging_start_playback_marker;
   gboolean dragging_end_playback_marker;
+  gint playback_marker_brightness;
   
   GdkCursor *GDK_LEFT_PTR;
   GdkCursor *GDK_SB_V_DOUBLE_ARROW;

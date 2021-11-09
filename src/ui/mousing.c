@@ -32,6 +32,7 @@ static DenemoDirective *last_directive;
 typedef enum DragDirection { DRAG_DIRECTION_NONE = 0, DRAG_DIRECTION_UP, DRAG_DIRECTION_DOWN, DRAG_DIRECTION_LEFT, DRAG_DIRECTION_RIGHT} DragDirection;
 static enum DragDirection dragging_outside = DRAG_DIRECTION_NONE; //dragging to left or right outside window.
 
+static gint playback_brightness_shift = 0;
 /**
  * Get the mid_c_offset of an object or click from its height relative
  * to the top of the staff.
@@ -524,6 +525,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
 {
   DenemoProject *gui = Denemo.project;
   static gboolean hovering_over_hidden = FALSE;
+  gint drag_y = event->y;
   if (gui == NULL || gui->movement == NULL)
     return FALSE;
   if (Denemo.scorearea == NULL)
@@ -728,9 +730,17 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                    if ((event->state & (GDK_CONTROL_MASK|GDK_MOD1_MASK)) == (GDK_CONTROL_MASK|GDK_MOD1_MASK)) //ALT+CONTROL drag to shift playback markers
                      {//g_print ("\nend %f and earliest %f", end, earliest);
                       if ((earliest>end) || (fabs(end-earliest) < fabs(latest-earliest) + 0.01))
-                        Denemo.dragging_end_playback_marker = TRUE;
+                        {
+							if (!Denemo.dragging_end_playback_marker)
+								playback_brightness_shift = drag_y;
+							Denemo.dragging_end_playback_marker = TRUE;
+						 }
                       else
-                         Denemo.dragging_start_playback_marker = TRUE;
+						{
+                         if (!Denemo.dragging_start_playback_marker)
+								playback_brightness_shift = drag_y;
+						 Denemo.dragging_start_playback_marker = TRUE;
+						}
                     }
                 }
              if (!(Denemo.dragging_end_playback_marker || Denemo.dragging_start_playback_marker)) 
@@ -740,6 +750,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                     else
                       set_mark (NULL, NULL);
                     selecting = TRUE;
+                    
                   }
               }
             
@@ -754,6 +765,13 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
                   if (earliest < Denemo.project->movement->end_time)
                     Denemo.project->movement->start_time = earliest;
                fix_start_end_ordering ();
+                //g_print ("before event->y %d bright %d pbms %d\n", drag_y, Denemo.playback_marker_brightness, playback_brightness_shift);
+               Denemo.playback_marker_brightness += (playback_brightness_shift - drag_y);
+               if (Denemo.playback_marker_brightness>50) Denemo.playback_marker_brightness = 50;
+               if (Denemo.playback_marker_brightness<-50) Denemo.playback_marker_brightness = -50;
+               
+               playback_brightness_shift = drag_y;
+               //g_print ("after drag_y %d bright %d pbms %d\n", drag_y, Denemo.playback_marker_brightness, playback_brightness_shift);
             }
  
           if (event->state & (GDK_BUTTON1_MASK | GDK_BUTTON2_MASK | GDK_BUTTON3_MASK))
@@ -1422,6 +1440,7 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
   if(Denemo.dragging_end_playback_marker || Denemo.dragging_start_playback_marker)
     {
       Denemo.dragging_start_playback_marker = Denemo.dragging_end_playback_marker = FALSE;
+      playback_brightness_shift = 0;
       gui->movement->markstaffnum = 0;
     }
   gboolean left = (event->button != 3);
