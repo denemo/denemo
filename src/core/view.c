@@ -3149,7 +3149,7 @@ set_playbutton (gboolean pause)
 		first = FALSE;
 	}
 	if (pause)
-	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>Ⅱ</b></span>");
+	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"dark orange\"><b>Ⅱ</b></span>");
 	else
 	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>▶</b></span>");
 }
@@ -3317,14 +3317,14 @@ create_window (void)
     //create_playbutton(inner,NULL, pb_rewind, GTK_STOCK_MEDIA_REWIND);
 
     
-     create_playbutton (inner, "<span foreground=\"orange\"><b>◀--</b></span>", pb_go_back,
-     _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+ //    create_playbutton (inner, "<span foreground=\"orange\"><b>◀--</b></span>", pb_go_back,
+//     _("Moves the playback start point (which shows as a green bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
-    create_playbutton (inner, "<span foreground=\"green\"><b>❙</b></span>", pb_start_to_cursor, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"green\"><b>⬆</b></span>", pb_start_to_cursor, _("Sets the playback start point (green bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     
 
-    create_playbutton (inner, "<span foreground=\"orange\"><b>--▶</b></span>", pb_next,
-     _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+ //   create_playbutton (inner, "<span foreground=\"orange\"><b>--▶</b></span>", pb_next,
+ //    _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
     create_playbutton (inner, "■", pb_stop, _("Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."));
 
 
@@ -3337,14 +3337,14 @@ create_window (void)
     audiorecordbuttonlabel = create_playbutton (inner, "<span foreground=\"red\"><b>●</b></span>", pb_audiorecord, _("Starts/Stops recording the audio output from Denemo.\nRecords live performance and/or playback,\nsave to disk to avoid overwriting previous recordings."));
     exportbutton = create_helpbutton (inner, "<span foreground=\"green\"><b>☳</b></span>", pb_exportaudio, _("Exports the audio recorded to disk"));
 
-    create_playbutton (inner, "<span foreground=\"orange\"><b>◀--</b></span>", pb_previous,
-			 _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
-    create_playbutton (inner, "<span foreground=\"red\"><b>❙</b></span>", pb_end_to_cursor, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+ //   create_playbutton (inner, "<span foreground=\"orange\"><b>◀--</b></span>", pb_previous,
+//			 _("Moves the playback end point (which shows as a red bar) earlier in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+    create_playbutton (inner, "<span foreground=\"red\"><b>⬇</b></span>", pb_end_to_cursor, _("Sets the playback end point (red bar) to the note at the cursor.\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     
 
-     create_playbutton (inner, "<span foreground=\"orange\"><b>--▶</b></span>", pb_go_forward, 
-			 _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
+ //    create_playbutton (inner, "<span foreground=\"orange\"><b>--▶</b></span>", pb_go_forward, 
+//			 _("Moves the playback end point (which shows as a red bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 
     create_playbutton (inner, _("Loop"), pb_loop, _("The music between the red and green bars is played in a loop.\nYou can edit the music while it is playing\n(so that you can continuously listen as you try alternatives)."));
 
