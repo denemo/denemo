@@ -3242,7 +3242,7 @@ create_window (void)
 //FIXME this is where score_layout should be created.
 //score_layout should belong the Denemo.xxx not Denemo.project->xxx (so as to be like the others)
 #ifdef USE_EVINCE
-  install_printpreview (NULL);
+  install_printpreview ();
 #endif
   install_svgview (NULL);
 

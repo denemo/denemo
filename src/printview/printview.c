@@ -2687,9 +2687,9 @@ popup_layouts_menu (void)
     typeset_current_layout ();
 }
 
-void
-install_printpreview (GtkWidget * top_vbox)
+void install_printpreview (void)
 {
+  GtkWidget *top_window = GTK_WIDGET (gtk_window_new (GTK_WINDOW_TOPLEVEL));
   if (Denemo.printarea)
     return;
   Denemo.printstatus->typeset_type = Denemo.prefs.typesettype;
@@ -2766,14 +2766,14 @@ install_printpreview (GtkWidget * top_vbox)
   g_signal_connect (button, "clicked", G_CALLBACK (page_display), (gpointer) - 1);
   gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
 
-  if (top_vbox == NULL)
-    top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
+  
+   
   // if(!Denemo.prefs.manualtypeset)
-  //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_vbox), GTK_WINDOW(Denemo.window));
-  gtk_window_set_title (GTK_WINDOW (top_vbox), _("Denemo Print View"));
-  gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
-  g_signal_connect (G_OBJECT (top_vbox), "delete-event", G_CALLBACK (hide_printarea_on_delete), NULL);
-  gtk_container_add (GTK_CONTAINER (top_vbox), main_vbox);
+  //      gtk_window_set_urgency_hint (GTK_WINDOW(Denemo.window), TRUE);//gtk_window_set_transient_for (GTK_WINDOW(top_window), GTK_WINDOW(Denemo.window));
+  gtk_window_set_title (GTK_WINDOW (top_window), _("Denemo Print View"));
+  gtk_window_set_default_size (GTK_WINDOW (top_window), 600, 750);
+  g_signal_connect (G_OBJECT (top_window), "delete-event", G_CALLBACK (hide_printarea_on_delete), NULL);
+  gtk_container_add (GTK_CONTAINER (top_window), main_vbox);
 
   GtkAdjustment *printvadjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
   Denemo.printvscrollbar = gtk_vscrollbar_new (GTK_ADJUSTMENT (printvadjustment));
@@ -2807,31 +2807,16 @@ install_printpreview (GtkWidget * top_vbox)
   
   g_signal_connect (G_OBJECT (Denemo.printarea), "leave-notify-event", G_CALLBACK (printarea_leave_notify), NULL);
   
-  g_signal_connect (G_OBJECT (Denemo.printarea), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
+  g_signal_connect (G_OBJECT (top_window), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
 
-  //g_signal_connect (G_OBJECT (Denemo.printarea), "focus_in_event",
-  //            G_CALLBACK (printarea_focus_in_event), NULL);
-
-
-//g_debug("Attaching signal...");
-// !!!not available in early versions of libevince
-//g_signal_connect (G_OBJECT (Denemo.printarea), "sync-source",
-//                    G_CALLBACK (denemoprintf_sync), NULL);
-//g_debug("...Attached signal?\n");
-
-//what would this one fire on???? g_signal_connect (G_OBJECT (Denemo.printarea), "binding-activated",
-//                    G_CALLBACK (denemoprintf_sync), NULL);
 
 // Re-connect this signal to work on the pop up menu for dragging Denemo objects...
   g_signal_connect (G_OBJECT (Denemo.printarea), "button_press_event", G_CALLBACK (printarea_button_press), NULL);
 
-// We may not need this signal
-//  g_signal_connect (G_OBJECT (score_and_scroll_hbox), "scroll_event", G_CALLBACK(printarea_scroll_event), NULL);
-
   g_signal_connect_after (G_OBJECT (Denemo.printarea), "button_release_event", G_CALLBACK (printarea_button_release), NULL);
 
   gtk_widget_show_all (main_vbox);
-  gtk_widget_hide (top_vbox);
+  gtk_widget_hide (top_window);
 
   get_wysiwyg_info ()->dialog = infodialog ("");
   g_signal_connect (get_wysiwyg_info ()->dialog, "delete-event", G_CALLBACK (gtk_widget_hide_on_delete), NULL);

@@ -20,7 +20,7 @@ gboolean print_typeset_pdf (void);
 void typeset_current_layout (void);
 void typeset_current_movement (void);
 void implement_show_print_view (gboolean refresh_if_needed);
-void install_printpreview (GtkWidget * vbox);
+void install_printpreview (void);
 void refresh_print_view (gboolean interactive);
 void printview_finished (G_GNUC_UNUSED GPid pid, G_GNUC_UNUSED gint status, gboolean print);
 void print_from_print_view (gboolean all_movements);
