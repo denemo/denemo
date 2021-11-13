@@ -323,7 +323,22 @@ update_object_info (void)
   if (ObjectInfo && gtk_widget_get_visible (ObjectInfo))
     display_current_object ();
 }
-
+static const gchar *get_label_for_tag (gchar *tag)
+{
+	gchar* c = tag;
+	for (c= tag;*c;c++)
+		{
+			if (*c=='\n')
+				{
+					const gchar *ret;
+					*c = 0;
+					ret = get_label_for_command (tag);
+					*c = '\n';
+				return ret;
+				}
+		}
+	return get_label_for_command (tag);
+}
 static void
 append_directives_information (GString * selection, GList * directives)
 {
@@ -333,7 +348,7 @@ append_directives_information (GString * selection, GList * directives)
       DenemoDirective *directive = directives->data;
       if (directive->tag == NULL)
         directive->tag = g_string_new ("<Unknown Tag>");        //shouldn't happen
-      const gchar *label = get_label_for_command (directive->tag->str);
+      const gchar *label = get_label_for_tag (directive->tag->str);
       const gchar *menupath = get_menu_path_for_command (directive->tag->str);
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
       if (tooltip == NULL)
@@ -775,7 +790,7 @@ display_current_object_callback (void)
 
             if (directive->tag == NULL)
               directive->tag = g_string_new ("<Unknown Tag>");  //shouldn't happen
-            const gchar *label = get_label_for_command (directive->tag->str);
+            const gchar *label = get_label_for_tag (directive->tag->str);
             const gchar *menupath = get_menu_path_for_command (directive->tag->str);
             const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
             if (tooltip == NULL)
@@ -1085,7 +1100,7 @@ create_duplicate_directive (GtkWidget * button, gchar * what)
         {
           DenemoDirective *newdirective = clone_directive (directive);
           newdirective->tag = g_string_new (g_strdup_printf ("%s\n%s", directive->tag->str, tag_suffix));
-          
+          newdirective->display = g_string_new (g_strdup_printf ("%s%s", _("Duplicate: "), directive->display?directive->display->str:""));
           gint position = g_list_index (*directives, directive);
           *directives = g_list_insert (*directives, newdirective, position + 1);
           newdirective->override &= ~DENEMO_OVERRIDE_GRAPHIC;
@@ -1479,7 +1494,7 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
     {
       DenemoDirective *directive = directives->data;
       if (directive->tag == NULL) directive->tag = g_string_new ("Unknown");
-      const gchar *label = get_label_for_command (directive->tag->str);
+      const gchar *label = get_label_for_tag (directive->tag->str);
       DenemoAction *action = lookup_action_from_name (directive->tag->str);
       gchar *name = label ? (gchar *) label : directive->tag->str;
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
@@ -1512,7 +1527,7 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
         {
           gchar *thelabel = g_strconcat (_("Execute command: "), name, NULL);
           GtkWidget *button = gtk_button_new_with_label (thelabel);
-          gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
+          //gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive")); this conflicts with the tooltip explaining the specific command
           g_object_set_data (G_OBJECT (button), "action", (gpointer) action);
           g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
           gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
@@ -2106,7 +2121,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
     case LILYDIRECTIVE:
       {
         DenemoDirective *directive = (DenemoDirective *) curObj->object;
-        const gchar *label = get_label_for_command (directive->tag->str);
+        const gchar *label = get_label_for_tag (directive->tag->str);
         DenemoAction *action = lookup_action_from_name (directive->tag->str);
         gchar *name = label ? (gchar *) label : directive->tag->str;
         const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
@@ -2132,7 +2147,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
           {
             gchar *thelabel = g_strconcat (_("Execute command: "), name, NULL);
             GtkWidget *button = gtk_button_new_with_label (thelabel);
-            gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
+            //gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
 
             g_object_set_data (G_OBJECT (button), "action", (gpointer) action);
             g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), NULL);
@@ -2314,6 +2329,7 @@ open_command_center_for_action (DenemoAction *action)
     TheEditorWidget = NULL;
 }
 
+
 static void
 place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_TYPE score_or_movement, gchar * field)
 {
@@ -2358,7 +2374,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
   for (g = *pdirectives; g; g = g->next)
     {
       DenemoDirective *directive = g->data;
-      const gchar *label = get_label_for_command (directive->tag->str);
+      const gchar *label = get_label_for_tag (directive->tag->str);
       DenemoAction *action = lookup_action_from_name (directive->tag->str);
       gchar *name = label ? (gchar *) label : directive->tag->str;
       const gchar *tooltip = get_tooltip_for_command (directive->tag->str);
@@ -2409,7 +2425,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
           gchar *thelabel = g_strconcat (_("Execute command: "), name, NULL);
           button = gtk_button_new_with_label (thelabel);
           set_foreground_color (button, "rgb(0,70,130)");
-          gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
+          //gtk_widget_set_tooltip_text (button, _("Re-run the command to edit the Denemo Directive"));
 
           g_object_set_data (G_OBJECT (button), "action", (gpointer) action);
           g_signal_connect (button, "clicked", G_CALLBACK (call_edit_on_action), GINT_TO_POINTER (score_or_movement));
@@ -2455,7 +2471,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
         tooltip = _("No tooltip");
 
       button = gtk_button_new_with_label (_("Create Duplicate"));
-      gtk_widget_set_tooltip_text (button, _("Duplicate this directive with a new name. Usually only makes sense when the two directives are conditional - different omission criteria or different layouts."));
+      gtk_widget_set_tooltip_text (button, _("Duplicate this directive with a new name. Usually only makes sense when the two directives are conditional - different inclusion criteria or different layouts."));
       g_object_set_data (G_OBJECT (button), "directive", (gpointer) directive);
       g_object_set_data (G_OBJECT (button), "directives", pdirectives);
       g_signal_connect (button, "clicked", G_CALLBACK (create_duplicate_directive), (gpointer) (field));
@@ -2532,7 +2548,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
   gtk_window_set_title (GTK_WINDOW (editscorewin), _("Score and Movement Properties Editor"));
   gtk_window_set_transient_for (GTK_WINDOW (editscorewin), GTK_WINDOW (Denemo.window));
   gtk_window_set_keep_above (GTK_WINDOW (editscorewin), TRUE);
-  gtk_window_set_default_size (GTK_WINDOW (editscorewin), 1400, window_height);
+  gtk_window_set_default_size (GTK_WINDOW (editscorewin), 1800, window_height);
 
 
   GtkWidget *vbox = gtk_vbox_new (FALSE, 0);
