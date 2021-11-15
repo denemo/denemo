@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -25,6 +25,8 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures false
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -54,6 +56,7 @@
 \suppress_date false
 \justification true
 \use_refstyle 1
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -69,7 +72,10 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -97,6 +103,7 @@ LatexCommand href
 name "Requests for help to: denemo-devel@gnu.org"
 target "denemo-devel@gnu.org"
 type "mailto:"
+literal "false"
 
 \end_inset
 
@@ -110,6 +117,7 @@ This Manual is released under the
 LatexCommand href
 name "Creative Commons Attribution-Share Alike 3.0 Unported"
 target "http://creativecommons.org/licenses/by-sa/3.0"
+literal "false"
 
 \end_inset
 
@@ -151,21 +159,6 @@ LatexCommand tableofcontents
 
 \begin_layout Part
 Getting Started
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-
-\backslash
-pagenumbering{arabic} 
-\backslash
-setcounter{page}{1}
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Section*
@@ -439,6 +432,7 @@ Print Part
 \begin_inset CommandInset href
 LatexCommand href
 target "http://lilypond.org/doc/v2.18/Documentation/music-glossary/index.html"
+literal "false"
 
 \end_inset
 
@@ -1656,6 +1650,7 @@ Open Source Audio loads an audio file creating empty measures with the audio
 \begin_inset CommandInset href
 LatexCommand href
 target "www.denemo.org"
+literal "false"
 
 \end_inset
 
@@ -1987,7 +1982,36 @@ Use the
 \series bold
 View
 \series default
- menu to toggle toolbars and palettes used with the mouse.
+ menu to toggle visibility of various windows, panes and palettes.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+\begin_layout Plain Layout
+Note: The checkboxes cannot be given a keyboard shortcut, so use the Toggles
+ submenu to Hide/Show various windows/panes.
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2175,6 +2199,7 @@ Scheme
 .
  These can be executed or saved as new commands.
  Sequences of commands can be recorded here.
+ You can switch back to the Denemo Display by pressing Esc or Ctrl-w.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -2239,6 +2264,17 @@ reference "sec:Palettes"
 \end_inset
 
 )
+\end_layout
+
+\begin_layout Subsubsection*
+Toggles Submenu
+\end_layout
+
+\begin_layout Standard
+Here are commands to hide/show various windows - the standard shortcuts
+ start with Escape, eg Esc,p for the Print View.
+ The windows themselves respond to Escape (or Ctrl-w) to switch back to
+ the Main Window.
 \end_layout
 
 \begin_layout Subsubsection*
@@ -5437,6 +5473,7 @@ The print view window is shown by checking View->Print View.
  It also allows you to locate the place in the Denemo Display belonging
  to a particular note or mark in the score, start playing the music at any
  note and allows some graphical editing of the score.
+ You can switch back to the Denemo Display by pressing Esc or Ctrl-w.
 \end_layout
 
 \begin_layout Subsection
@@ -14872,6 +14909,11 @@ This menu also includes a Print command that operates on the visible LilyPond
  So when you reload and the custom score layout will be printed.
 \end_layout
 
+\begin_layout Standard
+You can switch back from the LilyPond window to the Denemo Display by pressing
+ Esc or Ctrl-w.
+\end_layout
+
 \begin_layout Paragraph
 Detail
 \end_layout
@@ -15964,6 +16006,7 @@ Denemo is available from the Downloads page of the Denemo website
 LatexCommand href
 name "http://denemo.org"
 target "http://denemo.org"
+literal "false"
 
 \end_inset
 
@@ -16020,6 +16063,7 @@ Denemo is available from a variety of sources for different distributions.
 LatexCommand href
 name "http://denemo.org/downloads-page/"
 target "http://denemo.org/downloads-page/"
+literal "false"
 
 \end_inset
 
@@ -16308,6 +16352,8 @@ Many people have contributed to this manual, directly and indirectly, over
 \begin_inset CommandInset index_print
 LatexCommand printindex
 type "idx"
+name "Index"
+literal "true"
 
 \end_inset
 
