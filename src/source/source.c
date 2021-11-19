@@ -49,6 +49,9 @@ static gboolean window_state (GtkWidget *win, GdkEventWindowState  *event)
 static gboolean is_uniconified (GtkWidget *win)
   {
     //g_print("Source %x is %s uniconified\n", win,  g_object_get_data (G_OBJECT(win),  "uniconified")? "IS":"IS NOT!!!!");
+#ifdef G_OS_WIN32
+	return TRUE;
+#endif
     return (gboolean)GPOINTER_TO_INT(g_object_get_data (G_OBJECT(win),  "uniconified"));
   }
   
@@ -458,8 +461,9 @@ get_view (gchar * filename)
   ev_view_set_model (view, model);
   GtkWidget *top_vbox = gtk_window_new (GTK_WINDOW_TOPLEVEL);
   g_object_set_data (G_OBJECT(top_vbox), "uniconified", GINT_TO_POINTER(TRUE));
+#ifndef G_OS_WIN32
   g_signal_connect (G_OBJECT(top_vbox), "window-state-event", G_CALLBACK (window_state), NULL);
-  
+#endif  
   
   g_signal_connect (G_OBJECT (top_vbox), "key_press_event", G_CALLBACK (window_keypress_event), NULL);
 
