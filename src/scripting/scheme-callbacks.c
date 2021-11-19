@@ -1069,8 +1069,10 @@ create_scheme_function_for_script (gchar * name)
 SCM
 scheme_swap_display_and_source (void)
 {
+#ifdef G_OS_WIN32
+		warningdialog (_("Not available on Windows"));
+#endif
   gint root_x, root_y, sx, sy;
-  
   if (get_source_position (&sx, &sy))
     {
       gtk_window_get_position (GTK_WINDOW (Denemo.window), &root_x, &root_y);
