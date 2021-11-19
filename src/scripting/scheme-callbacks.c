@@ -1071,6 +1071,7 @@ scheme_swap_display_and_source (void)
 {
 #ifdef G_OS_WIN32
 		warningdialog (_("Not available on Windows"));
+		return SCM_BOOL_F;
 #endif
   gint root_x, root_y, sx, sy;
   if (get_source_position (&sx, &sy))
