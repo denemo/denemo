@@ -349,7 +349,7 @@ newSourceFileElem (xmlNodePtr curElem, xmlNsPtr ns, DenemoProject * gui)
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
 #else
-  if (source_position (&gui->source_x, &gui->source_y, &gui->source_width, &gui->source_height, &gui->source_scale))
+  if (Denemo.project->source_scale)
     {
       xmlNodePtr sourceElem = xmlNewChild (curElem, ns, (xmlChar *) "sourcefile", NULL);
       newXMLIntChild (sourceElem, ns, (xmlChar *) "x", gui->source_x);

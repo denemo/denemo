@@ -1074,11 +1074,14 @@ scheme_swap_display_and_source (void)
 		return SCM_BOOL_F;
 #endif
   gint root_x, root_y, sx, sy;
-  if (get_source_position (&sx, &sy))
+  if (Denemo.project->source_scale)
     {
       gtk_window_get_position (GTK_WINDOW (Denemo.window), &root_x, &root_y);
-      move_source_window (root_x, root_y);
-      gtk_window_move (GTK_WINDOW (Denemo.window), sx, sy);
+      if (move_source_window (root_x, root_y))
+		gtk_window_move (GTK_WINDOW (Denemo.window), Denemo.project->source_x, Denemo.project->source_y);
+	  else 
+		return SCM_BOOL_F;
+	  write_status (Denemo.project);
       return SCM_BOOL_T;
     }
   return SCM_BOOL_F;
@@ -1090,7 +1093,7 @@ scheme_debug_object (SCM optional)
 
   if (!Denemo.project || !(Denemo.project->movement) || !(Denemo.project->movement->currentobject) || !(curObj = Denemo.project->movement->currentobject->data))
     return SCM_BOOL (FALSE);
-  g_debug ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
+  g_print ("*************\nType = %d\nbasic_durinticks = %d\ndurinticks - %d\nstarttickofnextnote = %d\n***********\n", curObj->type, curObj->basic_durinticks, curObj->durinticks, curObj->starttickofnextnote);
   return SCM_BOOL (TRUE);
 }
 

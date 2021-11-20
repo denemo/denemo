@@ -400,21 +400,6 @@ page_changed (EvDocumentModel *evdocumentmodel, gint old_page,gint new_page, gpo
           gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), new_page+1.0);
     }
 
-static gboolean
-position_source_window (EvView * view)
-{
-  GtkWidget *top_vbox = gtk_widget_get_toplevel (GTK_WIDGET (view));
-  if (Denemo.project->source_scale)
-    {
-      //gtk_widget_set_size_request(GTK_WIDGET(top_vbox), Denemo.project->source_width, Denemo.project->source_height);
-      //EvDocumentModel *model = (EvDocumentModel*)g_object_get_data(G_OBJECT(view), "model");
-      //ev_document_model_set_scale(model, Denemo.project->source_scale/1000.0);
-      gtk_window_move (GTK_WINDOW (top_vbox), Denemo.project->source_x, Denemo.project->source_y);
-    }
-  else
-    gtk_window_present (GTK_WINDOW (top_vbox));
-  return FALSE;
-}
 
 static gchar *locate_file (gchar *filename) {
     if(!g_file_test(filename, G_FILE_TEST_EXISTS)) {
@@ -427,7 +412,29 @@ static gchar *locate_file (gchar *filename) {
     return filename;
 }
 
+//~ typedef struct {
+  //~ GdkEventType type;
+  //~ GdkWindow *window;
+  //~ gint8 send_event;
+  //~ gint x, y;
+  //~ gint width;
+  //~ gint height;
+//~ } GdkEventConfigure;
 
+static gboolean window_configure_event (GtkWidget *widget,
+               GdkEventConfigure  *event, EvView *view)
+   {
+	EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
+	Denemo.project->source_scale = (int) 1000 *ev_document_model_get_scale (model);
+	if(Denemo.project->source_scale == 0) 
+		g_warning("Scale of document is zero!!!");
+	Denemo.project->source_x = event->x;
+	Denemo.project->source_y = event->y;
+	Denemo.project->source_width = event->width;
+	Denemo.project->source_height = event->height;
+	//g_print ("configure wxh %dx%d x=%d y=%d scale %d\n", Denemo.project->source_width, Denemo.project->source_height, Denemo.project->source_x,Denemo.project->source_y,Denemo.project->source_scale);
+	return FALSE;
+   }
 static EvView *
 get_view (gchar * filename)
 {
@@ -476,10 +483,15 @@ get_view (gchar * filename)
   gtk_window_set_title (GTK_WINDOW (top_vbox), g_strdup_printf ("Denemo - Source File: %s", filename));
 
 
-  g_idle_add ((GSourceFunc) position_source_window, view);
+  //g_idle_add ((GSourceFunc) position_source_window, view);
+  g_signal_connect (G_OBJECT(top_vbox), "configure-event", G_CALLBACK (window_configure_event), (gpointer)view);
+  
   
   if (Denemo.project->source_scale)
-    gtk_window_set_default_size (GTK_WINDOW (top_vbox), Denemo.project->source_width, Denemo.project->source_height);
+    {
+		gtk_window_set_default_size (GTK_WINDOW (top_vbox), Denemo.project->source_width, Denemo.project->source_height);
+		gtk_window_move (GTK_WINDOW (top_vbox),Denemo.project->source_x, Denemo.project->source_y);
+	}
   else
     gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
 
@@ -572,34 +584,7 @@ open_source (gchar * filename, gint x, gint y, gint page)
   return ret;
 }
 
-
-//Finds the scale and position of the window (first) source file. Returns the Denemo.project->scale_* values if the window is not visible. Returns FALSE if none
-//FIXME, it would be better to set Denemo.project->scale_* values in a "configure" callback on the window.
-gboolean
-source_position (gint * x, gint * y, gint * width, gint * height, gint * scale)
-{
-  if (FileViews == NULL)
-    return FALSE;
-  EvView *view = ((fileview *) FileViews->data)->view;
-  GtkWindow *top = (GtkWindow *) gtk_widget_get_toplevel (GTK_WIDGET (view));
-  if(gtk_widget_get_visible(GTK_WIDGET(top)))
-  {
-          gtk_window_get_position (top, x, y);
-          gtk_window_get_size (top, width, height);
-          EvDocumentModel *model = (EvDocumentModel *) g_object_get_data (G_OBJECT (view), "model");
-          *scale = (int) 1000 *ev_document_model_get_scale (model);
-          if(!*scale) g_warning("Scale of document is zero!!!");
-  } else {
-        *x = Denemo.project->source_x;
-        *y = Denemo.project->source_y;
-        *scale = Denemo.project->source_scale;
-  }
-
-  return TRUE;
-}
-
-
-
+//moves the first un-iconized source window, on Windows iconized is not tracked
 gboolean
 move_source_window (gint x, gint y)
 {
