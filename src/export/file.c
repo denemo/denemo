@@ -424,10 +424,10 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
                         found = try_to_find_file (base, zipfile);
                       
                        while (!found)
-                        { gchar *message = g_strdup_printf ("%s%s%s", _("Unable to find file: "), filename, _("\nChoose a directory (below which to search)\nin the next dialog"));
-                          gchar *path; 
-                          warningdialog (message);
-                          path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
+                        { gchar *message = g_strdup_printf ("%s%s", _("Not Found: "), filename);
+                          gchar *path = NULL; 
+                          if (choose_option (message, _("Browse for this file"), _("Ignore it")))
+							path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
                           if (path)
                             {
                               found = try_to_find_file (path, filename);
@@ -575,7 +575,7 @@ open_for_real (gchar * filename, DenemoProject * gui, DenemoSaveType template, I
                         DenemoDirective *direc = (DenemoDirective *)theobj->object;
                         if (direc->tag && !strcmp (direc->tag->str, "DenemoLink") &&direc->data)
                             {
-                                gchar *script = g_strdup_printf ("(d-OpenSource (scheme-escape \"%s\"))", direc->data->str);
+                                gchar *script = g_strdup_printf ("(d-OpenSource \"%s\")", escape_scheme (direc->data->str));
                                 call_out_to_guile (script);
                                 g_free (script);
                             }

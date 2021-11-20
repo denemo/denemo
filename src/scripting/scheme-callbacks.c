@@ -2051,10 +2051,11 @@ scheme_open_source (SCM link)
                 gchar *found = try_to_find_file (base, filename);
 
                 while (!found)
-                  { gchar *message = g_strdup_printf ("%s%s%s", _("Unable to find file: "), filename, _("\nChoose a directory (below which to search)\nin the next dialog"));
-                    gchar *path; 
-                    warningdialog (message);
-                    path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
+                  { 
+					gchar *message = g_strdup_printf ("%s%s%s", _("Source File: " ), filename,_(" Not Found"));
+                    gchar *path = NULL; 
+				    if (choose_option (message, _("Browse for this file"), _("Ignore it")))
+					  path = choose_directory (_("Give Toplevel Directory"), Denemo.prefs.denemopath->str, NULL);
                     if (path)
                       found = try_to_find_file (path, filename);
                     else
@@ -2062,15 +2063,17 @@ scheme_open_source (SCM link)
                   }
                 if (found)
                   filename = found;
+                else
+				  filename = NULL;
               }
-
-          if (open_source (filename, x, y, page))
+              
+          if (filename && open_source (filename, x, y, page))
             ret = SCM_BOOL_T;
         }
       if (thestring)
         free (thestring);
     }
-#endif
+#endif //USE_EVINCE
   return ret;
 }
 

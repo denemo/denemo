@@ -443,6 +443,8 @@ get_view (gchar * filename)
   EvView *view = NULL;
   GList *g;
   filename = locate_file (filename);
+  if (!g_file_test (filename, G_FILE_TEST_EXISTS))
+	return NULL;
   for (g = FileViews; g; g = g->next)
     if (!strcmp (((fileview *) g->data)->filename, filename))
       return (((fileview *) g->data)->view);
@@ -577,6 +579,8 @@ open_source (gchar * filename, gint x, gint y, gint page)
   if (Denemo.non_interactive)
     return FALSE;
   EvView *eview = get_view (filename);
+  if (eview==NULL)
+	return FALSE;
   gboolean ret = position_view (eview, x, y, page);
   GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (eview), "spinner");
   gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), page+1.0);
