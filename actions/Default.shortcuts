@@ -24,7 +24,7 @@
       </row>
       <row>
         <action>ToggleReduceToDrawingArea</action>
-        <bind>Escape</bind>
+        <bind>Escape,Escape</bind>
       </row>
       <row>
         <action>SharpenEnharmonicSet</action>
