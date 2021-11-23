@@ -3836,7 +3836,7 @@ toggle_to_drawing_area (gboolean show)
   TOG3 (Denemo.playback_control, playback_control, TogglePlaybackControls_STRING);
   TOG3 (Denemo.midi_in_control, midi_in_control, ToggleMidiInControls_STRING);
 
-  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (current_view ? -height : height));
+  gtk_window_resize (GTK_WINDOW (Denemo.window), win_width, win_height + (current_view ? -(STAFF_HEIGHT + height) : (STAFF_HEIGHT + height)));
 #undef current_view
 }
 
