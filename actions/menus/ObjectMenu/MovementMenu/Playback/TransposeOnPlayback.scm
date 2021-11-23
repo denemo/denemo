@@ -13,6 +13,7 @@
 	(set! interval (number->string interval)))
 (if (string? interval)
 	(begin
+		(d-SetSaved #f)
 		(while (d-StaffUp))
 		(do-staff interval)
 		(while (d-StaffDown)
