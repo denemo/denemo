@@ -587,6 +587,12 @@ static gboolean hide_command_view (void)
     return TRUE;
 }
 
+gboolean command_center_keypress_event (GtkWidget * widget, GdkEventKey * event, keyboard_dialog_data *cbdata)
+{
+	if (cbdata->two_key == 0)
+		return window_keypress_event (widget, event);
+	return FALSE;
+}
 void
 command_center_select_idx (DenemoAction * dummy, gint command_idx)
 {
@@ -656,7 +662,7 @@ command_center_select_idx (DenemoAction * dummy, gint command_idx)
   command_tree_view = gtk_bin_get_child (GTK_BIN (command_view));
 
   Denemo.command_manager = gtk_window_new (GTK_WINDOW_TOPLEVEL);
-  g_signal_connect(G_OBJECT(Denemo.command_manager), "key-press-event", G_CALLBACK(window_keypress_event), NULL);
+  g_signal_connect_after(G_OBJECT(Denemo.command_manager), "key-press-event", G_CALLBACK(command_center_keypress_event), &cbdata);
 
   gtk_window_set_title(GTK_WINDOW(Denemo.command_manager), (_("Command Center")));
   if (Denemo.prefs.newbie)
