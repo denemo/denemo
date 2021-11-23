@@ -312,7 +312,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
           else
 			itp->startposition = x + mudelaitem->x;
         }
-      if ((itp->endposition < 0) && (mudelaitem->latest_time >= Denemo.project->movement->end_time)) {
+      if ((curobj!=itp->leftmostobj) && (itp->endposition < 0) && (mudelaitem->latest_time >= Denemo.project->movement->end_time)) 
+        {
         itp->endposition = x + mudelaitem->x + mudelaitem->minpixelsalloted;
         }
     }
