@@ -1106,7 +1106,8 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
             if(thestaff->hasfigures)  drawnormaltext_cr (cr, _("Figured Bass"), gui->leftmargin - 10 /*KEY_MARGIN */ , y - staffname_offset + 20 + 2 * STAFF_HEIGHT);
             { cairo_save (cr);
               cairo_set_source_rgba (cr, 0.1, 0.6, 0.1, 0.5);
-              if(thestaff->hidden)  drawnormaltext_cr (cr, _("Hidden when not the current staff. See Staff->Display Effects to un-hide."), gui->leftmargin +55, y - staffname_offset + 15 + 2 * STAFF_HEIGHT);
+              if(thestaff->hidden)  
+              drawnormaltext_cr (cr, _("Hidden when not the current staff. See Staff->Display Effects to un-hide."), gui->leftmargin + 100, y - staffname_offset + 2 * STAFF_HEIGHT);
               cairo_restore(cr);
             }
         }
@@ -1536,7 +1537,7 @@ void draw_score (cairo_t * cr)
             static gint height;
             gint top_height = 10; //height to put line indicating hidden staff when it is the top staff
             if (height == 0)
-                height = (itp.staffnum == si->top_staff)? top_height :y - 35;
+                height = (itp.staffnum == si->top_staff)? top_height : y - (Denemo.project->movement->staffspace/2 - 18);
             Denemo.hidden_staff_heights = g_list_append (Denemo.hidden_staff_heights, GINT_TO_POINTER (height));   
             g_string_append_printf (hidden_text, "%s ", staff->denemo_name->str);
             {
@@ -1552,15 +1553,14 @@ void draw_score (cairo_t * cr)
                                 cairo_fill (cr);
                                 cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
                                 drawnormaltext_cr (cr, hidden_text->str, 120, height);
-                                
                             }
                         else 
                             {
                                 cairo_rectangle (cr, 20, height, get_widget_width (Denemo.scorearea) / Denemo.project->movement->zoom - 120, 3);
                                 cairo_fill (cr);
                                 cairo_set_source_rgba (cr, 1.0, 0.5, 0.5, 1);
-                                drawlargetext_cr (cr,hidden_text->str,  80, y - 35);
-                               // drawlargetext_cr (cr, _("Hidden"), 80, y - 10);
+                                drawlargetext_cr (cr,hidden_text->str, 80,
+                                 y - (Denemo.project->movement->staffspace/2- 18));
                             }
                        g_string_assign (hidden_text, _("Hidden "));
                        height = 0;
