@@ -492,7 +492,7 @@ get_view (gchar * filename)
   if (Denemo.project->source_scale)
     {
 		gtk_window_set_default_size (GTK_WINDOW (top_vbox), Denemo.project->source_width, Denemo.project->source_height);
-		gtk_window_move (GTK_WINDOW (top_vbox),Denemo.project->source_x, Denemo.project->source_y);
+		gtk_window_move (GTK_WINDOW (top_vbox),Denemo.project->source_x, Denemo.project->source_y - 30 /*window decorations take space*/);
 	}
   else
     gtk_window_set_default_size (GTK_WINDOW (top_vbox), 600, 750);
