@@ -1,7 +1,7 @@
 ;;;SplitMovementAtCursor
 (if (d-GetSaved)
     (let ((timesig (d-GetPrevailingTimesigAsLilyPond))
-            (keysig (d-GetPrevailingKeysigAsLilyPond))) 
+            (keysig (d-GetPrevailingKeysigName))) 
         (while (d-MoveToStaffUp))
         (d-SetMark)
         (d-GoToEnd) ;;;extends selection
