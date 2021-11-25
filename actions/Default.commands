@@ -7760,9 +7760,8 @@ and others in the LilyPond documentation.</_tooltip>
       </row>
       <row type="scheme">
         <action>MuteStaffs</action>
-        <after>PlayAtCursor</after>
-        <menupath>/MainMenu/PlaybackMenu</menupath>
-        <_label>Mute Stafffs</_label>
+        <menupath>/ObjectMenu/MovementMenu/Playback</menupath>
+        <_label>Mute Staffs</_label>
         <_tooltip>Select which staffs should be muted during playback.</_tooltip>
       </row>
       <row type="scheme">
