@@ -4,7 +4,7 @@
     (d-MoveToMovementBeginning)
     (let loop ()
         (if (not (d-Directive-standalone? mute))
-                (d-MuteStaff)(d-MuteStaff)) ;create Mute directive and make unmuted
+                (d-MuteStaff)) ;create Mute directive and make unmuted
         (set! thelist (cons (cons (d-StaffProperties "query=denemo_name") (<= (d-StaffMasterVolume) 0)) thelist))
         (if (d-MoveToStaffDown)
             (loop)))
@@ -19,5 +19,6 @@
             (set! thelist (cdr thelist))
             (if (d-MoveToStaffDown)
                 (loop))))
-    (d-WarningDialog (_ "Cancelled"))))
+    (d-WarningDialog (_ "Cancelled")))
+    (d-PopPosition))
         
