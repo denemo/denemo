@@ -162,11 +162,10 @@ struct placement_info
   staffnode *the_staff;
   measurenode *the_measure;
   objnode *the_obj;
-  gboolean nextmeasure;
   gboolean offend;              //TRUE when the user has clicked beyond the last note, taking you into appending
   gboolean at_edge; //TRUE when user clicked close (CURSOR_AT_EDGE) to right hand edge of scorearea.
 };
-#define CURSOR_AT_EDGE (60)
+#define CURSOR_AT_EDGE (20)
 /* find the primary staff of the current staff, return its staffnum */
 static gint
 primary_staff (DenemoMovement * si)
@@ -248,7 +247,6 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
       pi->measure_number++;
     }
   //g_debug("got to measure %d\n", pi->measure_number);
-  pi->nextmeasure = ((si->system_height > 0.5 || x_to_explain > GPOINTER_TO_INT (mwidthiterator->data)) && pi->measure_number >= rightmeasurenum);
 
   pi->the_staff = g_list_nth (si->thescore, pi->staff_number - 1);
   pi->the_measure = staff_nth_measure_node (pi->the_staff, pi->measure_number - 1);
@@ -868,22 +866,15 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
      if(pi.the_staff)
         {
           if ((gui->movement->leftmeasurenum > 1) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) && (event->x > gui->leftmargin))
-            {
              Denemo.hovering_over_left_arrow = TRUE;
-            }
-          else if (pi.nextmeasure)
-            {
-              if ((pi.at_edge) && ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend))))   
-                 Denemo.hovering_over_right_arrow = TRUE;
-             }
+          else 
+          if (pi.at_edge)
+             Denemo.hovering_over_right_arrow = TRUE;
+          else
+			  Denemo.hovering_over_left_arrow= Denemo.hovering_over_right_arrow = FALSE;
         }
  }   
-    
-    
-    
-    
-    
-    
+
   if ((oldm != Denemo.hovering_over_movement) 
   || (oldla != Denemo.hovering_over_left_arrow) 
   || (oldra != Denemo.hovering_over_right_arrow) 
@@ -1172,30 +1163,20 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
       draw_score_area();
       return TRUE;
     }
-  else if (pi.nextmeasure)
+  else
     {
-      if ((pi.at_edge) && ((pi.the_obj==NULL) || ((pi.the_obj->next == NULL) && (pi.offend))))//crashed here with the_obj 0x131 !!!
+      if (Denemo.hovering_over_right_arrow)
         {
-          if ((gui->movement->currentmeasurenum != gui->movement->rightmeasurenum) &&
-                (!set_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
-              set_currentmeasurenum (gui, gui->movement->rightmeasurenum);
-          else if ((gui->movement->cursor_appending) &&
-                (!set_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1)))
-              set_currentmeasurenum (gui, gui->movement->rightmeasurenum);
+		if (gui->movement->currentmeasure && gui->movement->currentmeasure->next)
+			set_currentmeasurenum (gui, gui->movement->rightmeasurenum + 1);
+		if (Denemo.prefs.learning)
+		  MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure off-screen right. That measure becomes the second from the left."),
+			MouseGesture);
+		write_status (gui);
+		return TRUE;
 
-
-
-
-          if (gui->movement->currentmeasurenum != gui->movement->rightmeasurenum) {
-            if (Denemo.prefs.learning)
-              MouseGestureShow(_("Press Left."), _("This moved the cursor to the measure off-screen right. The display is shifted to move the cursor to the middle."),
-                MouseGesture);
-          write_status (gui);
-          return TRUE;
-        }
         }
     }
-
 
   if (pi.the_measure != NULL)
     {                           /*don't place cursor in a place that is not there */
