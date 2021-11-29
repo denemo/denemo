@@ -147,7 +147,7 @@ struct infotopass
   gboolean startisoffscreen;    //left most object is after the start time
   GList *recordednote;//list of notes when recorded audio or MIDI is present
   gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
-  gboolean highlight_next_note;//the last CHORD was the one before the currently playing one.
+  gboolean highlight_note;      //this CHORD is playing.
   gboolean allow_duration_error; //do not indicate errors in duration of measure
   gdouble red, green, blue, alpha; //color of notes
   gboolean range;
@@ -275,10 +275,8 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         cairo_restore (cr);
       }
   
-
-    if(Denemo.project->movement->playingnow && itp->highlight_next_note && (((Denemo.project->movement->playhead < mudelaitem->latest_time))))
-        {
-            itp->highlight_next_note = FALSE;
+    if( itp->highlight_note)
+        
             if (cr)
                 {
                   cairo_save (cr);
@@ -287,14 +285,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                   cairo_fill (cr);
                   cairo_restore (cr);
                 }
-        }
-
-    if (Denemo.project->movement->playingnow && (!((Denemo.project->movement->playhead < mudelaitem->latest_time))))//For an unknown reason, this is the condition that the next note is being played...
-        {
-            itp->highlight_next_note = TRUE;
-        }
-
-
+        
   /* The current note, rest, etc. being painted */
 
   if (mudelaitem == Denemo.project->movement->playingnow)
@@ -866,6 +857,16 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
           else
             cairo_set_source_rgb (cr, 0, 0, 0); //black;
         }                       // if cr
+
+     itp->highlight_note = FALSE;
+     if (Denemo.project->movement->playingnow)
+		{
+			DenemoObject *theobj = (DenemoObject *)curobj->data;
+			if (theobj && (theobj->type==CHORD)
+			&& ((chord*)(theobj->object))->notes  && (Denemo.project->movement->playhead >= (theobj->earliest_time -0.01)) && (Denemo.project->movement->playhead < theobj->latest_time))
+				itp->highlight_note = TRUE;
+		}
+
 
       extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
 
