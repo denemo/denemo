@@ -147,7 +147,6 @@ struct infotopass
   gboolean startisoffscreen;    //left most object is after the start time
   GList *recordednote;//list of notes when recorded audio or MIDI is present
   gint currentframe; //current frame of audio being played. (current time converted to frames (at si->recording->samplerate) and slowed down)
-  gboolean highlight_note;      //this CHORD is playing.
   gboolean allow_duration_error; //do not indicate errors in duration of measure
   gdouble red, green, blue, alpha; //color of notes
   gboolean range;
@@ -275,10 +274,14 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         cairo_restore (cr);
       }
   
-    if( itp->highlight_note)
-        
-            if (cr)
-                {
+    
+        if (cr)
+			if (Denemo.project->movement->playingnow &&
+			    mudelaitem && (mudelaitem->type==CHORD) &&
+			    ((chord*)(mudelaitem->object))->notes  &&
+			     (Denemo.project->movement->playhead >= (mudelaitem->earliest_time -0.01)) && 
+			     (Denemo.project->movement->playhead < mudelaitem->latest_time))
+			    {
                   cairo_save (cr);
                   cairo_set_source_rgba (cr, 0.0, 0.2, 0.8, 0.5);
                   cairo_rectangle (cr, x + mudelaitem->x, y, 20, 80);
@@ -858,14 +861,7 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
             cairo_set_source_rgb (cr, 0, 0, 0); //black;
         }                       // if cr
 
-     itp->highlight_note = FALSE;
-     if (Denemo.project->movement->playingnow)
-		{
-			DenemoObject *theobj = (DenemoObject *)curobj->data;
-			if (theobj && (theobj->type==CHORD)
-			&& ((chord*)(theobj->object))->notes  && (Denemo.project->movement->playhead >= (theobj->earliest_time -0.01)) && (Denemo.project->movement->playhead < theobj->latest_time))
-				itp->highlight_note = TRUE;
-		}
+
 
 
       extra_ticks = draw_object (cr, curobj, x, y, gui, itp);
