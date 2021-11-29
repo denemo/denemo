@@ -1228,6 +1228,7 @@ struct DenemoRoot
   gboolean hovering_over_movement;
   gboolean hovering_over_left_arrow;
   gboolean hovering_over_right_arrow;
+  gint right_arrow_x;
   GList *object_hovering_over;
   gboolean dragging_start_playback_marker;
   gboolean dragging_end_playback_marker;

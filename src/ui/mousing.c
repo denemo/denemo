@@ -163,9 +163,8 @@ struct placement_info
   measurenode *the_measure;
   objnode *the_obj;
   gboolean offend;              //TRUE when the user has clicked beyond the last note, taking you into appending
-  gboolean at_edge; //TRUE when user clicked close (CURSOR_AT_EDGE) to right hand edge of scorearea.
 };
-#define CURSOR_AT_EDGE (20)
+
 /* find the primary staff of the current staff, return its staffnum */
 static gint
 primary_staff (DenemoMovement * si)
@@ -226,7 +225,6 @@ get_placement_from_coordinates (struct placement_info *pi, gdouble x, gdouble y,
       g_critical ("Array of measurewidths too small for leftmeasure %d\n", leftmeasurenum);
       return;
     }
-  pi->at_edge = (get_widget_width (Denemo.scorearea) -x) < CURSOR_AT_EDGE;
   pi->staff_number = staff_at ((gint) y, si);
   //g_debug("L/R %d %d got staff number %d\n", leftmeasurenum, rightmeasurenum, pi->staff_number);
   pi->measure_number = leftmeasurenum;
@@ -519,7 +517,7 @@ static gint hidden_staff_line (gint line_height)
  *
  */
 gint
-scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
+scorearea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
 {
   DenemoProject *gui = Denemo.project;
   static gboolean hovering_over_hidden = FALSE;
@@ -868,7 +866,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event)
           if ((gui->movement->leftmeasurenum > 1) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + gui->movement->maxkeywidth) && (event->x > gui->leftmargin))
              Denemo.hovering_over_left_arrow = TRUE;
           else 
-          if (pi.at_edge)
+          if (Denemo.right_arrow_x && ((gint)event->x >= Denemo.right_arrow_x))
              Denemo.hovering_over_right_arrow = TRUE;
           else
 			  Denemo.hovering_over_left_arrow= Denemo.hovering_over_right_arrow = FALSE;

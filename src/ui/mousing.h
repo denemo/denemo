@@ -8,7 +8,7 @@
 #define MOUSING_H
 gint scorearea_button_release (GtkWidget * widget, GdkEventButton * event);
 gint scorearea_button_press (GtkWidget * widget, GdkEventButton * event);
-gint scorearea_motion_notify (GtkWidget * widget, GdkEventButton * event);
+gint scorearea_motion_notify (GtkWidget * widget, GdkEventMotion * event);
 gint scorearea_scroll_event (GtkWidget * widget, GdkEventScroll * event);
 gint scorearea_leave_event (GtkWidget * widget, GdkEventCrossing * event);
 gint scorearea_enter_event (GtkWidget * widget, GdkEventCrossing * event);

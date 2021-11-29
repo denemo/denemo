@@ -1217,6 +1217,8 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
         cairo_fill (cr);
       }
   /* end of draw lines connecting the staves in this system at the left and right hand ends */
+  
+  //draw chevron at end
   if (cr)
     if (itp->line_end)
       if (itp->measurenum > si->rightmeasurenum)
@@ -1234,6 +1236,7 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
                 }
               cairo_set_source_rgb (cr, 0.1, 0.2, 1);
               drawtext_cr  (cr, ">", xx, y + 30, 42.0);
+              Denemo.right_arrow_x = xx;
               cairo_restore (cr);
           }
 
