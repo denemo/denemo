@@ -1219,7 +1219,6 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
   if (cr)
     if (itp->line_end)
       if (itp->measurenum > si->rightmeasurenum)
-        if (!itp->end)
           {
              cairo_save (cr);
              gint xx = get_widget_width (Denemo.scorearea) / gui->movement->zoom - 20;
