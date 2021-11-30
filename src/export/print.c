@@ -215,11 +215,7 @@ gchar *get_lily_version_string (void)
 					NULL,
 					NULL,
 					&err);
-					
-	if (Denemo.prefs.graphicseditor && !strcmp (Denemo.prefs.graphicseditor->str, "x"))
-		warningdialog (g_strdup_printf ("Just tried to launch process %s with parameter %s - returned %s", arg[0], arg[1], err?err->message:"no error"));
-					
-					
+
 	if (err)
 		g_warning ("Returned %s with %s", out, err?err->message:"");
 	else
@@ -570,14 +566,6 @@ else
                                                                NULL,    /* stdout */
                                                                NULL, /* stderr */
                                                                &lily_err);
-
-	if (Denemo.prefs.graphicseditor && !strcmp (Denemo.prefs.graphicseditor->str, "x"))
-		warningdialog (g_strdup_printf ("Just tried to launch process %s %s %s %s %s %s %s %s %s\n- returned message \"%s\": the launch %s", 
-		arguments[0], arguments[1], arguments[2], arguments[3], arguments[4], arguments[5], arguments[6], arguments[7], arguments[8],
-		lily_err?lily_err->message:"no error", lilypond_launch_success?"succeeded":"failed"));
-
-
-
 
 
   if (lily_err)
