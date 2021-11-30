@@ -1521,7 +1521,7 @@ void draw_score (cairo_t * cr)
 
 
   y = 0;
-
+  gboolean playback_markers_needed = TRUE;
   /* Draw each staff */
   for (itp.staffnum = si->top_staff, curstaff = g_list_nth (si->thescore, si->top_staff - 1), (y += si->staffspace / 4); curstaff && itp.staffnum <= si->bottom_staff;  curstaff = curstaff->next, itp.staffnum++)
     {
@@ -1689,8 +1689,11 @@ void draw_score (cairo_t * cr)
       draw_staff (flip_count > 0 ? NULL : cr, curstaff, y, gui, &itp);
 
       if (cr)
-        if (itp.staffnum == si->top_staff)
-          draw_playback_markers (cr, &itp, y, line_height);
+        if (playback_markers_needed)
+          {
+			  playback_markers_needed = FALSE;
+			  draw_playback_markers (cr, &itp, y, line_height);
+		  }
 
       gint system_num;
       system_num = 1;
