@@ -552,7 +552,7 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
                 gchar *syllable = (gchar *) next_syllable ();
                 if (cr)
                   if (syllable)
-                    draw_lyric (cr, x + mudelaitem->x, y + itp->in_lowy, syllable);
+                    draw_lyric (cr, x + mudelaitem->x, MAX (y + itp->in_lowy, thechord->stemy), syllable);
               }
             last_tied = thechord->is_tied;
           }
