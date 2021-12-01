@@ -1264,7 +1264,7 @@ pb_panic (GtkWidget * button)
    audio_initialize (&Denemo.prefs);
 #endif
 #endif  
-  set_playbutton (FALSE);
+  set_playbutton ();
   Denemo.project->movement->start_time = 0.0;
   Denemo.project->movement->end_time = -1.0;    //ie unset
   Denemo.project->movement->smfsync = G_MAXINT;
@@ -3139,20 +3139,18 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
   return label;
 }
 
-
-void
-set_playbutton (gboolean pause)
+static gboolean playbutton_icon (void)
 {
-	static gboolean first = TRUE;
-	if (first)
-	{
-		pause = !pause;
-		first = FALSE;
-	}
-	if (pause)
+	if (is_playing() && !is_paused ())
 	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"dark orange\"><b>Ⅱ</b></span>");
 	else
 	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>▶</b></span>");
+	return FALSE;
+}
+void
+set_playbutton (void)
+{
+	g_timeout_add (100, (GSourceFunc)playbutton_icon, NULL);
 }
 
 //Set the master volume of the passed score and change the slider to suit

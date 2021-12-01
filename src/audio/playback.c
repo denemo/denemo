@@ -48,7 +48,7 @@ ext_midi_playback (DenemoAction * action, DenemoScriptParam * param)
 
   GET_1PARAM (action, param, callback);
 
-  set_playbutton (is_paused ());
+  set_playbutton ();
   if (is_playing ())
     {
       toggle_paused ();
@@ -75,14 +75,10 @@ restart_play (void)
 void
 stop_midi_playback (DenemoAction * action, DenemoScriptParam* param)
 {
-
-  if (is_paused ())
-    toggle_paused ();
-  else
-    set_playbutton (TRUE);
   midi_stop ();
   if (Denemo.playbackview)
     gtk_widget_queue_draw (Denemo.playbackview);
+  set_playbutton ();    
   draw_score_area();     //update playhead on screen
 }
 

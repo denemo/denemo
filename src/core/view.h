@@ -91,7 +91,7 @@ gboolean code_is_a_duration (gchar code);
 
 gint call_out_to_guile (const char *script);
 
-void set_playbutton (gboolean pause);
+void set_playbutton (void);
 
 void set_master_volume (DenemoMovement * si, gdouble volume);
 

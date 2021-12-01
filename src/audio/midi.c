@@ -123,25 +123,23 @@ static gboolean stop_play_callback (gchar * thescript)
   return FALSE;
 }
 
-static gboolean do_set_playbutton (gboolean paused)
+static gboolean do_set_playbutton ()
 {
-    set_playbutton (paused);
+    set_playbutton ();
     return FALSE;
 }
-static gboolean update_playbutton_callback (gboolean paused)
+static gboolean update_playbutton_callback (void)
 {
-
-  g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, GINT_TO_POINTER(paused));
-
+  g_main_context_invoke (NULL, (GSourceFunc)do_set_playbutton, NULL);
   return FALSE;
 }
 
 
 void
-stop_playing ()
+stop_playing (void)
 {
   update_position (NULL);
-  g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) update_playbutton_callback, GINT_TO_POINTER (is_paused ()), NULL);
+  g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) update_playbutton_callback, NULL, NULL);
   playing = FALSE;
   play_until = -G_MAXDOUBLE;
 
@@ -153,7 +151,7 @@ stop_playing ()
 }
 
 void
-toggle_paused ()
+toggle_paused (void)
 {
   if (play_until < 0.0)
     play_until = G_MAXDOUBLE;
