@@ -4,7 +4,8 @@
         (begin
             (d-SetSaved #f)
             (d-PushPosition)
-            (d-NewStructuredStaff)
+            (while (d-MoveToStaffUp))
+            (d-AddBefore)
             (d-StaffProperties (string-append "denemo_name=" ""))
             (d-DirectivePut-clef-graphic tag "\nM\nDenemo\n48")
             (d-DirectivePut-clef-gy tag 36)
@@ -17,6 +18,6 @@
             (d-DirectivePut-voice-override tag   (logior DENEMO_OVERRIDE_GRAPHIC DENEMO_OVERRIDE_LILYPOND ))
             (d-MuteStaff #t)
             (d-PopPosition)
-            (d-MoveToStaffDown)
-            (d-SwapStaffs)))
-    (d-InfoDialog (_ "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.\nWARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!")))
+            (d-MoveToStaffDown))
+   	 (d-InfoDialog (_ "This staff is purely for holding marks that should appear once at the top of the system - avoiding having to put the marks in each part. It must have a blank part name, so that it is typeset with every part. The marks should be spaced using either dummy notes or spacers.
+   WARNING: Do not place clef changes or other non-duration items in this staff - it may trigger the creation of a separate staff on typesetting!"))))
