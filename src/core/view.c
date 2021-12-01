@@ -1264,6 +1264,7 @@ pb_panic (GtkWidget * button)
    audio_initialize (&Denemo.prefs);
 #endif
 #endif  
+  set_playbutton (FALSE);
   Denemo.project->movement->start_time = 0.0;
   Denemo.project->movement->end_time = -1.0;    //ie unset
   Denemo.project->movement->smfsync = G_MAXINT;
@@ -3354,7 +3355,7 @@ create_window (void)
 #else
                        _("Reset")
 #endif
-                       , pb_panic, _("Resets the synthesizer, on JACK it sends a JACK panic."));
+                       , pb_panic, _("Resets the synthesizer and audio output, on JACK it sends a JACK panic."));
 
 
     create_playbutton (inner, _("Play Selection"), pb_play_range, _("Plays the current selection or from the cursor to the end if no selection present."));
