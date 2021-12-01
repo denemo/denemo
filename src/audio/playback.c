@@ -87,7 +87,7 @@ stop_midi_playback (DenemoAction * action, DenemoScriptParam* param)
 }
 
 void
-playback_panic ()
+playback_panic (void)
 {
   panic_all ();
 }

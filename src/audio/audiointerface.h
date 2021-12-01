@@ -209,7 +209,7 @@ int panic (backend_type_t backend);
  * Sends a MIDI panic CC and/or resets the synth engine for all active
  * backends.
  */
-int panic_all ();
+int panic_all (void);
 
 
 
