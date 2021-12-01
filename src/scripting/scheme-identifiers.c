@@ -1107,7 +1107,7 @@ create_scheme_identfiers (void)
   install_scm_function (0, "Plays/Stops playing the recorded MIDI track from the marked MIDI note or beginning if none.", DENEMO_SCHEME_PREFIX "TogglePlayRecordedMidi", scheme_toggle_play_recorded_midi);
   install_scm_function (0, "Deletes the last recorded MIDI note from the MIDI track.", DENEMO_SCHEME_PREFIX "DeleteLastRecordedNote", scheme_delete_last_recorded_note);
   install_scm_function (0, "Returns #t (true) if recording from MIDI in,", DENEMO_SCHEME_PREFIX "RecordingMidi", scheme_recording_midi);
-  install_scm_function (0, "returns #f if audio is not playing else #t", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
+  install_scm_function (0, "returns #f if audio is not playing else current playhead (ie time)", DENEMO_SCHEME_PREFIX "AudioIsPlaying", scheme_audio_is_playing);
   install_scm_function (0, "Computes durationss for recorded/imported MIDI notes based on tempo and timing of note off from previous note off or start.", DENEMO_SCHEME_PREFIX "ComputeMidiNoteDurations", scheme_compute_midi_note_durations);
 
   install_scm_function (0, "Gets the marked recorded midi note in LilyPond syntax", DENEMO_SCHEME_PREFIX "GetMarkedMidiNoteAsLilyPond", scheme_get_marked_midi_note_as_lilypond);
@@ -1200,10 +1200,10 @@ create_scheme_identfiers (void)
 
   install_scm_function (2, "Set start and/or end time for playback to the passed numbers/strings in seconds. Use #t if a value is not to be changed. Returns #f for bad parameters ", DENEMO_SCHEME_PREFIX "SetPlaybackInterval", scheme_set_playback_interval);
 
-  install_scm_function (0, "Adjust start time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackStart", scheme_adjust_playback_start);
+  install_scm_function (0, "Adjust start time for playback by passed number of seconds. Returns #f for bad parameter else returns the start time", DENEMO_SCHEME_PREFIX "AdjustPlaybackStart", scheme_adjust_playback_start);
 
-  install_scm_function (0, "Adjust end time for playback by passed number of seconds. Returns #f for bad parameter ", DENEMO_SCHEME_PREFIX "AdjustPlaybackEnd", scheme_adjust_playback_end);
-
+  install_scm_function (0, "Adjust end time for playback by passed number of seconds. Returns #f for bad parameter else returns the end time", DENEMO_SCHEME_PREFIX "AdjustPlaybackEnd", scheme_adjust_playback_end);
+  
   install_scm_function (0, "Pushes the Denemo clipboard (cut/copy buffer) onto a stack; Use d-PopClipboard to retrieve it.", DENEMO_SCHEME_PREFIX "PushClipboard", scheme_push_clipboard);
 
   install_scm_function (0, "Pops the Denemo clipboard (cut/copy buffer) from a stack created by d-PushClipboard. Returns #f if nothing on stack, else #t.", DENEMO_SCHEME_PREFIX "PopClipboard", scheme_pop_clipboard);

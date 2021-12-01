@@ -2199,6 +2199,8 @@ scheme_next_audio_timing (SCM optional)
 SCM
 scheme_audio_is_playing (void)
 {
+  if (is_playing ())
+	 return scm_from_double (Denemo.project->movement->playhead);
   return SCM_BOOL (/*audio_*/is_playing ()); //the  audio_is_playing() is AUBIO only, for playing source audio. So the name of this command d-AudioIsPlaying is now less than ideal.
 }
 
@@ -2706,7 +2708,7 @@ scheme_adjust_playback_start (SCM adj)
       if (Denemo.project->movement->start_time < 0.0)
         Denemo.project->movement->start_time = 0.0;
       else
-        ret = SCM_BOOL_T;
+        ret = scm_from_double (Denemo.project->movement->start_time);
     }
   fix_start_end_ordering ();
   return ret;
@@ -2719,15 +2721,13 @@ scheme_adjust_playback_end (SCM adj)
   if (scm_is_real (adj))
     {
       stop_midi_playback (NULL, NULL);
-      if (Denemo.project->movement->end_time > 0)
+      if (Denemo.project->movement->end_time >= 0)
         Denemo.project->movement->end_time += convert_and_adjust (adj);
-      if (Denemo.project->movement->end_time > 0.0)
-        ret = SCM_BOOL_T;
+      ret = scm_from_double (Denemo.project->movement->end_time);
     }
   fix_start_end_ordering ();
   return ret;
 }
-
 
 SCM
 scheme_get_help (SCM command)
