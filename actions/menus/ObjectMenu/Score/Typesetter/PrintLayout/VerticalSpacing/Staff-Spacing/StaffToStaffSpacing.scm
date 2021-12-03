@@ -1,7 +1,7 @@
-;StaffSpacing
+;StaffToSpacing
 (let ((choice (RadioBoxMenu (cons (_ "Spacing for Un-grouped staffs (no braces)") "UngroupedStaffSpacing")
                             (cons (_ "Spacing for Piano Staff") "PianoStaff")
-                            (cons (_ "Spacing for Group Staff") "GroupStaff")
+                            (cons (_ "Spacing for Staff Group") "StaffGroup")
                             (cons (_ "Spacing for Choir Staff") "ChoirStaff")
                             (cons (_ "Spacing for Grand Staff") "GrandStaff")))
         (tag #f)(context #f))
