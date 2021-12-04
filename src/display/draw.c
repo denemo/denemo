@@ -1646,6 +1646,8 @@ void draw_score (cairo_t * cr)
                     cairo_set_line_width (cr, 3);
                     cairo_rectangle (cr, (gui->leftmargin+35) - cmajor -2 , y-2, key + 2 * cmajor+4, STAFF_HEIGHT / 2 +4);
                     cairo_stroke (cr);
+                    cairo_set_source_rgb (cr, 0, 0, 1);
+                    drawlargetext_cr (cr, "♯", (gui->leftmargin+35) - cmajor -2 , y + 1.4 * STAFF_HEIGHT);
                     }
 
                 //cairo_set_source_rgb (cr, 1, 0.5, 0.5);
@@ -1659,6 +1661,8 @@ void draw_score (cairo_t * cr)
                     cairo_set_line_width (cr, 3);
                     cairo_rectangle (cr, (gui->leftmargin+35) - cmajor -2, y + STAFF_HEIGHT / 2 -2, key + 2 * cmajor +4, STAFF_HEIGHT / 2 +4);
                     cairo_stroke (cr);
+                    cairo_set_source_rgb (cr, 1, 0, 0);
+                    drawlargetext_cr (cr, "♭", (gui->leftmargin+35) - cmajor -2 , y + 1.5 * STAFF_HEIGHT);
                     }
 
 
