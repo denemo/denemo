@@ -330,7 +330,7 @@
 {"NextMovement", NULL, N_("Next Movement"), "",N_("Go to the next movement"),G_CALLBACK (next_movement)},
 {"PreviousMovement", NULL, N_("Previous Movement"), "",N_("Go to the previous movement"),G_CALLBACK (prev_movement)},
 {"DeleteMovement", NULL, N_("Delete Movement"), "",N_("Delete the current movement"),G_CALLBACK (delete_movement)},
-{"Play", GTK_STOCK_MEDIA_PLAY, N_("Play"), "",N_("Playback from start marker to end marker (Set these markers in the playback controls)"),G_CALLBACK (ext_midi_playback)},
+{"Play", GTK_STOCK_MEDIA_PLAY, N_("Play"), "",N_("Playback from start marker to end marker (Set these markers in the playback controls). Pause playback if already playing."),G_CALLBACK (ext_midi_playback)},
 {"Stop", GTK_STOCK_MEDIA_STOP, N_("Stop"), "",N_("Stop Playback"),G_CALLBACK (stop_midi_playback)},
 {"PlaybackProperties", GTK_STOCK_PROPERTIES, N_("Playback Properties"), "",N_("Allows you to specify properties used in playing back (midi)"),G_CALLBACK (playback_properties_change)},
 {"Help", NULL, N_("Browse Manual"), "",N_("Opens a browser on the user manual"),G_CALLBACK (browse_manual)},
