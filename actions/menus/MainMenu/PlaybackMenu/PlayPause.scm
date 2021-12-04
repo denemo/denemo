@@ -1,0 +1,2 @@
+;;PlayPause
+(DenemoAltPlay)

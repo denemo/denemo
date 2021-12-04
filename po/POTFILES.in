@@ -686,8 +686,6 @@ actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.scm
 actions/menus/MainMenu/PlaybackMenu/ConvertMidiForBass.xml
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.scm
 actions/menus/MainMenu/PlaybackMenu/DenemoPlayCursorToEnd.xml
-actions/menus/MainMenu/PlaybackMenu/MuteStaffs.scm
-actions/menus/MainMenu/PlaybackMenu/MuteStaffs.xml
 actions/menus/MainMenu/PlaybackMenu/Performance.scm
 actions/menus/MainMenu/PlaybackMenu/Performance.xml
 actions/menus/MainMenu/PlaybackMenu/PitchShift.scm
@@ -702,6 +700,8 @@ actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.scm
 actions/menus/MainMenu/PlaybackMenu/PlayAtCursor.xml
 actions/menus/MainMenu/PlaybackMenu/PlaybackView.scm
 actions/menus/MainMenu/PlaybackMenu/PlaybackView.xml
+actions/menus/MainMenu/PlaybackMenu/PlayPause.scm
+actions/menus/MainMenu/PlaybackMenu/PlayPause.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/AdjustTempoToMidiRecording.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/AdjustTempoToMidiRecording.xml
 actions/menus/MainMenu/PlaybackMenu/Recording/Audio/AudioPlay.scm
@@ -740,6 +740,8 @@ actions/menus/MainMenu/PlaybackMenu/Recording/ToggleMuteClickTrack.scm
 actions/menus/MainMenu/PlaybackMenu/Recording/ToggleMuteClickTrack.xml
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.scm
 actions/menus/MainMenu/PlaybackMenu/RecreateTimebase.xml
+actions/menus/MainMenu/PlaybackMenu/StopUnPause.scm
+actions/menus/MainMenu/PlaybackMenu/StopUnPause.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.scm
 actions/menus/MainMenu/PlaybackMenu/ToggleConduct.xml
 actions/menus/MainMenu/PlaybackMenu/ToggleImmediatePlayback.scm
@@ -1264,6 +1266,8 @@ actions/menus/ObjectMenu/MovementMenu/InsertMovement/AddMovement.scm
 actions/menus/ObjectMenu/MovementMenu/InsertMovement/AddMovement.xml
 actions/menus/ObjectMenu/MovementMenu/MvntComment.scm
 actions/menus/ObjectMenu/MovementMenu/MvntComment.xml
+actions/menus/ObjectMenu/MovementMenu/Playback/MuteStaffs.scm
+actions/menus/ObjectMenu/MovementMenu/Playback/MuteStaffs.xml
 actions/menus/ObjectMenu/MovementMenu/Playback/SetMovementTempo.scm
 actions/menus/ObjectMenu/MovementMenu/Playback/SetMovementTempo.xml
 actions/menus/ObjectMenu/MovementMenu/Playback/TransposeOnPlayback.scm

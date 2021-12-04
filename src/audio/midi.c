@@ -141,8 +141,8 @@ stop_playing (void)
   update_position (NULL);
   g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) update_playbutton_callback, NULL, NULL);
   playing = FALSE;
-  play_until = -G_MAXDOUBLE;
-
+  play_until = 0.0;
+	//play_until = -G_MAXDOUBLE;
   if (callback_script)
     {
       g_idle_add_full (G_PRIORITY_HIGH_IDLE, (GSourceFunc) stop_play_callback, g_string_free (callback_script, FALSE), NULL);

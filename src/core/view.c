@@ -639,6 +639,8 @@ inner_main (void *files)
     
     load_default_keymap_file (); //loads scripted commands and their shortcuts
 
+
+
     load_scheme_init ();
     if(!Denemo.non_interactive)
       readHistory ();
@@ -668,6 +670,20 @@ inner_main (void *files)
         g_free (code);
         denemo_scheme_init ();
       }
+      
+#ifdef G_OS_WIN32
+  //Windows doesn't do Pause correctly, script it instead
+  call_out_to_guile ("(set! DenemoPlay DenemoAltPlay)(set! DenemoStop DenemoAltStop)"); 
+  hide_action_of_name ("Play");
+  hide_action_of_name ("Stop"); 
+  call_out_to_guile ("(d-AddKeybinding \"PlayPause\" \"F5\")(d-AddKeybinding \"StopUnPause\" \"F6\")");  
+  g_print ( "Using Alt versions of Play and Stop\n");
+#else
+	hide_action_of_name ("PlayPause");
+	hide_action_of_name ("StopUnPause");
+#endif
+      
+      
   }
 
   //project related initializations
@@ -3138,13 +3154,21 @@ create_playbutton (GtkWidget * box, gchar * thelabel, gpointer callback, gchar *
   gtk_widget_set_tooltip_text (button, tooltip);
   return label;
 }
+static gboolean scheme_is_true (gchar *sym)
+{
+	return scm_is_true (scm_c_eval_string (sym));
+}
 
 static gboolean playbutton_icon (void)
 {
-	if (is_playing() && !is_paused ())
+	gboolean paused = is_paused () || scheme_is_true ("DenemoPaused?");
+	
+	if (is_playing() && (!paused))
 	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"dark orange\"><b>Ⅱ</b></span>");
 	else
-	  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>▶</b></span>");
+		paused?
+		  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"dark orange\"><b>▶</b></span>"):
+		  gtk_label_set_markup (GTK_LABEL (playbutton), "<span foreground=\"blue\"><b>▶</b></span>");
 	return FALSE;
 }
 void

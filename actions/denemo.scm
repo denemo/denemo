@@ -411,6 +411,45 @@
 (define (DenemoPlay)
   (DefaultDenemoPlay))
 
+;Scripted start stop - use on Windows.
+(define-once DenemoPaused? #f)
+(define-once DenemoPauseTime 0) ;time to start playing at when un-pausing
+(define-once DenemoPlayTime #f) ;time to start playing at when re-starting from beginning
+(define (DenemoAltPlay) 
+	(define playhead (d-AudioIsPlaying))
+	(if DenemoPaused?
+		(begin
+			(set! DenemoPaused? #f)
+			(if (not DenemoPlayTime)
+				(set! DenemoPlayTime (d-AdjustPlaybackStart 0.0)))
+			(d-SetPlaybackInterval DenemoPauseTime #f)
+			(d-Play "(disp \"Stopped play after pause\")(d-SetPlaybackInterval DenemoPauseTime #f)"))
+		(begin
+				(if playhead 
+					(begin ;pressing play while playing and not paused => pause
+						(d-Stop)
+						(if (not DenemoPlayTime)
+							(set! DenemoPlayTime (d-AdjustPlaybackStart 0.0)))
+						(set! DenemoPauseTime playhead)
+						  (d-SetPlaybackInterval DenemoPauseTime #f)
+						(set! DenemoPaused? #t))
+					(begin ;;pressing play when not playing
+						(if (not DenemoPaused?)
+							(begin
+								(set! DenemoPlayTime (d-AdjustPlaybackStart 0.0))
+								(d-Play "(disp \"Finished play from playback start\"  DenemoPlayTime  DenemoPaused?  DenemoPauseTime\"\\n\\n\"      )"))))))))
+	
+(define (DenemoAltStop)
+	(if (not DenemoPlayTime)
+		(set! DenemoPlayTime (d-AdjustPlaybackStart 0.0)))
+   (d-SetPlaybackInterval DenemoPlayTime #f)
+	(if DenemoPaused?
+			(set! DenemoPaused? #f)
+		(begin
+			(set! Playback::Loop #f)
+			(d-Stop))))
+
+
 (define (DenemoPause)
   (begin
     (display "DenemoPause")))

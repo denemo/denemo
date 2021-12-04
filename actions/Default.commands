@@ -75,6 +75,13 @@
         <_tooltip>Playback from start marker to end marker (Set these markers in the playback controls)</_tooltip>
       </row>
       <row type="builtin">
+        <action>Stop</action>
+        <after>Play</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Stop</_label>
+        <_tooltip>Stop Playback</_tooltip>
+      </row>
+      <row type="builtin">
         <action>MoreCommands</action>
         <menupath>/MainMenu/MoreMenu</menupath>
         <_label>More Commands</_label>
@@ -1813,12 +1820,7 @@ these may need re-making.</_tooltip>
         <_label>Delete Movement</_label>
         <_tooltip>Delete the current movement</_tooltip>
       </row>
-      <row type="builtin">
-        <action>Stop</action>
-        <menupath>/MainMenu/PlaybackMenu</menupath>
-        <_label>Stop</_label>
-        <_tooltip>Stop Playback</_tooltip>
-      </row>
+
       <row type="builtin">
         <action>PlaybackProperties</action>
         <_label>Playback Properties</_label>
@@ -8821,6 +8823,20 @@ Include rests if they are part of the pattern.
         <menupath>/MainMenu/ViewMenu/Toggles</menupath>
         <_label>Toggle Scheme View</_label>
         <_tooltip>Hides/Unhides the Scheme view</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>PlayPause</action>
+        <after>Play</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Play/Pause</_label>
+        <_tooltip>Plays from the playback start marker in the current movement or Pauses if playing</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>StopUnPause</action>
+        <after>Stop</after>
+        <menupath>/MainMenu/PlaybackMenu</menupath>
+        <_label>Stop/Forget Pause</_label>
+        <_tooltip>Stops the playback or cancels the Pause, restoring the original start playback marker position.</_tooltip>
       </row>
     </map>
   </merge>

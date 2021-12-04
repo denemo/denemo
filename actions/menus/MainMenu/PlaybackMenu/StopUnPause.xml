@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>StopUnPause</action>
+        <after>PlayPause</after>
+        <_label>Stop/Forget Pause</_label>
+        <_tooltip>Stops the playback or cancels the Pause, restoring the original start playback marker position.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
