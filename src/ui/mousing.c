@@ -80,7 +80,7 @@ offset_from_height (gdouble height, enum clefs clef)
   return 0;
 }
 
-
+//height of cursor relative the the current staff. 0 is the top line of the staff, 40 the bottom line
 static gdouble
 get_click_height (DenemoProject * gui, gdouble y)
 {
@@ -122,11 +122,46 @@ get_click_height (DenemoProject * gui, gdouble y)
   //g_print("top staff is %d total %d staffs from top is %d click %f\n", gui->movement->top_staff, extra_space, staffs_from_top, click_height);
 
   return click_height;
-
-
-
 }
+//height of cursor relative the staff hovered over. 0 is the top line of the staff, 40 the bottom line
+static gdouble
+get_click_height_on_closest_staff (DenemoProject * gui, gdouble y)
+{
+  gdouble click_height;
+  gint staffs_from_top;
+  staffs_from_top = 0;
+  GList *curstaff;
+  DenemoStaff *staff;
+  gint extra_space = 0;
+  gint space_below = 0;
+  gint i;
+  curstaff = g_list_nth (gui->movement->thescore, gui->movement->top_staff - 1);
 
+  if (!(((DenemoStaff *) (gui->movement->currentstaff->data))->voicecontrol & DENEMO_PRIMARY))
+    staffs_from_top--;
+
+  for (i=0; curstaff; i++, curstaff = curstaff->next)
+    {
+      staff = (DenemoStaff *) curstaff->data;
+      //g_print ("%d from top, staff %d extra space %d (next is %d %d  %d) previous space_below = %d)\n", i, gui->movement->currentstaffnum, extra_space, staff->space_above, staff->space_shorten, staff->space_below, space_below);
+
+      if ((curstaff != Denemo.project->movement->currentstaff) && staff->hidden) continue;
+      if (staff->voicecontrol & DENEMO_PRIMARY)
+        extra_space += (staff->space_above - (i?staff->space_shorten:0)
+          + space_below);
+      click_height = y - (gui->movement->staffspace * staffs_from_top + gui->movement->staffspace / 4 + extra_space);
+      if (click_height>0 && click_height<40)
+        break;
+      if (staff->voicecontrol & DENEMO_PRIMARY)
+        {
+          space_below = 0;
+          staffs_from_top++;
+        }
+      space_below = MAX (space_below, ((staff->space_below) + (staff->verse_views ? LYRICS_HEIGHT : 0)));
+     // g_print("after extra space %d space_below %d\n", extra_space, space_below);
+    }
+  return click_height;
+}
 /**
  * Set the cursor's y position from a mouse click
  *
@@ -820,7 +855,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
             gint key = gui->movement->maxkeywidth;
             gint cmajor = key ? 0 : 5;   
            
-            if (((gint) get_click_height (gui, event->y)<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
+            if (((gint) get_click_height_on_closest_staff (gui, event->y)<-10) && (event->x < (gui->leftmargin+35) + SPACE_FOR_TIME + key))
                  {   
                     struct placement_info pi;
                     if (event->y < 0)
@@ -842,7 +877,7 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
                     }
                 else if (event->x < (gui->leftmargin+35) + key + cmajor)   
                    {
-                       gint offset = (gint) get_click_height (gui, event->y);
+                       gint offset = (gint) get_click_height_on_closest_staff (gui, event->y);
                        if (offset > 0 && (offset < STAFF_HEIGHT / 2))  
                             Denemo.hovering_over_keysharpen = TRUE;
                        else if (offset > 0 && (offset < STAFF_HEIGHT))
