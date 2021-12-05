@@ -160,7 +160,7 @@ draw_key (cairo_t * cr, gint xx, gint y, gint number, gint prevnumber, gint dcle
           if (wetrun)
             draw_accidental (cr, xx, y + theys[i], 1);
 
-      if(prevnumber==0 && (number==0))
+      if(prevnumber==0 && (number==0) && !(Denemo.hovering_over_keysharpen||Denemo.hovering_over_keyflatten))
         {
              if(cr) drawtext_cr (cr, "(♮)", xx, y + STAFF_HEIGHT + 12, 18);
              xx += 20;
