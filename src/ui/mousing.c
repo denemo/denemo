@@ -123,7 +123,7 @@ get_click_height (DenemoProject * gui, gdouble y)
 
   return click_height;
 }
-//height of cursor relative the staff hovered over. 0 is the top line of the staff, 40 the bottom line
+//height of cursor relative the staff hovered over. 0 is the top line of the staff, STAFF_HEIGHT (ie 40) the bottom line
 static gdouble
 get_click_height_on_closest_staff (DenemoProject * gui, gdouble y)
 {
@@ -150,7 +150,7 @@ get_click_height_on_closest_staff (DenemoProject * gui, gdouble y)
         extra_space += (staff->space_above - (i?staff->space_shorten:0)
           + space_below);
       click_height = y - (gui->movement->staffspace * staffs_from_top + gui->movement->staffspace / 4 + extra_space);
-      if (click_height>0 && click_height<40)
+      if (click_height>0 && click_height<STAFF_HEIGHT)
         break;
       if (staff->voicecontrol & DENEMO_PRIMARY)
         {
