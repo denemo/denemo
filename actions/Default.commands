@@ -149,13 +149,13 @@
       </row>
       <row type="builtin">
         <action>ShrinkMeasures</action>
-        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
-        <_label>Shrink Measure</_label>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
+        <_label>Shrink Measures</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>
       <row type="builtin">
         <action>WidenMeasures</action>
-        <menupath>/ObjectMenu/MeasureMenu/DisplayEffects</menupath>
+        <menupath>/ObjectMenu/MovementMenu/DisplayEffects</menupath>
         <_label>Widen Measures</_label>
         <_tooltip>No Tooltip yet</_tooltip>
       </row>

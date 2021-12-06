@@ -974,10 +974,6 @@
         <bind>M,t</bind>
       </row>
       <row>
-        <action>MoveNoteToCursor</action>
-        <bind>MveL-Control</bind>
-      </row>
-      <row>
         <action>ToggleTripleting</action>
         <bind>Tab</bind>
       </row>

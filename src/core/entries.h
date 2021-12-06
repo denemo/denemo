@@ -84,7 +84,7 @@
 {"AppendMeasure", NULL, N_("Staff Append Measure"), "",N_("Append an empty measure at the end of the current staff"),G_CALLBACK (append_measure_key)},
 {"DeleteMeasure", NULL, N_("Staff Delete Measure"), "",N_("Delete the current measure in this staff, leaving the staff short"),G_CALLBACK (deletemeasure)},
 {"DeleteMeasureAllStaffs", NULL, N_("Delete Measure All Staffs"), "",N_("Delete the current measure in all staffs"),G_CALLBACK (deletemeasureallstaffs)},
-{"ShrinkMeasures", NULL, N_("Shrink Measure"), "",N_("No Tooltip yet"),G_CALLBACK (adjust_measure_less_width_key)},
+{"ShrinkMeasures", NULL, N_("Shrink Measures"), "",N_("No Tooltip yet"),G_CALLBACK (adjust_measure_less_width_key)},
 {"WidenMeasures", NULL, N_("Widen Measures"), "",N_("No Tooltip yet"),G_CALLBACK (adjust_measure_more_width_key)},
 {"ShorterStaffs", NULL, N_("Shorter Staffs"), "",N_("No Tooltip yet"),G_CALLBACK (adjust_staff_less_height_key)},
 {"TallerStaffs", NULL, N_("Taller Staffs"), "",N_("No Tooltip yet"),G_CALLBACK (adjust_staff_more_height_key)},
