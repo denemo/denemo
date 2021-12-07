@@ -28,6 +28,9 @@
 static gboolean lh_down;
 static gdouble last_event_x;
 static gdouble last_event_y;
+static gint drag_display_x;
+static gint drag_display_y;
+#define DRAG_SCALE (20) //to make the dragging less sensitive
 static DenemoDirective *last_directive;
 typedef enum DragDirection { DRAG_DIRECTION_NONE = 0, DRAG_DIRECTION_UP, DRAG_DIRECTION_DOWN, DRAG_DIRECTION_LEFT, DRAG_DIRECTION_RIGHT} DragDirection;
 static enum DragDirection dragging_outside = DRAG_DIRECTION_NONE; //dragging to left or right outside window.
@@ -435,6 +438,7 @@ perform_command (gint modnum, mouse_gesture press, gboolean left)
 
 static gboolean selecting = FALSE;
 static gboolean dragging_separator = FALSE;
+static gboolean dragging_display = FALSE;
 static gboolean dragging_recording_sync = FALSE;
 static gboolean dragging_tempo = FALSE;
 static gboolean motion_started = FALSE;//once dragging_xxx is true and a motion_notify has come in this becomes true. Becomes false when dragging_xxx becomes true
@@ -713,6 +717,32 @@ scorearea_motion_notify (GtkWidget * widget, GdkEventMotion * event)
       draw_score_area();
       return TRUE;
     }
+
+  if (dragging_display)
+    {
+      //g_print ("dragging display %d %d\n",(gint)event->x, (gint)event->y);
+      if (drag_display_x < 0)
+		{
+			drag_display_x = (gint)event->x/DRAG_SCALE;
+			drag_display_y = (gint)event->y/DRAG_SCALE;
+			return TRUE;
+		}
+	  if (drag_display_x > (gint)event->x/DRAG_SCALE)
+			call_out_to_guile ("(d-ShrinkMeasures)");
+	  if (drag_display_y > (gint)event->y/DRAG_SCALE)
+			call_out_to_guile ("(d-ShorterStaffs)");	
+		  if (drag_display_x < (gint)event->x/DRAG_SCALE)
+			call_out_to_guile ("(d-WidenMeasures)");
+	  if (drag_display_y < (gint)event->y/DRAG_SCALE)
+			call_out_to_guile ("(d-TallerStaffs)");		
+			
+	drag_display_x = (gint)event->x/DRAG_SCALE;
+	drag_display_y = (gint)event->y/DRAG_SCALE;
+				
+      draw_score_area();
+      return TRUE;
+    }
+
 
   if (line_height - ((int) event->y - 8) % line_height < 12)
 	   gdk_window_set_cursor (gtk_widget_get_window (Denemo.window), Denemo.GDK_SB_V_DOUBLE_ARROW);
@@ -1007,7 +1037,8 @@ gboolean activate_right_click (gint state)
  */
 gint
 scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
-{
+{ 
+	//g_print ("press with state %x\n", event->state);
   DenemoProject *gui = Denemo.project;
   if (gui == NULL || gui->movement == NULL)
     return FALSE;
@@ -1030,6 +1061,27 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
         return TRUE;
       }
   dragging_separator = FALSE;
+  
+   if (dragging_display == FALSE)
+    if (event->state & GDK_CONTROL_MASK)
+      {
+        if (Denemo.prefs.learning)
+          MouseGestureShow(_("Dragging measure width/staff spacing."), _("This will widen/narrow the measures/staffs in the display."),
+            MouseGesture);
+        dragging_display = TRUE;
+        static gboolean done;
+        if (!done)
+			{
+				done = TRUE;
+				assign_cursor ( 99, GDK_CROSS);
+			}
+        set_cursor_for (99);
+        return TRUE;
+      }
+  dragging_display = FALSE; 
+  drag_display_x = -1;//to reset
+  
+  
   if (gui->movement->top_staff == 1)
 	{
 	  if(gui->movement->recording && gui->movement->recording->type==DENEMO_RECORDING_AUDIO)
@@ -1493,6 +1545,15 @@ scorearea_button_release (GtkWidget * widget, GdkEventButton * event)
       dragging_separator = FALSE;
       return TRUE;
     }
+    
+  if (dragging_display)
+    {
+      dragging_display = FALSE;
+      return TRUE;
+    }
+     
+    
+    
 
 	if(gui->movement->recording && (event->y < HeightOfRecordingTrack*gui->movement->zoom) && midi_track_present ())
 	{

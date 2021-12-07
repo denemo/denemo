@@ -194,6 +194,27 @@ div.float-caption {
 	padding: 1ex;
 	margin: 1ex;
 }
+span.foot_label {
+	vertical-align: super;
+	font-size: smaller;
+	font-weight: bold;
+	text-decoration: underline;
+}
+div.foot {
+	display: inline;
+	font-size: small;
+	font-weight: medium;
+	font-family: serif;
+	font-variant: normal;
+	font-style: normal;
+}
+div.foot_inner { display: none; }
+div.foot:hover div.foot_inner {
+	display: block;
+	border: 1px double black;
+	margin: 0em 1em;
+	padding: 1em;
+}
 table {
 	border-collapse: collapse;
 	display: inline-block;
@@ -740,6 +761,7 @@ Markup</em> is text – e.&thinsp;g. titles – that can have additional charact
 <li class="itemize_item">Double click left-button describes the object clicked on.</li>
 <li class="itemize_item"><span style='font-family:monospace;'>Ctrl-Shift</span> left-button drag allow you to move stuff in the display if it is cluttered. Typesettting is not affected.</li>
 <li class="itemize_item"><span style='font-family:monospace;'>Ctrl-Shift</span> Key and Right mouse button gives the menu of directives to insert at the cursor.</li>
+<li class="itemize_item">Ctrl-left-button drag lets you cramp the measures and/or staffs to a narrower spacing in the Display.</li>
 </ul>
 <h3 class="subsection" id='magicparlabel-113'><span class="subsection_label">1.3</span> Some Common Uses of MIDI in</h3>
 <div class="standard" id='magicparlabel-114'>The MIDI keyboard too can be customized to perform different actions. Usually, playing notes adds or edits the score (like hitting note names at the pc-keyboard). With the sustain pedal pressed chords are generated (the Alt key can be used for this too). If the interval between the notes played is augmented or diminished it is played on a different channel, so that you are alerted to possible pitch spelling errors (e.&thinsp;g. inputting A-sharp for B-flat). By holding down the <span style='font-family:monospace;'>Ctrl</span> key a score can be checked by playing the notes – the cursor only advances if the correct note is played, and the <span style='font-family:monospace;'>Shift</span> key can be held down to route the MIDI keyboard straight to the output (e.&thinsp;g. to check a phrase before playing it in). There is a button in the MIDI-in Controls to do this too, as well as a control to set the range of sharps and flats to be used. With the &ldquo;Use Rhythm Entry for MIDI in&rdquo; checked, the duration keys create pure durations (notes colored yellow/brown) – you can enter as much of the rhythm as you wish, and then play the notes on top.</div>
@@ -765,7 +787,7 @@ Markup</em> is text – e.&thinsp;g. titles – that can have additional charact
 
 <div class="standard" id='magicparlabel-137'>The notes and chords are displayed in conventional format (though not fully typeset). The position of Denemo Directive objects in the music is marked with a &ldquo;stick and blob&rdquo; and it is accompanied either by a drawing (e.&thinsp;g. of a double barline) and/or some text to describe it. These are used for most things that are not chords or notes etc: Metronome marks, repeat barlines etc are good examples. In this example the caesura is a Denemo Directive object marked by the stick and blob before the last note and drawn on the staff in an approximate representation of its typeset appearance.</div>
 
-<div class="standard" id='magicparlabel-138'><img style='width:60%;' src='images/DenemoDirectives.png' alt='image: images/DenemoDirectives.png' />
+<div class="standard" id='magicparlabel-138'><img style='width:60%;' src='/images_DenemoDirectives.png' alt='image: /images_DenemoDirectives.png' />
 </div>
 
 <div class="standard" id='magicparlabel-139'>Denemo Directives can also be attached to chords, individual notes in a chord, to a staff, to a movement or to the score; in these cases the directive can be thought of as an attribute of the object it is attached to. In the above example the trill sign is attached to the second note and this directive can be inspected and edited using the Object Inspector<a href="#sec_The_Object_Inspector">10</a> and Object Editor <a href="#sec_Object_Editor">11</a>. Denemo Directives attached to the staff, movement or score can be inspected/edited too, using the relevant editors <a href="#sec_The_Score_and">12</a>, <a href="#sec_The_Staff_and">13</a>.</div>
@@ -784,7 +806,7 @@ Markup</em> is text – e.&thinsp;g. titles – that can have additional charact
 </div>
 <h2 class="section" id='magicparlabel-146'><span class="section_label">3</span> Denemo Main Window</h2>
 
-<div class='float-figure'><div class="plain_layout" id='magicparlabel-151'><span class='float-caption-Standard float-caption float-caption-standard'>Figure 1:  Denemo Main Window</span><img style='width:100%;' src='images/denemomain.png' alt='image: images/denemomain.png' />
+<div class='float-figure'><div class="plain_layout" id='magicparlabel-151'><span class='float-caption-Standard float-caption float-caption-standard'>Figure 1:  Denemo Main Window</span><img style='width:100%;' src='/images_denemomain.png' alt='image: /images_denemomain.png' />
 </div>
 </div>
 
@@ -800,7 +822,8 @@ Markup</em> is text – e.&thinsp;g. titles – that can have additional charact
  </h3>
 <div class="standard" id='magicparlabel-165'>The area showing the input music is called the Denemo display. It shows staffs and voices and the music interspersed with any Directives. The background is grayed out when the focus is elsewhere – click on the display to start typing in notes. The background is also colored when input from any attached MIDI keyboard is not being used for appending/editing the score (as it is by default).</div>
 
-<div class="standard" id='magicparlabel-166'>The default view has a single system stretching off the sides of the window – the actual division into lines and pages for the typeset score is done in the Print View<a href="#sec_The_Print_View">7</a>. In order to see more of the music on the screen at one time there are three changes to the default view you can make. Firstly by pressing the Esc key you can switch between three views, two of which have no menus taking up space. At the bottom of any of these is a red line which can be dragged up to split the display into separate lines. Using this you can display more bars of music at the expense of seeing more staffs for each system (the scrolling allows you to choose which staffs to concentrate on). As usual, this division into lines has nothing to do with the typeset view – widening the window will change the positions of the &ldquo;line breaks&rdquo; but have no effect on the final typeset score. Actual line breaks in the typeset are managed by the LilyPond typesetter and can be overruled by commands in the Directives menu.</div>
+<div class="standard" id='magicparlabel-166'>The default view has a single system stretching off the sides of the window – the actual division into lines and pages for the typeset score is done in the Print View<a href="#sec_The_Print_View">7</a>. In order to see more of the music on the screen at one time you can either cram the staffs and measures closer together (using Ctrl-Left-Drag) or choose from two alternative views you can make where the menus are hidden and/or the display is split into sections. To select these alternate views pressing Esc key twice <div class="foot"><span class="foot_label">1</span><div class="foot_inner"><div class="plain_layout" id='magicparlabel-4603'>the command being View-&gt;Hide/Show Menus</div>
+</div></div>will switch between three views, two of which have no menus taking up space. At the bottom of any of these is a red line which can be dragged up to split the display into separate lines. Using this you can display more bars of music at the expense of seeing more staffs for each system (the scrolling allows you to choose which staffs to concentrate on). As usual, this division into lines has nothing to do with the typeset view – widening the window will change the positions of the &ldquo;line breaks&rdquo; but have no effect on the final typeset score. Actual line breaks in the typeset are managed by the LilyPond typesetter and can be overruled by commands in the Directives menu.</div>
 
 <div class="standard" id='magicparlabel-167'>The second way of getting to see more of the music is simply to zoom the Denemo Display (Ctrl-mouse wheel is best). Again this is purely for the input display – you use commands in the Score and Directives menu to control the size of staffs, titles etc. in the final typeset score.</div>
 
@@ -964,42 +987,42 @@ s to move to the next primary staff.</div>
 </tr></thead>
 
 <tbody><tr><td align='center' valign='top'>
-<div class="plain_layout" id='magicparlabel-393'><img src='images/new.png' alt='image: images/new.png' />
+<div class="plain_layout" id='magicparlabel-393'><img src='/images_new.png' alt='image: /images_new.png' />
 </div>
 </td>
 <td style ="width: 80%;" align='left' valign='top'>
 <div class="plain_layout" id='magicparlabel-396'>Creates a new document.</div>
 </td>
 </tr><tr><td align='center' valign='top'>
-<div class="plain_layout" id='magicparlabel-399'><img src='images/open.png' alt='image: images/open.png' />
+<div class="plain_layout" id='magicparlabel-399'><img src='/images_open.png' alt='image: /images_open.png' />
 </div>
 </td>
 <td style ="width: 80%;" align='left' valign='top'>
 <div class="plain_layout" id='magicparlabel-402'>Opens the Open File dialog box.</div>
 </td>
 </tr><tr><td align='center' valign='top'>
-<div class="plain_layout" id='magicparlabel-405'><img src='images/save.png' alt='image: images/save.png' />
+<div class="plain_layout" id='magicparlabel-405'><img src='/images_save.png' alt='image: /images_save.png' />
 </div>
 </td>
 <td style ="width: 80%;" align='left' valign='top'>
 <div class="plain_layout" id='magicparlabel-408'>Saves the current file</div>
 </td>
 </tr><tr><td align='center' valign='top'>
-<div class="plain_layout" id='magicparlabel-411'><img src='images/print.png' alt='image: images/print.png' />
+<div class="plain_layout" id='magicparlabel-411'><img src='/images_print.png' alt='image: /images_print.png' />
 </div>
 </td>
 <td style ="width: 80%;" align='left' valign='top'>
 <div class="plain_layout" id='magicparlabel-414'>Runs LilyPond to convert the current file to PDF and sends it to the printer for printing</div>
 </td>
 </tr><tr><td align='center' valign='top'>
-<div class="plain_layout" id='magicparlabel-417'><img src='images/gotobegin.png' alt='image: images/gotobegin.png' />
+<div class="plain_layout" id='magicparlabel-417'><img src='/images_gotobegin.png' alt='image: /images_gotobegin.png' />
 </div>
 </td>
 <td style ="width: 80%;" align='left' valign='top'>
 <div class="plain_layout" id='magicparlabel-420'>Jumps to the first measure of the movement.</div>
 </td>
 </tr><tr><td align='center' valign='top'>
-<div class="plain_layout" id='magicparlabel-423'><img src='images/gotoend.png' alt='image: images/gotoend.png' />
+<div class="plain_layout" id='magicparlabel-423'><img src='/images_gotoend.png' alt='image: /images_gotoend.png' />
 </div>
 </td>
 <td style ="width: 80%;" align='left' valign='top'>
@@ -1012,7 +1035,7 @@ s to move to the next primary staff.</div>
 <h3 class="subsection" id='magicparlabel-427'><span class="subsection_label">3.4</span> Playback Controls<a id='magicparlabel-431' />
 <a id="subsec_Playback_Controls" />
 </h3>
-<div class="standard" id='magicparlabel-432'><img style='width:70%;' src='images/playbackcontrols.png' alt='image: images/playbackcontrols.png' />
+<div class="standard" id='magicparlabel-432'><img style='width:70%;' src='/images_playbackcontrols.png' alt='image: /images_playbackcontrols.png' />
 </div>
 
 <div class="standard" id='magicparlabel-433'>As with all controls and menu items you should hover over the buttons with the mouse to get an explanation of what they do.</div>
@@ -1038,7 +1061,7 @@ s to move to the next primary staff.</div>
 <h3 class="subsection" id='magicparlabel-447'><span class="subsection_label">3.5</span> Midi In Controls<a id='magicparlabel-451' />
  <a id="subsec_Midi_In_Controls" />
 </h3>
-<div class="standard" id='magicparlabel-452'><img src='images/MidiInControls.png' alt='image: images/MidiInControls.png' />
+<div class="standard" id='magicparlabel-452'><img src='/images_MidiInControls.png' alt='image: /images_MidiInControls.png' />
 </div>
 
 <div class="standard" id='magicparlabel-453'>These are the controls for a MIDI keyboard attached to the computer. You should set the MIDI InputDevice to your device in the Preferences to be sure all features are working.</div>
@@ -1268,14 +1291,14 @@ s are here too with control over their numbering.</div>
 
 <div class="standard" id='magicparlabel-865'>The buttons are not just for mouse users – palette buttons can be executed by typing <span style='font-family:monospace;'>p</span> followed by (part of) the label of the button followed by the <span style='font-family:monospace;'>Enter <em>or</em> Return</span> key. The entry for keying in a palette label looks like this:</div>
 
-<div class="standard" id='magicparlabel-866'><img src='images/PaletteEntry.png' alt='image: images/PaletteEntry.png' />
+<div class="standard" id='magicparlabel-866'><img src='/images_PaletteEntry.png' alt='image: /images_PaletteEntry.png' />
 </div>
 
 <div class="standard" id='magicparlabel-867'>At the top is the name of the palette that is active, in this case the &ldquo;General&rdquo; palette. You can switch to a different palette with TAB – the palette does not have to be displayed on the screen, but if you type a label that does not exist it will be shown to remind you.</div>
 
 <div class="standard" id='magicparlabel-868'>To make full use of the keyboard for executing commands from your palettes you should edit the labels so that they are easy to type &amp; memorable. Put the shorter ones first as you do not need to type all of the label, just enough to select the needed button. Right-clicking on a palette button allows you to edit the button, changing the label or tooltip, duplicating the button (e.&thinsp;g. to create an edited version of its script) and more, as in the following popup:</div>
 
-<div class="standard" id='magicparlabel-869'><img style='width:60%;' src='images/PaletteMenu.png' alt='image: images/PaletteMenu.png' />
+<div class="standard" id='magicparlabel-869'><img style='width:60%;' src='/images_PaletteMenu.png' alt='image: /images_PaletteMenu.png' />
 </div>
 
 <div class="standard" id='magicparlabel-870'>You can also edit the palette itself by right clicking on any button and choosing the Edit this Palette submenu (shown open above). You can make the palette fill up horizontally or vertically and restrict the number of columns/rows respectively. You can dock/undock palettes as well and hide palettes that are not needed (you can also hide undocked palettes by dismissing their window).</div>
@@ -1289,31 +1312,31 @@ s are here too with control over their numbering.</div>
 <div class="standard" id='magicparlabel-874'>Changes you make to palettes are automatically saved when you end the session. (They are stored in a file called palettes.xml, which can be edited directly by the more techie-minded).</div>
 <h3 class="subsection" id='magicparlabel-875'><span class="subsection_label">4.1</span> Articulations<a id='magicparlabel-879' />
  Palette</h3>
-<div class="standard" id='magicparlabel-880'><img src='images/ArticulationsPalette.png' alt='image: images/ArticulationsPalette.png' />
+<div class="standard" id='magicparlabel-880'><img src='/images_ArticulationsPalette.png' alt='image: /images_ArticulationsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-881'>These buttons turn on/off the articulation. These will apply to the entire selection if you have one and you have the preference<a href="#subsec_The_Command_Tab">16.2</a> for that set. Outside slur moves the articulation outside an enclosing slur.</div>
 <h3 class="subsection" id='magicparlabel-882'><span class="subsection_label">4.2</span> Barline<a id='magicparlabel-886' />
 s Palette</h3>
-<div class="standard" id='magicparlabel-887'><img src='images/BarlinesPalette.png' alt='image: images/BarlinesPalette.png' />
+<div class="standard" id='magicparlabel-887'><img src='/images_BarlinesPalette.png' alt='image: /images_BarlinesPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-888'>These insert barlines – note only one barline can be at one moment in the music. The Custom button creates a new barline type, specifying the appearance in mid system, end of system, start of system and between staffs.</div>
 <h3 class="subsection" id='magicparlabel-889'><span class="subsection_label">4.3</span> Beaming<a id='magicparlabel-893' />
  Palette</h3>
-<div class="standard" id='magicparlabel-894'><img src='images/BeamingPalette.png' alt='image: images/BeamingPalette.png' />
+<div class="standard" id='magicparlabel-894'><img src='/images_BeamingPalette.png' alt='image: /images_BeamingPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-895'>The ? button gives the overview for this palette. Rules can be set via a dialog with exceptions derived from the selection.</div>
 <h3 class="subsection" id='magicparlabel-896'><span class="subsection_label">4.4</span> Chord Symbols<a id='magicparlabel-900' />
  Palette</h3>
-<div class="standard" id='magicparlabel-901'><img src='images/ChordSymbolsPalette.png' alt='image: images/ChordSymbolsPalette.png' />
+<div class="standard" id='magicparlabel-901'><img src='/images_ChordSymbolsPalette.png' alt='image: /images_ChordSymbolsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-902'>The ? button gives the overview for this palette.</div>
 <h3 class="subsection" id='magicparlabel-903'><span class="subsection_label">4.5</span> Insert or Append Chords Palette<a id="subsec_Insert_Chords" />
 </h3>
-<div class="standard" id='magicparlabel-904'><img src='images/InsertOrAppendChords.png' alt='image: images/InsertOrAppendChords.png' />
+<div class="standard" id='magicparlabel-904'><img src='/images_InsertOrAppendChords.png' alt='image: /images_InsertOrAppendChords.png' />
 </div>
 
 <div class="standard" id='magicparlabel-905'>This palette inserts a chord of the given type using the <em>prevailing duration</em><a id='magicparlabel-909' />
@@ -1324,56 +1347,56 @@ s Palette</h3>
  menu). You can create additional chord types for this palette using the command View-&gt;Palettes-&gt;Create Button for Chord Type.</div>
 <h3 class="subsection" id='magicparlabel-934'><span class="subsection_label">4.6</span> Custom Ornaments<a id='magicparlabel-938' />
  Palette</h3>
-<div class="standard" id='magicparlabel-939'><img src='images/CustomOrnamentsPalette.png' alt='image: images/CustomOrnamentsPalette.png' />
+<div class="standard" id='magicparlabel-939'><img src='/images_CustomOrnamentsPalette.png' alt='image: /images_CustomOrnamentsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-940'>Custom ornaments can be created as encapsulated postscript files using the same methods as graphic title pages. If you have a vector graphics editor (e.&thinsp;g. inkscape) installed and in your Preferences (Externals tab, Graphics Editor) then you can edit from within Denemo. As usual hover over the buttons for instructions.</div>
 <h3 class="subsection" id='magicparlabel-941'><span class="subsection_label">4.7</span> Dynamics<a id='magicparlabel-945' />
  Palette</h3>
-<div class="standard" id='magicparlabel-946'><img src='images/DynamicsPalette.png' alt='image: images/DynamicsPalette.png' />
+<div class="standard" id='magicparlabel-946'><img src='/images_DynamicsPalette.png' alt='image: /images_DynamicsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-947'>The cresc - - - and dim - - - buttons start or continue textual crescendi/diminuendi – texts such as poco a poco can be inserted and the - - - can finish on a dynamic marking or an end cresc/dim marker.</div>
 <h3 class="subsection" id='magicparlabel-948'><span class="subsection_label">4.8</span> Figured Bass<a id='magicparlabel-952' />
  Palette</h3>
-<div class="standard" id='magicparlabel-953'><img src='images/FiguredBassPalette.png' alt='image: images/FiguredBassPalette.png' />
+<div class="standard" id='magicparlabel-953'><img src='/images_FiguredBassPalette.png' alt='image: /images_FiguredBassPalette.png' />
 </div>
 <h3 class="subsection" id='magicparlabel-954'><span class="subsection_label">4.9</span> MIDI Import Palette</h3>
-<div class="standard" id='magicparlabel-955'><img src='images/MidiImportPalette.png' alt='image: images/MidiImportPalette.png' />
+<div class="standard" id='magicparlabel-955'><img src='/images_MidiImportPalette.png' alt='image: /images_MidiImportPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-956'>This palette is for guided MIDI import. The instructions are in the tooltips.</div>
 <h3 class="subsection" id='magicparlabel-957'><span class="subsection_label">4.10</span> Ornaments<a id='magicparlabel-961' />
  Palette</h3>
-<div class="standard" id='magicparlabel-962'><img src='images/OrnamentsPalette.png' alt='image: images/OrnamentsPalette.png' />
+<div class="standard" id='magicparlabel-962'><img src='/images_OrnamentsPalette.png' alt='image: /images_OrnamentsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-963'>Note that there is a separate custom ornaments palette.</div>
 <h3 class="subsection" id='magicparlabel-964'><span class="subsection_label">4.11</span> Piano/Organ Notation Palette</h3>
-<div class="standard" id='magicparlabel-965'><img src='images/PianofortePalette.png' alt='image: images/PianofortePalette.png' />
+<div class="standard" id='magicparlabel-965'><img src='/images_PianofortePalette.png' alt='image: /images_PianofortePalette.png' />
 </div>
 <h3 class="subsection" id='magicparlabel-966'><span class="subsection_label">4.12</span> Polyphony<a id='magicparlabel-970' />
  Palette</h3>
-<div class="standard" id='magicparlabel-971'><img src='images/PolyphonyPalette.png' alt='image: images/PolyphonyPalette.png' />
+<div class="standard" id='magicparlabel-971'><img src='/images_PolyphonyPalette.png' alt='image: /images_PolyphonyPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-972'>These are the commands to control separate voice<a id='magicparlabel-976' />
 s that appear on a single staff. The voices are best displayed on separate staffs in the Denemo display to ease the editing.</div>
 <h3 class="subsection" id='magicparlabel-977'><span class="subsection_label">4.13</span> Repeats<a id='magicparlabel-981' />
  Palette</h3>
-<div class="standard" id='magicparlabel-982'><img src='images/RepeatsPalette.png' alt='image: images/RepeatsPalette.png' />
+<div class="standard" id='magicparlabel-982'><img src='/images_RepeatsPalette.png' alt='image: /images_RepeatsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-983'>The Nth time repeat can be used to hold any needed text. If an repeat alternative is less than a bar the Short Measure command can be used, and the bar number adjusted if needed.</div>
 <h3 class="subsection" id='magicparlabel-984'><span class="subsection_label">4.14</span> Stringed Instruments Palette</h3>
-<div class="standard" id='magicparlabel-985'><img src='images/StringedInstrumentsPalette.png' alt='image: images/StringedInstrumentsPalette.png' />
+<div class="standard" id='magicparlabel-985'><img src='/images_StringedInstrumentsPalette.png' alt='image: /images_StringedInstrumentsPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-986'>Here are commands for fingerings<a id='magicparlabel-990' />
 , string numbers etc. These are attached to individual notes (place the cursor on the note).</div>
 <h3 class="subsection" id='magicparlabel-991'><span class="subsection_label">4.15</span> Tied Notes/Chords Palette<a id='magicparlabel-995' />
 </h3>
-<div class="standard" id='magicparlabel-996'><img src='images/TiesPalette.png' alt='image: images/TiesPalette.png' />
+<div class="standard" id='magicparlabel-996'><img src='/images_TiesPalette.png' alt='image: /images_TiesPalette.png' />
 </div>
 
 <div class="standard" id='magicparlabel-997'>Commands to insert ties<a id='magicparlabel-1001' />
@@ -1383,7 +1406,7 @@ s that appear on a single staff. The voices are best displayed on separate staff
 <h2 class="section" id='magicparlabel-1003'><span class="section_label">5</span> <a id="subsec_The_Command_Center" />
 The Command Center<a id='magicparlabel-1007' />
 </h2>
-<div class="standard" id='magicparlabel-1008'><img style='width:50%;' src='images/CommandCenter.png' alt='image: images/CommandCenter.png' />
+<div class="standard" id='magicparlabel-1008'><img style='width:50%;' src='/images_CommandCenter.png' alt='image: /images_CommandCenter.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1009'>In the View menu you can show the Command Center. This has a list of all the Denemo commands, hidden or not, with their shortcut(s). The box at the top left gives full details of the currently selected command and its location in the menu system. Below that is a search box for finding any command you need by matching words in its description or label. By choosing &ldquo;Fuzzy&rdquo; you will make the search less strict – one word could be missing.</div>
@@ -1410,7 +1433,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h2 class="section" id='magicparlabel-1029'><span class="section_label">7</span> The Print View Window<a id='magicparlabel-1033' />
 <a id="sec_The_Print_View" />
 </h2>
-<div class="standard" id='magicparlabel-1034'><img style='width:50%;' src='images/PrintView.png' alt='image: images/PrintView.png' />
+<div class="standard" id='magicparlabel-1034'><img style='width:50%;' src='/images_PrintView.png' alt='image: /images_PrintView.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1035'>The print view window is shown by checking View-&gt;Print View. This view shows the typeset score as it will be printed on paper. It also allows you to locate the place in the Denemo Display belonging to a particular note or mark in the score, start playing the music at any note and allows some graphical editing of the score. You can switch back to the Denemo Display by pressing Esc or Ctrl-w.</div>
@@ -1489,7 +1512,7 @@ The Command Center<a id='magicparlabel-1007' />
 
 <div class="standard" id='magicparlabel-1123'>To start play from a note just click on the notehead, click again to stop playback. To play a short passage click on a notehead and drag to where you want the playback to end. To loop-play hold the shift key down as you drag from the start to the end of the passage to be looped over. To position the Denemo cursor at a note or rest shift-click a the notehead.</div>
 
-<div class="standard" id='magicparlabel-1124'><img style='width:50%;' src='images/PlaybackView.png' alt='image: images/PlaybackView.png' />
+<div class="standard" id='magicparlabel-1124'><img style='width:50%;' src='/images_PlaybackView.png' alt='image: /images_PlaybackView.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1125'>The Play/Stop button plays the whole piece with repeats, (that is the same as the Performance command in the playback menu); if a performance is underway it stops it.</div>
@@ -1532,7 +1555,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h2 class="section" id='magicparlabel-1169'><span class="section_label">10</span> The Object Inspector<a id='magicparlabel-1173' />
 <a id="sec_The_Object_Inspector" />
 </h2>
-<div class="standard" id='magicparlabel-1174'><img src='images/ObjectInspector.png' alt='image: images/ObjectInspector.png' />
+<div class="standard" id='magicparlabel-1174'><img src='/images_ObjectInspector.png' alt='image: /images_ObjectInspector.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1175'>The Object Inspector is shown by clicking View-&gt;Object Inspector, or just double-clicking on an object in the Denemo Display. It gives comprehensive information about the object at the cursor. This includes directives like ornaments, dynamic markings, fingerings that may be attached to the object. For objects like notes and rests which start at a particular musical moment it also describes at what moment in the measure the note begins and what its duration is.</div>
@@ -1555,7 +1578,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h2 class="section" id='magicparlabel-1191'><span class="section_label">11</span> The Object Editor<a id='magicparlabel-1195' />
 <a id="sec_Object_Editor" />
 </h2>
-<div class="standard" id='magicparlabel-1196'><img style='width:50%;' src='images/ObjectEditor.png' alt='image: images/ObjectEditor.png' />
+<div class="standard" id='magicparlabel-1196'><img style='width:50%;' src='/images_ObjectEditor.png' alt='image: /images_ObjectEditor.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1197'>The Object Editor allows you to edit the current Denemo Object and also to create palette buttons for generating such objects.It can be launched from the Edit Menu or from the <a href="#sec_The_Object_Inspector">Section 10</a>.</div>
@@ -1599,7 +1622,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h2 class="section" id='magicparlabel-1249'><span class="section_label">12</span> The Score and Movement<a id='magicparlabel-1253' />
  Properties Editor<a id="sec_The_Score_and" />
 </h2>
-<div class="standard" id='magicparlabel-1254'><img style='width:45%;' src='images/ScorePropsEditor.png' alt='image: images/ScorePropsEditor.png' />
+<div class="standard" id='magicparlabel-1254'><img style='width:45%;' src='/images_ScorePropsEditor.png' alt='image: /images_ScorePropsEditor.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1255'>The score and movement editors allow you to edit global properties of the score or current movement. Use the Score menu to launch the editor with the Score properties expanded fully and the Movement menu to launch it with the Movement properties expanded – they are combined in a single window to make it easy to switch between them. Drag the separator if you need to switch between them. On the Movement Editor pane there are buttons to change movement, so you can continue editing without re-starting the editor.</div>
@@ -1620,7 +1643,7 @@ The Command Center<a id='magicparlabel-1007' />
  Properties Editor<a id="sec_The_Staff_and" />
 <a id='magicparlabel-1288' />
 </h2>
-<div class="standard" id='magicparlabel-1297'><img style='width:45%;' src='images/StaffVoicePropsEditor.png' alt='image: images/StaffVoicePropsEditor.png' />
+<div class="standard" id='magicparlabel-1297'><img style='width:45%;' src='/images_StaffVoicePropsEditor.png' alt='image: /images_StaffVoicePropsEditor.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1298'>A &ldquo;tools&rdquo; icon is drawn at the start of the staff. Clicking on this opens the Staff and Voice Properties Editor. As with the Score and Movement Properties editor these are combined as two panes in one window – often you won't be sure if the property is one set on the Staff or the Voice belonging to the staff, so this makes it easy to look at both. Drag the separator if you need to make more space for one of them. </div>
@@ -1661,7 +1684,7 @@ The Command Center<a id='magicparlabel-1007' />
 
 <div class="standard" id='magicparlabel-1345'>For more extensive facilities in choosing how to lay out the elements of your score when typeset you can open the Score Layouts window.</div>
 
-<div class="standard" id='magicparlabel-1346'><img style='width:75%;' src='images/ScoreLayout.png' alt='image: images/ScoreLayout.png' />
+<div class="standard" id='magicparlabel-1346'><img style='width:75%;' src='/images_ScoreLayout.png' alt='image: /images_ScoreLayout.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1347'>The score layouts window is shown by checking View-&gt;Score Layout. </div>
@@ -1682,7 +1705,7 @@ The Command Center<a id='magicparlabel-1007' />
 </h2>
 <div class="standard" id='magicparlabel-1366'>Under the Edit menu is a command to invoke the preferences dialog.</div>
 
-<div class="standard" id='magicparlabel-1367'><img style='width:80%;' src='images/PreferencesDialog.png' alt='image: images/PreferencesDialog.png' />
+<div class="standard" id='magicparlabel-1367'><img style='width:80%;' src='/images_PreferencesDialog.png' alt='image: /images_PreferencesDialog.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1368'>This is arranged in tabs for the different aspects that you can set.</div>
@@ -1690,26 +1713,26 @@ The Command Center<a id='magicparlabel-1007' />
 <div class="standard" id='magicparlabel-1370'>The values set via the View menu are mostly <em>persistent </em>and so don't need to be set here, they can be set via the View menu. There is a setting in the miscellaneous tab for this persistence property.</div>
 <h3 class="subsection" id='magicparlabel-1371'><span class="subsection_label">16.2</span> The Command Tab<a id="subsec_The_Command_Tab" />
 </h3>
-<div class="standard" id='magicparlabel-1372'><img style='width:80%;' src='images/CommandTab.png' alt='image: images/CommandTab.png' />
+<div class="standard" id='magicparlabel-1372'><img style='width:80%;' src='/images_CommandTab.png' alt='image: /images_CommandTab.png' />
 </div>
 
 
 
 <div class="standard" id='magicparlabel-1374'>Here are options for how commands should be treated. The can apply to the note at the cursor or the whole selection. A note entered that does not fit in the bar can be split or not. Shortcuts can be set just by highlighting the command and pressing the key, or not. Menu navigation with arrow keys can be allowed (otherwise you would be setting the arrow keys as shortcuts). The Return key can be moved easily from command to command as a shortcut, or not. The &ldquo;newbie&rdquo; mode can be turned on – useful if you start to use a section of the program that is new to you. A window can be popped up to tell you which keypress you invoked. And finally the timing of the tooltips as you hover and move from one menu to another can be controlled.</div>
 <h3 class="subsection" id='magicparlabel-1375'><span class="subsection_label">16.3</span> The Externals Tab</h3>
-<div class="standard" id='magicparlabel-1376'><img style='width:80%;' src='images/ExternalsPref.png' alt='image: images/ExternalsPref.png' />
+<div class="standard" id='magicparlabel-1376'><img style='width:80%;' src='/images_ExternalsPref.png' alt='image: /images_ExternalsPref.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1377'>Here you can set the paths to external programs that you can use from Denemo. Binary packages have these set already, but if you wish to use a particular version of LilyPond or some other program to browse the manual then you will need to enter the name (preferably the full path) of the program concerned.</div>
 
 <div class="standard" id='magicparlabel-1378'>You can also set the default location for saving your scores. The update command set feature is not available at present.</div>
 <h3 class="subsection" id='magicparlabel-1379'><span class="subsection_label">16.4</span> The Auto-Typeset Tab</h3>
-<div class="standard" id='magicparlabel-1380'><img src='images/CommandTab.png' alt='image: images/CommandTab.png' />
+<div class="standard" id='magicparlabel-1380'><img src='/images_CommandTab.png' alt='image: /images_CommandTab.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1381'>This tab controls the continuous typesetting feature of the Print View<a href="#sec_The_Print_View">7</a>. Most of these can be set via the Continuous/Manual button in the Print View window, but here you can control how quickly Denemo checks for the need for a new typeset.</div>
 <h3 class="subsection" id='magicparlabel-1382'><span class="subsection_label">16.5</span> The Miscellaneous Tab</h3>
-<div class="standard" id='magicparlabel-1383'><img style='width:80%;' src='images/MiscellaneousPref.png' alt='image: images/MiscellaneousPref.png' />
+<div class="standard" id='magicparlabel-1383'><img style='width:80%;' src='/images_MiscellaneousPref.png' alt='image: /images_MiscellaneousPref.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1384'>The font used by Denemo for menus and dialogs tooltips etc can be set here: the default is a special font that makes it easy to read the musical signs – most fonts create 1/2 and 1/4 notes that are not easy to distinguish at a glance, the ones in the Denemo font are cartoon-like exagerations that make it easy to see what is meant. You can set the font size too – none of this affects the typeset score, naturally. Some menus that can become very large can be limited (a &ldquo;more&rdquo; button appears).</div>
@@ -1728,7 +1751,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h3 class="subsection" id='magicparlabel-1391'><span class="subsection_label">16.6</span> The Audio<a id='magicparlabel-1395' />
  Tab<a id="subsec_The_Audio_Tab" />
 </h3>
-<div class="standard" id='magicparlabel-1396'><img style='width:80%;' src='images/AudioPref.png' alt='image: images/AudioPref.png' />
+<div class="standard" id='magicparlabel-1396'><img style='width:80%;' src='/images_AudioPref.png' alt='image: /images_AudioPref.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1397'>This tab affects the sounds you will hear via a connected audio system. The first section is for feedback when entering music. If you are looking at a source manuscript while entering rhythms or notes you will not want to look across at the input display to check that you are still entering at the right part of the bar. The sound effect that tells you a new bar is beginning is set via the first field – it is one of the drum effects available in the default Denemo soundfont, number 72, change this to 0 to turn it off, or other values for a more discrete sound.</div>
@@ -1743,7 +1766,7 @@ The Command Center<a id='magicparlabel-1007' />
 <div class="standard" id='magicparlabel-1405'>The Maximum Recording Time is there to limit the amount of memory you gobble up if you turn on the Record<a href="#subsec_Playback_Controls">3.4</a> of the audio out. </div>
 <h3 class="subsection" id='magicparlabel-1406'><span class="subsection_label">16.7</span> The MIDI<a id='magicparlabel-1410' />
  tab</h3>
-<div class="standard" id='magicparlabel-1411'><img style='width:80%;' src='images/MidiPref.png' alt='image: images/MidiPref.png' />
+<div class="standard" id='magicparlabel-1411'><img style='width:80%;' src='/images_MidiPref.png' alt='image: /images_MidiPref.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1412'>Here are the controls for a connected MIDI controller<a id='magicparlabel-1416' />
@@ -1769,7 +1792,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h3 class="subsection" id='magicparlabel-1435'><span class="subsection_label">18.1</span> Simple Titles</h3>
 <div class="standard" id='magicparlabel-1436'>Simple titles allow you to place fields of text around the music. In this example the fields have been named &ldquo;xxx movement&rdquo; when they have been set from the movement titles otherwise they have been set in the score titles menu.</div>
 
-<div class="standard" id='magicparlabel-1437'><img src='images/SimpleTitles.png' alt='image: images/SimpleTitles.png' />
+<div class="standard" id='magicparlabel-1437'><img src='/images_SimpleTitles.png' alt='image: /images_SimpleTitles.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1438'>Each field can contain any text you need, with the Copyright field at the bottom of the first page, the Tagline field at the bottom of the last page and the Instrument field at the top of each page.</div>
@@ -1783,7 +1806,7 @@ The Command Center<a id='magicparlabel-1007' />
 <h3 class="subsection" id='magicparlabel-1446'><span class="subsection_label">18.2</span> Book Titles</h3>
 <div class="standard" id='magicparlabel-1447'>With Book Titles you get a title page with a border and then each movement can have titles of its own. </div>
 
-<div class="standard" id='magicparlabel-1448'><img style='width:20cm;' src='images/BookTitles.png' alt='image: images/BookTitles.png' />
+<div class="standard" id='magicparlabel-1448'><img style='width:20cm;' src='/images_BookTitles.png' alt='image: /images_BookTitles.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1449'>The music that appears on the title page can be selected from anywhere in the score, or omitted.</div>
@@ -1794,7 +1817,7 @@ Lyrics<a id='magicparlabel-1455' />
 </h2>
 <div class="standard" id='magicparlabel-1456'>Vocal music can be typeset using the commands in the Lyrics menu.</div>
 
-<div class="standard" id='magicparlabel-1457'><img style='width:50%;' src='images/Lyrics.png' alt='image: images/Lyrics.png' />
+<div class="standard" id='magicparlabel-1457'><img style='width:50%;' src='/images_Lyrics.png' alt='image: /images_Lyrics.png' />
 </div>
 <h4 class="subsubsection" id='magicparlabel-1458'><span class="subsubsection_label">19.0.1</span> Overview of Lyrics</h4>
 <div class="standard" id='magicparlabel-1459'>Lyrics in Denemo are handled as verses of text, each verse made up of syllables. The screenshot shows a piece with three lyric verses.</div>
@@ -1941,7 +1964,7 @@ Lyrics<a id='magicparlabel-1455' />
 <div class="standard" id='magicparlabel-1612'>For simple use Directives-&gt;Markings-&gt;Textual Annotation command may suffice. This allows you to place some text positioned above or below automatically or as you decide.</div>
 <h4 class="subsubsection" id='magicparlabel-1613'><span class="subsubsection_label">20.9.2</span> Multi-line Text and Music<a id="subsec_Multi_line_Text_and" />
 </h4>
-<div class="standard" id='magicparlabel-1614'><img style='width:20cm;' src='images/MultiLine.png' alt='image: images/MultiLine.png' />
+<div class="standard" id='magicparlabel-1614'><img style='width:20cm;' src='/images_MultiLine.png' alt='image: /images_MultiLine.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1615'>The most general command is Directives-&gt;Markings-&gt;Multi-line Text and Music. As the name implies, this is used to create markings that can include new lines, as well as music snippets<a href="#sec_Music_Snippets">6</a>, chord symbols, musical signs etc. </div>
@@ -2055,7 +2078,7 @@ A Survey of the Input Methods</h2>
 
 <div class="standard" id='magicparlabel-1721'>The default key shortcuts for the numeric keypad are illustrated here:</div>
 
-<div class="standard" id='magicparlabel-1722'><img src='images/NumericKeypad.jpg' alt='image: images/NumericKeypad.jpg' />
+<div class="standard" id='magicparlabel-1722'><img src='/images_NumericKeypad.jpg' alt='image: /images_NumericKeypad.jpg' />
 </div>
 
 <div class="standard" id='magicparlabel-1723'>Here I have actually stuck labels with the most used durations and over-drawn an indication of the others. (Keys 5 and 6 do the1/32 and 1/64th notes). The keypad 7 does triplets with a double press (so that it makes three presses for a triplet, e.&thinsp;g. Key 4, Key 7, Key 7 for a triplet of 1/16th notes). The dotted rhythm &ldquo;dottifies&rdquo; the current note whatever its duration is. Likewise the grace note key turns the current note into a grace note and the tie key turns tied status off/on for the current note. Keypad 8 fills the rest of the bar with the current note or rest, while Enter duplicates the current bar. The enharmonic shifts<a id='magicparlabel-1727' />
@@ -2081,7 +2104,7 @@ A Survey of the Input Methods</h2>
 
 <div class="standard" id='magicparlabel-1748'>The default keyboard is eight octaves around middle C which is highlighted by the letter C engraved on its keyhead. The Virtual Keyboard window can be scrolled to access other parts of the keyboard and made as wide as needed.</div>
 
-<div class="standard" id='magicparlabel-1749'><img src='images/VirtualKeyboard.png' alt='image: images/VirtualKeyboard.png' />
+<div class="standard" id='magicparlabel-1749'><img src='/images_VirtualKeyboard.png' alt='image: /images_VirtualKeyboard.png' />
 </div>
 <h3 class="subsection" id='magicparlabel-1750'><span class="subsection_label">21.4</span> Using the Denemo From the PC keyboard</h3>
 <h4 class="subsubsection" id='magicparlabel-1751'><span class="subsubsection_label">21.4.1</span> Note Entry</h4>
@@ -2129,7 +2152,7 @@ A Survey of the Input Methods</h2>
 <div class="standard" id='magicparlabel-1783'>If you have a PDF<a id='magicparlabel-1787' />
  of music you wish to transcribe with Denemo you can display it within Denemo and create links between the source material and your transcrition. This means that when you later review your work you can quickly locate which point in the original manuscript belongs to which point in your transcription. In the screenshot the Print View window is shown on the left with the facsimile on the right. The Print View is a Custom Layout showing the chords both as notation and as chord symbols (as well as the original figures). The blue marker shows the position of the link that was clicked on to open the facsimile at the right place. Note that the piece is also being typeset in a different key – that is just another aspect of this custom layout. Everything – including the chord symbols are automatically adjusted.</div>
 
-<div class="standard" id='magicparlabel-1788'><img style='width:50%;' src='images/SourceView.png' alt='image: images/SourceView.png' />
+<div class="standard" id='magicparlabel-1788'><img style='width:50%;' src='/images_SourceView.png' alt='image: /images_SourceView.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1789'>Select the File-&gt;Open menu and the item Open a Source for Transcribing. Select the PDF containing the music to be transcribed from. The PDF is opened in a Source View<a id='magicparlabel-1793' />
@@ -2312,7 +2335,7 @@ s-&gt;Voices menu for placing more than one voice on a staff. You can set the in
 <h2 class="section" id='magicparlabel-1990'><span class="section_label">30</span> <a id="sec_Writing_Scheme_Scripts" />
 Writing Scheme<a id='magicparlabel-1994' />
  Scripts </h2>
-<div class="standard" id='magicparlabel-1995'><img src='images/SchemeWindow.png' alt='image: images/SchemeWindow.png' />
+<div class="standard" id='magicparlabel-1995'><img src='/images_SchemeWindow.png' alt='image: /images_SchemeWindow.png' />
 </div>
 
 <div class="standard" id='magicparlabel-1996'>If you are a programmer you will have guessed that you can edit the Scheme Script window to create any command you want. Even if you are not familiar with Scheme you may find that you can adapt other scripts to do what you want.</div>

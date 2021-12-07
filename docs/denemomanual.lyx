@@ -930,6 +930,11 @@ Ctrl-Shift
  cursor.
 \end_layout
 
+\begin_layout Itemize
+Ctrl-left-button drag lets you cramp the measures and/or staffs to a narrower
+ spacing in the Display.
+\end_layout
+
 \begin_layout Subsection
 Some Common Uses of MIDI in
 \end_layout
@@ -1366,10 +1371,21 @@ reference "sec:The-Print-View"
 \end_inset
 
 .
- In order to see more of the music on the screen at one time there are three
- changes to the default view you can make.
- Firstly by pressing the Esc key you can switch between three views, two
- of which have no menus taking up space.
+ In order to see more of the music on the screen at one time you can either
+ cram the staffs and measures closer together (using Ctrl-Left-Drag) or
+ choose from two alternative views you can make where the menus are hidden
+ and/or the display is split into sections.
+ To select these alternate views pressing Esc key twice 
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+the command being View->Hide/Show Menus
+\end_layout
+
+\end_inset
+
+will switch between three views, two of which have no menus taking up space.
  At the bottom of any of these is a red line which can be dragged up to
  split the display into separate lines.
  Using this you can display more bars of music at the expense of seeing
