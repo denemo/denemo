@@ -402,39 +402,39 @@ scorearea_keypress_event (GtkWidget * widget, GdkEventKey * event)
 }
 
 /**
- * Reduce the measure width by 10 pixels
+ * Reduce the measure width by 2 pixels
  */
 void
 adjust_measure_less_width_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  adjustmeasurewidth (Denemo.project->movement, -10);
+  adjustmeasurewidth (Denemo.project->movement, -2);
 }
 
 /**
- * Enlarge the measure width by 10 pixels
+ * Enlarge the measure width by 2 pixels
  */
 void
 adjust_measure_more_width_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  adjustmeasurewidth (Denemo.project->movement, 10);
+  adjustmeasurewidth (Denemo.project->movement, 2);
 }
 
 /**
- * Reduce the staff height by 10 pixels
+ * Reduce the staff height by 2 pixels
  */
 void
 adjust_staff_less_height_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  adjuststaffheight (Denemo.project->movement, -10);
+  adjuststaffheight (Denemo.project->movement, -2);
 }
 
 /**
- * Enlarge the staff height by 10 pixels
+ * Enlarge the staff height by 2 pixels
  */
 void
 adjust_staff_more_height_key (DenemoAction* action, DenemoScriptParam *param)
 {
-  adjuststaffheight (Denemo.project->movement, 10);
+  adjuststaffheight (Denemo.project->movement, 2);
 
 }
 
