@@ -571,8 +571,6 @@ add_verse_to_staff (DenemoMovement * movement, DenemoStaff * staff)
         //FIXME we need a proper way of getting to the top vbox, that will not break when scorearea is moved in the widget hierarchy.
         install_lyrics_preview (movement, gtk_widget_get_parent (gtk_widget_get_parent (Denemo.scorearea)));
       gtk_box_pack_start (GTK_BOX (movement->lyricsbox), notebook, TRUE, TRUE, 0);
-      if (movement->measurewidth == DENEMO_INITIAL_MEASURE_WIDTH)
-        movement->measurewidth = DENEMO_INITIAL_MEASURE_WIDTH * 3;
     }
   else
     {
