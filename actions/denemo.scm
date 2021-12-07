@@ -1544,7 +1544,7 @@
             ((mute) (d-MuteStaff))
             ((show) (d-NonPrintingStaff))
             ((display) (d-ToggleCurrentStaffDisplay))
-            ((reset) (begin (d-StaffSetSpaceAbove -1)))
+            ((reset) (begin (d-InfoDialog (_ "Staff spacing will be automatically adjusted"))(d-StaffSetSpaceAbove -1)))
             ((editor) (d-StaffProperties)))))
 ;;;;edit movement, called from tools icon at top left of display area
 (define (EditMovement)
