@@ -1063,7 +1063,7 @@ scorearea_button_press (GtkWidget * widget, GdkEventButton * event)
   dragging_separator = FALSE;
   
    if (dragging_display == FALSE)
-    if (event->state & GDK_CONTROL_MASK)
+    if (left && (event->state == GDK_CONTROL_MASK))
       {
         if (Denemo.prefs.learning)
           MouseGestureShow(_("Dragging measure width/staff spacing."), _("This will widen/narrow the measures/staffs in the display."),
