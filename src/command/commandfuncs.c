@@ -156,12 +156,12 @@ nudgerightward (DenemoProject * gui)
 }
 
 /**
- * Push the score upwards off the displayed
- * portion
+ * Show as many staffs as possible vertically always including the current one
  */
 void
 nudge_downward (DenemoProject * gui)
 {
+  gui->movement->top_staff = 1;
   set_bottom_staff (gui);
 
   while (gui->movement->currentstaffnum > gui->movement->bottom_staff)
