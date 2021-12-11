@@ -320,7 +320,7 @@ delete_movement (DenemoAction * action, DenemoScriptParam* param)
       gint num = g_list_index (gui->movements, gui->movement);
       g_string_printf (primary, _("This is movement #%d"), num + 1);
       g_string_assign (secondary, _("Delete entire movement?"));
-      if (param || confirm (primary->str, secondary->str))
+      if (param || gui->movement->sketch || confirm (primary->str, secondary->str))
         {
           gui->movement->undo_guard = 1;  //no undo as that is per movement
           free_movement (gui);
