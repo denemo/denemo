@@ -584,6 +584,7 @@ open_source (gchar * filename, gint x, gint y, gint page)
   gboolean ret = position_view (eview, x, y, page);
   GtkWidget *spinner = (GtkWidget *)g_object_get_data (G_OBJECT (eview), "spinner");
   gtk_spin_button_set_value (GTK_SPIN_BUTTON(spinner), page+1.0);
+  write_status (Denemo.project);
   switch_back_to_main_window ();
   return ret;
 }
