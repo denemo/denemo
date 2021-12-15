@@ -2301,6 +2301,21 @@ gchar *get_chord_notes (void) {
 return NULL;
 }
 
+/*
+ * Truncate a label widget's text to fit the widget's width. FIXME very rough guess as to width - pango calls needed to do this properly.
+ */
+void truncate_label (GtkWidget *label, gchar *str)
+	{
+	GdkRectangle alloc;
+	gtk_widget_get_allocation (label, &alloc);
+	gint width = (1.75 * alloc.width)/(Denemo.prefs.fontsize);
+	//g_print ("Truncate label: alloc is %d number of chars = %d???\n\n\n", alloc.width, (3*alloc.width)/(2*Denemo.prefs.fontsize));
+	if (strlen (str) > width) 
+		{
+			str[width-3] = '.';str[width-2] = '.';str[width-1] = '.';str[width-1] = 0;
+		}
+}
+
 
 /****************
  * write the status bar
@@ -2469,6 +2484,9 @@ write_status (DenemoProject * gui)
   gchar *end_valid;
   if (!g_utf8_validate (status->str, -1, (const gchar **) &end_valid))
     *end_valid = '\0';
+    
+  if (status->len > 20)
+	truncate_label (Denemo.statuslabel, status->str);
   gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), status->str);
 
   g_string_free (status, TRUE);
@@ -2480,7 +2498,7 @@ write_input_status (void)
 {
   if (Denemo.non_interactive)
     return;
-  gtk_label_set_markup (GTK_LABEL (Denemo.input_label), Denemo.input_filters->str);
+  gtk_label_set_markup (GTK_LABEL (Denemo.input_label), Denemo.input_filters->str);//this string contains markup so truncate_label() cannot be used
 }
 
 /**
