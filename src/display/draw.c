@@ -264,10 +264,10 @@ draw_object (cairo_t * cr, objnode * curobj, gint x, gint y, DenemoProject * gui
         cairo_save (cr);
   // if curobj->next is NULL then we may be hovering over the barline we need to detect this in mousing.c and set object_hovering_over to a dummy barline object???, then draw here     
         cairo_set_source_rgba (cr, 0.5, 0.5, 0.9, 0.3);
-        cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, mudelaitem->minpixelsalloted, 0.0, 2 * M_PI);
+        cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, 20.00, 0.0, 2 * M_PI);
         cairo_fill (cr);
         cairo_set_source_rgba (cr, 0.2, 0.2, 0.9, 1);
-        cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, mudelaitem->minpixelsalloted, 0.0, 2 * M_PI);
+        cairo_arc (cr, x + mudelaitem->x +  mudelaitem->minpixelsalloted/2, y + 20, 20.00, 0.0, 2 * M_PI);
         cairo_stroke (cr);
           
         
