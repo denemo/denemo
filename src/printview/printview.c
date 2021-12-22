@@ -634,20 +634,31 @@ printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
 #endif
     }
 }
-
+static gint printview_x = 0;
+static gint printview_y = 0;
+static gboolean printwindow_configure_event (GtkWidget *w, GdkEventConfigure *event)
+{
+  int x = event->x, y = event->y;
+  if (x && y && (x != printview_x) && (y != printview_y))
+	{
+		printview_x = x, printview_y = y;
+		//g_print ("position %d %d\n", printview_x, printview_y);
+     }
+return TRUE;	
+}
 void
 present_print_view_window (void)
 {
-    
-    
-  set_toggle (TogglePrintView_STRING, TRUE);
-    
   GtkWidget *w = gtk_widget_get_toplevel (Denemo.printarea);
   if (gtk_widget_get_visible (w))
     gtk_window_present (GTK_WINDOW (w));
   else
-    gtk_widget_show (w);
+    {
+		gtk_widget_show (w);
+		gtk_window_move (GTK_WINDOW (w), printview_x, printview_y);
+	}
   gtk_window_deiconify (GTK_WINDOW(w));
+  
 }
 
 static gboolean
@@ -2773,6 +2784,9 @@ void install_printpreview (void)
   gtk_window_set_title (GTK_WINDOW (top_window), _("Denemo Print View"));
   gtk_window_set_default_size (GTK_WINDOW (top_window), 600, 750);
   g_signal_connect (G_OBJECT (top_window), "delete-event", G_CALLBACK (hide_printarea_on_delete), NULL);
+  g_signal_connect (G_OBJECT (top_window), "configure_event", G_CALLBACK (printwindow_configure_event), NULL);
+
+  
   gtk_container_add (GTK_CONTAINER (top_window), main_vbox);
 
   GtkAdjustment *printvadjustment = GTK_ADJUSTMENT (gtk_adjustment_new (1.0, 1.0, 2.0, 1.0, 4.0, 1.0));
