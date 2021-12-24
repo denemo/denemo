@@ -627,10 +627,10 @@ printview_finished (G_GNUC_UNUSED GPid pid, gint status, gboolean print)
       if (gtk_window_is_active (GTK_WINDOW (printarea)))
         gtk_window_present (GTK_WINDOW (printarea));
 #else
-	present_print_view_window ();
+	
 	//g_print ("status background %d\n", Denemo.printstatus->background);
-	if (Denemo.printstatus->background)
-		switch_back_to_main_window ();
+	if (!Denemo.printstatus->background)
+		present_print_view_window ();
 #endif
     }
 }
