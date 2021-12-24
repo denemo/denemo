@@ -644,7 +644,7 @@ static gboolean printwindow_configure_event (GtkWidget *w, GdkEventConfigure *ev
 		printview_x = x, printview_y = y;
 		//g_print ("position %d %d\n", printview_x, printview_y);
      }
-return TRUE;	
+return FALSE;	
 }
 void
 present_print_view_window (void)
