@@ -1844,11 +1844,16 @@ draw_callback (cairo_t * cr)
 				cairo_set_source_rgb (cr, 0.87, 0.85, 0.8);
 		} else 
 		{
-			  if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
-				cairo_set_source_rgb (cr, 0.9, 0.85, 1.0);
-			  else if (Denemo.project->input_source == INPUTMIDI && Denemo.keyboard_state == GDK_CONTROL_MASK)      //checking pitches
-				cairo_set_source_rgb (cr, 0.85, 1.0, 0.9);
-			  else
+			if (!Denemo.project->midi_capture_on)
+				{
+				  if (Denemo.project->input_source == INPUTMIDI && (Denemo.keyboard_state == GDK_LOCK_MASK || Denemo.keyboard_state == GDK_SHIFT_MASK))      //listening to MIDI-in
+					cairo_set_source_rgb (cr, 0.9, 0.85, 1.0);
+				  else if (Denemo.project->input_source == INPUTMIDI && Denemo.keyboard_state == GDK_CONTROL_MASK)      //checking pitches
+					cairo_set_source_rgb (cr, 0.85, 1.0, 0.9);
+				  else
+					cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
+				}
+			else
 				cairo_set_source_rgb (cr, ((0xFF0000 & Denemo.color) >> 16) / 255.0, ((0xFF00 & Denemo.color) >> 8) / 255.0, ((0xFF & Denemo.color)) / 255.0);
 		}
     }

@@ -1088,6 +1088,7 @@ typedef struct DenemoProject
   GQueue *pending_midi;/**< a MIDI effect to be output with the next note */
   gboolean audio_recording; // currently recording audio output
   gboolean midi_recording; // currently recording MIDI input
+  gboolean midi_capture_on; //MIDI in signals are currently being intercepted by user's script
   input_mode mode; /**< Input mode for Score */
 
 

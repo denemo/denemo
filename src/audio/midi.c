@@ -37,8 +37,8 @@ static volatile gboolean playing = FALSE;
 
 static double last_draw_time;
 
-// huh?
-static gboolean midi_capture_on = FALSE;        //any midi events not caught by midi_divert will be dropped if this is true
+ //any midi events not caught by midi_divert will be dropped if this is true
+#define midi_capture_on Denemo.project->midi_capture_on
 
 static gdouble play_until = G_MAXDOUBLE;
 
@@ -651,6 +651,7 @@ set_midi_capture (gboolean set)
     divert_midi_id = 0;
   return ret;
 }
+
 
 
 #define command ((*buf)&0xF0)
