@@ -342,7 +342,7 @@ gboolean toggle_midi_record (void)
 	  warningdialog (_("Cannot mix MIDI recordings with imported MIDI - delete imported MIDI first"));
 	  return FALSE;
 	}
-
+	set_midi_capture (FALSE); //cannot combine recording with MIDI capture
 	if (!Denemo.project->movement->recording)
 		new_midi_recording ();
 
