@@ -62,6 +62,7 @@
 #define ERRORTEXT "error text"
 
 gchar *get_postfix (GList * g); //HIDDEN INSIDE GET_AFFIX macro
+gchar *get_prefix (GList * g); //HIDDEN INSIDE GET_AFFIX macro
 
 static void output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * partname, gchar * instrumentation);
 static GtkTextTagTable *tagtable;
@@ -454,8 +455,12 @@ output_figured_bass (GString * figures, chord * pchord)
           duration_string = g_strrstr (lily, "R1*");
           if (!duration_string)
             {
-              g_warning ("duration is special but cannot find R1* - output in figured bass");
-              duration_string = g_strdup ("R1*4/4");
+              g_warning ("duration is special but cannot find R1* - trying for prefix field");
+              lily = get_prefix (pchord->directives);
+              if (lily)
+				duration_string = lily - 1;//duration does not have R before it
+			  else
+				duration_string = g_strdup ("R1*4/4");
             }
         }
       else
