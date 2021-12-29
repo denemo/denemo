@@ -801,8 +801,11 @@ menu_click (GtkWidget * widget, GdkEventButton * event, DenemoAction * action)
         {
           append_scheme_call ((gchar *) func_name);
         }
-      g_string_printf (Denemo.input_filters, "%s  <span foreground=\"Green\">%s.</span> <span foreground=\"blue\">%s</span>", func_name, _("Help"), _("(use Fn12 to Repeat)"));
+      gchar *trunc = g_strdup (lookup_label_from_idx (Denemo.map, Denemo.LastCommandId));  
+      truncate_label (NULL, trunc);
+      g_string_printf (Denemo.input_filters, "%s  <span foreground=\"Green\">%s.</span> <span foreground=\"blue\">%s</span>", trunc, _("Help"), _("(use Fn12 to Repeat)"));
       write_input_status();
+      g_free (trunc);
      return FALSE;
    }
 

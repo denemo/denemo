@@ -137,6 +137,7 @@ gchar *music_font (gchar * str);
 void set_title_bar (DenemoProject * gui);
 void score_status (DenemoProject * gui, gboolean change);
 void write_status (DenemoProject * gui);
+void truncate_label (GtkWidget *label, gchar *str);
 gboolean confirm (gchar * primary, gchar * secondary);
 gboolean confirm_first_choice (gchar *title, gchar * primary, gchar * secondary);
 gboolean choose_option (gchar * title, gchar * primary, gchar * secondary);

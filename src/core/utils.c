@@ -2307,12 +2307,26 @@ return NULL;
 void truncate_label (GtkWidget *label, gchar *str)
 	{
 	GdkRectangle alloc;
-	gtk_widget_get_allocation (label, &alloc);
-	gint width = (1.75 * alloc.width)/(Denemo.prefs.fontsize);
-	//g_print ("Truncate label: alloc is %d number of chars = %d???\n\n\n", alloc.width, (3*alloc.width)/(2*Denemo.prefs.fontsize));
-	if (strlen (str) > width) 
+	gint width;
+	if (label)
 		{
-			str[width-3] = '.';str[width-2] = '.';str[width-1] = '.';str[width-1] = 0;
+			gtk_widget_get_allocation (label, &alloc);
+			width = (1.75 * alloc.width)/(Denemo.prefs.fontsize);
+			//g_print ("Truncate label: alloc is %d number of chars = %d???\n\n\n", alloc.width, (3*alloc.width)/(2*Denemo.prefs.fontsize));
+		}
+	else {
+		gtk_widget_get_allocation (Denemo.input_label, &alloc);
+		width = (1.75 * alloc.width)/(Denemo.prefs.fontsize);
+		width -= 30;//allow 30 char for the "Help (Use Fn12 to Repeat)" string which is markup so actually includes more characters
+	 }
+	gchar *end;
+	if (g_utf8_strlen (str, -1) > width) 
+		{gint i;
+			for (end = str, i = 0; i < width; i++, end = g_utf8_next_char (end))
+				;//set end to i'th character
+			end = g_utf8_find_prev_char (str, end);
+			end = g_utf8_find_prev_char (str, end);
+			*end = '.';*(end+1) = '.';*(end+2) = '.';*(end+3) = 0;
 		}
 }
 
@@ -2487,8 +2501,7 @@ write_status (DenemoProject * gui)
   gchar *end_valid;
   if (!g_utf8_validate (status->str, -1, (const gchar **) &end_valid))
     *end_valid = '\0';
-	
-	
+
   gtk_label_set_text (GTK_LABEL (Denemo.statuslabel), status->str);
 
   g_string_free (status, TRUE);
@@ -2500,7 +2513,7 @@ write_input_status (void)
 {
   if (Denemo.non_interactive)
     return;
-  gtk_label_set_markup (GTK_LABEL (Denemo.input_label), Denemo.input_filters->str);//this string contains markup so truncate_label() cannot be used
+  gtk_label_set_markup (GTK_LABEL (Denemo.input_label), Denemo.input_filters->str);
 }
 
 /**
