@@ -1032,7 +1032,7 @@ if (row == NULL)
   gchar *escape_base = g_markup_escape_text(base, -1);
   gchar *markup;
   if(str->len)
-      markup = g_strdup_printf ("%s <span style=\"italic\" stretch=\"condensed\" font=\"serif\" weight=\"bold\" foreground=\"blue\">%s</span>", escape_base, str->str);
+      markup = g_strdup_printf ("%s <span style=\"italic\" stretch=\"condensed\" font=\"mono\" weight=\"bold\" foreground=\"blue\">%s</span>", escape_base, str->str);
   else
       markup = g_strdup (escape_base);
   g_free (escape_base);
