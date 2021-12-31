@@ -643,12 +643,6 @@ static gboolean printwindow_configure_event (GtkWidget *w, GdkEventConfigure *ev
 	{
 		printview_x = x, printview_y = y;
 		//g_print ("position %d %d\n", printview_x, printview_y);
-#ifdef G_OS_WIN32
-//strangely underwindows the window walks up and to the left...
-printview_x += 20;
-printview_y += 20;
-
-#endif
      }
 return FALSE;	
 }
