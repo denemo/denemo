@@ -3283,7 +3283,7 @@ KeyPlusMouseGestureShow (gchar * str, gint command_idx)
 {
   const gchar *label = lookup_label_from_idx (Denemo.map, command_idx);
   const gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, command_idx);
-  gchar *text = g_strdup_printf (_("Mouse shortcut <span font_desc=\"24\" face=\"mono\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
+  gchar *text = g_strdup_printf (_("Mouse shortcut <span font_desc=\"24\" bgcolor=\"white\" face=\"mono\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
 
   gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Mouse Shortcut"));
   gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
@@ -3313,12 +3313,12 @@ KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
           const gchar *tooltip = lookup_tooltip_from_idx (Denemo.map, command_idx);
           if (type)
             {
-              text = g_strdup_printf (_("Key Press <span font_desc=\"24\" face=\"mono\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
+              text = g_strdup_printf (_("Key Press <span font_desc=\"24\" bgcolor=\"white\" face=\"mono\" foreground=\"blue\">%s</span>" " invokes command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
 
             }
           else
             {
-              text = g_strdup_printf (_("Key Presses <span font_desc=\"24\"  font=\"mono\" foreground=\"blue\">%s</span>" " invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
+              text = g_strdup_printf (_("Key Presses <span font_desc=\"24\"  bgcolor=\"white\" font=\"mono\" foreground=\"blue\">%s</span>" " invoke command <span font_desc=\"24\" foreground=\"dark red\">%s</span>"), str, label);
             }
           gtk_window_set_title (GTK_WINDOW (KeyStrokes), type == SingleKey ? _("Single Key Press") : _("Two Key Presses"));
           gtk_label_set_markup (GTK_LABEL (KeyStrokeLabel), text);
@@ -3332,20 +3332,20 @@ KeyStrokeShow (gchar * str, gint command_idx, DenemoShortcutType type)
             case SingleKey:
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Key Press"));
               gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
-              text = g_strdup_printf (_("Key Press <span font_desc=\"24\"  face=\"mono\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str, (Denemo.project->view != DENEMO_MENU_VIEW) ? _("(The menus are now restored in case you are lost.)") : "");
+              text = g_strdup_printf (_("Key Press <span font_desc=\"24\"  bgcolor=\"white\" face=\"mono\" foreground=\"blue\">%s</span>" " Is not a shortcut.\n%s"), str, (Denemo.project->view != DENEMO_MENU_VIEW) ? _("(The menus are now restored in case you are lost.)") : "");
               break;
             case TwoKey:
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("First Key Press"));
               gtk_label_set_text (GTK_LABEL (KeyStrokeHelp), "");
-              text = g_strdup_printf (_("Key Press <span font_desc=\"24\"  face=\"mono\" foreground=\"blue\">%s</span>" " Awaiting continuation"), str);
+              text = g_strdup_printf (_("Key Press <span font_desc=\"24\"  bgcolor=\"white\" face=\"mono\" foreground=\"blue\">%s</span>" " Awaiting continuation"), str);
               break;
             case MouseGesture:
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Mouse"));
-              text = g_strdup_printf (_("Mouse <span font_desc=\"24\"  face=\"mono\" foreground=\"blue\">%s</span>"), str);
+              text = g_strdup_printf (_("Mouse <span font_desc=\"24\"  bgcolor=\"white\" face=\"mono\" foreground=\"blue\">%s</span>"), str);
               break;
             case KeyPlusMouse:
               gtk_window_set_title (GTK_WINDOW (KeyStrokes), _("Key + Mouse"));
-              text = g_strdup_printf (_("Key Press <span font_desc=\"24\"  face=\"mono\" foreground=\"blue\">%s</span>"), str);
+              text = g_strdup_printf (_("Key Press <span font_desc=\"24\"  bgcolor=\"white\" face=\"mono\" foreground=\"blue\">%s</span>"), str);
               break;
             default:
               g_warning ("bad call");
