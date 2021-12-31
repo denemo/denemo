@@ -655,7 +655,11 @@ present_print_view_window (void)
   else
     {
 		gtk_widget_show (w);
-		gtk_window_move (GTK_WINDOW (w), printview_x, printview_y);
+#ifndef G_OS_WIN32
+	gtk_window_move (GTK_WINDOW (w), printview_x, printview_y);
+#else
+	gtk_window_move (GTK_WINDOW (w), printview_x + 20, printview_y + 20);
+#endif
 	}
   gtk_window_deiconify (GTK_WINDOW(w));
   
