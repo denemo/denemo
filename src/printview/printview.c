@@ -639,10 +639,10 @@ static gint printview_y = 0;
 static gboolean printwindow_configure_event (GtkWidget *w, GdkEventConfigure *event)
 {
   int x = event->x, y = event->y;
-  if (x && y && (x != printview_x) && (y != printview_y))
+  //g_print ("conf event %d %d\n", event->x, event->y);
+  if (x && y && ((x != printview_x) || (y != printview_y)))
 	{
 		printview_x = x, printview_y = y;
-		//g_print ("position %d %d\n", printview_x, printview_y);
      }
 return FALSE;	
 }
