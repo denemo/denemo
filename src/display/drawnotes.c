@@ -70,6 +70,8 @@ draw_rest (cairo_t * cr, gint duration, gint numdots, gint xx, gint y, DenemoGra
 
   static gunichar rest_char[SMALLESTDURATION + 1] = { 0x20, 0x21, 0x27, 0x29, 0x2a, 0x2b, 0x2c, 0x2d, 0x2d      /*note no glyph for this one! */
   };
+  if (duration > SMALLESTDURATION)
+	duration = 0;
   if (override_rest)
     drawbitmapinverse_cr (cr, override_rest, xx + gx + restwidths[0] - override_rest->width / 2, y + restoffsets[0] + gy - override_rest->height / 2, FALSE);
   else
