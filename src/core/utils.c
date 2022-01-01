@@ -959,7 +959,7 @@ space_after (gint numticks, gint wholenotewidth)
 void
 setpixelmin (DenemoObject * theobj)
 {
-  gint i, baseduration, headtype;
+  gint i, baseduration, headtype, resttype;
   chord chordval;
   GList *tnode;
   note *thetone;
@@ -973,6 +973,9 @@ setpixelmin (DenemoObject * theobj)
       baseduration = chordval.baseduration;
       baseduration = MAX (baseduration, 0);
       headtype = MIN (baseduration, 2);
+      resttype = MIN (baseduration, SMALLESTDURATION);
+      if (resttype <0)
+		resttype = 0;
       if (headtype < 0)
         headtype = 0;           //-ve values of baseduration are for specials
       gint directive_pixels = 0;        // the largest amount of extra space asked for by any directive
@@ -998,7 +1001,7 @@ setpixelmin (DenemoObject * theobj)
             }
         }
       else                      /* a rest */
-        theobj->minpixelsalloted = restwidths[baseduration];
+        theobj->minpixelsalloted = restwidths[resttype];
 
       // Allow extra space specified by attached LilyPond directives
       theobj->minpixelsalloted += directive_pixels;
