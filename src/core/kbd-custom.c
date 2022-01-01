@@ -707,26 +707,11 @@ keymap_collect_bindings_in_row (gpointer key, gpointer value, GList **data)
     }
 }
 
-
-static void
-catname (gchar * name, GString * str, gchar * separator)
-{
-  if (str)
-    g_string_append_printf (str, "%s%s", name, separator);
-}
-
-#if 0
-static void
-newlinename (gchar * name, GString * str)
-{
-  catname (name, str, "\n");
-}
-#endif
-
 static void
 listname (gchar * name, GString * str)
 {
-  catname (name, str, " ");
+	if (str)
+		g_string_append_printf (str, "<span foreground=\"dark red\" weight=\"bold\"> |  </span>%s%s%s", "<span style=\"italic\" stretch=\"condensed\" bgcolor=\"white\" font=\"mono\" weight=\"bold\" foreground=\"blue\">", name, "</span>");
 }
 
 
@@ -1032,7 +1017,7 @@ if (row == NULL)
   gchar *escape_base = g_markup_escape_text(base, -1);
   gchar *markup;
   if(str->len)
-      markup = g_strdup_printf ("%s <span style=\"italic\" stretch=\"condensed\" bgcolor=\"white\" font=\"mono\" weight=\"bold\" foreground=\"blue\">%s</span>", escape_base, str->str);
+      markup = g_strdup_printf ("%s %s", escape_base, str->str);
   else
       markup = g_strdup (escape_base);
   g_free (escape_base);
