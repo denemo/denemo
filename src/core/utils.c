@@ -933,7 +933,7 @@ set_basic_numticks (DenemoObject * theobj)
 
 /**
  * Returns the amount of space to be left after a note or rest, only
- * taking the width of the measure into consideration
+ * taking the width of the measure into consideration, just to choose a position for the cursor when appending after an object.Only called by draw.c should be moved FIXME.
  *
  * @param numticks the number of ticks taken so far
  * @param wholenotewidth the number of ticks taken be a whole note
