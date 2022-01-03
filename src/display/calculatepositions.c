@@ -308,18 +308,28 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
 
 
 static gboolean single_duration_bar (GList *objects)
-	{
+	{ GList *g = objects;
 		gint num = 0;
-		for (;objects;objects=objects->next)
+		for (;g;g=g->next)
 			{
-				if (CHORDTEST (objects))
-					return FALSE;
+				if (CHORDTEST (g))
+					continue;
 				num++;
 				if (num > 1)
 					break;
 			}
-	return num <= 1;
-		
+	if (num <= 1)
+		{//only at most one object with a duration in this bar, so position everything according to their minpixels
+			gint x = 0;
+			for (;objects;objects = objects->next)
+				{
+					x += mudobj (objects)->space_before;
+					mudobj (objects)->x = x;
+					x += mudobj(objects)->minpixelsalloted;
+				}
+			return TRUE;
+		}
+	return FALSE;	
 	}
 /* Note that a lot more nodes get added to non_chords than is necessary,
  * but that's okay - prune_list will compensate for that nicely. */
