@@ -167,15 +167,16 @@ prune_list (GList * source)
  * @param furthest_tick_advance
  * @param base_x
  * @param base_tick
- * @param block_pixels
+ * @param shortest_chord_duration
+ * @param shortest_chord_pixels
  * @param whole_note_width
  * @param non_chords
  *
  */
 static void
-allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, gint num_staffs, gint furthest_tick_advance, gint * base_x, gint * base_tick, gint block_pixels, gint whole_note_width, GList * non_chords)
+allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, gint num_staffs, gint furthest_tick_advance, gint * base_x, gint * base_tick, gint shortest_chord_duration, gint shortest_chord_pixels, gint whole_note_width, GList * non_chords)
 {
-  gint ticks_in_block, block_width, starts_at_tick;
+  gint ticks_in_block, shortest_chords_in_block, block_width, starts_at_tick;
   gint extra_advance = 0, non_chord_pixels, i;
   objnode *this_staff_obj_node;
   DenemoObject *curobj = 0;
@@ -187,8 +188,10 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
   /* Set the block width */
 
   ticks_in_block = furthest_tick_advance - *base_tick;
-  
-  block_width = MAX (block_pixels, ticks_in_block * whole_note_width / WHOLE_NUMTICKS);
+  shortest_chords_in_block = (ticks_in_block % shortest_chord_duration)
+    ? (ticks_in_block / shortest_chord_duration + 1)
+    : (ticks_in_block / shortest_chord_duration);
+  block_width = MAX (shortest_chords_in_block * shortest_chord_pixels, ticks_in_block * whole_note_width / WHOLE_NUMTICKS);
 
   /* Now go through staff-by-staff and set the xes within the block
    * only.  This code would be simpler if each mudela object stored its
@@ -292,8 +295,12 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
           non_chords = g_list_append (non_chords,  \
                                       new_list_info (start_tick, accumulator));  \
         }  \
-          block_pixels +=  \
+      if (mudobj (cur_obj_nodes[i])->durinticks < shortest_chord_duration)  \
+        {  \
+          shortest_chord_duration = mudobj (cur_obj_nodes[i])->durinticks;  \
+          shortest_chord_pixels =  \
             mudobj (cur_obj_nodes[i])->minpixelsalloted;  \
+        }  \
       max_advance_ticks =  \
         MAX (max_advance_ticks,  \
          mudobj (cur_obj_nodes[i])->starttickofnextnote);  \
@@ -336,7 +343,8 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum)
   objnode **block_start_obj_nodes;
   objnode **cur_obj_nodes;
 
-  gint block_pixels = 0;
+  gint shortest_chord_duration = G_MAXINT;
+  gint shortest_chord_pixels = 0;
 
   gint i;
   gint accumulator, start_tick;
@@ -372,12 +380,13 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum)
           /* A-ha!  We've found a block.  Now go set the x positions
            * of all the objects within it appropriately */
           //g_debug("*******Max advance ticks %d\n", max_advance_ticks);
-          allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs, max_advance_ticks, &base_x, &base_tick, block_pixels, whole_note_width, non_chords);
+          allocate_xes (block_start_obj_nodes, cur_obj_nodes, num_staffs, max_advance_ticks, &base_x, &base_tick, shortest_chord_duration ? shortest_chord_duration : 1, shortest_chord_pixels, whole_note_width, non_chords);
 
           /* And do setup work for the next block */
 
           non_chords = NULL;
-          block_pixels = 0;
+          shortest_chord_duration = G_MAXINT;
+          shortest_chord_pixels = 0;
           for (i = 0; i < num_staffs; i++)
             {
               block_start_obj_nodes[i] = cur_obj_nodes[i] = (cur_obj_nodes[i] ? cur_obj_nodes[i]->next : NULL);
