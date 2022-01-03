@@ -306,6 +306,21 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
          mudobj (cur_obj_nodes[i])->starttickofnextnote);  \
     }
 
+
+static gboolean single_duration_bar (GList *objects)
+	{
+		gint num = 0;
+		for (;objects;objects=objects->next)
+			{
+				if (CHORDTEST (objects))
+					continue;
+				num++;
+				if (num > 1)
+					break;
+			}
+	return num <= 1;
+		
+	}
 /* Note that a lot more nodes get added to non_chords than is necessary,
  * but that's okay - prune_list will compensate for that nicely. */
 
@@ -362,6 +377,9 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum)
 // Point cur_obj_nodes[i] to the list of objects in the measure for the i'th staff  (if no measure NULL)
       if (((DenemoStaff *) cur_staff->data)->nummeasures >= measurenum)
         {
+		if (single_duration_bar (((DenemoMeasure*)g_list_nth (((DenemoStaff*)cur_staff->data)->themeasures, measurenum - 1)->data)->objects))
+			block_start_obj_nodes[i] = NULL;
+		else
           block_start_obj_nodes[i] = cur_obj_nodes[i] = /*measure_first_obj_node*/ (((DenemoMeasure*)g_list_nth (((DenemoStaff*)cur_staff->data)->themeasures, measurenum - 1)->data)->objects); //FIXME DANGER
         }
       else
