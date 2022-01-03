@@ -313,7 +313,7 @@ static gboolean single_duration_bar (GList *objects)
 		for (;objects;objects=objects->next)
 			{
 				if (CHORDTEST (objects))
-					continue;
+					return FALSE;
 				num++;
 				if (num > 1)
 					break;
