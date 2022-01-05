@@ -13,8 +13,9 @@
 #include "core/utils.h"
 #include "command/measure.h"
 
-#define mudobj(x) ((DenemoObject *) x->data)
-#define CHORDTEST(node) ((mudobj(node)->type!=CHORD)||((mudobj(node)->type==CHORD && ((chord *)(mudobj(node)->object))->is_grace)))
+#define denobj(x) ((DenemoObject *) x->data)
+#define NONDURATION(node) (denobj(node)->durinticks==0)
+
 /**
  *  Check to see if there is any more music in
  *  the datastructures
@@ -58,7 +59,7 @@ all_tickcounts_equal_p (objnode ** cur_obj_nodes, gint num_staffs)
             compare = curobj->starttickofnextnote;
           else if (curobj->starttickofnextnote != compare)
             return FALSE;
-          else if (curobj->type != CHORD)
+          else if (NONDURATION(cur_obj_nodes[i]))
             return FALSE;
         }
     }
@@ -210,12 +211,12 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
             {
               curobj = (DenemoObject *) this_staff_obj_node->data;
 
-              while (non_chords_node && !CHORDTEST (this_staff_obj_node) && (starts_at_tick >= ((list_info *) non_chords_node->data)->start_position))
+              while (non_chords_node && !NONDURATION (this_staff_obj_node) && (starts_at_tick >= ((list_info *) non_chords_node->data)->start_position))
                 {
                   extra_advance += ((list_info *) non_chords_node->data)->pixels;
                   non_chords_node = non_chords_node->next;
                 }
-              if (CHORDTEST (this_staff_obj_node))
+              if (NONDURATION (this_staff_obj_node))
                 {
                   curobj->x = *base_x + extra_advance + non_chord_pixels + ((starts_at_tick - *base_tick) * block_width / (ticks_in_block ? ticks_in_block : 1));
                   non_chord_pixels += curobj->minpixelsalloted;
@@ -278,8 +279,8 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
   accumulator = 0;  \
   start_tick = 0;\
   if (cur_obj_nodes[i])  \
-    start_tick = mudobj (cur_obj_nodes[i])->starttick;  \
-  while (cur_obj_nodes[i] && CHORDTEST(cur_obj_nodes[i])/*mudobj (cur_obj_nodes[i])->type != CHORD*/) \
+    start_tick = denobj (cur_obj_nodes[i])->starttick;  \
+  while (cur_obj_nodes[i] && NONDURATION(cur_obj_nodes[i])/*denobj (cur_obj_nodes[i])->type != CHORD*/) \
     {  \
       curobj = (DenemoObject *)cur_obj_nodes[i]->data;  \
       accumulator += curobj->minpixelsalloted;  \
@@ -289,21 +290,21 @@ allocate_xes (objnode ** block_start_obj_nodes, objnode ** block_end_obj_nodes, 
     }  \
   if (cur_obj_nodes[i])  \
     {  \
-      if (mudobj (cur_obj_nodes[i])->space_before)  \
+      if (denobj (cur_obj_nodes[i])->space_before)  \
         {  \
-          accumulator += mudobj (cur_obj_nodes[i])->space_before;  \
+          accumulator += denobj (cur_obj_nodes[i])->space_before;  \
           non_chords = g_list_append (non_chords,  \
                                       new_list_info (start_tick, accumulator));  \
         }  \
-      if (mudobj (cur_obj_nodes[i])->durinticks < shortest_chord_duration)  \
+      if (denobj (cur_obj_nodes[i])->durinticks < shortest_chord_duration)  \
         {  \
-          shortest_chord_duration = mudobj (cur_obj_nodes[i])->durinticks;  \
+          shortest_chord_duration = denobj (cur_obj_nodes[i])->durinticks;  \
           shortest_chord_pixels =  \
-            mudobj (cur_obj_nodes[i])->minpixelsalloted;  \
+            denobj (cur_obj_nodes[i])->minpixelsalloted;  \
         }  \
       max_advance_ticks =  \
         MAX (max_advance_ticks,  \
-         mudobj (cur_obj_nodes[i])->starttickofnextnote);  \
+         denobj (cur_obj_nodes[i])->starttickofnextnote);  \
     }
 
 
@@ -312,8 +313,8 @@ static gboolean single_duration_bar (GList *objects)
 		gint num = 0;
 		for (;g;g=g->next)
 			{
-				if (CHORDTEST (g))
-					continue;
+				if (NONDURATION (g) && (denobj (g)->type != LILYDIRECTIVE))
+					continue;//some DenemoDirectives need to align - e.g. barlines so even though they have no duration space them out.
 				num++;
 				if (num > 1)
 					break;
@@ -323,9 +324,9 @@ static gboolean single_duration_bar (GList *objects)
 			gint x = 0;
 			for (;objects;objects = objects->next)
 				{
-					x += mudobj (objects)->space_before;
-					mudobj (objects)->x = x;
-					x += mudobj(objects)->minpixelsalloted;
+					x += denobj (objects)->space_before;
+					denobj (objects)->x = x;
+					x += denobj(objects)->minpixelsalloted;
 				}
 			return TRUE;
 		}
@@ -427,8 +428,8 @@ find_xes_in_measure (DenemoMovement * si, gint measurenum)
            * cur_obj_nodes "ahead" */
           for (i = 0; i < num_staffs; i++)
             {
-              if (cur_obj_nodes[i] && ((mudobj (cur_obj_nodes[i])->starttickofnextnote < max_advance_ticks) || CHORDTEST (cur_obj_nodes[i])
-                                       //mudobj (cur_obj_nodes[i])->type != CHORD
+              if (cur_obj_nodes[i] && ((denobj (cur_obj_nodes[i])->starttickofnextnote < max_advance_ticks) || NONDURATION (cur_obj_nodes[i])
+                                       //denobj (cur_obj_nodes[i])->type != CHORD
                   ))
                 {
                   cur_obj_nodes[i] = cur_obj_nodes[i]->next;
