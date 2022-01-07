@@ -657,7 +657,8 @@ insert_measure_key (DenemoAction* action, DenemoScriptParam *param)
 static void
 insert_chord_xdur (gint duration, DenemoScriptParam *param)
 {
-  Denemo.project->last_source = INPUTKEYBOARD;
+  if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI) && Denemo.project->movement->recording->marked_onset)
+	Denemo.project->last_source = INPUTKEYBOARD;
   dnm_insertnote (Denemo.project, duration, Denemo.project->mode, FALSE);//gets it wrong
   displayhelper (Denemo.project);
   score_status(Denemo.project, TRUE);
