@@ -465,6 +465,7 @@ customize_standard_scoreblock_callback (GtkWidget * widget, DenemoScoreblock * s
     }
   else
     clone_scoreblock (sb, NULL);
+  gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (GTK_WIDGET (Denemo.project->score_layout))));
 }
 
 static void
