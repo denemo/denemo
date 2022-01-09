@@ -3915,8 +3915,8 @@ First it removes notes until just a non-printing rest remains, then deletes that
         <action>OnlyForLayout</action>
         <after>NotForLayout</after>
         <menupath>/ObjectMenu/Directives/Conditional-Directives</menupath>
-        <_label>Exclusive to Current Layout</_label>
-        <_tooltip>The Denemo Directive at the cursor will only apply to the current Score Layout (see View-&gt;Score Layout)</_tooltip>
+        <_label>Allow for Current Layout</_label>
+        <_tooltip>The Denemo Directive at the cursor will apply for the current Score Layout (see View-&gt;Score Layout). The current layout will be entered in the list of allowed layouts for this directive, layouts not on that list will ignore it.</_tooltip>
       </row>
       <row type="scheme">
         <action>ExportAudio</action>
@@ -7723,8 +7723,8 @@ and others in the LilyPond documentation.</_tooltip>
         <action>DirectiveOnlyForLayout</action>
         <after>InsertNoteDirective</after>
         <menupath>/ObjectMenu/NotesRests/Directives/Conditional-Directives</menupath>
-        <_label>Exclusive to Current Layout</_label>
-        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor take effect only for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
+        <_label>Allow for Current Layout</_label>
+        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor take effect when typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.  The current layout will be entered in the list of allowed layouts for this directive, layouts not on that list will ignore it.</_tooltip>
       </row>
       <row type="scheme">
         <action>DirectiveNotForLayout</action>

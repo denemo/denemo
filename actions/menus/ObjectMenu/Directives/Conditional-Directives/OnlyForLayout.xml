@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>NotForLayout</after>
         <action>OnlyForLayout</action>
-        <_label>Exclusive to Current Layout</_label>
-        <_tooltip>The Denemo Directive at the cursor will apply for the current Score Layout (see View-&gt;Score Layout)</_tooltip>
+        <_label>Allow for Current Layout</_label>
+        <_tooltip>The Denemo Directive at the cursor will apply for the current Score Layout (see View-&gt;Score Layout). The current layout will be entered in the list of allowed layouts for this directive, layouts not on that list will ignore it.</_tooltip>
       </row>
     </map>
   </merge>

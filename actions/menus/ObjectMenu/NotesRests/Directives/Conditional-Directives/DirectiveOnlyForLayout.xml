@@ -8,7 +8,7 @@
         <action>DirectiveOnlyForLayout</action>
         <after>InsertNoteDirective</after>
         <_label>Allow for Current Layout</_label>
-        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor take effect for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.</_tooltip>
+        <_tooltip>Makes a (chosen) directive on the note/chord at the cursor take effect when typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended.  The current layout will be entered in the list of allowed layouts for this directive, layouts not on that list will ignore it.</_tooltip>
       </row>
     </map>
   </merge>
