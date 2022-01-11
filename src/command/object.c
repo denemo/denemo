@@ -941,11 +941,10 @@ show_window (GtkWidget * w)
 static void
 set_false (GtkWidget * button, gboolean * bool)
 {
-  GtkWidget *w = gtk_widget_get_toplevel (button);
-  gtk_widget_destroy (button);
 #ifndef G_OS_WIN32
-  show_window (w);
+  show_window (button);
 #endif
+  gtk_widget_destroy (button);
   if (*bool)
     score_status (Denemo.project, TRUE);
   *bool = FALSE;
