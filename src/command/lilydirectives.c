@@ -3042,7 +3042,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
   if (directive->layouts == NULL)
     {
         button = gtk_button_new_with_label (_("Applies to all layouts/Inclusion criteria"));
-        set_foreground_color(button, "#00ff00");
+        set_foreground_color(button, "#008000");
         g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is honored by all layouts/Inclusion criteria. Use the Score/Movement/Staff/Voice/Object Editor to make it conditional on the Current Layout, the Default Layout or the Default Layout for the current part, or on an Inclusion criterion set in the Print View."));
     }
   else
@@ -3072,7 +3072,7 @@ text_edit_directive (DenemoDirective * directive, gchar * what)
 							  :
 					(Denemo.project->criterion? _("Excludes certain layouts/Inclusion Criteria, but applies to the current one.")
 								: _("Excludes certain layouts, but applies to the current one.")));
-			set_foreground_color(button, wrong?"#ff0000":"#00ff00");
+			set_foreground_color(button, wrong?"#800000":"#008000");
 			g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (help_for_conditional), _("This directive is disregarded by certain layouts or when certain Inclusion criteria are set. Use the Score/Movement/Staff/Voice/Object Editor to alter this behavior."));
 		  }
     }
