@@ -2323,15 +2323,15 @@ void truncate_label (GtkWidget *label, gchar *str)
 		width -= 30;//allow 30 char for the "Help (Use Fn12 to Repeat)" string which is markup so actually includes more characters
 	 }
 	gchar *end;
-	if (g_utf8_strlen (str, -1) > width) 
+	if ((width > 30) && g_utf8_strlen (str, -1) > width) 
 		{gint i;
-			for (end = str, i = 0; i < width; i++, end = g_utf8_next_char (end))
+			for (end = str, i = 1; i < width; i++, end = g_utf8_next_char (end))
 				;//set end to i'th character
 			end = g_utf8_find_prev_char (str, end);
 			end = g_utf8_find_prev_char (str, end);
 			*end = '.';*(end+1) = '.';*(end+2) = '.';*(end+3) = 0;
 		}
-}
+	}
 
 
 /****************
