@@ -1,8 +1,9 @@
-%\version "2.20.0"
+%\version "2.22.0"
 
 %% https://raw.githubusercontent.com/mwitmer/LyUtil/master/ly/expressive_markings/vibrato.ly
 %% Original author: Mark Witmer
 %% Rewritten version by Harm
+%% and Valentin
 
 #(define (line-part-min-max x1 x2)
   (list (min x1 x2) (max x1 x2)))
@@ -147,9 +148,9 @@ coordinates for the previous point in the path."
                       (cdr path-headless))))
     (ly:make-stencil
      `(path ,thickness
-        `(,@',(concatenate path-final))
-        'round
-        'round
+        ,(concatenate path-final)
+        round
+        round
         ,(if fill #t #f))
      (coord-translate
       ((if (< x-scale 0) reverse-interval identity)
@@ -344,4 +345,5 @@ Limitations:
        (ly:grob-set-property! grob 'stencil 
          (make-wavy-vibrato-stencil grob amplitudes wave-length thickness)))
 #})
+
 
