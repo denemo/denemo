@@ -4,10 +4,11 @@
   (d-NewStructuredStaff)
   (d-SwapStaffs)
   (d-StaffProperties (string-append "denemo_name=" current "_ossia"))
-  (d-DirectivePut-score-prefix "HideEmptyStaffs" 
-                   "\\layout {
-                                     \\context { \\RemoveEmptyStaffContext }
-                                     }")
+   (if (not (d-Directive-layout? "HideEmptyStaffsAllSystems"))
+  	(d-HideEmptyStaffsAllSystems))
+  (if (not (d-Directive-layout? "HideEmptyStaffs"))
+  	(d-HideEmptyStaffs))
+
   (d-DirectivePut-staff-prefix tag "
     \\remove \"Time_signature_engraver\"
     \\hide Staff.KeySignature
