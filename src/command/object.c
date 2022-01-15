@@ -1695,6 +1695,7 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
 static void
 place_chord_attributes (GtkWidget * vbox, chord * thechord)
 {
+#ifndef G_OS_WIN32
   GtkWidget *expander = gtk_expander_new (_("Built-in Chord Attributes"));      //gtk_expander_new
   gtk_expander_set_expanded (GTK_EXPANDER (expander), TRUE);
   gtk_widget_set_sensitive (expander, TRUE);
@@ -1709,6 +1710,14 @@ place_chord_attributes (GtkWidget * vbox, chord * thechord)
   gtk_box_pack_start (GTK_BOX (vbox), expander, FALSE, TRUE, 0);
   GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
   gtk_container_add (GTK_CONTAINER (expander), inner_box);
+#else
+
+  GtkWidget *inner_box = gtk_vbox_new (FALSE, 0);
+  gtk_container_add (GTK_CONTAINER (vbox), inner_box);
+
+#endif  
+  
+  
   GtkWidget *hbox = gtk_hbox_new (FALSE, 0);
   gtk_box_pack_start (GTK_BOX (inner_box), hbox, FALSE, TRUE, 0);
   inner_box = gtk_vbox_new (FALSE, 0);
@@ -1762,9 +1771,12 @@ place_chord_attributes (GtkWidget * vbox, chord * thechord)
       g_signal_connect (button, "clicked", G_CALLBACK (set_false), &thechord->is_grace);
       gtk_box_pack_start (GTK_BOX (inner_box), button, FALSE, TRUE, 0);
     }
+#ifndef G_OS_WIN32
   if (!gtk_container_get_children (GTK_CONTAINER (inner_box)))
     gtk_widget_destroy (expander);
+#endif
 }
+
 
 static void
 update_and_close (GtkWidget * editwin)
