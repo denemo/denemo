@@ -1,7 +1,67 @@
 Version 2.6
 ~~~~~~~~~~~
-Released: 2021-xx-xx
+Released:2022-01-xx
+New Features
+    Pitches First note entry method
+        Notes are visualized on a special MIDI track
+        Entering rhythms inserts notes from MIDI track
+        Recorded MIDI is re-synchronized as each bar is entered
+        Facilities to play, backup, advance, delete, restart recording
+    Support all system/markup spacing controls
+    Easy setting of conditional behavior of Denemo Directives
+        Directives attached all objects (notes, chords, time/key signatures etc)
+        Use e.g. for changes of clef only for certain instruments
+    Editing the LilyPond for individual objects
+        Applies to all objects (notes, chords, time/key signatures etc)
+        Use e.g. to create editions with chords for smaller hands
+    Support creating score/paper/header Directives at startup from Score Properties Editor
+        Directives are created only where absent
+    Allow easy toggling between listening/playing-in pitches via Shift key.
+    Allow setting transposition on playback easily
+    Allow recording and attaching musical audio fragments to a score while composing
+    Easier setting of Movement Tempo
+    Improvements to Playback Controls
+        Better control over playback volume
+        Simplify setting playback start/end markers
+        Better use of colors
+    Improve Legibility
+        Paler Denemo Cursor
+        Allow alteration of brightness of playback start/end markers
+    View Menu Improvements
+        Turn various windows on/off by shortcut
+        Switch back to Main Window with Esc or Ctrl-w
+    Staff Display Spacing Control
+        Ctrl-Drag to loosen/tighten spacing in display
+        Auto/Manual spacing available
+        Allows tight spacing for small screens
 
+Bug Fixes
+    Fix setting of movement tempo in playback controls
+    Fix Inserting Breve and Longa
+    Fix display of dotted Breve and Longa after reload
+    Fix spurious 0xffffff keypress on windows
+    Fix setting/following links to source files esp. on Windows
+    Fix display of key signatures for tenor and baritone clefs
+    Prevent staff braces being attached to Marks/Dynamics staffs
+    Fix sounding duration of grace notes on dotted notes
+    Check part lists are same in all movements on Check Score.
+    Fix Performance for case where there is an upbeat at the start
+    Fix Performance View for LilyPond version 2.22
+    Fix Hide Movement as Sketch
+    Fix Duplicated Titles
+    Fix staff heights in display not resetting
+    Fix lyric pane not showing sometimes
+    Fix lyrics clashing with beaming in display
+    Hidden staff markers avoid clashes
+    Arrow at right of display now reliably shifts the displayed measures
+    Improvements in restoring window sizes on re-starting Denemo
+    Playback Fixes
+        Pause no longer hangs notes
+        Reset places end play at end
+        Initial Playbutton icon change when pausing fixed
+        Playback markers in display now follow notes accurately
+        Fix clutter in display at Playback Start marker
+        Fix Pause for Windows version
 
 Version 2.5
 ~~~~~~~~~~~
