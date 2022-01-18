@@ -4,7 +4,7 @@
 		(if (d-Directive-keysig? tag)
 		    (d-DirectiveDelete-keysig tag)
 		    (begin
-		        (d-DirectivePut-keysig-prefix tag  (string-append  "\\once \\override Staff.KeySignature #'stencil = ##f"  ))
+		        (d-DirectivePut-keysig-prefix tag  (string-append  "\\once \\override Staff.KeySignature #'stencil = ##f \\once \\override Staff.KeyCancellation #'stencil = ##f"  ))
                 (d-DirectivePut-keysig-gy tag 60)
                 (d-DirectivePut-keysig-graphic tag "\n⋃\nDenemo\n24")
 				(SetDirectiveConditional "keysig" tag)))
@@ -12,7 +12,7 @@
 			(if (d-Directive-keysig? tag)
 				(d-DirectiveDelete-keysig tag)
 				(begin
-					(d-DirectivePut-keysig-prefix tag  (string-append  "\\once \\override Staff.KeySignature #'stencil = ##f"  ))
+					(d-DirectivePut-keysig-prefix tag  (string-append  "\\once \\override Staff.KeySignature #'stencil = ##f \\once \\override Staff.KeyCancellation #'stencil = ##f"  ))
 					(d-DirectivePut-keysig-gy tag 60)
 					(d-DirectivePut-keysig-graphic tag "\n⋃\nDenemo\n24")
 					(SetDirectiveConditional "keysig" tag)))))
