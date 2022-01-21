@@ -153,8 +153,14 @@ libevince_print (void)
   EvDocumentModel *model = (EvDocumentModel*)g_object_get_data (G_OBJECT (Denemo.printarea), "model"); 
 
 #ifdef G_OS_WIN32
-  infodialog (_("Direct Printing not available under Windows. Create PDF and print from that"));
-  return -1;
+{
+	 
+	 if ( Denemo.project->notsaved)
+		{
+			warningdialog (_("Score not Saved. On some Windows systems direct printing crashes Denemo (in which case Create PDF and print from that)\nSave score first."));
+			return -1;
+		}
+}
 #endif
 
   gchar *uri = g_filename_to_uri (filename, NULL, &err);
