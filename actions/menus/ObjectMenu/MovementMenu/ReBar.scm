@@ -4,7 +4,7 @@
 ;FIXME-currently no support for nested tuplets
 ;notes: (d-GetType) returns CHORD TIMESIG LILYDIRECTIVE TUPOPEN TUPCLOSE (tuplets) Appending
 ;Variable descriptions:
-;SplitAll set to #f allows user to decide whether to split across barlines; set to #t, splits always.
+;SplitAll set to #f allows user to decide whether to split across barlines; set to a number, splits that many times.
 ;TupletScaleFactor: e.g. if we're inside a triplet, scale durations by 2/3
 ;IgnoreDurationError set if a measure is marked as having an allowable duration discrepancy, marking is done with a directive of tag "!"
 
@@ -330,11 +330,16 @@
                         (if (equal? (remainder 256 (denominator (/ Excess TupletScaleFactor))) 0)  ;if we don't have to start a tuplet, we're good.
                             (begin
                                 ;query the user: should we split the note, or let him/her do it?                
-                                (if (not SplitAll) (set! Inquiry (d-GetOption (string-append (_ "Split This Note") stop (_ "Split All") stop (_ "Stop Here") stop))) )
+                                (if (not SplitAll) (set! Inquiry (d-GetOption (string-append (_ "Split This Note") stop (_ "Split Many") stop (_ "Stop Here") stop))) )
                                 ;need to stop if we hit cancel
-                                (if (equal? Inquiry (_ "Split All")) (set! SplitAll #t))
-                                (if (or SplitAll (equal? Inquiry (_ "Split This Note")) (equal? Inquiry (_ "Split All"))) 
+                                (if (equal? Inquiry (_ "Split Many")) (set! SplitAll 100))
+                                (if (or SplitAll (equal? Inquiry (_ "Split This Note")) (equal? Inquiry (_ "Split Many"))) 
                                     (begin  ;we're going to split across the barline and march on.
+										(if SplitAll
+											(begin
+												(set! SplitAll (1- SplitAll))
+												(if (zero? SplitAll)
+													(set! SplitAll #f))))
                                         (set! LeftOver (- (GetNoteBeat) Excess)) ;duration that stays in left measure.      
                                         (if (d-NextObjectInMeasure) ;if there're more stuff after the current stuff, chop it off to deal with it next bar
                                             (begin
