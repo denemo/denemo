@@ -2440,6 +2440,7 @@ static DenemoDirective *user_select_note_directive (void)
 static void
 user_select_directive_at_cursor (gchar ** what, GList *** pdirectives, DenemoDirective ** pdirective)
 {
+  *what = NULL;
   DenemoObject *curObj = get_object ();
   if (curObj == NULL)
 	return;
