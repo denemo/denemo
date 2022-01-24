@@ -10,9 +10,16 @@
 
 (define ReBar::return #f)
 (define-once CheckScore::error-position #f)
+(d-TakeSnapshot)
+(d-IncreaseGuard)  
 
-(let ( (Input1 #f) (Input2 #f) (InitialTimeSig 1) (ScanAllStaffs #f) (TupletScaleFactor 1)  
-(SplitAll #f)(IgnoreDurationError #f))
+(let ((Input1 #f) 
+		(Input2 #f) 
+		(InitialTimeSig 1) 
+		(ScanAllStaffs #f) 
+		(TupletScaleFactor 1)  
+		(SplitAll #f)
+		(IgnoreDurationError #f))
     
 ;MakeBlankRestDuration: makes a tied rest conglomerate of total duration Duration.
 ;IsConsecutive is set to #t when it recurses in order to make it add a dot instead of adding the next TryDuration.  Externally, call it always set to #f
@@ -156,7 +163,7 @@
 )
 
 
-;Now here's the function, it returns #f if there is a problem in a measure in the current staff that is not fixed else returns true
+;Here's the AuditThisStaff function, it returns #f if there is a problem in a measure in the current staff that is not fixed else returns true
 
 (define (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;;set Pad? to #t if we should add blanks to underfull bars. 
     (let ( (Counter 0) (Excess 0) (LeftOver 0)(Inquiry #f))
@@ -239,7 +246,7 @@
             )
             (set! CheckScore::error-position (GetPosition))
         )
-        ;here's the actual algorithm
+        ;here's the actual AuditThisStaff algorithm
         (set! IgnoreDurationError #f)
         (while (d-PrevObjectInMeasure)) ;go to beginning of measure
         (set! Counter (+ Counter (GetNoteBeat)) );read the first note in to get started...NOTE: if GetNoteBeat= #f this will terminate execution.
@@ -250,146 +257,142 @@
         (if (and (None?) (not Pad?))
             (set! Counter TimeSig))
             
-         (if (= Counter 0)
+        (if (= Counter 0)
                 (set! Counter TimeSig));;;allow empty measures
             
-            
-        (if IgnoreDurationError
-            (begin
-                (set! Counter TimeSig)))
-                
-        (let ((top (numerator Counter)) (bottom (denominator Counter)))
-            ;(disp "We have top " top " bottom " bottom " div "  (/ (1+ top) bottom) " ok")
-            (if  (and (> top 254) (equal? TimeSig (/ (1+ top) bottom)))
-                (set! Counter (/ (1+ top) bottom))))
-                
-                    ;(disp "Set Counter " Counter "\n")          
-        (if (< Counter TimeSig) ;if measure too small, (going back first)
-            (if Pad?    ; and the user wants us to pad,
+        (if (or (d-Directive-chord? "WholeMeasureRest")(d-Directive-standalone? "MultiMeasureRests"))
                 (begin
-                    (if (not (or (equal? (d-GetType) "None") (equal? (d-GetType) "Appending"))) 
-                        (d-MoveCursorRight) )   ;Get to end of bar, past last object.
-                    (if Blank?
-                        (MakeRest (- TimeSig Counter) 0 "Blank")    ;fill 'er up
-                        (MakeRest (- TimeSig Counter) 0 "" )
-                    )
-                    (if (d-MoveToMeasureRight)
-                        (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;if not done, move on and go from there.
-                        #t      ;otherwise return true
-                    )
-                )   
-                (if MergeAndSplit?  ;if user wants to merge/split,
-                    (if (d-MoveToMeasureRight)  ;we see if there is a next measure; if so we want to merge the two and redo this measure.
-                        (begin
-                            (d-MoveCursorLeft) ;move onto the barline 
-                            (CustomDeleteBarline) ;delete it
-                            (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?);now do the measure again 
-                        )
-                        #t  ;return true if there's no more, we're done with staff.
-                    )
-                    ;if NOT supposed to merge/split...
-                    (if (d-MoveToMeasureRight)  ;see if at end of staff.
-                        (begin              ;if not at end of staff...
-                            (d-MoveToMeasureLeft)
-                            #f  ;if we're not supposed to pad or merge/split, stop here.  This measure had prob's
-                        )
-                        #t      ;otherwise, staff is good.
-                    )))
-                    ;if it wasn't too small...
-            (if (and (not IgnoreDurationError)  (equal? Counter TimeSig)) ; and if measure is exactly full now (and not just because we are ignoring the duration error)
-                (if (NextBreakInMeasure) ;see if there's extra stuff that has duration,
-                    (if MergeAndSplit?  ;if there IS and we're supposed to merge/split...
-                        (begin
-                            (if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
-                            (SplitIntoNext) ;cut off extra stuff (ending up in next bar)
-                            (if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
-                            (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?)     ; rebar from that point onward.                     
-                        )
-                        #f  ;if user doesn't want us to split,return false.
-                            ; this bar is over-full, user will fix.
-                    )
-                    (begin  ;if there's NOT extra stuff in this measure...
-                        (if (not (None?))
-                            (d-MoveCursorRight))
-                        (if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
+						(d-WarningDialog (_ "Change whole measure rests and multi-measure rests to actual rests and re-run"))
+						#f)
+				(begin
+				
+					(if IgnoreDurationError
+						(begin
+							(set! Counter TimeSig)))
+							
+					(let ((top (numerator Counter)) (bottom (denominator Counter)))
+						(if  (and (> top 254) (equal? TimeSig (/ (1+ top) bottom)))
+							(set! Counter (/ (1+ top) bottom))))
+							
+								       
+					(if (< Counter TimeSig) ;if measure too small, (going back first)
+						(if Pad?    ; and the user wants us to pad,
+							(begin
+								(if (not (or (equal? (d-GetType) "None") (equal? (d-GetType) "Appending"))) 
+									(d-MoveCursorRight) )   ;Get to end of bar, past last object.
+								(if Blank?
+									(MakeRest (- TimeSig Counter) 0 "Blank")    ;fill 'er up
+									(MakeRest (- TimeSig Counter) 0 "" )
+								)
+								(if (d-MoveToMeasureRight)
+									(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;if not done, move on and go from there.
+									#t      ;otherwise return true
+								)
+							)   
+							(if MergeAndSplit?  ;if user wants to merge/split,
+								(if (d-MoveToMeasureRight)  ;we see if there is a next measure; if so we want to merge the two and redo this measure.
+									(begin
+										(d-MoveCursorLeft) ;move onto the barline 
+										(CustomDeleteBarline) ;delete it
+										(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?);now do the measure again 
+									)
+									#t  ;return true if there's no more, we're done with staff.
+								)
+								;if NOT supposed to merge/split...
+								(if (d-MoveToMeasureRight)  ;see if at end of staff.
+									(begin              ;if not at end of staff...
+										(d-MoveToMeasureLeft)
+										#f  ;if we're not supposed to pad or merge/split, stop here.  This measure had prob's
+									)
+									#t      ;otherwise, staff is good.
+								)))
+								;if it wasn't too small...
+						(if (and (not IgnoreDurationError)  (equal? Counter TimeSig)) ; and if measure is exactly full now (and not just because we are ignoring the duration error)
+							(if (NextBreakInMeasure) ;see if there's extra stuff that has duration,
+								(if MergeAndSplit?  ;if there IS and we're supposed to merge/split...
+									(begin
+										(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
+										(SplitIntoNext) ;cut off extra stuff (ending up in next bar)
+										(if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
+										(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?)     ; rebar from that point onward.                     
+									)
+									#f  ;if user doesn't want us to split,return false.
+										; this bar is over-full, user will fix.
+								)
+								(begin  ;if there's NOT extra stuff in this measure...
+									(if (not (None?))
+										(d-MoveCursorRight))
+									(if (not (= TupletScaleFactor 1)) (d-EndTuplet)) ;if need be, end the tuplet in this bar, then restart it in next
 
-                        (if (d-MoveToMeasureRight) ;if there's another measure...
-                            (begin 
+									(if (d-MoveToMeasureRight) ;if there's another measure...
+										(begin 
 
-                                (if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
-                                (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?);having gone on to next measure, rebar again.
-                            )
-                            #t  ;make sure we return true-done with staff.                          
-                        )
-                    )
-                )
-                    ;;;measure not exact or we are ignoring the duration error
-                (if (and MergeAndSplit? (> Counter TimeSig)) ; if the measure is overfull, see if want to split.
-                    (begin
-                        (set! Excess (- Counter TimeSig)) ;this is how much of that note to put in next measure,                        
-                        (if (equal? (remainder 256 (denominator (/ Excess TupletScaleFactor))) 0)  ;if we don't have to start a tuplet, we're good.
-                            (begin
-                                ;query the user: should we split the note, or let him/her do it?                
-                                (if (not SplitAll) (set! Inquiry (d-GetOption (string-append (_ "Split This Note") stop (_ "Split Many") stop (_ "Stop Here") stop))) )
-                                ;need to stop if we hit cancel
-                                (if (equal? Inquiry (_ "Split Many")) (set! SplitAll 100))
-                                (if (or SplitAll (equal? Inquiry (_ "Split This Note")) (equal? Inquiry (_ "Split Many"))) 
-                                    (begin  ;we're going to split across the barline and march on.
-										(if SplitAll
-											(begin
-												(set! SplitAll (1- SplitAll))
-												(if (zero? SplitAll)
-													(set! SplitAll #f))))
-                                        (set! LeftOver (- (GetNoteBeat) Excess)) ;duration that stays in left measure.      
-                                        (if (d-NextObjectInMeasure) ;if there're more stuff after the current stuff, chop it off to deal with it next bar
-                                            (begin
-                                                (SplitIntoNext)
-                                                ;now go back onto the note that should be split by barline.
-                                                (d-MoveToMeasureLeft)
-                                                (d-MoveToMeasureRight)
-                                                (d-MoveCursorLeft)  ;now on barline.
-                                                (d-MoveCursorLeft) ;now we're back on the last note of that bar.
-                                            )
-                                        )
-                                        ;now we gotta get a copy of the note to split.
-                                        (d-SetMark)
-                                        (d-Cut) ;now the right note's cut onto the clipboard...
-                                        (MakeDuration LeftOver "Left" 0 #f) ;syntax to add custom duration to each measure, shortest durations to left.
-                                        (if (not (= TupletScaleFactor 1))  ;end the tuplets in this bar if need be, restart in next...
-                                            (begin (d-MoveCursorRight) (d-EndTuplet)) )                         
-                                        (if (not (d-MoveToMeasureRight)) (d-InsertMeasureAfter))    ;need to add a new measure if it ain't there.
-                                        (if (not (= TupletScaleFactor 1)) ;start the tuplets in next bar if need be.
-                                            (R-StartTuplet TupletScaleFactor) )
-                                        (MakeDuration Excess "Right" 0 #f)  ;add with shortest durations on right
-                                        (AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;continue                           
-                                    )
-                                    #f ;if user cancelled or Stopped Here, return false
-                                )
-                            )
-                            (begin
-                                (d-InfoDialog (_ "This measure's discrepancy requires a tuplet.\nPlease adjust manually and run this script again."))
-                                #f  ;return false
-                            )
-                        )                   
-                    )
-                    ;;; measure is not exact and merging is not asked for
-                    IgnoreDurationError  ;just return #f as they don't want to Merge/Split, unless it is to be ignored
-                )
-            )
-        )
-    )
-) ;define AuditThisStaff
+											(if (not (= TupletScaleFactor 1)) (R-StartTuplet TupletScaleFactor)) ;restart the tuplet in following bar if needed
+											(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?);having gone on to next measure, rebar again.
+										)
+										#t  ;make sure we return true-done with staff.                          
+									)
+								)
+							)
+								;;;measure not exact or we are ignoring the duration error
+							(if (and MergeAndSplit? (> Counter TimeSig)) ; if the measure is overfull, see if want to split.
+								(begin
+									(set! Excess (- Counter TimeSig)) ;this is how much of that note to put in next measure,                        
+									(if (equal? (remainder 256 (denominator (/ Excess TupletScaleFactor))) 0)  ;if we don't have to start a tuplet, we're good.
+										(begin
+											;query the user: should we split the note, or let him/her do it?                
+											(if (not SplitAll) (set! Inquiry (d-GetOption (string-append (_ "Split This Note") stop (_ "Split All") stop (_ "Stop Here") stop))) )
+											;need to stop if we hit cancel
+											(if (equal? Inquiry (_ "Split All")) (set! SplitAll 1000))
+											(if (or SplitAll (equal? Inquiry (_ "Split This Note")) (equal? Inquiry (_ "Split All"))) 
+												(begin  ;we're going to split across the barline and march on.
+													(if SplitAll
+														(begin
+															(set! SplitAll (1- SplitAll))
+															(if (zero? SplitAll)
+																(set! SplitAll #f))))
+													(set! LeftOver (- (GetNoteBeat) Excess)) ;duration that stays in left measure.      
+													(if (d-NextObjectInMeasure) ;if there're more stuff after the current stuff, chop it off to deal with it next bar
+														(begin
+															(SplitIntoNext)
+															;now go back onto the note that should be split by barline.
+															(d-MoveToMeasureLeft)
+															(d-MoveToMeasureRight)
+															(d-MoveCursorLeft)  ;now on barline.
+															(d-MoveCursorLeft) ;now we're back on the last note of that bar.
+														)
+													)
+													;now we gotta get a copy of the note to split.
+													(d-SetMark)
+													(d-Cut) ;now the right note's cut onto the clipboard...
+													(MakeDuration LeftOver "Left" 0 #f) ;syntax to add custom duration to each measure, shortest durations to left.
+													(if (not (= TupletScaleFactor 1))  ;end the tuplets in this bar if need be, restart in next...
+														(begin (d-MoveCursorRight) (d-EndTuplet)) )                         
+													(if (not (d-MoveToMeasureRight)) (d-InsertMeasureAfter))    ;need to add a new measure if it ain't there.
+													(if (not (= TupletScaleFactor 1)) ;start the tuplets in next bar if need be.
+														(R-StartTuplet TupletScaleFactor) )
+													(MakeDuration Excess "Right" 0 #f)  ;add with shortest durations on right
+													(AuditThisStaff TimeSig Pad? Blank? MergeAndSplit?) ;continue                           
+												)
+												#f ;if user cancelled or Stopped Here, return false
+											)
+										)
+										(begin
+											(d-InfoDialog (_ "This measure's discrepancy requires a tuplet.\nPlease adjust manually and run this script again."))
+											#f  ;return false
+										)
+									)                   
+								)
+								;;; measure is not exact and merging is not asked for
+								IgnoreDurationError  ;just return #f as they don't want to Merge/Split, unless it is to be ignored
+							))))))) ;define AuditThisStaff
 
 ;now actually do it:
-(if ReBar::params
-   (begin
-     (d-MoveToBeginning) 
-     (set! ReBar::return (AuditThisStaff (GetPrevailingTimesig #t) #f #f #f))
-    )
-    (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
-    (set! Input1 (d-GetOption (string-append (_ "Search for under/overfull bars") stop 
-                (_ "Pad underfull bars with rests") stop (_ "Pad underfull bars with blank rests")  stop
-                (_ "Rebar-Merge underfull, split overfull bars") stop)))
+   (let ((Pad #f) (Blank #f)(MergeAndSplit #f))
+    (set! Input1 (d-GetOption (string-append
+                (_ "Rebar-Merge underfull, split overfull bars") stop
+                (_ "Pad underfull bars with rests") stop 
+                (_ "Pad underfull bars with blank rests")  stop)))
     (set! Blank (equal? Input1 (_ "Pad underfull bars with blank rests")))
     (set! Pad (or (equal? Input1 (_ "Pad underfull bars with rests"))(equal? Input1 (_ "Pad underfull bars with blank rests") )))
     (set! MergeAndSplit (equal? Input1 (_ "Rebar-Merge underfull, split overfull bars")))
@@ -415,14 +418,5 @@
                 (if AllOK 
                     (apply d-GoToPosition position) ;end where we began, unless there were problems.
                     ))
-            (if spillover (d-SetPrefs "<spillover>1</spillover>"))        
-                    
-                    
-                    )))))   ;let
-
-(if ReBar::params
-    (begin ;; non-interactive
-        (if ReBar::return
-            (set! ReBar::return #f)
-            (set! ReBar::return (_ "Problem with measure length")))))
-    
+            (if spillover (d-SetPrefs "<spillover>1</spillover>"))))))
+(d-DecreaseGuard)  
