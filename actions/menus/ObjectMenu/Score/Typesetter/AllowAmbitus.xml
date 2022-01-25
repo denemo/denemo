@@ -8,7 +8,7 @@
         <action>AllowAmbitus</action>
         <after>TinyStaffAllMovements</after>
         <_label>Ambitus</_label>
-        <_tooltip>Typesets the Ambitus of each staff at the start of the first system. This can then be turned on by the Inclusion Criterion Ambitus in the Print View.</_tooltip>
+        <_tooltip>Typesets the Ambitus of each staff at the start of the first system. This can be conditional (turned on by the Inclusion Criterion Ambitus in the Print View) or uncondtional.</_tooltip>
       </row>
     </map>
   </merge>

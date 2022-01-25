@@ -8778,7 +8778,7 @@ Include rests if they are part of the pattern.
         <after>TinyStaffAllMovements</after>
         <menupath>/ObjectMenu/Score/Typesetter</menupath>
         <_label>Ambitus</_label>
-        <_tooltip>Typesets the Ambitus of each staff at the start of the first system. This can then be turned on by the Inclusion Criterion Ambitus in the Print View.</_tooltip>
+        <_tooltip>Typesets the Ambitus of each staff at the start of the first system. This can be conditional (turned on by the Inclusion Criterion Ambitus in the Print View) or uncondtional.</_tooltip>
       </row>
       <row type="scheme">
         <action>ChooseMinimumStaffSpacing</action>
