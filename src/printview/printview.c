@@ -12,6 +12,7 @@
 #include "core/view.h"
 #include "core/menusystem.h"
 #include "scripting/scheme-callbacks.h"
+#include "ui/texteditors.h"
 #include "command/scorelayout.h"
 #include "command/lilydirectives.h"
 #include "export/exportlilypond.h"
@@ -2624,6 +2625,18 @@ static void drop_condition (DenemoInclusionCriterion *condition)
   Denemo.project->criterion = NULL;
   gtk_button_set_label (GTK_BUTTON (condition_button), NO_CONDITION_LABEL);
 }
+
+
+static void default_condition (gchar *name)
+{
+  gchar *text = g_strdup_printf ("(d-SetIncludeCriterion \"%s\")", name+1);//leading space in name is skipped
+  appendSchemeText (text);
+  g_free (text);
+  Denemo.project->has_script = TRUE;
+  score_status (Denemo.project, TRUE);
+}
+
+
 void delete_conditions (DenemoProject *gui)
 {
   GList *g;
@@ -2675,7 +2688,15 @@ static GtkWidget *get_conditions_menu (void)
       g_free (text);
       gtk_widget_set_tooltip_text (item, _("No longer use this as an Inclusion Criterion for this score; all directives tagged with this criterion will be active as normal."));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (drop_condition), Denemo.project->criterion);       
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (drop_condition), Denemo.project->criterion);  
+      
+      text = g_strdup_printf ("%s %s", _("Default to:"),  Denemo.project->criterion->name);
+      item = gtk_menu_item_new_with_label (text);
+      g_free (text);
+      gtk_widget_set_tooltip_text (item, _("Set this include criterion when loading this score."));
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (default_condition), Denemo.project->criterion->name);  
+           
     }    
     
   gtk_widget_show_all (menu);
