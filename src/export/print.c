@@ -612,6 +612,7 @@ generate_lilypond (gchar * lilyfile, gboolean part_only, gboolean all_movements)
     exportlilypond (lilyfile, gui, all_movements);
 }
 
+// for populating the Print View, cf export_pdf ()
 static void
 run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
 {
@@ -943,7 +944,7 @@ export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui)
  * Does all the export pdf work.
  * calls exportmudela and then
  * runs lilypond to a create a filename.pdf
- *
+ *  Called by (d-ExportPDF ...). The Print View is populated by run_lilypond_for_pdf ()
  *  @param filename filename to save score to
  *  @param gui pointer to the DenemoProject structure
  */
@@ -971,7 +972,7 @@ export_pdf (gchar * filename, DenemoProject * gui)
   gchar *arguments[] = {
     Denemo.prefs.lilypath->str,
     "-dgui",
-    "--loglevel=WARN",
+    "--loglevel=WARN", "-dno-point-and-click",
     "--pdf",
     local_include,
     include,
