@@ -1402,7 +1402,7 @@
                             (d-DirectiveGet-header-postfix "MovementPiece"))
                         (begin
                             (set! choice 'abort)
-                            (d-WarningDialog (_ "You have simple titles created by an earlier version of Denemo.\nYou can only edit these with 1.2.4 or earlier versions.\nYou can delete them in the score and movement editor and then re-instate them."))))))
+                            (d-WarningDialog (_ "You have simple titles created by an earlier version of Denemo.\nYou can only edit these with 1.2.4 or earlier versions.\nYou can delete them in the score and movement editor and then re-instate them. You must also delete the Directive \"PrintAllHeaders\" in the Score Properties Editor when you do this."))))))
                 
  
             (case choice
