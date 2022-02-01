@@ -3,13 +3,12 @@
 # This file is distributed under the same license as the denemo package.
 #
 # Frans Spiesschaert <Frans.Spiesschaert@yucom.be>, 2020 - 2022.
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: denemo-2.6-rc2\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2021-12-08 10:57+0000\n"
-"PO-Revision-Date: 2022-01-25 12:34+0100\n"
+"PO-Revision-Date: 2022-02-01 11:19+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -18,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Lokalize 2.0\n"
 
 #. GtkFileFilter *filter;
 #: ../src/audio/fluid.c:217
@@ -1183,7 +1182,7 @@ msgstr "Een Akkoordsymbool \"%s\" is aan deze noot gekoppeld.\n"
 #: ../src/command/object.c:641
 #, c-format
 msgid "A Bass Figure \"%s\" is attached to this note.\n"
-msgstr "Een basfiguur \"%s\" is aan deze noot gekoppeld.\n"
+msgstr "Een bascijfer \"%s\" is aan deze noot gekoppeld.\n"
 
 #: ../src/command/object.c:649
 #, c-format
@@ -1732,7 +1731,7 @@ msgstr "Akkoordsymbool bewerken"
 
 #: ../src/command/object.c:1969
 msgid "Edit Bass Figure"
-msgstr "Basfiguur bewerken"
+msgstr "Bascijfer bewerken"
 
 #. type = _("start tuplet marker");
 #: ../src/command/object.c:1994
@@ -3075,7 +3074,7 @@ msgstr "TweehonderdzesenvijftigsteNoot"
 
 #: ../src/core/entries.h:41
 msgid "Insert 𝅥"
-msgstr " 𝅥  invoegen"
+msgstr " 𝅥 𝅥invoegen"
 
 #: ../src/core/entries.h:42
 msgid "Insert a 𝄻"
@@ -4979,7 +4978,7 @@ msgstr "Becijferde bas invoegen/bewerken"
 
 #: ../src/core/entries.h:304
 msgid "Add a bass figure to the current note. Use | sign to split the duration of a note so as to have multiple figures on one note. Directly insert the LilyPond syntax for the current note by enclosing it with $ signs. See Lilypond docs for other notation"
-msgstr "Een basfiguur toevoegen aan de huidige noot. Gebruik het | teken om de duur van een noot te splitsen om zo meerdere cijfers op één noot te kunnen plaatsen. U kunt rechtstreeks de Lilypond-syntaxis voor de huidige noot invoegen door deze tussen $-tekens te plaatsen. Raadpleeg de Lilypond-documentatie voor andere notaties"
+msgstr "Een bascijfer toevoegen aan de huidige noot. Gebruik het | teken om de duur van een noot te splitsen om zo meerdere cijfers op één noot te kunnen plaatsen. U kunt rechtstreeks de Lilypond-syntaxis voor de huidige noot invoegen door deze tussen $-tekens te plaatsen. Raadpleeg de Lilypond-documentatie voor andere notaties"
 
 #: ../src/core/entries.h:305
 msgid "Delete Figures"
@@ -5809,7 +5808,7 @@ msgid ""
 "Adding Figured Bass Figures"
 msgstr ""
 "Menu:\n"
-"Becijferde basfiguur toevoegen"
+"Cijfers voor becijferde bas toevoegen"
 
 #: ../src/core/entries.h:386
 msgid "Measures"
@@ -5999,7 +5998,7 @@ msgstr "Dynamiekmarkeringen"
 
 #: ../src/core/entries.h:402 ../actions/palettes.xml.h:75
 msgid "Ornaments"
-msgstr "Versieringen"
+msgstr "Ornamenten"
 
 #: ../src/core/entries.h:402
 msgid ""
@@ -7730,7 +7729,7 @@ msgstr ""
 #. _("Moves the playback start point (which shows as a green bar) later in time\nThe red and green bars do not get drawn until you have started play, or at least created the time base."));
 #: ../src/core/view.c:3351
 msgid "Stops the playback. On pressing play after this playback will start where the green bar is, not where you stopped. Use the Play/Pause button for that."
-msgstr "Stopt het afspelen. Als u daarna op afspelen drukt, begint het afspelen waar de groene streep zich bevindt, niet waar u bent gestopt. Gebruik daarvoor de knop Afspelen/Pause"
+msgstr "Stopt het afspelen. Als u daarna op afspelen drukt, begint het afspelen waar de groene streep zich bevindt, niet waar u bent gestopt. Gebruik daarvoor de knop Afspelen/Pause."
 
 #: ../src/core/view.c:3355
 msgid ""
@@ -10606,7 +10605,7 @@ msgstr "Toonhoogtespelling gebruiken"
 
 #: ../src/ui/prefdialog.c:701
 msgid "% MIDI-in Dynamic Compression"
-msgstr "% MIDI-in dynamische compressie"
+msgstr "% MIDI-in dynamiekcompressie"
 
 #: ../src/ui/prefdialog.c:702
 msgid "Avoid abrupt damping"
@@ -10776,7 +10775,7 @@ msgid ""
 "The setting for the loudness of this staff will ignored (or at least modified) by the setting of the dynamic compression preference you have.\n"
 "See Preferences Dialog, Audio Tab or Playback Controls \"Always Full Volume\" checkbox."
 msgstr ""
-"De instelling voor de luidheid van deze notenbalk wordt genegeerd (of op zijn minst gewijzigd) door de dynamische compressievoorkeur die u heeft ingesteld.\n"
+"De instelling voor de luidheid van deze notenbalk wordt genegeerd (of op zijn minst gewijzigd) door de dynamiekcompressievoorkeur die u heeft ingesteld.\n"
 "Zie keuzevakje \"Altijd volledig volume\" van het dialoogvenster Voorkeuren, het tabblad Audio of de Bedieningselementen voor afspelen."
 
 #: ../src/ui/staffpropdialog.c:306
@@ -13481,7 +13480,7 @@ msgstr "Baspartij afdrukken met weglating van cijfers"
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintBassPartWithoutFigures.xml.h:2
 msgid "Prints the Bass part omitting any figured bass figures."
-msgstr "Drukt de baspartij af en laat alle becijferde basfiguren weg."
+msgstr "Drukt de baspartij af en laat alle cijfers van de becijferde bas weg."
 
 #: ../actions/menus/MainMenu/FileMenu/PrintMenu/PrintPartWithTitlePage.scm:13
 msgid "No Book Title, see Score->Titles->Book Titles"
@@ -15101,7 +15100,7 @@ msgstr "Uitzoomen"
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomReset.xml.h:2
 #, no-c-format
 msgid "Zoom to 100%"
-msgstr "Naar 100% zoomen"
+msgstr "Zoomen naar 100%"
 
 #: ../actions/menus/MainMenu/ViewMenu/Zoom/ZoomReset.xml.h:4
 #, no-c-format
@@ -15386,7 +15385,7 @@ msgstr "Zet een sequens basinversie-noten."
 #. body
 #: ../actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicDown.xml.h:1
 msgid "Change Enharmonic Down"
-msgstr "Enharmoniek dalend wijzigen"
+msgstr "Enharmonische dalend wijzigen"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicDown.xml.h:2
 msgid "Switch through enharmonic variants of the same sounding note in the direction of lower diatonic base notes"
@@ -15398,7 +15397,7 @@ msgstr "Wisselen tussen enharmonische varianten van een identiek klinkende noot 
 #. body
 #: ../actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicUp.xml.h:1
 msgid "Change Enharmonic Up"
-msgstr "Enharmoniek stijgend wijzigen"
+msgstr "Enharmonische stijgend wijzigen"
 
 #: ../actions/menus/ObjectMenu/ChordMenu/ChangeEnharmonicUp.xml.h:2
 msgid "Shift through enharmonic variants of the same sounding note in the direction of higher diatonic base notes."
@@ -16363,15 +16362,15 @@ msgstr "Een (Franse 18e-eeuwse) agrément plaatsen op de noot bij de cursor."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 msgid "Add Accidental/Ornament"
-msgstr "Toevallig voorteken/versiering toevoegen"
+msgstr "Voorteken/ornament toevoegen"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:7
 msgid "Re-order Accidentals/Ornaments"
-msgstr "Toevallige voortekens/versieringen herordenen"
+msgstr "Voortekens/ornamenten herordenen"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:23
 msgid "No Note to apply ornament to"
-msgstr "Geen noot om versiering op toe te passen"
+msgstr "Geen noot om ornament op toe te passen"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:26
 msgid "Further from Staff"
@@ -16387,7 +16386,7 @@ msgstr "Prioriteit nu "
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:34
 msgid " you may need to repeat this command to get a suitable value to re-order this ornament with respect to other ornaments on the same note."
-msgstr " het kan zijn dat u deze opdracht moet herhalen om een geschikte waarde te krijgen om deze versiering opnieuw te ordenen ten opzichte van andere versieringen op dezelfde noot."
+msgstr " het kan zijn dat u deze opdracht moet herhalen om een geschikte waarde te krijgen om dit ornament opnieuw te ordenen ten opzichte van andere ornamenten op dezelfde noot."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.scm:49
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:9
@@ -16478,11 +16477,11 @@ msgstr "Automatisch positioneren"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.xml.h:1
 msgid "Insert/Edit Ornament"
-msgstr "Versiering invoegen/bewerken"
+msgstr "Ornament invoegen/bewerken"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Ornaments/Ornament.xml.h:2
 msgid "Select an ornament to insert as an object at the cursor (it will be typeset on the following note), or edit the ornament already present. Ornament here includes accidentals to be placed over or under other ornaments, as well as multiple ornaments stacked on one note/chord."
-msgstr "Een versiering selecteren om als een object bij de cursor in te voegen (ze zal worden gezet op de volgende noot), of de reeds aanwezige versiering bewerken. Versiering omvat hier ook toevallige voortekens die over of onder andere versieringen moeten worden geplaatst, evenals meerdere versieringen die op één noot/akkoord zijn gestapeld."
+msgstr "Een ornament selecteren om als een object bij de cursor in te voegen (ze zal worden gezet op de volgende noot), of het reeds aanwezige ornament bewerken. Ornament omvat hier ook voortekens die over of onder andere ornamenten moeten worden geplaatst, evenals meerdere ornamenten die op één noot/akkoord zijn gestapeld."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.scm:9
 msgid "More Editing Options"
@@ -16802,7 +16801,7 @@ msgstr "7"
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:22
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:577
 msgid "accidentals"
-msgstr "toevallige voortekens"
+msgstr "voortekens"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:23
 msgid "sharp"
@@ -17056,11 +17055,11 @@ msgstr "gestopt"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:89
 msgid "upbow"
-msgstr "opwaartseboog"
+msgstr "opstreek"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:90
 msgid "downbow"
-msgstr "neerwaartseboog"
+msgstr "afstreek"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:91
 msgid "reverseturn"
@@ -19402,11 +19401,11 @@ msgstr "Vergeten"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.xml.h:1
 msgid "(Print) Accidental Printing"
-msgstr "(Afdrukken) Toevallig voorteken afdrukken"
+msgstr "(Afdrukken) Voorteken afdrukken"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/AutoAccidentals.xml.h:2
 msgid "Prints accidentals according to a chosen style"
-msgstr "Drukt toevallige voortekens af volgens een gekozen stijl"
+msgstr "Drukt voortekens af volgens een gekozen stijl"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/BeamingOff.scm:10
 msgid "No Beaming"
@@ -19485,7 +19484,7 @@ msgstr "Rust"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.scm:22
 msgid "Markup to use for "
-msgstr "Mark-up om te gebruiken voor "
+msgstr "Opmaak om te gebruiken voor "
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.xml.h:1
 msgid "Change Stencil for Object"
@@ -19493,7 +19492,7 @@ msgstr "Patroon wijzigen voor object"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.xml.h:2
 msgid "Lets you create your own stencil for typesetting the next occurence of the chosen layout object. The stencil is created using LilyPond markup - this can be anything from a single character to a drawing in encapsulated Postscript format. See LilyPond documentation for details."
-msgstr "Hiermee kunt u uw eigen patroon maken voor het zetten van het gekozen opmaak-object, de volgende keer dat dit object voorkomt. Het patroon wordt gemaakt met LilyPond-mark-up - dit kan van alles zijn, van één enkel karakter tot een tekening in ingekapseld Postscript-formaat. Zie LilyPond-documentatie voor details."
+msgstr "Hiermee kunt u uw eigen patroon maken voor het zetten van het gekozen opmaak-object, de volgende keer dat dit object voorkomt. Het patroon wordt gemaakt met LilyPond-opmaak - dit kan van alles zijn, van één enkel karakter tot een tekening in ingekapseld Postscript-formaat. Zie LilyPond-documentatie voor details."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChordChangesOnly.scm:4
 msgid "This Directive turns off repeations of the chord except at the start of a new line"
@@ -20955,7 +20954,7 @@ msgstr "Onvolledige maten opvullen met rusten"
 #: ../actions/menus/ObjectMenu/MovementMenu/ReBar.scm:388
 #: ../actions/menus/ObjectMenu/MovementMenu/ReBar.scm:389
 msgid "Pad underfull bars with blank rests"
-msgstr "Onvolledige maten opvullen met blanco rusten"
+msgstr "Onvolledige maten opvullen met lege rusten"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/ReBar.scm:387
 #: ../actions/menus/ObjectMenu/MovementMenu/ReBar.scm:390
@@ -21010,6 +21009,14 @@ msgid ""
 "Quit your graphics editor before quitting this dialog\n"
 "to return to work in Denemo."
 msgstr ""
+"Wacht tot je editor voor vectorafbeeldingen start.\n"
+"Deze opent een SVG-bestand met dezelfde naam, als dat beschikbaar is,\n"
+"maar sla het op als een ingekapseld postscript-bestand (eps).\n"
+"U moet de afdrukweergave vernieuwen om uw wijzigingen te zien.\n"
+"Bij het opslaan van uw eps is het goed om het bestand ook op te slaan\n"
+"in SVG-bestandsindeling, omdat dit later beter te bewerken is.\n"
+"Sluit uw grafische editor af voordat u dit dialoogvenster verlaat\n"
+"om weer aan het werk te gaan in Denemo."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:21
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:75
@@ -21020,13 +21027,13 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:22
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:79
 msgid "Edit the file "
-msgstr ""
+msgstr "Het bestand bewerken "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:21
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:20
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:22
 msgid "Edit width and position "
-msgstr ""
+msgstr "Breedte en positie bewerken "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:26
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:27
@@ -21053,7 +21060,7 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:91
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 msgid "Encapsulated Postscript File"
-msgstr ""
+msgstr "Ingekapseld Postscript-bestand"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:26
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:25
@@ -21061,18 +21068,18 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:32
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:27
 msgid "Give width required:"
-msgstr ""
+msgstr "Geef de vereiste breedte op:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:27
 msgid "Give space above required:"
-msgstr ""
+msgstr "Geef de vereiste ruimte erboven op:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:28
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:27
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:75
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:29
 msgid "Give space to the left required:"
-msgstr ""
+msgstr "Geef de vereiste ruimte aan de linkerkant op:"
 
 #. (if filename
 #. (d-WarningDialog (_ "This will replace the current definition")))
@@ -21081,19 +21088,19 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:114
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:63
 msgid "Start From Template"
-msgstr ""
+msgstr "Beginnen vanaf een sjabloon"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:75
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:76
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:136
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:79
 msgid "Use the file unedited"
-msgstr ""
+msgstr "Het bestand onbewerkt gebruiken"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:91
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:92
 msgid "The file "
-msgstr ""
+msgstr "Het bestand "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:91
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:92
@@ -21101,454 +21108,456 @@ msgid ""
 "does not exist\n"
 "Perhaps you saved to a different directory?"
 msgstr ""
+"bestaat niet\n"
+"Misschien sloeg u het op in een andere map?"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:93
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:94
 msgid "Delete prepended postscript?"
-msgstr ""
+msgstr "Voorgevoegde postscript verwijderen?"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.scm:96
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:97
 msgid "Prepended Postscript Deleted"
-msgstr ""
+msgstr "Voorgevoegde postscript werd verwijderd"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml.h:1
 msgid "Append Encapsulated Postscript"
-msgstr ""
+msgstr "Ingekapseld postscript toevoegen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/AppendPostscript.xml.h:2
 msgid "Places text/graphics from an encapsulated postscript file at the end of the current movement. Use this for columns of text or images, fancy titles etc. prepared in other programs which are to appear after the music."
-msgstr ""
+msgstr "Plaatst tekst/afbeeldingen uit een ingekapseld postscript-bestand aan het einde van de huidige beweging. Gebruik dit voor kolommen met tekst of afbeeldingen, mooie titels, enz. die zijn voorbereid in andere programma's en die na de muziek moeten verschijnen."
 
 #. Chapter
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.scm:2
 msgid "Give heading or blank out to delete: "
-msgstr ""
+msgstr "Geef een koptekst op of leeg om te wissen: "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.xml.h:1
 msgid "Heading"
-msgstr ""
+msgstr "Koptekst"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Chapter.xml.h:2
 msgid "Prints a heading the current movement"
-msgstr ""
+msgstr "Drukt een koptekst af bij de huidige beweging"
 
 #. Piece
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Piece.scm:2
 msgid "Give name for this piece of the current movement or blank out to delete: "
-msgstr ""
+msgstr "Geef een naam op voor dit stuk van de huidige beweging of leeg om te wissen: "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Piece.xml.h:1
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementPiece.xml.h:1
 msgid "Piece"
-msgstr ""
+msgstr "Stuk"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Piece.xml.h:2
 msgid "Prints a piece name for the Movement"
-msgstr ""
+msgstr "Drukt een stuknaam af voor de beweging"
 
 #. Section
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Section.scm:2
 msgid "Give name for movement sub-title or blank out to delete: "
-msgstr ""
+msgstr "Geef een naam op voor een ondertitel voor de beweging of leeg om te wissen: "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Section.xml.h:1
 msgid "Sub-Title"
-msgstr ""
+msgstr "Ondertitel"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/Section.xml.h:2
 msgid "Prints a subtitle for the Movement"
-msgstr ""
+msgstr "Drukt een ondertitel voor de beweging af"
 
 #. TitledPiece
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/TitledPiece.scm:2
 msgid "Give title for the movement or blank out to delete: "
-msgstr ""
+msgstr "Geef een titel op voor de beweging of leeg om te wissen: "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/TitledPiece.xml.h:1
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.xml.h:1
 msgid "Title"
-msgstr ""
+msgstr "Titel"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/BookTitles/TitledPiece.xml.h:2
 msgid "Prints title for the current movement"
-msgstr ""
+msgstr "Drukt een titel af voor de huidige beweging"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm:8
 msgid "Give space between title and score:"
-msgstr ""
+msgstr "Geef de ruimte op tussen de titel en de partituur:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.scm:15
 msgid "Delete spacer?"
-msgstr ""
+msgstr "Afstandhouder verwijderen?"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/InsertSpaceBeforeMovement.xml.h:2
 #: ../actions/palettes.xml.h:221
 msgid "Inserts blank space above the movement."
-msgstr ""
+msgstr "Voegt lege ruimte toe boven de beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/MarkupAtEnd.scm:6
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/MarkupAtEnd.scm:15
 msgid "Markup At End"
-msgstr ""
+msgstr "Opmaak aan het einde"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/MarkupAtEnd.scm:15
 msgid "Edit markup:"
-msgstr ""
+msgstr "Opmaak bewerken:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/MarkupAtEnd.xml.h:1
 msgid "Text after Movement"
-msgstr ""
+msgstr "Tekst na de beweging"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/MarkupAtEnd.xml.h:2
 msgid "Inserts the given Lilypond markup syntax after the current movement."
-msgstr ""
+msgstr "Voegt de opgegeven Lilypond opmaaksyntaxis toe na de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:26
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.scm:74
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:28
 msgid "Give space below required:"
-msgstr ""
+msgstr "Geef de vereiste ruimte eronder op:"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml.h:1
 msgid "Prepend Encapsulated Postscript"
-msgstr ""
+msgstr "Ingekapselde postscript vooraan invoegen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/PrependPostscript.xml.h:2
 msgid "Places text/graphics from an encapsulated postscript file at the start of the current movement. Use this for columns of text or images, fancy titles etc. prepared in other programs which are to appear before the music."
-msgstr ""
+msgstr "Plaatst tekst/afbeeldingen uit een ingekapseld postscript-bestand aan het begin van de huidige beweging. Gebruik dit voor kolommen met tekst of afbeeldingen, mooie titels, enz. die zijn voorbereid in andere programma's en die voor de muziek moeten verschijnen."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementComposer.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreComposer.xml.h:1
 msgid "Composer"
-msgstr ""
+msgstr "Componist"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementComposer.xml.h:2
 msgid "Prints a composer name for current movement."
-msgstr ""
+msgstr "Drukt de naam van een componist af voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementPiece.xml.h:2
 msgid "Prints the name given above and to the left at the start of the movement."
-msgstr ""
+msgstr "Drukt de opgegeven naam bovenaan links af bij het begin van de beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementSubtitle.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubtitle.xml.h:1
 msgid "Subtitle"
-msgstr ""
+msgstr "Ondertitel"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementSubtitle.xml.h:2
 msgid "Prints the name given below the title of this movement."
-msgstr ""
+msgstr "Drukt de opgegeven naam af onder de titel van deze beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.xml.h:1
 msgid "Set Titles"
-msgstr ""
+msgstr "Titels instellen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitles.xml.h:2
 msgid "Set titles for this movement. The names of the various titles are just suggestions, any sort of title can be placed in any field. See the manual for the default positioning of each title."
-msgstr ""
+msgstr "Titels instellen voor deze beweging. De namen van de verschillende titels zijn enkel suggesties; elk soort titel kan in elk veld worden geplaatst. Zie de handleiding voor de standaardpositionering van elke titel."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Titles/SimpleTitles/MovementTitle.xml.h:2
 msgid "Prints the name given as a title above the current movement."
-msgstr ""
+msgstr "Drukt de opgegeven naam af als titel boven de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtBeat.xml.h:1
 msgid "Allow Breaks at Beats"
-msgstr ""
+msgstr "Afbreken bij maatslagen toestaan"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtBeat.xml.h:2
 msgid "Allows the typesetter to break lines at each beat in a bar, instead of just at the end. Time signature changes must be handled manually (using Allow Page/Line Break command)."
-msgstr ""
+msgstr "Laat de zetter toe regels af te breken bij elke tel in een maat, in plaats van alleen aan het einde ervan. Maatsoortveranderingen moeten handmatig worden afgehandeld (met de opdracht Pagina/Regel-einde Toestaan)."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtHalfBar.xml.h:1
 msgid "Allow Breaks at Half Measure"
-msgstr ""
+msgstr "Afbreken halfweg de maat toestaan"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/AllowBreakAtHalfBar.xml.h:2
 msgid "Inserts a non-printing barline half-way through each bar from the cursor position onwards, which allows the typesetter to choose a line or page break at those places."
-msgstr ""
+msgstr "Voegt vanaf de cursorpositie halverwege elke maat een niet-afdrukbare maatstreep toe, waardoor de zetter op die plaatsen voor een regel- of pagina-einde kan kiezen."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:20
 msgid "Give text to appear on blank page, if any "
-msgstr ""
+msgstr "Tekst opgeven die op een lege pagina moet verschijnen, indien van toepassing "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.scm:11
 msgid "This page is intentionally left blank"
-msgstr ""
+msgstr "Deze pagina is met opzet leeg gelaten"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.xml.h:1
 msgid "Blank Page Before"
-msgstr ""
+msgstr "Voorafgaande lege pagina"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/BlankPage.xml.h:2
 msgid "Inserts a blank page (with optional text) before the current movement."
-msgstr ""
+msgstr "Voegt voor de huidige beweging een blanco pagina (met facultatieve tekst) toe."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml.h:1
 msgid "Custos (On/Off)"
-msgstr ""
+msgstr "Custos (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/Custos.xml.h:2
 msgid "Prints a custos at the end of each line for the current movement. Repeat command to turn custos off."
-msgstr ""
+msgstr "Drukt in de huidige beweging een custos af aan het einde van elke regel. Herhaal deze opdracht om custos terug uit te schakelen."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.scm:7
 msgid "Hide Barlines"
-msgstr ""
+msgstr "Maatstrepen verbergen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.xml.h:1
 msgid "(Print) Hide Barlines"
-msgstr ""
+msgstr "(Afdrukken) Maatstrepen verbergen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideBarlines.xml.h:2
 msgid "Omits barlines when printing."
-msgstr ""
+msgstr "Laat bij het afdrukken maatstrepen weg."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.scm:15
 msgid "Empty staffs hidden in all systems"
-msgstr ""
+msgstr "Lege notenbalken verbergen in alle systemen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.xml.h:1
 msgid "Hide Empty Staffs on All Systems (Off/On)"
-msgstr ""
+msgstr "Lege notenbalken verbergen in alle systemen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffsAllSystems.xml.h:2
 msgid "Hides empty staffs on the first and subsequent systems (Off/On). See also the command \"Hide Empty Staffs (Off/On)\" which keeps all staffs for the first system."
-msgstr ""
+msgstr "Verbergt lege notenbalken op het eerste en de volgende systemen (Uit/Aan). Zie ook het commando \"Lege Notenbalken Verbergen (Uit/Aan)\" waarbij alle notenbalken behouden blijven voor het eerste systeem."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.scm:9
 msgid "Empty Systems Hidden"
-msgstr ""
+msgstr "Lege systemen verbergen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml.h:1
 msgid "Hide Empty Staffs (Off/On)"
-msgstr ""
+msgstr "Lege notenbalken verbergen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/HideEmptyStaffs.xml.h:2
 msgid "Controls whether staffs containing only rests are printed in the current movement. All staffs are printed on the first system (line) thereafter any staff that has only rests for a entire system is dropped. Use this in large scores to fit more systems per page."
-msgstr ""
+msgstr "Bepaalt of notenbalken die alleen rusten bevatten, worden afgedrukt in de huidige beweging. Alle notenbalken worden afgedrukt op het eerste systeem (regel), daarna wordt elke notenbalk die over een heel systeem alleen rusten bevat, verwijderd. Gebruik dit in grote partituren om meer systemen te laten passen op een pagina."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.xml.h:1
 msgid "Beaming Rules"
-msgstr ""
+msgstr "Waardestreepregels"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementBeamingRules.xml.h:2
 msgid "Add/Replace rules to be used for beaming in the current movement. With no selection gets the beat for beams to be divided for the prevailing time signature at the cursor. If a there is a selection this will be used as the set of rules. In this case indicate the beaming desired using the manual beam commands [ and ], giving all the beaming rules wanted using several measures if needed (no other rules are used). Repeat with different selections to add further rules."
-msgstr ""
+msgstr "Toevoegen/vervangen van regels die gebruikt moeten worden voor het plaatsen van waardestrepen in de huidige beweging. Zonder selectie neemt dit de tel voor te verdelen waardestrepen voor de geldende maatsoort bij de cursor. Als er wel een selectie is zal deze worden gebruikt als de geldende set regels. Geef in dit geval de gewenste maatstreep aan met de manuele maatstreepcommando's [ en ], waarbij indien nodig meerdere maten worden gebruikt om alle gewenste regels voor het plaatsen van maatstrepen op te geven (er worden geen andere regels gebruikt). Herhaal dit met verschillende selecties om meer regels toe te voegen."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm:4
 msgid "Page Break Removed before Movement Title"
-msgstr ""
+msgstr "Pagina-einde verwijderd vóór de titel van de beweging"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm:5
 msgid "Page Break Inserted before Movement Title"
-msgstr ""
+msgstr "Pagina-einde ingevoegd vóór de titel van de beweging"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm:20
 msgid "Make Conditional"
-msgstr ""
+msgstr "Voorwaardelijk maken"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.scm:20
 msgid "Delete Page Break"
-msgstr ""
+msgstr "Pagina-einde verwijderen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.xml.h:1
 msgid "Page Break Before"
-msgstr ""
+msgstr "Voorafgaand pagina-einde"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/MovementPageBreak.xml.h:2
 msgid "Prints this movement starting on a new page"
-msgstr ""
+msgstr "Drukt deze beweging af beginnend op een nieuwe pagina"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsBaroque.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:5
 msgid "Baroque"
-msgstr ""
+msgstr "Barok"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsBaroque.xml.h:2
 msgid "Baroque note head style for the current movement."
-msgstr ""
+msgstr "Barokke nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsCross.xml.h:2
 msgid "Cross note head style for the current movement."
-msgstr ""
+msgstr "Kruisnootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsDefault.xml.h:2
 msgid "Default note head style for the current movement."
-msgstr ""
+msgstr "Standaard nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsDelete.xml.h:1
 msgid "Delete Movement Notehead Settings"
-msgstr ""
+msgstr "Nootkopinstellingen voor de beweging verwijderen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsDelete.xml.h:2
 msgid "Delete note head style of this movement. Reset to whatever Score or Lilypond has set as default."
-msgstr ""
+msgstr "De nootkopstijl van deze beweging verwijderen. Terugzetten naar wat de partituur of Lilypond als standaard heeft ingesteld."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsDiamond.xml.h:2
 msgid "Diamond note head style for the current movement."
-msgstr ""
+msgstr "Ruitnootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsHarmonic-black.xml.h:1
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsHarmonic-mixed.xml.h:1
 msgid "Harmonic-black"
-msgstr ""
+msgstr "Harmonische-zwart"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsHarmonic-black.xml.h:2
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsHarmonic-mixed.xml.h:2
 msgid "Harmonic-black note head style for the current movement."
-msgstr ""
+msgstr "Harmonische-zwart nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsHarmonic.xml.h:2
 msgid "Harmonic note head style for the current movement."
-msgstr ""
+msgstr "Harmonische nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsMensural.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:7
 msgid "Mensural"
-msgstr ""
+msgstr "Mensuraal"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsMensural.xml.h:2
 msgid "Mensural note head style for the current movement."
-msgstr ""
+msgstr "Mensurale nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsNeomensural.xml.h:1
 msgid "Neomensural"
-msgstr ""
+msgstr "Neomensuraal"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsNeomensural.xml.h:2
 msgid "Neomensural note head style for the current movement."
-msgstr ""
+msgstr "Neomensurale nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsPetrucci.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:8
 msgid "Petrucci"
-msgstr ""
+msgstr "Petrucci"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsPetrucci.xml.h:2
 msgid "Petrucci note head style for the current movement."
-msgstr ""
+msgstr "Petrucci nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsSlash.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:16
 msgid "Slash"
-msgstr ""
+msgstr "Slash"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsSlash.xml.h:2
 msgid "Slash note head style for the current movement."
-msgstr ""
+msgstr "Slash nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:15
 msgid "Triangle"
-msgstr ""
+msgstr "Driehoek"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/NoteHeadStyles/MovementNoteheadsXcircle.xml.h:2
 msgid "Triangle note head style for the current movement."
-msgstr ""
+msgstr "Driehoekige nootkopstijl voor de huidige beweging."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.scm:6
 msgid "Polymetric Staffs will no longer typeset"
-msgstr ""
+msgstr "Polymetrische notenbalken worden niet langer gezet"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.scm:24
 msgid "Staffs can have differing time signatures"
-msgstr ""
+msgstr "Notenbalken kunnen verschillende maatsoorten hebben"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.xml.h:1
 msgid "Polymetric Staffs (Off/On)"
-msgstr ""
+msgstr "Polymetrische notenbalken (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PolymetricStaffs.xml.h:2
 msgid "Turns on/off independent time signatures and barline on the staffs. Use for polymetric notation."
-msgstr ""
+msgstr "Schakelt onafhankelijke maatsoorten en maatstrepen op de notenbalken in of uit. Te gebruiken voor polymetrische notatie."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
 msgid "Choose indent for Current Movement"
-msgstr ""
+msgstr "Insprong kiezen voor de huidige beweging"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:6
 msgid "Give indent or Cancel to unset movement indent"
-msgstr ""
+msgstr "De insprong opgeven of Annuleren om inspringen van de beweging ongedaan te maken"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:11
 msgid "Indent= "
-msgstr ""
+msgstr "Insprong= "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.scm:15
 msgid "Movement indent dropped. Score indent will be used for this movement"
-msgstr ""
+msgstr "Insprong van de beweging is verwijderd. Voor deze beweging zal de partituurinsprong gebruikt worden"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.xml.h:1
 msgid "Indent"
-msgstr ""
+msgstr "Insprong"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/Indent.xml.h:2
 msgid "Alter the indent of the opening system for the current movement."
-msgstr ""
+msgstr "De insprong van het openingssysteem voor de huidige beweging wijzigen."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.scm:7
 msgid "Flush Right"
-msgstr ""
+msgstr "Rechts uitlijnen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml.h:1
 msgid "Ragged Right (On/Off)"
-msgstr ""
+msgstr "Rechts niet-uitgelijnd (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/RaggedRight.xml.h:2
 msgid "If the current movement has only one system it will be stretched to the right margin. Run the command again to turn this off."
-msgstr ""
+msgstr "Indien de huidige beweging slechts één systeem heeft, zal het worden uitgerekt tot aan de rechtermarge. Voer het commando opnieuw uit om dit uit te schakelen."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.scm:4
 msgid "Cannot use this command with Book Titles"
-msgstr ""
+msgstr "Kan dit commando niet gebruiken met boektitels"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.scm:9
 msgid "Separated Movement status dropped"
-msgstr ""
+msgstr "Status van gescheiden beweging verwijderd"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.scm:13
 msgid "Movement will be separated from others"
-msgstr ""
+msgstr "Beweging wordt gescheiden van andere"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.xml.h:1
 msgid "Separated Movement (On/Off)"
-msgstr ""
+msgstr "Gescheiden beweging (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/PrintLayout/SeparateMovement.xml.h:2
 msgid "Prints this movement on its own page(s). Not for use with Book Titles."
-msgstr ""
+msgstr "Drukt deze beweging op zijn eigen pagina('s) af. Niet te gebruiken met boektitels."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm:4
 msgid "Normal System Spacing is restored"
-msgstr ""
+msgstr "Normale systeemafstand is hersteld"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml.h:1
 msgid "Reduce Space Between Systems (On/Off)"
-msgstr ""
+msgstr "Tussenruimte tussen systemen verminderen (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml.h:2
 msgid "Reduces the gap between the systems of staffs on a page for the current movement."
-msgstr ""
+msgstr "Verkleint voor de huidige beweging de afstand tussen de systemen van notenbalken op een pagina."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml.h:1
 msgid "(Print) Mensural Barlines (On/Off)"
-msgstr ""
+msgstr "(Afdrukken) Mensurale maatstrepen (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/SwitchMensuralBarlines.xml.h:2
 msgid "Draw the barlines only between the staves but not inside."
-msgstr ""
+msgstr "De maatstrepen alleen tussen de notenbalken tekenen, maar niet erin."
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm:6
 #: ../actions/menus/ObjectMenu/Score/Typesetter/TransposeScorePrint.scm:51
 msgid "Set Transpose Interval"
-msgstr ""
+msgstr "Transponeer-interval instellen"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.scm:6
 msgid ""
@@ -21564,161 +21573,172 @@ msgid ""
 "        e.g. d e means a tone higher.\n"
 "        "
 msgstr ""
+"Geef het te transponeren interval op als twee nootnamen, \n"
+"         bijvoorbeeld \"c g\" betekent een reine kwint hoger transponeren.\n"
+"        Nootnamen zijn in het Nederlands!!! a,b,c ... zijn hetzelfde, maar\n"
+"        \"es\" = mol, dus bijv. bes betekent b-mol\n"
+"        \"is\" = kruis dus bijv. fis betekent f-kruis\n"
+"        Gebruik komma's voor octave(n) lager, \n"
+"        enkele aanhalingstekens voor octave(n) hoger\n"
+"        bijv. c c' betekent een octaaf hoger.\n"
+"        U moet niet starten met een c\n"
+"        bijv. d e betekent een toon hoger.\n"
+"        "
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml.h:1
 msgid "Transpose on Print"
-msgstr ""
+msgstr "Transponeren bij het afdrukken"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/TransposeMovementPrint.xml.h:2
 msgid "The current movement will be printed transposed by the interval given."
-msgstr ""
+msgstr "De huidige beweging zal getransponeerd met het opgegeven interval worden afgedrukt."
 
 #. (d-MoveCursorRight)
 #. (d-RefreshDisplay)))
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/Beam1234.xml.h:1
 msgid "Beam 4 Beats"
-msgstr ""
+msgstr "Waardestreep 4 tellen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/Beam1234.xml.h:2
 msgid "Beams end on each quarter note (up to 4)."
-msgstr ""
+msgstr "Waardestrepen eindigen op elke kwartnoot (maximaal 4)."
 
 #. BeamLeftNone
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftNone.xml.h:1
 msgid "No Beam Left"
-msgstr ""
+msgstr "Geen waardestreep links"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftNone.xml.h:2
 #: ../actions/palettes.xml.h:147
 msgid "Typeset the note at the cursor with no beam to the left."
-msgstr ""
+msgstr "De noot bij de cursor niet zetten met een waardestreep naar links."
 
 #. BeamLeftOne
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftOne.xml.h:1
 msgid "One Beam Left"
-msgstr ""
+msgstr "Eén waardestreep links"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftOne.xml.h:2
 #: ../actions/palettes.xml.h:149
 msgid "Prints with just one beam linking to left."
-msgstr ""
+msgstr "Afdrukken met precies één waardestreep die naar links verbindt."
 
 #. BeamLeftThree
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftThree.xml.h:1
 msgid "Three Beams Left"
-msgstr ""
+msgstr "Drie waardestrepen links"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftThree.xml.h:2
 #: ../actions/palettes.xml.h:153
 msgid "Prints with just three beams linking to the left."
-msgstr ""
+msgstr "Afdrukken met precies drie waardestrepen die naar links verbinden."
 
 #. BeamLeftTwo
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftTwo.xml.h:1
 msgid "Two Beams Left"
-msgstr ""
+msgstr "Twee waardestrepen links"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamLeftTwo.xml.h:2
 #: ../actions/palettes.xml.h:151
 msgid "Prints with just two beams linking to the left."
-msgstr ""
+msgstr "Afdrukken met precies twee waardestrepen die naar links verbinden."
 
 #. BeamRightNone
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightNone.xml.h:1
 msgid "No Beam Right"
-msgstr ""
+msgstr "Geen waardestreep rechts"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightNone.xml.h:2
 #: ../actions/palettes.xml.h:146
 msgid "Typeset the note at the cursor with no beam to the right."
-msgstr ""
+msgstr "De noot bij de cursor niet zetten met een waardestreep naar rechts."
 
 #. BeamRightOne
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightOne.xml.h:1
 msgid "One Beam Right"
-msgstr ""
+msgstr "Eén waardestreep rechts"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightOne.xml.h:2
 #: ../actions/palettes.xml.h:148
 msgid "Prints with just one beam linking to the right."
-msgstr ""
+msgstr "Afdrukken met precies één waardestreep die naar rechts verbindt."
 
 #. BeamRightThree
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightThree.xml.h:1
 msgid "Three Beams Right"
-msgstr ""
+msgstr "Drie waardestrepen rechts"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightThree.xml.h:2
 #: ../actions/palettes.xml.h:152
 msgid "Prints with just three beams linking to the right."
-msgstr ""
+msgstr "Afdrukken met precies drie waardestrepen die naar rechts verbinden."
 
 #. BeamRightTwo
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightTwo.xml.h:1
 msgid "Two Beams Right"
-msgstr ""
+msgstr "Twee waardestrepen rechts"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/BeamRightTwo.xml.h:2
 #: ../actions/palettes.xml.h:150
 msgid "Prints with just two beams linking to the right."
-msgstr ""
+msgstr "Afdrukken met precies twee waardestrepen die naar rechts verbinden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/DeleteBeamingDirective.xml.h:1
 msgid "Delete Beaming Directive"
-msgstr ""
+msgstr "Waardestreeprichtlijn verwijderen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/DeleteBeamingDirective.xml.h:2
 msgid "Deletes a ] or [ (end or start beam) directive on the current chord."
-msgstr ""
+msgstr "Verwijdert een ] of [ (einde of begin van een waardestreep)-richtlijn op het huidige akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/EndBeam.xml.h:1
 msgid "End Beam"
-msgstr ""
+msgstr "Waardestreep beëindigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/EndBeam.xml.h:2
 msgid "Instructs LilyPond engraver to stop previously started manual beaming. Print effect only."
-msgstr ""
+msgstr "Geeft de LilyPond-graveerder de instructie om het eerder gestarte handmatig zetten van waardestrepen te stoppen. Heeft alleen effect op het afdrukken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/NoBeam.scm:13
 msgid "No beam possible here"
-msgstr ""
+msgstr "Hier geen waardestreep mogelijk"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/NoBeam.xml.h:1
 msgid "No Beam"
-msgstr ""
+msgstr "Geen waardestreep"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/NoBeam.xml.h:2
 #: ../actions/palettes.xml.h:154
 msgid "(Print) Removes beam from current note"
-msgstr ""
+msgstr "(Afdrukken) Verwijdert de waardestreep van de huidige noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/ReplicateManualBeams.scm:144
 msgid "Selection must start and end in the same bar"
-msgstr ""
+msgstr "Selectie moet in dezelfde maat beginnen en eindigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/ReplicateManualBeams.xml.h:1
 msgid "Replicate Beams from Selection"
-msgstr ""
+msgstr "Waardestrepen uit de selectie repliceren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/ReplicateManualBeams.xml.h:2
 msgid "Copies the manual beams set in the current selection to occurrences of the same rhythmic pattern at the same beat (in the same time signature) in the rest of the staff. Include rests if they are part of the pattern."
-msgstr ""
+msgstr "Kopieert de handmatig ingestelde waardestrepen uit de huidige selectie naar gevallen van hetzelfde ritmische patroon bij dezelfde maatslag (in dezelfde maatsoort) in de rest van de notenbalk. Rusten toevoegen als ze deel uitmaken van het patroon."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/StartBeam.xml.h:1
 msgid "Start Beam"
-msgstr ""
+msgstr "Waardestreep beginnen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Beaming/StartBeam.xml.h:2
 msgid "Instructs the LilyPond engraver to start a beam here. (Print effect only)"
-msgstr ""
+msgstr "Geeft de LilyPond-graveerder de instructie om hier een waardestreep te beginnen. (Enkel effect op het afdrukken)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Augment.xml.h:1
 msgid "Augment"
-msgstr ""
+msgstr "Augmentatie"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Augment.xml.h:2
 msgid "Doubles the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Half Note."
-msgstr ""
+msgstr "Verdubbelt de duur van de noot/het akkoord/de rust bij de cursor of de selectie. Bijv. een kwartnoot wordt een halve noot."
 
 #. not music
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeBreve.xml.h:1
@@ -21726,11 +21746,11 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.xml.h:1
 msgid "Breve"
-msgstr ""
+msgstr "Brevis"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeBreve.xml.h:2
 msgid "Change current note duration to Breve"
-msgstr ""
+msgstr "De duur van de huidige noot naar een brevis veranderen"
 
 #. not a chord
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeLonga.xml.h:1
@@ -21738,885 +21758,887 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/SelectDuration/SetLonga.xml.h:1
 msgid "Longa"
-msgstr ""
+msgstr "Longa"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeLonga.xml.h:2
 msgid "Change current note duration to Longa"
-msgstr ""
+msgstr "De duur van de huidige noot naar een longa veranderen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo0.xml.h:1
 msgid "Change Duration To 𝅝"
-msgstr ""
+msgstr "De duur veranderen naar 𝅝"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo0.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅝 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅝  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo1.xml.h:1
 msgid "Change Duration To 𝅗𝅥"
-msgstr ""
+msgstr "De duur veranderen naar 𝅗𝅥"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo1.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅗𝅥 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅗𝅥  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo2.xml.h:1
 msgid "Change Duration To 𝅘𝅥"
-msgstr ""
+msgstr "De duur veranderen naar 𝅘𝅥"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo2.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅘𝅥 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅘𝅥  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo3.xml.h:1
 msgid "Change Duration To 𝅘𝅥𝅮"
-msgstr ""
+msgstr "De duur veranderen naar 𝅘𝅥𝅮"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo3.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅘𝅥𝅮 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅘𝅥𝅮𝅘𝅥  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo4.xml.h:1
 msgid "Change Duration To 𝅘𝅥𝅯"
-msgstr ""
+msgstr "De duur veranderen naar 𝅘𝅥𝅯"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo4.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅘𝅥𝅯 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅘𝅥𝅯𝅘𝅥𝅮𝅘𝅥  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo5.xml.h:1
 msgid "Change Duration To 𝅘𝅥𝅰"
-msgstr ""
+msgstr "De duur veranderen naar 𝅘𝅥𝅰"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo5.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅘𝅥𝅰 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅘𝅥𝅰𝅘𝅥𝅯𝅘𝅥𝅮𝅘𝅥  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo6.xml.h:1
 msgid "Change Duration To 𝅘𝅥𝅱"
-msgstr ""
+msgstr "De duur veranderen naar 𝅘𝅥𝅱"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo6.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅘𝅥𝅱 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅘𝅥𝅱  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo7.xml.h:1
 msgid "Change Duration To 𝅘𝅥𝅲"
-msgstr ""
+msgstr "De duur veranderen naar 𝅘𝅥𝅲"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/ChangeTo7.xml.h:2
 msgid "Changes the note or rest at the cursor to 𝅘𝅥𝅲 duration. Works also in appending position."
-msgstr ""
+msgstr "Verandert de duur van de noot of de rust naar een 𝅘𝅥𝅲𝅘𝅥𝅱  . Werkt ook in de stand Toevoegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Diminish.xml.h:1
 msgid "Diminish"
-msgstr ""
+msgstr "Diminutie"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Diminish.xml.h:2
 msgid "Halves the duration of the note/chord/rest at the cursor or the selection. E.g. Quarter Note becomes Eighth Note."
-msgstr ""
+msgstr "Halveert de duur van de noot/het akkoord/de rust bij de cursor of de selectie. Bijv. een kwartnoot wordt een achtste noot."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DotDoubleDotNoDot.scm:11
 msgid "Cursor must be on a chord/note/rest"
-msgstr ""
+msgstr "De cursor moet op een akkoord/noot/rust staan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DotDoubleDotNoDot.xml.h:1
 msgid "Dot"
-msgstr ""
+msgstr "Punt"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DotDoubleDotNoDot.xml.h:2
 msgid "Adds a dot to the note/rest/chord at the cursor, or removes them if double dotted."
-msgstr ""
+msgstr "Voegt een punt toe aan de noot/rust/akkoord bij de cursor, of verwijdert ze als er een dubbele punt is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythmSlurred.xml.h:1
 msgid "Create Slurred, Dotted Rhythm"
-msgstr ""
+msgstr "Gebonden, gepunteerd ritme creëren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythmSlurred.xml.h:2
 msgid "In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm. Slurs the two notes together."
-msgstr ""
+msgstr "In de positie Toevoegen punteert dit de noot of de rust bij de cursor en voegt een noot van de helft van de duur toe om zo een ​​gepunteerd ritme te creëren. Verbindt de twee noten met een legatoboog."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml.h:1
 msgid "Create Dotted Rhythm"
-msgstr ""
+msgstr "Een ​​gepunteerd ritme creëren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/DottedRhythm.xml.h:2
 msgid "In appending position, dots the note or rest at the cursor and appends a note of half the duration so as to create a dotted rhythm."
-msgstr ""
+msgstr "In de positie Toevoegen punteert dit de noot of de rust bij de cursor en voegt een noot van de helft van de duur toe om zo een ​​gepunteerd ritme te creëren."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify2.xml.h:1
 msgid "Dottify2"
-msgstr ""
+msgstr "Puntering2"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify2.xml.h:2
 msgid "As Dottify command but dotted rhythm created is dotted note plus two notes of a quarter the duration. Total duration is unchanged."
-msgstr ""
+msgstr "Zoals het commando Puntering, maar het gecreëerde gepunteerde ritme is een gepunteerde noot plus twee noten van een kwart van de duur. De totale duur blijft ongewijzigd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify.xml.h:1
 msgid "Dottify"
-msgstr ""
+msgstr "Puntering"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/Dottify.xml.h:2
 msgid "Turns the note on or before the cursor into a dotted rhythm with the same total duration."
-msgstr ""
+msgstr "Verandert de noot op of voor de cursor in een gepunteerd ritme met dezelfde totale duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.xml.h:1
 msgid "Join music objects to new chord"
-msgstr ""
+msgstr "Muziekobjecten bundelen tot een nieuw akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChordsToMergedChord.xml.h:2
 msgid "Joins all notes, chords and rests in the selection and inserts all selected notes as chord. May create tied notes."
-msgstr ""
+msgstr "Bundelt alle noten, akkoorden en rusten uit de selectie en voegt alle geselecteerde noten in als een akkoord. Kan overbonden noten maken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml.h:1
 msgid "Join music objects"
-msgstr ""
+msgstr "Muziekobjecten bundelen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/JoinChords.xml.h:2
 msgid "Joins all notes, chords and rests in the selection and inserts a new, longer note instead. May create tied notes. Uses the cursor position as pitch."
-msgstr ""
+msgstr "Bundelt alle noten, akkoorden en rusten uit de selectie en voegt in plaats daarvan een nieuwe, langere noot in. Kan overbonden noten maken. Gebruikt de cursorpositie als toonhoogte."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.xml.h:1
 msgid "Split Note/Chord"
-msgstr ""
+msgstr "Noot/akkoord splitsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChangeDuration/SplitChord.xml.h:2
 msgid "Split a chord into a specific amount of smaller notes while preserving original duration, generating tuplets if necessary. Not for rests."
-msgstr ""
+msgstr "Een akkoord in een bepaald aantal kleinere noten opsplitsen met behoud van de oorspronkelijke duur, en zo nodig antimetrische figuren genereren. Niet voor rusten."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.scm:5
 msgid "Comment this chord"
-msgstr ""
+msgstr "Dit akkoord becommentariëren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ChordComment.xml.h:2
 msgid "Attach a textual comment to the chord at the cursor"
-msgstr ""
+msgstr "Een tekstuele commentaar koppelen aan het akkoord bij de cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:24
 msgid "Directive "
-msgstr ""
+msgstr "Richtlijn "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:24
 msgid " on "
-msgstr ""
+msgstr " betreffende "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:24
 msgid "Note"
-msgstr ""
+msgstr "Noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.scm:19
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.scm:23
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.scm:24
 msgid "Chord"
-msgstr ""
+msgstr "Akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveForAllLayouts.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor be typeset normally, i.e for all layouts. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "Zorgt ervoor dat een (gekozen) richtlijn op de noot/het akkoord bij de cursor normaal gezet wordt, d.w.z. voor alle opmaken. De cursor moet op de noothoogte staan als een aan de noot gekoppelde richtlijn bedoeld is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveNotForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor be ignored for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "Zorgt ervoor dat een (gekozen) richtlijn op de noot/het akkoord bij de cursor genegeerd wordt bij het zetten van de huidige opmaak. De cursor moet op de noothoogte staan als een aan de noot gekoppelde richtlijn bedoeld is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.xml.h:1
 msgid "Allow for Current Layout"
-msgstr ""
+msgstr "Mogelijk maken voor de huidige opmaak"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/Conditional-Directives/DirectiveOnlyForLayout.xml.h:2
 msgid "Makes a (chosen) directive on the note/chord at the cursor take effect for typesetting the current layout. The cursor should be positioned at the note height if a directive attached to the note is intended."
-msgstr ""
+msgstr "Zorgt ervoor dat een (gekozen) richtlijn op de noot/het akkoord bij de cursor effect heeft bij het zetten van de huidige opmaak. De cursor moet op de noothoogte staan als een aan de noot gekoppelde richtlijn bedoeld is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.xml.h:1
 msgid "Delete LilyPond on Note"
-msgstr ""
+msgstr "Lilypond op de noot verwijderen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/DeleteLilyPondOnNote.xml.h:2
 msgid "Deletes the LilyPond attached to the note where the cursor is."
-msgstr ""
+msgstr "Verwijdert de Lilypond die gekoppeld is aan de noot waar de cursor staat."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.xml.h:1
 msgid "Attach/Edit LilyPond to Note"
-msgstr ""
+msgstr "Lilypond aan een noot koppelen/bewerken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Directives/InsertNoteDirective.xml.h:2
 msgid "Inserts LilyPond syntax you give before and after the note at the cursor height, also allows editing/deleting."
-msgstr ""
+msgstr "Voegt LilyPond-syntaxis in die u opgeeft voor en na de noot op de cursorhoogte, maakt ook bewerken/verwijderen mogelijk."
 
 #. DisplaceRestHorizontally
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/DisplaceRestHorizontally.scm:2
 msgid "Horizontal shift"
-msgstr ""
+msgstr "Horizontale verschuiving"
 
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.xml.h:1
 msgid "(Print) Displace Horizontally"
-msgstr ""
+msgstr "(Afdrukken) Horizontaal verplaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/DisplaceHorizontally.xml.h:2
 msgid "Shifts the next note, chord or rest and its markings horizontally by the amount given. Use this to refine the positioning, but be aware that notes in other staffs will not be affected. For polyphony, see NoteColumnShift under the Voices menu"
-msgstr ""
+msgstr "Verschuift de volgende noot, het volgende akkoord of de volgende rust en hun markeringen horizontaal met de aangegeven waarde. Gebruik dit om de positionering te verfijnen, maar houd er rekening mee dat noten in andere notenbalken niet worden beïnvloed. Voor polyfonie, zie NoteColumnShift onder het menu Stemmen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Breve.xml.h:2
 msgid "Append/Insert Breve. N.B. turns off spillover to next measure if set in preferences."
-msgstr ""
+msgstr "Brevis toevoegen/invoegen. NB: schakelt overloop naar volgende maat uit indien dit in de voorkeuren ingesteld is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Longa.xml.h:2
 msgid "Append/Insert Longa. N.B. turns off spillover to next measure if set in preferences."
-msgstr ""
+msgstr "Longa toevoegen/invoegen. NB: schakelt overloop naar volgende maat uit indien dit in de voorkeuren ingesteld is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur0.xml.h:1
 msgid "⏜ 𝅝"
-msgstr ""
+msgstr "⏜ 𝅝"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur0.xml.h:2
 msgid "Inserts a 𝅝 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅝  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur1.xml.h:1
 msgid "⏜ 𝅗𝅥"
-msgstr ""
+msgstr "⏜ 𝅗𝅥"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur1.xml.h:2
 msgid "Inserts a 𝅗𝅥 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅗𝅥  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur2.xml.h:1
 msgid "⏜ 𝅘𝅥"
-msgstr ""
+msgstr "⏜ 𝅘𝅥"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur2.xml.h:2
 msgid "Inserts a 𝅘𝅥 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅘𝅥  en een legatoboog in, waardoor een eerdere legatobeeg wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur3.xml.h:1
 msgid "⏜ 𝅘𝅥𝅮"
-msgstr ""
+msgstr "⏜ 𝅘𝅥𝅮"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur3.xml.h:2
 msgid "Inserts a 𝅘𝅥𝅮 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅘𝅥𝅮  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur4.xml.h:1
 msgid "⏜ 𝅘𝅥𝅯"
-msgstr ""
+msgstr "⏜ 𝅘𝅥𝅯"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur4.xml.h:2
 msgid "Inserts a 𝅘𝅥𝅯 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅘𝅥𝅯  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur5.xml.h:1
 msgid "⏜ 𝅘𝅥𝅰"
-msgstr ""
+msgstr "⏜ 𝅘𝅥𝅰"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur5.xml.h:2
 msgid "Inserts a 𝅘𝅥𝅰 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅘𝅥𝅰  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur6.xml.h:1
 msgid "⏜ 𝅘𝅥𝅱"
-msgstr ""
+msgstr "⏜ 𝅘𝅥𝅱"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur6.xml.h:2
 msgid "Inserts a 𝅘𝅥𝅱 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅘𝅥𝅱  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur7.xml.h:1
 msgid "⏜ 𝅘𝅥𝅲"
-msgstr ""
+msgstr "⏜ 𝅘𝅥𝅲"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/Slur7.xml.h:2
 msgid "Inserts a 𝅘𝅥𝅲 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅘𝅥𝅲  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/SlurBreve.xml.h:1
 msgid "⏜ 𝅜"
-msgstr ""
+msgstr "⏜ 𝅜"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/SlurBreve.xml.h:2
 msgid "Inserts a 𝅜 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅜  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/SlurLonga.xml.h:1
 msgid "⏜ 𝅛"
-msgstr ""
+msgstr "⏜ 𝅛"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditDuration/Slurred/SlurLonga.xml.h:2
 msgid "Inserts a 𝅛 and slurs to it, extending previous slur."
-msgstr ""
+msgstr "Voegt een 𝅛  en een legatoboog in, waardoor een eerdere legatoboog wordt verlengd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/AddDotSelectionSwitcher.xml.h:2
 msgid "Adds dots"
-msgstr ""
+msgstr "Puntjes toevoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.xml.h:1
 msgid "Cautionary Accidental"
-msgstr ""
+msgstr "Waarschuwend voorteken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/CautionaryAccidental.xml.h:2
 #: ../actions/palettes.xml.h:71
 msgid "Forces the accidental on the note to be printed."
-msgstr ""
+msgstr "Dwingt af dat het voorteken op de noot afgedrukt wordt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.xml.h:1
 msgid "Change Note Enharmonic -"
-msgstr ""
+msgstr "Noot-enharmonische wijzigen -"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicDown.xml.h:2
 msgid "Changes the note at the cursor to its enharmonic equivalent one step lower. Use for individual notes in chords."
-msgstr ""
+msgstr "Verandert de noot bij de cursor in zijn enharmonische equivalent één trap lager. Gebruik dit voor individuele noten in akkoorden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicUp.xml.h:1
 msgid "Change Note Enharmonic +"
-msgstr ""
+msgstr "Noot-enharmonische wijzigen +"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ChangeNoteEnharmonicUp.xml.h:2
 msgid "Changes the note at the cursor to its enharmonic equivalent one step higher. Use for individual notes in chords."
-msgstr ""
+msgstr "Verandert de noot bij de cursor in zijn enharmonische equivalent één trap hoger. Gebruik dit voor individuele noten in akkoorden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/Ficta.xml.h:1
 msgid "Ficta Accidental"
-msgstr ""
+msgstr "Fictum voorteken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/Ficta.xml.h:2
 msgid "Prints the accidental above rather than before the note. In European music from before about 1600, singers were expected to chromatically alter notes at their own initiative according to certain rules. This is called musica ficta. In modern transcriptions, these accidentals are usually printed over the note."
-msgstr ""
+msgstr "Drukt het voorteken boven in plaats van voor de noot af. In de Europese muziek van vóór ongeveer 1600 werd van zangers verwacht dat zij de noten op eigen initiatief chromatisch veranderden volgens bepaalde regels. Dit wordt musica ficta genoemd. In moderne transcripties worden deze voortekens meestal boven de noot afgedrukt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.xml.h:1
 msgid "Flatten or Append Flattened"
-msgstr ""
+msgstr "Chromatisch verlagen of een chromatisch verlaagde toevoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/FlattenNote.xml.h:2
 msgid "Flatten note at cursor, or if appending flatten next note entered."
-msgstr ""
+msgstr "De noot bij de cursor chromatisch verlagen, of in toevoegmodus de volgende noot die ingevoerd wordt, chromatisch verlagen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.xml.h:1
 msgid "Hide Accidental"
-msgstr ""
+msgstr "Voorteken verbergen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/HideAccidental.xml.h:2
 msgid "Hides the accidental on the note at the cursor on printing. Does not affect the pitch."
-msgstr ""
+msgstr "Verbergt bij het afdrukken het voorteken op de noot bij de cursor. Heeft geen invloed op de toonhoogte."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/MoveNoteToCursor.xml.h:1
 msgid "To Cursor"
-msgstr ""
+msgstr "Naar cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/MoveNoteToCursor.xml.h:2
 msgid "Moves the nearest note to join the cursor"
-msgstr ""
+msgstr "Verplaatst de dichtstbijzijnde noot tot bij de cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.xml.h:1
 msgid "Reminder Accidental"
-msgstr ""
+msgstr "Herinneringsvoorteken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/ReminderAccidental.xml.h:2
 #: ../actions/palettes.xml.h:72
 msgid "Prints the accidental in ()."
-msgstr ""
+msgstr "Drukt het voorteken af tussen ()."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/RemoveDotSelectionSwitcher.xml.h:2
 msgid "Remove one dot for each note in the selection or single note"
-msgstr ""
+msgstr "Eén punt van elke noot uit de selectie of van een enkele noot verwijderen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SharpenNote.xml.h:1
 msgid "Sharpen or Append Sharpened"
-msgstr ""
+msgstr "Chromatisch verhogen of een chromatisch verhoogde toevoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SharpenNote.xml.h:2
 msgid "Sharpens the note at the cursor, or if appending sharpen next entered note."
-msgstr ""
+msgstr "De noot bij de cursor chromatisch verhogen, of in toevoegmodus de volgende noot die ingevoerd wordt, chromatisch verhogen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestFlat.xml.h:1
 msgid "Suggest Flat"
-msgstr ""
+msgstr "Mol suggereren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestFlat.xml.h:2
 msgid "Prints flat sign over note"
-msgstr ""
+msgstr "Drukt een molteken af boven de noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestNatural.xml.h:1
 msgid "Suggest Natural"
-msgstr ""
+msgstr "Herstellingsteken suggereren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestNatural.xml.h:2
 msgid "Prints a natural over the note at the cursor"
-msgstr ""
+msgstr "Drukt een herstellingsteken af boven de noot bij de cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestSharp.xml.h:1
 msgid "Suggest Sharp"
-msgstr ""
+msgstr "Kruis suggereren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/EditNote/SuggestSharp.xml.h:2
 msgid "Prints a sharp above the note/chord"
-msgstr ""
+msgstr "Drukt een kruis af boven de noot/akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/FingeringsDoublestroke.xml.h:2
 msgid "Place a fingerin instruction on a note"
-msgstr ""
+msgstr "Een vingerzettingsrichtlijn plaatsen op een noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceAfter.scm:7
 msgid "GraceAfter"
-msgstr ""
+msgstr "VersieringsnootErachteraan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceAfter.xml.h:1
 msgid "Grace After (Off/On)"
-msgstr ""
+msgstr "Versieringsnoot Erachteraan (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceAfter.xml.h:2
 msgid "The grace note(s) following the current note will be typeset attached to the current note, rather than the note that follows them."
-msgstr ""
+msgstr "De versieringsno(o)t(en) die volgen op de huidige noot zullen gekoppeld aan de huidige noot worden gezet, in plaats van aan de noot die erop volgt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceNoteSwitcher.xml.h:1
 msgid "Grace Note (On/Off)"
-msgstr ""
+msgstr "Versieringsnoot (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceNoteSwitcher.xml.h:2
 msgid "Transforms the current selected notes into grace notes."
-msgstr ""
+msgstr "Transformeert de huidige geselecteerde noten in versieringsnoten."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml.h:1
 msgid "Termination"
-msgstr ""
+msgstr "Beëindiging"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/GraceTermination.xml.h:2
 msgid "Appends two grace notes, slurred to current note. Follow with a duration key to set duration of grace notes to be appended."
-msgstr ""
+msgstr "Voegt twee versieringsnoten toe, gebonden aan de huidige noot. Gebruik vervolgens een duurtoets om de duur van de toe te voegen versieringsnoten in te stellen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.scm:4
 msgid "Press a duration key to get two, beamed, grace notes"
-msgstr ""
+msgstr "Druk op een duurtoets om twee met waardestrepen verbonden versieringsnoten te verkrijgen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.scm:33
 msgid ""
 "To use this function correctly you need to give a duration.\n"
 "This will insert two grace notes, beamed together if needed, with the given duration"
 msgstr ""
+"Om deze functie correct te gebruiken, moet u een duur opgeven.\n"
+"Dit zal twee versieringsnoten invoegen, indien nodig verbonden met waardestrepen, met de opgegeven duur"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.xml.h:1
 msgid "Insert Two"
-msgstr ""
+msgstr "Er twee invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InsertTwoGraceNotesBeamed.xml.h:2
 msgid "Inserts two grace notes at the cursor beaming them together. Follow with a duration key."
-msgstr ""
+msgstr "Voegt twee samengebonden versieringsnoten in bij de cursor. Gebruik vervolgens een duurtoets."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.scm:65
 msgid "Grace note hints installed"
-msgstr ""
+msgstr "Versieringsnotenhints geïnstalleerd"
 
 #.
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.xml.h:1
 msgid "Install Grace Note Hints"
-msgstr ""
+msgstr "Versieringsnotenhints installeren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/InstallGraceNoteHints.xml.h:2
 msgid "Where a grace note occurs at a boundary the LilyPond typesetter requires extra hints about positioning. This command installs them for the whole movement. It is usually run in the Check Score routine."
-msgstr ""
+msgstr "Waar een versieringsnoot aan een begrenzing voorkomt, heeft de LilyPond-letterzetter extra hints nodig in verband met de positionering. Dit commando installeert deze voor de hele beweging. Dit wordt meestal uitgevoerd in de routine Partituur Controleren."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/MakeGrace.xml.h:1
 msgid "Grace/UnGrace"
-msgstr ""
+msgstr "Versieringsnoot Aan/Uit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/MakeGrace.xml.h:2
 msgid "Changes the note at the cursor to/from being a grace note. Gives audio feedback."
-msgstr ""
+msgstr "Maakt van de noot bij de cursor een versieringsnoot of doet het omgekeerde. Geeft audiofeedback."
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/UnGraceAfter.scm:29
 msgid "The cursor is not on a grace note after a main note or chord\n"
-msgstr ""
+msgstr "De cursor bevindt zich niet op een versieringsnoot na een hoofdnoot of akkoord\n"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/UnGraceAfter.xml.h:1
 msgid "Un-Grace After"
-msgstr ""
+msgstr "Versieringsnoot Erachteraan ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/GraceNotes/UnGraceAfter.xml.h:2
 msgid "Remove grace after created with Denemo versions before 2.4"
-msgstr ""
+msgstr "Verwijderen van een achteraan geplaatste versieringsnoot die aangemaakt werd met een versie van Denemo vóór 2.4"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateChord.xml.h:1
 msgid "Duplicate Note/Chord"
-msgstr ""
+msgstr "Noot/Akkoord dupliceren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateChord.xml.h:2
 msgid "Duplicates the current note or chord at the cursor. Not for rests."
-msgstr ""
+msgstr "Dupliceert de huidige noot of akkoord bij de cursor. Niet voor rusten."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateRestNoteChord.xml.h:1
 msgid "Duplicate Rest, Note, Chord"
-msgstr ""
+msgstr "Rust, Noot, Akkoord dupliceren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/DuplicateRestNoteChord.xml.h:2
 msgid "Duplicates the rest, note or chord at or before the cursor."
-msgstr ""
+msgstr "Dupliceert de rust, noot, akkoord bij of voor de cursor."
 
 #.
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.xml.h:1
 msgid "Fill Measure"
-msgstr ""
+msgstr "Maat opvullen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/FillMeasure.xml.h:2
 msgid "Duplicates the note/chord/rest at or before the cursor until the measure is full or over-full. In a full measure duplicates the measure, in an empty measure insert the current duration."
-msgstr ""
+msgstr "Dupliceert de noot/akkoord/rust op of voor de cursor totdat de maat vol of overvol is. In een volledige maat dupliceert dit de maat, in een lege maat voegt dit de huidige duur in."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/FillUpMeasure.xml.h:1
 msgid "Duplicate to Fill Measure"
-msgstr ""
+msgstr "Dupliceren om de maat te vullen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/FillUpMeasure.xml.h:2
 msgid "Duplicates the notes in the current measure until the measure is full or over-full. If already full, duplicates the previous and current measure."
-msgstr ""
+msgstr "Dupliceert de noten in de huidige maat totdat de maat vol of overvol is. Als deze al vol is, worden de vorige en huidige maat gedupliceerd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertBreve.xml.h:2
 msgid "Insert Breve"
-msgstr ""
+msgstr "Brevis invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertLonga.xml.h:2
 msgid "Insert a Longa"
-msgstr ""
+msgstr "Een longa invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/InsertDuration/InsertOneNote.xml.h:2
 msgid "Inserts a note in the prevailing duration."
-msgstr ""
+msgstr "Voegt een noot in de heersende duur in."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:4
 msgid "This Denemo Directive is part of a set of four creating a \"Percent Repeat\". Be sure to delete them all if you delete one of them."
-msgstr ""
+msgstr "Deze Denemo-richtlijn maakt deel uit van een set van vier die een \"percentageherhaling\" creëren. Zorg ervoor dat u ze allemaal verwijdert als u er één verwijdert."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:6
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:11
 msgid "Percent Repeat"
-msgstr ""
+msgstr "Percentageherhaling"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:6
 msgid "Give number of further repeats 1,2,..."
-msgstr ""
+msgstr "Het aantal verdere herhalingen opgeven 1,2,..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.scm:11
 msgid "Give frequency of numbering 0, 1,..."
-msgstr ""
+msgstr "De frequentie van nummering opgeven 0, 1,..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.xml.h:1
 msgid "Insert Percent Style Repeat"
-msgstr ""
+msgstr "Herhaling van het type percentage invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/InsertNote/PercentRepeat.xml.h:2
 msgid "Creates a repeat from the selection, typeset in \\\"percent\\\" style."
-msgstr ""
+msgstr "Maakt van de selectie een herhaling, gezet in de stijl \\\"percentage\\\"."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleAccent.xml.h:1
 msgid "Accent (Off/On)"
-msgstr ""
+msgstr "Accent (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/AccentSelectionSwitcher.xml.h:2
 msgid "Adds the &gt; accent"
-msgstr ""
+msgstr "Voegt het accent &gt; toe"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleArpeggio.xml.h:1
 msgid "Arpeggio (Off/On)"
-msgstr ""
+msgstr "Arpeggio (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArpeggioSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:87
 msgid "Mark/Unmark the selected notes arpeggio"
-msgstr ""
+msgstr "De geselecteerde noten als arpeggio markeren of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArticulationOutsideSlur.xml.h:1
 msgid "Articulation Outside Slur (Off/On)"
-msgstr ""
+msgstr "Articulatieteken buiten legatoboog (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ArticulationOutsideSlur.xml.h:2
 msgid "The articulation(s) on this note will be placed outside the slur (furthest from the note). Repeat the command to return the slur to the outside."
-msgstr ""
+msgstr "De articulatieteken(s) op deze noot worden buiten de legatoboog geplaatst (het verst van de noot). Herhaal de opdracht om de legatoboog terug te verplaatsen tot aan de buitenkant."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleDownBow.xml.h:1
 msgid "DownBow (Off/On)"
-msgstr ""
+msgstr "Afstreek (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/DownbowSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:85
 msgid "Mark/Unmark selection or current object"
-msgstr ""
+msgstr "Selectie of huidig object markeren of de markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/FermataSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleFermata.xml.h:1
 msgid "Fermata (Off/On)"
-msgstr ""
+msgstr "Fermate (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/FermataSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:118
 msgid "Mark/Unmark current selection or object with a fermata"
-msgstr ""
+msgstr "Huidige selectie of object markeren met een fermate of een dergelijke markering ongedaan maken"
 
 #. (d-DirectivePut-chord-gy "Flageolet" 12)
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/FlageoletSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleFlageolet.xml.h:1
 msgid "Flageolet (Off/On)"
-msgstr ""
+msgstr "Flageolet (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/FlageoletSelectionSwitcher.xml.h:2
 msgid "Mark/Unmark current selection of object with a Flageolet"
-msgstr ""
+msgstr "Huidige selectie of object markeren met een flageolet of een dergelijke markering ongedaan maken"
 
 #. (d-DirectivePut-chord-gy "Harmonic" 12)
 #. (d-DirectivePut-chord-gx "Harmonic" -2)
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/HarmonicSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleHarmonic.xml.h:1
 msgid "Harmonic (Off/On)"
-msgstr ""
+msgstr "Harmonische (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/HarmonicSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:86
 msgid "Mark/Unmark current selection or object with a harmonic"
-msgstr ""
+msgstr "Huidige selectie of object markeren met een harmonische of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/LheelSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleLheel.xml.h:1
 msgid "Lheel (Off/On)"
-msgstr ""
+msgstr "Lhiel (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/LheelSelectionSwitcher.xml.h:2
 msgid "Marks/Unmaks the selection with the Lheel"
-msgstr ""
+msgstr "Markeert de selectie met de Lhiel of maakt een dergelijke markering ongedaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/LtoeSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleLtoe.xml.h:1
 msgid "Ltoe (Off/On)"
-msgstr ""
+msgstr "Lteen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/LtoeSelectionSwitcher.xml.h:2
 msgid "Marks/Unmaks the selection with the Ltoe"
-msgstr ""
+msgstr "Markeert de selectie met de Lteen of maakt een dergelijke markering ongedaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/MarcatoSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleMarcato.xml.h:1
 msgid "Marcato (Off/On)"
-msgstr ""
+msgstr "Marcato (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/MarcatoSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:123
 msgid "Mark/Unmark the selected notes marcato"
-msgstr ""
+msgstr "De geselecteerde noten markeren als marcato of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/PortatoSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/TogglePortato.xml.h:1
 msgid "Portato (Off/On)"
-msgstr ""
+msgstr "Portato (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/PortatoSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:88
 msgid "Marks/Unmaks the selection with the Portato"
-msgstr ""
+msgstr "Markeert de selectie met de portato of maakt een dergelijke markering ongedaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/RheelSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleRheel.xml.h:1
 msgid "Rheel (Off/On)"
-msgstr ""
+msgstr "Rhiel (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/RheelSelectionSwitcher.xml.h:2
 msgid "Marks/Unmaks the selection with the Rheel"
-msgstr ""
+msgstr "Markeert de selectie met de Rhiel of maakt een dergelijke markering ongedaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/RtoeSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleRtoe.xml.h:1
 msgid "Rtoe (Off/On)"
-msgstr ""
+msgstr "Rteen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/RtoeSelectionSwitcher.xml.h:2
 msgid "Marks/Unmaks the selection with the Rtoe"
-msgstr ""
+msgstr "Markeert de selectie met de Rteen of maakt een dergelijke markering ongedaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/SignumcongruentiaeSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleSignumcongruentiae.xml.h:1
 msgid "Signumcongruentiae (Off/On)"
-msgstr ""
+msgstr "Signumcongruentiae (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/SignumcongruentiaeSelectionSwitcher.xml.h:2
 msgid "Mark/Unmark the selected notes signumcongruentiae"
-msgstr ""
+msgstr "De geselecteerde noten markeren als signumcongruentiae of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StaccatissimoSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleStaccatissimo.xml.h:1
 msgid "Staccatissimo (Off/On)"
-msgstr ""
+msgstr "Staccatissimo (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StaccatissimoSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:120
 msgid "Toggles Staccatissimo"
-msgstr ""
+msgstr "Schakelt staccatissimo uit/aan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StaccatoSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleStaccato.xml.h:1
 msgid "Staccato (Off/On)"
-msgstr ""
+msgstr "Staccato (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StaccatoSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:119
 msgid "Adds the staccato dot or removes it"
-msgstr ""
+msgstr "Voegt het staccato-puntje toe of verwijdert het"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StoppedSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleStopped.xml.h:1
 msgid "Stopped (Off/On)"
-msgstr ""
+msgstr "Gestopt (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/StoppedSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:89
 msgid "Mark/Unmark the selected notes stopped"
-msgstr ""
+msgstr "De geselecteerde noten markeren als gestopt of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/TenutoSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleTenuto.xml.h:1
 msgid "Tenuto (Off/On)"
-msgstr ""
+msgstr "Tenuto (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/TenutoSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:121
 msgid "Toggles the Tenuto Line _ On/Off"
-msgstr ""
+msgstr "Schakelt de Tenuto-lijn _ aan/uit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ThumbSelectionSwitcher.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleThumb.xml.h:1
 msgid "Thumb (Off/On)"
-msgstr ""
+msgstr "Duim (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ThumbSelectionSwitcher.xml.h:2
 msgid "Marks/Unmaks the selection with the Thumb"
-msgstr ""
+msgstr "Markeert de selectie met de Duim of maakt een dergelijke markering ongedaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleAccent.xml.h:2
 msgid "Mark/Unmark the current chord accented"
-msgstr ""
+msgstr "Het huidige akkoord markeren als geaccentueerd of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleArpeggio.xml.h:2
 msgid "Mark/Unmark chord with an arpeggio"
-msgstr ""
+msgstr "Het akkoord markeren met een arpeggio of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleDownBow.xml.h:2
 msgid "Mark/Unmark chord with a Down Bow"
-msgstr ""
+msgstr "Het akkoord markeren met een Afstreek of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleFermata.xml.h:2
 msgid "Mark/Unmark the chord with a fermata"
-msgstr ""
+msgstr "Het akkoord markeren met een fermate of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleFlageolet.xml.h:2
 msgid "Mark/Unmark chord with a Flageolet"
-msgstr ""
+msgstr "Het akkoord markeren met een Flageolet of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleHarmonic.xml.h:2
 msgid "Mark/Unmark chord with a harmonic"
-msgstr ""
+msgstr "Het akkoord markeren met een harmonische of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleLheel.xml.h:2
 msgid "Mark/Unmark the current note lheel"
-msgstr ""
+msgstr "De huidige noot markeren als lhiel of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleLongFermata.xml.h:1
 msgid "LongFermata (Off/On)"
-msgstr ""
+msgstr "LangeFermate (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleLongFermata.xml.h:2
 msgid "Mark/Unmark the current chord longfermata"
-msgstr ""
+msgstr "Het huidige akkoord markeren als Lange Fermate of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleLtoe.xml.h:2
 msgid "Mark/Unmark the current note ltoe"
-msgstr ""
+msgstr "De huidige noot markeren als lteen of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleMarcato.xml.h:2
 msgid "Mark/Unmark the current chord marcato"
-msgstr ""
+msgstr "Het huidige akkoord markeren als marcato of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/TogglePortato.xml.h:2
 msgid "Mark/Unmark the chord Portato"
-msgstr ""
+msgstr "Het akkoord markeren als Portato of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleRheel.xml.h:2
 msgid "Mark/Unmark the current note rheel"
-msgstr ""
+msgstr "De huidige noot markeren als rhiel of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleRtoe.xml.h:2
 msgid "Mark/Unmark the current note rtoe"
-msgstr ""
+msgstr "De huidige noot markeren als rteen of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleShortFermata.xml.h:1
 msgid "ShortFermata (Off/On)"
-msgstr ""
+msgstr "KorteFermate (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleShortFermata.xml.h:2
 msgid "Mark/Unmark the current chord shortfermata"
-msgstr ""
+msgstr "Het huidige akkoord markeren als korte fermate of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleSignumcongruentiae.xml.h:2
 msgid "Mark/Unmark the current chord signumcongruentiae"
-msgstr ""
+msgstr "Het huidige akkoord markeren als signumcongruentiae of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleStaccatissimo.xml.h:2
 msgid "Mark/Unmark chord as Staccatissimo"
-msgstr ""
+msgstr "Het akkoord markeren als Staccatissimo of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleStaccato.xml.h:2
 msgid "Mark/Unmark the chord staccato"
-msgstr ""
+msgstr "Het akkoord markeren als staccato of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleStopped.xml.h:2
 msgid "Mark/Unmark the current chord stopped"
-msgstr ""
+msgstr "Het huidige akkoord markeren als gestopt of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleTenuto.xml.h:2
 msgid "Mark/Unmark the chord Tenuto"
-msgstr ""
+msgstr "Het akkoord markeren als Tenuto of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleThumb.xml.h:2
 msgid "Mark/Unmark the current chord thumb"
-msgstr ""
+msgstr "Het huidige akkoord markeren als duim of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleUpBow.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml.h:1
 msgid "UpBow (Off/On)"
-msgstr ""
+msgstr "Opstreek (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleUpBow.xml.h:2
 msgid "Mark/Unmark chord with an Up Bow"
-msgstr ""
+msgstr "Het akkoord markeren met een Opstreek of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata.xml.h:1
 msgid "VeryLongFermata (Off/On)"
-msgstr ""
+msgstr "ZeerLangeFermate (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/ToggleVeryLongFermata.xml.h:2
 msgid "Mark/Unmark the current chord with very long fermata"
-msgstr ""
+msgstr "Het huidige akkoord markeren met een zeer lange fermate of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.scm:24
 msgid "Tonguing Indication"
-msgstr ""
+msgstr "Tongaanwijzing"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.scm:24
 msgid "Give number of dots required: "
-msgstr ""
+msgstr "Geef het aantal benodigde punten op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.xml.h:1
 msgid "Tongue"
-msgstr ""
+msgstr "Tong"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/Tongue.xml.h:2
 msgid "Adds a tonguing indication, (a number of staccato dots) to the current note."
-msgstr ""
+msgstr "Voegt een tongaanwijzing toe, (een aantal staccatopunten) aan de huidige noot."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml.h:2
 #: ../actions/palettes.xml.h:84
 msgid "Mark/Unmark current selection or note with UpBow"
-msgstr ""
+msgstr "De huidige selectie of noot markeren met een Opstreek of een dergelijke markering ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:27
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:30
@@ -22624,283 +22646,281 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:42
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:45
 msgid "Chord Symbol"
-msgstr ""
+msgstr "Akkoordsymbool"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:27
 msgid "Give text of chord symbol"
-msgstr ""
+msgstr "Tekst van het akkoordsymbool opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:30
 msgid "Give horizontal scale"
-msgstr ""
+msgstr "De horizontale schaal opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:31
 msgid "Give vertical scale"
-msgstr ""
+msgstr "De verticale schaal opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:42
 msgid "Give horizontal shift"
-msgstr ""
+msgstr "De horizontale verschuiving opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:45
 msgid "Give vertical shift"
-msgstr ""
+msgstr "De verticale verschuiving opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm:57
 msgid "Insert Root note of chord for symbol to attach to"
-msgstr ""
+msgstr "De grondtoon van het akkoord invoegen om het symbool aan te koppelen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.xml.h:1
 msgid "Chord Chart Symbol"
-msgstr ""
+msgstr "Akkoorddiagramsymbool"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.xml.h:2
 msgid "Creates an arbitrary chord symbol text for the root note at the cursor - used in compact chord charts for uncommon chords."
-msgstr ""
+msgstr "Creëert een willekeurige akkoordsymbooltekst voor de grondtoon bij de cursor - gebruikt in compacte akkoorddiagrammen voor ongebruikelijke akkoorden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:3
 msgid "\\bold cresc. (or poco if continuing the cresc.)"
-msgstr ""
+msgstr "\\bold cresc. (of poco als de cresc. voortgezet wordt)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:13
 msgid "Sorry, this operation needs to be applied to the start of the crescendo."
-msgstr ""
+msgstr "Sorry, deze bewerking moet worden toegepast op het begin van het crescendo."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:1
 msgid "Crescendo Text Spanner"
-msgstr ""
+msgstr "Crescendo-tekstoverspanning"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm:31
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
 msgid "Give text for start or continuation"
-msgstr ""
+msgstr "Tekst opgeven voor het begin of het vervolg"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml.h:2
 msgid "Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Crescendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\\\bold can be used."
-msgstr ""
+msgstr "Drukt tekst af om een crescendo te beginnen of voort te zetten welke zich over een passage uitstrekt. Gebruik dit bijvoorbeeld voor cresc. poco a poco. Sluit af met een markering Einde Crescendo of een dynamiekmarkering, anders wordt er niets afgedrukt. LilyPond-markering, zoals \\\\bold kan worden gebruikt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:11
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:11
 msgid "Not yet implemented"
-msgstr ""
+msgstr "Nog niet geïmplementeerd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm:14
 msgid "cresc. start deleted. The end crescendo should also be deleted ..."
-msgstr ""
+msgstr "cresc.-begin verwijderd. Einde crescendo zou ook moeten verwijderd worden ..."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml.h:1
 msgid "Cresc (Off/On)"
-msgstr ""
+msgstr "Cresc (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.xml.h:2
 msgid "Starts textual cresc. (or deletes one already present at cursor). Terminate with End Crescendo or with a dynamic."
-msgstr ""
+msgstr "Begint een tekstuele cresc. (of verwijdert er een als die er al staat bij de cursor). Afsluiten met een Einde Crescendo of met een dynamiek."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:3
 msgid "\\bold cresc. (or poco if continuing the dim.)"
-msgstr ""
+msgstr "\\bold cresc. (of poco als de dim. voortgezet wordt)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:13
 msgid "Sorry, this operation needs to be applied to the start of the Decrescendo."
-msgstr ""
+msgstr "Sorry, deze bewerking moet worden toegepast op het begin van het Decrescendo."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.scm:31
 msgid "Decrescendo Text Spanner"
-msgstr ""
+msgstr "Decrescendo-tekstoverspanning"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:1
 msgid "Diminuendo Text Spanner"
-msgstr ""
+msgstr "Diminuendo-tekstoverspanning"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DecrescendoTextSpanner.xml.h:2
 msgid "Prints text to start or continue a crescendo extending over a passage. Use for cresc. poco a poco, for example. Terminate with End Diminuendo marking or a dynamic mark, else nothing will be printed. LilyPond markup, such as \\\\bold can be used."
-msgstr ""
+msgstr "Drukt tekst af om een crescendo te beginnen of voort te zetten welke zich over een passage uitstrekt. Gebruik dit bijvoorbeeld voor cresc. poco a poco. Sluit af met een markering Einde Diminuendo of een dynamiekmarkering, anders wordt er niets afgedrukt. LilyPond-markering, zoals \\\\bold kan worden gebruikt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.scm:14
 msgid "dim. start deleted. The end diminuendo should also be deleted ..."
-msgstr ""
+msgstr "dim.-begin verwijderd. Einde diminuendo zou ook moeten verwijderd worden ..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml.h:1
 msgid "Dim (Off/On)"
-msgstr ""
+msgstr "Dim (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Dim.xml.h:2
 msgid "Starts a textual diminuendo. Terminate with End Diminuendo or a dynamic."
-msgstr ""
+msgstr "Begint een tekstuele diminuendo. Afsluiten met een Einde Diminuendo of met een dynamiek."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.scm:4
 msgid "Dynamics Spacing"
-msgstr ""
+msgstr "Tussenruimte voor dynamiek"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.scm:4
 msgid "Give extra spacing required"
-msgstr ""
+msgstr "De vereiste extra tussenruimte opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml.h:1
 msgid "Extra Spacing"
-msgstr ""
+msgstr "Extra tussenruimte"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml.h:2
 msgid "Music is spaced out by the extra amount given to avoid textual dynamic markings colliding. Not for hairpins."
-msgstr ""
+msgstr "De muziek wordt extra uit elkaar geplaatst om te voorkomen dat tekstuele dynamiekmarkeringen tegen elkaar botsen. Niet voor vogelbekken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.scm:4
 msgid "Hairpin Length"
-msgstr ""
+msgstr "Vogelbeklengte"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.scm:4
 msgid "Give extra length required"
-msgstr ""
+msgstr "De vereiste extra lengte opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.xml.h:1
 msgid "Lengthen Hairpin"
-msgstr ""
+msgstr "Vogelbek verlengen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/LengthenHairpin.xml.h:2
 msgid "Inserts a directive to lengthen the following cresc or dim hairpin."
-msgstr ""
+msgstr "Voert een richtlijn in om de volgende cresc- of dim-vogelbek te verlengen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/TerminateHairpinAtBarline.scm:5
 msgid "End Hairpin"
-msgstr ""
+msgstr "Einde Vogelbek"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/TerminateHairpinAtBarline.xml.h:1
 msgid "Terminate Hairpin at Barline"
-msgstr ""
+msgstr "Vogelbek beëindigen bij de maatstreep"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/TerminateHairpinAtBarline.xml.h:2
 msgid "Ends a cresc. or dim, hairpin at the barline following the current note/chord. This command inserts a standalone Denemo Directive after the note/chord at the cursor."
-msgstr ""
+msgstr "Beëindigt een cresc.- of dim-vogelbek op de maatstreep volgend op de huidige noot/het huidige akkoord. Dit commando voegt een op zichzelf staande Denemo-richtlijn in na de noot/het akkoord bij de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:12
 msgid "Figured Bass Height"
-msgstr ""
+msgstr "Hoogte becijferde bas"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:12
 msgid "Give height adjustment (unit = staff space): "
-msgstr ""
+msgstr "Geef de bijstelling van de hoogte op (eenheid = notenbalkafstand) : "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.xml.h:1
 msgid "Height of Bass Figure"
-msgstr ""
+msgstr "Hoogte bascijfer"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustBassFigureHeight.xml.h:2
 msgid "Sets the height of the bass figure above the note. The unit is the distance between adjacent lines in the staff."
-msgstr ""
+msgstr "Stelt de hoogte van het bascijfer boven de noot in. De eenheid is de afstand tussen aangrenzende lijnen in de notenbalk."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.scm:3
 msgid "Give number of groups: "
-msgstr ""
+msgstr "Geef het aantal groepen op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml.h:1
 msgid "Heights of Groups"
-msgstr ""
+msgstr "Hoogte van groepen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AdjustFiguredBassHeights.xml.h:2
 #: ../actions/palettes.xml.h:162
 msgid "Allows several groups of figures to be individually adjusted for height."
-msgstr ""
+msgstr "Hiermee kunnen verschillende groepen cijfers afzonderlijk in hoogte worden bijgesteld."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.xml.h:1
 msgid "Adjust All Heights"
-msgstr ""
+msgstr "Alle hoogten aanpassen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/AutoBassFigureHeight.xml.h:2
 msgid "Sets the heights of the bass figures above the notes throughout the score to avoid ungainly positions. The bass figures must be on the lowest staff"
-msgstr ""
+msgstr "Stelt de hoogten van de bascijfers boven de noten in de hele partituur in om onhandige posities te vermijden. De bascijfers moeten op de laagste notenbalk staan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/FiguredBassTweak.xml.h:1
 msgid "Tweak Default Appearance"
-msgstr ""
+msgstr "Standaardaanblik aanpassen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/FiguredBassTweak.xml.h:2
 msgid "Alters the default figured bass appearance to a more 18th c. look."
-msgstr ""
+msgstr "Verandert de standaardweergave van becijferde bas naar een meer 18e-eeuws uiterlijk."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/OrnamentBassFigureHeight.xml.h:1
 msgid "Fix Bass Figure/Marking Clashes."
-msgstr ""
+msgstr "Botsingen van bascijfers/markeringen corrigeren."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/OrnamentBassFigureHeight.xml.h:2
 msgid "Shifts bass figures up to avoid clashes with markings on the bass note."
-msgstr ""
+msgstr "Verschuift bascijfers naar boven om botsingen met markeringen op de basnoot te voorkomen."
 
 #. PlaceFiguredBassBelow
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml.h:1
 msgid "Place Figures Below Bass Notes"
-msgstr ""
+msgstr "Cijfers onder de basnoten plaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/PlaceFiguredBassBelow.xml.h:2
 msgid "Places an instruction (between $ ... $) which tells the engraver to place the figures below from this note on. Any figure for this note should follow the last $"
-msgstr ""
+msgstr "Plaatst een instructie (tussen $ ... $) die de graveerder vertelt om de cijfers vanaf deze noot onderaan te plaatsen. Elk cijfer voor deze noot moet volgen op de laatste $"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/SingleExtender.scm:4
-#, fuzzy
 msgid "Figured Bass Extenders"
-msgstr "Becijferde bas"
+msgstr "Verlengingsstreep voor becijferde bas"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/SingleExtender.scm:4
 msgid "Give Figure to Extend"
-msgstr ""
+msgstr "Het te verlengen cijfer opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/SingleExtender.xml.h:1
-#, fuzzy
 msgid "Single Extender"
-msgstr "Een enkele willekeurige noot"
+msgstr "Een enkele verlengingsstreep"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/FiguredBass/SingleExtender.xml.h:2
 msgid "Create a single extender for the group of figures on the previous note. Append |0 to the group and use 0 for the extender to leave a little space between the group and the start of the extender."
-msgstr ""
+msgstr "Een enkele verlengingsstreep creëren voor de groep cijfers op de vorige noot. Voeg |0 toe aan de groep en gebruik 0 voor de verlengingsstreep om een beetje ruimte te laten tussen de groep en het begin van de verlengingsstreep."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.scm:35
 msgid "No Custom Ornaments at cursor position"
-msgstr ""
+msgstr "Geen aangepaste ornamenten op de cursorpositie"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.xml.h:1
 msgid "Adjust Ornament"
-msgstr ""
+msgstr "Ornamenten aanpassen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/AdjustCustomOrnament.xml.h:2
 msgid "Place the ornament attached to the note at the cursor above/below or adjust padding around it."
-msgstr ""
+msgstr "Het aan de noot bij de cursor gekoppelde ornament bovenaan/onderaan plaatsen of de opvulling eromheen aanpassen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:1
 msgid "Pincé"
-msgstr ""
+msgstr "Pincé"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/TogglePince.xml.h:2
 msgid "Pincé ornament (Off/On)"
-msgstr ""
+msgstr "Ornament Pincé (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:1
 msgid "Suspension"
-msgstr ""
+msgstr "Suspension"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleSuspension.xml.h:2
 msgid "Suspension ornament (Off/On)"
-msgstr ""
+msgstr "Ornament Suspension (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:1
 msgid "Tremblement Appuyé"
-msgstr ""
+msgstr "Tremblement Appuyé"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblementAppuye.xml.h:2
 msgid "Attaches tremblement appuyé to the note/chord at the cursor, or removes it if already present."
-msgstr ""
+msgstr "Koppelt een tremblement appuyé aan de noot/het akkoord bij de cursor, of verwijdert dit als dit al aanwezig is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:1
 msgid "Tremblement"
-msgstr ""
+msgstr "Tremblement"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Claveciniste/ToggleTremblement.xml.h:2
 msgid "Attach a tremblement to the current note/chord or remove it if already present."
-msgstr ""
+msgstr "Een tremblement aan de noot/het akkoord bij de cursor koppelen, of dit verwijderen als dit al aanwezig is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:4
 msgid ""
@@ -22914,39 +22934,48 @@ msgid ""
 "Quit your graphics editor before quitting this dialog\n"
 "to return to work in Denemo."
 msgstr ""
+"Wacht tot je editor voor vectorafbeeldingen start\n"
+"Deze opent een SVG-bestand met dezelfde naam, als dat beschikbaar is,\n"
+"maar sla het bestand op als ingekapseld postscript-bestand (eps),\n"
+"waarbij u dezelfde naam gebruikt.\n"
+"U moet de afdrukweergave vernieuwen om uw wijzigingen te zien.\n"
+"Bij het opslaan van uw eps is het goed om het bestand ook op te slaan\n"
+"in SVG-bestandsindeling, omdat dit later beter te bewerken is.\n"
+"Sluit uw grafische editor af voordat u dit dialoogvenster verlaat\n"
+"om weer aan het werk te gaan in Denemo."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:23
 msgid "Edit width "
-msgstr ""
+msgstr "Breedte bewerken "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:53
 msgid "No definitions created for this score"
-msgstr ""
+msgstr "Er zijn geen definities gemaakt voor deze partituur"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:77
 msgid "No definitions selected"
-msgstr ""
+msgstr "Er zijn geen definities geselecteerd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:83
 msgid "Custom Ornament"
-msgstr ""
+msgstr "Aangepast ornament"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:83
 msgid "Give Ornament Name"
-msgstr ""
+msgstr "Een ornamentnaam opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:114
 msgid "Choose Custom Template"
-msgstr ""
+msgstr "Een aangepast sjabloon kiezen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:147
 msgid "Attaches (or removes) this ornament from the current note/chord."
-msgstr ""
+msgstr "Koppelt (of verwijdert) dit ornament aan (van) de (het) huidige noot/akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:152
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:102
 msgid "The file \""
-msgstr ""
+msgstr "Het bestand \""
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:152
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:102
@@ -22956,377 +22985,381 @@ msgid ""
 "Typesetting will silently fail until the file exists.\n"
 "Either create the file or delete the Graphic Title Page now"
 msgstr ""
+"\"\n"
+"bestaat (nog) niet, of bestaat niet meer.\n"
+"Het zetten zal stilzwijgend mislukken totdat het bestand bestaat.\n"
+"Creëer ofwel het bestand of verwijder de Grafische Titelpagina nu"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:156
 msgid "Delete Custom Ornament?"
-msgstr ""
+msgstr "Aangepast ornament verwijderen?"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.scm:159
 msgid "Custom Ornament Definition Deleted"
-msgstr ""
+msgstr "Definitie van aangepast ornament verwijderd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml.h:1
 msgid "Create Custom Ornament"
-msgstr ""
+msgstr "Aangepast ornament creëren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/CustomOrnamentDefinition.xml.h:2
 msgid "Allows the user to create a customized ornament (or load one previously created) into this score's definitions. Ornament names should be start in lower case and have no numerals. If a standard ornament is used, e.g. trill, then this will replace the standard ornament throughout the score."
-msgstr ""
+msgstr "Hiermee kan de gebruiker een aangepast ornament maken (of een eerder gemaakt ornament laden) in de definities van deze partituur. Ornamentnamen moeten beginnen met een kleine letter en mogen geen cijfers bevatten. Als een standaardornament wordt gebruikt als naam, bijv. triller, dan zal dit het standaardornament doorheen de partituur vervangen."
 
 #. EditCustomOrnamentDefinition
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml.h:1
 msgid "Edit Custom Ornament Definition"
-msgstr ""
+msgstr "De definitie van een aangepast ornament bewerken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/EditCustomOrnamentDefinition.xml.h:2
 msgid "Edit the definition (size or appearance) of a custom ornament definition. The definition must already have been created/loaded in this score."
-msgstr ""
+msgstr "De definitie (grootte of uiterlijk) van een aangepast ornament bewerken. De definitie moet al aangemaakt/geladen zijn in deze partituur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml.h:1
 msgid "Accidental Below"
-msgstr ""
+msgstr "Voorteken onderaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentAccidentalBelow.xml.h:2
 msgid "Places the accidental on the ornament below rather than above."
-msgstr ""
+msgstr "Plaatst het voorteken op het ornament onderaan in plaats ven bovenaan."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml.h:1
 msgid "Attach ♭ (Off/On)"
-msgstr ""
+msgstr "♭ aankoppelen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentFlat.xml.h:2
 msgid "Places a flat above the ornament on the note at the cursor."
-msgstr ""
+msgstr "Plaatst een mol boven het ornament op de noot bij de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml.h:1
 msgid "Attach ♯ (Off/On)"
-msgstr ""
+msgstr "♯ aankoppelen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentSharp.xml.h:2
 msgid "Places a sharp above the ornament on the note at the cursor."
-msgstr ""
+msgstr "Plaatst een kruis boven het ornament op de noot bij de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:20
 msgid "No accidental above"
-msgstr ""
+msgstr "Geen voorteken bovenaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.scm:21
 msgid "No accidental below"
-msgstr ""
+msgstr "Geen voorteken onderaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.xml.h:1
 msgid "Ornament with Accidentals"
-msgstr ""
+msgstr "Ornament met voortekens"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/OrnamentWithAccidentals.xml.h:2
 msgid "Create an ornament with accidentals above and/or below the ornament."
-msgstr ""
+msgstr "Een ornament met voortekens boven en/of onder het ornament aanmaken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:21
 msgid "Edit this individual ornament"
-msgstr ""
+msgstr "Dit individuele ornament bewerken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:22
 msgid "Edit the ornament definition"
-msgstr ""
+msgstr "De ornamentdefinitie bewerken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.scm:24
 msgid "Position editing not implemented"
-msgstr ""
+msgstr "Het bewerken van de positie is niet geïmplementeerd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml.h:1
 msgid "Attach Custom Ornament (Off/On)"
-msgstr ""
+msgstr "Aangepast ornament aankoppelen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleCustomOrnament.xml.h:2
 msgid "Typesets a custom ornament on the current note/chord. Removes that ornament if already present."
-msgstr ""
+msgstr "Zet een aangepast ornament op de (het) huidige noot/akkoord. Verwijdert dat ornament als het er al is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml.h:1
 msgid "Down Prall (Off/On)"
-msgstr ""
+msgstr "Praller met neerwaartse voorslag (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleDownPrall.xml.h:2
 msgid "Typesets a down prall on the current note/chord. Removes that ornament if already present."
-msgstr ""
+msgstr "Zet een praller met neerwaartse voorslag op de (het) huidige noot/akkoord. Verwijdert dat ornament als het er al is."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.xml.h:1
 msgid "Mordent (Off/On)"
-msgstr ""
+msgstr "Mordent (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleMordent.xml.h:2
 #: ../actions/palettes.xml.h:76
 msgid "Adds/Removes a Mordent to the note"
-msgstr ""
+msgstr "Voegt een mordent toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml.h:1
 msgid "PrallPrall (Off/On)"
-msgstr ""
+msgstr "PrallerPraller (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrallPrall.xml.h:2
 msgid "Adds/Removes a PrallPrall to the note"
-msgstr ""
+msgstr "Voegt een prallerpraller toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:1
 msgid "Prall (Off/On)"
-msgstr ""
+msgstr "Praller (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/TogglePrall.xml.h:2
 #: ../actions/palettes.xml.h:77
 msgid "Adds/Removes a prall to the note"
-msgstr ""
+msgstr "Voegt een praller toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleReverseTurn.xml.h:1
 msgid "Reverse Turn (Off/On)"
-msgstr ""
+msgstr "Omgekeerde dubbelslag (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleReverseTurn.xml.h:2
 #: ../actions/palettes.xml.h:80
 msgid "Add/Removes a Reverse Turn to the note"
-msgstr ""
+msgstr "Voegt een omgekeerde dubbelslag toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleTrill.xml.h:1
 msgid "Trill (Off/On)"
-msgstr ""
+msgstr "Triller (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleTrill.xml.h:2
 #: ../actions/palettes.xml.h:23
 msgid "Adds/Removes a trill to the note"
-msgstr ""
+msgstr "Voegt een triller toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleTurn.xml.h:1
 msgid "Turn (Off/On)"
-msgstr ""
+msgstr "Dubbelslag (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleTurn.xml.h:2
 #: ../actions/palettes.xml.h:79
 msgid "Add/Removes a Turn to the note"
-msgstr ""
+msgstr "Voegt een dubbelslag toe aan de noot of verwijdert deze"
 
 #. (d-DirectivePut-chord-gy "UpPrall" -100)
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleUpPrall.xml.h:1
 msgid "Up Prall (Off/On)"
-msgstr ""
+msgstr "Praller met opwaartse voorslag (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/ToggleUpPrall.xml.h:2
 #: ../actions/palettes.xml.h:78
 msgid "Adds/Removes Up Prall ornament"
-msgstr ""
+msgstr "Voegt het ornament praller met opwaartse voorslag toe of verwijdert dit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Trill+Above.xml.h:1
 msgid "18th c. Trill Above"
-msgstr ""
+msgstr "18e-eeuwse triller bovenaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Trill+Above.xml.h:2
 msgid "Inserts 18th c style trill above note"
-msgstr ""
+msgstr "Voegt een 18e-eeuwse triller in boven de noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Trill+Below.xml.h:1
 msgid "18th c Trill Below"
-msgstr ""
+msgstr "18e-eeuwse triller onderaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Ornaments/Trill+Below.xml.h:2
 msgid "Inserts 18th c style trill below note"
-msgstr ""
+msgstr "Voegt een 18e-eeuwse triller in onder de noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:46
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:19
 msgid "Above"
-msgstr ""
+msgstr "Bovenaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:46
 msgid "Places the fingering above the chord"
-msgstr ""
+msgstr "Plaatst de vingerzetting boven het akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:47
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:19
 msgid "Below"
-msgstr ""
+msgstr "Onderaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:47
 msgid "Places the fingering below the chord"
-msgstr ""
+msgstr "Plaatst de vingerzetting onderaan het akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:48
 msgid "Places the fingering to the left of the chord"
-msgstr ""
+msgstr "Plaats de vingerzetting links van het akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.scm:49
 msgid "Places the fingering to the right of the chord"
-msgstr ""
+msgstr "Plaats de vingerzetting rechts van het akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:12
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:18
 msgid "Fingering Position"
-msgstr ""
+msgstr "Positionering vingerzetting"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/FingeringPosition.xml.h:2
 msgid "Allows you to specify the position of the fingering relative to the note at the cursor."
-msgstr ""
+msgstr "Hiermee kunt u de positie van de vingerzetting specificeren ten opzichte van de noot bij de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger0.xml.h:1
 msgid "Finger 0"
-msgstr ""
+msgstr "Vinger 0"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger0.xml.h:2
 #: ../actions/palettes.xml.h:90
 msgid "Inserts fingering for open string"
-msgstr ""
+msgstr "Voegt vingerzetting in voor open snaar"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger1.xml.h:1
 msgid "Finger 1"
-msgstr ""
+msgstr "Vinger 1"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger1.xml.h:2
 #: ../actions/palettes.xml.h:91
 msgid "Inserts fingering for finger 1"
-msgstr ""
+msgstr "Voegt vingerzetting in voor vinger 1"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger2.xml.h:1
 msgid "Finger 2"
-msgstr ""
+msgstr "Vinger 2"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger2.xml.h:2
 #: ../actions/palettes.xml.h:92
 msgid "Inserts fingering for finger 2"
-msgstr ""
+msgstr "Voegt vingerzetting in voor vinger 2"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger3.xml.h:1
 msgid "Finger 3"
-msgstr ""
+msgstr "Vinger 3"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger3.xml.h:2
 #: ../actions/palettes.xml.h:93
 msgid "Inserts fingering for finger 3"
-msgstr ""
+msgstr "Voegt vingerzetting in voor vinger 3"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger4.xml.h:1
 msgid "Finger 4"
-msgstr ""
+msgstr "Vinger 4"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger4.xml.h:2
 #: ../actions/palettes.xml.h:94
 msgid "Inserts fingering for finger 4"
-msgstr ""
+msgstr "Voegt vingerzetting in voor vinger 4"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.xml.h:1
 msgid "Finger 5"
-msgstr ""
+msgstr "Vinger 5"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Finger5.xml.h:2
 #: ../actions/palettes.xml.h:95
 msgid "Inserts fingering for finger 5"
-msgstr ""
+msgstr "Voegt vingerzetting in voor vinger 5"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.scm:3
 msgid "Give finger number"
-msgstr ""
+msgstr "Het vingernummer opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.scm:11
 msgid "Delete this fingering?"
-msgstr ""
+msgstr "Deze vingerzetting verwijderen?"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.xml.h:1
 msgid "Fingering Swap"
-msgstr ""
+msgstr "Vingerzetting omwisselen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm:2
 msgid "Give first fingering"
-msgstr ""
+msgstr "De eerste vingerzetting opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.scm:5
 msgid "Give second fingering"
-msgstr ""
+msgstr "De tweede vingerzetting opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/FingeringSwap.xml.h:2
 msgid "Prints two fingerings joined to indicate a change of fingering on one note."
-msgstr ""
+msgstr "Drukt twee vingerzettingen samengevoegd af om een verandering van vingerzetting op één noot aan te geven."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.xml.h:1
 msgid "Set Finger"
-msgstr ""
+msgstr "Vinger instellen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/Fingering.xml.h:2
 msgid "Attaches a fingering to the note at the cursor. Blank deletes the fingering."
-msgstr ""
+msgstr "Koppelt een vingerzetting aan de noot bij de cursor. Leeg verwijdert de vingerzetting."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.scm:6
 msgid "No fingering on note at cursor"
-msgstr ""
+msgstr "Geen vingerzetting op de noot bij de cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.xml.h:1
 msgid "Hide/Show Fingering"
-msgstr ""
+msgstr "Vingerzetting verbergen/tonen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/ToggleFingeringVisibility.xml.h:2
 msgid "Hides/Shows the fingering on the note at the cursor height in the typeset score."
-msgstr ""
+msgstr "Verbergt/toont de vingerzetting op de noot ter hoogte van de cursor in de gezette partituur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:8
 msgid "Give finger number: "
-msgstr ""
+msgstr "Geef het vingernummer op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:12
 msgid "Give horizontal shift required: "
-msgstr ""
+msgstr "Geef de vereiste horizontale verschuiving op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.scm:18
 msgid "Give vertical shift required: "
-msgstr ""
+msgstr "Geef de vereiste verticale verschuiving op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.xml.h:1
 msgid "Tweak Position"
-msgstr ""
+msgstr "Positie bijstellen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/Fingerings/TweakFingeringPosition.xml.h:2
 msgid "Shifts the position of the fingering indication by the amounts given."
-msgstr ""
+msgstr "Verschuift de positie van de vingerzettingsaanduiding met de opgegeven hoeveelheden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/RHFinger.xml.h:1
 msgid "Right Hand Fingering"
-msgstr ""
+msgstr "Vingerzetting rechterhand"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/RHFinger.xml.h:2
 msgid "Asks for a finger number and typesets p,m,i as appropriate. Use cancel to delete."
-msgstr ""
+msgstr "Vraagt om een vingernummer en zet p,m,i zoals het hoort. Gebruik annuleren om te wissen."
 
 #. d-StringNum
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/StringNum.xml.h:1
 msgid "String Number"
-msgstr ""
+msgstr "Snaarnummer"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/StringNum.xml.h:2
 #: ../actions/palettes.xml.h:97
 msgid "Followed by a number, places string number on note."
-msgstr ""
+msgstr "Gevolgd door een nummer, plaatst snaarnummer op de noot."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/ToggleStemSupport.xml.h:1
 msgid "Avoid Collisions with Stems"
-msgstr ""
+msgstr "Botsingen met nootstokken vermijden"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Strings/ToggleStemSupport.xml.h:2
 msgid "Fingerings and String numbers will be moved to avoid colliding with stems on typesetting."
-msgstr ""
+msgstr "Vingerzettingen en snaarnummers zullen worden verplaatst om botsingen met nootstokken bij het zetwerk te vermijden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.scm:3
 msgid "Give string"
-msgstr ""
+msgstr "Snaar opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.scm:3
 msgid "give your text"
-msgstr ""
+msgstr "uw tekst opgeven"
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.xml.h:1
 msgid "Arbitrary Text Above"
-msgstr ""
+msgstr "Willekeurige tekst bovenaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ArbitraryTextAbove.xml.h:2
 msgid "Prints the text you give above the chord."
-msgstr ""
+msgstr "Drukt de tekst die u opgeeft af boven het akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.scm:24
 msgid ""
@@ -23336,385 +23369,392 @@ msgid ""
 "To apply italic or bold to a group of words enclose them in {}, e.g. \\bold {These words are bold}.\n"
 "Other markup commands \\super, \\tiny etc, see LilyPond documentation."
 msgstr ""
+"Tekst opgeven die samen met de noot/het akkoord moet verschijnen:\n"
+"De tekens \\, \", §, { en } hebben in de tekst een speciale betekenis;\n"
+"de backslash \\ start een LilyPond-syntaxis, de andere moeten paarsgewijs worden gebruikt.\n"
+"Om cursief of vet op een groep woorden toe te passen, plaatst u ze tussen {}, bijv. \\bold {Deze woorden staan in het vet}.\n"
+"Raadpleeg voor andere opmaakcommando's  \\super, \\tiny, enz., de LilyPond-documentatie."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/AttachedText.xml.h:2
 msgid "Attaches multi-line text which can include music snippets, transposing note/chord names, fret-diagrams, with control over bold, italic font size and more. Double quotes and {} must be paired - check with the Preview button before okaying the markup. Newlines are triggered by the paragraph sign."
-msgstr ""
+msgstr "Voegt tekst met meerdere regels toe, waaronder muziekfragmenten, het transponeren van noten/akkoorden, fret-diagrammen, met controle over vet, cursief, lettergrootte en meer. Dubbele aanhalingstekens en {} moeten paarsgewijs worden gebruikt - controleer met de knop Voorbeeldweergave voordat u de opmaak goedkeurt. Nieuwe regels worden geactiveerd door het alineateken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.xml.h:1
 msgid "Congruentia"
-msgstr ""
+msgstr "Congruentia"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Congruentia.xml.h:2
 msgid "Print congruentia / canon symbol"
-msgstr ""
+msgstr "Symbool voor congruentia / canon afdrukken"
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DalSegno.xml.h:1
 msgid "Dal Segno"
-msgstr ""
+msgstr "Dal Segno"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DalSegno.xml.h:2
 msgid "Prints Dal Segno below the chord at the cursor."
-msgstr ""
+msgstr "Drukt een dal segno af onder het akkoord bij de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.scm:9
 msgid "Replacing Text"
-msgstr ""
+msgstr "Tekst vervangen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.scm:9
 msgid "Give new text"
-msgstr ""
+msgstr "Nieuwe tekst opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.scm:9
 msgid "D.C. Al Fine"
-msgstr ""
+msgstr "D.C. Al Fine"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.scm:51
 msgid "No note or rest at cursor"
-msgstr ""
+msgstr "Geen noot of rust bij de cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml.h:1
 msgid "D. C. al fine"
-msgstr ""
+msgstr "D. C. al fine"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DCAlFine.xml.h:2
 msgid "Puts Da Capo al fine over the chord at the cursor."
-msgstr ""
+msgstr "Plaatst een da capo al fine over het akkoord bij de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/DeleteDynamic.xml.h:2
 msgid "Deletes a dynamic attached to the chord at the cursor."
-msgstr ""
+msgstr "Verwijdert een aan het akkoord bij de cursor gekoppelde dynamiek."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/Forte.xml.h:1
 msgid "Forte"
-msgstr ""
+msgstr "Forte"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/Forte.xml.h:2
 msgid "Attaches Forte to chord and MIDI volume"
-msgstr ""
+msgstr "Koppelt een forte aan het akkoord en het MIDI-volume"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/Fortissimo.xml.h:1
 msgid "Fortissimo"
-msgstr ""
+msgstr "Fortissimo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/Fortissimo.xml.h:2
 msgid "Places a ff sign on the chord at the cursor"
-msgstr ""
+msgstr "Plaatst een ff-teken op het akkoord bij de cursor"
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/Largo.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Largo.xml.h:1
 msgid "Largo"
-msgstr ""
+msgstr "Largo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/Largo.xml.h:2
 msgid "Print Largo above note at cursor"
-msgstr ""
+msgstr "Een largo afdrukken boven de noot bij de cursor"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/MezzoForte.xml.h:1
 msgid "Mezzo Forte"
-msgstr ""
+msgstr "Mezzo Forte"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/MezzoForte.xml.h:2
 msgid "Attach mf indication to a chord."
-msgstr ""
+msgstr "Een mf-aanduiding koppelen aan een akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/MezzoPiano.xml.h:1
 msgid "Mezzo Piano"
-msgstr ""
+msgstr "Mezzo Piano"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/MezzoPiano.xml.h:2
 msgid "prints mp and outputs MIDI vol change#"
-msgstr ""
+msgstr "drukt mp af en voert een MIDI-volumeverandering# uit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:9
 msgid "Fn"
-msgstr ""
+msgstr "Vn"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:20
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:23
 msgid "Footnote Mark"
-msgstr ""
+msgstr "Voetnootmarkering"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:20
 msgid "Give horizontal offset for the marker"
-msgstr ""
+msgstr "De horizontale plaatsing van de markering opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:23
 msgid "Give vertical offset for the marker"
-msgstr ""
+msgstr "De verticale plaatsing van de markering opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:65
 msgid "No note or chord at cursor to attach footnote to"
-msgstr ""
+msgstr "Geen noot of akkoord bij de cursor om voetnoot aan te koppelen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.xml.h:2
 msgid "Prints a footnote at the bottom of the current page. The mark is placed above the note at the cursor."
-msgstr ""
+msgstr "Drukt een voetnoot af onderaan de huidige pagina. De markering wordt boven de noot bij de cursor geplaatst."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:4
 msgid "Minimum Length"
-msgstr ""
+msgstr "Minimale lengte"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:1
 msgid "Glissando"
-msgstr ""
+msgstr "Glissando"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.scm:10
 msgid "Give minimum length for glissando line: "
-msgstr ""
+msgstr "Geef de minimale lengte van de glissandolijn op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Glissando.xml.h:2
 msgid "Inserts a glissando (portamento, slide), a line joining the notehead of this and the next note. You may need to displace the following note horizontally to make the gliss marking visible enough."
-msgstr ""
+msgstr "Voegt een glissando (portamento, glijden) in, een lijn die de nootkop van deze en de volgende noot verbindt. Mogelijk moet u de volgende noot horizontaal verplaatsen om de glissando-markering voldoende zichtbaar te maken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeChord.xml.h:1
 msgid "Parenthesize Chord"
-msgstr ""
+msgstr "Akkoord tussen haakjes plaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.xml.h:1
 msgid "Parenthesize Note"
-msgstr ""
+msgstr "Noot tussen haakjes plaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ParenthesizeNote.xml.h:2
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.xml.h:2
 msgid "Enclose the note at the cursor in ( ) when printed."
-msgstr ""
+msgstr "De noot bij de cursor tussen ( ) plaatsen wanneer deze wordt afgedrukt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:16
 msgid "Sorry, not yet implemented"
-msgstr ""
+msgstr "Sorry, nog niet geïmplementeerd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:29
 msgid "Text Span Start deleted. The end text span later should also be deleted ..."
-msgstr ""
+msgstr "Begin tekstoverspanning verwijderd. Het einde van de tekstoverspanning verderop zou ook verwijderd moeten worden ..."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
 msgid "Text Spanner"
-msgstr ""
+msgstr "Tekstoverspanning"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.scm:33
 msgid "Give text "
-msgstr ""
+msgstr "Tekst opgeven "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:1
 msgid "Text Span Start"
-msgstr ""
+msgstr "Begin tekstoverspanning"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStart.xml.h:2
 msgid "Starts text which spans several notes, e.g. rallentando poco a poco. Terminate with Stop Text Span command."
-msgstr ""
+msgstr "Begint tekst die verschillende noten overspant, bijv. rallentando poco a poco. Beëindig met het commando einde tekstoverspanning."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:1
 msgid "Text Span Stop"
-msgstr ""
+msgstr "Einde tekstoverspanning"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Spanning/TextSpanStop.xml.h:2
 msgid "Stops the spanning text started earlier."
-msgstr ""
+msgstr "Beëindigt de eerder begonnen tekstoverspanning."
 
 #. End of scheme script
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:1
 msgid "Allegro Assai"
-msgstr ""
+msgstr "Allegro Assai"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/AllegroAssai.xml.h:2
 msgid "Gives Allegro Assai tempo indication"
-msgstr ""
+msgstr "Geeft de tempo-aanduiding Allegro Assai"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.xml.h:1
 msgid "Allegro"
-msgstr ""
+msgstr "Allegro"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Allegro.xml.h:2
 msgid "Print Allegro in bold italics above the chord."
-msgstr ""
+msgstr "Allegro vet en cursief afdrukken boven het akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Andante.xml.h:1
 msgid "Andante"
-msgstr ""
+msgstr "Andante"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Andante.xml.h:2
 msgid "Print Andante in bold italics above the chord."
-msgstr ""
+msgstr "Andante vet en cursief afdrukken boven het akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Largo.xml.h:2
 msgid "Attaches Largo to chord"
-msgstr ""
+msgstr "Koppelt een largo aan het akkoord"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Presto.xml.h:1
 msgid "Presto"
-msgstr ""
+msgstr "Presto"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TempoIndications/Presto.xml.h:2
 msgid "Print Presto in bold italics above the chord."
-msgstr ""
+msgstr "Presto vet en cursief afdrukken boven het akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.scm:6
 msgid "Give text to appear above music: "
-msgstr ""
+msgstr "Geef de tekst die boven de muziek moet staan op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/TextAbove.xml.h:2
 msgid "Prints your text above the music at this point"
-msgstr ""
+msgstr "Drukt op dit punt uw tekst af boven de muziek"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.xml.h:1
 msgid "Coda (Off/On)"
-msgstr ""
+msgstr "Coda (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleCoda.xml.h:2
 msgid "Adds/Removes a Coda to the note"
-msgstr ""
+msgstr "Voegt een coda toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.xml.h:1
 msgid "Fine (end). (Off/On)"
-msgstr ""
+msgstr "Fine (einde). (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleFine.xml.h:2
 msgid "Prints the musical instruction \"fine\", in italics."
-msgstr ""
+msgstr "Drukt de muzikale instructie \"fine\" af, in het cursief."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml.h:1
 msgid "Segno (Off/On)"
-msgstr ""
+msgstr "Segno (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/ToggleSegno.xml.h:2
 msgid "Adds/Removes a Segno to the note"
-msgstr ""
+msgstr "Voegt een segno toe aan de noot of verwijdert deze"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:3
 msgid "Start a vibrato"
-msgstr ""
+msgstr "Een vibrato beginnen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:3
 msgid "Stop a vibrato"
-msgstr ""
+msgstr "Een vibrato beëindigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:14
 msgid "Vibrato End"
-msgstr ""
+msgstr "Einde Vibrato"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:20
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:29
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:32
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.xml.h:1
 msgid "Vibrato"
-msgstr ""
+msgstr "Vibrato"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:20
 msgid "Give amplitude or 0 to finish giving amplitudes"
-msgstr ""
+msgstr "Een amplitude opgeven of 0 om het opgeven van amplitudes te beëindigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:29
 msgid "Give wavelength for wavy line "
-msgstr ""
+msgstr "Golflengte opgeven voor golvende lijn "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.scm:32
 msgid "Give thickness for wavy line "
-msgstr ""
+msgstr "Dikte opgeven voor golvende lijn "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Vibrato.xml.h:2
 msgid "Start or Stop a wavy line above the notes. The waves can be made longer/shorter via the wavelength given and can be made to swell and or diminish, several times if desired by giving one or more amplitudes."
-msgstr ""
+msgstr "Een golvende lijn boven de noten beginnen of beëindigen. De golven kunnen via de opgegeven golflengte langer/korter gemaakt worden en kunnen desgewenst meerdere malen toenemen en/of afnemen door één of meerdere amplitudes op te geven."
 
 #. InsertMarkedMidi
 #: ../actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml.h:1
 msgid "Insert Marked MIDI"
-msgstr ""
+msgstr "Gemarkeerde MIDI invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/MIDI/InsertMarkedMidi.xml.h:2
 msgid "Inserts the marked MIDI note from the current track, using the duration suggested. Use duration keys to insert the same note with a different duration."
-msgstr ""
+msgstr "Voegt de gemarkeerde MIDI-noot van het huidige spoor in, met de voorgestelde duur. Gebruik de duurtoetsen om dezelfde noot met een andere duur in te voegen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.scm:8
 msgid ""
 "This note will typeset with a diamond notehead, to indicate a harmonic\n"
 "You can sharpen or flatten this note using the standard commands."
 msgstr ""
+"Deze noot wordt gezet met een geruite nootkop, om een harmonische aan te geven\n"
+"U kunt deze noot chromatisch verhogen of verlagen met de standaardcommando's."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.xml.h:1
 msgid "Artificial Harmonic"
-msgstr ""
+msgstr "Artificiële Harmonische"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ArtificialHarmonic.xml.h:2
 msgid "Places a diamond shape notehead at the cursor. Invoke this command with the cursor above the note to be fingered/fretted to notate an artificial harmonic."
-msgstr ""
+msgstr "Plaatst een nootkop in de vorm van een ruit bij de cursor. Roep dit commando op met de cursor boven de noot die moet worden gevingerd/gefret om een artificiële harmonische te noteren."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:6
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.xml.h:1
 msgid "Neo-mensural"
-msgstr ""
+msgstr "Neo-mensuraal"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:10
 msgid "Harmonic Black"
-msgstr ""
+msgstr "Harmonische Zwart"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:11
 msgid "Harmonic Mixed"
-msgstr ""
+msgstr "Harmonische Gemengd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:14
 msgid "XCircle"
-msgstr ""
+msgstr "Xcirkel"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.scm:18
 msgid "AltDefault"
-msgstr ""
+msgstr "AltStandaard"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.xml.h:1
 msgid "Choose Notehead"
-msgstr ""
+msgstr "Nootkop kiezen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/ChooseNotehead.xml.h:2
 msgid "(Print) Gives a choice between all the notehead types available."
-msgstr ""
+msgstr "(Afdrukken) Geeft een keuze tussen alle beschikbare nootkoptypes."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm:10
 msgid "Notehead Font Magnification"
-msgstr ""
+msgstr "Vergroting van het lettertype van de nootkop"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.scm:10
 msgid "Give size required: "
-msgstr ""
+msgstr "Geef de vereiste grootte op: "
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml.h:1
 msgid "Individual Note Head Size"
-msgstr ""
+msgstr "Grootte van een individuele nootkop"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/IndividualNoteheadSize.xml.h:2
 msgid "Allows the notehead that the cursor is on to be made larger of smaller than normal."
-msgstr ""
+msgstr "Hiermee kan de nootkop waarop de cursor staat groter of kleiner dan normaal worden gemaakt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadControl/NeoMensuralNotehead.xml.h:2
 msgid "Prints note with neomensural style notehead."
-msgstr ""
+msgstr "Drukt de noot af met nootkop in neomensurale stijl."
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/NormalSizeNotehead.xml.h:1
 msgid "(Print) Normal Size"
-msgstr ""
+msgstr "(Afdrukken) Normale grootte"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/NormalSizeNotehead.xml.h:2
 msgid "Prints out note heads in normal size"
-msgstr ""
+msgstr "Drukt nootkoppen op normale grootte af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/SmallNotehead.xml.h:1
 msgid "(Print) Small Size"
-msgstr ""
+msgstr "(Afdrukken) Klein formaat"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/SmallNotehead.xml.h:2
 msgid "Prints out note heads in small size"
-msgstr ""
+msgstr "Drukt nootkoppen op klein formaat af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/TinyNotehead.xml.h:1
 msgid "(Print) Tiny Size"
-msgstr ""
+msgstr "(Afdrukken) Minuscuul formaat"
 
 #: ../actions/menus/ObjectMenu/NotesRests/NoteheadSizes/TinyNotehead.xml.h:2
 msgid "Prints out note heads in tiny size"
-msgstr ""
+msgstr "Drukt nootkoppen op minuscuul formaat af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/OmitChord-Note-Rest.xml.h:1
 msgid "Omit (Print)"
