@@ -12,12 +12,14 @@
           (define choice (RadioBoxMenu (cons (_ "Bold") 'bold)  (cons (_ "Light")  'light)))
            (case choice
             ((bold)  "\\bold ")
+            ((light)  "\\medium ")
             (else ""))))         
     (define (do-italic)
         (let ()                  
           (define choice (RadioBoxMenu (cons (_ "Italic") 'italic)  (cons (_ "Normal")  'normal)))
            (case choice
             ((italic)  "\\italic ")
+            ((normal)  "\\upright ")
             (else ""))))         
      
                         

@@ -1,5 +1,6 @@
 ;;;InstrumentName
-(let ((tag  "InstrumentName") (current "") (thematch "") (indent "0.0") (size 16.0) (nextmovement #f) (staff (number->string (d-GetStaff))))
+(define-once InstrumentName::longest 0) ;;longest instrument name in score
+(let ((tag  "InstrumentName") (current "") (thematch "") (indent "0.0") (size (/ (string->number (d-ScoreProperties "query=fontsize")) 10.0)) (nextmovement #f) (staff (number->string (d-GetStaff))))
 (if (equal? InstrumentName::params "edit")
     (set! InstrumentName::params #f))
     
@@ -49,7 +50,11 @@
                                         (if (d-GoToPosition #f staffnum 1 1)
                                             (d-InstrumentName current)))
                                     (d-PopPosition)))))
-                            
-                (set! size (/ (string->number (d-ScoreProperties "query=fontsize")) 10.0))
-                (set! indent (max (string->number indent) (* size (string-length current))))
-                (d-ScoreIndent indent))))))
+                (set! InstrumentName::longest 0)   
+                (d-PushPosition)         
+                (ForEachStaffInScore "(let ((name (d-DirectiveGet-staff-display \"InstrumentName\")))
+											(if name
+												(set! InstrumentName::longest (max InstrumentName::longest (string-length name)))))")
+		(d-PopPosition)
+                (d-ScoreIndent (* size InstrumentName::longest)))))))
+        
