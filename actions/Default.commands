@@ -4770,7 +4770,7 @@ accidentals are usually printed over the note.</_tooltip>
         <after>InsertWholeMeasureRest</after>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Multi-Measure Rests</_label>
-        <_tooltip>Creates a multi-measure rest from the whole measure rests after the cursor, or inserts the number of rests you specify after the cursor, making them a multi-measure rest. Multi-measure rests will be typeset as individual whole measure rests if any other part being typeset has music during them. Note: Whole measure rests to be converted must be unbroken by any other objects such as links to source, rehearsal marks etc. else they will be split into separate groups on multi-measure rests.</_tooltip>
+        <_tooltip>Creates a multi-measure rest from the whole measure rests after the cursor, or inserts the number of rests you specify after the cursor, making them a multi-measure rest. Multi-measure rests will be typeset as individual whole measure rests if any other part being typeset has music during them. Note: Whole measure rests to be converted must be unbroken by any other objects such as links to source, rehearsal marks etc. else they will be split into separate groups of multi-measure rests.</_tooltip>
       </row>
       <row type="scheme">
         <action>StaffMultiMeasureRests</action>

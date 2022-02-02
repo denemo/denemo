@@ -1148,6 +1148,7 @@
       </row>
       <row>
         <action>DeleteMidiAndClickTrack</action>
+        <bind>Alt+Delete,x</bind>
         <bind>Alt+Delete,c</bind>
       </row>
       <row>
