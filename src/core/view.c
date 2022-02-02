@@ -1363,7 +1363,7 @@ midi_in_menu (void)
   
   item = gtk_menu_item_new_with_label (_("Recording"));
   gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_midi_record), GINT_TO_POINTER (-1));
+  g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (call_out_to_guile), "(d-RecordMidiIn)");
   
   
   gtk_widget_show_all (menu);

@@ -144,6 +144,12 @@ scorearea_keyrelease_event (GtkWidget * widget, GdkEventKey * event)
 					toggle_midi_record ();
 				set_midi_in_status ();	
 				}
+			  else if ((Denemo.keyboard_state == 0) && ((event->keyval == GDK_Control_L) || (event->keyval == GDK_Control_R)))
+				{
+				 if (Denemo.project->movement->recording && (Denemo.project->movement->recording->type == DENEMO_RECORDING_MIDI))
+					toggle_midi_record ();
+				set_midi_in_status ();	
+				}
               
         }
      else
