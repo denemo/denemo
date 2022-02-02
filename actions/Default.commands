@@ -3221,6 +3221,12 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Breve Rest</_label>
         <_tooltip>Insert a rest with breve duration</_tooltip>
+      </row>      
+      <row type="scheme">
+        <action>InsertLongaRest</action>
+        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
+        <_label>Longa Rest</_label>
+        <_tooltip>Insert a rest with longa duration</_tooltip>
       </row>
       <row type="scheme">
         <action>C-Major</action>
@@ -4600,12 +4606,7 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Longa</_label>
         <_tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>InsertLongaRest</action>
-        <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
-        <_label>Longa Rest</_label>
-        <_tooltip>Insert a rest with longa duration</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>MidiFilterOff</action>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
