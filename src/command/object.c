@@ -1659,9 +1659,7 @@ place_directives (GtkWidget * vbox, GList ** pdirectives, EditObjectType type)
       if (tooltip)
         {
           button = gtk_button_new_with_label (_("Help"));
-          //get_color (&color, 0.0, 0.7, 0.7, 1.0);       //color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
-          //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-          set_foreground_color (button, "rgb(0,255,180)");
+          set_foreground_color (button, "#006010");
           g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (display_help), (gpointer) tooltip);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
         }
@@ -2198,7 +2196,7 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
               button = gtk_button_new_with_label (_("Help"));
               //get_color (&color, 0.0, 0.7, 0.3, 1.0);   //color.red = 0.0; color.green = 0.7,  color.blue = 0.3; color.alpha = 1.0;
               //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-              set_foreground_color (button, "#00b34d");
+              set_foreground_color (button, "#006010");
               
               g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (display_help), (gpointer) tooltip);
               gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
@@ -2471,9 +2469,7 @@ place_buttons_for_directives (GList ** pdirectives, GtkWidget * vbox, DIRECTIVE_
       if (tooltip)
         {
           button = gtk_button_new_with_label (_("Help"));
-          //get_color (&color, 0.0, 0.7, 0.3, 1.0);
-          //gtk_widget_override_color (button, GTK_STATE_FLAG_NORMAL, &color);
-          set_foreground_color(button, "#00b34d");
+          set_foreground_color(button, "#006010");
           g_signal_connect_swapped (G_OBJECT (button), "clicked", G_CALLBACK (display_help), (gpointer) tooltip);
           gtk_box_pack_start (GTK_BOX (hbox), button, FALSE, TRUE, 0);
         }
