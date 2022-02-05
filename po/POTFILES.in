@@ -919,6 +919,8 @@ actions/menus/ObjectMenu/Directives/Barlines/RepeatEndStart.xml
 actions/menus/ObjectMenu/Directives/Barlines/RepeatEnd.xml
 actions/menus/ObjectMenu/Directives/Barlines/RepeatStart.scm
 actions/menus/ObjectMenu/Directives/Barlines/RepeatStart.xml
+actions/menus/ObjectMenu/Directives/Barlines/TrailingStaffLines.scm
+actions/menus/ObjectMenu/Directives/Barlines/TrailingStaffLines.xml
 actions/menus/ObjectMenu/Directives/CheckDirectivePairs.scm
 actions/menus/ObjectMenu/Directives/CheckDirectivePairs.xml
 actions/menus/ObjectMenu/Directives/Comment.scm

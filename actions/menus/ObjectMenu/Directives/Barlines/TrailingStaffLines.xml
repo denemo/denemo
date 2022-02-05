@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>TrailingStaffLines</action>
+        <after>NoBarline</after>
+        <_label>Trailing Staff Lines</_label>
+        <_tooltip>Place at the end of the movement to allow the staff lines to trail off without any closing bar line. Use e.g. for signalling a key change at the start of the next movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

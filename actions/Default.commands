@@ -1820,7 +1820,6 @@ these may need re-making.</_tooltip>
         <_label>Delete Movement</_label>
         <_tooltip>Delete the current movement</_tooltip>
       </row>
-
       <row type="builtin">
         <action>PlaybackProperties</action>
         <_label>Playback Properties</_label>
@@ -3221,7 +3220,7 @@ This Dynamics "staff" must have the same part name as the staff the dynamics sho
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
         <_label>Breve Rest</_label>
         <_tooltip>Insert a rest with breve duration</_tooltip>
-      </row>      
+      </row>
       <row type="scheme">
         <action>InsertLongaRest</action>
         <menupath>/ObjectMenu/NotesRests/RestEntry</menupath>
@@ -4606,7 +4605,6 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Longa</_label>
         <_tooltip>Sets Longa as the prevailing duration, installing it as a musical snippet.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>MidiFilterOff</action>
         <menupath>/MainMenu/InputMenu/MIDI</menupath>
@@ -8838,6 +8836,13 @@ Include rests if they are part of the pattern.
         <menupath>/MainMenu/PlaybackMenu</menupath>
         <_label>Stop/Forget Pause</_label>
         <_tooltip>Stops the playback or cancels the Pause, restoring the original start playback marker position.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>TrailingStaffLines</action>
+        <after>NoBarline</after>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <_label>Trailing Staff Lines</_label>
+        <_tooltip>Place at the end of the movement to allow the staff lines to trail off without any closing bar line. Use e.g. for signalling a key change at the start of the next movement.</_tooltip>
       </row>
     </map>
   </merge>
