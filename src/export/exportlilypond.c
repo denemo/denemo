@@ -2678,9 +2678,9 @@ output_score_to_buffer (DenemoProject * gui, gboolean all_movements, gchar * par
   gui->namespec = namespec;
   //g_debug("actually refreshing %d %d", gui->lilysync, gui->changecount);
   gui->lilysync = gui->changecount;
-  if (Denemo.textbuffer)
+  if (Denemo.textbuffer && (continuous_typesetting () || !g_object_get_data (G_OBJECT(Denemo.textbuffer), "append")))
     gtk_text_buffer_set_text (Denemo.textbuffer, "", -1);
-  else
+  if (!Denemo.textbuffer)
     warningdialog (_("No textbuffer"));
   if (gui->anchors)
     {
