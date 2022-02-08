@@ -2119,6 +2119,8 @@ actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.xml
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetScoreSizeForLayout.scm
+actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetScoreSizeForLayout.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.scm
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.xml
 actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.scm

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetScoreSizeForLayout</action>
+        <after>SetFontSize</after>
+        <_label>Score Size for Layout</_label>
+        <_tooltip>Sets the overall score size to use (only) for the current layout.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

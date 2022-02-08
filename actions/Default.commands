@@ -8851,6 +8851,13 @@ Include rests if they are part of the pattern.
         <_label>Layout Instrumentation</_label>
         <_tooltip>Prints the instrumentation that the current layout provides (e.g. full score, violin 1, etc)</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SetScoreSizeForLayout</action>
+        <after>SetFontSize</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <_label>Score Size for Layout</_label>
+        <_tooltip>Sets the overall score size to use (only) for the current layout.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
