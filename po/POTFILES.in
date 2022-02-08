@@ -2029,6 +2029,8 @@ actions/menus/ObjectMenu/Score/Titles/ScoreTagline.scm
 actions/menus/ObjectMenu/Score/Titles/ScoreTagline.xml
 actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm
 actions/menus/ObjectMenu/Score/Titles/ScoreVersion.xml
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/LayoutInstrumentation.scm
+actions/menus/ObjectMenu/Score/Titles/SimpleTitles/LayoutInstrumentation.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreArranger.scm
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreArranger.xml
 actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreBreakbefore.scm
