@@ -2575,10 +2575,10 @@ get_updates_menu (GtkWidget * button)
   if (menu == NULL)
     {
       GtkWidget *item, *conts_button;
-      GSList *group = NULL;
+      //GSList *group = NULL;
       menu = gtk_menu_new ();
-      conts_button = gtk_radio_menu_item_new_with_label (NULL, _("Continuous/Manual"));
-      group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (conts_button));
+      conts_button = gtk_menu_item_new_with_label ( _("Continuous/Manual"));
+      //group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (conts_button));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), conts_button);
       gtk_widget_set_tooltip_text (conts_button, _("Set background updates on/off."));
       g_signal_connect_swapped (G_OBJECT (conts_button), "activate", G_CALLBACK (toggle_updates), NULL);
@@ -2591,9 +2591,9 @@ get_updates_menu (GtkWidget * button)
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (range_dialog), NULL);
       
-      item = gtk_radio_menu_item_new_with_label (group, "Append Scores");
+      item = gtk_menu_item_new_with_label (_("Append Scores (Off/On)"));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_set_tooltip_text (item, _("Append each typeset to the last one"));
+      gtk_widget_set_tooltip_text (item, _("Append each typeset to the last one/stop doing so"));
       g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_updates), GINT_TO_POINTER(1));      
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item), GPOINTER_TO_INT(g_object_get_data (G_OBJECT(Denemo.textbuffer), "append")));
       
