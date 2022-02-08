@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>LayoutInstrumentation</action>
+        <after>ScoreTitles</after>
+        <_label>Layout Instrumentation</_label>
+        <_tooltip>Prints the instrumentation that the current layout provides (e.g. full score, violin 1, etc)</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>
