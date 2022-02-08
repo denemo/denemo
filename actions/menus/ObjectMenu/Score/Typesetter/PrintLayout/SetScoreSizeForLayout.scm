@@ -1,5 +1,7 @@
 ;;;SetScoreSizeForLayout
 (let* ((tag (string-append "FontSize:" (d-GetLayoutName)))(size  (d-DirectiveGet-score-data tag)))
+	(if (not (d-Directive-score? "FontSize"))
+		(d-SetFontSize (d-ScoreProperties "query=fontsize")))
 	(if (not size)
 		(set! size  (d-ScoreProperties "query=fontsize")))
 	(set! size  (d-GetUserInput (_ "Score Size")  (_ "Give font size to use") size))
@@ -13,6 +15,3 @@
 			(d-DirectivePut-score-allow tag (d-GetLayoutId))
 			(d-SetSaved #f))
 		(d-WarningDialog (_ "Cancelled"))))
-
-
-	
