@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: denemo-2.6-rc2\n"
 "Report-Msgid-Bugs-To: denemo-devel@gnu.org\n"
 "POT-Creation-Date: 2021-12-08 10:57+0000\n"
-"PO-Revision-Date: 2022-02-01 11:19+0100\n"
+"PO-Revision-Date: 2022-02-08 11:22+0100\n"
 "Last-Translator: Frans Spiesschaert <Frans.Spiesschaert@yucom.be>\n"
 "Language-Team: Dutch <vertaling@vrijschrift.org>\n"
 "Language: nl\n"
@@ -2522,7 +2522,7 @@ msgstr "Beweging %d"
 
 #: ../src/command/scorelayout.c:1800
 msgid "paper size"
-msgstr "papiergrootte"
+msgstr "papierformaat"
 
 #: ../src/command/scorelayout.c:1802
 msgid "Global staff size"
@@ -2534,7 +2534,7 @@ msgstr "Papierblok"
 
 #: ../src/command/scorelayout.c:1804
 msgid "Settings for whole score: includes overall staff size, paper size ...\n"
-msgstr "Instellingen voor de hele partituur: bevat de globale notenbalkgrootte, papiergrootte... \n"
+msgstr "Instellingen voor de hele partituur: bevat de globale notenbalkgrootte, papierformaat... \n"
 
 #: ../src/command/scorelayout.c:1810
 msgid "the paper block contents"
@@ -6172,7 +6172,7 @@ msgid ""
 "Different sorts of barline (repeat barlines, double bars, end of movement ...)."
 msgstr ""
 "Menu:\n"
-"Verschillende soorten maatstrepen (herhaalmaatstrepen, dubbele maatstrepen, bewegingseindestreep ...)."
+"Verschillende soorten maatstrepen (herhalingsmaatstrepen, dubbele maatstrepen, bewegingseindestreep ...)."
 
 #: ../src/core/entries.h:418
 msgid "Seek"
@@ -6212,7 +6212,7 @@ msgstr ""
 
 #: ../src/core/entries.h:421
 msgid "Vertical Spacing"
-msgstr "Verticale tussenruimte"
+msgstr "Verticale afstand"
 
 #: ../src/core/entries.h:421
 msgid ""
@@ -6220,7 +6220,7 @@ msgid ""
 "Commands to affect the vertical spacing of the typeset score."
 msgstr ""
 "Menu:\n"
-"Commando's om de verticale tussenruimte van de gezette partituur te beïnvloeden."
+"Commando's om de verticale afstanden in de gezette partituur te beïnvloeden."
 
 #: ../src/core/entries.h:422
 msgid "Capture Score"
@@ -10053,7 +10053,7 @@ msgid ""
 "or off the noteheads for things attached to the whole chord."
 msgstr ""
 "Hiermee kunnen objecten in het weergavevenster worden versleept.\n"
-"Allerlei richtlijnen zoals staccatopunten, ornamenten, herhaaltekens, enz., kunnen worden versleept als de weergave te onoverzichtelijk is.\n"
+"Allerlei richtlijnen zoals staccatopunten, ornamenten, herhalingstekens, enz., kunnen worden versleept als de weergave te onoverzichtelijk is.\n"
 "De gezette partituur wordt niet beïnvloed.\n"
 "Klik op een nootkop om dingen die aan de nootkop gekoppeld zijn te verslepen,\n"
 "of weg van de nootkoppen voor dingen die aan het hele akkoord gekoppeld zijn."
@@ -10744,7 +10744,7 @@ msgstr "Notenbalkafstand (pixels):"
 
 #: ../src/ui/scoreprops.c:193
 msgid "Paper Size"
-msgstr "Papiergrootte"
+msgstr "Papierformaat"
 
 #: ../src/ui/scoreprops.c:213 ../actions/denemo-modules/wysiwyg.scm:477
 #: ../actions/menus/ObjectMenu/Lyrics/LyricFontSize.scm:3
@@ -11699,7 +11699,7 @@ msgstr ""
 
 #: ../actions/denemo.scm:1488
 msgid "Give Spacing:"
-msgstr "Tussenruimte opgeven:"
+msgstr "Geef afstand op:"
 
 #: ../actions/denemo.scm:1506 ../actions/denemo.scm:1509
 msgid "Give distance"
@@ -11707,7 +11707,7 @@ msgstr "Afstand opgeven"
 
 #: ../actions/denemo.scm:1510
 msgid "System to System Minimum Distance"
-msgstr "Systeem tot systeem minimumafstand"
+msgstr "Minimumafstand van systeem tot systeem"
 
 #: ../actions/denemo.scm:1512
 msgid "Give padding"
@@ -12821,7 +12821,8 @@ msgstr ""
 "Door het pedaal vóór de basnoot in te drukken, wordt het laatste akkoord verbonden met het akkoord dat u als volgende invoert.\n"
 "U kunt het sustainpedaal ook gebruiken om een akkoord op een rust te plaatsen vóór een basnoot (druk het pedaal in voordat u de basnoot aanslaat).\n"
 "U kunt een tweede keer op Start klikken om te stoppen en u kunt opnieuw beginnen vanaf elke gewenste maat.\n"
-"U kunt bewerken, afspelen, enz. terwijl u aan het werk bent, maar verwijder of voeg geen notenbalken toe. U kunt ook het toonhoogtebuigingswiel gebruiken om te stoppen met het invoeren van akkoorden."
+"U kunt bewerken, afspelen, enz. terwijl u aan het werk bent, maar verwijder of voeg geen notenbalken toe. U kunt ook het toonhoogtebuigingswiel gebruiken om te stoppen met het invoeren van akkoorden.\n"
+"  "
 
 #: ../actions/menus/MainMenu/Educational/MIDI/FiguredBassExercises.scm:30
 msgid "You have unsaved work"
@@ -15643,7 +15644,7 @@ msgstr "Voegt een sleutel in die alleen van invloed is op het zetwerk, niet op d
 
 #: ../actions/menus/ObjectMenu/Directives/Barlines/AmalgamateRepeatBarlines.xml.h:1
 msgid "Amalgamate Repeat Barlines"
-msgstr "Herhaalmaatstrepen samenvoegen"
+msgstr "Herhalingsmaatstrepen samenvoegen"
 
 #: ../actions/menus/ObjectMenu/Directives/Barlines/AmalgamateRepeatBarlines.xml.h:2
 msgid "Replaces erroneous repeat end Directive followed by repeat start with (correct) repeat-end-start Directives throughout the score. (Only one type of barline can be present at one musical time in the score)."
@@ -15939,7 +15940,7 @@ msgstr "Lilypond invoegen/bewerken"
 
 #: ../actions/menus/ObjectMenu/Directives/InsertStandaloneDirective.xml.h:2
 msgid "Insert or edit a directive in the LilyPond music typesetting language. This can be used for extra spacing, transposing or almost anything. See LilyPond documentation for ideas."
-msgstr "Een richtlijn toevoegen of bewerken in de LilyPond-taal voor het zetten van muziek. Dit kan worden gebruikt voor extra tussenruimte, voor transponeren of voor bijna alles. Zie de LilyPond-documentatie voor ideeën."
+msgstr "Een richtlijn toevoegen of bewerken in de LilyPond-taal voor het zetten van muziek. Dit kan worden gebruikt voor extra afstand, voor transponeren of voor bijna alles. Zie de LilyPond-documentatie voor ideeën."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/AlternativeBars/ConditionalSecondTimeBar.scm:5
 msgid ""
@@ -16489,7 +16490,7 @@ msgstr "Meer bewerkingsopties"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/RehearsalMark.xml.h:2
 msgid "Inserts a rehearsal mark in the score. The default is to typeset as the letters A, B, ... The display shows simply A for all bookmarks. This mark also acts as a Denemo bookmark which can be searched for."
-msgstr "Voegt een repetitieteken in de partituur in. De standaardinstelling is om de letters A, B, ... te zetten. De weergave toont gewoon A voor alle bladwijzers. Deze markering fungeert ook als een Denemo-bladwijzer waarnaar gezocht kan worden."
+msgstr "Voegt een repetitiemarkering in de partituur in. De standaardinstelling is om de letters A, B, ... te zetten. De weergave toont gewoon A voor alle bladwijzers. Deze markering fungeert ook als een Denemo-bladwijzer waarnaar gezocht kan worden."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/CadenzaOn.xml.h:1
 msgid "Start Cadenza"
@@ -16517,7 +16518,7 @@ msgstr "Ligatuur afsluiten"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/LigatureEnd.xml.h:2
 msgid "End drawing a square bracket above the notes. Must be preceded by a Start Ligature earlier in the same staff."
-msgstr "Het tekenen van een vierkante haak boven de noten stoppen. Moet worden voorafgegaan door een Ligatuurbegin eerder in dezelfde notenbalk."
+msgstr "Het tekenen van een rechte haak boven de noten stoppen. Moet worden voorafgegaan door een Ligatuurbegin eerder in dezelfde notenbalk."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/LigatureStart.scm:7
 msgid "Ligature Start"
@@ -16529,7 +16530,7 @@ msgstr "Een ligatuur openen"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/LigatureStart.xml.h:2
 msgid "Starts drawing a square bracket above the notes from the cursor. Use End Ligature to mark the place where the bracket should end. Used in transcribing mensural music notation."
-msgstr "Begint met het tekenen van een vierkant haakje boven de noten vanaf de cursor. Gebruik Ligatuureinde om de plaats te markeren waar het haakje moet eindigen. Wordt gebruikt bij de transcriptie van mensurale muzieknotatie."
+msgstr "Begint met het tekenen van een recht haakje boven de noten vanaf de cursor. Gebruik Ligatuureinde om de plaats te markeren waar het haakje moet eindigen. Wordt gebruikt bij de transcriptie van mensurale muzieknotatie."
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/Spanning/Ottava.scm:5
 msgid "Give -1 for ottava bassa, 1 for ottava alta and 0 for end ottava"
@@ -17203,7 +17204,7 @@ msgstr "cesuur.recht"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:127
 msgid "tickmark"
-msgstr "tikmarkering"
+msgstr "vinkje"
 
 #: ../actions/menus/ObjectMenu/Directives/Markings/TextMarks/MusicGlyph.scm:128
 msgid "snappizzicato"
@@ -19488,11 +19489,11 @@ msgstr "Opmaak om te gebruiken voor "
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.xml.h:1
 msgid "Change Stencil for Object"
-msgstr "Patroon wijzigen voor object"
+msgstr "Sjabloon wijzigen voor object"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChangeStencil.xml.h:2
 msgid "Lets you create your own stencil for typesetting the next occurence of the chosen layout object. The stencil is created using LilyPond markup - this can be anything from a single character to a drawing in encapsulated Postscript format. See LilyPond documentation for details."
-msgstr "Hiermee kunt u uw eigen patroon maken voor het zetten van het gekozen opmaak-object, de volgende keer dat dit object voorkomt. Het patroon wordt gemaakt met LilyPond-opmaak - dit kan van alles zijn, van één enkel karakter tot een tekening in ingekapseld Postscript-formaat. Zie LilyPond-documentatie voor details."
+msgstr "Hiermee kunt u uw eigen sjabloon maken voor het zetten van het gekozen opmaak-object, de volgende keer dat dit object voorkomt. Het sjabloon wordt gemaakt met LilyPond-opmaak - dit kan van alles zijn, van één enkel karakter tot een tekening in ingekapseld Postscript-formaat. Zie LilyPond-documentatie voor details."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/ChordChangesOnly.scm:4
 msgid "This Directive turns off repeations of the chord except at the start of a new line"
@@ -19669,7 +19670,7 @@ msgstr "Voegt een richtlijn in om het afdrukken van een teller boven elke maat t
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.xml.h:1
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffMultiMeasureRests.xml.h:1
 msgid "Multi-Measure Rests"
-msgstr "Rusten over verschillende maten"
+msgstr "Rusten over meerdere maten"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/MMRExpandLimit.scm:7
 msgid "Give limit for use of church rests"
@@ -19689,27 +19690,27 @@ msgstr "In Rusten over Meerdere Maten: bepaalt over hoeveel maten rusten worden 
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.scm:5
 msgid "Spacing"
-msgstr "Tussenruimte"
+msgstr "Afstand"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.scm:5
 msgid "Give new spacing: "
-msgstr "Geef nieuwe tussenruimte op: "
+msgstr "Geef nieuwe afstand op: "
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.scm:13
 msgid "To restore the prevailing music spacing delete this directive object."
-msgstr "Om de heersende tussenruimte tussen de muziek te herstellen, verwijdert u dit richtlijnobject."
+msgstr "Om de heersende afstand in de muziek te herstellen, verwijdert u dit richtlijnobject."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.scm:14
 msgid "Note spacing unaltered."
-msgstr "Ongewijzigde tussenruimte tussen noten."
+msgstr "Ongewijzigde afstand tussen noten."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.xml.h:1
 msgid "Start New Spacing"
-msgstr "Beginnen met nieuwe tussenruimte"
+msgstr "Beginnen met nieuwe afstand"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/NewSpacing.xml.h:2
 msgid "Spaces notes from cursor onwards based on the spacing given."
-msgstr "Plaatst vanaf de cursor tussenruimte tussen de noten op basis van de opgegeven tussenruimte."
+msgstr "Plaatst vanaf de cursor tussenruimte tussen de noten op basis van de opgegeven afstand."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/PrintLayout/AllowLineBreak.scm:4
 msgid "This sign allows a Line Break. The bar can be broken across a line at this point. Delete using Del or Backspace key."
@@ -19753,11 +19754,11 @@ msgstr "(Afdrukken) Forceert een nieuwe pagina bij deze maatstreep."
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/PrintLayout/StaffSpacer.scm:12
 msgid "Spacing for Staff"
-msgstr "Notenbalkafstand"
+msgstr "Afstand voor notenbalken"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/PrintLayout/StaffSpacer.scm:12
 msgid "Give value for extra space: "
-msgstr "Geef een waarde op voor extra tussenruimte: "
+msgstr "Geef een waarde op voor de extra spatiëring: "
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/PrintLayout/StaffSpacer.scm:16
 msgid "Space Above Staff"
@@ -19777,7 +19778,7 @@ msgstr "Forceert extra ruimte tussen deze notenbalk en de aangrenzende notenbalk
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/RevertSpacing.xml.h:1
 msgid "Revert Spacing"
-msgstr "Tussenafstand herstellen"
+msgstr "Afstand herstellen"
 
 #: ../actions/menus/ObjectMenu/Directives/Typesetter/RevertSpacing.xml.h:2
 msgid "Spaces notes from cursor onwards in default manner."
@@ -20577,19 +20578,19 @@ msgstr "Voegt twee maten samen."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/CloseReopenRepeat.xml.h:1
 msgid "Close and Reopen Repeat"
-msgstr "Herhaalblok sluiten en heropenen"
+msgstr "Herhalingsblok sluiten en heropenen"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/CloseReopenRepeat.xml.h:2
 msgid "Closes an open repeat block and opens a new one."
-msgstr "Sluit een open herhaalblok en opent een nieuw."
+msgstr "Sluit een open herhalingsblok en opent een nieuw."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/CloseRepeat.xml.h:1
 msgid "Close a Repeat Section"
-msgstr "Een herhaalsectie sluiten"
+msgstr "Een herhalingssectie sluiten"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/CloseRepeat.xml.h:2
 msgid "Closes a section that starts with an Open Repeat. Not needed with 1st and 2nd time bars. (Printing)"
-msgstr "Sluit een sectie die begint met een Herhaal-Begin. Niet nodig bij 1e- en 2e-maalmaten. (Afdrukken)"
+msgstr "Sluit een sectie die begint met een Herhaling-Begin. Niet nodig bij 1e- en 2e-maalmaten. (Afdrukken)"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/EndSecondTimeBar.xml.h:1
 msgid "Close Second Time Bar"
@@ -20609,7 +20610,7 @@ msgstr "Sluit een herhaalde sectie en start een eerste-maalmaat (afdrukken)"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/HelpForRepeats.scm:1
 msgid "Repeats are usually inserted using commands to insert repeat barlines and to insert first/second/nth time bar markings from the Directives menu - look these up in the Command Center. This menu is just for those that want the normal LilyPond syntax for repeats - use right-click->More Commands to un-hide these."
-msgstr "Herhalingen worden meestal ingevoegd met behulp van commando's om herhaalmaatstrepen in te voegen en om markeringen voor eerste/tweede/nde-maalmaat in te voegen uit het menu Richtlijnen - zoek deze op in het Commandocentrum. Dit menu is alleen bedoeld voor diegenen die voor herhalingen de normale LilyPond-syntaxis willen - gebruik de rechtermuisknop->Meer Opdrachten om deze weer zichtbaar te maken."
+msgstr "Herhalingen worden meestal ingevoegd met behulp van commando's om herhalingsmaatstrepen in te voegen en om markeringen voor eerste/tweede/n'de-maalmaat in te voegen uit het menu Richtlijnen - zoek deze op in het Commandocentrum. Dit menu is alleen bedoeld voor diegenen die voor herhalingen de normale LilyPond-syntaxis willen - gebruik de rechtermuisknop->Meer Opdrachten om deze weer zichtbaar te maken."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/HelpForRepeats.xml.h:1
 msgid "Help for Repeats"
@@ -20621,7 +20622,7 @@ msgstr "Legt de verschillende manieren uit om herhalingen te maken."
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/OpenRepeat.xml.h:1
 msgid "Open Repeat Section"
-msgstr "Herhaalsectie openen"
+msgstr "Herhalingssectie openen"
 
 #: ../actions/menus/ObjectMenu/MeasureMenu/Repeats/OpenRepeat.xml.h:2
 msgid "Marks the point where a repeat will start. A correspond close, or first and second time bars are needed."
@@ -21536,11 +21537,11 @@ msgstr "Drukt deze beweging op zijn eigen pagina('s) af. Niet te gebruiken met b
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.scm:4
 msgid "Normal System Spacing is restored"
-msgstr "Normale systeemafstand is hersteld"
+msgstr "Normale afstand tussen systemen is hersteld"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml.h:1
 msgid "Reduce Space Between Systems (On/Off)"
-msgstr "Tussenruimte tussen systemen verminderen (Aan/Uit)"
+msgstr "Spatiëring tussen systemen verminderen (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/MovementMenu/Typesetter/ReduceSystemSpacing.xml.h:2
 msgid "Reduces the gap between the systems of staffs on a page for the current movement."
@@ -22755,15 +22756,15 @@ msgstr "Begint een tekstuele diminuendo. Afsluiten met een Einde Diminuendo of m
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.scm:4
 msgid "Dynamics Spacing"
-msgstr "Tussenruimte voor dynamiek"
+msgstr "Afstand tussen dynamieken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.scm:4
 msgid "Give extra spacing required"
-msgstr "De vereiste extra tussenruimte opgeven"
+msgstr "De vereiste extra afstand opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml.h:1
 msgid "Extra Spacing"
-msgstr "Extra tussenruimte"
+msgstr "Extra afstand"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/DynamicsExtraSpace.xml.h:2
 msgid "Music is spaced out by the extra amount given to avoid textual dynamic markings colliding. Not for hairpins."
@@ -23464,7 +23465,7 @@ msgstr "Mezzo Piano"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/DynamicMarkings/MezzoPiano.xml.h:2
 msgid "prints mp and outputs MIDI vol change#"
-msgstr "drukt mp af en voert een MIDI-volumeverandering# uit"
+msgstr "drukt mp af en produceert een MIDI-volumeverandering#"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Markings/TextMarks/Footnote.scm:9
 msgid "Fn"
@@ -23758,176 +23759,178 @@ msgstr "Drukt nootkoppen op minuscuul formaat af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/OmitChord-Note-Rest.xml.h:1
 msgid "Omit (Print)"
-msgstr ""
+msgstr "Weglaten (Afdrukken)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/OmitChord-Note-Rest.xml.h:2
 msgid "Omits the current chord, note or rest when typesetting. By default this will be conditional: exclusive to current layout. Use the Object Editor to change the condition if needed."
-msgstr ""
+msgstr "Laat het huidige akkoord, noot of rust weg bij het zetten. Standaard zal dit voorwaardelijk zijn: exclusief voor de huidige layout. Gebruik de objecteditor om indien nodig de voorwaarde te wijzigen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ParenthesizeNote.scm:22
 msgid "Applies to Note, Chord or Rest"
-msgstr ""
+msgstr "Geldt voor noot, akkoord of rust"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/BassDrum.xml.h:1
 msgid "Bass Drum"
-msgstr ""
+msgstr "Basdrum"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/BassDrum.xml.h:2
 msgid "Insert Bass Drum in the prevailing duration."
-msgstr ""
+msgstr "Basdrum invoegen in de heersende duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/DrumGM2Custom.xml.h:1
 msgid "Drum GM2 Custom"
-msgstr ""
+msgstr "Aangepaste GM2 Drum"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/DrumGM2Custom.xml.h:2
 msgid "Convert General Midi drum-staffs to user-notation drum-staffs. Please edit the script to enter your own values."
-msgstr ""
+msgstr "Algemene Midi-drumnotenbalken converteren naar drumnotenbalken volgens een gebruikersnotatie. Bewerk het script om uw eigen waarden in te voeren."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHatFoot.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHat.xml.h:1
 msgid "Hi Hat with Foot"
-msgstr ""
+msgstr "Hihat met voet"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHatFoot.xml.h:2
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiHat.xml.h:2
 msgid "Insert HiHat with foot in the prevailing duration."
-msgstr ""
+msgstr "Hihat met voet invoegen in de heersende duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiTom.xml.h:1
 msgid "Hi Tom"
-msgstr ""
+msgstr "High Tom"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/HiTom.xml.h:2
 msgid "Insert Hi Tom in the prevailing duration."
-msgstr ""
+msgstr "High tom invoegen in de heersende duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/RideBell.xml.h:1
 msgid "Ride Bell"
-msgstr ""
+msgstr "Ridebell"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/RideBell.xml.h:2
 msgid "Insert Ride Bell in the prevailing duration."
-msgstr ""
+msgstr "Ridebell invoegen in de heersende duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml.h:1
 msgid "Ride"
-msgstr ""
+msgstr "Ride"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/Ride.xml.h:2
 msgid "Insert Ride in the prevailing duration."
-msgstr ""
+msgstr "Ride invoegen in de heersende duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.xml.h:1
 msgid "Timbales Style Staff"
-msgstr ""
+msgstr "Notenbalk in Timbales-stijl"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Percussion/TimbalesStyle.xml.h:2
 msgid "Changes to print as a drum staff in timbales style"
-msgstr ""
+msgstr "Verandert naar afdrukken als een drumnotenbalk in timbales-stijl"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Playback/ChangeSoundingDuration.scm:6
 #: ../actions/menus/ObjectMenu/NotesRests/Playback/ChangeSoundingDuration.xml.h:1
 msgid "Change Sounding Duration"
-msgstr ""
+msgstr "Geluidsduur wijzigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Playback/ChangeSoundingDuration.scm:7
 msgid "Choose a duration in \"ticks\" (𝅘𝅥 = 384 ticks): "
-msgstr ""
+msgstr "Kies een duur in \"tikken\" (𝅘𝅥 = 384 tikken): "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Playback/ChangeSoundingDuration.xml.h:2
 msgid "Changes the duration of the note a the cursor for playback purposes, typesetting unaffected."
-msgstr ""
+msgstr "Wijzigt de duur van de noot bij de cursor voor afspeeldoeleinden, het zetwerk wordt niet beïnvloed."
 
 #: ../actions/menus/ObjectMenu/NotesRests/ReplaceChord.xml.h:1
 msgid "Replace LilyPond"
-msgstr ""
+msgstr "Lilypond vervangen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ReplaceChord.xml.h:2
 msgid "Suppresses the normal LilyPond typesetting for the current note/chord/rest replacing it with syntax provided by user."
-msgstr ""
+msgstr "Onderdrukt het normale LilyPond-zetwerk voor de huidige noot/akkoord/rust en vervangt deze door de syntaxis die door de gebruiker wordt geleverd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/ConvertToWholeMeasureRests.xml.h:1
 msgid "Convert to Whole Measure Rests"
-msgstr ""
+msgstr "Omzetten naar rusten van een hele maat"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/ConvertToWholeMeasureRests.xml.h:2
 msgid "Changes rests throughout the score that have the duration of the whole measure to whole measure rests (typeset as whole-note rest by convention)"
-msgstr ""
+msgstr "Verandert rusten in de hele partituur die de volledige duur van de maat innemen in rusten van hele maten (volgens conventie gezet als rust van een hele noot)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/DisplaceRestHorizontally.xml.h:1
 msgid "Displace Rest Horizontally"
-msgstr ""
+msgstr "Rust horizontaal verplaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/DisplaceRestHorizontally.xml.h:2
 msgid "Asks for a horizontal shift and moves the rest at the cursor by that much when printing."
-msgstr ""
+msgstr "Vraagt om een horizontale verschuiving en verplaatst de rust bij de cursor zoveel bij het afdrukken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/EnterRest.xml.h:1
 msgid "Insert Rest"
-msgstr ""
+msgstr "Rust invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/EnterRest.xml.h:2
 msgid "Inserts a rest in the prevailing duration"
-msgstr ""
+msgstr "Voegt een rust in van de heersende duur"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/InsertBreveRest.xml.h:1
 msgid "Breve Rest"
-msgstr ""
+msgstr "Brevis-rust"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/InsertBreveRest.xml.h:2
 msgid "Insert a rest with breve duration"
-msgstr ""
+msgstr "Een rust invoegen met de duur van een brevis"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/InsertLongaRest.xml.h:1
 msgid "Longa Rest"
-msgstr ""
+msgstr "Longa-rust"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/InsertLongaRest.xml.h:2
 msgid "Insert a rest with longa duration"
-msgstr ""
+msgstr "Een rust invoegen met de duur van een longa"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/InsertWholeMeasureRest.xml.h:1
 msgid "Insert Whole Measure Rest"
-msgstr ""
+msgstr "Een rust van een hele maat invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/InsertWholeMeasureRest.xml.h:2
 msgid "Inserts/Appends a rest measure; if the current measure is empty, it simply places the whole measure rest in it."
-msgstr ""
+msgstr "Voegt een rustmaat in of voegt die toe; indien de huidige maat leeg is, plaatst dit er gewoon de rust van een hele maat in."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MoveRest.xml.h:1
 msgid "Displace Rest Vertically"
-msgstr ""
+msgstr "Rust verticaal verplaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MoveRest.xml.h:2
 msgid "Turns the rest at the cursor into a polyphonic rest at the cursor height."
-msgstr ""
+msgstr "Verandert de rust bij de cursor in een polyfone rust op de cursorhoogte."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.xml.h:1
 msgid "Multi-Measure Rest Number (Off/On)"
-msgstr ""
+msgstr "Nummeren van rusten over meerdere maten (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRestNumber.xml.h:2
 msgid "Turns the printing of the multi-measure rest number off or on. Use this when merging rests to avoid the number appearing twice."
-msgstr ""
+msgstr "Zet het afdrukken van een nummer bij een rust over meerdere maten aan of uit. Gebruik dit bij het samenvoegen van rusten om te voorkomen dat het nummer twee keer voorkomt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:76
 msgid "Grouped in mm rest"
-msgstr ""
+msgstr "Gegroepeerd tot een rust over mm"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:94
 msgid ""
 "This whole measure rest is grouped with adjacent ones to form a multi-measure rest.\n"
 "The first of the group should be the multi-measure rest itself. Place the cursor on that object to do editing."
 msgstr ""
+"Deze rust van een hele maat wordt gegroepeerd met aangrenzende dergelijke rusten om een rust over meerdere maten te vormen.\n"
+"De eerste van de groep moet zelf de rust over meerdere maten zijn. Plaats de cursor op dat object om het te bewerken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:98
 msgid "Recalculate"
-msgstr ""
+msgstr "Herberekenen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:98
 msgid "Un-group"
-msgstr ""
+msgstr "Groepering opheffen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:101
 msgid ""
@@ -23936,52 +23939,56 @@ msgid ""
 "If you add further grouped whole measure rests, this Directive will need re-calculating.\n"
 "The check score routine that is run before printing will do this for you."
 msgstr ""
+"Dit vertegenwoordigt een aantal rusten van een hele maat.\n"
+"De volgende rusten van een hele maat worden met deze gegroepeerd, terwijl ze afzonderlijk gezet worden. In de partituur worden ze afzonderlijk gezet om passend te maken met de andere delen.\n"
+"Als u nog meer gegroepeerde rusten van een hele maat toevoegt, moet de berekening voor deze richtlijn opnieuw worden uitgevoerd.\n"
+"De routine voor het controleren van de partituur die vóór het afdrukken wordt uitgevoerd, doet dit voor u."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:106
 msgid "Creating Multi-Measure Rests"
-msgstr ""
+msgstr "Rusten over meerdere maten creëren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.scm:106
 msgid "Give number of whole measure rests to insert"
-msgstr ""
+msgstr "Het aantal in te voegen rusten van een hele maat opgeven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/MultiMeasureRests.xml.h:2
 msgid "Creates a multi-measure rest from the whole measure rests after the cursor, or inserts the number of rests you specify after the cursor, making them a multi-measure rest. Multi-measure rests will be typeset as individual whole measure rests if any other part being typeset has music during them. Note: Whole measure rests to be converted must be unbroken by any other objects such as links to source, rehearsal marks etc. else they will be split into separate groups on multi-measure rests."
-msgstr ""
+msgstr "Maakt van de rusten van een hele maat na de cursor een rust over meerdere maten, of voegt het aantal rusten dat u opgeeft in na de cursor waardoor ze een rust over meerdere maten worden. Rusten over meerdere maten worden gezet als individuele rusten van een hele maat indien een andere partij die gezet wordt, daar muziek bevat. Opmerking: rusten van een hele maat die moeten worden omgezet, mogen niet worden onderbroken door andere objecten, zoals links naar de bron, repetitiemarkering, enz., anders worden ze opgesplitst in afzonderlijke groepen van rusten over meerdere maten."
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.scm:7
 msgid "Duration of whole measure rest has been re-calculated"
-msgstr ""
+msgstr "De duur van de rust van een hele maat werd opnieuw berekend"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.xml.h:1
 msgid "Whole Measure Rest"
-msgstr ""
+msgstr "Rust van een hele maat"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureRest.xml.h:2
 msgid "Inserts a whole measure rest at the cursor"
-msgstr ""
+msgstr "Voegt bij de cursor een rust van een hele maat in"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.xml.h:1
 msgid "Insert Whole Measure Spacer"
-msgstr ""
+msgstr "Afstandhouder van een hele maat invoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/RestEntry/WholeMeasureSpacer.xml.h:2
 msgid "Inserts a non-printing whole measure after the current measure with a directive to omit the barline. This gives a one measure spacer."
-msgstr ""
+msgstr "Voegt een niet-afdrukbare hele maat in na de huidige maat met een richtlijn om de maatstreep weg te laten. Dit geeft een afstandhouder van één maat."
 
 #: ../actions/menus/ObjectMenu/NotesRests/SelectDuration/SetBreve.xml.h:2
 msgid "Sets Prevailing Duration to Breve"
-msgstr ""
+msgstr "Stelt de heersende duur in op Brevis"
 
 #: ../actions/menus/ObjectMenu/NotesRests/SelectDuration/SetLonga.xml.h:2
 msgid "Sets Longa as the prevailing duration, installing it as a musical snippet."
-msgstr ""
+msgstr "Stelt Longa in als de heersende duur, en installeert het als een muzikaal fragment."
 
 #. ShiftDot
 #: ../actions/menus/ObjectMenu/NotesRests/ShiftDot.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/ShiftDot.scm:3
 msgid "Dot Position"
-msgstr "Puntpositie"
+msgstr "Positie van het punt"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ShiftDot.xml.h:1
 msgid "(Print) Move Dot"
@@ -23989,586 +23996,588 @@ msgstr "(Afdrukken) Punt verplaatsen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/ShiftDot.xml.h:2
 msgid "Adjust the position of the dot on the current note by the amounts given (in units of staff line spaces)."
-msgstr ""
+msgstr "De positie van het punt op de huidige noot aanpassen met de gegeven hoeveelheden (in eenheden van de afstand tussen notenbalklijnen)."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.scm:7
 msgid "Slur/Accidental avoidance removed"
-msgstr ""
+msgstr "Ontwijking bij legatoboog/voorteken verwijderd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.scm:17
 msgid "Use only on a slur start to make the slur avoid accidentals on following notes"
-msgstr ""
+msgstr "Enkel gebruiken op een begin van een legatoboog om ervoor te zorgen dat de legatoboog de voortekens op de volgende noten ontwijkt"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.xml.h:1
 msgid "Avoid Slur Collision"
-msgstr ""
+msgstr "Botsing met een legatoboog vermijden"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/AvoidSlurAccidentalCollision.xml.h:2
 msgid "Avoids slur colliding with accidental (Print)"
-msgstr ""
+msgstr "Voorkomt dat een legatoboog in botsing komt met een voorteken (Afdrukken)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/BeginPhrasingSlur.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginPhrasingSlur.xml.h:1
 msgid "Begin Phrasing Slur"
-msgstr ""
+msgstr "Fraseringsboog beginnen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/BeginPhrasingSlur.xml.h:2
 msgid "Begins a phrasing slur (which can have slurs within it)"
-msgstr ""
+msgstr "Begint een fraseringsboog  (die zelf legatobogen kan bevatten)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.scm:5
 msgid "Slur Deleted"
-msgstr ""
+msgstr "Legatoboog verwijderd"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.scm:17
 msgid "Not on a slur"
-msgstr ""
+msgstr "Niet op een legatoboog"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/DeleteSlur.xml.h:2
 msgid "Deletes the slur that includes the current cursor position."
-msgstr ""
+msgstr "Verwijdert de legatoboog die de huidige cursorpositie omvat."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleEndPhrasingSlur.xml.h:1
 msgid "End Phrasing Slur"
-msgstr ""
+msgstr "Fraseringsboog beëindigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/EndPhrasingSlur.xml.h:2
 msgid "Ends a phrasing slur (which can have slurs within it)"
-msgstr ""
+msgstr "Beëindigt een fraseringsboog (die zelf legatobogen kan bevatten)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ExtendSlur.xml.h:1
 msgid "Extend Slur"
-msgstr ""
+msgstr "Legatoboog verlengen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ExtendSlur.xml.h:2
 msgid "Extends the slur finishing at the cursor."
-msgstr ""
+msgstr "Verlengt de legatoboog tot bij de cursor, waar die eindigt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/LaterSlurStart.xml.h:1
 msgid "Shorten Slur from Start"
-msgstr ""
+msgstr "De legatoboog inkorten aan zijn begin"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/LaterSlurStart.xml.h:2
 msgid "Moves the Slur start from the note at the cursor to the following note."
-msgstr ""
+msgstr "Verplaatst het begin van de legatoboog van de noot bij de cursor naar de volgende noot."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.scm:5
 msgid "This makes the next marking on a note etc move inside the slur."
-msgstr ""
+msgstr "Dit zorgt ervoor dat de volgende markering op een noot, enz., binnen de legatoboog komt te liggen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.scm:10
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.scm:10
 msgid "Inside Slur "
-msgstr ""
+msgstr "Binnen de legatoboog "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.xml.h:1
 msgid "Marking Inside Slur"
-msgstr ""
+msgstr "Markering binnen legatoboog"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/MarkingInsideSlur.xml.h:2
 msgid "(Print) Next marking will be placed inside the slur."
-msgstr ""
+msgstr "(Afdrukken) De volgende markering wordt binnen de legatoboog geplaatst."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ReduceSlur.xml.h:1
 msgid "Shorten Slur"
-msgstr ""
+msgstr "Legatoboog inkorten"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ReduceSlur.xml.h:2
 msgid "Shorten a slur that ends or starts at the cursor."
-msgstr ""
+msgstr "Een legatoboog die begint of eindigt bij de cursor, inkorten."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurDown.xml.h:1
 msgid "Slur Down"
-msgstr ""
+msgstr "Legatoboog onderaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurDown.xml.h:2
 msgid "Prints slur below"
-msgstr ""
+msgstr "Drukt de legatoboog onderaan af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurNeutral.xml.h:1
 msgid "Auto Slur Directions"
-msgstr ""
+msgstr "Automatische plaatsing van legatoboog"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurNeutral.xml.h:2
 msgid "Prints slurs as normal"
-msgstr ""
+msgstr "Drukt legatobogen normaal af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.scm:4
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.scm:4
 msgid "Dashed"
-msgstr ""
+msgstr "Gestreept"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.scm:5
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.scm:5
 msgid "Dotted"
-msgstr ""
+msgstr "Gestippeld"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.xml.h:1
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.xml.h:1
 msgid "Dashed or Dotted"
-msgstr ""
+msgstr "Gestreept of gestippeld"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurStyle.xml.h:2
 msgid "Make the slur starting from this note dashed or dotted."
-msgstr ""
+msgstr "De legatoboog vanaf deze noot gestreept of gestippeld maken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.xml.h:1
 msgid "Slur with Next Two Notes"
-msgstr ""
+msgstr "Legatoboog met de volgende twee noten"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurThree.xml.h:2
 msgid "Slur over next two notes."
-msgstr ""
+msgstr "Legatoboog over de volgende twee noten."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurTwo.xml.h:1
 msgid "Slur with Next Note"
-msgstr ""
+msgstr "Legatoboog met de volgende noot"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurTwo.xml.h:2
 msgid "Creates a slur from current note to next note."
-msgstr ""
+msgstr "Maakt een legatoboog van de huidige noot naar de volgende noot."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurUp.xml.h:1
 msgid "Slur Up"
-msgstr ""
+msgstr "Legatoboog bovenaan"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/SlurUp.xml.h:2
 msgid "Prints slurs up"
-msgstr ""
+msgstr "Drukt de legatoboog bovenaan af"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.scm:5
 msgid "This makes the next text marking on a note etc move inside the slur."
-msgstr ""
+msgstr "Dit zorgt ervoor dat de volgende tekstmarkering op een noot, enz., binnen de legatoboog komt te liggen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.xml.h:1
 msgid "Text Inside Slur"
-msgstr ""
+msgstr "Tekst binnen de legatoboog"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/TextInsideSlur.xml.h:2
 msgid "(Print) Next text marking will be placed inside the slur."
-msgstr ""
+msgstr "(Afdrukken) De volgende tekstmarkering wordt binnen de legatoboog geplaatst."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginDownSlur.xml.h:1
 msgid "Begin Slur Below (Off/On)"
-msgstr ""
+msgstr "Legatoboog onderaan beginnen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginDownSlur.xml.h:2
 msgid "Starts (or deletes) a slur below the chord at the cursor. If deleting be sure to delete the end slur as well."
-msgstr ""
+msgstr "Begint (of verwijdert) een legatoboog onder het akkoord bij de cursor. Indien u deze verwijdert, zorg er dan voor om ook het einde van de legatoboog te verwijderen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginPhrasingSlur.xml.h:2
 msgid "Begin a phrasing slur on the current note. You can have normal slurs (partially) inside a phrasing slur."
-msgstr ""
+msgstr "Een fraseringsboog beginnen op de huidige noot. U kunt normale legatobogen (gedeeltelijk) binnen een fraseringsboog hebben."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginUpSlur.xml.h:1
 msgid "Begin Slur Up (Off/On)"
-msgstr ""
+msgstr "Legatoboog bovenaan beginnen (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleBeginUpSlur.xml.h:2
 msgid "Starts (or deletes) a slur above the chord at the cursor. Follow with End Slur on a later chord."
-msgstr ""
+msgstr "Begint (of verwijdert) een legatoboog boven het akkoord bij de cursor. Vervolg met een Einde Legatoboog op een later akkoord."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Slurs/ToggleEndPhrasingSlur.xml.h:2
 msgid "End a phrasing slur on the current note."
-msgstr ""
+msgstr "Een fraseringsboog beëindigen op de huidige noot."
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:3
 msgid "OneVoice:  Default-For a single voice on a staff"
-msgstr ""
+msgstr "EénStem: Standaard - Voor één enkele stem op een notenbalk"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:4
 msgid "VoiceOne:  Designate as upper voice"
-msgstr ""
+msgstr "Steméén: Aanduiden als bovenstem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:5
 msgid "VoiceTwo:  Designate as lower voice"
-msgstr ""
+msgstr "StemTwee: Aanduiden als onderstem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:5
 msgid ""
 "VoiceThree: \n"
 "Horizontally offset upper voice"
 msgstr ""
+"StemDrie: \n"
+"Horizontaal verschoven bovenstem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:7
 msgid "VoiceFour:  Horizontally offset lower voice"
-msgstr ""
+msgstr "StemVier: Horizontaal verschoven onderstem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:13
 msgid "Voice1"
-msgstr ""
+msgstr "Stem1"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:15
 msgid "Voice2"
-msgstr ""
+msgstr "Stem2"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:17
 msgid "Voice3"
-msgstr ""
+msgstr "Stem3"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:19
 msgid "Voice4"
-msgstr ""
+msgstr "Stem4"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.scm:21
 msgid "1Voice"
-msgstr ""
+msgstr "1Stem"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.xml.h:1
 msgid "Designate Voice"
-msgstr ""
+msgstr "Stem aanduiden"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/DesignateVoice.xml.h:2
 msgid "These commands are used when entering several voices per staff. VoiceOne is for the upper voice-it sets the direction of slurs, beams, etc. up to avoid clashes. VoiceTwo is for the lower voice, and it sets the directions down. Additional voices beyond two are offset slightly to the right."
-msgstr ""
+msgstr "Deze commando's worden gebruikt bij het invoeren van meerdere stemmen per notenbalk. StemEén is voor de bovenstem - dit plaatst legatobogen, waardestrepen, enz., bovenaan om botsingen te voorkomen. StemTwee is voor de onderstem en dit stelt een plaatsing onderaan in. Extra stemmen naast deze twee worden iets naar rechts verschoven."
 
 #. HelpForStemControl
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/HelpForStemControl.scm:2
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/HelpForStemControl.xml.h:2
 msgid "Stem direction (up, down or automatic - depending on the note height on the staff- is normally controlled by selecting the LilyPond voice for the music on the staff. This menu is for primitive commands that force stems in one direction without altering slur, tie, ornament directions. Use right-click More Commands to un-hide these primitives if needed."
-msgstr ""
+msgstr "Nootstokrichting (omhoog, omlaag of automatisch - afhankelijk van de hoogte van de noot op de notenbalk - wordt normaal gesproken geregeld door de LilyPond-stem te selecteren voor de muziek op de notenbalk. Dit menu is voor primitieve commando's die nootstokken in één richting dwingen zonder de plaatsing van legatobogen, overbindingen en ornamenten te veranderen. Gebruik Rechtermuisknop Meer Commando's om indien nodig deze primitieven zichtbaar te maken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/HelpForStemControl.xml.h:1
 msgid "Help for Stem Control"
-msgstr ""
+msgstr "Hulp voor nootstokkenbeheer"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/StartDownStems.xml.h:1
 msgid "Stems Down"
-msgstr ""
+msgstr "Nootstokken omlaag"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/StartDownStems.xml.h:2
 msgid "Stems from now on point downward."
-msgstr ""
+msgstr "Vanaf nu wijzen nootstokken naar beneden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.xml.h:1
 msgid "Stems Up"
-msgstr ""
+msgstr "Nootstokken omhoog"
 
 #: ../actions/menus/ObjectMenu/NotesRests/StemControl/StartUpStems.xml.h:2
 msgid "Stems from now on point upward."
-msgstr ""
+msgstr "Vanaf nu wijzen nootstokken naar boven."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ConvertIncorrectSlursToTies.xml.h:1
 msgid "Convert Incorrect Slurs to Ties"
-msgstr ""
+msgstr "Incorrecte legatobogen converteren naar overbindingen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ConvertIncorrectSlursToTies.xml.h:2
 msgid "Corrects for the slur/tie error common in imported scores. Scans entire score for pairs of identical notes slurred together as a pair. Changes these to a tied note. Do not use in the unusual case of identical notes slurred (e.g. across strings)."
-msgstr ""
+msgstr "Corrigeert de legatoboog/overbinding-fout die vaak voorkomt bij geïmporteerde partituren. Scant de hele partituur op paren van identieke noten die als een paar aan elkaar gekoppeld werden met een legatoboog. Verandert deze in een overbonden noot. Niet gebruiken in het ongebruikelijke geval van identieke noten met legatoboog (bijv. over snaren heen)."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.xml.h:1
 msgid "Attach Tied Note"
-msgstr ""
+msgstr "Overbonden noot toevoegen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/InsertTiedNoteDuration.xml.h:2
 msgid "Toggles a tie on the note at the cursor and moves right for inserting a note to tie to with duration key. Gives audible feedback."
-msgstr ""
+msgstr "Zet op de noot bij de cursor een overbinding aan/uit en verschuift naar rechts om een noot te laten invoegen met een duurtoets. Geeft hoorbare feedback."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.scm:15
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.scm:15
 msgid "This command only applies to notes or chords."
-msgstr ""
+msgstr "Dit commando is alleen van toepassing op noten of akkoorden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml.h:1
 msgid "Laissez Vibrer"
-msgstr ""
+msgstr "Doorklinken (Laissez Vibrer)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/LaissezVibrer.xml.h:2
 msgid "Places a tie after the note at the cursor, tying to nothing. Use for laissez vibrer or when a tie comes at a final repeat."
-msgstr ""
+msgstr "Plaats een overbinding na de noot bij de cursor die nergens mee verbindt. Gebruik dit voor laissez vibrer of wanneer een overbinding voorkomt bij een laatste herhaling."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.xml.h:1
 msgid "Repeat Tie"
-msgstr ""
+msgstr "Herhalingsoverbinding"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/RepeatTie.xml.h:2
 msgid "The note at the cursor ends a tie that has begun elsewhere, usually in a first time bar. That is it is a repeat of the tie ending."
-msgstr ""
+msgstr "Op de noot bij de cursor eindigt een overbinding die ergens anders begon, gewoonlijk in een eerste-maalmaat. Dat wil zeggen dat het een herhaling is van het overbindingseinde."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.scm:10
 msgid "Convexity of Tie"
-msgstr ""
+msgstr "Convexiteit van de overbinding"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.scm:10
 msgid "Give extra to flatten by (+/-):"
-msgstr ""
+msgstr "Geef op hoeveel extra afgevlakt moet worden (+/-):"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.xml.h:1
 msgid "Flatter/More Curved"
-msgstr ""
+msgstr "Platter/meer gebogen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieFlatter.xml.h:2
 msgid "Makes the next tie more or less curved depending on the value given. The change is relative to the current shape, not the default shape."
-msgstr ""
+msgstr "Maakt de volgende overbinding minder of meer gebogen, afhankelijk van de opgegeven waarde. De wijziging is relatief ten opzichte van de huidige vorm, niet ten opzichte van de standaardvorm."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieHigher.scm:10
 msgid "Height of Tie"
-msgstr ""
+msgstr "Hoogte van de overbinding"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieHigher.scm:10
 msgid "Give amount to raise (unit = staff line space):"
-msgstr ""
+msgstr "Geef op met hoeveel er verhoogd moet worden (eenheid = afstand tussen de notenbalklijnen):"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieHigher.xml.h:1
 msgid "Higher/Lower"
-msgstr ""
+msgstr "Hoger/Lager"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieHigher.xml.h:2
 msgid "Moves the next tie higher/lower by the amount given from the current position."
-msgstr ""
+msgstr "Plaatst vanaf de huidige positie de volgende overbinding hoger/lager met de opgegeven hoeveelheid."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.scm:14
 msgid "Width of Tie"
-msgstr ""
+msgstr "Breedte van de overbinding"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.scm:14
 msgid "Give additional width (unit = staff line space):"
-msgstr ""
+msgstr "Geef de extra breedte op (eenheid = afstand tussen de notenbalklijnen):"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.xml.h:1
 msgid "Widen/Make Narrower"
-msgstr ""
+msgstr "Verbreden/Versmallen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/ShapeTieWider.xml.h:2
 msgid "Makes the next tie wider/narrower by the amount given. The change is relative to the default value."
-msgstr ""
+msgstr "Maakt de volgende overbinding breder/smaller met de opgegeven hoeveelheid. De wijziging is relatief ten opzichte van de standaardwaarde."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm:4
 msgid "Widen/Narrow"
-msgstr ""
+msgstr "Verbreden/Versmallen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm:5
 msgid "Flatten/Bend More"
-msgstr ""
+msgstr "Meer Afvlakken/Buigen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.scm:6
 msgid "Raise/Lower"
-msgstr ""
+msgstr "Verhogen/Verlagen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/Shape/TieShape.xml.h:2
 msgid "Gives a choice of modifications to make to the following tie."
-msgstr ""
+msgstr "Geeft de mogelijkheid te kiezen welke wijzigingen aan de volgende overbinding moeten worden aangebracht."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/TieStyle.xml.h:2
 msgid "Make the tie on this note dashed or dotted."
-msgstr ""
+msgstr "De overbinding op deze noot gestreept of gestippeld maken."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.scm:16
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteTie.scm:15
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteUpTie.scm:16
 msgid "Individual Ties only apply to notes within chords."
-msgstr ""
+msgstr "Individuele overbindingen zijn alleen van toepassing op noten binnen akkoorden."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.xml.h:1
 msgid "Individual Note Down-Tie (Off/On)"
-msgstr ""
+msgstr "Overbinding onderaan voor individuele noot (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteDownTie.xml.h:2
 #: ../actions/palettes.xml.h:195
 msgid "Ties the individual note at the cursor the tie going down; repeat to remove."
-msgstr ""
+msgstr "Overbindt de individuele noot bij de cursor waarbij de overbinding onderaan staat; herhaal om te verwijderen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteTie.xml.h:1
 msgid "Individual Note Tie (Off/On)"
-msgstr ""
+msgstr "Overbinding voor individuele noot (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteTie.xml.h:2
 #: ../actions/palettes.xml.h:193
 msgid "Ties the note at the cursor leaving other notes in the current chord unchanged."
-msgstr ""
+msgstr "Overbindt de noot bij de cursor en laat de andere noten in het huidige akkoord ongewijzigd."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteUpTie.xml.h:1
 msgid "Individual Note Up-Tie (Off/On)"
-msgstr ""
+msgstr "Overbinding bovenaan voor individuele noot (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleNoteUpTie.xml.h:2
 #: ../actions/palettes.xml.h:194
 msgid "Ties the individual note in a chord the tie being above; repeat command to remove."
-msgstr ""
+msgstr "Overbindt de individuele noot in een akkoord waarbij de overbinding bovenaan staat; herhaal commando om te verwijderen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleTieDown.xml.h:1
 msgid "Down Tie (Off/On)"
-msgstr ""
+msgstr "Overbinding onderaan (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleTieDown.xml.h:2
 #: ../actions/palettes.xml.h:192
 msgid "Ties to the following note/chord with tie downwards."
-msgstr ""
+msgstr "Bindt aan de volgende noot/akkoord met de overbinding onderaan."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleTieUp.xml.h:1
 msgid "Up Tie (Off/On)"
-msgstr ""
+msgstr "Overbinding bovenaan (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TiedNotes/ToggleTieUp.xml.h:2
 #: ../actions/palettes.xml.h:191
 msgid "Ties to next note, tie upwards, or removes tie."
-msgstr ""
+msgstr "Bindt aan de volgende noot met de overbinding bovenaan, of verwijdert de overbinding."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftDown.xml.h:1
 msgid "Tonal step down"
-msgstr ""
+msgstr "Tonale verlaging met een stap"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftDown.xml.h:2
 msgid "Transpose/shift the cursor note or selection one step down, stay in the keysignature."
-msgstr ""
+msgstr "De cursornoot of de selectie een stap lager transponeren/verschuiven; binnen de voortekening blijven."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealDialogDown.xml.h:1
 msgid "Arbitrary transpose down"
-msgstr ""
+msgstr "Willekeurig lager transponeren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealDialogDown.xml.h:2
 msgid "Transpose/shift the cursor note or selection an arbitrary number of tones down. User can specify interval through a dialog."
-msgstr ""
+msgstr "De cursornoot of de selectie een willekeurig aantal tonen lager transponeren/verschuiven. De gebruiker kan het interval opgeven via een dialoogvenster."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealDialogUp.xml.h:1
 msgid "Arbitrary transpose up"
-msgstr ""
+msgstr "Willekeurig hoger transponeren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealDialogUp.xml.h:2
 msgid "Transpose/shift the cursor note or selection an arbitrary number of tones up. User can specify interval through a dialog."
-msgstr ""
+msgstr "De cursornoot of de selectie een willekeurig aantal tonen hoger transponeren/verschuiven. De gebruiker kan het interval opgeven via een dialoogvenster."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealHalfDown.xml.h:1
 msgid "Half tone down"
-msgstr ""
+msgstr "Halve toon lager"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealHalfDown.xml.h:2
 msgid "Transpose/shift the cursor note or selection one half tone down"
-msgstr ""
+msgstr "De cursornoot of de selectie een halve toon lager transponeren/verschuiven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealHalfUp.xml.h:1
 msgid "Half tone up"
-msgstr ""
+msgstr "Halve toon hoger"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealHalfUp.xml.h:2
 msgid "Transpose/shift the cursor note or selection one half tone up"
-msgstr ""
+msgstr "De cursornoot of de selectie een halve toon hoger transponeren/verschuiven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealOctaveDown.xml.h:2
 msgid "Shifts current notes/selection down one octave while preserving accidental status. This means real transposition"
-msgstr ""
+msgstr "Verschuift de huidige noten/selectie één octaaf lager met behoud van de toestand voor de voortekens. Dit betekent dus een echte transpositie"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealOctaveUp.xml.h:2
 msgid "Shifts current notes/selection up one octave while preserving accidental status. This means real transposition"
-msgstr ""
+msgstr "Verschuift de huidige noten/selectie één octaaf hoger met behoud van de toestand voor de voortekens. Dit betekent dus een echte transpositie"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealWholeDown.xml.h:1
 msgid "Whole tone down"
-msgstr ""
+msgstr "Hele toon lager"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealWholeDown.xml.h:2
 msgid "Transpose/shift the cursor note or selection one whole tone down"
-msgstr ""
+msgstr "De cursornoot of de selectie een hele toon lager transponeren/verschuiven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealWholeUp.xml.h:1
 msgid "Whole tone up"
-msgstr ""
+msgstr "Hele toon hoger"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftRealWholeUp.xml.h:2
 msgid "Transpose/shift the cursor note or selection one whole tone up"
-msgstr ""
+msgstr "De cursornoot of de selectie een hele toon hoger transponeren/verschuiven"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftUp.xml.h:1
 msgid "Tonal step up"
-msgstr ""
+msgstr "Een tonale stap hoger"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Transpose/ShiftUp.xml.h:2
 msgid "Transpose/shift the cursor note or selection one step up, stay in the keysignature."
-msgstr ""
+msgstr "De cursornoot of de selectie een stap hoger transponeren/verschuiven; binnen de voortekening blijven."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloDownward.xml.h:1
 msgid "Tremolo Downward"
-msgstr ""
+msgstr "Neerwaartse tremolo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloDownward.xml.h:2
 msgid "Slopes the tremolo slash downwards instead of upwards."
-msgstr ""
+msgstr "Doet de tremolo-slash naar beneden hellen in plaats van naar boven."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:21
 msgid "divide 𝅘𝅥𝅮 1/8"
-msgstr ""
+msgstr "deling 𝅘𝅥𝅮 1/8"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:22
 msgid "divide𝅘𝅥𝅯 1/16"
-msgstr ""
+msgstr "deling𝅘𝅥𝅯 1/16"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:23
 msgid "divide 𝅘𝅥𝅱 1/32 "
-msgstr ""
+msgstr "deling 𝅘𝅥𝅱 1/32 "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:24
 msgid "divide 𝅘𝅥𝅱 1/64"
-msgstr ""
+msgstr "deling 𝅘𝅥𝅱 1/64"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:25
 msgid "divide 𝅘𝅥𝅱 1/128"
-msgstr ""
+msgstr "deling 𝅘𝅥𝅱 1/128"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.scm:43
 msgid "Cursor must be on a note or chord for tremolo"
-msgstr ""
+msgstr "De cursor moet op een noot of akkoord staan voor een tremolo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml.h:1
 msgid "Tremolo Upward"
-msgstr ""
+msgstr "Opwaartse tremolo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TremoloUpward.xml.h:2
 msgid "Slopes tremolo mark on stem upward."
-msgstr ""
+msgstr "Doet de tremolo-markering op de nootstok naar boven hellen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.xml.h:1
 msgid "Tremolo"
-msgstr ""
+msgstr "Tremolo"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tremolo.xml.h:2
 msgid "Prints the note at the cursor with the tremolo marking for the subdivisions specified."
-msgstr ""
+msgstr "Drukt de noot bij de cursor af met de tremolo-markering voor de gespecificeerde deling."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.xml.h:1
 msgid "Create Slurred Triplet"
-msgstr ""
+msgstr "Overbonden triool maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTripletSlurred.xml.h:2
 msgid "If a MIDI controller is active duplicates the current note twice making a triplet and slurring all three notes, otherwise same as Toggle Tripleting command."
-msgstr ""
+msgstr "Als een MIDI-controller actief is, wordt de huidige noot twee keer gedupliceerd, waardoor een triool wordt gemaakt en alle drie de noten worden overbonden; anders hetzelfde als het commando Triool Maken Aan/Uitschakelen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml.h:1
 msgid "Create Triplet"
-msgstr ""
+msgstr "Triool maken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CreateTriplet.xml.h:2
 msgid "If a MIDI controller is active takes the current note and appends two more making all three a triplet, otherwise same as Toggle Tripleting command."
-msgstr ""
+msgstr "Als een MIDI-controller actief is, neemt dit de huidige noot en voegt er nog twee aan toe, waardoor alle drie een triool vormen; anders hetzelfde als het commando Triool Maken Aan/Uitschakelen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm:57
 msgid "Square Tuplet Brackets re-instated"
-msgstr ""
+msgstr "Rechte trioolhaken opnieuw ingesteld"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.scm:60
 msgid "Tuplet Brackets Curved"
-msgstr ""
+msgstr "Ronde trioolhaken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml.h:1
 msgid "Curved Tuplet Brackets (Off/On)"
-msgstr ""
+msgstr "Ronde trioolhaken (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/CurvedTupletBrackets.xml.h:2
 msgid "Tuplet brackets will have a curved shape (like a slur) with the tuplet number inside. Note these cannot be re-shaped like slurs, so turn tuplet brackets off and place slurs manually if you need to reshape them."
-msgstr ""
+msgstr "Trioolhaken krijgen een ronde vorm (zoals een overbinding) met het trioolnummer erin. Merk op dat de vorm ervan niet kan veranderd worden zoals bij overbindingen, dus schakel trioolhaken uit en plaats handmatig overbindingen als u de vorm ervan moet aanpassen."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:1
 msgid "No Tuplet Numbers"
-msgstr ""
+msgstr "Geen trioolnummers"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/NoTupletNumbers.xml.h:2
 msgid "Stop the printing of tuplet numbers from this point."
-msgstr ""
+msgstr "Vanaf dit punt stoppen met het afdrukken van trioolnummers."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:7
 msgid "Enter tuplet numerator "
-msgstr ""
+msgstr "Triool-teller invoeren "
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:8
 msgid ""
@@ -24576,452 +24585,457 @@ msgid ""
 "numerator first. E.g., for triplets, enter 2, then 3. \n"
 "Numerator:"
 msgstr ""
+"Voer de breuk in waarmee de duur vermenigvuldigd moet worden,\n"
+"eerst de teller. Bijv. voor triolen, voert u eerst 2 in en dan 3. \n"
+"Teller:"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:11
 msgid "Enter tuplet denominator"
-msgstr ""
+msgstr "Triool-noemer invoeren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.scm:11
 msgid "Enter the fraction's denominator:"
-msgstr ""
+msgstr "Voer de noemer van de breuk in:"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.xml.h:1
 msgid "Start Arbitrary Tuplet"
-msgstr ""
+msgstr "Willekeurige triool starten"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/StartTuplet.xml.h:2
 msgid "Asks for ratio of tuplet and then puts in a start for that. Use EndTuplet command after entering tuplet notes. Note that the Denemo display will not automatically group the tuplet, but it will print with expected beaming etc."
-msgstr ""
+msgstr "Vraagt naar de verhouding van de triool en voert er een trioolbegin voor in. Gebruik het commando EindeTriool na het invoeren van de trioolnoten. Merk op dat de Denemo-weergave de triool niet automatisch groepeert, maar wel afdrukt met de verwachte waardestrepen, enz."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTripleting.xml.h:1
 msgid "Toggle Triplet Entry (Off/On)"
-msgstr ""
+msgstr "Triool invoeren (Uit/In)-schakelen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTripleting.xml.h:2
 msgid "Inserts a start triplet or end tuplet alternately."
-msgstr ""
+msgstr "Voegt afwisselend een triool-begin en triool-einde in."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:1
 msgid "Tuplet Brackets if not Beamed"
-msgstr ""
+msgstr "Trioolhaken indien geen waardestrepen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBracketsIfBeamed.xml.h:2
 msgid "Turns tuplet brackets off for beamed notes. Affects tuplets from the cursor onwards."
-msgstr ""
+msgstr "Schakelt trioolhaken uit voor noten met waardestrepen. Heeft invloed op de triolen vanaf de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:1
 msgid "Tuplet Brackets On/Off"
-msgstr ""
+msgstr "Trioolhaken Aan/Uit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletBrackets.xml.h:2
 msgid "Turns tuplet brackets off or on."
-msgstr ""
+msgstr "Schakelt trioolhaken uit of in."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletNumbering.xml.h:1
 msgid "Tuplet Numbering On/Off"
-msgstr ""
+msgstr "Trioolnummering Aan/Uit"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/ToggleTupletNumbering.xml.h:2
 msgid "Control whether tuplet numbers will be printed over tuplets."
-msgstr ""
+msgstr "Bepalen of trioolnummers boven triolen worden afgedrukt."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.scm:14
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.scm:17
 msgid "This command needs a note or chord to turn into a triplet"
-msgstr ""
+msgstr "Dit commando heeft een noot of akkoord nodig om in een triool te veranderen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.xml.h:1
 msgid "Triplet-ize (Slurred)"
-msgstr ""
+msgstr "Triool-eren (Overbonden)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TripletizeSlurred.xml.h:2
 msgid "Turns the note at or before the cursor into a triplet of the same total duration, slurring the triplet."
-msgstr ""
+msgstr "Maakt van de noot bij of voor de cursor een triool van dezelfde totale duur en overbindt de triool."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml.h:1
 msgid "Triplet-ize"
-msgstr ""
+msgstr "Triool-eren"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/Tripletize.xml.h:2
 msgid "Turns the note on or before the cursor into a triplet of notes with the same total duration."
-msgstr ""
+msgstr "Maakt van de noot bij of voor de cursor een triool van dezelfde totale duur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm:3
 msgid "No Brackets"
-msgstr ""
+msgstr "Geen haken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm:4
 msgid "Always Brackets"
-msgstr ""
+msgstr "Altijd haken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.scm:5
 msgid "Bracket if not beamed"
-msgstr ""
+msgstr "Haken indien geen waardestrepen"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.xml.h:1
 msgid "Tuplet Brackets"
-msgstr ""
+msgstr "Trioolhaken"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletBrackets.xml.h:2
 msgid "Choose whether tuplets should have brackets. Affects tuplets from the cursor onwards."
-msgstr ""
+msgstr "Kiezen of triolen haken moeten hebben. Heeft effect op de triolen vanaf de cursor."
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml.h:1
 msgid "Tuplet Position"
-msgstr ""
+msgstr "Trioolpositie"
 
 #: ../actions/menus/ObjectMenu/NotesRests/Tuplets/TupletPosition.xml.h:2
 msgid "Sets the positioning of the following tuplet (up/down/auto) to your choice."
-msgstr ""
+msgstr "Stelt de positie van de volgende triool in (bovenaan/onderaan/auto) volgens uw voorkeur."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.scm:4
 msgid "This Denemo Directive is part of a set of four creating a \"Two note (or chord) tremolo\". Be sure to delete them all if you delete one of them."
-msgstr ""
+msgstr "Deze Denemo-richtlijn maakt deel uit van een set van vier die een \"Tremolo met twee noten (of akkoorden)\" creëert. Zorg ervoor dat u ze allemaal verwijdert als u er een verwijdert."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.scm:6
 msgid "Tremolo Repeat"
-msgstr ""
+msgstr "Tremoloherhaling"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.scm:6
 msgid ""
 "Give number of times the two notes/chords should be sounded 2,4... \n"
 "(must total up to proper note duration)"
 msgstr ""
+"Opgeven hoeveel keren de twee noten/akkoorden moeten klinken 2,4... \n"
+"(opgeteld moeten ze de passende nootduur hebben)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.scm:49
 msgid "The selection must comprise two notes/chords which will sound alternately as a tremolo. The display will show and sound out repetitions, while LilyPond will typeset them using the tremolo notation."
-msgstr ""
+msgstr "De selectie moet bestaan uit twee noten/akkoorden die beurtelings als een tremolo zullen klinken. De weergave zal herhalingen tonen en ze laten horen, terwijl LilyPond ze zal zetten met behulp van de tremolo-notatie."
 
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.xml.h:1
 msgid "Two Note (or Chord) Tremolo"
-msgstr ""
+msgstr "Tremolo met twee noten (of akkoorden)"
 
 #: ../actions/menus/ObjectMenu/NotesRests/TwoNoteTremolo.xml.h:2
 msgid "Takes the selected two notes or chords and repeats them to make up the duration of a longer note. This will then be typeset using the tremolo notation (beaming placed between notes), while the Denemo Display will show and sound the repetitions."
-msgstr ""
+msgstr "Neemt de geselecteerde twee noten of akkoorden en herhaalt ze om de duur van een langere noot te vormen. Dit wordt dan gezet met behulp van de tremolo-notatie (waardestrepen geplaatst tussen de noten), terwijl de  Denemo-weergave de herhalingen zal tonen en laten weerklinken."
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:28
-#, fuzzy
 msgid "Parts in movement "
-msgstr "Beweging afdrukken"
+msgstr "De delen in de beweging "
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:29
 msgid ""
 " differ from those in opening movement.\n"
 "While this is not an error, be aware that trying to print a part that does not appear in each movement will result in empty movements."
 msgstr ""
+" verschillen van die in de openingsbeweging.\n"
+"Hoewel dit geen fout is, moet u er rekening mee houden dat het proberen afdrukken van een onderdeel dat niet in elke beweging voorkomt, zal  resulteren in lege bewegingen."
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:101
 msgid "Incorrect measure duration; If you are trying to create an upbeat (pickup/'anacrusis) use the Anacrusis command"
-msgstr ""
+msgstr "Onjuiste maatduur. Als u probeert een opmaat te maken (pick-up/'anacrouse), gebruik dan het commando Anacrouse"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:102
 msgid "Incorrect measure duration"
-msgstr ""
+msgstr "Onjuiste maatduur"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:127
 msgid "Final Measures not all equal duration"
-msgstr ""
+msgstr "Laatste maten niet allemaal even lang"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.scm:142
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:22
 msgid "No problem detected in this score"
-msgstr ""
+msgstr "Geen problemen gevonden in deze partituur"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:4
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml.h:1
 msgid "Check Score Skipping Some Errors"
-msgstr ""
+msgstr "Partituur controleren en sommige fouten overslaan"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:4
 msgid "Give number of errors to skip"
-msgstr ""
+msgstr "Het aantal fouten die overgeslagen moeten worden opgeven"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.scm:19
 msgid "Error number: "
-msgstr ""
+msgstr "Aantal fouten: "
 
 #: ../actions/menus/ObjectMenu/Score/CheckScoreSkipping.xml.h:2
 msgid "Checks the score ignoring the first so many errors. Use this to skip errors that are ok to leave in."
-msgstr ""
+msgstr "Controleert de partituur en negeert de eerste zoveel fouten. Gebruik dit om fouten over te slaan waarvoor het oké is om ze erin te laten."
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.xml.h:1
 msgid "Check Score"
-msgstr ""
+msgstr "Partituur controleren"
 
 #: ../actions/menus/ObjectMenu/Score/CheckScore.xml.h:2
 msgid "Checks score for wrong measure durations, unterminated tuplets, slurs, wrong ties etc."
-msgstr ""
+msgstr "Controleert de partituur op maten met een foutieve duur, niet-afgesloten antimetrische figuren, legatobogen, foutieve overbindingen, enz."
 
 #: ../actions/menus/ObjectMenu/Score/CompareWithNextScore.scm:9
 msgid "Only one tab is open"
-msgstr ""
+msgstr "Slechts één tabblad geopend"
 
 #: ../actions/menus/ObjectMenu/Score/CompareWithNextScore.xml.h:1
 msgid "Compare With Next"
-msgstr ""
+msgstr "Met volgende vergelijken"
 
 #: ../actions/menus/ObjectMenu/Score/CompareWithNextScore.xml.h:2
 msgid "Compares the current score with the score in the next tab, reporting any differences."
-msgstr ""
+msgstr "Vergelijkt de huidige partituur met de partituur op het volgende tabblad en rapporteert eventuele verschillen."
 
 #: ../actions/menus/ObjectMenu/Score/EditProlog.scm:5
 msgid "Edit Score Prolog"
-msgstr ""
+msgstr "Partituurproloog bewerken"
 
 #: ../actions/menus/ObjectMenu/Score/EditProlog.scm:6
 msgid "Edit LilyPond to apply to whole score"
-msgstr ""
+msgstr "LilyPond bewerken die op de hele partituur toegepast zal worden"
 
 #.
 #: ../actions/menus/ObjectMenu/Score/EditProlog.xml.h:1
 msgid "Edit Prolog"
-msgstr ""
+msgstr "Proloog bewerken"
 
 #: ../actions/menus/ObjectMenu/Score/EditProlog.xml.h:2
 msgid "Allows you to edit the LilyPond score prolog; here you can set transposition for the printed version and much more."
-msgstr ""
+msgstr "Hiermee kunt u de LilyPond-partituurproloog bewerken; hier kunt u de transpositie instellen voor de gedrukte versie en nog veel meer."
 
 #: ../actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.scm:45
 msgid "Search for Similar"
-msgstr ""
+msgstr "Soortgelijke zoeken"
 
 #: ../actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.scm:45
 msgid "Which movement to search in?"
-msgstr ""
+msgstr "In welke beweging moet gezocht worden?"
 
 #: ../actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.xml.h:1
 msgid "Search for Similar Scores"
-msgstr ""
+msgstr "Soortgelijke partituren zoeken"
 
 #: ../actions/menus/ObjectMenu/Score/GenerateMusicSignatureSearchScript.xml.h:2
 msgid "Creates a music signature from the opening intervals of the current score then searches all the scores below a given folder for one starting with the same intervals as this score. Any score found is opened in a new tab. Use to seek out a lost score in your collection by entering the first few notes of the lost score and invoking this command."
-msgstr ""
+msgstr "Creëert een muziekhandtekening op basis van de openingsintervallen van de huidige partituur en zoekt dan in alle partituren onder een gegeven map naar een partituur die begint met dezelfde intervallen als deze partituur. Elke gevonden partituur wordt geopend in een nieuw tabblad. Gebruik dit om een verloren partituur in uw verzameling op te zoeken door de eerste paar noten van de verloren partituur in te voeren en dit commando uit te voeren."
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondDefinition.scm:8
 #: ../actions/menus/ObjectMenu/Score/LilyPondDefinition.scm:10
 msgid "Creating LilyPond Definition"
-msgstr ""
+msgstr "Een LilyPond-definitie creëren"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondDefinition.scm:8
 msgid "Give name (alphabetical only): "
-msgstr ""
+msgstr "Geef een naam op (alleen alfabetisch): "
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondDefinition.scm:10
 msgid "Give valid LilyPond syntax for this definition: "
-msgstr ""
+msgstr "Geef een geldige LilyPond-syntaxis op voor deze definitie: "
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondDefinition.xml.h:1
 msgid "LilyPond Definition"
-msgstr ""
+msgstr "LilyPond-definitie"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondDefinition.xml.h:2
 msgid "Create a definition at the head of the LilyPond text. This can then be referenced in the music. See LilyPond documentation."
-msgstr ""
+msgstr "Een definitie maken aan het begin van de LilyPond-tekst. Hiernaar kan dan verwezen worden in de muziek. Zie LilyPond-documentatie."
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:6
 msgid "Included LilyPond Files"
-msgstr ""
+msgstr "Ingesloten LilyPond-bestanden"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:50
 msgid "Include LilyPond File"
-msgstr ""
+msgstr "LilyPond-bestand insluiten"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.scm:55
 msgid "LilyPond include files unchanged"
-msgstr ""
+msgstr "LilyPond include-bestanden niet gewijzigd"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.xml.h:1
 msgid "LilyPond Include File"
-msgstr ""
+msgstr "LilyPond include-bestand"
 
 #: ../actions/menus/ObjectMenu/Score/LilyPondInclude.xml.h:2
 msgid "Allows specification of a LilyPond include file from the Denemo provided include files."
-msgstr ""
+msgstr "Hiermee kunt u een LilyPond include-bestand opgeven uit de door Denemo geleverde include-bestanden."
 
 #: ../actions/menus/ObjectMenu/Score/Playback/TransposeScoreOnPlayback.scm:5
-#, fuzzy
 msgid "Give semitones (+/-): "
-msgstr "Ruimte opgeven om in te voegen +/-"
+msgstr "Geef halve tonen op (+/-): "
 
 #: ../actions/menus/ObjectMenu/Score/Playback/TransposeScoreOnPlayback.xml.h:1
 msgid "Transpose Score On Playback"
-msgstr ""
+msgstr "Partituur transponeren bij het afspelen"
 
 #: ../actions/menus/ObjectMenu/Score/Playback/TransposeScoreOnPlayback.xml.h:2
 msgid "Asks for a number of semitones (+/-). Each staff will have its current MIDI transposition value incremented by this amount. This means the whole score will playback transposed with any transposing instruments maintaining their relative transposition."
-msgstr ""
+msgstr "Vraagt om een aantal halve tonen (+/-). Bij elke notenbalk zal de huidige MIDI transpositiewaarde met dit aantal verhoogd worden. Dit betekent dat de hele partituur getransponeerd wordt afgespeeld, waarbij alle transponerende instrumenten hun relatieve transpositie behouden."
 
 #. FIXME there are 13 other types of directive to refresh ,,,
 #: ../actions/menus/ObjectMenu/Score/RefreshDynamicDirectives.xml.h:1
 msgid "Refresh Dynamic Directives"
-msgstr ""
+msgstr "Dynamiekrichtlijnen vernieuwen"
 
 #: ../actions/menus/ObjectMenu/Score/RefreshDynamicDirectives.xml.h:2
 msgid "Re-runs any directives that may have become stale."
-msgstr ""
+msgstr "Voert alle richtlijnen die mogelijk belegen zijn geworden, opnieuw uit."
 
 #: ../actions/menus/ObjectMenu/Score/ScoreBlockProlog.xml.h:1
 msgid "LilyPond Score Block Prolog"
-msgstr ""
+msgstr "LilyPond-proloog voor partituurblok"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreBlockProlog.xml.h:2
 msgid "Inserts LilyPond at the start of every score block (movement)."
-msgstr ""
+msgstr "Voegt LilyPond toe aan het begin van elk partituurblok (beweging)."
 
 #: ../actions/menus/ObjectMenu/Score/ScoreComment.scm:6
 msgid "Type any notes about the score you are working on here"
-msgstr ""
+msgstr "Hier eventuele aantekeningen typen over de partituur waaraan u werkt"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreComment.xml.h:2
 msgid "Stores any textual commentary you may have for this score."
-msgstr ""
+msgstr "Slaat eventuele tekstcommentaar op die u heeft bij deze partituur."
 
 #: ../actions/menus/ObjectMenu/Score/ScoreHeader.scm:6
 #: ../actions/menus/ObjectMenu/Score/ScoreHeader.xml.h:1
 msgid "LilyPond Score Header"
-msgstr ""
+msgstr "LilyPond-koptekst voor de partituur"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreHeader.scm:6
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.scm:7
 msgid "Give LilyPond:"
-msgstr ""
+msgstr "Geef LilyPond op:"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreHeader.scm:13
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.scm:13
 msgid "Prolog unchanged"
-msgstr ""
+msgstr "Proloog niet gewijzigd"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreHeader.xml.h:2
 msgid "Inserts LilyPond syntax at the head of the output."
-msgstr ""
+msgstr "Voegt LilyPond-syntaxis in aan het begin van de uitvoer."
 
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.scm:7
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.xml.h:1
 msgid "LilyPond Score Prolog"
-msgstr ""
+msgstr "LilyPond-proloog voor de partituur"
 
 #: ../actions/menus/ObjectMenu/Score/ScoreProlog.xml.h:2
 msgid "Inserts LilyPond syntax for include files etc at head of score."
-msgstr ""
+msgstr "Voegt LilyPond-syntaxis voor include-bestanden, enz., in aan het begin van de partituur."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.scm:5
 msgid "My Arranger"
-msgstr ""
+msgstr "Mijn arrangeur"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.scm:5
 msgid "Give name for arranger etc or blank out to delete: "
-msgstr ""
+msgstr "Geef de naam op van de arrangeur, enz., of leeg om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreArranger.xml.h:1
 msgid "Arranger"
-msgstr ""
+msgstr "Arrangeur"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookArranger.xml.h:2
 msgid "Prints the arranger name on title page"
-msgstr ""
+msgstr "Drukt de naam van de arrangeur af op de titelpagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.scm:5
 msgid "My Composer"
-msgstr ""
+msgstr "Mijn componist"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.scm:5
 msgid "Give name for composer etc or blank out to delete: "
-msgstr ""
+msgstr "Geef de naam op van de componist, enz., of leeg om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookComposer.xml.h:2
 msgid "Prints a composer name on title page"
-msgstr ""
+msgstr "Drukt de naam van de componist af op de titelpagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookCopyright.scm:5
 msgid "My Copyright"
-msgstr ""
+msgstr "Mijn copyright"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookCopyright.scm:5
 msgid "Give name for copyright etc or blank out to delete: "
-msgstr ""
+msgstr "Geef een naam op voor het copyright, enz., of leeg om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookCopyright.xml.h:1
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreCopyright.xml.h:1
 msgid "Copyright"
-msgstr ""
+msgstr "Copyright"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookCopyright.xml.h:2
 msgid "Prints a copyright notice on title page"
-msgstr ""
+msgstr "Drukt een copyrightvermelding af op de titelpagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookDate.scm:5
 msgid "My Date"
-msgstr ""
+msgstr "Mijn datum"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookDate.scm:5
 msgid "Give name for date/opus number etc or blank out to delete: "
-msgstr ""
+msgstr "Geef een naam op voor datum/opusnummer, enz., of leeg om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookDate.xml.h:1
 msgid "Date"
-msgstr ""
+msgstr "Datum"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookDate.xml.h:2
 msgid "Prints a date on the title page."
-msgstr ""
+msgstr "Drukt een datum af op de titelpagina."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookInstrumentation.scm:5
 msgid "Give instrumentation for the default layout or blank out to delete: "
-msgstr ""
+msgstr "Geef de instrumentatie op voor de standaardopmaak of leeg om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookInstrumentation.xml.h:1
 msgid "Instrumentation"
-msgstr ""
+msgstr "Instrumentatie"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookInstrumentation.xml.h:2
 msgid "Prints the instrumentation on the title page. This can be edited for layouts that print just one part or section."
-msgstr ""
+msgstr "Drukt de instrumentatie af op de titelpagina. Dit kan worden bewerkt voor opmaken waarbij slechts één partij of sectie afgedrukt wordt."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookPoet.scm:5
 msgid "My Poet"
-msgstr ""
+msgstr "Mijn tekstdichter"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookPoet.scm:5
 msgid "Give name for poet/lyricist/librettist etc or blank out to delete: "
-msgstr ""
+msgstr "Geef de naam op van de dichter/tekstschrijver/librettist, enz., of leeg om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookPoet.xml.h:1
 msgid "Poet/Lyricist"
-msgstr ""
+msgstr "Dichter/Tekstschrijver"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookPoet.xml.h:2
 msgid "Prints the poet or lyricist name on title page"
-msgstr ""
+msgstr "Drukt de naam van de dichter of tekstschrijver af op de titelpagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:9
 msgid "My Title"
-msgstr ""
+msgstr "Mijn titel"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:9
 msgid "Give a title for the whole score or blank out to delete: "
-msgstr ""
+msgstr "Geef een titel op voor de hele partituur of blanco om te verwijderen: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:13
 msgid "Space Above Title"
-msgstr ""
+msgstr "Ruimte boven de titel"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.scm:13
 msgid "Give amount of space at top of title page"
-msgstr ""
+msgstr "Geef de hoeveelheid ruimte bovenaan de titelpagina op"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/BookTitle.xml.h:2
 msgid "Prints a title on title page"
-msgstr ""
+msgstr "Drukt een titel af op de titelpagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentaryIntro.xml.h:1
 msgid "Title and Introduction"
-msgstr ""
+msgstr "Titel en inleiding"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentaryIntro.xml.h:2
 msgid "A button is created for putting a title and introductory text for a critical commentary at the end of the score."
-msgstr ""
+msgstr "Er wordt een knop gecreëerd om een titel te plaatsen en inleidende tekst voor een kritisch commentaar aan het eind van de partituur."
 
 #. (if (equal? (string-ref thecomment 0) #\\)
 #. (begin
@@ -25029,23 +25043,23 @@ msgstr ""
 #. (set! thecomment (string-drop-right thecomment 1))))
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:54
 msgid "At m"
-msgstr ""
+msgstr "Bij m"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:54
 msgid " v"
-msgstr ""
+msgstr " v"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.scm:55
 msgid " b"
-msgstr ""
+msgstr " b"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:1
 msgid "(Re)Create Epilog - Critical Commentary"
-msgstr ""
+msgstr "Epiloog - Kritisch commentaar (opnieuw) aanmaken"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/Epilog/CriticalCommentary.xml.h:2
 msgid "Collects together any critical comments from the score and places them in an epilog at the end of the music. The Title and text of the Epilog are created with the CriticalCommentaryIntro command, and critical comments are added with the CriticalComment command."
-msgstr ""
+msgstr "Verzamelt eventuele kritische opmerkingen uit de partituur en plaatst deze in een epiloog aan het einde van de muziek. De titel en tekst van de epiloog worden gemaakt met de opdracht CriticalCommentaryIntro en kritische opmerkingen worden toegevoegd met de opdracht CriticalComment."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:4
 msgid ""
@@ -25058,377 +25072,393 @@ msgid ""
 "to return to work in Denemo.\n"
 "If you are saving to a new file you will be asked to open it later."
 msgstr ""
+"Wacht tot je editor voor vectorafbeeldingen start\n"
+"Deze opent een SVG-bestand met dezelfde naam, als dat beschikbaar is,\n"
+"maar sla het op als een ingekapseld postscript-bestand (eps).\n"
+"Bij het opslaan van uw eps is het goed om het bestand ook op te slaan\n"
+"in SVG-bestandsindeling, omdat dit later beter te bewerken is.\n"
+"Sluit uw grafische editor af voordat u dit dialoogvenster verlaat\n"
+"om weer aan het werk te gaan in Denemo.\n"
+"Als u in een nieuw bestand opslaat, wordt u gevraagd het later te openen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:90
 msgid "Now dismiss this dialog and select the .eps file you have just saved in the graphics editor program."
-msgstr ""
+msgstr "Sluit nu dit dialoogvenster en selecteer het .eps-bestand dat u zojuist heeft opgeslagen in het grafische bewerkingsprogramma."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:106
 msgid "Delete Graphic Title Page?"
-msgstr ""
+msgstr "Grafische titelpagina verwijderen?"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.scm:109
 msgid "Graphic Title Page Deleted"
-msgstr ""
+msgstr "Grafische titelpagina verwijderd"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml.h:1
 msgid "Create or Edit Graphic Title Page"
-msgstr ""
+msgstr "Grafische titelpagina maken of bewerken"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/GraphicTitlePage.xml.h:2
 msgid "Places text/graphics from an encapsulated postscript file at the start of the score. Use this for a title page prepared in your vector graphics editor."
-msgstr ""
+msgstr "Plaatst tekst/grafisch materiaal uit een ingekapseld postscript-bestand aan het begin van de partituur. Gebruik dit voor een titelpagina die u voorbereid heeft in uw editor voor vectorafbeeldingen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.scm:30
 msgid "Incipit"
-msgstr ""
+msgstr "Incipit"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.xml.h:1
 msgid "Incipit from Selection"
-msgstr ""
+msgstr "Incipit van selectie"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/IncipitFromSelection.xml.h:2
 msgid "Creates an incipit from the selection. This music will be printed on the title page. Only one voice is supported."
-msgstr ""
+msgstr "Maakt een incipit van de selectie. Deze muziek wordt afgedrukt op de titelpagina. Er wordt slechts één stem ondersteund."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:8
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.xml.h:1
 msgid "Table of Contents Title"
-msgstr ""
+msgstr "Titel inhoudsopgave"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:8
 msgid ""
 "Give title for the table of contents\n"
 "Blank to delete"
 msgstr ""
+"Een titel opgeven voor de inhoudsopgave\n"
+"Leeg om te verwijderen"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:11
 msgid "Page Break before Table of Contents"
-msgstr ""
+msgstr "Pagina-einde vóór Inhoudsopgave"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:12
 msgid "Page Break after Table of Contents"
-msgstr ""
+msgstr "Pagina-einde na Inhoudsopgave"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:13
 msgid "Page Break before and after"
-msgstr ""
+msgstr "Pagina-einde vóór en na"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.scm:14
 msgid "No page breaks"
-msgstr ""
+msgstr "Geen pagina-einden"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/BookTitles/TocTitle.xml.h:2
 msgid "Gives a heading for a table of contents, inserting the table in the book."
-msgstr ""
+msgstr "Geeft een hoofding aan een inhoudsopgave, waardoor de inhoudsopgave in het boek wordt ingevoegd."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:8
 msgid "Extra space above this line: "
-msgstr ""
+msgstr "Extra ruimte boven deze regel: "
 
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:36
 msgid ""
 "Give text to appear at the left\n"
 "LilyPond syntax can be included."
 msgstr ""
+"Tekst opgeven die links moet verschijnen\n"
+"LilyPond-syntaxis kan worden opgenomen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:39
 msgid ""
 "Give text to appear in the center\n"
 "LilyPond syntax can be included."
 msgstr ""
+"Tekst opgeven die centraal moet verschijnen\n"
+"LilyPond-syntaxis kan worden opgenomen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.scm:42
 msgid ""
 "Give text to appear at the right\n"
 "LilyPond syntax can be included."
 msgstr ""
+"Tekst opgeven die rechts moet verschijnen\n"
+"LilyPond-syntaxis kan worden opgenomen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.xml.h:1
 msgid "Filled Title Line"
-msgstr ""
+msgstr "Gevulde titelregel"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/FilledTitleLine.xml.h:2
 msgid "Prints three pieces of text left, right and centered on a single line. Each field can be a different size etc."
-msgstr ""
+msgstr "Drukt drie stukken tekst op één regel af, links, rechts en gecentreerd. Elk veld kan een andere grootte hebben, enz."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreTagline.xml.h:1
 msgid "Tagline"
-msgstr ""
+msgstr "Slagzin"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreTagline.xml.h:2
 msgid "Centered at the bottom of the last page."
-msgstr ""
+msgstr "Gecentreerd onderaan de laatste pagina."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:4
 msgid "v 1.0"
-msgstr ""
+msgstr "v 1.0"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:5
 msgid "Version"
-msgstr ""
+msgstr "Versie"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:5
 msgid "Give a version for this edition:"
-msgstr ""
+msgstr "Geef een versie op voor deze editie:"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:11
 msgid "Version number only on first page"
-msgstr ""
+msgstr "Versienummer alleen op de eerste pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:12
 msgid "Version number on every page"
-msgstr ""
+msgstr "Versienummer op elke pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:13
 msgid "Delete Version Numbering"
-msgstr ""
+msgstr "Versienummering verwijderen"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:18
 msgid "Include Layout Name"
-msgstr ""
+msgstr "Opmaaknaam opnemen"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.scm:20
 msgid "Do not include Layout Name"
-msgstr ""
+msgstr "Opmaaknaam niet opnemen"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.xml.h:1
 msgid "Score Version"
-msgstr ""
+msgstr "Partituurversie"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/ScoreVersion.xml.h:2
 msgid "Prints a tiny text in top left corner of the first page and optionally on subsequent pages. The score layout name can also be optionally included. If only on first page it comes below the title."
-msgstr ""
+msgstr "Drukt een tekst af in kleine letters in de linkerbovenhoek van de eerste pagina en facultatief op de volgende pagina's. De naam van de partituur kan facultatief ook worden opgenomen. Indien dit alleen op de eerste pagina voorkomt, komt dit onder de titel."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreArranger.xml.h:2
 msgid "Name of the arranger, flush-right below the composer."
-msgstr ""
+msgstr "Naam van de arrangeur, rechts uitgelijnd onder de componist."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreBreakbefore.xml.h:1
 msgid "Breakbefore"
-msgstr ""
+msgstr "AfbrekenVoor"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreBreakbefore.xml.h:2
 msgid "This forces the title to start on a new page (set to ##t or ##f)."
-msgstr ""
+msgstr "Dit doet de titel op een nieuwe pagina beginnen (ingesteld op ##t of ##f)."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreComposer.xml.h:2
 msgid "Name of the composer, flush-right below the subsubtitle."
-msgstr ""
+msgstr "Naam van de componist, rechts uitgelijnd onder de tweede ondertitel."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreCopyright.xml.h:2
 msgid "Copyright notice, centered at the bottom of the first page. To insert the copyright symbol, see Lilypond Text encoding."
-msgstr ""
+msgstr "Copyrightvermelding, gecentreerd onderaan de eerste pagina. Zie Lilypond-tekstcodering om het copyrightsymbool in te voegen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreDedication.xml.h:1
 msgid "Dedication"
-msgstr ""
+msgstr "Opdracht"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreDedication.xml.h:2
 msgid "The dedicatee of the music, centered at the top of the first page."
-msgstr ""
+msgstr "Aan wie de muziek opgedragen wordt, gecentreerd bovenaan de eerste pagina."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreInstrument.xml.h:1
 msgid "Instrument"
-msgstr ""
+msgstr "Instrument"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreInstrument.xml.h:2
 msgid "Name of the instrument, centered below the score title. Also centered at the top of pages (other than the first page)."
-msgstr ""
+msgstr "Naam van het instrument, gecentreerd onder de titel van de partituur. Ook gecentreerd bovenaan de pagina's (behalve de eerste pagina)."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreMeter.xml.h:1
 msgid "Meter"
-msgstr ""
+msgstr "Maat"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreMeter.xml.h:2
 msgid "Meter string, flush-left below the poet."
-msgstr ""
+msgstr "Vermelding van de maat, links uitgelijnd onder de tekstdichter."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePoet.xml.h:1
 msgid "Poet"
-msgstr ""
+msgstr "Tekstdichter"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScorePoet.xml.h:2
 msgid "Name of the poet, flush-left below the subsubtitle."
-msgstr ""
+msgstr "Naam van de tekstdichter, links uitgelijnd onder de tweede ondertitel."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubsubtitle.xml.h:1
 msgid "Subsubtitle"
-msgstr ""
+msgstr "Tweede ondertitel"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubsubtitle.xml.h:2
 msgid "Subsubtitle, centered below the subtitle."
-msgstr ""
+msgstr "Tweede ondertitel, gecentreerd onder de ondertitel."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreSubtitle.xml.h:2
 msgid "Subtitle, centered below the title."
-msgstr ""
+msgstr "Ondertitel, gecentreerd onder de titel."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitles.xml.h:2
 msgid "Set titles for whole score."
-msgstr ""
+msgstr "Titels voor de hele partituur instellen."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/ScoreTitle.xml.h:2
 msgid "Prints the name given as a title centered at the start of the score."
-msgstr ""
+msgstr "Drukt de opgegeven naam gecentreerd af als titel aan het begin van de partituur."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:4
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:26
 msgid "Chapter"
-msgstr ""
+msgstr "Hoofdstuk"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:4
 msgid "Give chapter title::"
-msgstr ""
+msgstr "Geef de titel van het hoofdstuk op:"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:35
 msgid "Setting End Chapter at last movement"
-msgstr ""
+msgstr "Einde hoofdstuk instellen bij laatste beweging"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:39
 msgid "A Chapter start/end is already present at movement #"
-msgstr ""
+msgstr "Een begin/einde hoofdstuk is al aanwezig bij beweging #"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:43
 msgid "End Chapter"
-msgstr ""
+msgstr "Einde hoofdstuk"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:55
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:60
 msgid "Miss-matched Chapter Start/End, use Movement Properties Editor to fix this"
-msgstr ""
+msgstr "Niet-overeenkomend Begin/Einde Hoofdstuk, gebruik de editor voor bewegingseigenschappen om dit op te lossen"
 
 #. procedure starts here
 #. already at a chapter start
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:67
 msgid "Re-title"
-msgstr ""
+msgstr "Titel hernieuwen"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:82
 msgid "This is the end of a Chapter, start the next chapter on the next movement"
-msgstr ""
+msgstr "Dit is het einde van een hoofdstuk. Het volgende hoofdstuk bij de volgende beweging beginnen"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.scm:86
 msgid "Chapter Title"
-msgstr ""
+msgstr "Hoofdstuktitel"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.xml.h:1
 msgid "Book Chapter"
-msgstr ""
+msgstr "Hoofdstuk van het boek"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/SimpleTitles/SimpleChapter.xml.h:2
 msgid "Asks for a Chapter Title and end movement number. Makes the current movement the start of a chapter which ends at a later movement."
-msgstr ""
+msgstr "Vraagt om een hoofdstuktitel en een nummer voor het bewegingseinde. Maakt van de huidige beweging het begin van een hoofdstuk dat eindigt bij een latere beweging."
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:9
 msgid "Source file at http://denemo.org"
-msgstr ""
+msgstr "Bronbestand op http://denemo.org"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:12
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:13
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml.h:1
 msgid "Tagline with Link"
-msgstr ""
+msgstr "Slagzin met link"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:12
 msgid "Give URL to link to"
-msgstr ""
+msgstr "URL opgeven om naar te linken"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:13
 msgid "Give text for tagline"
-msgstr ""
+msgstr "Tekst voor slagzin opgeven"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.scm:20
 msgid "Tagline deleted"
-msgstr ""
+msgstr "Slagzin verwijderd"
 
 #: ../actions/menus/ObjectMenu/Score/Titles/TaglineLink.xml.h:2
 msgid "Creates a tagline with a link in PDF output."
-msgstr ""
+msgstr "Creëert een slagzin met een link in PDF-uitvoer."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:12
 msgid "Modern Voice"
-msgstr ""
+msgstr "Modern Stem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:13
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/PianoStaff.scm:11
 #: ../actions/menus/ObjectMenu/StaffMenu/InsertStaff/PianoStaff.scm:16
 msgid "Piano"
-msgstr ""
+msgstr "Piano"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:14
 msgid "Piano Cautionary"
-msgstr ""
+msgstr "Piano Waarschuwend"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:16
 msgid "Neo-Modern Cautionary"
-msgstr ""
+msgstr "Neo-Modern Waarschuwend"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:17
 msgid "Neo-Modern Voice Cautionary"
-msgstr ""
+msgstr "Neo-Modern Stem Waarschuwend"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:18
 msgid "Dodecaphonic"
-msgstr ""
+msgstr "Dodecafonisch"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.scm:20
 msgid "No Reset"
-msgstr ""
+msgstr "Niet opnieuw instellen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.xml.h:1
 msgid "Accidental Style"
-msgstr ""
+msgstr "Voortekenstijl"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccidentalStyle.xml.h:2
 msgid "Choose the style for typesetting accidentals. Determines whether or not an accidental is printed in particular circumstances (such as repeated notes in different measures, octaves, voices etc)."
-msgstr ""
+msgstr "De stijl voor het zetten van voortekens kiezen. Bepaalt of er al dan niet een voorteken wordt afgedrukt in bepaalde omstandigheden (zoals herhaalde noten in verschillende maten, octaven, stemmen, enz.)."
 
 #. AccompanistsScore
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:1
 msgid "Accompanist's Score (Off/On)"
-msgstr ""
+msgstr "Partituur van de begeleider (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AccompanistsScore.xml.h:2
 msgid "Sets/Unsets the top staff of each movement to a tiny font, with the lower staffs - the accompaniment - at the normal font. Print effect only."
-msgstr ""
+msgstr "Stelt het lettertype voor de bovenste notenbalk van elke beweging in op klein, of maakt die instelling ongedaan, terwijl de onderste notenbalken - de begeleiding - het normale lettertype hebben. Heeft alleen effect op het afdrukken."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowAmbitus.xml.h:2
 msgid "Typesets the Ambitus of each staff at the start of the first system. This can then be turned off by the Inclusion Criterion Ambitus in the Print View."
-msgstr ""
+msgstr "Zet de Ambitus van elke notenbalk aan het begin van het eerste systeem. Dit kan vervolgens worden uitgeschakeld door het insluitingscriterium Ambitus in de afdrukweergave."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.scm:4
 msgid "Ending a Repeat Alternative"
-msgstr ""
+msgstr "Beëindigen van een herhalingsalternatief"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.scm:4
 msgid "Give barline to end at: "
-msgstr ""
+msgstr "Geef op bij welke maatstreep geëindigd moet worden: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.xml.h:1
 msgid "Barline to end Repeat Alternative"
-msgstr ""
+msgstr "Maatstreep waarop het herhalingsalternatief eindigt"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/AllowVoltaHook.xml.h:2
 msgid "Choose an additional type of barline to close a second (or n'th) time bar with a downward tick."
-msgstr ""
+msgstr "Een extra type maatstreep kiezen om een tweede (of n'de)-maalmaat af te sluiten met een neerwaarts vinkje."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.scm:11
 msgid "Connect Arpeggios"
-msgstr ""
+msgstr "Arpeggio's verbinden"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.xml.h:1
 msgid "Connect Arpeggios (Off/On)"
-msgstr ""
+msgstr "Arpeggio's verbinden (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ConnectArpeggios.xml.h:2
 msgid "Any arpeggios inserted on chords in different voices will be drawn across the voices."
-msgstr ""
+msgstr "Arpeggio's die worden ingevoegd op akkoorden van verschillende stemmen, zullen over de stemmen heen worden getekend."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:8
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/ChordChartStaff.scm:51
 msgid "Custom Barlines"
-msgstr ""
+msgstr "Aangepaste maatstrepen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:38
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:39
@@ -25437,196 +25467,196 @@ msgstr ""
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:42
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml.h:1
 msgid "Custom Barline"
-msgstr ""
+msgstr "Aangepaste maatstreep"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:38
 msgid "Give name (blank to re-define a standard barline)"
-msgstr ""
+msgstr "Een naam opgeven (leeg om de standaard maatstreep te herdefiniëren)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:39
 msgid "Give barline char(s) - | : . [ ] ; etc, for the normal appearance of the barline"
-msgstr ""
+msgstr "Maatstreepteken(s) - | : . [ ] ; enz., opgeven voor het normale uiterlijk van de maatstreep"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:40
 msgid "Give char(s) for line start appearance"
-msgstr ""
+msgstr "Teken(s) opgeven voor het uiterlijk van een regelbegin"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:41
 msgid "Give char(s) for line end appearance"
-msgstr ""
+msgstr "Teken(s) opgeven voor het uiterlijk van een regeleinde"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:42
 msgid "Give char(s) for appearance when spanning staffs"
-msgstr ""
+msgstr "Teken(s) opgeven voor het uiterlijk bij het overspannen van notenbalken"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.scm:57
 msgid "Custom Bar Lines unchanged"
-msgstr ""
+msgstr "Aangepaste maatstrepen ongewijzigd"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/CustomBarline.xml.h:2
 msgid "Create a custom barline. These can be named, or can simply override a standard LilyPond bar line type. A bar line is defined by four forms, which describe 1) the appearance normally (during a line), 2) appearance when the barline is at the beginning or 3) end of a line , and 4) what to show when joining staffs together as with a Piano Staff. Barline forms are made of characters including |,:,.,[,],: and others in the LilyPond documentation."
-msgstr ""
+msgstr "Een aangepaste maatstreep maken. Deze kan een naam krijgen, of gewoon een standaard LilyPond-maatstreeptype overschrijven. Een maatstreep wordt gedefinieerd via vier vormen, met een beschrijving van 1) hoe de maatstreep er normaal uitziet (binnen een regel), 2) hoe de maatstreep er uitziet aan het begin of 3) aan het einde van een regel, en 4) hoe het uitzicht moet zijn als notenbalken worden samengevoegd zoals bij een pianonotenbalk. De maatstreep wordt vorm gegeven met lettertekens zoals |,:,.,[,],: en andere uit de LilyPond-documentatie."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.scm:10
 msgid "Time Signatures will not be typeset for this score"
-msgstr ""
+msgstr "Maatsoorten zullen niet gezet worden voor deze partituur"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml.h:1
 msgid "(Print) Don't Engrave Time Signatures"
-msgstr ""
+msgstr "(Afdrukken) Geen maatsoorten graveren"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DeactivateTimeSignatureStencil.xml.h:2
 msgid "Deactivates the stencil for Time Signatures for the whole score, which prevents them from getting drawn and taking space. But the logic is still active."
-msgstr ""
+msgstr "Deactiveert het sjabloon voor maatsoorten voor de hele partituur, waardoor ze niet worden getekend en geen ruimte innemen. Maar hun logica blijft nog steeds van kracht."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm:5
 msgid "Automatic barlines and beaming rules re-instated"
-msgstr ""
+msgstr "Automatische regels voor maatstrepen en waardestrepen opnieuw ingesteld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.scm:9
 msgid "Literal Barlines now ON. Execute the command a second time to turn it off. This command is for un-metered music. You will have to manually beam the music. Do not use this for an upbeat (pickup, anacrusis), there is a proper command for that."
-msgstr ""
+msgstr "Letterlijke maatstrepen is nu AAN-gezet. Voer het commando nogmaals uit om dit uit te schakelen. Deze opdracht is voor muziek zonder maatstructuren. U zult de muziek handmatig van waardestrepen moeten voorzien. Gebruik dit niet voor een opmaat (pick-up, anacrouse); daarvoor bestaat een eigen commando."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.xml.h:1
 msgid "Typeset Barlines Literally (Off/On)"
-msgstr ""
+msgstr "Maatstrepen letterlijk zetten (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/DenemoBar.xml.h:2
 msgid "Advanced: Typesets the Denemo barlines, regardless of the timing. Turns off automatic beaming."
-msgstr ""
+msgstr "Voor gevorderden: de Denemo-maatstrepen worden ongeacht de timing gezet. Schakelt automatisch zetten van waardestrepen uit."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.xml.h:1
 msgid "Use Normal Beam Endings"
-msgstr ""
+msgstr "Normale waardestreepeindes gebruiken"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/NormalBeamEndings.xml.h:2
 msgid "Ends beams in the expected places (print)."
-msgstr ""
+msgstr "Eindigt waardestrepen op de verwachte plaatsen (afdrukken)."
 
 #. BarNumberingAlignment
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:2
 msgid "Center on barline"
-msgstr ""
+msgstr "Centreren op maatstreep"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:2
 msgid "Align to right"
-msgstr ""
+msgstr "Rechts uitlijnen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:2
 msgid "Align to left"
-msgstr ""
+msgstr "Links uitlijnen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.scm:7
 msgid "Default bar number alignment restored"
-msgstr ""
+msgstr "Standaard uitlijning van maatnummers hersteld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.xml.h:1
 msgid "Bar Number Alignment"
-msgstr ""
+msgstr "Uitlijnen van maatnummers"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberAlignment.xml.h:2
 msgid "Allow choice of alignment of bar numbers with the barline."
-msgstr ""
+msgstr "Hiermee kunt u kiezen hoe maatnummers ten opzichte van de maatstreep uitgelijnd worden."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.scm:15
 msgid "Regular Bar Numbering"
-msgstr ""
+msgstr "Gewone maatnummering"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.scm:16
 msgid "Give interval at which to place bar numbers: "
-msgstr ""
+msgstr "Geef het interval op waarmee maatnummers moeten worden geplaatst: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.scm:19
 msgid "Default bar numbering restored"
-msgstr ""
+msgstr "Standaard maatnummering hersteld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.xml.h:1
 msgid "Bar Numbering Interval"
-msgstr ""
+msgstr "Maatnummeringsinterval"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumberingInterval.xml.h:2
 msgid "Sets the interval at which bar numbers will be printed on typesetting."
-msgstr ""
+msgstr "Stelt het interval in waarmee maatnummers worden afgedrukt bij het zetten."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumbers.xml.h:1
 msgid "Bar Numbers On/Off"
-msgstr ""
+msgstr "Maatnummering Aan/Uit"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/BarNumbers.xml.h:2
 msgid "Turns bar numbering on/off in print out."
-msgstr ""
+msgstr "Schakelt het nummeren van maten bij het afdrukken aan/uit."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.scm:6
 msgid "Default page number position reinstated"
-msgstr ""
+msgstr "Standaard paginanummerpositie terug ingesteld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.xml.h:1
 msgid "Center Page Numbers"
-msgstr ""
+msgstr "Paginanummers centreren"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/CenterPageNumber.xml.h:2
 msgid "Prints page numbers at center bottom of the page, or revert to default positioning."
-msgstr ""
+msgstr "Drukt paginanummers af in het midden onderaan de pagina, of keert terug naar de standaardpositionering."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.scm:16
 msgid "Default First Page Number"
-msgstr ""
+msgstr "Standaardnummer voor eerste pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.scm:18
 msgid "First Page Number"
-msgstr ""
+msgstr "Nummer van eerste pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.scm:18
 msgid "Give number for first page"
-msgstr ""
+msgstr "Het nummer voor de eerste pagina opgeven"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.xml.h:1
 msgid "Set/Unset First Page Number"
-msgstr ""
+msgstr "Nummer van eerste pagina instellen/ongedaan maken"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/FirstPageNumber.xml.h:2
 msgid "Allows setting the first page number."
-msgstr ""
+msgstr "Hiermee kan het nummer van de eerste pagina worden ingesteld."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.scm:6
 msgid "Default Page Numbering Restored"
-msgstr ""
+msgstr "Standaard paginanummering hersteld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.xml.h:1
 msgid "Bold Page Numbers"
-msgstr ""
+msgstr "Vetgedrukte paginanummers"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PageNumbersWithInstrument.xml.h:2
 msgid "Page numbers typeset in a distinct font. The instrumentation is printed too, centered above each page after the first."
-msgstr ""
+msgstr "De paginanummers worden in een apart lettertype gezet. De instrumentatie wordt ook afgedrukt, gecentreerd bovenaan elke pagina, na de eerste."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.scm:7
 msgid "No number will be printed on the first page"
-msgstr ""
+msgstr "Er zal geen nummer afgedrukt worden op de eerste pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.scm:11
 msgid "Page number will be printed on the first page"
-msgstr ""
+msgstr "Paginanummer zal op de eerste pagina afgedrukt worden"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.xml.h:1
 msgid "Print First Page Number (Off/On)"
-msgstr ""
+msgstr "Paginanummer afdrukken op de eerste pagina (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/Numbering/PrintFirstPageNumber.xml.h:2
 msgid "Control if the first page number is typeset."
-msgstr ""
+msgstr "Bepalen of het nummer van de eerste pagina wordt gezet."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.scm:11
 msgid "Paper Size ="
-msgstr ""
+msgstr "Papierformaat ="
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.xml.h:1
 msgid "Paper Size and Orientation"
-msgstr ""
+msgstr "Papierformaat en -oriëntatie"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PaperSize.xml.h:2
 msgid "Specifies how the printed page should be."
-msgstr ""
+msgstr "Geeft aan hoe de afgedrukte pagina eruit moet zien."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.scm:5
 msgid ""
@@ -25634,6 +25664,9 @@ msgid ""
 "This means that you will be able to click on the typeset score to move the cursor to a given note, or do editing etc.\n"
 "Generated PDF files will be larger though."
 msgstr ""
+"Aanwijzen en klikken staat nu Aan.\n"
+"Dit betekent dat u op de gezette partituur kunt klikken om de cursor naar een bepaalde noot te verplaatsen, of om bewerkingen uit te voeren, enz.\n"
+"De gegenereerde PDF-bestanden zullen echter groter zijn."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.scm:7
 msgid ""
@@ -25641,524 +25674,523 @@ msgid ""
 "This means that you will be not able to click on the typeset score to move the cursor to a given note, or do editing etc.\n"
 "Generated PDF files will be smaller. Use this for pdf export"
 msgstr ""
+"Aanwijzen en klikken staat nu Uit.\n"
+"Dit betekent dat u niet op de gezette partituur zult kunnen klikken om de cursor naar een bepaalde noot te verplaatsen, of om bewerkingen uit te voeren, enz.\n"
+"De gegenereerde PDF-bestanden zullen kleiner zijn. Gebruik dit voor pdf-export"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.xml.h:1
 msgid "Point and Click (Off/On)"
-msgstr ""
+msgstr "Aanwijzen en klikken (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PointAndClick.xml.h:2
 msgid "When on, clicking on a note in the Print Preview window takes the cursor to that note. This works also for Rehearsal Marks and many other objects in the score. The only reason to turn it off is for export to PDF file via the Export menu or the PDF button in the Print View. However, using print to file is a better way of doing this (if your operating system supports it) as then it is not needed."
-msgstr ""
+msgstr "Als dit aan staat, brengt een klik op een noot in het venster met het afdrukvoorbeeld de cursor naar die noot. Dit werkt ook voor repetitiemarkeringen en vele andere objecten in de partituur. De enige reden om dit uit te schakelen is voor het exporteren naar een PDF-bestand via het menu Exporteren of via de PDF-knop in de Afdrukweergave. Afdrukken naar bestand is echter een betere manier om dit te doen (als uw besturingssysteem dit ondersteunt), omdat dit dan niet nodig is."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.scm:4
 msgid "Revert to Optimal"
-msgstr ""
+msgstr "Terugkeren naar optimaal"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.scm:13
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.scm:17
 msgid "Measures per line"
-msgstr ""
+msgstr "Maten per regel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.scm:13
 msgid "Give required measures per line: "
-msgstr ""
+msgstr "Geef het vereiste aantal maten per regel op: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.xml.h:1
 msgid "Measures Per Line"
-msgstr ""
+msgstr "Maten per regel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MeasuresPerLine.xml.h:2
 msgid "Forces a fixed number of measures per line."
-msgstr ""
+msgstr "Dwingt een vast aantal maten per regel af."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MinimumSystemsPerPage.xml.h:1
 msgid "Minimum Number of Systems Per Page"
-msgstr ""
+msgstr "Minimaal aantal systemen per pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/MinimumSystemsPerPage.xml.h:2
 msgid "The LilyPond typesetter will not typeset less than the given number of systems per page. Use to prevent the last page having an \\\"orphan\\\" line of music, for example."
-msgstr ""
+msgstr "De LilyPond-zetter zal niet minder dan het opgegeven aantal systemen per pagina zetten. Gebruik dit om bijvoorbeeld te voorkomen dat de laatste pagina een \\\"wees\\\"-muziekregel bevat."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/PageBreaksBeforeMovements.xml.h:1
 msgid "Page Breaks (On/Off)"
-msgstr ""
+msgstr "Pagina-einden (Aan/Uit)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/PageBreaksBeforeMovements.xml.h:2
 msgid "Movements will start on a new page (Off/On)"
-msgstr ""
+msgstr "Bewegingen beginnen op een nieuwe pagina (Uit/Aan)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.scm:6
 msgid "Proportional Notation"
-msgstr ""
+msgstr "Proportionele notatie"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.scm:6
 msgid "Give base duration: "
-msgstr ""
+msgstr "Geef basisduur op: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.scm:10
 msgid "Default music spacing restored."
-msgstr ""
+msgstr "Standaardafstand van de muziek hersteld."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.xml.h:1
 msgid "Proportional Note Spacing"
-msgstr ""
+msgstr "Proportionele afstand tussen noten"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ProportionalNotation.xml.h:2
 msgid "Spaces notes in proportion to duration, based on the duration given."
-msgstr ""
+msgstr "Ruimte tussen noten staat in verhouding tot hun duur, op basis van de opgegeven duur."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/RaggedLast.xml.h:1
 msgid "Ragged Last"
-msgstr ""
+msgstr "Laatste niet-uitgelijnd"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/RaggedLast.xml.h:2
 msgid "When set the last line will not be stretched to fill the line."
-msgstr ""
+msgstr "Als dit ingesteld is, wordt de laatste regel niet uitgerekt om de regel te vullen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
 msgid "Choose indent of first system"
-msgstr ""
+msgstr "Insprong kiezen voor het eerste systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:8
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm:8
 msgid "Give amount in decimal"
-msgstr ""
+msgstr "De hoeveelheid opgeven in decimalen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.scm:15
 msgid "indent="
-msgstr ""
+msgstr "insprong="
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreIndent.xml.h:2
 msgid "Indent the first system of every movement by the given amount."
-msgstr ""
+msgstr "Laat het eerste systeem van elke beweging met de opgegeven hoeveelheid inspringen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm:8
 msgid "Choose indent of subsequent systems"
-msgstr ""
+msgstr "Insprong voor volgende systemen kiezen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.scm:16
 msgid "short indent="
-msgstr ""
+msgstr "kleine insprong="
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.xml.h:1
 msgid "Short Indent"
-msgstr ""
+msgstr "Kleine insprong"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/ScoreShortIndent.xml.h:2
 msgid "Sets the indent to be used on systems after the first."
-msgstr ""
+msgstr "Stelt de te gebruiken insprong in voor systemen na het eerste."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.scm:16
-#, fuzzy
 msgid "Overall Score Sizing"
-msgstr "Partituurgrootte"
+msgstr "Grootte voor de volledige partituur"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.scm:16
-#, fuzzy
 msgid "Give font size to use"
-msgstr "Geef relatieve lettergrootte: "
+msgstr "De te gebruiken grootte van het lettertype opgeven"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.xml.h:1
 msgid "(Print)Set Overall Score Size"
-msgstr ""
+msgstr "(Afdrukken) Grootte voor de volledige partituur instellen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFontSize.xml.h:2
 msgid "Choose the font size of for the score, and hence how much space it takes up."
-msgstr ""
+msgstr "De grootte van het lettertype kiezen voor de partituur, en dus hoeveel ruimte ze inneemt."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.scm:36
 msgid "Titles, Lyrics etc."
-msgstr ""
+msgstr "Titels, songteksten, enz."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.scm:37
 msgid "Chord Names, etc. (sans serif)"
-msgstr ""
+msgstr "Akkoordnamen, enz. (schreefloos)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.scm:38
 msgid "Mono-spaced font"
-msgstr ""
+msgstr "Lettertype met een vaste tekenbreedte"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.xml.h:1
 msgid "Set Fonts"
-msgstr ""
+msgstr "Lettertypes instellen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetFonts.xml.h:2
 msgid "Select the default fonts used for titles, chord names etc. for the whole score."
-msgstr ""
+msgstr "De standaardlettertypes selecteren die zullen worden gebruikt voor titels, akkoordnamen, enz., voor de hele partituur."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:39
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:50
 msgid "Left Margin"
-msgstr ""
+msgstr "Linkermarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:40
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:49
 msgid "Inner Margin"
-msgstr ""
+msgstr "Binnenmarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:41
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:51
 msgid "Outer Margin"
-msgstr ""
+msgstr "Buitenmarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:42
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:52
 msgid "Right Margin"
-msgstr ""
+msgstr "Rechtermarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:43
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:53
 msgid "Top Margin"
-msgstr ""
+msgstr "Bovenmarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:44
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.scm:54
 msgid "Bottom Margin"
-msgstr ""
+msgstr "Ondermarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.xml.h:1
 msgid "Adjust Margins"
-msgstr ""
+msgstr "Marges aanpassen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetMargin.xml.h:2
 msgid "Allows the left, right, top and bottom margins to be set to a value in millimeters."
-msgstr ""
+msgstr "Hiermee kunnen de linker-, rechter-, boven- en ondermarge worden ingesteld op een waarde in millimeter."
 
 #. SetPageCount
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:2
 msgid "Total Page Count"
-msgstr ""
+msgstr "Totaal aantal pagina's"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:2
 msgid ""
 "Give Pages Required\n"
 "(0 for optimal): "
 msgstr ""
+"Het vereiste aantal pagina's opgeven\n"
+"(0 voor optimaal): "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:6
 msgid "Page Count"
-msgstr ""
+msgstr "Aantal pagina's"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.scm:12
 msgid "Optimal page count restored"
-msgstr ""
+msgstr "Optimaal aantal pagina's hersteld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.xml.h:1
 msgid "Set Total Number of Pages"
-msgstr ""
+msgstr "Totaal aantal pagina's instellen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageCount.xml.h:2
 msgid "Forces the score to be typeset onto the number of pages you choose."
-msgstr ""
+msgstr "Verplicht dat de partituur wordt gezet op het aantal pagina's dat u kiest."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:10
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:13
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.xml.h:1
 msgid "Page Size"
-msgstr ""
+msgstr "Paginaformaat"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:10
 msgid "Give page width in cm "
-msgstr ""
+msgstr "Paginabreedte opgeven in cm "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:13
 msgid "Give page height in cm "
-msgstr ""
+msgstr "Paginahoogte opgeven in cm "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:25
 msgid "Revert to Default"
-msgstr ""
+msgstr "Terug naar standaardinstellingen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.scm:25
 msgid "Re-size"
-msgstr ""
+msgstr "Formaat wijzigen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/SetPageSize.xml.h:2
 msgid "Set the page size - this overrides the default page size set in score properties."
-msgstr ""
+msgstr "Het paginaformaat instellen - dit overschrijft het standaard paginaformaat dat is ingesteld in partituureigenschappen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.scm:6
 msgid "Single-sided margins will be used"
-msgstr ""
+msgstr "Er worden enkelzijdige marges gebruikt"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.xml.h:1
 msgid "Two Sided Margins"
-msgstr ""
+msgstr "Dubbelzijdige marges"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/TwoSidedMargins.xml.h:2
 msgid "Uses different margins for left and right hand pages."
-msgstr ""
+msgstr "Gebruikt verschillende marges voor linker- en rechterpagina's."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.xml.h:1
 msgid "Last System to Bottom Spacing"
-msgstr ""
+msgstr "Afstand tussen laatste systeem en onderkant"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LastBottomSpacingDist.xml.h:2
 msgid "Set the distance from the last system or top-level markup on a page to the bottom of the printable area (i.e. the top of the bottom margin)."
-msgstr ""
+msgstr "De afstand instellen van het laatste systeem of opmaak van het hoogste niveau op een pagina tot de onderkant van het afdrukbare gebied (d.w.z. de bovenkant van de ondermarge)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.scm:12
 msgid "Spacing Between Systems"
-msgstr ""
+msgstr "Afstand tussen systemen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.scm:13
 msgid "Give spacing limit (1=no extra space)"
-msgstr ""
+msgstr "Afstandslimiet opgeven (1=geen extra ruimte)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.scm:16
 msgid "Customized spacing limit removed"
-msgstr ""
+msgstr "Aangepaste afstandslimiet verwijderd"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.xml.h:1
 msgid "Limit Space Between Systems"
-msgstr ""
+msgstr "Afstand tussen systemen beperken"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/LimitInterSystemSpace.xml.h:2
 msgid "Limits the extent to which the lines are spaced apart to fill the page."
-msgstr ""
+msgstr "Beperkt de mate waarin de lijnen uit elkaar worden gezet om de pagina te vullen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupMarkupSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupMarkupSpacingDist.xml.h:1
 msgid "Title to Title Spacing"
-msgstr ""
+msgstr "Afstand van titel tot titel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupMarkupSpacingDist.xml.h:2
 msgid "Set the distance between two (title or top-level) markups."
-msgstr ""
+msgstr "De afstand instellen tussen twee opmaakaanduidingen (titel of topniveau)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSystemSpacingDist.scm:1
 msgid "Markup to System Spacing"
-msgstr ""
+msgstr "Afstand tussen opmaakaanduiding en systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSystemSpacingDist.xml.h:1
 msgid "Titling Markup to System Spacing"
-msgstr ""
+msgstr "Afstand tussen titelopmaak en systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/MarkupSystemSpacingDist.xml.h:2
 msgid "Sets the basic distance between a (title or top-level) markup and the system that follows it."
-msgstr ""
+msgstr "Stelt de basisafstand in tussen een opmaakaanduiding (titel of hoogste niveau) en het systeem dat erop volgt."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.xml.h:1
 msgid "Ragged Bottom"
-msgstr ""
+msgstr "Geen verticale uitlijning"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/RaggedBottom.xml.h:2
 msgid "This turns ragged bottom off/on. If set, systems will not spread vertically down the page. This does not affect the last page. This should be set for pieces that have only two or three systems per page, for example orchestral scores."
-msgstr ""
+msgstr "Hiermee zet u verticaal uitlijnen uit/aan. Indien u dit aanzet, worden systemen niet verticaal over de hele pagina uitgespreid. Dit heeft geen invloed op de laatste pagina. Dit moet worden ingesteld voor stukken die slechts twee of drie systemen per pagina hebben, bijvoorbeeld orkestpartituren."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml.h:1
 msgid "Score to Title Spacing"
-msgstr ""
+msgstr "Afstand tussen partituur en titel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreMarkupSpacingDist.xml.h:2
 msgid "Set the distance between the last system of a score and the (title or top-level) markup that follows it."
-msgstr ""
+msgstr "De afstand instellen tussen het laatste systeem van een partituur en de opmaak (titel of hoogste niveau) die erop volgt."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml.h:1
 msgid "Movement to First System Spacing"
-msgstr ""
+msgstr "Afstand tussen beweging en eerste systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/ScoreSystemSpacingDist.xml.h:2
 msgid "Set the distance between the last system of a movement and the first system of the movement that follows it, when no (title or top-level) markup exists between them."
-msgstr ""
+msgstr "De afstand instellen tussen het laatste systeem van een beweging en het eerste systeem van de beweging die erop volgt, wanneer er geen opmaak (titel of hoogste niveau) tussen beide staat."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:3
-#, fuzzy
 msgid "Last title to start of movement"
-msgstr "Titels voor beweging creëren"
+msgstr "Laatste titel tot begin van de beweging"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:4
-#, fuzzy
 msgid "End of movement to next title"
-msgstr "Bewegingen toevoegen vanuit een Denemo-bestand"
+msgstr "Einde van de beweging tot volgende titel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:5
 msgid "End of movement to next (untitled) movement"
-msgstr ""
+msgstr "Einde van de beweging tot volgende beweging (zonder titel)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:6
 msgid "System to system"
-msgstr ""
+msgstr "Systeem tot systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:7
-#, fuzzy
 msgid "Title to title"
-msgstr "Titels, knoppen, enz."
+msgstr "Titel tot titel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:8
-#, fuzzy
 msgid "Movement to bottom margin"
-msgstr "Bewegingseditor"
+msgstr "Beweging tot ondermarge"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:9
 msgid "Top margin to (untitled) movement"
-msgstr ""
+msgstr "Bovenmarge tot beweging (zonder titel)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:10
 msgid "Top margin to first title"
-msgstr ""
+msgstr "Bovenmarge tot eerste titel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:12
 msgid "Basic Distance"
-msgstr ""
+msgstr "Basisafstand"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:13
 msgid "Minimum Distance"
-msgstr ""
+msgstr "Minimale afstand"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.scm:15
 msgid "Stretchability"
-msgstr ""
+msgstr "Rekbaarheid"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.xml.h:1
 msgid "Choose Titles and Systems Spacing"
-msgstr ""
+msgstr "Afstanden voor titels en systemen kiezen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SpacingParameters.xml.h:2
 msgid "Lets you choose parameters to control the vertical spacing between titles, systems and margins."
-msgstr ""
+msgstr "Hiermee kunt u parameters kiezen om de verticale afstand tussen titels, systemen en marges te regelen."
 
 #. StaffToSpacing
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:2
 msgid "Spacing for Un-grouped staffs (no braces)"
-msgstr ""
+msgstr "Afstand voor niet-gegroepeerde notenbalken (geen accolades)"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:3
 msgid "Spacing for Piano Staff"
-msgstr ""
+msgstr "Afstand voor pianonotenbalk"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:4
 msgid "Spacing for Staff Group"
-msgstr ""
+msgstr "Afstand voor notenbalkgroep"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:5
 msgid "Spacing for Choir Staff"
-msgstr ""
+msgstr "Afstand voor koornotenbalk"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:6
 msgid "Spacing for Grand Staff"
-msgstr ""
+msgstr "Afstand voor grote notenbalk"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:10
 msgid "Basic Distance Apart"
-msgstr ""
+msgstr "Basisafstand ten opzichte van elkaar"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:11
 msgid "Minimum Distance Apart"
-msgstr ""
+msgstr "Minimumafstand ten opzichte van elkaar"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:13
 msgid "Stretchabilty"
-msgstr ""
+msgstr "Rekbaarheid"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:18
 msgid "Staff Spacing"
-msgstr ""
+msgstr "Afstand tussen notenbalken"
 
 #. grouped staff spacing
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:37
 msgid "Spacing between group and other"
-msgstr ""
+msgstr "Afstand tussen groep en andere"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.scm:38
 msgid "Spacing within group"
-msgstr ""
+msgstr "Afstand binnenin een groep"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.xml.h:1
 msgid "Spacing between Staffs"
-msgstr ""
+msgstr "Afstand tussen notenbalken"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/Staff-Spacing/StaffToStaffSpacing.xml.h:2
 msgid "Allows setting of various parameters controlling the space between staffs and between and within staffs grouped with braces."
-msgstr ""
+msgstr "Maakt het mogelijk verschillende parameters in te stellen die de ruimte tussen de notenbalken en tussen en binnen de met accolades gegroepeerde notenbalken regelen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:5
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:8
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.xml.h:1
 msgid "Systems Per Page"
-msgstr ""
+msgstr "Systemen per pagina"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.scm:5
 msgid "Give required systems (lines) per page: "
-msgstr ""
+msgstr "Geef het vereiste aantal systemen (regels) per pagina op: "
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemsPerPage.xml.h:2
 msgid "Forces a specific number of systems (lines of music) per page."
-msgstr ""
+msgstr "Dwingt een bepaald aantal systemen (muziekregels) per pagina af."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.scm:17
 msgid "Padding Between Systems"
-msgstr ""
+msgstr "Opvulling tussen systemen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.scm:17
 msgid "Give extra padding (1=no extra space, staff units)"
-msgstr ""
+msgstr "Extra opvulling (1=geen extra ruimte, notenbalkeenheden) opgeven"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemPadding.xml.h:2
 msgid "Allows control over the padding between successive systems down the page. (A system is all the staffs representing the music at one time, sometimes called a \"line\" of music)."
-msgstr ""
+msgstr "Hiermee kan de opvulling tussen opeenvolgende systemen op de pagina worden geregeld. (Een systeem bestaat uit alle notenbalken die de muziek weergeven van eenzelfde moment, soms ook een \"regel\" muziek genoemd)."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.xml.h:1
 msgid "System to System Spacing"
-msgstr ""
+msgstr "Afstand van systeem tot systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/SystemSystemSpacingDist.xml.h:2
 msgid "Set the distance between systems."
-msgstr ""
+msgstr "De afstand tussen systemen instellen."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopMarkupSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopMarkupSpacingDist.xml.h:1
 msgid "Top to Title Spacing"
-msgstr ""
+msgstr "Afstand tussen top en titel"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopMarkupSpacingDist.xml.h:2
 msgid "Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first (title or top-level) markup on a page, when there is no system between the two."
-msgstr ""
+msgstr "De afstand instellen van de bovenkant van het afdrukbare gebied (d.w.z. de onderkant van de bovenmarge) tot de eerste opmaak (titel of hoogste niveau) op een pagina, wanneer er geen systeem is tussen beide."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopSystemSpacingDist.scm:1
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopSystemSpacingDist.xml.h:1
 msgid "Top to System Spacing"
-msgstr ""
+msgstr "Afstand tussen top en systeem"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/PrintLayout/VerticalSpacing/TopSystemSpacingDist.xml.h:2
 msgid "Set the distance from the top of the printable area (i.e. the bottom of the top margin) to the first system on a page, when there is no (title or top-level) markup between the two."
-msgstr ""
+msgstr "De afstand instellen van de bovenkant van het afdrukbare gebied (d.w.z. de onderkant van de bovenmarge) tot het eerste systeem op een pagina, wanneer er geen opmaak (titel of hoogste niveau) is tussen beide."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.xml.h:1
 msgid "Set Notehead Style"
-msgstr ""
+msgstr "Nootkopstijl instellen"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreChooseNotehead.xml.h:2
 msgid "Sets the type of notehead to be used score-wide."
-msgstr ""
+msgstr "Stelt het type nootkop in dat voor de hele partituur gebruikt moet worden."
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:5
 msgid "Alphabetic"
-msgstr ""
+msgstr "Alfabetisch"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:6
 msgid "Numeric"
-msgstr ""
+msgstr "Numeriek"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:7
 msgid "Boxed alphabetic"
-msgstr ""
+msgstr "Alfabetisch omkaderd"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:8
 msgid "Boxed numeric"
-msgstr ""
+msgstr "Numeriek omkaderd"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:9
 msgid "Circled alphabetic"
-msgstr ""
+msgstr "Alfabetisch omcirkeld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.scm:10
 msgid "Circled numeric"
-msgstr ""
+msgstr "Numeriek omcirkeld"
 
 #: ../actions/menus/ObjectMenu/Score/Typesetter/ScoreRehearsalMarkFormat.xml.h:1
 msgid "(Print) Format of rehearsal marks"
@@ -27173,9 +27205,8 @@ msgid "Prints the name given at the start of the Piano staff which must be where
 msgstr ""
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/RhythmicStaff.xml.h:1
-#, fuzzy
 msgid "Rhythmic Staff"
-msgstr "De Notenbalk"
+msgstr "Ritmische notenbalk"
 
 #: ../actions/menus/ObjectMenu/StaffMenu/StaffPropertiesMenu/RhythmicStaff.xml.h:2
 msgid "The staff will display as rhythm only, with pitches being ignored."
