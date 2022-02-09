@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>FootnoteSeparator</action>
+        <after>Footnote</after>
+        <_label>Footnote Separator</_label>
+        <_tooltip>Creates a dialog for changing the appearance of the separator appearing above footnotes at the bottom of the page.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

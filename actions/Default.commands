@@ -8858,6 +8858,13 @@ Include rests if they are part of the pattern.
         <_label>Score Size for Layout</_label>
         <_tooltip>Sets the overall score size to use (only) for the current layout.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>FootnoteSeparator</action>
+        <after>Footnote</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/TextMarks</menupath>
+        <_label>Footnote Separator</_label>
+        <_tooltip>Creates a dialog for changing the appearance of the separator appearing above footnotes at the bottom of the page.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
