@@ -2416,6 +2416,7 @@ toggle_updates (gboolean append)
 			appending = 0;
 			Denemo.project->lilysync = Denemo.project->changecount - 1;
 		}
+	  g_object_set_data (G_OBJECT (Denemo.textbuffer), "append", GINT_TO_POINTER(appending));
 	  if (Denemo.printstatus->updating_id)
 		{
 		  g_source_remove (Denemo.printstatus->updating_id);
