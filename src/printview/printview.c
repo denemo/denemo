@@ -2405,11 +2405,17 @@ toggle_updates (gboolean append)
 		  else
 		  { 
 			  gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), MANUAL);
+			  Denemo.project->lilysync = Denemo.project->changecount - 1;
 		  }
 		  g_object_set_data (G_OBJECT (Denemo.textbuffer), "append", GINT_TO_POINTER(appending));
 	  }
   else
 	{
+	  if (appending)
+		{
+			appending = 0;
+			Denemo.project->lilysync = Denemo.project->changecount - 1;
+		}
 	  if (Denemo.printstatus->updating_id)
 		{
 		  g_source_remove (Denemo.printstatus->updating_id);
