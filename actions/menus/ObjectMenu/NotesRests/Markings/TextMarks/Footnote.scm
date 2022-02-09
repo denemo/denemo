@@ -5,19 +5,20 @@
         (d-DirectivePut-chord-prefix tag "\\override Score.FootnoteItem #'annotation-line = ##f ")
         (d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
         (d-DirectivePut-note-data tag (format #f "'~s" data))
-        (d-DirectivePut-note-prefix tag (string-append "\\footnote \"" mark "\" #'(" x " . " y ") \\markup { \\super \"" mark "\" \\teeny {" text "}} "))
+        (d-DirectivePut-note-prefix tag (string-append "\\footnote \\markup {" mark "} #'(" x " . " y ") \\markup { \\super {" mark "} \\teeny {" text "}} "))
         (d-DirectivePut-note-display tag (string-append (_ "Fn") "\n" mark "\n" text))
         (d-DirectivePut-note-ty tag -30) 
         (d-RefreshDisplay)
         (d-SetSaved #f))
     (define (choose-footnote)
-            (set! mark (d-GetUserInput (_ "Footnote") (_ "Give footnote marker") mark))
+            (set! mark (d-GetUserInputWithSnippets (_ "Footnote") (_ "Give footnote marker") mark))
             (if mark
                 (begin
+               	    (set! mark (car mark))
                     (set! text (d-GetUserInputWithSnippets  (_ "Footnote") (_ "Give footnote text") text))
                     (if text 
                         (begin
-                       	    (set! text (cdr text))
+                       	    (set! text (car text))
                             (set! x (d-GetUserInput  (_ "Footnote Mark") (_ "Give horizontal offset for the marker") x))
                             (if (and x (string->number x))
                                 (begin
