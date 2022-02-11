@@ -4699,8 +4699,7 @@ scheme_typeset_for_script (SCM thescript)
   return ret;
 }
 
-SCM
-scheme_print_typeset_pdf (void)
+SCM scheme_print_typeset_pdf (void)
 {
 #ifndef USE_EVINCE
   g_debug ("This feature requires denemo to be built with evince");
@@ -4709,6 +4708,46 @@ scheme_print_typeset_pdf (void)
   return print_typeset_pdf ()? SCM_BOOL_F : SCM_BOOL_T;
 #endif
 }
+
+SCM scheme_create_pdf_from_lilyfile (SCM lily, SCM out)
+{
+	if (scm_is_string (lily) && scm_is_string (out))
+		{
+			gchar *lilyfile = scm_to_locale_string (lily);
+			gchar *outfile = scm_to_locale_string (out);
+			generate_pdf_from_lily_file (lilyfile, outfile);
+			return SCM_BOOL_T;
+		}
+	return SCM_BOOL_F;
+}
+
+SCM scheme_get_number_typeset_pages (void)
+	{
+		if (Denemo.printstatus 
+			&& Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle] 
+			&& g_file_test (Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle], G_FILE_TEST_EXISTS))
+			{gchar *text = g_strdup_printf ("\"(%s) (r) file runpdfbegin pdfpagecount = quit\"", 
+					Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle]);
+					gchar *arg[] = {"gs", "-q", "-dNODISPLAY", "-dNOSAFER", "-c", text, NULL};
+	gchar *out = NULL;
+	GError *err = NULL;	
+	g_spawn_sync (NULL,
+					arg,
+					NULL,
+					G_SPAWN_SEARCH_PATH,
+					NULL,
+					NULL,
+					&out,
+					NULL,
+					NULL,
+					&err);
+				g_free (text);
+	g_print ("Returned %s\n", out);
+	if (!err) 
+		return scm_from_int (atoi(out));
+			}
+	return SCM_BOOL_F;
+	}
 
 SCM
 scheme_continous_typsetting (void)

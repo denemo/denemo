@@ -245,6 +245,8 @@ SCM scheme_progressbar (SCM);
 SCM scheme_progressbar_stop (void);
 SCM scheme_typeset_for_script (SCM);
 SCM scheme_print_typeset_pdf (void);
+SCM scheme_get_number_typeset_pages (void);
+SCM scheme_create_pdf_from_lilyfile (SCM lilyfilename, SCM pdfbasename);
 SCM scheme_display_typeset_svg (SCM scaling, SCM part);
 SCM scheme_continous_typsetting (void);
 SCM scheme_get_char (void);
