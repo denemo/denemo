@@ -8865,6 +8865,13 @@ Include rests if they are part of the pattern.
         <_label>Footnote Separator</_label>
         <_tooltip>Creates a dialog for changing the appearance of the separator appearing above footnotes at the bottom of the page.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>ExportBook</action>
+        <after>ExportPDF</after>
+        <menupath>/MainMenu/FileMenu/Export</menupath>
+        <_label>Export Book of Layouts</_label>
+        <_tooltip>Allows the creation of a single PDF containing a variety of layouts (e.g. Full Score and individual parts). The layouts can have different font sizes etc, unlike the Append option in the Print View.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>

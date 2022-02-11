@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>ExportBook</action>
+        <after>ExportPDF</after>
+        <_label>Export Book of Layouts</_label>
+        <_tooltip>Allows the creation of a single PDF containing a variety of layouts (e.g. Full Score and individual parts). The layouts can have different font sizes etc, unlike the Append option in the Print View.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

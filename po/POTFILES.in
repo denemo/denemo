@@ -451,6 +451,8 @@ actions/menus/MainMenu/FileMenu/Export/ExportAsMusicXML.scm
 actions/menus/MainMenu/FileMenu/Export/ExportAsMusicXML.xml
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.scm
 actions/menus/MainMenu/FileMenu/Export/ExportAudio.xml
+actions/menus/MainMenu/FileMenu/Export/ExportBook.scm
+actions/menus/MainMenu/FileMenu/Export/ExportBook.xml
 actions/menus/MainMenu/FileMenu/Export/ExportScoreAsAudio.scm
 actions/menus/MainMenu/FileMenu/Export/ExportScoreAsAudio.xml
 actions/menus/MainMenu/FileMenu/Export/QuickLilyPondExport.scm

@@ -1,0 +1,36 @@
+;;;;;CreateBook
+(define-once CreateBook::page-start 0)
+(define-once CreateBook::pdfs "")
+
+(let ( (tag "CreateBook") (choice 
+	(RadioBoxMenu (cons (_ "Add Current Layout to Book") 'add)
+					(cons (_ "Create PDF from Book") 'create)
+					(cons (_ "Start a new Book") 'new))))
+	(define (create-pdf)
+			(let* ((basename (tmpnam))
+							(lilyfile (string-append basename ".ly")))
+						(set! CreateBook::pdfs (string-append CreateBook::pdfs " " basename ".pdf"))
+						(d-ExportMUDELA lilyfile)
+						(d-WarningDialog (_ "Click \"Close\" and this dialog will freeze until the typesetting is done\nSorry this is so clunky!"))
+						(d-CreatePDFFromLilyfile lilyfile basename)
+						(d-InfoDialog (_ "Now typeset further layouts and run the command again to add them to the book or to finalize the book"))
+						(set! CreateBook::page-start (+  CreateBook::page-start (d-GetNumberTypesetPages)))))						
+	(case choice
+		((add)  
+				(if (zero? CreateBook::page-start)
+					(create-pdf)
+					(begin
+						(d-DirectivePut-paper-postfix tag (string-append "\nprint-first-page-number=##t\nfirst-page-number = " (number->string CreateBook::page-start) "\n"))
+						(create-pdf)
+						(d-DirectiveDelete-paper tag))))		
+		((new) 
+				(set! CreateBook::page-start 0)
+				(set! CreateBook::pdfs ""))
+		((create)
+				(if (string-null? CreateBook::pdfs)
+					(d-WarningDialog (_ "You must add layouts to the Book first"))
+					(let* ((name (d-GetUserInput (_ "Create Book") (_ "Give name for PDF:") "DenemoBook")) (output (d-PathFromFilename (d-Open "query=filename")))
+							(command (if output (string-append "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=\"" output "/" name ".pdf" "\"" CreateBook::pdfs) #f)))
+						(if command
+							(system command)
+							(d-WarningDialog (_ "Score saved to disk"))))))))
