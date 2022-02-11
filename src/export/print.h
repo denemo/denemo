@@ -124,6 +124,7 @@ gchar *get_lily_version_string (void);
 gchar *get_lilypond_include_dir (void);
 int check_lily_version (gchar * version);
 void export_pdf (gchar * filename, DenemoProject * gui);
+void generate_pdf_from_lily_file (gchar *lilyfile, gchar *outfile);
 void export_png (gchar * filename, GChildWatchFunc finish, DenemoProject * gui);
 void printpng_finished (GPid pid, gint status, GList * filelist);
 gboolean create_thumbnail (gboolean async, gchar* thumbnail_path);

@@ -632,6 +632,15 @@ run_lilypond_for_pdf (gchar * filename, gchar * lilyfile)
   };
   run_lilypond (arguments);
 }
+//synchronous generation of outfile.pdf from input lilyfile
+void generate_pdf_from_lily_file (gchar *lilyfile, gchar *outfile)
+{
+	gboolean old = Denemo.non_interactive;
+	Denemo.non_interactive = 1;
+	run_lilypond_for_pdf (outfile, lilyfile);
+	Denemo.non_interactive = old;
+}
+
 static void
 run_lilypond_for_svg (gchar * filename, gchar * lilyfile)
 {
