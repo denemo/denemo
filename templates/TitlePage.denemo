@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<score xmlns="http://denemo.org/xmlns/Denemo" version="8">
+  <scoreheader-directives>
+    <directive>
+      <tag>ScoreTagline</tag>
+      <postfix>tagline =  \markup {\vspace #'0 \fontsize #'0 \with-url #'"scheme:(d-ScoreTagline)"  "" ""}
+
+</postfix>
+      <display>" "</display>
+      <data>'((extra-space . "0") (fontsize . "0") (italic . "") (bold . "") (title . "\" \""))</data>
+      <override>36</override>
+    </directive>
+  </scoreheader-directives>
+  <lilycontrol>
+    <papersize>a4</papersize>
+    <lilyversion>2.22</lilyversion>
+    <fontsize>18</fontsize>
+    <orientation>1</orientation>
+    <total-edit-time>843</total-edit-time>
+  </lilycontrol>
+  <movement-number>1</movement-number>
+  <movement>
+    <edit-info>
+      <staffno>1</staffno>
+      <measureno>1</measureno>
+      <cursorposition>0</cursorposition>
+      <tonalcenter>0</tonalcenter>
+      <zoom>100</zoom>
+      <system-height>100</system-height>
+      <page-zoom>100</page-zoom>
+      <page-system-height>100</page-system-height>
+    </edit-info>
+    <layout-directives>
+      <directive>
+        <tag>HideEmptyStaffs</tag>
+        <postfix> \context { \Staff \RemoveEmptyStaves } </postfix>
+        <display>Empty Systems Hidden</display>
+        <override>4</override>
+      </directive>
+      <directive>
+        <tag>HideEmptyStaffsAllSystems</tag>
+        <postfix> \context { \Staff \override VerticalAxisGroup #'remove-first = ##t } </postfix>
+        <display>Empty staffs hidden in all systems</display>
+        <override>4</override>
+      </directive>
+    </layout-directives>
+    <movementcontrol-directives>
+      <directive>
+        <tag>MarkupAtEnd</tag>
+        <postfix>\markup \column { \line{\center-column {
+\fill-line {
+              \fontsize  #8 \bold {"My Grand Work"}}
+              \vspace #2 \fill-line {\fontsize  #6 \italic {"Composer Extraordinaire"}}
+              \vspace #2 \fill-line {\fontsize  #6 \italic {"Op. 12"}}
+}}
+ }</postfix>
+        <display>Markup At End</display>
+        <data>(list (cons 'text " \\center-column {
+\\fill-line {
+              \\fontsize  #8 \\bold {\"My Grand Work\"}}
+              \\vspace #2 \\fill-line {\\fontsize  #6 \\italic {\"Composer Extraordinaire\"}}
+              \\vspace #2 \\fill-line {\\fontsize  #6 \\italic {\"Op. 12\"}}
+}"))</data>
+        <override>36</override>
+      </directive>
+    </movementcontrol-directives>
+    <score-info>
+      <tempo>
+        <bpm>120</bpm>
+      </tempo>
+    </score-info>
+    <staves>
+      <staff id="id0"></staff>
+    </staves>
+    <voices>
+      <voice id="id1">
+        <voice-info>
+          <voice-name>Part 1</voice-name>
+          <first-measure-number>1</first-measure-number>
+        </voice-info>
+        <initial-voice-params>
+          <staff-ref staff="id0"></staff-ref>
+          <clef name="treble"></clef>
+          <key-signature>
+            <modal-key-signature note-name="C" mode="major"></modal-key-signature>
+          </key-signature>
+          <time-signature>
+            <simple-time-signature>
+              <numerator>4</numerator>
+              <denominator>4</denominator>
+            </simple-time-signature>
+          </time-signature>
+        </initial-voice-params>
+        <voice-props>
+          <number-of-lines>5</number-of-lines>
+          <voice-control>1</voice-control>
+          <transpose>0</transpose>
+          <instrument></instrument>
+          <device-port>NONE</device-port>
+          <volume>127</volume>
+          <override_volume>0</override_volume>
+          <mute>0</mute>
+          <midi_prognum>0</midi_prognum>
+          <midi_channel>0</midi_channel>
+          <hasfigures>0</hasfigures>
+          <hasfakechords>0</hasfakechords>
+        </voice-props>
+        <measures>
+          <measure>
+            <lily-directive>
+              <tag>MarkupAtEnd</tag>
+              <postfix>%{ A title page %} </postfix>
+              <display>Right Click to Edit Title Page</display>
+              <minpixels>30</minpixels>
+            </lily-directive>
+          </measure>
+        </measures>
+      </voice>
+    </voices>
+  </movement>
+</score>
