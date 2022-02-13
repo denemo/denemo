@@ -1246,7 +1246,7 @@ file_dialog_response (GtkWidget * dialog, gint response_id, struct FileDialogDat
           gint status = filesel_save (gui, file_name, data->format_id, data->template);
           if (status == 0)
             score_status (gui, FALSE);
-          force_lily_refresh (gui);     //FIXME why is this here???
+          //force_lily_refresh (gui);     //FIXME why is this here???
         }
       g_free (file_name);
     }
@@ -1537,7 +1537,7 @@ export_interface(DenemoAction* action, DenemoScriptParam* param, gint format_id)
   else
     if (action==NULL || replace_existing_file_dialog(filename, format_id)){
       filesel_save (Denemo.project, filename, format_id, SAVE_COPY);
-      force_lily_refresh(Denemo.project);
+      //force_lily_refresh(Denemo.project);
     }
 }
 
