@@ -2389,54 +2389,27 @@ GtkWidget *ContinuousUpdateButton = NULL;
 
 //turn the continuous update off and on
 static void
-toggle_updates (gboolean append)
+toggle_updates (void)
 {
-  static gboolean appending = FALSE;
-  if (append)
-	  {
-		  appending = !appending; 
-		  if (appending)
-			{
-			  if (Denemo.printstatus->updating_id)
-				g_source_remove (Denemo.printstatus->updating_id);
-			  Denemo.printstatus->updating_id = 0;
-			  gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), _("Appending"));
-		  }
-		  else
-		  { 
-			  gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), MANUAL);
-			  Denemo.project->lilysync = Denemo.project->changecount - 1;
-		  }
-		  g_object_set_data (G_OBJECT (Denemo.textbuffer), "append", GINT_TO_POINTER(appending));
-	  }
+  if (Denemo.printstatus->updating_id)
+    {
+      g_source_remove (Denemo.printstatus->updating_id);
+      Denemo.printstatus->updating_id = 0;
+      gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), MANUAL);
+      if (Denemo.prefs.persistence)
+        Denemo.prefs.manualtypeset = TRUE;
+      gtk_window_set_transient_for (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.printarea)), NULL);
+    }
   else
-	{
-	  if (appending)
-		{
-			appending = 0;
-			Denemo.project->lilysync = Denemo.project->changecount - 1;
-		}
-	  g_object_set_data (G_OBJECT (Denemo.textbuffer), "append", GINT_TO_POINTER(appending));
-	  if (Denemo.printstatus->updating_id)
-		{
-		  g_source_remove (Denemo.printstatus->updating_id);
-		  Denemo.printstatus->updating_id = 0;
-		  gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), MANUAL);
-		  if (Denemo.prefs.persistence)
-			Denemo.prefs.manualtypeset = TRUE;
-		  gtk_window_set_transient_for (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.printarea)), NULL);
-		}
-	  else
-		{
-		  if (Denemo.prefs.typesetrefresh)
-			Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
-		  else
-			Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
-		  gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), CONTINUOUS);
-		  if (Denemo.prefs.persistence)
-			Denemo.prefs.manualtypeset = FALSE;
-		}
-	}
+    {
+      if (Denemo.prefs.typesetrefresh)
+        Denemo.printstatus->updating_id = g_timeout_add (Denemo.prefs.typesetrefresh, (GSourceFunc) retypeset, NULL);
+      else
+        Denemo.printstatus->updating_id = g_idle_add ((GSourceFunc) retypeset, NULL);
+      gtk_button_set_label (GTK_BUTTON (ContinuousUpdateButton), CONTINUOUS);
+      if (Denemo.prefs.persistence)
+        Denemo.prefs.manualtypeset = FALSE;
+    }
 }
 
 void
@@ -2444,7 +2417,7 @@ set_continuous_typesetting (gboolean on)
 {
   gboolean current = Denemo.printstatus->updating_id;
   if ((current && !on) || ((!current) && on))
-    toggle_updates (FALSE);
+    toggle_updates ();
 }
 
 static void
@@ -2581,30 +2554,18 @@ get_updates_menu (GtkWidget * button)
   static GtkWidget *menu;
   if (menu == NULL)
     {
-      GtkWidget *item, *conts_button;
-      //GSList *group = NULL;
+      GtkWidget *item;
       menu = gtk_menu_new ();
-      conts_button = gtk_menu_item_new_with_label ( _("Continuous/Manual"));
-      //group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (conts_button));
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), conts_button);
-      gtk_widget_set_tooltip_text (conts_button, _("Set background updates on/off."));
-      g_signal_connect_swapped (G_OBJECT (conts_button), "activate", G_CALLBACK (toggle_updates), NULL);
+      item = gtk_check_menu_item_new_with_label (CONTINUOUS);
+      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
+      gtk_widget_set_tooltip_text (item, _("Set background updates on/off."));
+      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_updates), NULL);
       ContinuousUpdateButton = button;
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (conts_button), !Denemo.prefs.manualtypeset);
-      
-      
+      gtk_check_menu_item_set_active (GTK_CHECK_MENU_ITEM (item), !Denemo.prefs.manualtypeset);
       item = gtk_menu_item_new_with_label (_("Range"));
       gtk_widget_set_tooltip_text (item, _("Set how much of the score to re-draw."));
       gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
       g_signal_connect (G_OBJECT (item), "activate", G_CALLBACK (range_dialog), NULL);
-      
-      item = gtk_menu_item_new_with_label (_("Append Scores (Off/On)"));
-      gtk_menu_shell_append (GTK_MENU_SHELL (menu), item);
-      gtk_widget_set_tooltip_text (item, _("Append each typeset to the last one/stop doing so"));
-      g_signal_connect_swapped (G_OBJECT (item), "activate", G_CALLBACK (toggle_updates), GINT_TO_POINTER(1));      
-      gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (item), GPOINTER_TO_INT(g_object_get_data (G_OBJECT(Denemo.textbuffer), "append")));
-      
-      
       gtk_widget_show_all (menu);
     }
   return menu;
