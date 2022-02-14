@@ -330,6 +330,12 @@ define_scheme_constants (void)
   DEF_SCHEME_CONST ("VERSION_MINOR", minor);
   DEF_SCHEME_CONST ("VERSION_MICRO", micro);
 
+#ifdef G_OS_WIN32
+  DEF_SCHEME_STR ("DENEMO_OS", "Windows", "Windows OS");
+#else
+  DEF_SCHEME_STR ("DENEMO_OS", "Unix", "Unix OS");
+#endif  
+  
   DEF_SCHEME_STR ("DENEMO_VERSION", denemo_version, "Holds the denemo version major.minor.micro");
   DEF_SCHEME_STR ("DENEMO_BIN_DIR", get_system_bin_dir (), "Holds location of denemo executable directory");
   DEF_SCHEME_STR ("DENEMO_ACTIONS_DIR", actions_dir, "Holds location of system-wide Denemo actions directory");
