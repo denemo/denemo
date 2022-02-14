@@ -871,7 +871,7 @@ create_thumbnail (gboolean async, gchar * thumbnail_path)
       thumbpathN = thumbnail_path;
 
       if (!g_path_is_absolute (thumbnail_path))
-        thumbpathN = g_build_path (g_get_current_dir (), thumbnail_path, NULL);
+        thumbpathN = g_build_path ("/", g_get_current_dir (), thumbnail_path, NULL);
 
       if (!thumbnailsdirN)
         thumbnailsdirN = g_path_get_dirname (thumbpathN);
