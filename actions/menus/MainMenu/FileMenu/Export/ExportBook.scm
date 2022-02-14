@@ -1,4 +1,4 @@
-;;;;;ExportBook
+;;;;ExportBook
 (define-once ExportBook::page-start 1)
 (define-once ExportBook::pdfs "")
 
@@ -38,9 +38,9 @@ Or run the command again to export the book as a PDF.")))))
 		((create)
 				(if (string-null? ExportBook::pdfs)
 					(d-WarningDialog (_ "You must add layouts to the Book first"))
-					(let* ((name (d-GetUserInput (_ "Create Book") (_ "Give name for PDF:") "DenemoBook")) 
+					(let* ((gs (if (equal? DENEMO_OS "Windows") (string-append DENEMO_BIN_DIR "/gs") "gs"))(name (d-GetUserInput (_ "Create Book") (_ "Give name for PDF:") "DenemoBook")) 
 						(output (d-ChooseDirectory (string-append (_ "Choose where to save ") name ".pdf")))
-						(command (if output (string-append "gs -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=\"" output "/" name ".pdf" "\"" ExportBook::pdfs) #f)))
+						(command (if output (string-append gs " -dBATCH -dNOPAUSE -q -sDEVICE=pdfwrite -sOutputFile=\"" output "/" name ".pdf" "\"" ExportBook::pdfs) #f)))
 						(if command
 							(system command)
 							(d-WarningDialog (_ "Score saved to disk")))))))
