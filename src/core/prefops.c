@@ -497,12 +497,12 @@ return 0;
 gchar *
 get_string_pref (gchar * prefname)
 {
-  if (*prefname == 0)
-    return NULL;
-
+	if (*prefname == 0)
+		return NULL;
     GETSTRINGPREF (imageviewer)
     GETSTRINGPREF (profile)
     GETSTRINGPREF (username)
+    GETSTRINGPREF (graphicseditor)   
     GETSTRINGPREF (password)
     GETSTRINGPREF (denemopath)
     GETSTRINGPREF (temperament)
