@@ -4730,7 +4730,7 @@ SCM scheme_get_number_typeset_pages (void)
 			gchar *text = g_strdup_printf ("\"(%s) (r) file runpdfbegin pdfpagecount = quit\"", 
 					Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle]);
 #ifdef G_OS_WIN32
-			gchar *gs = g_strdup (Denemo.prefs->graphicseditor->str);
+			gchar *gs = g_strdup (Denemo.prefs.graphicseditor->str);
 #else
 			gchar *gs = g_strdup ("gs");
 #endif			
