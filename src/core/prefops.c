@@ -74,7 +74,8 @@ initprefs (void)
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
   ret->graphicseditor = g_string_new (g_build_filename (get_system_bin_dir (), "..\\..\\..\\Inkscape\\inkscape.exe", NULL));       //the likely place for Inkscape to be installed, as we are not shipping it yet.
-  ret->ghostscript = g_string_new (g_build_filename (get_system_bin_dir (), "..\\..\\..\\gs9.55.0\\gswin64c.exe", NULL));       //???
+  ret->ghostscript = g_string_new ("C:\\Program Files\\gs\\gs9.55.0\\bin\\gswin64c.exe");       //???
+
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
