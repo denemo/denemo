@@ -4721,6 +4721,53 @@ SCM scheme_create_pdf_from_lilyfile (SCM lily, SCM out)
 	return SCM_BOOL_F;
 }
 
+static gchar **get_vector (SCM list)
+{
+	gchar **arg = NULL;
+	gint length = scm_to_int (scm_length (list));
+	if (length>0)
+		{ gint i;
+			arg = (gchar **)g_malloc (sizeof (gchar*)*length);
+			for (i=0;i<length;i++)
+				{
+				arg[i] = scm_to_locale_string (scm_car (list));
+				list = scm_cdr (list);
+				}
+		}
+return arg;	
+}
+SCM scheme_execute_external_program (SCM arglist, SCM envlist)
+	{
+	if (scm_is_list (arglist) && scm_is_list (envlist))
+		{
+		gchar **arg = get_vector (arglist);
+		gchar **env = get_vector (envlist);
+		gchar *out = NULL;
+		GError *err = NULL;	
+		g_spawn_sync (NULL,
+						arg,
+						env,
+						G_SPAWN_SEARCH_PATH,
+						NULL,
+						NULL,
+						&out,
+						NULL,
+						NULL,
+						&err);				
+		if (!err) 
+			return scm_from_locale_string (out);
+		}
+	return SCM_BOOL_F;
+	}
+	
+SCM scheme_get_current_typeset_pdf (void)
+{
+	gchar *pdf = Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle];
+	if (pdf)
+		return scm_from_locale_string (pdf);
+	return SCM_BOOL_F;
+}	
+
 SCM scheme_get_number_typeset_pages (void)
 	{
 		if (Denemo.printstatus 
@@ -4729,11 +4776,7 @@ SCM scheme_get_number_typeset_pages (void)
 			{
 			gchar *text = g_strdup_printf ("\"(%s) (r) file runpdfbegin pdfpagecount = quit\"", 
 					Denemo.printstatus->printname_pdf[Denemo.printstatus->cycle]);
-#ifdef G_OS_WIN32
-			gchar *gs = g_strdup (Denemo.prefs.graphicseditor->str);
-#else
-			gchar *gs = g_strdup ("gs");
-#endif			
+			gchar *gs = g_strdup (Denemo.prefs.ghostscript->str);
 			gchar *arg[] = {gs, "-q", "-dNODISPLAY", "-dNOSAFER", "-c", text, NULL};
 			gchar *out = NULL;
 			GError *err = NULL;	
