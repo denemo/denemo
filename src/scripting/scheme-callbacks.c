@@ -4727,12 +4727,13 @@ static gchar **get_vector (SCM list)
 	gint length = scm_to_int (scm_length (list));
 	if (length>0)
 		{ gint i;
-			arg = (gchar **)g_malloc (sizeof (gchar*)*length);
+			arg = (gchar **)g_malloc (1 + sizeof (gchar*)*length);
 			for (i=0;i<length;i++)
 				{
 				arg[i] = scm_to_locale_string (scm_car (list));
 				list = scm_cdr (list);
 				}
+			arg[i] = NULL;
 		}
 return arg;	
 }
