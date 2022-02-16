@@ -464,6 +464,7 @@ typedef struct DenemoPrefs
   GString *profile; /**< Which set of commands and shortcuts to load, and which initialization of scheme to run */
   GString *lilypath; /**< This is the executable or full path to the lilypond executable */
   GString *graphicseditor; /**< editing eps graphics files */
+  GString *ghostscript; /**< for manipulating pdfs */
   GString *fontname; /**< Font name - usually Denemo as this has the required characters */
   gint fontsize; /**< Font size in points used for menus, help text etc */
   gboolean manualtypeset;/**< typeset on request, not continuously */

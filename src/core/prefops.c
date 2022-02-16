@@ -74,10 +74,12 @@ initprefs (void)
 #ifdef G_OS_WIN32
   ret->browser = g_string_new ("");     //use file association
   ret->graphicseditor = g_string_new (g_build_filename (get_system_bin_dir (), "..\\..\\..\\Inkscape\\inkscape.exe", NULL));       //the likely place for Inkscape to be installed, as we are not shipping it yet.
+  ret->ghostscript = g_string_new (g_build_filename (get_system_bin_dir (), "..\\..\\..\\gs9.55.0\\gswin64c.exe", NULL));       //???
   ret->imageviewer = g_string_new ("");
 #else /* !G_OS_WIN32 */
   ret->browser = g_string_new ("firefox");
   ret->graphicseditor = g_string_new ("inkscape");
+  ret->ghostscript = g_string_new ("gs");
   ret->imageviewer = g_string_new ("eog");
 #endif /* !G_OS_WIN32 */
   set_default_lilypond_path ();
@@ -503,6 +505,7 @@ get_string_pref (gchar * prefname)
     GETSTRINGPREF (profile)
     GETSTRINGPREF (username)
     GETSTRINGPREF (graphicseditor)   
+    GETSTRINGPREF (ghostscript)   
     GETSTRINGPREF (password)
     GETSTRINGPREF (denemopath)
     GETSTRINGPREF (temperament)
@@ -770,6 +773,7 @@ writeXMLPrefs (DenemoPrefs * prefs)
 
     WRITEXMLENTRY (lilypath)
     WRITEXMLENTRY (graphicseditor)
+    WRITEXMLENTRY (ghostscript)
     WRITEXMLENTRY (fontname)
     WRITEINTXMLENTRY (fontsize)
     WRITEXMLENTRY (imageviewer)

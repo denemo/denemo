@@ -134,6 +134,7 @@ struct callbackdata
   GtkWidget *profile;
   GtkWidget *midiplayer;
   GtkWidget *graphicseditor;
+  GtkWidget *ghostscript;
   GtkWidget *fontname;
   GtkWidget *fontsize;
   GtkWidget *denemopath;
@@ -237,6 +238,7 @@ set_preferences (struct callbackdata *cbdata)
   ASSIGNTEXT (browser)
   ASSIGNTEXT (imageviewer)
   ASSIGNTEXT (graphicseditor)
+  ASSIGNTEXT (ghostscript)
   ASSIGNTEXT (username)
   //ASSIGNTEXT (password)
   ASSIGNTEXT (profile)
@@ -628,6 +630,7 @@ preferences_change (GtkAction * action, DenemoScriptParam * param)
   TEXTENTRY (_("File/Internet Browser"), browser)
   TEXTENTRY (_("Image Viewer"), imageviewer)
   TEXTENTRY (_("Graphics Editor"), graphicseditor)
+  TEXTENTRY (_("Ghostscript"), ghostscript)
   TEXTENTRY (_("Default Save Path"), denemopath)
   BOOLEANENTRY (_("Update the command set on startup"), autoupdate);
   /*
