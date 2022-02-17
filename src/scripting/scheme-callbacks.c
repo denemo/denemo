@@ -8034,9 +8034,13 @@ scheme_insert_snippet (SCM number, SCM select)
 }
 
 
+SCM scheme_locate_temp_dir (void)
+{
+  return scm_from_locale_string (make_temp_dir(FALSE));
+}
 
-SCM
-scheme_locate_dotdenemo (SCM optional)
+
+SCM scheme_locate_dotdenemo (void)
 {
   const gchar *dotdenemo = get_user_data_dir (TRUE);
   if (!dotdenemo)
