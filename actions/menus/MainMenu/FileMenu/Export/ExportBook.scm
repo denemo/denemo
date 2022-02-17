@@ -17,7 +17,7 @@
 	
 					
 	(define (create-pdf)
-			(let* ((basename (string-append (d-LocateTempDir) "ExportBook" (number->string ExportBook::layout-num)))
+			(let* ((basename (string-append (d-LocateTempDir) "/" "ExportBook" (number->string ExportBook::layout-num)))
 							(lilyfile (string-append basename ".ly")))
 						(set! ExportBook::pdfs (cons (string-append " " basename ".pdf") ExportBook::pdfs ))
 						(set! ExportBook::layouts (string-append ExportBook::layouts ", \"" (d-GetLayoutName) "\""))
