@@ -11,7 +11,7 @@
 					
 	(define (GetNumberTypesetPages)
 		(let* ((command (list (d-GetStringPref "ghostscript") "-q" "-dNODISPLAY" "-dNOSAFER" "-c"
-				(string-append "\"(" (d-GetCurrentTypesetPDF) ") (r) file runpdfbegin pdfpagecount = quit\"")))
+				(string-append "\"(" (string-map (lambda (c) (if (equal? c #\\) #\/ c))(d-GetCurrentTypesetPDF)) ") (r) file runpdfbegin pdfpagecount = quit\"")))
 			(result (if command (string-trim-both (d-ExecuteExternalProgram command '())) #f)))
 		(if result (string->number result) 0)))
 	
@@ -57,7 +57,7 @@ Or run the command again to export the book as a PDF.")))))
 						(command #f))
 						(if output
 							(begin
-								(set! command (append (list "gs" "-dBATCH" "-dNOPAUSE"  "-q" 
+								(set! command (append (list gs "-dBATCH" "-dNOPAUSE"  "-q" 
 										"-sDEVICE=pdfwrite" (string-append "-sOutputFile=\"" output "/" name ".pdf" "\"")) (reverse ExportBook::pdfs)))
 								(d-ExecuteExternalProgram command '()))
 							(d-WarningDialog (_ "Score saved to disk")))))))
