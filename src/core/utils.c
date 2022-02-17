@@ -209,8 +209,7 @@ void localization_init (void)
 // created or the existing temporary directory will
 // be returned.
 // If removal is TRUE, the directory gets removed and NULL is returned.
-gchar *
-make_temp_dir (gboolean removal)
+gchar *make_temp_dir (gboolean removal)
 {
   static gchar *tmpdir = NULL;
   if (!removal)

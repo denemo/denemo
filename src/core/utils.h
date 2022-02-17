@@ -119,6 +119,7 @@ const gchar *get_system_data_dir (void);
 /* UNUSED
 const gchar *get_system_conf_dir (void);
 */
+gchar *make_temp_dir (gboolean removal);
 const gchar *get_system_locale_dir (void);
 const gchar *get_system_bin_dir (void);
 const gchar *get_system_font_dir (void);
