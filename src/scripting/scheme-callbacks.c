@@ -4754,9 +4754,16 @@ SCM scheme_execute_external_program (SCM arglist, SCM envlist)
 						&out,
 						NULL,
 						NULL,
-						&err);				
+						&err);		
+		g_print ("Output <%s>\n", out);		
 		if (!err) 
 			return scm_from_locale_string (out);
+		if (!Denemo.non_interactive)
+			{
+				gchar *text = g_strdup_printf ("%s%s%s%s", "Attempt to run program <", arg[0], "> failed with message: ", err->message);
+				warningdialog (text);
+				g_free (text);
+			}
 		}
 	return SCM_BOOL_F;
 	}
