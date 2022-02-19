@@ -80,7 +80,7 @@
 				  (set! e1 #f)
 				  (set! s2 #f)
 				  (set! e2 #f)
-				  (if (d-Directive-standalone? "RepeatStart")
+				  (if (d-Directive-standalone? "RepeatEndStart")
 					(set! s2 (cons timing (GetPosition))))
 				  )
 			  ((d-Directive-standalone? "RepeatStart")
