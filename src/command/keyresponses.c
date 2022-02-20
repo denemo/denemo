@@ -577,14 +577,12 @@ octave_shift_key (DenemoScriptParam *param, gint amount)
                   Denemo.project->movement->undo_guard++;
                   delete_chordnote (Denemo.project);       //does not delete the directives.
                   Denemo.project->movement->cursor_y = copy.mid_c_offset + amount;
+                  Denemo.project->movement->staffletter_y  = offsettonumber (Denemo.project->movement->cursor_y);
                   insert_chordnote (Denemo.project);
                   changeenshift (Denemo.project->movement->currentobject->data, Denemo.project->movement->cursor_y, copy.enshift);
                   thenote = nearestnote (Denemo.project->movement->currentobject->data, Denemo.project->movement->cursor_y);
                   if (thenote)
                     ((note *) thenote->data)->directives = direcs;
-                    
-                  Denemo.project->movement->staffletter_y  = offsettonumber (Denemo.project->movement->cursor_y);
-                    
                   Denemo.project->movement->undo_guard--;
                   score_status (Denemo.project, TRUE);
                 }
