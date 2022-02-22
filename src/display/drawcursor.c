@@ -28,7 +28,7 @@ draw_cursor (cairo_t * cr, DenemoMovement * si, gint xx, gint y, gint insert_con
   gdouble scale = transition_cursor_scale ();
 
   cairo_save (cr);
-  cairo_set_source_rgba (cr, 255 * (si->cursoroffend), (!si->cursoroffend) * (!si->cursor_appending) * 255, (!si->cursoroffend) * (si->cursor_appending) * 255, 0.4);
+  cairo_set_source_rgba (cr, 255 * (si->cursoroffend), (!si->cursoroffend) * (!si->cursor_appending) * 255, (!si->cursoroffend) * (si->cursor_appending) * 255, 0.2 * (1+(abs(height)%2)));//darker cursor when on space than on line
   if (si->cursor_appending)
     {
       cairo_rectangle (cr, xx - (si->cursoroffend ? CURSOR_WIDTH : 0), height + y - CURSOR_HEIGHT, 2 * CURSOR_WIDTH, 2 * CURSOR_HEIGHT);
