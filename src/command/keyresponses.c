@@ -578,11 +578,17 @@ octave_shift_key (DenemoScriptParam *param, gint amount)
                   delete_chordnote (Denemo.project);       //does not delete the directives.
                   Denemo.project->movement->cursor_y = copy.mid_c_offset + amount;
                   Denemo.project->movement->staffletter_y  = offsettonumber (Denemo.project->movement->cursor_y);
+                 // turn off  Denemo.prefs.immediateplayback as it plays the note with potentially the wrong enshift
+                  gboolean old = Denemo.prefs.immediateplayback;
+                  Denemo.prefs.immediateplayback = FALSE;
                   insert_chordnote (Denemo.project);
                   changeenshift (Denemo.project->movement->currentobject->data, Denemo.project->movement->cursor_y, copy.enshift);
                   thenote = nearestnote (Denemo.project->movement->currentobject->data, Denemo.project->movement->cursor_y);
                   if (thenote)
                     ((note *) thenote->data)->directives = direcs;
+                  DenemoStaff *curstaffstruct = (DenemoStaff *) Denemo.project->movement->currentstaff->data;
+                  play_notes (DEFAULT_BACKEND, curstaffstruct->midi_port, curstaffstruct->midi_channel, (chord *) ((DenemoObject*)Denemo.project->movement->currentobject->data)->object); 
+                  Denemo.prefs.immediateplayback = old;
                   Denemo.project->movement->undo_guard--;
                   score_status (Denemo.project, TRUE);
                 }
