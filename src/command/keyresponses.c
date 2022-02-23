@@ -286,14 +286,16 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         {                       //Two key name was not a binding
           ret = NULL;
           write_status (Denemo.project);
-          if ((Denemo.project->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
+          if (Denemo.prefs.learning)
             {
-                            Denemo.prefs.learning = TRUE;
               KeyStrokeDecline (prefix_store->str);
-            }
-          toggle_to_drawing_area (TRUE);        //restore menus, in case the user is lost and needs to look up a keypress
-          if (Denemo.project->view != DENEMO_MENU_VIEW)
+               //restore menus, in case the user is lost and needs to look up a keypress
+			  if (Denemo.project->view != DENEMO_MENU_VIEW)
                         toggle_to_drawing_area (TRUE);
+              if (Denemo.project->view != DENEMO_MENU_VIEW)
+                        toggle_to_drawing_area (TRUE);
+            }
+        
 
         }
       g_string_assign (prefix_store, "");
@@ -325,18 +327,17 @@ process_key_event (GdkEventKey * event, gchar * perform_command ())
         }
       else
         {
-          if ((Denemo.project->view != DENEMO_MENU_VIEW) || Denemo.prefs.learning)
-            {
-              Denemo.prefs.learning = TRUE;
+          if (Denemo.prefs.learning)
               KeyStrokeDecline (name);
-            }
-          toggle_to_drawing_area (TRUE);  //restore menus, in case the user is lost and needs to look up a keypress
-          if (Denemo.project->view != DENEMO_MENU_VIEW)
-              toggle_to_drawing_area (TRUE);
-          if (repeated_key)
+          else if (repeated_key)
              {
                Denemo.prefs.learning = TRUE;
                KeyStrokeShow (name, command_idx, TRUE);
+               //restore menus, in case the user is lost and needs to look up a keypress
+			   if (Denemo.project->view != DENEMO_MENU_VIEW)
+				   toggle_to_drawing_area (TRUE);
+			   if (Denemo.project->view != DENEMO_MENU_VIEW)
+				   toggle_to_drawing_area (TRUE);
              }
         }
       return NULL;
