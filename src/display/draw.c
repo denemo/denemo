@@ -806,7 +806,10 @@ draw_measure (cairo_t * cr, measurenode * curmeasure, gint x, gint y, DenemoProj
         {                       //don't draw first measure number, as it collides and is obvious anyway and is never typeset thus
           cairo_set_source_rgba (cr, 0, 0, 0, 0.5);
           g_string_sprintf (mstring, "%d", meas->measure_number);
-          drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
+          if (si->cursor_appending && (si->currentmeasure == curmeasure))
+			drawlargetext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
+		  else
+			drawnormaltext_cr (cr, mstring->str, x - SPACE_FOR_BARLINE - 5, y - 3);
         }
     }
 
