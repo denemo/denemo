@@ -1437,7 +1437,7 @@ void draw_score (cairo_t * cr)
             cairo_rectangle (cr, 0, 0, 25, 25);
             cairo_stroke (cr);
  
-            drawlargetext_cr (cr, "⚐", 2, 20);
+            drawtext_cr (cr, "⚐", 2, 20, 24);
 
         }
 
@@ -1615,11 +1615,11 @@ void draw_score (cairo_t * cr)
             gint staffnumber = 1 + g_list_position (si->thescore,curstaff);
             gchar *number = g_strdup_printf ("%d", staffnumber);
             if(staffnumber>9)
-                drawnormaltext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
+                drawtext_cr (cr, number, 0, y + STAFF_HEIGHT - 2, 14);
             else
-                drawlargetext_cr (cr, number, 0, y + STAFF_HEIGHT - 2);
+                drawtext_cr (cr, number, 0, y + STAFF_HEIGHT - 2, 24);
             g_free (number);
-            drawnormaltext_cr (cr, "⚐", 5, y + STAFF_HEIGHT/2 - 6);
+            drawtext_cr (cr, "⚐", 5, y + STAFF_HEIGHT/2 - 6, 14);
             cairo_restore (cr);
 
             if (si->leftmeasurenum == 1 && !(staff->voicecontrol & DENEMO_SECONDARY))
