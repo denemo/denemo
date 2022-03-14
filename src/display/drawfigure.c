@@ -54,7 +54,7 @@ draw_figure (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
 				}
 			  else if (*str == '|')
 				{
-				  drawlargetext_cr (cr, gstr->str, xx + xstep, y + STAFF_HEIGHT + 20 + ystep);
+				  drawtext_cr (cr, gstr->str, xx + xstep, y + STAFF_HEIGHT + 20 + ystep, 20.0);
 				  ystep = 0;
 				  xstep += 25 + (accs ? 10 : 0);
 				  g_string_assign (gstr, "");
@@ -64,7 +64,7 @@ draw_figure (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
 				{
 				  if (gstr->len)
 					{
-					  drawlargetext_cr (cr, gstr->str, xx + xstep, y + STAFF_HEIGHT + 20 + ystep);
+					  drawtext_cr (cr, gstr->str, xx + xstep, y + STAFF_HEIGHT + 20 + ystep, 20.0);
 					  ystep += 20;
 					  g_string_assign (gstr, "");
 					}
@@ -77,7 +77,7 @@ draw_figure (cairo_t * cr, gint xx, gint y, DenemoObject * theobj)
           str++;
           if (*str == 0)
             {
-              drawlargetext_cr (cr, gstr->str, xx + xstep, y + STAFF_HEIGHT + 20 + ystep);
+              drawtext_cr (cr, gstr->str, xx + xstep, y + STAFF_HEIGHT + 20 + ystep, 20.0);
               break;
             }
         }
