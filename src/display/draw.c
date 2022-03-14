@@ -1081,24 +1081,24 @@ static void draw_staff (cairo_t * cr, staffnode * curstaff, gint y, DenemoProjec
               cairo_save (cr);
               cairo_set_source_rgb (cr, 0.8, color?1:0.8, 0.8);
 
-              cairo_rectangle (cr, gui->leftmargin + 5, y - staffname_offset - 1, 90, 15);
+              cairo_rectangle (cr, gui->leftmargin + 8, y - staffname_offset - 1, 90, 15);
               cairo_fill (cr);
 
               
               cairo_set_source_rgb (cr, 0.0, 0.0, 0.0);
               if (color)
                 {
-                    cairo_rectangle (cr, gui->leftmargin + 5, y - staffname_offset - 2, 90, 16);
+                    cairo_rectangle (cr, gui->leftmargin + 8, y - staffname_offset - 2, 90, 16);
                     cairo_stroke (cr);
                 }
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ + 8, y - staffname_offset + 10);
               if (thestaff->subpart)
                 drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin +20/*KEY_MARGIN */ , y - staffname_offset + 24);
               cairo_restore(cr);
              }
            else
              {
-              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin - 10 /*KEY_MARGIN */ + 5 , y - staffname_offset + 10);
+              drawnormaltext_cr (cr, thestaff->denemo_name->str, gui->leftmargin /*KEY_MARGIN */ + 8, y - staffname_offset + 10);
               if (thestaff->subpart)
                 drawnormaltext_cr (cr, thestaff->subpart->str, gui->leftmargin + 20 /*KEY_MARGIN */ , y - staffname_offset + 24);
              }
@@ -1650,7 +1650,7 @@ void draw_score (cairo_t * cr)
                     cairo_rectangle (cr, (gui->leftmargin+35) - cmajor -2 , y-2, key + 2 * cmajor+4, STAFF_HEIGHT / 2 +4);
                     cairo_stroke (cr);
                     cairo_set_source_rgb (cr, 0, 0, 1);
-                    drawlargetext_cr (cr, "♯", (gui->leftmargin+35) - cmajor -2 , y + 1.4 * STAFF_HEIGHT);
+                    drawlargetext_cr (cr, "♯", (gui->leftmargin+35) - cmajor -2 , y + 1.4 * STAFF_HEIGHT + Denemo.prefs.fontsize-9.0);
                     }
 
                 //cairo_set_source_rgb (cr, 1, 0.5, 0.5);
@@ -1665,7 +1665,7 @@ void draw_score (cairo_t * cr)
                     cairo_rectangle (cr, (gui->leftmargin+35) - cmajor -2, y + STAFF_HEIGHT / 2 -2, key + 2 * cmajor +4, STAFF_HEIGHT / 2 +4);
                     cairo_stroke (cr);
                     cairo_set_source_rgb (cr, 1, 0, 0);
-                    drawlargetext_cr (cr, "♭", (gui->leftmargin+35) - cmajor -2 , y + 1.5 * STAFF_HEIGHT);
+                    drawlargetext_cr (cr, "♭", (gui->leftmargin+35) - cmajor -2 , y + 1.5 * STAFF_HEIGHT + Denemo.prefs.fontsize-9.0);
                     }
 
 
