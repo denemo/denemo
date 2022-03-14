@@ -1,6 +1,6 @@
-Version 2.6
-~~~~~~~~~~~
-Released: 2022-01-xx
+Version 2.6.0
+~~~~~~~~~~~~~
+Released: 2022-03-11
 
 Features:
 * Pitches First note entry method: notes are visualized on a special MIDI track;
