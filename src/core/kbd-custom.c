@@ -1478,7 +1478,7 @@ show_type (GtkWidget * widget, gchar * message)
 void
 load_keymap_dialog_location (gchar * location)
 {
-  gchar *filename = file_dialog ("Load Command Set", TRUE, location);
+  gchar *filename = file_dialog ("Load Command Set", TRUE, location, "*.xml", NULL);
   if (filename)
     {
       if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))
@@ -1607,7 +1607,7 @@ save_keymap_dialog (void)
 {
   gchar *keymapdir = NULL;
   keymapdir = g_build_filename (get_user_keymap_dir (), NULL);
-  gchar *filename = file_dialog (_("Save Command Set"), FALSE, keymapdir);
+  gchar *filename = file_dialog (_("Save Command Set"), FALSE, keymapdir, "*.commands", NULL);
   if (filename)
     save_keymap_from_dialog (filename);
   g_free (keymapdir);

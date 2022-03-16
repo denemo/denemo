@@ -957,14 +957,22 @@ set_current_folder (GtkWidget * file_selection, DenemoSaveType template)
         gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), fallback);
     }
 }
-
+//choose a file for reading/writing with title message
+//default directory is location
+//allowed extensions ext and/or exts
 gchar *
-file_dialog (gchar * message, gboolean type, gchar * location)
+file_dialog (gchar * message, gboolean read, gchar * location, gchar *ext, GList *exts)
 {
   GtkWidget *file_selection;
   gchar *filename;
-  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), type ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, type ? _("_Open") : _("_Save"), GTK_RESPONSE_ACCEPT, NULL);
-
+  file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), read ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, read ? _("_Open") : _("_Save"), GTK_RESPONSE_ACCEPT, NULL);
+  GtkFileFilter *filter = gtk_file_filter_new ();
+  if (ext)
+	gtk_file_filter_add_pattern (filter, ext);
+  for (;exts;exts=exts->next)
+	gtk_file_filter_add_pattern (filter, (gchar*)exts->data);
+  if (ext || exts) 
+	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   if (location)
     gtk_file_chooser_set_current_folder (GTK_FILE_CHOOSER (file_selection), location);
   gtk_dialog_set_default_response (GTK_DIALOG (file_selection), GTK_RESPONSE_ACCEPT);
@@ -974,6 +982,13 @@ file_dialog (gchar * message, gboolean type, gchar * location)
   else
     filename = NULL;
   gtk_widget_destroy (file_selection);
+  if ((!read) && g_file_test (filename, G_FILE_TEST_EXISTS))
+	{
+	 gchar *primary = g_strdup_printf (_("A file with the name %s already exists"), filename);
+	 if (!confirm (primary, _("Do you want to replace it?")))
+		filename = NULL;
+	 g_free (primary);	
+	}
   return filename;
 }
 
