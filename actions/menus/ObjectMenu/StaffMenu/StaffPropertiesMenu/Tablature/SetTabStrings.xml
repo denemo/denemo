@@ -8,8 +8,8 @@
         <after>TabStaff</after>
         <action>SetTabStrings</action>
         <_label>Set Open Strings</_label>
-        <_tooltip>Sets the open strings for tablature
-to the notes of the current chord.</_tooltip>
+        <_tooltip>Replaces the current chord with a Denemo Directive that sets the open strings for a tablature staff
+to the notes of that chord.</_tooltip>
       </row>
     </map>
   </merge>

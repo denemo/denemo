@@ -5481,8 +5481,8 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <after>TabStaff</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature</menupath>
         <_label>Set Open Strings</_label>
-        <_tooltip>Sets the open strings for tablature
-to the notes of the current chord.</_tooltip>
+        <_tooltip>Replaces the current chord with a Denemo Directive that sets the open strings for a tablature staff
+to the notes of that chord.</_tooltip>
       </row>
       <row type="scheme">
         <action>StaffSize</action>
@@ -5858,8 +5858,8 @@ for second and subsequent systems</_tooltip>
         <action>TabStaff</action>
         <after>TinyStaff</after>
         <menupath>/ObjectMenu/StaffMenu/StaffPropertiesMenu/Tablature</menupath>
-        <_label>Tablature</_label>
-        <_tooltip>Converts to tablature notation (print only)</_tooltip>
+        <_label>Tablature (Off/On)</_label>
+        <_tooltip>(Print) Current staff will typeset as TAB.</_tooltip>
       </row>
       <row type="scheme">
         <action>TocTitle</action>

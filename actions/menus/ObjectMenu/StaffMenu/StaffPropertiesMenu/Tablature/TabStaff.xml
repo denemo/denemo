@@ -7,8 +7,8 @@
       <row type="scheme">
         <after>TinyStaff</after>
         <action>TabStaff</action>
-        <_label>Tablature</_label>
-        <_tooltip>Converts to tablature notation (print only)</_tooltip>
+        <_label>Tablature (Off/On)</_label>
+        <_tooltip>(Print) Current staff will typeset as TAB.</_tooltip>
       </row>
     </map>
   </merge>
