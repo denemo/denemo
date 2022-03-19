@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>SetSystemCount</action>
+        <after>SetPageCount</after>
+        <_label>Set Total Number of Systems</_label>
+        <_tooltip>Fixes the number of systems ("lines") of music to be used for this movement.</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

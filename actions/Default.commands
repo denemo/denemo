@@ -8872,6 +8872,13 @@ Include rests if they are part of the pattern.
         <_label>Export Book of Layouts</_label>
         <_tooltip>Allows the creation of a single PDF containing a variety of layouts (e.g. Full Score and individual parts). The layouts can have different font sizes etc, unlike the Append option in the Print View.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>SetSystemCount</action>
+        <after>SetPageCount</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <_label>Set Total Number of Systems</_label>
+        <_tooltip>Fixes the number of systems ("lines") of music to be used for this movement.</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
