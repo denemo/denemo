@@ -1225,6 +1225,7 @@ set_speed (GtkAdjustment * adjustment)
 static void
 pb_volume (GtkAdjustment * adjustment)
 {
+#ifdef _HAVE_FLUIDSYNTH_
 	gdouble volume = gtk_adjustment_get_value (adjustment);
 	if (volume < 50)
 		{
@@ -1238,6 +1239,7 @@ pb_volume (GtkAdjustment * adjustment)
 		if (Denemo.project->movement->recording)
 			Denemo.project->movement->recording->volume = 0.1 + (volume-50)/5;
 		}
+#endif
 }
 
 
@@ -3418,21 +3420,19 @@ create_window (void)
 
       gtk_widget_set_can_focus (label, FALSE);
       gtk_box_pack_start (GTK_BOX (hbox), label, FALSE, TRUE, 0);
-
+      
+#ifdef _HAVE_FLUIDSYNTH_
       master_vol_adj = (GtkAdjustment *) gtk_adjustment_new (50.0, 0.0, 100.0, 1.0, 1.0, 10.0);
-
       GtkWidget *hscale = gtk_hscale_new (GTK_ADJUSTMENT (master_vol_adj));
       gtk_scale_set_digits (GTK_SCALE (hscale), 0);
       gtk_widget_set_can_focus (hscale, FALSE);
       //GTK_WIDGET_UNSET_FLAGS(hscale, GTK_CAN_FOCUS);
       g_signal_connect (G_OBJECT (master_vol_adj), "value_changed", G_CALLBACK (pb_volume), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
-
       GtkWidget *always_full_volume = gtk_check_button_new_with_label (_("Ignore Dynamics"));
       gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON (always_full_volume), Denemo.prefs.dynamic_compression);
       g_signal_connect_swapped (G_OBJECT (always_full_volume), "toggled", G_CALLBACK (toggle_dynamic_compression), &Denemo.prefs.dynamic_compression);
       gtk_box_pack_start (GTK_BOX (hbox), always_full_volume, FALSE, FALSE, 10);
-
 
 
 #ifdef _HAVE_RUBBERBAND_
@@ -3450,6 +3450,7 @@ create_window (void)
       gtk_widget_set_tooltip_text (label, _("Slow down the audio output maintaining the pitch"));
       g_signal_connect (G_OBJECT (speed_adj), "value_changed", G_CALLBACK (set_speed), NULL);
       gtk_box_pack_start (GTK_BOX (hbox), hscale, TRUE, TRUE, 0);
+#endif
 #endif
 
 
