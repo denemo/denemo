@@ -1,7 +1,10 @@
-;;ToggleNoteUpSlur
+;;ToggleBeginUpSlur
 (let ((tag "Slur"))
 	(if (d-IsSlurStart)
-		(d-ToggleBeginSlur)
+		(begin
+			(d-ToggleBeginSlur)
+			(d-DirectiveDelete-note tag)
+			(d-DirectiveDelete-chord tag))
 		(begin
 			(d-ToggleBeginSlur)
 			(d-DirectivePut-chord-postfix tag "^")
