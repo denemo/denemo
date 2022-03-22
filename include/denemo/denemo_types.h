@@ -781,6 +781,7 @@ typedef struct DenemoPrintInfo
   gchar *printname_midi[2];
   gchar *printname_ly[2];
   gchar *error_file;
+  gint pages, systems;//number of pages and systems in this typeset, 0 if not known
 } DenemoPrintInfo;
 /**
  * Contains data required for undo/redo operation

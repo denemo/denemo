@@ -392,6 +392,15 @@ process_lilypond_errors (gchar * filename)
   else
     return;
   //g_print("\nLilyPond error messages\n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8>< %s \n8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><8><\n", bytes);
+  gchar *page_system_info = g_strrstr (bytes, "DenemoInfo=");
+  if (page_system_info)
+	{
+		sscanf (page_system_info, "DenemoInfo=%d,%d", &Denemo.printstatus->pages, &Denemo.printstatus->systems);
+	}
+  else
+	Denemo.printstatus->pages = 0;
+  
+  
   gint line, column;
   epoint=get_error_point (bytes, &line, &column);
   if (epoint)

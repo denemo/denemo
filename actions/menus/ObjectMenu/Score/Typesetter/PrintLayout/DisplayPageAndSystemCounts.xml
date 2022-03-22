@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>DisplayPageAndSystemCounts</action>
+        <after>SetSystemCount</after>
+        <_label>Display Page and System Counts</_label>
+        <_tooltip>Shows the total number of pages and total number of systems in the Print View (as a watermark at the top).</_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

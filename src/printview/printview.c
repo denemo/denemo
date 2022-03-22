@@ -357,6 +357,18 @@ overdraw_print (cairo_t * cr)
       cairo_rectangle (cr, get_wysiwyg_info ()->Mark.x - PRINTMARKER / 2, get_wysiwyg_info ()->Mark.y - PRINTMARKER / 2, PRINTMARKER, PRINTMARKER);
       cairo_fill (cr);
     }
+  if (Denemo.printstatus->pages)
+		{
+			message_height = 25;
+			cairo_set_source_rgba (cr, 0.25, 0.55, 0.25, 0.8);
+			cairo_set_font_size (cr, 20.0);
+			cairo_move_to (cr, 400, message_height);
+			gchar *message = g_strdup_printf ("%s%d %s%d", _("Total Pages: "), Denemo.printstatus->pages, _("Total Systems: "), Denemo.printstatus->systems);
+			cairo_show_text (cr, message);
+			g_free (message);
+		}
+    
+    
   if (Denemo.printstatus->invalid /*!print_is_valid */ )
     {
       gchar *headline, *explanation, *error_file = NULL;

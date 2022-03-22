@@ -8879,6 +8879,13 @@ Include rests if they are part of the pattern.
         <_label>Set Total Number of Systems</_label>
         <_tooltip>Fixes the number of systems ("lines") of music to be used for this movement.</_tooltip>
       </row>
+      <row type="scheme">
+        <action>DisplayPageAndSystemCounts</action>
+        <after>SetSystemCount</after>
+        <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
+        <_label>Display Page and System Counts</_label>
+        <_tooltip>Shows the total number of pages and total number of systems in the Print View (as a watermark at the top).</_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
