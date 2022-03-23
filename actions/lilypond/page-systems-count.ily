@@ -1,3 +1,4 @@
+%Adapted from Jean Abou Samra's code
 \paper {
 		page-post-process =
 		  #(lambda (paper pages)
@@ -20,7 +21,5 @@
 											   sys-page))))))
 				   (ly:prob-property page 'lines)))
 				pages)
-			   (ly:warning "DenemoInfo=~a,~a"
-						   n-systems
-						   (1+ (- page-max page-min)))))
+			   (ly:warning "DenemoInfo=~a,~a" (1+ (- page-max page-min))  n-systems)))
        }
