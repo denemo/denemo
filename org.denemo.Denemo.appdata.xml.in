@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2014 Richard Shann <richard@rshann.plus.com> -->
-<application>
- <id type="desktop">org.denemo.Denemo.desktop</id>
+<component type="desktop-application">
+ <id>org.denemo.Denemo.desktop</id>
+ <name>Denemo</name>
  <metadata_license>GFDL-1.3</metadata_license>
  <project_license>GPL-3.0+</project_license>
- <name>Denemo</name>
+ <project_group>Denemo</project_group>
+ <url type="homepage">http://www.denemo.org/</url>
+ <update_contact>denemo-devel@gnu.org</update_contact>
  <_summary>Create Music Scores</_summary>
  <description>
   <_p>
@@ -27,14 +30,17 @@
   You can use this to continue work from where you left off, or for looking back at the source to check a doubtful bar.
   </_p>
  </description>
- <url type="homepage">http://www.denemo.org/</url>
  <screenshots> 
- <screenshot type="default" width="826" height="1169">http://www.denemo.org/wp-content/uploads/2013/10/display68.png</screenshot>
- <screenshot width="1920" height="1080">http://www.denemo.org/wp-content/uploads/2013/10/display4.png</screenshot>
- <screenshot width="1920" height="1080">http://www.denemo.org/wp-content/uploads/2013/10/display7.png</screenshot>
+  <screenshot type="default">
+   <image type="source" width="826" height="1169">http://www.denemo.org/wp-content/uploads/2013/10/display68.png</image>
+  </screenshot>
+  <screenshot>
+   <image type="source" width="1920" height="1080">http://www.denemo.org/wp-content/uploads/2013/10/display4.png</image>
+  </screenshot>
+  <screenshot>
+   <image type="source" width="1920" height="1080">http://www.denemo.org/wp-content/uploads/2013/10/display7.png</image>
+  </screenshot>
  </screenshots>
- <updatecontact>denemo-devel@gnu.org</updatecontact>
- <project_group>Denemo</project_group>
  <keywords>
     <keyword>Music</keyword>
     <keyword>Notation</keyword>
@@ -47,4 +53,4 @@
     <keyword>Music</keyword>
  </keywords>
  <content_rating type="oars-1.1" />
-</application>
+</component>
