@@ -507,7 +507,7 @@ swapstaffs (G_GNUC_UNUSED DenemoAction * action, DenemoScriptParam * param)
           if (param && param->string)
             param->status = 1;
           else
-            warningdialog (_("Use Voice to Staff command first on all the voices attached to this staff, swap them individually then use Staff to Voice to finish."));
+            warningdialog (_("Use Voice to Staff command first on all the voices attached to this staff, swap them individually then use Staff to Voice on those staffs you changed to revert them to Voices."));
         }
     }
   else
