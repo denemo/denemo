@@ -1867,7 +1867,9 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
 
   if ((!si->currentobject->next) && (!si->currentmeasure->next))
     gtk_widget_set_sensitive (button, FALSE);
-
+  GtkWidget *chord_warning_label = gtk_label_new (_("Warning - you are editing the chord object, not the note in the chord - click \"Edit the Note\" for that."));
+  set_foreground_color (chord_warning_label, "rgb (128, 0, 0)");
+  
   switch (curObj->type)
     {
     case CHORD:
@@ -1901,7 +1903,8 @@ gtk_style_context_add_provider(gsc, GTK_STYLE_PROVIDER(gcp),
               {
                 note_up_button = NULL;  // a tricksy bit of code this: the button is already packed in the vbox, by setting this NULL we stop it being set insensitive as it must be for all other cases.
               }
-              
+            if ( (!thechord->notes->next) && (thenote && (Denemo.project->movement->cursor_y != thenote->mid_c_offset)))           
+				gtk_box_pack_start (GTK_BOX (vbox), chord_warning_label, FALSE, TRUE, 0);
               
            if (notenode->next)
                 {
