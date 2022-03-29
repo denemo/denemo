@@ -541,6 +541,7 @@ run_lilypond (gchar ** arguments)
       write_input_status ();
       old_error = FALSE;  
     }
+  Denemo.printstatus->pages = 0;
   if (Denemo.printstatus->background == STATE_NONE)
     progressbar (_("Denemo Typesetting"), call_stop_lilypond);
   if (lily_err)
