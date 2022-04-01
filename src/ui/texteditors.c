@@ -617,6 +617,8 @@ search_dialog (GtkWidget * widget, gboolean replace, char **what_p, char **repla
   *replacement_p = search_data.replacement = g_strdup (gtk_entry_get_text (entry2));
 #if GTK_MAJOR_VERSION==2
   *flags_p = search_data.flags = gtk_toggle_button_get_active (case_sensitive) ? 0 : GTK_SOURCE_SEARCH_CASE_INSENSITIVE;
+#else
+  *flags_p = search_data.flags;
 #endif
   gtk_widget_destroy (dialog);
   return TRUE;
