@@ -40,7 +40,7 @@
                             (set! text (car text))
                             (d-DirectivePut-chord-display tag (string-pad-right text 5))
                             (d-DirectivePut-chord-data tag text)
-                            (d-DirectivePut-chord-postfix tag (string-append shift position "\\markup\\scale #'(.5 . .5)\\column{" markup "}"))
+                            (d-DirectivePut-chord-postfix tag (string-append shift position "\\markup\\scale #'(1 . 1)\\column{" markup "}"))
                             (d-DirectivePut-chord-minpixels tag 20)
                             (d-SetSaved #f)))))))
             
