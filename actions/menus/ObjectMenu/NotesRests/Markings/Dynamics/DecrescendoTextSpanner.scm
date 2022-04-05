@@ -1,6 +1,6 @@
 ;;;DecrescendoTextSpanner
 (if (Music?)
-    (let ((tag "DecrescendoTextSpanner")(params DecrescendoTextSpanner::params)(text (_ "\\bold cresc. (or poco if continuing the dim.)")))
+    (let ((tag "DecrescendoTextSpanner")(params DecrescendoTextSpanner::params)(text (_ "\\bold \\fontsize #-1 {dim. (or poco if continuing the dim.)}")))
     (if (equal? params "edit")
             (set! params (RadioBoxMenu (cons (_ "Edit") 'edit)  (cons (_ "Delete") 'delete) (cons (_ "Advanced") 'advanced))))    
  
