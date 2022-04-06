@@ -325,7 +325,10 @@ redraw_playhead_callback (gpointer data)
 
   smf_event_t *event = (smf_event_t *) data;
 
-  si->playingnow = event->user_pointer;
+  if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
+	si->playingnow = event->user_pointer;
+  else
+	si->playingnow = NULL;
   si->playhead = event->time_seconds;
 
   g_main_context_invoke (NULL, (GSourceFunc)do_queue_draw, NULL);

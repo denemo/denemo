@@ -1972,7 +1972,7 @@ printarea_button_release (G_GNUC_UNUSED GtkWidget * widget, GdkEventButton * eve
   get_window_position (&xx, &yy);
   get_wysiwyg_info ()->last_button_release.x = xx + event->x;
   get_wysiwyg_info ()->last_button_release.y = yy + event->y;
-  if (left && get_wysiwyg_info ()->ObjectLocated)
+  if (left && get_wysiwyg_info ()->ObjectLocated   && shift_held_down ())
     gtk_window_present (GTK_WINDOW (gtk_widget_get_toplevel (Denemo.scorearea)));
   //g_debug("Button release %d, %d\n",(int)event->x , (int)event->y);
 

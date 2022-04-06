@@ -169,9 +169,9 @@ event_queue_write_rubberband (event_queue_t * queue, float *data)
 
 static gboolean do_page_viewport(void)
 {
-
+  if (gtk_widget_has_focus (Denemo.scorearea) && gtk_widget_is_focus (Denemo.scorearea))
     page_viewport ();
-    return FALSE;
+  return FALSE;
 }
 
 static gboolean
