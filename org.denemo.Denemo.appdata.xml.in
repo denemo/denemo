@@ -54,6 +54,7 @@
  </keywords>
  <releases>
  <release type="stable" version="2.6.0" date="2022-03-11" />
+ <release type="stable" version="2.7.0" date="2023-03-11" />
  </releases>
  <content_rating type="oars-1.1" />
 </component>
