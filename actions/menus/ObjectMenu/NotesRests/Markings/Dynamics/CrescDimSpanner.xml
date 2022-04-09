@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Denemo>
+  <merge>
+    <title>A Denemo Keymap</title>
+    <author>AT, JRR, RTS</author>
+    <map>
+      <row type="scheme">
+        <action>CrescDimSpanner</action>
+        <after>Dim</after>
+        <_label>Cresc/Dim Text Spanner</_label>
+        <_tooltip>Allows you to create a cresc. or dim. that extends over many notes - hyphens are inserted where there would be gaps; example: cresc. --- poco --- a ---poco --- </_tooltip>
+      </row>
+    </map>
+  </merge>
+</Denemo>

@@ -23,6 +23,14 @@
         <bind>Ctrl+Delete</bind>
       </row>
       <row>
+	   <action>DecrescendoTextSpanner</action>
+       <hidden>true</hidden>
+      </row>
+      <row>
+	   <action>CrescendoTextSpanner</action>
+       <hidden>true</hidden>
+      </row>  
+      <row>
         <action>ToggleReduceToDrawingArea</action>
         <bind>Escape,Escape</bind>
       </row>

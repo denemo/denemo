@@ -1622,6 +1622,8 @@ actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitche
 actions/menus/ObjectMenu/NotesRests/Markings/Articulations/UpBowSelectionSwitcher.xml
 actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.scm
 actions/menus/ObjectMenu/NotesRests/Markings/ChordSymbols/CompactChordSymbol.xml
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescDimSpanner.scm
+actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescDimSpanner.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.scm
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/CrescendoTextSpanner.xml
 actions/menus/ObjectMenu/NotesRests/Markings/Dynamics/Cresc.scm

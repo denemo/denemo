@@ -8886,6 +8886,13 @@ Include rests if they are part of the pattern.
         <_label>Display Page and System Counts</_label>
         <_tooltip>Shows the total number of pages and total number of systems in the Print View (as a watermark at the top).</_tooltip>
       </row>
+      <row type="scheme">
+        <action>CrescDimSpanner</action>
+        <after>Dim</after>
+        <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
+        <_label>Cresc/Dim Text Spanner</_label>
+        <_tooltip>Allows you to create a cresc. or dim. that extends over many notes - hyphens are inserted where there would be gaps; example: cresc. --- poco --- a ---poco --- </_tooltip>
+      </row>
     </map>
   </merge>
 </Denemo>
