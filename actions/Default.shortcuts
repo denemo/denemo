@@ -29,7 +29,15 @@
       <row>
 	   <action>CrescendoTextSpanner</action>
        <hidden>true</hidden>
-      </row>  
+      </row>
+      <row>
+        <action>Cresc</action>
+        <hidden>true</hidden>
+      </row>
+      <row>
+        <action>Dim</action>
+        <hidden>true</hidden>
+      </row> 
       <row>
         <action>ToggleReduceToDrawingArea</action>
         <bind>Escape,Escape</bind>
