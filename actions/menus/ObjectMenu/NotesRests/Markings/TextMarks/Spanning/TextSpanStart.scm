@@ -34,7 +34,7 @@
                     (if text
                             (begin
                                 (d-DirectivePut-chord-prefix tag  (string-append
-                                            (string-append direction "\\override TextSpanner.bound-details.left.text = \"" text "\"  ")))
+                                            (string-append direction "\\override TextSpanner.bound-details.left.text = \\markup {" text "}  ")))
 
                                         (d-DirectivePut-chord-postfix tag  "\\startTextSpan")
                                         (d-DirectivePut-chord-override tag DENEMO_OVERRIDE_AFFIX)
