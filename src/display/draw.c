@@ -171,14 +171,17 @@ count_syllables (DenemoStaff * staff, gint from)
           if (obj->type == CHORD)
             {
               chord *thechord = ((chord *) obj->object);
-              if (thechord->notes && !in_slur)
-                count++;
-              if (thechord->slur_begin_p)
-                in_slur = TRUE;
-              if (thechord->slur_end_p)
-                in_slur = FALSE;
-              if (thechord->is_tied && (!in_slur))
-                count--;
+              if (!(thechord->is_grace))
+				{
+				  if (thechord->notes && !in_slur)
+					count++;
+				  if (thechord->slur_begin_p)
+					in_slur = TRUE;
+				  if (thechord->slur_end_p)
+					in_slur = FALSE;
+				  if (thechord->is_tied && (!in_slur))
+					count--;
+				}
             }
         }                       //for objs
     }                           //for measures
