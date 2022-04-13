@@ -2558,6 +2558,33 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Select an ornament to insert as an object at the cursor (it will be typeset on the following note), or edit the ornament already present. Ornament here includes accidentals to be placed over or under other ornaments, as well as multiple ornaments stacked on one note/chord.</_tooltip>
       </row>
       <row type="scheme">
+        <action>OpenFirstTimeBar</action>
+        <menupath>/ObjectMenu/Directives/Barlines/AlternativeBars</menupath>
+        <_label>Start a First Time Bar</_label>
+        <_tooltip>(Print) start first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OpenSecondTimeBar</action>
+        <after>OpenFirstTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Barlines/AlternativeBars</menupath>
+        <_label>Start a Second Time Bar</_label>
+        <_tooltip>(Print) start second time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>OpenNthTimeBar</action>
+        <after>OpenSecondTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Barlines/AlternativeBars</menupath>
+        <_label>Start an Nth Time Bar</_label>
+        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>EndVolta</action>
+        <after>OpenNthTimeBar</after>
+        <menupath>/ObjectMenu/Directives/Barlines/AlternativeBars</menupath>
+        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
+        <_tooltip>Ends a volta, that is a 1,2,n'th time bar; without this the opening of an 1,2,n'th time bar will not be printed.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>NoBarline</action>
         <after>ClosingBarline</after>
         <menupath>/ObjectMenu/Directives/Barlines</menupath>
@@ -2598,33 +2625,7 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Single Digit</_label>
         <_tooltip>Makes the time signature at the cursor typeset as a single digit; if no time signature at cursor this applies to initial timesig of staff. Run the command again to delete/inspect the time signature directive.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>OpenFirstTimeBar</action>
-        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
-        <_label>Start a First Time Bar</_label>
-        <_tooltip>(Print) start (a) first time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>OpenSecondTimeBar</action>
-        <after>OpenFirstTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
-        <_label>Start a Second Time Bar</_label>
-        <_tooltip>(Print) start (a) second time bar(s), use the End Volta command at the end of the first time bar(s)</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>OpenNthTimeBar</action>
-        <after>OpenSecondTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
-        <_label>Start an Nth Time Bar</_label>
-        <_tooltip>Start passage to be played on one or more of the repeats as indicated by the text given by the user (e.g. 3 for third time bar). Finish the passage using the End Volta command.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>EndVolta</action>
-        <after>OpenNthTimeBar</after>
-        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
-        <_label>End Volta (1st, 2nd ... Time Bar)</_label>
-        <_tooltip>Ends a volta, that is a n'th time bar; without this the opening of a first (Nth) time bar will not be printed.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>FreeFermata</action>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
@@ -5326,7 +5327,7 @@ or three systems per page, for example orchestral scores.</_tooltip>
       <row type="scheme">
         <action>InsertFirstAndSecondTimeBars</action>
         <after>RepeatEndStart</after>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines/AlternativeBars</menupath>
         <_label>Insert 1st &amp; 2nd Time Bars</_label>
         <_tooltip>Inserts first and second time bars each with a whole measure rest. You can then edit this to suit your music, e.g by inserting extra bars, deleting the repeat start etc.</_tooltip>
       </row>
@@ -7216,6 +7217,13 @@ and others in the LilyPond documentation.</_tooltip>
         <_tooltip>Prints a repeat start, with double bar on previous line if at a line break.</_tooltip>
       </row>
       <row type="scheme">
+        <action>TrailingStaffLines</action>
+        <after>DoubleBarRepeatStart</after>
+        <menupath>/ObjectMenu/Directives/Barlines</menupath>
+        <_label>Trailing Staff Lines</_label>
+        <_tooltip>Place at the end of the movement to allow the staff lines to trail off without any closing bar line. Use e.g. for signalling a key change at the start of the next movement.</_tooltip>
+      </row>
+      <row type="scheme">
         <action>CompactChordScale</action>
         <after>ChordNameOffset</after>
         <menupath>/ObjectMenu/ChordMenu</menupath>
@@ -8427,7 +8435,7 @@ Start Ligature earlier in the same staff.</_tooltip>
       <row type="scheme">
         <action>ConditionalSecondTimeBar</action>
         <after>EndVolta</after>
-        <menupath>/ObjectMenu/Directives/Markings/AlternativeBars</menupath>
+        <menupath>/ObjectMenu/Directives/Barlines/AlternativeBars</menupath>
         <_label>Conditional 2nd Time Bar(s)</_label>
         <_tooltip>If there is no selection: Duplicates the bar(s) from the cursor to the end as an identical 2nd time bar(s) to be used only when not typesetting the part on its own. If there is a selection: Duplicates the selection for the same purpose. Inserts a end- (or end/start-) repeat barline for use only when typesetting the part. Use to avoid a part having two identical bars marked first and second time.</_tooltip>
       </row>
@@ -8837,13 +8845,7 @@ Include rests if they are part of the pattern.
         <_label>Stop/Forget Pause</_label>
         <_tooltip>Stops the playback or cancels the Pause, restoring the original start playback marker position.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>TrailingStaffLines</action>
-        <after>NoBarline</after>
-        <menupath>/ObjectMenu/Directives/Barlines</menupath>
-        <_label>Trailing Staff Lines</_label>
-        <_tooltip>Place at the end of the movement to allow the staff lines to trail off without any closing bar line. Use e.g. for signalling a key change at the start of the next movement.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>LayoutInstrumentation</action>
         <after>ScoreTitles</after>
