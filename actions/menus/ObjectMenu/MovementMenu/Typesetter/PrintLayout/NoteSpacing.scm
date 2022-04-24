@@ -1,12 +1,14 @@
 ;NoteSpacing
 (let* ((tag "NoteSpacing") (layout (d-GetLayoutName))(id (d-GetLayoutId))
-		(restrict (RadioBoxMenu  (cons (string-append (_ "Restrict to layout: " ) layout) layout) (cons (_ "For all Layouts") 'all))))
+		(restrict (RadioBoxMenu  (cons (string-append (_ "Restrict to layout: " ) layout) layout) (cons (_ "For any Layout") 'all))))
 	(if restrict
 		(begin
 			(if (eq? restrict 'all)
 				(set! restrict #f))
 			(if restrict
-				(set! tag (string-append tag "\n" restrict)))
+				(begin
+					(d-DirectivePut-layout-minpixels tag 0) ;;ensure any default comes before conditional
+					(set! tag (string-append tag "\n" restrict))))
 			(if (d-Directive-layout? tag)
 				(begin
 					(d-DirectiveDelete-layout tag)
