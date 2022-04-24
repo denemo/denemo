@@ -2625,7 +2625,6 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_label>(Print) Single Digit</_label>
         <_tooltip>Makes the time signature at the cursor typeset as a single digit; if no time signature at cursor this applies to initial timesig of staff. Run the command again to delete/inspect the time signature directive.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>FreeFermata</action>
         <menupath>/ObjectMenu/Directives/Markings</menupath>
@@ -8845,7 +8844,6 @@ Include rests if they are part of the pattern.
         <_label>Stop/Forget Pause</_label>
         <_tooltip>Stops the playback or cancels the Pause, restoring the original start playback marker position.</_tooltip>
       </row>
-
       <row type="scheme">
         <action>LayoutInstrumentation</action>
         <after>ScoreTitles</after>
@@ -8879,7 +8877,7 @@ Include rests if they are part of the pattern.
         <after>SetPageCount</after>
         <menupath>/ObjectMenu/Score/Typesetter/PrintLayout</menupath>
         <_label>Set Total Number of Systems</_label>
-        <_tooltip>Fixes the number of systems ("lines") of music to be used for this movement.</_tooltip>
+        <_tooltip>Fixes the number of systems ("lines") of music to be used for layouts of this score. This won't be useful when typesetting more than one movement in a layout.</_tooltip>
       </row>
       <row type="scheme">
         <action>DisplayPageAndSystemCounts</action>
@@ -8894,6 +8892,13 @@ Include rests if they are part of the pattern.
         <menupath>/ObjectMenu/NotesRests/Markings/Dynamics</menupath>
         <_label>Cresc/Dim Text Spanner</_label>
         <_tooltip>Allows you to create a cresc. or dim. that extends over many notes - hyphens are inserted where there would be gaps; example: cresc. --- poco --- a ---poco --- </_tooltip>
+      </row>
+      <row type="scheme">
+        <action>NoteSpacing</action>
+        <after>Indent</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter/PrintLayout</menupath>
+        <_label>Note Spacing</_label>
+        <_tooltip>Make the horizontal spacing of the music tighter or looser than the default for this movement</_tooltip>
       </row>
     </map>
   </merge>

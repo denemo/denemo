@@ -1212,7 +1212,7 @@
 
 ;;;
 (define (DenemoGetDuration title)
-    (TitledRadioBoxMenuList title
+    (define response (TitledRadioBoxMenuList title
         (list (cons "𝅝" "1/1")
         (cons "𝅗𝅥" "1/2")
         (cons "𝅘𝅥" "1/4")
@@ -1220,7 +1220,17 @@
         (cons "𝅘𝅥𝅯" "1/16")
         (cons "𝅘𝅥𝅱" "1/32")
         (cons "𝅘𝅥𝅱" "1/64")
-        (cons "𝅘𝅥𝅱" "1/128"))))
+        (cons "𝅘𝅥𝅱" "1/128")
+        (cons (_ "Custom Duration") #f))))
+   (if response
+		response
+		(d-GetUserInput (_ "Horizontal Spacing Basis") (_ "Give fraction of whole note 𝅝   (e.g. 2/1 or 1/7 etc)") "1/5")))
+        
+        
+        
+        
+        
+        
                             
 ;;
 (define (DenemoSetTitles tag param editing)
