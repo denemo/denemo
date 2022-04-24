@@ -1224,14 +1224,11 @@
         (cons (_ "Custom Duration") #f))))
    (if response
 		response
-		(d-GetUserInput (_ "Horizontal Spacing Basis") (_ "Give fraction of whole note 𝅝   (e.g. 2/1 or 1/7 etc)") "1/5")))
-        
-        
-        
-        
-        
-        
-                            
+		(let ((response
+					(d-GetUserInput (_ "Horizontal Spacing Basis") (_ "Give fraction of whole note 𝅝   (e.g. 2/1 or 1/7 etc)") "1/5")))
+			(if (and (string? response) (string->number response))
+				response
+				"1/1"))))                   
 ;;
 (define (DenemoSetTitles tag param editing)
     (let ((score (equal? tag "ScoreTitles"))
