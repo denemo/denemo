@@ -1371,6 +1371,15 @@ Advanced users can edit .denemo-XXXX/denemorc for missing ones</_tooltip>
         <_label>New Movement</_label>
         <_tooltip>Create a new movement, using any default template</_tooltip>
       </row>
+      
+      <row type="scheme">
+        <action>HideBarlines</action>
+        <after>NewMovement</after>
+        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
+        <_label>(Print) Hide Barlines</_label>
+        <_tooltip>Omits barlines when printing.</_tooltip>
+      </row>
+      
       <row type="builtin">
         <action>ExportMUDELA</action>
         <menupath>/MainMenu/FileMenu/Export</menupath>
@@ -1563,6 +1572,20 @@ these may need re-making.</_tooltip>
         <menupath>/ObjectMenu/StaffMenu/Voices</menupath>
         <_label>Join Voices</_label>
         <_tooltip>Merge this staff as a voice on the previous staff</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MovementTitles</action>
+        <after>ReduceSystemSpacing</after>
+        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
+        <_label>Set Titles</_label>
+        <_tooltip>Set titles for this movement. The names of the various titles are just suggestions, any sort of title can be placed in any field. See the manual for the default positioning of each title.</_tooltip>
+      </row>     
+      
+      <row type="scheme">
+        <action>SetMovementTempo</action>
+        <menupath>/ObjectMenu/MovementMenu/Playback</menupath>
+        <_label>Initial Tempo</_label>
+        <_tooltip>Sets the (initial) playback tempo in quarter notes per minute.</_tooltip>
       </row>
       <row type="builtin">
         <action>SwapMovements</action>
@@ -2382,23 +2405,13 @@ Sets prevailing rhythm to 𝅥</_tooltip>
         <_tooltip>Set the prevailing duration to 𝅥 (subsequent notes entered will have this duration)</_tooltip>
       </row>
       <row type="scheme">
-        <action>MovementTitles</action>
-        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
-        <_label>Set Titles</_label>
-        <_tooltip>Set titles for this movement. The names of the various titles are just suggestions, any sort of title can be placed in any field. See the manual for the default positioning of each title.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>MovementComposer</action>
-        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
-        <_label>Composer</_label>
-        <_tooltip>Prints a composer name for current movement.</_tooltip>
-      </row>
-      <row type="scheme">
-        <action>HideBarlines</action>
+        <action>TransposeMovementPrint</action>
         <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
-        <_label>(Print) Hide Barlines</_label>
-        <_tooltip>Omits barlines when printing.</_tooltip>
+        <_label>Transpose on Print</_label>
+        <_tooltip>The current movement will be printed transposed by the interval given.</_tooltip>
       </row>
+
+
       <row type="scheme">
         <action>DeleteCurrentStaff</action>
         <after>DeleteStaff</after>
@@ -4611,12 +4624,7 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>MIDI Filter Off</_label>
         <_tooltip>Turn off any MIDI filter script currently active.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>SetMovementTempo</action>
-        <menupath>/ObjectMenu/MovementMenu/Playback</menupath>
-        <_label>Initial Tempo</_label>
-        <_tooltip>Sets the (initial) playback tempo in quarter notes per minute.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>Major7Minor7OrDominant7</action>
         <after>MajorMinorAugmentedOrDiminished</after>
@@ -5067,12 +5075,7 @@ accidentals are usually printed over the note.</_tooltip>
         <_label>Petrucci</_label>
         <_tooltip>Petrucci note head style for the current movement.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>MovementPiece</action>
-        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
-        <_label>Piece</_label>
-        <_tooltip>Prints the name given above and to the left at the start of the movement.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>Piece</action>
         <menupath>/ObjectMenu/MovementMenu/Titles/BookTitles</menupath>
@@ -5286,6 +5289,20 @@ or three systems per page, for example orchestral scores.</_tooltip>
         <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
         <_label>Reduce Space Between Systems (On/Off)</_label>
         <_tooltip>Reduces the gap between the systems of staffs on a page for the current movement.</_tooltip>
+      </row>
+      
+
+      <row type="scheme">
+        <action>MovementComposer</action>
+        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
+        <_label>Composer</_label>
+        <_tooltip>Prints a composer name for current movement.</_tooltip>
+      </row>
+      <row type="scheme">
+        <action>MovementPiece</action>
+        <menupath>/ObjectMenu/MovementMenu/Titles/SimpleTitles</menupath>
+        <_label>Piece</_label>
+        <_tooltip>Prints the name given above and to the left at the start of the movement.</_tooltip>
       </row>
       <row type="scheme">
         <action>ReloadDrumHash</action>
@@ -7800,12 +7817,7 @@ and others in the LilyPond documentation.</_tooltip>
         <_label>Add Staff (Borrowed/Mirrored Music)</_label>
         <_tooltip>Adds a staff whose music is automatically mirrored from another staff of your choice. Use this e.g. to create a staff with two divisi parts, while keeping the second part as a separate staff, or to typeset both Fret Diagrams and Chord Symbols from the same music. Note that initial clef/key/time are copied not mirrored. Staff number to mirror is chosen interactively or passed as a parameter to the command.</_tooltip>
       </row>
-      <row type="scheme">
-        <action>TransposeMovementPrint</action>
-        <menupath>/ObjectMenu/MovementMenu/Typesetter</menupath>
-        <_label>Transpose on Print</_label>
-        <_tooltip>The current movement will be printed transposed by the interval given.</_tooltip>
-      </row>
+
       <row type="scheme">
         <action>TupletPosition</action>
         <after>ToggleTupletNumbering</after>
