@@ -24,12 +24,12 @@
                     " -a \"" (string-append "(define DenemoSearchMovement " movement-number ") (define DenemoMusicSignature '(" sig "))")
                     "\" -i " (string-append "\"" DENEMO_ACTIONS_DIR "checkMusicSignature.scm" "\"") 
                     " \"" filename "\""))) (disp "Returned " status "\n")
-                (if (zero? status)
+                (if (positive? status)
                     (begin
 						(if (zero? skips)
 							(begin
 								(d-OpenNewWindow filename)
-								(d-GoToPosition (string->number movement-number) 1 1 1)
+								(d-GoToPosition status 1 1 1)
 								(set! found #t)
 								#f)
 							(begin
@@ -64,7 +64,5 @@
   (d-InfoDialog "Searching ... the display will be very sluggish!")
   (ftw startdir theproc)
   (if found
-    (if (equal? "0" movement-number)
-		(d-InfoDialog (_ "This score has a movement that starts with the same intervals"))
-		(d-InfoDialog (_ "This score starts with the same intervals at the given movement number")))
+	(d-InfoDialog (_ "This movement starts with the same intervals"))
     (d-InfoDialog (string-append "No (other) score in or below " startdir " starts with the same intervals"))))

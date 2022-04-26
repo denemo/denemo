@@ -1,6 +1,8 @@
 ;;;This script requires a Scheme variable DenemoMusicSignature to be set to a list of semitone steps
 ;;;It will test the current denemo score to see if it matches at the opening bars
 ;;; DenemoSearchMovement should be set to the movement to search in or 0 to search all movements
+;It exits with status equal to the movement in which a match was found, or 0 if no match.
+; Note that d-Quit only returns the status if invoked non-interactively, so this script cannot be tested interactively.
 (disp "\nChecking score " (d-GetFilename) " movements " (if (zero? DenemoSearchMovement) "All " (number->string DenemoSearchMovement)) "\n")
 (let loop ((movement_number 1))
 	;(disp "Checking movement " movement_number " against " (d-GetMovementsInScore) "\n")
@@ -31,7 +33,7 @@
 											(if (null? sig)
 												(begin
 													;(disp  "\nThe file " (d-GetFilename) " matches the given Denemo Music Signature\n")
-													(d-Quit "0"))))
+													(d-Quit (number->string movement_number)))))
 										(begin
 											(set! sig '())
 											(disp "No match at location " (GetPosition) " with pattern" DenemoMusicSignature " note discrep: " test "\n\n")
@@ -39,7 +41,7 @@
 			;(disp "Reached "	movement_number " at location " (GetPosition) "\n")			
          (loop (1+ movement_number)))
      (disp "Checked all movements")))						
-(d-Quit "4")
+(d-Quit "0")
 		
             
                 
