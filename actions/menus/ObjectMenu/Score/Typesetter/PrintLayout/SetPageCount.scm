@@ -9,17 +9,22 @@
 				(set! restrict #f))
 			(if restrict
 				(begin
-					(d-DirectivePut-score-minpixels tag 0) ;;ensure any default comes before conditional
+					(if (not (d-Directive-score? tag))
+						(d-DirectivePut-score-display tag (_ "Optimal"))) ;;ensure the default comes before any conditional
 					(set! tag (string-append tag "\n" restrict))))
 		
 			(if (and count (string->number count) (> (string->number count) 0))
 				(begin
 					(d-DirectivePut-score-prefix tag (string-append "\\paper { page-count=" count "}"))
-					(d-DirectivePut-score-display tag (string-append (_ "Page Count") count))
+					(d-DirectivePut-score-display tag (string-append (if restrict layout "") (_ ": Page Count") count))
 					(if restrict
 						(d-DirectivePut-score-allow tag id))
 					(d-SetSaved #f))
 				(begin
-					(d-DirectiveDelete-score tag)
+					(if restrict
+						(d-DirectiveDelete-score tag)
+						(begin
+							(d-DirectivePut-score-prefix tag "")
+							(d-DirectivePut-score-display tag (_ "Optimal"))))
 					(d-WarningDialog (_ "Optimal page count restored")))))
 		(d-WarningDialog (_ "Cancelled"))))

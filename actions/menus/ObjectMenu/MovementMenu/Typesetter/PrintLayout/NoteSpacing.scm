@@ -7,15 +7,23 @@
 				(set! restrict #f))
 			(if restrict
 				(begin
-					(d-DirectivePut-layout-minpixels tag 0) ;;ensure any default comes before conditional
+					(if (not (d-Directive-layout? tag))
+						(d-DirectivePut-layout-display tag (_ "Default"))) ;;ensure the default comes before any conditional
 					(set! tag (string-append tag "\n" restrict))))
-			(if (d-Directive-layout? tag)
+			(if (d-DirectiveGet-layout-postfix tag)
 				(begin
-					(d-DirectiveDelete-layout tag)
+					(if restrict
+						(d-DirectiveDelete-layout tag)
+						(begin
+							(d-DirectivePut-layout-display tag (_ "Default"))
+							(d-DirectivePut-layout-postfix tag "")))
 					(d-WarningDialog (string-append (if restrict layout "")
-							(if restrict (_ " This movement will have default horizontal note spacing for this layout")
+							(if restrict (_ ": This movement will have default horizontal note spacing for this layout")
 										 (_ " This movement will have default horizontal note spacing")))))
 				(begin
+					(if restrict 
+						(d-DirectivePut-layout-display tag (string-append "For Layout: " restrict))
+						(d-DirectivePut-layout-display tag (_ "Custom")))
 					(d-DirectivePut-layout-postfix tag (string-append " \\override Score.SpacingSpanner.common-shortest-duration = #(ly:make-moment "
 						(DenemoGetDuration (_ "Choose basis for horizontal spacing ( 𝅝    is tightest, 𝅘𝅥𝅲    is loosest)"))
 						") "))
