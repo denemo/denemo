@@ -4,7 +4,7 @@
 (let ((current (d-GetNoteFromTopAsMidi))
 	(source (d-GetFilename))
 	(movement-number "1") (skips (d-GetUserInput (_"Create Music Signature")
-				(_ "Give number of matching scores to skip: ") "0"))
+				(_ "Give number of matching scores to skip (-1 to find all): ") "-1"))
         (count (string->number (d-GetUserInput (_"Create Music Signature") 
 												(_ "Give number of notes to match: ") "5")))
         (startdir #f)
@@ -26,12 +26,12 @@
                     " \"" filename "\""))) (disp "Returned " status "\n")
                 (if (positive? status)
                     (begin
-						(if (zero? skips)
+						(if (<= skips 0)
 							(begin
 								(d-OpenNewWindow filename)
 								(d-GoToPosition status 1 1 1)
 								(set! found #t)
-								#f)
+								(if (zero? skips) #f #t))
 							(begin
 								(set! skips (1- skips))
 								#t)))
@@ -56,11 +56,9 @@
   (if (not movement-number)
     (set! movement-number "1"))
   (if (string? skips)
-		(begin
-			(set! skips (string->number skips))
-			(if (and skips (negative? skips))
-				(set! skips 0)))
+		(set! skips (string->number skips))
 		(set! skips 0))
+		
   (d-InfoDialog "Searching ... the display will be very sluggish!")
   (ftw startdir theproc)
   (if found
