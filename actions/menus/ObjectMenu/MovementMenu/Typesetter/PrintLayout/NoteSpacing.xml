@@ -8,7 +8,7 @@
         <action>NoteSpacing</action>
         <after>Indent</after>
         <_label>Note Spacing</_label>
-        <_tooltip>Make the horizontal spacing of the music tighter or looser than the default for this movement</_tooltip>
+        <_tooltip>Make the horizontal spacing of the music tighter or looser than the default for this movement. Choose to restrict the effect to the current layout or to set the default value for layouts not assigned a value.</_tooltip>
       </row>
     </map>
   </merge>
