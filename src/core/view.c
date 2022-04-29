@@ -595,6 +595,9 @@ inner_main (void *files)
         gchar *templates_dir = g_build_filename (get_user_data_dir (TRUE), "templates", NULL);
         gchar *old_templates_dir = g_build_filename (Denemo.old_user_data_dir, "templates", NULL);
         copy_files (old_templates_dir, templates_dir);
+        gchar *menus_dir = g_build_filename (get_user_data_dir (TRUE), "actions", "menus", NULL);
+        gchar *old_menus_dir = g_build_filename (Denemo.old_user_data_dir, "actions", "menus", NULL);
+        copy_files (old_menus_dir, menus_dir);        
     }
 
   define_scheme_literal_variable ("DenemoUserDataDir", get_user_data_dir (TRUE), "Directory ~/.denemo-x.y.z");

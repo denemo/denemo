@@ -286,23 +286,33 @@ void copy_files (gchar *source_dir, gchar *dest_dir)
     }
  if (thedir)
     {
-    while (thefile = g_dir_read_name (thedir))
+    while ((thefile = g_dir_read_name (thedir)) != NULL)
         {
-           gchar *contents;
-           gchar *path = g_build_filename (source_dir, thefile, NULL);
-           gchar *newfile = g_build_filename (dest_dir, thefile, NULL);
-           if (g_file_get_contents (path, &contents, &length, &error))
-                 g_file_set_contents (newfile, contents, length, &error);
-          if (error)
-            g_warning ("Failed to copy file %s to %s message: %s\n", thefile, newfile, error->message);
-          g_free (contents);
-          g_free (newfile);
-          g_free (path);
-        }
+		gchar *path = g_build_filename (source_dir, thefile, NULL);
+		gchar *newfile = g_build_filename (dest_dir, thefile, NULL);
+		//g_print ("Testing is directory? %s\n\n\n", path);
+			if (g_file_test (path, G_FILE_TEST_IS_DIR))
+				{
+					
+					g_mkdir_with_parents (newfile, 0770);
+					copy_files (path, newfile);
+				}
+			else {
+				   gchar *contents;
+				  
+				   if (g_file_get_contents (path, &contents, &length, &error))
+						 g_file_set_contents (newfile, contents, length, &error);
+				  if (error)
+					g_warning ("Failed to copy file %s to %s message: %s\n", thefile, newfile, error->message);
+				  g_free (contents);
+	
+				}
+		g_free (newfile);
+		g_free (path);
+		}
     g_dir_close (thedir);
    }
 }
-
 
 void
 add_font_directory (gchar * fontpath)

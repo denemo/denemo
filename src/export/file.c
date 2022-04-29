@@ -967,10 +967,12 @@ file_dialog (gchar * message, gboolean read, gchar * location, gchar *ext, GList
   gchar *filename;
   file_selection = gtk_file_chooser_dialog_new (message, GTK_WINDOW (Denemo.window), read ? GTK_FILE_CHOOSER_ACTION_OPEN : GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_REJECT, read ? _("_Open") : _("_Save"), GTK_RESPONSE_ACCEPT, NULL);
   GtkFileFilter *filter = gtk_file_filter_new ();
+  gtk_file_filter_set_name (filter, _("Commands or Shortcuts"));
   if (ext)
 	gtk_file_filter_add_pattern (filter, ext);
-  for (;exts;exts=exts->next)
-	gtk_file_filter_add_pattern (filter, (gchar*)exts->data);
+  GList *g;
+  for (g=exts;g;g=g->next)
+	gtk_file_filter_add_pattern (filter, (gchar*)g->data);
   if (ext || exts) 
 	gtk_file_chooser_add_filter (GTK_FILE_CHOOSER (file_selection), filter);
   if (location)

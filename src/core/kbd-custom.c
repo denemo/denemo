@@ -1478,24 +1478,20 @@ show_type (GtkWidget * widget, gchar * message)
 void
 load_keymap_dialog_location (gchar * location)
 {
-  gchar *filename = file_dialog ("Load Command Set", TRUE, location, "*.commands", NULL);
+  GList *exts = g_list_append (NULL, "*.commands" );
+  exts = g_list_append (exts, "*.shortcuts");
+  exts = g_list_append (exts, "*.xml");
+  
+  gchar *filename = file_dialog ("Load Commands/Shortcuts", TRUE, location, NULL, exts);
   if (filename)
-    {
-      if(confirm (_("Key Map Loading"), _("Load Shortcuts only?")))
-        {//g_print("Starting filename %s\n", filename);
-            if(g_str_has_suffix (filename, ".commands"))
-                {
-                    *(filename+strlen(filename)-strlen(".commands")) = 0;
-
-                filename = g_strdup_printf ("%s.shortcuts", filename);
-            }
-           //g_print("Doing filename %s\n", filename);
-            load_xml_keybindings (filename);
-        }
-      else
-        load_keymap_from_dialog (filename);
-      Denemo.accelerator_status = TRUE;
-    }
+	{
+	  if (g_str_has_suffix (filename, ".commands"))
+		load_keymap_from_dialog (filename);
+		else
+			if (g_str_has_suffix (filename, ".xml") || g_str_has_suffix (filename, ".shortcuts"))
+				load_xml_keybindings (filename);
+	  Denemo.accelerator_status = TRUE;
+	}
 }
 
 void
